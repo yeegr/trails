@@ -61,9 +61,8 @@ const EditTrail = (props) => {
       break;
 
       case 'photos':
-        id = 'PhotoBrowser',
-        title = Lang.Photos,
-        type = ACTION_TARGETS.TRAIL
+        id = 'EditTrailGallery',
+        title = Lang.Photos
       break;
 
       case 'preview':

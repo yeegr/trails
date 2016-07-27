@@ -48,6 +48,8 @@ import styles from '../../styles/main'
 class TrailDetail extends Component {
   constructor(props) {
     super(props)
+
+    console.log(this.props.newTrail)
   }
 
   componentWillMount() {
@@ -93,7 +95,7 @@ class TrailDetail extends Component {
               <TrailChart points={trail.points} />
             </View>
             <View style={[styles.detail.section, {marginHorizontal: 15}]}>
-                <UserLink user={creator} navigator={navigator} showArrow={true} />
+              <UserLink user={creator} navigator={navigator} showArrow={true} />
             </View>
             <View style={styles.detail.section}>
               <Header text={Lang.Description} />

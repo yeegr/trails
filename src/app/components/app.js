@@ -46,6 +46,7 @@ import EditTrailTitle from './trail/EditTrailTitle'
 import EditTrailType from './trail/EditTrailType'
 import EditTrailDifficulty from './trail/EditTrailDifficulty'
 import EditTrailDescription from './trail/EditTrailDescription'
+import EditTrailGallery from './trail/EditTrailGallery'
 import SearchTrails from './trail/SearchTrails'
 import EventList from './event/EventList'
 import EventDetail from './event/EventDetail'
@@ -73,9 +74,7 @@ import EditUserPID from './mine/EditUserPID'
 import UserDetail from './user/UserDetail'
 import Gallery from './shared/Gallery'
 
-//import PhotoBrowser from './shared/PhotoBrowser'
 import styles from '../styles/main'
-
 
 const NavigationBarRouteMapper = (tabId) => ({
   LeftButton: function(route, navigator, index, navState) {
@@ -207,10 +206,10 @@ function add(type) {
   switch (type) {
     case HOME_TABS.AREAS:
     case HOME_TABS.TRAILS:
-      //id = 'RecordTrail',
-      //title = Lang.AddTrail
-      id = 'EditTrail',
-      title = Lang.EditTrail
+      id = 'RecordTrail',
+      title = Lang.AddTrail
+      //id = 'EditTrail',
+      //title = Lang.EditTrail
     break
 
     case HOME_TABS.EVENTS:
@@ -364,13 +363,12 @@ class App extends Component {
                   navigator={navigator}
                   route={route} {...route.passProps}
                 />)
-                /*
-              case 'PhotoBrowser':
-                return (<PhotoBrowser
+
+              case 'EditTrailGallery':
+                return (<EditTrailGallery
                   navigator={navigator}
                   route={route} {...route.passProps}
                 />)
-                */
 
               case 'EventList':
                 return (

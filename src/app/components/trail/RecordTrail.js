@@ -90,7 +90,7 @@ class RecordTrail extends Component {
   }
 
   componentWillMount() {
-    this.props.newTrailActions.createTrail()
+    this.props.newTrailActions.createTrail(this.props.user)
   }
 
   componentDidMount() {

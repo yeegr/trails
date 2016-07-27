@@ -12,16 +12,10 @@ import {AppSettings} from '../../settings'
 import * as ACTIONS from '../constants/newTrailConstants'
 import {calculateTrailData} from '../../../common'
 
-export const createTrail = () => {
+export const createTrail = (creator) => {
   return {
-    type: ACTIONS.CREATE_TRAIL
-  }
-}
-
-export const editTrail = (trail) => {
-  return {
-    type: ACTIONS.EDIT_TRAIL,
-    trail
+    type: ACTIONS.CREATE_TRAIL,
+    creator
   }
 }
 
@@ -69,6 +63,13 @@ export const setTrailDescription = (description) => {
   return {
     type: ACTIONS.SET_TRAIL_DESCRIPTION,
     description
+  }
+}
+
+export const setTrailPhotos = (photos) => {
+  return {
+    type: ACTIONS.SET_TRAIL_PHOTOS,
+    photos
   }
 }
 

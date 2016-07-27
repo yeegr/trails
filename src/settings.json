@@ -10,6 +10,7 @@
     "maxLeadersPerArea":3,
     "maxTrailPreviewsPerArea":3,
     "maxPhotoPreviewsPerGallery":4,
+    "maxPhotosPerGallery":16,
     "maxCommentPreviewsPerTrail":3,
     "getValidationTimer":5,
     "mobileNumberLength":11,
@@ -260,6 +261,9 @@
 
     "Photos":"图片",
     "MorePhotos":"更多图片",
+    "PhotosSelectedPrefix":"已选择",
+    "PhotosSelectedPostfix":"张图片",
+    "Upload":"上传",
 
     "Search":"搜索",
     "SearchResults":"搜索结果",

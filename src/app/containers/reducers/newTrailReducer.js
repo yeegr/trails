@@ -25,7 +25,9 @@ const initState = {
 newTrailReducer = (state = initState, action) => {
   switch (action.type) {
     case ACTIONS.CREATE_TRAIL:
-      return initState
+      return Object.assign({}, initState, {
+        creator: action.creator
+      })
 
     case ACTIONS.EDIT_TRAIL:
       return action.trail
@@ -58,6 +60,11 @@ newTrailReducer = (state = initState, action) => {
     case ACTIONS.SET_TRAIL_DIFFICULTY:
       return Object.assign({}, state, {
         difficultyLevel: action.difficultyLevel
+      })
+
+    case ACTIONS.SET_TRAIL_PHOTOS:
+      return Object.assign({}, state, {
+        photos: action.photos
       })
 
     case ACTIONS.SET_TRAIL_DESCRIPTION:
