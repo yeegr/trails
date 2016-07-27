@@ -86,6 +86,11 @@ newEventReducer = (state = initState, action) => {
         gatherTime: action.datetime
       })
 
+    case ACTIONS.SET_GATHER_LOCATION:
+      return Object.assign({}, state, {
+        gatherLocation: action.poi
+      })
+
     case ACTIONS.SET_EVENT_CONTACTS:
       return Object.assign({}, state, {
         contacts: action.contacts
@@ -137,6 +142,11 @@ newEventReducer = (state = initState, action) => {
         schedule
       })
 
+    case ACTIONS.SET_EVENT_DEPOSIT:
+      return Object.assign({}, state, {
+        expenses: expensesReducer(state.expenses, action)
+      })
+
     case ACTIONS.SET_EVENT_EXPENSES:
       return Object.assign({}, state, {
         expenses: action.expenses
@@ -157,9 +167,9 @@ newEventReducer = (state = initState, action) => {
         notes: action.notes
       })
 
-    case ACTIONS.SET_EVENT_DEPOSIT:
+    case ACTIONS.SET_EVENT_PHOTOS:
       return Object.assign({}, state, {
-        expenses: expensesReducer(state.expenses, action)
+        photos: action.photos
       })
 
     default:

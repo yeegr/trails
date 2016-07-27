@@ -22,9 +22,9 @@ import CameraRollPicker from 'react-native-camera-roll-picker'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as newTrailActions from '../../containers/actions/newTrailActions'
+import * as newEventActions from '../../containers/actions/newEventActions'
 
-class EditTrailGallery extends Component {
+class EditEventGallery extends Component {
   constructor(props) {
     super(props);
     this.getSelectedImages = this.getSelectedImages.bind(this)
@@ -44,7 +44,7 @@ class EditTrailGallery extends Component {
 
   componentWillUnmount() {
     if (this.state.selected.length > 0) {
-      this.props.newTrailActions.setTrailPhotos(this.state.selected)
+      this.props.newEventActions.setEventPhotos(this.state.selected)
     }
   }
 
@@ -126,14 +126,14 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, ownProps) {
   return {
-    photos: state.newTrail.photos
+    photos: state.newEvent.photos
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    newTrailActions: bindActionCreators(newTrailActions, dispatch)
+    newEventActions: bindActionCreators(newEventActions, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTrailGallery)
+export default connect(mapStateToProps, mapDispatchToProps)(EditEventGallery)

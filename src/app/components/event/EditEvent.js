@@ -29,6 +29,7 @@ import * as newEventActions from '../../containers/actions/newEventActions'
 import EditLink from '../shared/EditLink'
 import TypePicker from '../shared/TypePicker'
 import DateTimePicker from '../shared/DateTimePicker'
+import SearchPoi from '../shared/SearchPoi'
 import styles from '../../styles/main'
 
 class EditEvent extends Component {
@@ -41,7 +42,8 @@ class EditEvent extends Component {
     this.state = {
       mobileNumbers: this.props.newEvent.mobileNumbers,
       showTypePicker: false,
-      showDateTimePicker: false
+      showDateTimePicker: false,
+      showGatherLocationPicker: false
     }
   }
 
@@ -113,6 +115,11 @@ class EditEvent extends Component {
         id = 'EditEventNotes',
         title = Lang.EventNotes
       break;
+
+      case 'photos':
+        id = 'EditEventGallery',
+        title = Lang.Photos
+      break;
     }
 
     this.props.navigator.push({
@@ -133,10 +140,12 @@ class EditEvent extends Component {
 
   setType(type) {
     this.props.newEventActions.setEventType(type)
+    this.setState({showTypePicker: false})
+  }
 
-    this.setState({
-      showTypePicker: false
-    })
+  setLocation(poi) {
+    this.props.newEventActions.setEventGatherLocation(poi)
+    this.setState({showGatherLocationPicker: false})
   }
 
   render() {
@@ -164,7 +173,7 @@ class EditEvent extends Component {
             <EditLink onPress={() => this.nextPage('title')} value={this.props.newEvent.title} required={true} label={Lang.EventTitle} />
             <EditLink onPress={() => this.setState({showTypePicker: true})} value={Lang.tagArray[this.props.newEvent.type]} required={true} label={Lang.EventType} />
             <EditLink onPress={() => this.setState({showDateTimePicker: true})} value={Moment(this.props.newEvent.gatherTime).format('YYYY-MM-DD HH:mm')} label={Lang.GatherTime} />
-            <EditLink onPress={() => this.nextPage('location')} value={this.props.newEvent.gatherLocation.name} label={Lang.GatherLocation} />
+            <EditLink onPress={() => this.setState({showGatherLocationPicker: true})} value={this.props.newEvent.gatherLocation.name} label={Lang.GatherLocation} />
             <EditLink onPress={() => this.nextPage('contacts')} value={this.showContacts()} label={Lang.Contacts} />
             <EditLink onPress={() => this.nextPage('limits')} value={this.props.newEvent.minAttendee.toString() + ' - ' + this.props.newEvent.maxAttendee.toString() + Lang.Persons} label={Lang.AttendeeLimits} />
           </View>
@@ -178,6 +187,7 @@ class EditEvent extends Component {
           <View style={styles.editor.group}>
             <EditLink onPress={() => this.nextPage('destination')} label={Lang.Destination} />
             <EditLink onPress={() => this.nextPage('notes')} label={Lang.EventNotes} />
+            <EditLink onPress={() => this.nextPage('photos')} value={this.props.newEvent.photos.length} label={Lang.Photos} />
           </View>
           <View style={styles.editor.group}>
             <EditLink onPress={() => this.nextPage('preview')} label={Lang.EventPreview} />
@@ -196,6 +206,12 @@ class EditEvent extends Component {
           onConfirm={(value) => this.props.newEventActions.setGatherTime(value)}
           onCancel={() => this.setState({showDateTimePicker: false})}
           minimumDate={new Date()}
+        />
+        <SearchPoi
+          showPicker={this.state.showGatherLocationPicker}
+          value={this.state.gatherLocation}
+          onConfirm={(value) => this.setKey('gatherLocation', value)}
+          onCancel={() => this.setState({showGatherLocationPicker: false})}
         />
       </View>
     )

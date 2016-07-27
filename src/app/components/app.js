@@ -61,6 +61,7 @@ import EditEventExpenses from './event/EditEventExpenses'
 import EditEventGears from './event/EditEventGears'
 import EditEventDestination from './event/EditEventDestination'
 import EditEventNotes from './event/EditEventNotes'
+import EditEventGallery from './event/EditEventGallery'
 import PostList from './post/PostList'
 import PostDetail from './post/PostDetail'
 import SearchPosts from './post/SearchPosts'
@@ -208,8 +209,6 @@ function add(type) {
     case HOME_TABS.TRAILS:
       id = 'RecordTrail',
       title = Lang.AddTrail
-      //id = 'EditTrail',
-      //title = Lang.EditTrail
     break
 
     case HOME_TABS.EVENTS:
@@ -442,6 +441,12 @@ class App extends Component {
 
               case 'EditEventNotes':
                 return (<EditEventNotes
+                  navigator={navigator}
+                  route={route} {...route.passProps}
+                />)
+
+              case 'EditEventGallery':
+                return (<EditEventGallery
                   navigator={navigator}
                   route={route} {...route.passProps}
                 />)

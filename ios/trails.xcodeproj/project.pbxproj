@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -28,6 +27,12 @@
 		9A9038A01D488D2D00055558 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90389F1D488D0000055558 /* libRCTCameraRoll.a */; };
 		9A9038A71D48B02500055558 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A9038A61D48AFBF00055558 /* libART.a */; };
 		D361FCB16F1D4927B6B499F6 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7E23F3966C43E58E4AD20E /* libRNSVG.a */; };
+		BE214934FE4342E4BF1EB538 /* libRNNMRangeSlider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF7D0CDE38472098F0B901 /* libRNNMRangeSlider.a */; };
+		16BD4793BB434B0B8EDE84C0 /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = 2575883C59894B39B85A263D /* Contents.json */; };
+		F31B65523C224E06B52CCCE4 /* slider-default7-handle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D0418A4E1744EAEA9DEAC34 /* slider-default7-handle@2x.png */; };
+		7BF78258537C493EAD2DC884 /* slider-default7-track@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E210699092A841EAABDA630E /* slider-default7-track@2x.png */; };
+		3316D41FD8284BF69051DC4C /* slider-default7-trackBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7211CCD85F2D4D0DB774BEA5 /* slider-default7-trackBackground@2x.png */; };
+		E06735ED39F64691B4DCA6E2 /* slider-default7-trackCrossedOver@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B31CBB7D5D514D799A8BBB61 /* slider-default7-trackCrossedOver@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,6 +180,13 @@
 		9A9038A11D48AFBF00055558 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		DB7E23F3966C43E58E4AD20E /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		F935140FBEC04A438518EC8C /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
+		4317EFF9129449FA8B942A4E /* RNNMRangeSlider.xcodeproj */ = {isa = PBXFileReference; name = "RNNMRangeSlider.xcodeproj"; path = "../node_modules/react-native-nmrangeslider-ios/RNNMRangeSlider.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		FABF7D0CDE38472098F0B901 /* libRNNMRangeSlider.a */ = {isa = PBXFileReference; name = "libRNNMRangeSlider.a"; path = "libRNNMRangeSlider.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		2575883C59894B39B85A263D /* Contents.json */ = {isa = PBXFileReference; name = "Contents.json"; path = "../node_modules/react-native-nmrangeslider-ios/NMRangeSlider/Slider.xcassets/Contents.json"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4D0418A4E1744EAEA9DEAC34 /* slider-default7-handle@2x.png */ = {isa = PBXFileReference; name = "slider-default7-handle@2x.png"; path = "../node_modules/react-native-nmrangeslider-ios/NMRangeSlider/Slider.xcassets/slider-default7-handle.imageset/slider-default7-handle@2x.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E210699092A841EAABDA630E /* slider-default7-track@2x.png */ = {isa = PBXFileReference; name = "slider-default7-track@2x.png"; path = "../node_modules/react-native-nmrangeslider-ios/NMRangeSlider/Slider.xcassets/slider-default7-track.imageset/slider-default7-track@2x.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7211CCD85F2D4D0DB774BEA5 /* slider-default7-trackBackground@2x.png */ = {isa = PBXFileReference; name = "slider-default7-trackBackground@2x.png"; path = "../node_modules/react-native-nmrangeslider-ios/NMRangeSlider/Slider.xcassets/slider-default7-trackBackground.imageset/slider-default7-trackBackground@2x.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B31CBB7D5D514D799A8BBB61 /* slider-default7-trackCrossedOver@2x.png */ = {isa = PBXFileReference; name = "slider-default7-trackCrossedOver@2x.png"; path = "../node_modules/react-native-nmrangeslider-ios/NMRangeSlider/Slider.xcassets/slider-default7-trackCrossedOver.imageset/slider-default7-trackCrossedOver@2x.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +217,7 @@
 				1206EE6307EF461C95D2027C /* libRNDeviceInfo.a in Frameworks */,
 				12671B9CFF524523A5BD2246 /* libRNImagePicker.a in Frameworks */,
 				D361FCB16F1D4927B6B499F6 /* libRNSVG.a in Frameworks */,
+				BE214934FE4342E4BF1EB538 /* libRNNMRangeSlider.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +345,7 @@
 				400393871AE74EF5AE82CD35 /* RNDeviceInfo.xcodeproj */,
 				7B2ADF0CE89448619E4B1C77 /* RNImagePicker.xcodeproj */,
 				19C54BB07FD040D5BE9EF5CE /* RNSVG.xcodeproj */,
+				4317EFF9129449FA8B942A4E /* RNNMRangeSlider.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -351,6 +365,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* trailsTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				B01258D6BB71428F8A28348B /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -403,6 +418,19 @@
 				9A9038A61D48AFBF00055558 /* libART.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B01258D6BB71428F8A28348B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2575883C59894B39B85A263D /* Contents.json */,
+				4D0418A4E1744EAEA9DEAC34 /* slider-default7-handle@2x.png */,
+				E210699092A841EAABDA630E /* slider-default7-track@2x.png */,
+				7211CCD85F2D4D0DB774BEA5 /* slider-default7-trackBackground@2x.png */,
+				B31CBB7D5D514D799A8BBB61 /* slider-default7-trackCrossedOver@2x.png */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -662,6 +690,11 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				16BD4793BB434B0B8EDE84C0 /* Contents.json in Resources */,
+				F31B65523C224E06B52CCCE4 /* slider-default7-handle@2x.png in Resources */,
+				7BF78258537C493EAD2DC884 /* slider-default7-track@2x.png in Resources */,
+				3316D41FD8284BF69051DC4C /* slider-default7-trackBackground@2x.png in Resources */,
+				E06735ED39F64691B4DCA6E2 /* slider-default7-trackCrossedOver@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -741,6 +774,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/trails.app/trails";
@@ -757,6 +791,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -778,6 +813,7 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-nmrangeslider-ios/**",
 				);
 				INFOPLIST_FILE = trails/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -801,6 +837,7 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-nmrangeslider-ios/**",
 				);
 				INFOPLIST_FILE = trails/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -854,6 +891,7 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-nmrangeslider-ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -897,6 +935,7 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-nmrangeslider-ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

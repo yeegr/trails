@@ -95,12 +95,14 @@ export default class SearchTrails extends Component {
             {
               AppSettings.trailTypes.map((i) => {
                 return (
-                  <TouchableOpacity key={i} style={{marginRight: 12}} onPress={() => this.typePressed(i)}>
-                    <Icon
-                      backgroundColor={(this.state.types.indexOf(i) > -1) ? AppSettings.color.primary : AppSettings.color.midGray} 
-                      type={i.toString()} 
-                      label={Lang.tagArray[i]}
-                    />
+                  <TouchableOpacity key={i} style={{height: 75}} onPress={() => this.typePressed(i)}>
+                    <View style={{marginRight: 12}}>
+                      <Icon
+                        backgroundColor={(this.state.types.indexOf(i) > -1) ? AppSettings.color.primary : AppSettings.color.midGray} 
+                        type={i.toString()} 
+                        label={Lang.tagArray[i]}
+                      />
+                    </View>
                   </TouchableOpacity>
                 )
               })
@@ -142,7 +144,7 @@ export default class SearchTrails extends Component {
     )
   }
 }
-          /*
+/*
           <View style={styles.search.section}>
             <Text style={styles.search.label}>{Lang.AverageRating}</Text>
             <View style={styles.search.row}>
@@ -157,4 +159,4 @@ export default class SearchTrails extends Component {
               />
             </View>
           </View>
-          */
+*/

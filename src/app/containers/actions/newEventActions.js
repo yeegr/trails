@@ -52,6 +52,13 @@ export const setGatherTime = (datetime) => {
   }
 }
 
+export const setGatherLocation = (poi) => {
+  return {
+    type: ACTIONS.SET_GATHER_LOCATION,
+    poi
+  }
+}
+
 export const setAttendeeLimits = (minValue, maxValue) => {
   return {
     type: ACTIONS.SET_ATTENDEE_LIMITS,
@@ -105,5 +112,12 @@ export const setEventNotes = (notes) => {
   return {
     type: ACTIONS.SET_EVENT_NOTES,
     notes
+  }
+}
+
+export const setEventPhotos = (photos) => {
+  return {
+    type: ACTIONS.SET_EVENT_PHOTOS,
+    photos
   }
 }
