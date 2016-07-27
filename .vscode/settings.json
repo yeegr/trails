@@ -1,0 +1,16 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "node_modules/": true,
+    "android/": true,
+    "dist/": true,
+    "dev/": true
+  },
+  "editor.fontSize": 16,
+  "editor.mouseWheelZoom": true,
+  "editor.renderIndentGuides": false,
+  "editor.tabSize": 2,
+  "stylelint.enable": true
+}

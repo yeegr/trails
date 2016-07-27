@@ -1,0 +1,9 @@
+'use strict'
+
+export const REQUEST_POSTS = 'REQUEST_POSTS'
+export const LIST_POSTS_SUCCESS = 'LIST_POSTS_SUCCESS'
+export const LIST_POSTS_FAILURE = 'LIST_POSTS_FAILURE'
+
+export const REQUEST_POST = 'REQUEST_POST'
+export const GET_POST_SUCCESS = 'GET_POST_SUCCESS'
+export const GET_POST_FAILURE = 'GET_POST_FAILURE'
