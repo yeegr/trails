@@ -37,6 +37,12 @@ const UserInfo = (props) => {
         query = null
 
       switch (type) {
+        case 'orders':
+          id = 'OrderList',
+          title = Lang.MyOrders,
+          query = "?creator=" + user.id
+        break;
+
         case 'trails':
           id = 'TrailList',
           title = Lang.MyTrails,
@@ -98,6 +104,9 @@ const UserInfo = (props) => {
           </View>
         </View>
       )}>
+      <View style={styles.editor.group}>
+        <EditLink onPress={() => nextPage('orders')} label={Lang.MyOrders} />
+      </View>
       <View style={styles.editor.group}>
         <EditLink onPress={() => nextPage('trails')} value={user.trails.length} label={Lang.MyTrails} />
         <EditLink onPress={() => nextPage('events')} value={user.events.length} label={Lang.MyEvents} />
