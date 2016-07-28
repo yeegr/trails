@@ -56,12 +56,13 @@ export default StyleSheet.create({
     width: 48
   },
   slider: {
-    flex: 1
+    height: 50,
+    width: 270
   },
   value: {
     fontSize: 16,
     marginHorizontal: 5,
     textAlign: 'center',
-    width: 20,
+    width: 30,
   }
 })
