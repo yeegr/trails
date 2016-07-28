@@ -34,15 +34,12 @@ class EditUserAvatar extends Component {
     this.selectPhoto = this.selectPhoto.bind(this)
 
     this.state = {
-      initSourceUri: AppSettings.assetUri + 'users/' + this.props.user.avatar,
-      avatarSource: {uri: AppSettings.assetUri + 'users/' + this.props.user.avatar}
+      sourceUri: AppSettings.assetUri + 'users/' + this.props.user.avatar
     }
   }
 
   componentWillUnmount() {
-    if (this.state.avatarSource.uri !== this.state.initSourceUri) {
-      this.props.loginActions.updateUserAvatar(this.props.user.id, this.state.avatarSource.uri)
-    }
+    this.props.loginActions.updateUserAvatar(this.props.user.id, this.state.sourceUri)
   }
 
   selectPhoto() {
@@ -77,7 +74,7 @@ class EditUserAvatar extends Component {
         }
 
         this.setState({
-          avatarSource: source
+          sourceUri: source.uri
         })
       }
     })
@@ -87,7 +84,7 @@ class EditUserAvatar extends Component {
     return (
       <View style={styles.wrapper}>
         <TouchableOpacity onPress={() => this.selectPhoto()}>
-          <Image style={styles.image} source={this.state.avatarSource} />
+          <Image style={styles.image} source={{uri: this.state.sourceUri}} />
         </TouchableOpacity>
       </View>
     )

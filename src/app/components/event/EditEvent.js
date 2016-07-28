@@ -66,6 +66,11 @@ class EditEvent extends Component {
       title = null
 
     switch (type) {
+      case 'hero':
+        id = 'EditEventHero',
+        title = Lang.HeroImage
+      break;
+
       case 'title':
         id = 'EditEventTitle',
         title = Lang.EventTitle

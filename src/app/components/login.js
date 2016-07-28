@@ -41,7 +41,8 @@ class Login extends Component {
     this.getValidation = this.getValidation.bind(this)
     this.onValidationCodeChanged = this.onValidationCodeChanged.bind(this)
     this.onLoginPressed = this.onLoginPressed.bind(this)
-    //this.openWXApp = this.openWXApp.bind(this)
+    this.openWXApp = this.openWXApp.bind(this)
+    this.toggleWXButton = this.toggleWXButton.bind(this)
 
     const {height, width} = Dimensions.get('window')
 
@@ -52,7 +53,8 @@ class Login extends Component {
       isWXAppInstalled: 'waiting...',
       mobileNumber: '',
       validationCode: '',
-      getValidationButtonText: Lang.GetValidationCode
+      getValidationButtonText: Lang.GetValidationCode,
+      showWXLogin: true
     }
   }
 
@@ -74,14 +76,24 @@ class Login extends Component {
   }
   
   async openWXApp() {
-    await WeChat.openWXApp();
+    await WeChat.openWXApp()
   }
   */
+
+  openWXApp() {
+    this.props.loginActions.hideLogin()
+  }
+
+  toggleWXButton(showWXLogin) {
+    this.setState({
+      showWXLogin
+    })
+  }
 
   render() {
     let loginView = null,
       loginProgress = null,
-      weixinAuthButton = (
+      weixinAuthButton = (this.state.showWXLogin) ? (
         <View style={styles.weixinLogin}>
           <TouchableOpacity
             style={[styles.button, styles.buttonEnabled]}
@@ -89,7 +101,7 @@ class Login extends Component {
             <Text style={styles.buttonText}>{Lang.LoginWithWechat}</Text>
           </TouchableOpacity>
         </View>
-      ),
+      ) : null,
       verificationButtonStyle = (this.props.login.disableVerification) ? styles.buttonDisabled : styles.buttonEnabled,
       loginButtonStyle = (this.props.login.disableLogin) ? styles.buttonDisabled : styles.buttonEnabled
 
@@ -245,7 +257,6 @@ class Login extends Component {
     })
   }
 }
-
 
 const {height, width} = Dimensions.get('window'),
   styles = StyleSheet.create({

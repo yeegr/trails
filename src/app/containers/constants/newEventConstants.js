@@ -1,6 +1,7 @@
 'use strict'
 
 export const SET_EVENT_PRIVACY = 'SET_EVENT_PRIVACY'
+export const SET_EVENT_HERO = 'SET_EVENT_HERO'
 export const SET_EVENT_TITLE = 'SET_EVENT_TITLE'
 export const SET_EVENT_TYPE = 'SET_EVENT_TYPE'
 export const SET_GATHER_TIME = 'SET_GATHER_TIME'

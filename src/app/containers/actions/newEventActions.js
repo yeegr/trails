@@ -24,6 +24,12 @@ export const setEventPrivacy = (isPublic) => {
   }
 }
 
+export const setEventHero = (uri) => {
+  return {
+    type: ACTIONS.SET_EVENT_HERO,
+    uri
+  }
+}
 export const setEventTitle = (title) => {
   return {
     type: ACTIONS.SET_EVENT_TITLE,

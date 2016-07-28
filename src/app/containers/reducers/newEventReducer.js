@@ -21,22 +21,7 @@ const initState = {
   gatherLocation: {
     name: ''
   },
-  contacts: [{
-    name: 'aaa',
-    mobileNumber: '12345678901'
-  },{
-    name: 'bbb',
-    mobileNumber: '12345678901'
-  },{
-    name: 'ccc',
-    mobileNumber: '12345678901'
-  },{
-    name: 'ddd',
-    mobileNumber: '12345678901'
-  },{
-    name: 'eee',
-    mobileNumber: '12345678901'
-  }],
+  contacts: [],
   minAttendee: AppSettings.minEventAttendees,
   maxAttendee: AppSettings.maxEventAttendees,
   schedule: [],
@@ -69,6 +54,11 @@ newEventReducer = (state = initState, action) => {
     case ACTIONS.SET_EVENT_PRIVACY:
       return Object.assign({}, state, {
         isPublic: action.isPublic
+      })
+
+    case ACTIONS.SET_EVENT_HERO:
+      return Object.assign({}, state, {
+        hero: action.uri
       })
 
     case ACTIONS.SET_EVENT_TITLE:
