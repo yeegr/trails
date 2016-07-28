@@ -20,6 +20,7 @@ import {
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as homeActions from '../containers/actions/homeActions'
+
 import {changeTab} from '../containers/actions/homeActions'
 import {showLogin} from '../containers/actions/loginActions'
 import {HOME_TABS} from '../../constants'

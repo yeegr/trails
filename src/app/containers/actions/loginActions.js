@@ -125,18 +125,6 @@ const loginError = (message) => {
   }
 }
 
-const requestLogout = () => {
-  return {
-    type: ACTIONS.LOGOUT_REQUEST
-  }
-}
-
-const receiveLogout = () => {
-  return {
-    type: ACTIONS.LOGOUT_SUCCESS
-  }
-}
-
 export const loginUser = (creds) => {
   let config = Object.assign({}, CONFIG.POST, {
     body: JSON.stringify(creds)
@@ -166,11 +154,24 @@ export const loginUser = (creds) => {
   }
 }
 
+const requestLogout = () => {
+  return {
+    type: ACTIONS.LOGOUT_REQUEST
+  }
+}
+
+const receiveLogout = () => {
+  return {
+    type: ACTIONS.LOGOUT_SUCCESS
+  }
+}
+
 export const logoutUser = () => {
   return dispatch => {
     dispatch(requestLogout())
-    AsyncStorage.multiRemove([ACCESS_TOKEN, USER])
-    dispatch(receiveLogout())
+    AsyncStorage.multiRemove([ACCESS_TOKEN, USER], () => {
+      dispatch(receiveLogout())
+    })
   }
 }
 

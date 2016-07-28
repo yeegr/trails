@@ -19,8 +19,10 @@ import {
   View
 } from 'react-native'
 
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as loginActions from '../../containers/actions/loginActions'
+import {changeTab} from '../../containers/actions/homeActions'
 
 import EditLink from '../shared/EditLink'
 import CallToAction from '../shared/CallToAction'
@@ -68,11 +70,14 @@ const EditAccount = (props) => {
   },
 
   onLogoutPressed = () => {
-    props.dispatch(loginActions.logoutUser())
+    props.loginActions.logoutUser()
     resetNavigation()
   },
 
   resetNavigation = () => {
+    console.log(props.user)
+    console.log(props.navigator)
+    props.changeTab('Areas')
     props.navigator.resetTo({
       id: 'Home',
       title: ''
@@ -81,21 +86,25 @@ const EditAccount = (props) => {
 
   user = props.user
 
-  return (
-    <View style={styles.detail.wrapper}>
-      <ScrollView style={styles.editor.scroll}>
-        <View style={styles.editor.group}>
-          <EditLink onPress={() => nextPage('avatar')} label={Lang.Avatar} user={user} />
-          <EditLink onPress={() => nextPage('handle')} required={true} label={Lang.Handle} value={user.handle} />
-          <EditLink onPress={() => nextPage('mobile')} required={true} label={Lang.MobileNumber} value={user.mobile} />
-          <EditLink onPress={() => nextPage('')} label={Lang.UntieWechat} />
-          <EditLink onPress={() => nextPage('level')} label={Lang.UserLevel} value={Lang.userLevelArray[user.level]} />
-          <EditLink onPress={() => nextPage('pid')} label={Lang.PersonalId} value={user.pid} />
-        </View>
-      </ScrollView>
-      <CallToAction onPress={onLogoutPressed} label={Lang.Logout} />
-    </View>
-  )
+  if (user) {
+    return (
+      <View style={styles.detail.wrapper}>
+        <ScrollView style={styles.editor.scroll}>
+          <View style={styles.editor.group}>
+            <EditLink onPress={() => nextPage('avatar')} label={Lang.Avatar} user={user} />
+            <EditLink onPress={() => nextPage('handle')} required={true} label={Lang.Handle} value={user.handle} />
+            <EditLink onPress={() => nextPage('mobile')} required={true} label={Lang.MobileNumber} value={user.mobile} />
+            <EditLink onPress={() => nextPage('')} label={Lang.UntieWechat} />
+            <EditLink onPress={() => nextPage('level')} label={Lang.UserLevel} value={Lang.userLevelArray[user.level]} />
+            <EditLink onPress={() => nextPage('pid')} label={Lang.PersonalId} value={user.pid} />
+          </View>
+        </ScrollView>
+        <CallToAction onPress={onLogoutPressed} label={Lang.Logout} />
+      </View>
+    )
+  } else {
+    return null
+  }
 }
 
 function mapStateToProps(state, ownProps) {
@@ -104,4 +113,10 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-export default connect(mapStateToProps)(EditAccount)
+function mapDispatchToProps(dispatch) {
+  return {
+    loginActions: bindActionCreators(loginActions, dispatch),
+    changeTab: (tabId) => dispatch(changeTab(tabId))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(EditAccount)
