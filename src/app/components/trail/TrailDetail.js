@@ -73,7 +73,7 @@ class TrailDetail extends Component {
     if (!this.props.preview) {
       let creator = trail.creator,
         commentPreview = <CommentsPreview comments={trail.comments} average={trail.ratingAverage}  />,
-        actionBar = <ActionBar type={ACTION_TARGETS.TRAIL} data={trail} buttonText={Lang.DownloadTrail} buttonEvent={null} />
+        actionBar = <ActionBar type={ACTION_TARGETS.TRAIL} data={trail} showLabel={true} buttonText={Lang.DownloadTrail} buttonEvent={null} />
     }
 
     return (

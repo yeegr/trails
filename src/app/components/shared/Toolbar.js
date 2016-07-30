@@ -78,6 +78,7 @@ class Toolbar extends Component {
 }
 
 Toolbar.propTypes = {
+  type: PropTypes.string.isRequired,
   showLabel: PropTypes.bool.isRequired,
   data: PropTypes.object.isRequired
 }

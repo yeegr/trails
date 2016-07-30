@@ -82,6 +82,12 @@ export default StyleSheet.create({
     marginBottom: 15,
     paddingHorizontal: 15,
   },
+  h4: {
+    color: AppSettings.color.midGray,
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginVertical: 10,
+  },
   row: {
     flex: 1,
     flexDirection: 'row',
@@ -95,4 +101,32 @@ export default StyleSheet.create({
   user: {
     marginRight: 10,
   },
+  label: {
+    alignSelf: 'center',
+    flex: 0,
+    marginLeft: 15,
+    width: 100
+  },
+  value: {
+    flex: 1,
+    marginRight: 15,
+  },
+  input: {
+    borderBottomColor: AppSettings.color.midGray,
+    borderBottomWidth: 1,
+    flex: 1,
+    marginRight: 15,
+  },
+  textInput: {
+    backgroundColor: AppSettings.color.inputBackground,
+    color: AppSettings.color.midGray,
+    flex: 1,
+    height: 30,
+    padding : 5
+  },
+  textRow: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingVertical: 5,
+  }
 })

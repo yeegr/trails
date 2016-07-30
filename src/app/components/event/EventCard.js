@@ -33,7 +33,7 @@ const EventCard = (props) => {
 
   return (
     <View style={styles.list.item}>
-      <Hero imageUri={data.hero} title={data.title} tags={data.tags} onPress={onPress} />
+      <Hero imageUri={data.hero} title={data.title} tags={data.tags} excerpt={data.excerpt} onPress={onPress} />
       <View style={styles.list.itemFooter}>
         <UserLink user={data.creator} navigator={props.navigator} />
       </View>

@@ -70,7 +70,7 @@ class PostDetail extends Component {
             </View>
           </View>
         </ParallaxView>
-        <ActionBar type={ACTION_TARGETS.POST} data={post} buttonText={Lang.AddComment} buttonEvent={null} />
+        <ActionBar type={ACTION_TARGETS.POST} data={post} showLabel={true} buttonText={Lang.AddComment} buttonEvent={null} />
       </View>
     )
   }

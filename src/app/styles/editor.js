@@ -54,6 +54,9 @@ export default StyleSheet.create({
     marginRight: 15,
     alignSelf: 'center',
   },
+  input: {
+    flex: 1
+  },
   textInput: {
     backgroundColor: AppSettings.color.inputBackground,
     color: AppSettings.color.midGray,

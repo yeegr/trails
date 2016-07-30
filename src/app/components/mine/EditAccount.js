@@ -54,6 +54,11 @@ const EditAccount = (props) => {
         title = Lang.UserLevel
       break;
 
+      case 'name':
+        id = 'EditUserName',
+        title = Lang.RealName
+      break;
+
       case 'pid':
         id = 'EditUserPID',
         title = Lang.PersonalId
@@ -96,6 +101,7 @@ const EditAccount = (props) => {
             <EditLink onPress={() => nextPage('mobile')} required={true} label={Lang.MobileNumber} value={user.mobile} />
             <EditLink onPress={() => nextPage('')} label={Lang.UntieWechat} />
             <EditLink onPress={() => nextPage('level')} label={Lang.UserLevel} value={Lang.userLevelArray[user.level]} />
+            <EditLink onPress={() => nextPage('name')} label={Lang.RealName} value={user.name} />
             <EditLink onPress={() => nextPage('pid')} label={Lang.PersonalId} value={user.pid} />
           </View>
         </ScrollView>

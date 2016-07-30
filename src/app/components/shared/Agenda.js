@@ -76,9 +76,9 @@ const Agenda = (props) => {
       </View>
     </TouchableOpacity>
   )
-}
+},
 
-const styles = StyleSheet.create({
+styles = StyleSheet.create({
   row: {
     flex: 1,
     flexDirection: 'row',

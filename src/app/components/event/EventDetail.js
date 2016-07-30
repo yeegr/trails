@@ -24,14 +24,12 @@ import Svg, {
   Path
 } from 'react-native-svg'
 
-
 import ParallaxView from 'react-native-parallax-view'
 import Communications from 'react-native-communications'
 
 import {ACTION_TARGETS} from '../../../constants'
 import Loading from '../shared/Loading'
 import Hero from '../shared/Hero'
-import Intro from '../shared/Intro'
 import ActionBar from '../shared/ActionBar'
 import Header from '../shared/Header'
 import Agenda from '../shared/Agenda'
@@ -53,6 +51,7 @@ export default class EventDetail extends Component {
     this.handleScroll = this.handleScroll.bind(this)
     this.measure = this.measure.bind(this)
     this.scrollTo = this.scrollTo.bind(this)
+    this.placeOrder = this.placeOrder.bind(this)
 
     let heroHeight = 240, 
       marginTop = 64
@@ -62,7 +61,6 @@ export default class EventDetail extends Component {
     this.state = {
       loading: true,
       scrollTop: heroHeight,
-      showInner: true,
       selectedSectionIndex: 0,
       destinationHeight: 0,
       eventNoteHeight: 0,
@@ -131,6 +129,16 @@ export default class EventDetail extends Component {
     this.refs.scroll.scrollTo({x: 0, y: this.state.posArray[index], animated: false})
   }
 
+  placeOrder() {
+    this.props.navigator.push({
+      id: 'EventOrder',
+      title: Lang.SignUp,
+      passProps: {
+        event: this.state.data
+      }
+    })
+  }
+
   render() {
     if (this.state.loading) {
       return <Loading />
@@ -197,11 +205,11 @@ export default class EventDetail extends Component {
     return (
       <View style={styles.detail.wrapper}>
         <ScrollView ref="scroll" style={styles.detail.wrapper} onScroll={this.handleScroll} scrollEventThrottle={200}>
-          <View style={{height: this.state.scrollTop}}>
-            <Hero imageUri={event.hero} title={event.title} excerpt={event.excerpt} />
-          </View>
           <View style={styles.detail.binder}>
             <View style={[styles.detail.article, {marginLeft: 80}]}>
+              <View style={{height: this.state.scrollTop}}>
+                <Hero imageUri={event.hero} title={event.title} excerpt={event.excerpt} />
+              </View>
               <View ref="eventInfo" style={styles.detail.section}>
                 <Text style={styles.detail.h2}>{Lang.EventInfo}</Text>
                 <View style={styles.detail.list}>
@@ -243,13 +251,14 @@ export default class EventDetail extends Component {
                   event.schedule.map(function(day, i) {
                     return (
                       <View key={i}>
-                      {
-                        day.map(function(agenda, j) {
-                          return (
-                            <Agenda day={i} key={j} agenda={agenda} />
-                          )
-                        })
-                      }
+                        <Text style={styles.detail.h4}>{Lang.DayCountPrefix + Lang.dayArray[i] + Lang.DayCountPostfix}</Text>
+                        {
+                          day.map(function(agenda, j) {
+                            return (
+                              <Agenda day={i} key={j} agenda={agenda} />
+                            )
+                          })
+                        }
                       </View>
                     )
                   })
@@ -269,7 +278,7 @@ export default class EventDetail extends Component {
           </View>
         </ScrollView>
         <Sidebar offsetY={64} visible={true} selectedIndex={this.state.selectedSectionIndex} onPress={(value) => this.scrollTo(value)} />
-        <ActionBar type={ACTION_TARGETS.EVENT} data={event} buttonText={Lang.SignUpNow} buttonEvent={null} />
+        <ActionBar type={ACTION_TARGETS.EVENT} data={event} showLabel={true} buttonText={Lang.SignUpNow} buttonEvent={this.placeOrder} />
       </View>
     )
   }

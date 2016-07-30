@@ -39,6 +39,9 @@ var mongoose = require('mongoose'),
       required: true,
       max: 60
     },
+    name: {
+      type: String,
+    },
     avatar: {
       type: String,
       required: true

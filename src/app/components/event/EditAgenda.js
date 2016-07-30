@@ -231,7 +231,7 @@ class EditAgenda extends Component {
         </ScrollView>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 2}}>
-          {cancelButton}
+            {cancelButton}
           </View>
           <View style={{flex: 3}}>
             <CallToAction 

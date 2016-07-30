@@ -14,6 +14,12 @@ export function formatTime(dt) {
   return moment(tmp).locale(locale).format(fmt)
 }
 
+export function formatEndTime(dt, days) {
+  var tmp = isNumeric(dt) ? (dt * 1000) : dt,
+    fmt = arguments[2] ? arguments[2] : 'll'
+  return moment(tmp).add(days, 'days').locale(locale).format(fmt)
+}
+
 export function calculateTrailData(points) {
   const firstPoint = points[0],
     lastPoint = points[points.length - 1],

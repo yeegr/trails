@@ -50,6 +50,7 @@ import EditTrailGallery from './trail/EditTrailGallery'
 import SearchTrails from './trail/SearchTrails'
 import EventList from './event/EventList'
 import EventDetail from './event/EventDetail'
+import EventOrder from './event/EventOrder'
 import SearchEvents from './event/SearchEvents'
 import EditEvent from './event/EditEvent'
 import EditEventHero from './event/EditEventHero'
@@ -72,6 +73,7 @@ import EditUserAvatar from './mine/EditUserAvatar'
 import EditUserHandle from './mine/EditUserHandle'
 import EditUserMobile from './mine/EditUserMobile'
 import EditUserLevel from './mine/EditUserLevel'
+import EditUserName from './mine/EditUserName'
 import EditUserPID from './mine/EditUserPID'
 import UserDetail from './user/UserDetail'
 import Gallery from './shared/Gallery'
@@ -386,6 +388,12 @@ class App extends Component {
                   route={route} {...route.passProps}
                 />)
 
+              case 'EventOrder':
+                return (<EventOrder
+                  navigator={navigator}
+                  route={route} {...route.passProps}
+                />)
+
               case 'EditEvent':
                 return (<EditEvent
                   navigator={navigator}
@@ -512,6 +520,12 @@ class App extends Component {
 
               case 'EditUserLevel':
                 return (<EditUserLevel
+                  navigator={navigator}
+                  route={route} {...route.passProps}
+                />)
+
+              case 'EditUserName':
+                return (<EditUserName
                   navigator={navigator}
                   route={route} {...route.passProps}
                 />)
