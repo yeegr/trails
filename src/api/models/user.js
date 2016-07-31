@@ -48,6 +48,7 @@ var mongoose = require('mongoose'),
     },
     gender: {
       type: Number,
+      match: /0|1/,
       required: false
     },
     verified: {
@@ -87,6 +88,13 @@ var mongoose = require('mongoose'),
       default: null,
       match: /\d{18}/
     },
+    emergencies: [{
+      name: String,
+      mobile: {
+        type: Number,
+        match: /1\d{10}/
+      }
+    }],
     tags: {
       type: [String]
     },

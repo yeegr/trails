@@ -12,6 +12,7 @@ import React, {
 } from 'react'
 
 import {
+  Alert,
   ListView,
   StyleSheet,
   TextInput,
@@ -40,9 +41,10 @@ import styles from '../../styles/main'
 class EventOrder extends Component {
   constructor(props) {
     super(props)
-    this.updateInfo = this.updateInfo.bind(this)
     this.addUser = this.addUser.bind(this)
     this.removeUser = this.removeUser.bind(this)
+    this.updateInfo = this.updateInfo.bind(this)
+    this.validateData = this.validateData.bind(this)
     this.submit = this.submit.bind(this)
 
     let user = this.props.user
@@ -53,22 +55,19 @@ class EventOrder extends Component {
         realName: user.name,
         mobileNumber: user.mobile.toString(),
         personalId: user.pid.toString(),
-        gender: user.gender
+        gender: user.gender || 1
       }]
-    }
-  }
-
-  updateInfo(index, user) {
-    if (user !== null) {
-      let signUps = this.state.signUps
-      signUps[index] = user
-      this.setState({signUps})
     }
   }
 
   addUser() {
     let signUps = this.state.signUps
-    signUps.push({})
+    signUps.push({
+      realName: '',
+      mobileNumber: '',
+      personalId: '',
+      gender: 1
+    })
     this.setState({signUps})
 
     setTimeout(() => {
@@ -84,8 +83,49 @@ class EventOrder extends Component {
     this.setState({signUps})
   }
 
+  updateInfo(index, signUp) {
+    let validated = this.validateData(signUp)
+
+    if (validated) {
+      let signUps = this.state.signUps
+      signUps[index] = validated
+      this.setState({signUps})
+    }
+  }
+
+  validateData(data) {
+    const validateName = data.realName.trim().length > 3,
+      validateMobileNumber = AppSettings.mobileNumberPattern.test(data.mobileNumber),
+      validatePersonalId = /\d{17}/.test(data.personalId.trim()),
+      validateGender = (data.gender === 0 || data.gender === 1)
+
+    return (validateName && validateMobileNumber && validatePersonalId && validateGender) ? {
+      realName: data.realName.trim(),
+      mobileNumber: Number(data.mobileNumber),
+      personalId: data.personalId,
+      gender: data.gender
+    } : false
+  }
+
   submit() {
-    console.log(this.state.signUps)
+    let signUps = this.state.signUps
+
+    signUps.map((signUp, index) => {
+      if (!this.validateData(signUp)) {
+        signUps.splice(index, 1)
+      }
+    })
+
+    this.setState({signUps})
+
+    Alert.alert(
+      'Alert Title',
+      '',
+      [
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+        {text: 'OK', onPress: () => console.log('OK Pressed!')},
+      ]
+    )
   }
 
   componentDidMount() {
@@ -123,7 +163,13 @@ class EventOrder extends Component {
               {
                 this.state.signUps.map((signUp, index) => {
                   return (
-                    <InputItem key={index} index={index} signUp={signUp} getInfo={(index, signUp) => this.updateInfo(index, signUp)} removeUser={() => this.removeUser(index)} />
+                    <InputItem 
+                      key={index} 
+                      index={index} 
+                      signUp={signUp} 
+                      removeUser={() => this.removeUser(index)}
+                      updateInfo={(index, signUp) => this.updateInfo(index, signUp)}
+                    />
                   )
                 })
               }
@@ -132,10 +178,19 @@ class EventOrder extends Component {
         </ParallaxView>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 3}}>
-            <CallToAction onPress={this.addUser} label={Lang.AddSignUp} backgroundColor={'white'} foregroundColor={AppSettings.color.foreground}  />
+            <CallToAction 
+              backgroundColor={'white'}
+              foregroundColor={AppSettings.color.foreground}
+              label={Lang.AddSignUp}
+              onPress={this.addUser}
+            />
           </View>
           <View style={{flex: 2}}>
-            <CallToAction onPress={this.submit} label={Lang.SignUp} backgroundColor={AppSettings.color.primary}  />
+            <CallToAction
+              backgroundColor={AppSettings.color.primary}
+              label={Lang.SignUp}
+              onPress={this.submit}
+            />
           </View>
         </View>
       </View>
@@ -156,7 +211,6 @@ class InputItem extends Component {
   constructor(props) {
     super(props)
     this.updateState = this.updateState.bind(this)
-    this.validate = this.validate.bind(this)
 
     let signUp = this.props.signUp
 
@@ -164,33 +218,13 @@ class InputItem extends Component {
       realName: signUp.realName || '',
       mobileNumber: signUp.mobileNumber || '',
       personalId: signUp.personalId || '',
-      genders: [{label: Lang.Female + '    ', value: 0}, {label: Lang.Male, value: 1}],
-      selectedGender: signUp.gender || 1
+      gender: signUp.gender || 1
     }
   }
 
-  validate() {
-    const validateName = this.state.realName.trim().length > 3,
-      validateMobileNumber = AppSettings.mobileNumberPattern.test(this.state.mobileNumber.trim()),
-      validatePersonalId = /\d{17}/.test(this.state.personalId.trim()),
-      validateGender = (this.state.selectedGender === 0 || this.state.selectedGender === 1)
-
-    if (validateName && validateMobileNumber && validatePersonalId && validateGender) {
-      return {
-        realName: this.state.realName.trim(),
-        mobileNumber: Number(this.state.mobileNumber.trim()),
-        personalId: Number(this.state.personalId.trim()),
-        gender: this.state.selectedGender
-      }
-    }
-  }
-
-  updateState(obj) {
-    this.setState(obj)
-
-    if (this.validate() !== undefined) {
-      this.props.getInfo(this.props.index, this.validate())
-    }
+  updateState(kv) {
+    this.setState(kv)
+    this.props.updateInfo(this.props.index, this.state)
   }
 
   render() {
@@ -207,7 +241,9 @@ class InputItem extends Component {
           </Svg>
         </TouchableOpacity>
       </View>
-    ) : null
+    ) : null,
+
+    genderArray = [{label: Lang.Female + '    ', value: 0}, {label: Lang.Male, value: 1}]
 
     return (
       <View style={[styles.list.item, {paddingTop: 5}]}>
@@ -231,7 +267,7 @@ class InputItem extends Component {
                 keyboardType='phone-pad'
                 style={styles.detail.textInput}
                 value={this.state.mobileNumber}
-                onChangeText={(mobileNumber) => this.updateState({mobileNumber})}
+                onChangeText={(mobileNumber) => this.updateState({mobileNumber: mobileNumber.trim()})}
               />
             </View>
           </View>
@@ -243,7 +279,7 @@ class InputItem extends Component {
                 keyboardType='numeric'
                 style={styles.detail.textInput}
                 value={this.state.personalId}
-                onChangeText={(personalId) => this.updateState({personalId})}
+                onChangeText={(personalId) => this.updateState({personalId: personalId.trim()})}
               />
             </View>
           </View>
@@ -251,13 +287,13 @@ class InputItem extends Component {
             <Text style={styles.detail.label}>{Lang.Gender + '：'}</Text>
             <View style={[styles.detail.input, {borderBottomWidth: 0}]}>
               <RadioForm
-                radio_props={this.state.genders}
-                initial={this.state.selectedGender}
+                radio_props={genderArray}
+                initial={this.state.gender}
                 formHorizontal={true}
                 labelHorizontal={true}
                 buttonColor={AppSettings.color.primary}
                 animation={true}
-                onPress={(value) => {this.updateState({selectedGender: value})}}
+                onPress={(value) => {this.updateState({gender: value})}}
               />
             </View>
           </View>

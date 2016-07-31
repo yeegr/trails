@@ -87,6 +87,11 @@ var mongoose = require('mongoose'),
         type: Number,
         required: true
       },
+      includeInsurance: {
+        type: Boolean,
+        required: true,
+        default: false
+      },
       detail: [String],
       include: [String],
       exclude: [String]
@@ -127,6 +132,22 @@ var mongoose = require('mongoose'),
       user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+      },
+      realName: {
+        type: String,
+        required: true
+      },
+      mobileNumber: {
+        type: Number,
+        required: true
+      },
+      personalId: {
+        type: String,
+        match: /1\d{10}/
+      },
+      gender: {
+        type: Number,
+        match: /0|1/
       },
       status: {
         type: String,
