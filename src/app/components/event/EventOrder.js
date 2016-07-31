@@ -35,6 +35,7 @@ import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../containers/actions/eventsActions'
 
 import Intro from '../shared/Intro'
+import InfoItem from '../shared/InfoItem'
 import CallToAction from '../shared/CallToAction'
 import styles from '../../styles/main'
 
@@ -108,7 +109,8 @@ class EventOrder extends Component {
   }
 
   submit() {
-    let signUps = this.state.signUps
+    let signUps = this.state.signUps,
+      alertMessage = ''
 
     signUps.map((signUp, index) => {
       if (!this.validateData(signUp)) {
@@ -118,14 +120,14 @@ class EventOrder extends Component {
 
     this.setState({signUps})
 
-    Alert.alert(
-      'Alert Title',
-      '',
-      [
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-        {text: 'OK', onPress: () => console.log('OK Pressed!')},
-      ]
-    )
+    this.props.navigator.push({
+      id: 'EventPayment',
+      title: Lang.EventPayment,
+      passProps: {
+        event: this.props.event,
+        signUps
+      }
+    })
   }
 
   componentDidMount() {
@@ -139,9 +141,9 @@ class EventOrder extends Component {
   render() {
     const event = this.props.event,
       startDate = formatTime(event.gatherTime),
-      endDate = formatEndTime(event.gatherTime, event.schedule.length),
+      endDate = formatEndTime(event.gatherTime, event.schedule.length)
 
-      deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
+      //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
       
     return(
       <View style={styles.detail.wrapper}>
@@ -156,8 +158,7 @@ class EventOrder extends Component {
             <View style={styles.detail.section}>
               <Text style={styles.detail.h2}>{Lang.EventInfo}</Text>
               <InfoItem label={Lang.EventDates} value={startDate + '-' + endDate} />
-              <InfoItem label={Lang.EventExpenses} value={event.expenses.detail.join('，')} />
-              {deposit}
+              <InfoItem label={Lang.PerHead} value={event.expenses.perHead.toString() + Lang.Yuan} />
             </View>
             <View style={styles.detail.section}>
               {
@@ -196,15 +197,6 @@ class EventOrder extends Component {
       </View>
     )
   }
-}
-
-const InfoItem = (props) => {
-  return (
-    <View style={styles.detail.textRow}>
-      <Text style={styles.detail.label}>{props.label + '：'}</Text>
-      <Text style={styles.detail.value}>{props.value}</Text>
-    </View>
-  )
 }
 
 class InputItem extends Component {

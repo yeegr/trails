@@ -7,29 +7,33 @@ var mongoose = require('mongoose'),
   Util = require('./util'),
   Agenda = require('./agenda'),
   Point = require('./point'),
+  Trail = require('./trail'),
   agendaSchema = new Schema({
+    trail: {
+      type: Schema.Types.ObjectId,
+      ref: 'Trail'
+    },
     type: {
       type: Number,
       required: true
     },
-    start: {
+    startTime: {
       type: Number,
       min: 0,
       max: 1439
     },
-    end: {
+    endTime: {
       type: Number,
       min: 0,
       max: 1439
     },
-    from: {
+    startPoi: {
       type: Point,
       required: true
     },
-    to: Point,
-    duration: {
-      type: Number
-    }
+    endPoi: Point,
+    duration: Number,
+    difficultyLevel: Number
   })
 
 module.exports = agendaSchema

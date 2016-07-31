@@ -25,7 +25,7 @@ import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../containers/actions/newTrailActions'
 
 import {ACTION_TARGETS} from '../../../constants'
-
+import {showTrailDifficulty} from '../../../common'
 import EditLink from '../shared/EditLink'
 import styles from '../../styles/main'
 
@@ -123,7 +123,7 @@ const EditTrail = (props) => {
         <View style={styles.editor.group}>
           <EditLink onPress={() => nextPage('title')} value={props.newTrail.title} required={true} label={Lang.TrailTitle} />
           <EditLink onPress={() => nextPage('type')} value={Lang.tagArray[props.newTrail.type]} required={true} label={Lang.TrailType} />
-          <EditLink onPress={() => nextPage('difficulty')} value={props.newTrail.difficultyLevel} required={true} label={Lang.DifficultyLevel} />
+          <EditLink onPress={() => nextPage('difficulty')} value={showTrailDifficulty(props.newTrail.difficultyLevel)} required={true} label={Lang.DifficultyLevel} />
           <EditLink onPress={() => nextPage('area')} value={props.newTrail.areas.join()} required={props.newTrail.isPublic} label={Lang.SelectArea} />
           <EditLink onPress={() => nextPage('desc')} value={props.newTrail.description} label={Lang.Description} />
           <EditLink onPress={() => nextPage('photos')} value={props.newTrail.photos.length} label={Lang.Photos} />

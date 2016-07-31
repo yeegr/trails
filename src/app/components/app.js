@@ -51,6 +51,7 @@ import SearchTrails from './trail/SearchTrails'
 import EventList from './event/EventList'
 import EventDetail from './event/EventDetail'
 import EventOrder from './event/EventOrder'
+import EventPayment from './event/EventPayment'
 import SearchEvents from './event/SearchEvents'
 import EditEvent from './event/EditEvent'
 import EditEventHero from './event/EditEventHero'
@@ -390,6 +391,12 @@ class App extends Component {
 
               case 'EventOrder':
                 return (<EventOrder
+                  navigator={navigator}
+                  route={route} {...route.passProps}
+                />)
+
+              case 'EventPayment':
+                return (<EventPayment
                   navigator={navigator}
                   route={route} {...route.passProps}
                 />)

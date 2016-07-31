@@ -83,7 +83,7 @@ var mongoose = require('mongoose'),
         type: Number,
         default: 0
       },
-      estimatedAveragePerPerson: {
+      perHead: {
         type: Number,
         required: true
       },

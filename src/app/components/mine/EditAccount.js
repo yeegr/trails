@@ -80,8 +80,6 @@ const EditAccount = (props) => {
   },
 
   resetNavigation = () => {
-    console.log(props.user)
-    console.log(props.navigator)
     props.changeTab('Areas')
     props.navigator.resetTo({
       id: 'Home',

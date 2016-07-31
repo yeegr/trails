@@ -16,16 +16,15 @@ import {
   StyleSheet
 } from 'react-native'
 
-import {
-  formatDuration
-} from '../../../common'
+import {showTrailDifficulty, formatDuration} from '../../../common'
 
 import Icon from '../shared/Icon'
 
 const TrailData = (props) => {
   const trail = props.trail
 
-  let difficultyLevelIcon = (props.difficultyLevel) ? <Icon backgroundColor="transparent" fillColor={AppSettings.color.primary} pictogram={Graphics.pictogram[props.difficultyLevel]} label={Lang.DifficultyLevel} value={props.difficultyLevel.toString()} /> : null
+  let difficultyLevel = showTrailDifficulty(props.difficultyLevel), 
+    difficultyLevelIcon = (difficultyLevel) ? <Icon backgroundColor="transparent" fillColor={AppSettings.color.primary} pictogram={Graphics.pictogram[difficultyLevel]} label={Lang.DifficultyLevel} value={difficultyLevel} /> : null
 
   return (
     <View style={styles.data}>

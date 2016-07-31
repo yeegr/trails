@@ -14,6 +14,7 @@ import React, {
 import {
   ScrollView,
   Slider,
+  Text,
   View
 } from 'react-native'
 
@@ -21,21 +22,25 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as newTrailActions from '../../containers/actions/newTrailActions'
 
+import {showTrailDifficulty} from '../../../common'
 import styles from '../../styles/main'
 
 const EditTrailDifficulty = (props) => {
   return (
     <View style={styles.detail.wrapper}>
       <ScrollView style={styles.editor.scroll}>
-        <View style={[styles.editor.group, {paddingHorizontal: 15, paddingVertical: 10}]}>
-          <Slider
-            style={{flex: 1}}
-            maximumValue={5}
-            minimumValue={1}
-            step={1}
-            onValueChange={(value) => props.newTrailActions.setDifficultyLevel(value)}
-            value={props.difficultyLevel}
-          />
+        <View style={styles.editor.group}>
+          <View style={[styles.editor.row, {paddingVertical: 10}]}>
+            <Slider
+              style={{flex: 1}}
+              maximumValue={10}
+              minimumValue={2}
+              step={1}
+              onValueChange={(value) => props.newTrailActions.setDifficultyLevel(value)}
+              value={props.difficultyLevel}
+            />
+            <Text style={{marginLeft: 10}}>{showTrailDifficulty(props.difficultyLevel)}</Text>
+          </View>
         </View>
       </ScrollView>
     </View>

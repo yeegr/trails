@@ -63,7 +63,7 @@ class EditEventExpenses extends Component {
             <View style={styles.editor.group}>
               <View style={styles.editor.link}>
                 <View style={styles.editor.label}>
-                  <Text>{Lang.PerPersonExpense}</Text>
+                  <Text>{Lang.PerHead}</Text>
                 </View>
                 <View style={styles.editor.value}>
                   <Text style={styles.editor.currencyPrefix}></Text>

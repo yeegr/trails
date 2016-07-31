@@ -211,3 +211,67 @@ export function setRegion(point, aspect_ratio) {
     longitudeDelta
   }
 }
+
+export function showTrailDifficulty(level) {
+  return (level / 2).toString()
+}
+
+export function createMatrix(length) {
+  let matrix = []
+
+  for (let i = 0; i < length; i++) {
+    matrix.push([])
+  }
+
+  return matrix
+}
+
+export function calculateInsurance(event, user) {
+  const eventDurationArray = [0.001, 0.0018, 0.0021, 0.003],
+    eventDifficultyArray = [1,2,3,4,5,6,7,8,9,10],
+    eventAttendeeCountArray = [1, 1.5, 2], 
+    userLevelArray = [3.6, 2.3, 1.6, 1.2, 0.9]
+
+  let eventDurationIndex, 
+    eventAttendeeCountIndex,
+    eventDurationCoefficient,
+    eventDifficultyCoefficient,
+    eventAttendeeCountCoefficient
+
+  let difficultyList = [], 
+    eventDifficultyIndex = 1, 
+    eventDuration = event.schedule.length, 
+    userLevelCoefficient = userLevelArray[user.level]
+
+  if (eventDuration < 2) {
+    eventDurationIndex = 0
+  } else if (eventDuration > 1 && eventDuration < 6) {
+    eventDurationIndex = 1
+  } else if (eventDuration > 5 && eventDuration < 10) {
+    eventDurationIndex = 2
+  } else {
+    eventDurationIndex = 3
+  }
+
+  eventDurationCoefficient = eventDurationArray[eventDurationIndex]
+
+  event.schedule.map((day) => {
+    day.map((agenda, index) => {
+      if (agenda.type < 20) {
+        difficultyList.push(agenda.difficultyLevel)
+      }
+    })
+  })
+
+  eventDifficultyCoefficient = Math.max(...difficultyList)
+
+  if (event.maxAttendee > 29) {
+    eventAttendeeCountIndex = 2
+  } else if (event.maxAttendee < 2) {
+    eventAttendeeCountIndex = 0
+  } else {
+    eventAttendeeCountIndex = 1
+  }
+
+  eventAttendeeCountCoefficient = eventAttendeeCountArray[eventAttendeeCountIndex]
+}

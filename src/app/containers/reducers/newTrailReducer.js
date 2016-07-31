@@ -16,7 +16,7 @@ const initState = {
   title: Lang.Unnamed,
   type: 0,
   areas: [],
-  difficultyLevel: 1,
+  difficultyLevel: 2,
   description: '',
   points: points,
   photos: []
