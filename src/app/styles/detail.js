@@ -128,5 +128,12 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     paddingVertical: 5,
+  },
+  infoList: {
+    backgroundColor: AppSettings.color.listBackground,
+    borderBottomColor: AppSettings.color.lightGray,
+    borderBottomWidth: 1,
+    borderTopColor: AppSettings.color.lightGray,
+    borderTopWidth: 1,
   }
 })

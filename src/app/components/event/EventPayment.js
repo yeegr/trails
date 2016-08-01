@@ -12,12 +12,10 @@ import React, {
 } from 'react'
 
 import {
-  Alert,
   ListView,
   StyleSheet,
   TextInput,
   Text,
-  TouchableHighlight,
   TouchableOpacity,
   View,
 } from 'react-native'
@@ -28,7 +26,6 @@ import Svg, {
 
 import ParallaxView from 'react-native-parallax-view'
 import RadioForm from 'react-native-simple-radio-button'
-import {formatTime, formatEndTime} from '../../../common'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
@@ -37,12 +34,18 @@ import * as eventsActions from '../../containers/actions/eventsActions'
 import Intro from '../shared/Intro'
 import InfoItem from '../shared/InfoItem'
 import CallToAction from '../shared/CallToAction'
+import {formatTime, formatEndTime, calculateInsurance} from '../../../common'
 import styles from '../../styles/main'
 
 class EventPayment extends Component {
   constructor(props) {
     super(props)
     this.confirm = this.confirm.bind(this)
+
+    this.state = {
+      paymentMethods: [{label: Lang.Alipay, value: 0}, {label: Lang.WechatPay, value: 1}],
+      paymentMethod: 0
+    }
   }
 
   confirm() {
@@ -52,8 +55,9 @@ class EventPayment extends Component {
     const event = this.props.event,
       startDate = formatTime(event.gatherTime),
       endDate = formatEndTime(event.gatherTime, event.schedule.length)
-
       //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
+
+    let total = 0
       
     return(
       <View style={styles.detail.wrapper}>
@@ -71,11 +75,41 @@ class EventPayment extends Component {
               <InfoItem label={Lang.PerHead} value={event.expenses.perHead.toString() + Lang.Yuan} />
             </View>
             <View style={styles.detail.section}>
-              <View style={styles.detail.group}>
+              <Text style={styles.detail.h2}>{Lang.SignUps}</Text>
+              <View style={styles.detail.infoList}>
                 {
                   this.props.signUps.map((signUp, index) => {
+                    let payment = calculateInsurance(event, signUp)
+                    total += payment
+
                     return (
-                      <Text key={index}>{signUp.realName}</Text>
+                      <InfoItem key={index} label={signUp.realName} value={payment + Lang.Yuan} align="right" noColon={true} />
+                    )
+                  })
+                }
+              </View>
+              <View style={{marginTop: 5}}>
+                <InfoItem label={Lang.Total} value={total.toString() + Lang.Yuan} align="right" />
+              </View>
+            </View>
+            <View style={styles.detail.section}>
+              <Text style={styles.detail.h2}>{Lang.PaymentMethod}</Text>
+              <View style={styles.editor.group}>
+                {
+                  this.state.paymentMethods.map((method, index) => {
+                    return (
+                      <TouchableOpacity 
+                        key={index} 
+                        onPress={() => this.setState({paymentMethod: method.value})}>
+                        <View style={[styles.editor.link, {}]}>
+                          <View style={styles.editor.label}>
+                            <Text>{method.label}</Text>
+                          </View>
+                          <View style={styles.editor.value}>
+                            <Text>{(method.value === this.state.paymentMethod).toString()}</Text>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
                     )
                   })
                 }
@@ -83,17 +117,11 @@ class EventPayment extends Component {
             </View>
           </View>
         </ParallaxView>
-        <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 3}}>
-          </View>
-          <View style={{flex: 2}}>
-            <CallToAction
-              backgroundColor={AppSettings.color.primary}
-              label={Lang.SignUp}
-              onPress={this.confirm}
-            />
-          </View>
-        </View>
+        <CallToAction
+          backgroundColor={AppSettings.color.primary}
+          label={Lang.Pay}
+          onPress={this.confirm}
+        />
       </View>
     )
   }

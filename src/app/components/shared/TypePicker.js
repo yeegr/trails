@@ -47,7 +47,7 @@ IconGrid = (props) => {
     {
       props.list.map((i) => {
         return (
-          <TouchableOpacity key={i} onPress={() => props.onPress(i)} style={styles.button}>
+          <TouchableOpacity key={i} style={styles.button} onPress={() => props.onPress(i)}>
             <Icon backgroundColor={(i === props.selectedIndex) ? AppSettings.color.primary : AppSettings.color.midGray} 
               type={i.toString()} 
               label={Lang.tagArray[i]}
@@ -73,10 +73,11 @@ styles = StyleSheet.create({
     borderBottomWidth: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 10,
+    marginTop: 10
   },
   button: {
-    marginHorizontal: 5
+    marginHorizontal: 5,
+    height: 70
   },
   title: {
     flex: 1,

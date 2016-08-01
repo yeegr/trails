@@ -43,7 +43,6 @@ class ActionPicker extends Component {
   }
 
   onConfirm() {
-    console.log(this.state.selectedValue)
     this.props.onConfirm(this.state.selectedValue)
     this.onCancel()
   }

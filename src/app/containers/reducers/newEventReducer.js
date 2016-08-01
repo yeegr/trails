@@ -24,7 +24,7 @@ const initState = {
   contacts: [],
   minAttendee: AppSettings.minEventAttendees,
   maxAttendee: AppSettings.maxEventAttendees,
-  schedule: [],
+  schedule: [[]],
   expenses: {
     perPerson: 0,
     deposit: 0,
@@ -92,6 +92,25 @@ newEventReducer = (state = initState, action) => {
         maxAttendee: action.maxValue
       })
 
+    case ACTIONS.SET_EVENT_SCHEDULE_DAYS:
+      let days = action.days,
+        schedule = state.schedule
+
+        console.log('reducer')
+        console.log(days)
+      
+      if (days > schedule.length) {
+        for (let i = schedule.length; i < days; i++) {
+          schedule.push([])
+        }
+      } else if (days < schedule.length) {
+        schedule.splice(days + 1, schedule.length - day)
+      }
+
+      return Object.assign({}, state, {
+        schedule
+      })
+
     case ACTIONS.EDIT_EVENT_SCHEDULE:
       return Object.assign({}, state, {
         isEditing: true
@@ -99,20 +118,26 @@ newEventReducer = (state = initState, action) => {
 
     case ACTIONS.SET_EVENT_SCHEDULE:
       var schedule = state.schedule,
-        agenda = action.agenda
+        day = schedule[action.day],
+        agenda = action.agenda,
+        index = 0
 
-      if (!schedule[agenda.day]) {
-        schedule[agenda.day] = []
+      if (action.index) {
+        day.splice(action.index, 1)
       }
 
-      if (agenda.index === null) {
-        agenda.index = schedule[agenda.day].length
-        schedule[agenda.day].push(agenda)
+      if (day.length < 1) {
+        day.push(agenda)
       } else {
-        schedule[agenda.day].splice(agenda.index, 1, agenda)
-      }
+        for (let i = 0, j = day.length; i < j; i++) {
+          if (agenda.startTime >= day[i].startTime) {
+            index = i + 1
+            break
+          }
+        }
 
-      console.log(schedule)
+        day.splice(index, 0, agenda)
+      }
 
       return Object.assign({}, state, {
         isEditing: false,

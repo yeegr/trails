@@ -44,26 +44,26 @@ class EditUserLevel extends Component {
       <View style={styles.detail.wrapper}>
         <ScrollView style={styles.editor.scroll}>
           <View style={styles.editor.group}>
-          {
-            [0,1,2,3,4].map((level) => {
-              return (
-                <TouchableOpacity 
-                  key={level} 
-                  onPress={() => this.setState({level: level})}>
-                  <View style={[styles.editor.link, {}]}>
-                    <View style={styles.editor.label}>
-                      <Text>
-                        {Lang.userLevelArray[level]}
-                      </Text>
+            {
+              [0,1,2,3,4].map((level) => {
+                return (
+                  <TouchableOpacity 
+                    key={level} 
+                    onPress={() => this.setState({level})}>
+                    <View style={[styles.editor.link, {}]}>
+                      <View style={styles.editor.label}>
+                        <Text>
+                          {Lang.userLevelArray[level]}
+                        </Text>
+                      </View>
+                      <View style={styles.editor.value}>
+                        <Text>{(level === this.state.level).toString()}</Text>
+                      </View>
                     </View>
-                    <View style={styles.editor.value}>
-                      <Text>{(level === this.state.level).toString()}</Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              )
-            })
-          }
+                  </TouchableOpacity>
+                )
+              })
+            }
           </View>
         </ScrollView>
       </View>

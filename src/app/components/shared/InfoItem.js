@@ -18,10 +18,13 @@ import {
 import styles from '../../styles/main'
 
 const InfoItem = (props) => {
+  let align = (props.align) ? {textAlign: props.align} : null,
+    colon = (props.noColon) ? '' : '：'
+
   return (
     <View style={styles.detail.textRow}>
-      <Text style={styles.detail.label}>{props.label + '：'}</Text>
-      <Text style={styles.detail.value}>{props.value}</Text>
+      <Text style={styles.detail.label}>{props.label + colon}</Text>
+      <Text style={[styles.detail.value, align]}>{props.value}</Text>
     </View>
   )
 }

@@ -16,6 +16,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -27,17 +28,49 @@ import * as newEventActions from '../../containers/actions/newEventActions'
 import Loading from '../shared/Loading'
 import Agenda from '../shared/Agenda'
 import CallToAction from '../shared/CallToAction'
+import {isNumeric} from '../../../common'
 import styles from '../../styles/main'
 
 class AgendaList extends Component {
   constructor(props) {
     super(props)
+    this.addToDays = this.addToDays.bind(this)
+    this.reduceDays = this.reduceDays.bind(this)
+    this.setDays = this.setDays.bind(this)
     this.addAgenda = this.addAgenda.bind(this)
     this.editAgenda = this.editAgenda.bind(this)
 
     this.state = {
+      minDays: 1,
+      maxDays: 20,
+      days: 1,
       schedule: this.props.schedule
     }
+  }
+
+  componentDidUpdate() {
+    this.props.newEventActions.setEventScheduleDays(this.state.days)
+  }
+
+  addToDays() {
+    if (this.state.days < this.state.maxDays) {
+      this.setState({
+        days: this.state.days + 1 
+      })
+    }
+  }
+
+  reduceDays() {
+    if (this.state.days > this.state.minDays) {
+      this.setState({
+        days: this.state.days - 1 
+      })
+    }
+  }
+
+  setDays(str) {
+    let days = isNumeric(parseInt(str)) ? parseInt(str) : 1
+    this.setState({days})
   }
 
   addAgenda() {
@@ -45,12 +78,13 @@ class AgendaList extends Component {
       id: 'EditAgenda',
       title: Lang.Add + Lang.Agenda,
       passProps: {
-        mode: 'new'
+        mode: 'new',
+        days: this.state.days
       }
     })
   }
 
-  editAgenda(agenda) {
+  editAgenda(day, index, agenda) {
     this.props.newEventActions.editEventSchedule()
 
     this.props.navigator.push({
@@ -58,25 +92,59 @@ class AgendaList extends Component {
       title: Lang.Edit + Lang.Agenda,
       passProps: {
         mode: 'edit',
+        days: this.state.days,
+        day,
+        index,
         agenda
       }
     })
   }
 
   render() {
-    let dayView = [],
-      that = this
+    let dayView = []
 
     return (
       <View style={styles.detail.wrapper}>
         <ScrollView style={styles.editor.scroll}>
-        {
-          this.state.schedule.map((day, index) => {
-            return (
-              <DayList key={index} day={day} index={index} itemPressed={this.editAgenda} />
-            )
-          })
-        }
+          <View style={styles.editor.group}>
+            <View style={styles.editor.link}>
+              <View style={styles.editor.label}>
+                <Text>{Lang.NumberOfDays}</Text>
+              </View>
+              <View style={[styles.editor.value, {alignItems: 'flex-end'}]}>
+                <TouchableOpacity onPress={this.reduceDays}>
+                  <View style={[styles.editor.numberButton, styles.editor.numberButtonLeft]}>
+                    <Text style={styles.editor.numberButtonText}>-</Text>
+                  </View>
+                </TouchableOpacity>
+                <TextInput
+                  autoFocus={true}
+                  autoCorrect={false}
+                  keyboardType='numeric'
+                  min={this.state.minDays}
+                  max={this.state.maxDays}
+                  style={{paddingVertical: 2, textAlign: 'center', width: 30}}
+                  value={this.state.days.toString()}
+                  onChangeText={(days) => this.setDays(days)}
+                />
+                <TouchableOpacity onPress={this.addToDays}>
+                  <View style={[styles.editor.numberButton, styles.editor.numberButtonRight]}>
+                    <Text style={styles.editor.numberButtonText}>+</Text>
+                  </View>
+                </TouchableOpacity>
+                <Text style={{marginLeft: 5, marginRight: 10, paddingBottom: 3}}>{Lang.Days}</Text>
+              </View>
+            </View>
+          </View>          
+          <View style={styles.editor.group}>
+            {
+              this.state.schedule.map((day, index) => {
+                return (
+                  <DayList key={index} day={day} index={index} itemPressed={this.editAgenda} />
+                )
+              })
+            }
+          </View>
         </ScrollView>
         <CallToAction onPress={this.addAgenda} label={Lang.Add + Lang.Agenda} backgroundColor={AppSettings.color.primary} />
       </View>
@@ -86,7 +154,7 @@ class AgendaList extends Component {
 
 const DayList = (props) => {
   const day = props.day,
-    index = props.index
+    dayIndex = props.index
 
   if (day.length < 1) {
     return null
@@ -94,12 +162,12 @@ const DayList = (props) => {
 
   return (
     <View style={styles.detail.list}>
-      <Text style={styles.global.pretitle}>{Lang.DayCountPrefix + Lang.dayArray[index] + Lang.DayCountPostfix}</Text>
+      <Text style={styles.global.pretitle}>{Lang.DayCountPrefix + Lang.dayArray[dayIndex] + Lang.DayCountPostfix}</Text>
       <View>
       {
         day.map(function(agenda, i) {
           return (
-            <Agenda day={i} key={i} agenda={agenda} onPress={() => props.itemPressed(agenda)} />
+            <Agenda key={i} agenda={agenda} onPress={() => props.itemPressed(dayIndex, i, agenda)} />
           )
         })
       }

@@ -238,7 +238,8 @@ export function calculateInsurance(event, user) {
     eventDifficultyCoefficient,
     eventAttendeeCountCoefficient
 
-  let difficultyList = [], 
+  let base = event.expenses.perHead, 
+    difficultyList = [], 
     eventDifficultyIndex = 1, 
     eventDuration = event.schedule.length, 
     userLevelCoefficient = userLevelArray[user.level]
@@ -264,6 +265,7 @@ export function calculateInsurance(event, user) {
   })
 
   eventDifficultyCoefficient = Math.max(...difficultyList)
+  eventDifficultyCoefficient = isNumeric(eventDifficultyCoefficient) ? eventDifficultyCoefficient : 1
 
   if (event.maxAttendee > 29) {
     eventAttendeeCountIndex = 2
@@ -274,4 +276,8 @@ export function calculateInsurance(event, user) {
   }
 
   eventAttendeeCountCoefficient = eventAttendeeCountArray[eventAttendeeCountIndex]
+
+  let coef = 1 + (eventDifficultyCoefficient * eventDurationCoefficient * eventAttendeeCountCoefficient * userLevelCoefficient)
+
+  return (Math.round(base * coef * 100) / 100)
 }

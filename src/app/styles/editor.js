@@ -42,6 +42,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     flex: 0,
     flexDirection: 'row',
+    justifyContent: 'center',
     marginLeft: 15,
     marginRight: 5,
   },
@@ -84,6 +85,29 @@ export default StyleSheet.create({
   },
   currencyPostfix: {
     paddingBottom: 3
+  },
+
+  numberButton: {
+    alignItems: 'center',
+    borderColor: AppSettings.color.primary,
+    borderWidth: 1,
+    flexDirection: 'row',
+    height: 20, 
+    justifyContent: 'center',
+    marginHorizontal: 5,
+    width: 20,
+  },
+  numberButtonLeft: {
+    borderBottomLeftRadius: 2,
+    borderTopLeftRadius: 2,
+  },
+  numberButtonRight: {
+    borderBottomRightRadius: 2,
+    borderTopRightRadius: 2,
+  },
+  numberButtonText: {
+    color: AppSettings.color.primary,
+    lineHeight: 14
   },
 
 

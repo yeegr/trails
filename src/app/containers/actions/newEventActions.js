@@ -73,15 +73,23 @@ export const setAttendeeLimits = (minValue, maxValue) => {
   }
 }
 
+export const setEventScheduleDays = (days) => {
+  return {
+    type: ACTIONS.SET_EVENT_SCHEDULE_DAYS,
+    days
+  }
+}
 export const editEventSchedule = () => {
   return {
     type: ACTIONS.EDIT_EVENT_SCHEDULE
   }
 }
 
-export const setEventSchedule = (agenda) => {
+export const setEventSchedule = (day, index, agenda) => {
   return {
     type: ACTIONS.SET_EVENT_SCHEDULE,
+    day,
+    index,
     agenda
   }
 }

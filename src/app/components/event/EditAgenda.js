@@ -34,7 +34,7 @@ import styles from '../../styles/main'
 class EditAgenda extends Component {
   constructor(props) {
     super(props)
-    this.update = this.update.bind(this)
+    this.back = this.back.bind(this)
     this.cancel = this.cancel.bind(this)
     this.showDayPicker = this.showDayPicker.bind(this)
     this.showTypePicker = this.showTypePicker.bind(this)
@@ -44,21 +44,22 @@ class EditAgenda extends Component {
     this.saveAgenda = this.saveAgenda.bind(this)
     this.deleteAgenda = this.deleteAgenda.bind(this)
 
-
     let now = new Date(),
     nowMinutes = now.getHours() * 60 + now.getMinutes(), 
     agenda = this.props.agenda || {
-      day: 0,
-      index: null,
       type: null,
       startTime: nowMinutes,
       startPoi: {},
       endTime: nowMinutes,
       endPoi: {},
-      duration: 120
+      duration: 120,
+      trail: null,
+      difficultyLevel: null
     }
 
     this.state = {
+      day: this.props.day || 0,
+      index: this.props.index, 
       agenda,
       showDayPicker: false,
       showTypePicker: false,
@@ -125,17 +126,17 @@ class EditAgenda extends Component {
     }
 
     if (errors.length === 0) {
-      this.props.newEventActions.setEventSchedule(agenda)
-      this.update()    
+      this.props.newEventActions.setEventSchedule(this.state.day, this.state.index, agenda)
+      this.back()    
     }
   }
 
   deleteAgenda() {
     this.props.newEventActions.deleteEventAgenda(this.state.agenda)
-    this.update()    
+    this.back()    
   }
 
-  update() {
+  back() {
     this.props.navigator.replacePreviousAndPop({
       id: 'AgendaList',
       title: Lang.DetailSchedule
@@ -151,9 +152,9 @@ class EditAgenda extends Component {
       endView = null,
       agenda = this.state.agenda
 
-    Lang.dayArray.map((i) => {
-      dayLabels.push(Lang.DayCountPrefix + i + Lang.DayCountPostfix)
-    })
+    for (let i = 0; i < this.props.days; i++) {
+      dayLabels.push(Lang.DayCountPrefix + Lang.dayArray[i] + Lang.DayCountPostfix)
+    }
 
     if (agenda.type > 79 && agenda.type < 100) {
       endView = (
@@ -207,7 +208,7 @@ class EditAgenda extends Component {
             <EditLink 
               label={Lang.AgendaDay} 
               onPress={() => this.showDayPicker()}
-              value={Lang.DayCountPrefix + Lang.dayArray[agenda.day] + Lang.DayCountPostfix}
+              value={Lang.DayCountPrefix + Lang.dayArray[this.state.day] + Lang.DayCountPostfix}
             />
           </View>
           <View style={styles.editor.group}>
@@ -305,8 +306,7 @@ class EditAgenda extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    mode: ownProps.mode,
-    agenda: ownProps.agenda
+    schedule: state.newEvent.schedule
   }
 }
 

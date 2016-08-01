@@ -12,12 +12,11 @@ import React, {
 } from 'react'
 
 import {
-  Alert,
   ListView,
+  Slider,
   StyleSheet,
   TextInput,
   Text,
-  TouchableHighlight,
   TouchableOpacity,
   View,
 } from 'react-native'
@@ -28,7 +27,6 @@ import Svg, {
 
 import ParallaxView from 'react-native-parallax-view'
 import RadioForm from 'react-native-simple-radio-button'
-import {formatTime, formatEndTime} from '../../../common'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
@@ -37,6 +35,7 @@ import * as eventsActions from '../../containers/actions/eventsActions'
 import Intro from '../shared/Intro'
 import InfoItem from '../shared/InfoItem'
 import CallToAction from '../shared/CallToAction'
+import {formatTime, formatEndTime} from '../../../common'
 import styles from '../../styles/main'
 
 class EventOrder extends Component {
@@ -53,10 +52,11 @@ class EventOrder extends Component {
     this.state = {
       initPageHeight: 0,
       signUps: [{
-        realName: user.name,
+        realName: (user.name) ? user.name : '',
         mobileNumber: user.mobile.toString(),
-        personalId: user.pid.toString(),
-        gender: user.gender || 1
+        personalId: (user.pid) ? user.pid.toString() : '',
+        gender: user.gender || 1,
+        level: user.level || 0
       }]
     }
   }
@@ -67,7 +67,8 @@ class EventOrder extends Component {
       realName: '',
       mobileNumber: '',
       personalId: '',
-      gender: 1
+      gender: 1,
+      level: 0
     })
     this.setState({signUps})
 
@@ -95,37 +96,40 @@ class EventOrder extends Component {
   }
 
   validateData(data) {
-    const validateName = data.realName.trim().length > 3,
+    const validateName = data.realName.trim().length > 1,
       validateMobileNumber = AppSettings.mobileNumberPattern.test(data.mobileNumber),
-      validatePersonalId = /\d{17}/.test(data.personalId.trim()),
-      validateGender = (data.gender === 0 || data.gender === 1)
+      validatePersonalId = /\d{18}/.test(data.personalId.trim()),
+      validateGender = (data.gender === 0 || data.gender === 1),
+      validateUserLevel = (data.level > -1 && data.level < 5)
 
-    return (validateName && validateMobileNumber && validatePersonalId && validateGender) ? {
+    return (validateName && validateMobileNumber && validatePersonalId && validateGender && validateUserLevel) ? {
       realName: data.realName.trim(),
-      mobileNumber: Number(data.mobileNumber),
-      personalId: data.personalId,
-      gender: data.gender
+      mobileNumber: parseInt(data.mobileNumber),
+      personalId: data.personalId.trim(),
+      gender: data.gender,
+      level: data.level
     } : false
   }
 
   submit() {
     let signUps = this.state.signUps,
-      alertMessage = ''
+      tmp = []
 
     signUps.map((signUp, index) => {
-      if (!this.validateData(signUp)) {
-        signUps.splice(index, 1)
+      let validated = this.validateData(signUp)
+      if (validated) {
+        tmp.push(validated)
       }
     })
 
-    this.setState({signUps})
+    this.setState({signUps: tmp})
 
     this.props.navigator.push({
       id: 'EventPayment',
       title: Lang.EventPayment,
       passProps: {
         event: this.props.event,
-        signUps
+        signUps: tmp
       }
     })
   }
@@ -207,16 +211,20 @@ class InputItem extends Component {
     let signUp = this.props.signUp
 
     this.state = {
-      realName: signUp.realName || '',
-      mobileNumber: signUp.mobileNumber || '',
-      personalId: signUp.personalId || '',
-      gender: signUp.gender || 1
+      realName: signUp.realName,
+      mobileNumber: signUp.mobileNumber,
+      personalId: signUp.personalId,
+      gender: signUp.gender,
+      level: signUp.level
     }
   }
 
   updateState(kv) {
     this.setState(kv)
-    this.props.updateInfo(this.props.index, this.state)
+
+    setTimeout(() => {
+      this.props.updateInfo(this.props.index, this.state)
+    }, 0)
   }
 
   render() {
@@ -287,6 +295,20 @@ class InputItem extends Component {
                 animation={true}
                 onPress={(value) => {this.updateState({gender: value})}}
               />
+            </View>
+          </View>
+          <View style={styles.detail.textRow}>
+            <Text style={styles.detail.label}>{Lang.UserLevel + '：'}</Text>
+            <View style={[styles.editor.value, {marginLeft: 0, justifyContent: 'flex-start'}]}>
+              <Slider
+                style={{width: 150}}
+                maximumValue={4}
+                minimumValue={0}
+                step={1}
+                value={this.state.level}
+                onValueChange={(level) => this.updateState({level})}
+              />
+              <Text style={{marginLeft: 15}}>{Lang.userLevelArray[this.state.level]}</Text>
             </View>
           </View>
         </View>
