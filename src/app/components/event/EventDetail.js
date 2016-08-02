@@ -8,7 +8,8 @@ import {
 } from '../../settings'
 
 import React, {
-  Component
+  Component,
+  PropTypes
 } from 'react'
 
 import {
@@ -27,9 +28,11 @@ import Svg, {
 import ParallaxView from 'react-native-parallax-view'
 import Communications from 'react-native-communications'
 
+import Moment from 'moment'
+
 import {ACTION_TARGETS} from '../../../constants'
 import Loading from '../shared/Loading'
-import Hero from '../shared/Hero'
+import Intro from '../shared/Intro'
 import ActionBar from '../shared/ActionBar'
 import Header from '../shared/Header'
 import Agenda from '../shared/Agenda'
@@ -38,8 +41,8 @@ import OrderedList from '../shared/OrderedList'
 import {GearList} from '../shared/Gear'
 import {TagList} from '../shared/Tag'
 import UserLink from '../user/UserLink'
-import {formatTime} from '../../../common'
 import WebViewWrapper from '../shared/WebViewWrapper'
+import {formatMinutes} from '../../../common'
 import styles from '../../styles/main'
 
 export default class EventDetail extends Component {
@@ -146,9 +149,22 @@ export default class EventDetail extends Component {
 
     const event = this.state.data,
       navigator = this.props.navigator,
-      avatarRadius = 20
-
-    var expensesDetail = (event.expenses.detail && event.expenses.detail.length > 0) ? (
+      avatarRadius = 20,
+      eventGroups = (event.groups.length > 1) ? (
+        <ListItem icon="calendar"
+          label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}
+          text={Moment(event.groups[0]).format('LL') + '-' + Moment(event.groups[event.groups.length-1]).format('LL')} />
+      ) : null,
+      gatherTime = (event.groups.length > 1) ? (
+        <ListItem icon="clock"
+          label={Lang.GatherTime}
+          text={formatMinutes(event.gatherTime)} />
+      ) : (
+        <ListItem icon="clock"
+          label={Lang.GatherTime}
+          text={Moment(event.groups[0]).format('ll') + formatMinutes(event.gatherTime)} />
+      ),
+      expensesDetail = (event.expenses.detail && event.expenses.detail.length > 0) ? (
         <View style={styles.detail.section}>
           <Text style={styles.detail.h3}>{Lang.ExpensesDetail}</Text>
           <View style={styles.detail.list}>
@@ -204,21 +220,23 @@ export default class EventDetail extends Component {
 
     return (
       <View style={styles.detail.wrapper}>
-        <ScrollView ref="scroll" style={styles.detail.wrapper} onScroll={this.handleScroll} scrollEventThrottle={200}>
-          <View style={styles.detail.binder}>
-            <View style={[styles.detail.article, {marginLeft: 80}]}>
-              <View style={{height: this.state.scrollTop}}>
-                <Hero imageUri={event.hero} title={event.title} excerpt={event.excerpt} />
-              </View>
+        <ParallaxView style={{flex: 1}}
+          ref='scrollView'
+          backgroundSource={{uri: AppSettings.assetUri + event.hero}}
+          windowHeight={240}
+          header={(
+            <Intro title={event.title} excerpt={event.excerpt} />
+          )}>
+          <View>
+            <View style={styles.detail.article}>
               <View ref="eventInfo" style={styles.detail.section}>
                 <Text style={styles.detail.h2}>{Lang.EventInfo}</Text>
                 <View style={styles.detail.list}>
                   <ListItem icon={event.type}
                     label={Lang.EventTitle}
                     text={event.title} />
-                  <ListItem icon="clock"
-                    label={Lang.GatherTime}
-                    text={formatTime(event.gatherTime, 'lll')} />
+                  {eventGroups}
+                  {gatherTime}
                   <ListItem icon="pin"
                     label={Lang.GatherLocation}
                     text={event.gatherLocation.name} />
@@ -276,13 +294,14 @@ export default class EventDetail extends Component {
               {eventNotes}
             </View>
           </View>
-        </ScrollView>
-        <Sidebar offsetY={64} visible={true} selectedIndex={this.state.selectedSectionIndex} onPress={(value) => this.scrollTo(value)} />
+        </ParallaxView>
         <ActionBar type={ACTION_TARGETS.EVENT} data={event} showLabel={true} buttonText={Lang.SignUpNow} buttonEvent={this.placeOrder} />
       </View>
     )
   }
 }
+
+//        <Sidebar offsetY={64} visible={true} selectedIndex={this.state.selectedSectionIndex} onPress={(value) => this.scrollTo(value)} />
 
 const Sidebar = (props) => {
   if (!props.visible) {
@@ -352,22 +371,24 @@ const ListItem = (props) => {
   var content = null
 
   if (props.contacts !== undefined) {
-    content = (<View style={{flexDirection: 'column'}}>
-    {
-      props.contacts.map(function(contact, index) {
-        const number = contact.mobileNumber
+    content = (
+      <View style={{flexDirection: 'column', marginVertical: 5}}>
+        {
+          props.contacts.map(function(contact, index) {
+            const number = contact.mobileNumber
 
-        return (
-          <View key={index} style={{flexDirection:'row', marginBottom: 5}}>
-            <Text style={[styles.global.title, {marginTop: 7, marginRight: 20}]}>{contact.title}</Text>
-            <TouchableOpacity onPress={() => Communications.phonecall({number}, true)}>
-              <Text style={styles.global.title}>{contact.mobileNumber}</Text>
-            </TouchableOpacity>
-          </View>
-        )
-      })
-    }
-    </View>)
+            return (
+              <View key={index} style={{flexDirection:'row', marginBottom: 5}}>
+                <Text style={[styles.global.title, {marginTop: 5, marginRight: 20}]}>{contact.title}</Text>
+                <TouchableOpacity onPress={() => Communications.phonecall({number}, true)}>
+                  <Text style={styles.global.title}>{contact.mobileNumber}</Text>
+                </TouchableOpacity>
+              </View>
+            )
+          })
+        }
+      </View>
+    )
   } else if (props.minAttendee !== undefined && props.maxAttendee !== undefined) {
     content = <Text style={styles.global.title}>{props.minAttendee} - {props.maxAttendee}{Lang.Persons}</Text>
   } else {
@@ -379,7 +400,7 @@ const ListItem = (props) => {
       <Icon type={props.icon} />
       <View style={styles.detail.hgroup}>
         <Text style={styles.global.pretitle}>{props.label}</Text>
-        {content }
+        {content}
       </View>
     </View>
   )

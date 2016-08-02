@@ -25,6 +25,7 @@ import * as areasActions from '../../containers/actions/areasActions'
 
 import Loading from '../shared/Loading'
 import Header from '../shared/Header'
+import Intro from '../shared/Intro'
 import Icon from '../shared/Icon'
 import UserList from '../user/UserList'
 import TrailPreview from '../trail/TrailPreview'
@@ -48,17 +49,26 @@ class AreaDetail extends Component {
       return <Loading />
     }
 
+    let tags = []
+
+    if (area.tags.length > 0) {
+      area.tags.map(function(n) {
+        tags.push(Lang.tagArray[n])
+      })
+    }
+
     return (
       <View style={styles.detail.wrapper}>
         <ParallaxView style={{flex: 1}}
           backgroundSource={{uri: AppSettings.assetUri + area.hero}}
-          windowHeight={320}
+          windowHeight={AppSettings.heroImage.height}
           header={(
-            <View style={styles.detail.hero}>
-              <View style={[styles.detail.intro, {}]}>
-                <Text style={styles.detail.title}>{area.description}</Text>
-              </View>
-            </View>
+            <Intro
+              align="bottom"
+              title={Lang.cities[area.city] + ' ' + area.name}
+              excerpt={area.description}
+              tags={tags}
+            />
           )}>
           <View style={styles.detail.article}>
             <View style={styles.detail.section}>

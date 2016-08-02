@@ -33,10 +33,13 @@ const PostCard = (props) => {
 
   return (
     <View style={styles.list.item}>
-      <Hero imageUri={data.hero} title={data.title} tags={data.tags} onPress={onPress} />
-      <View style={styles.list.itemFooter}>
-        <UserLink user={data.creator} navigator={props.navigator} />
-      </View>
+      <Hero 
+        imageUri={data.hero} 
+        title={data.title} 
+        tags={data.tags}
+        topLeft={<UserLink user={data.creator} navigator={props.navigator} />} 
+        onPress={onPress}
+      />
     </View>
   )
 }

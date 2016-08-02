@@ -32,7 +32,7 @@ var mongoose = require('mongoose'),
       type: Number,
       required: true,
       unique: true,
-      match: /1\d{10}/
+      match: CONST.mobileRx
     },
     handle: {
       type: String,
@@ -48,7 +48,7 @@ var mongoose = require('mongoose'),
     },
     gender: {
       type: Number,
-      match: /0|1/,
+      match: CONST.genderRx,
       required: false
     },
     verified: {
@@ -73,6 +73,7 @@ var mongoose = require('mongoose'),
       type: Number,
       required: true,
       default: minLevel,
+      match: CONST.levelRx,
       set: function(value) {
         var tmp = Math.floor(value)
         if (tmp > maxLevel) tmp = maxLevel
@@ -86,13 +87,13 @@ var mongoose = require('mongoose'),
     pid: {
       type: String,
       default: null,
-      match: /\d{18}/
+      match: CONST.pidRx
     },
     emergencies: [{
       name: String,
       mobile: {
         type: Number,
-        match: /1\d{10}/
+        match: CONST.mobileRx
       }
     }],
     tags: {
@@ -106,17 +107,9 @@ var mongoose = require('mongoose'),
       type: Schema.Types.ObjectId,
       ref: 'Event'
     }],
-    signups: [{
-      event: {
-        type: Schema.Types.ObjectId,
-        ref: 'Event'
-      },
-      status: {
-        type: String,
-        enum: CONST.STATUSES.SIGNUP,
-        default: CONST.STATUSES.SIGNUP[0]
-      },
-      _id: false
+    orders: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Event'
     }],
     posts: [{
       type: Schema.Types.ObjectId,

@@ -11,7 +11,7 @@ module.exports = {
     ADMIN: ["APPROVE", "REJECT"]
   },
   TARGETS: {
-    ACTION: ["User", "Area", "Trail", "Event", "Post", "Comment"],
+    ACTION: ["User", "Area", "Trail", "Event", "Order", "Post", "Comment"],
     COMMENT: ["Area", "Trail", "Event", "Post"]
   },
   STATUSES: {
@@ -22,6 +22,15 @@ module.exports = {
     PAYMENT: ["submitting", "pending", "received", "rejected"],
     POST: ["draft", "pending", "approved", "published"],
   },
+  PAYMENT_MEDHODS: [
+    "Alipay",
+    "Wechat"
+  ],
+
+  genderRx: /0|1/,
+  levelRx: /[0-4]{1}/,
+  mobileRx: /1\d{10}/,
+  pidRx: /d{18}/,
 
   generateRandomString: function(length) {
     var txt = ''

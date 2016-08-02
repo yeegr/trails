@@ -34,13 +34,16 @@ const AreaCard = (props) => {
       console.log('occupy this area!')
     }
 
-  let tags = [], leaders = null, fillers = []
+  let tags = []
 
   if (data.tags.length > 0) {
     data.tags.map(function(n) {
-        tags.push(Lang.tagArray[n])
+      tags.push(Lang.tagArray[n])
     })
   }
+
+  /*
+  let leaders = null, fillers = []
 
   if (data.leaders.length > 0) {
     leaders = data.leaders.map(function(user, i){
@@ -61,19 +64,28 @@ const AreaCard = (props) => {
       )
     }
   }
+  */
 
   return (
     <View style={styles.list.item}>
-      <Hero imageUri={data.hero} title={Lang.cities[data.city] + ' ' + data.name} tags={tags} onPress={onPress} />
+      <Hero 
+        imageUri={data.hero} 
+        title={Lang.cities[data.city] + ' ' + data.name} 
+        tags={tags}
+        excerpt={null}
+        onPress={onPress}
+      />
+    </View>
+  )
+}
+/*
       <View style={styles.list.itemFooter}>
         <View style={styles.global.flex}>
         {leaders}
         {fillers}
         </View>
       </View>
-    </View>
-  )
-}
+*/
 
 AreaCard.propTypes = {
   data: PropTypes.object.isRequired,

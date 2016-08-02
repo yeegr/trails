@@ -36,6 +36,7 @@ Tag.propTypes = {
   label: PropTypes.string.isRequired
 }
 
+/*
 export const TagList = (props) => {
   return (
     <View style={styles.tagList}>
@@ -47,6 +48,19 @@ export const TagList = (props) => {
       })
     }
     </View>
+  )
+}
+*/
+
+export const TagList = (props) => {
+  let txt = '# '
+
+  props.tags.map(function(tag) {
+    txt += tag + ' '
+  })
+
+  return (
+    <Text style={styles.tagLabel}>{txt}</Text>
   )
 }
 

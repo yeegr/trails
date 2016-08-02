@@ -35,12 +35,12 @@ import styles from '../../styles/main'
 class EditEvent extends Component {
   constructor(props) {
     super(props)
+    this.convertTimeToDatetime = this.convertTimeToDatetime.bind(this)
     this.showContacts = this.showContacts.bind(this)
     this.nextPage = this.nextPage.bind(this)
     this.setType = this.setType.bind(this)
 
     this.state = {
-      mobileNumbers: this.props.newEvent.mobileNumbers,
       showTypePicker: false,
       showDateTimePicker: false,
       showGatherLocationPicker: false
@@ -49,6 +49,17 @@ class EditEvent extends Component {
 
   componentWillMount() {
   //    this.props.newEventActions.resetEvent()
+  }
+
+  convertTimeToDatetime(minutes) {
+    let today = new Date(),
+      hrs = Math.floor(minutes / 60),
+      min = minutes % 60
+
+    today.setHours(hrs),
+    today.setMinutes(min)
+
+    return today
   }
 
   showContacts() {
@@ -76,9 +87,14 @@ class EditEvent extends Component {
         title = Lang.EventTitle
       break;
 
+      case 'groups':
+        id = 'EditEventGroups',
+        title = Lang.EventGroups
+      break;
+
       case 'location':
-        id = 'EditEventDescription',
-        title = Lang.EventType
+        id = 'EditEventLocation',
+        title = Lang.GatherLocation
       break;
 
       case 'contacts':
@@ -154,6 +170,8 @@ class EditEvent extends Component {
   }
 
   render() {
+    const event = this.props.newEvent
+
     return (
       <View style={styles.detail.wrapper}>
         <ScrollView style={styles.editor.scroll}>
@@ -164,35 +182,36 @@ class EditEvent extends Component {
               </View>
               <View style={styles.editor.value}>
                 <Text style={[styles.editor.valueText, {marginRight: 10}]}>
-                {(this.props.newEvent.isPublic) ? Lang.Public : Lang.Private}
+                {(event.isPublic) ? Lang.Public : Lang.Private}
                 </Text>
                 <Switch
                   onValueChange={(value) => this.props.newEventActions.setEventPrivacy(value)}
-                  value={this.props.newEvent.isPublic}
+                  value={event.isPublic}
                 />
               </View>
             </View>
           </View>
           <View style={styles.editor.group}>
-            <EditLink onPress={() => this.nextPage('hero')} value={(this.props.newEvent.hero !== '') ? '' : ''} required={true} label={Lang.HeroImage} />
-            <EditLink onPress={() => this.nextPage('title')} value={this.props.newEvent.title} required={true} label={Lang.EventTitle} />
-            <EditLink onPress={() => this.setState({showTypePicker: true})} value={Lang.tagArray[this.props.newEvent.type]} required={true} label={Lang.EventType} />
-            <EditLink onPress={() => this.setState({showDateTimePicker: true})} value={Moment(this.props.newEvent.gatherTime).format('YYYY-MM-DD HH:mm')} label={Lang.GatherTime} />
-            <EditLink onPress={() => this.setState({showGatherLocationPicker: true})} value={this.props.newEvent.gatherLocation.name} label={Lang.GatherLocation} />
+            <EditLink onPress={() => this.nextPage('hero')} value={(event.hero !== '') ? '' : ''} required={true} label={Lang.HeroImage} />
+            <EditLink onPress={() => this.nextPage('title')} value={event.title} required={true} label={Lang.EventTitle} />
+            <EditLink onPress={() => this.setState({showTypePicker: true})} value={Lang.tagArray[event.type]} required={true} label={Lang.EventType} />
+            <EditLink onPress={() => this.nextPage('groups')} value={event.groups.length.toString()} required={true} label={Lang.EventGroups} />
+            <EditLink onPress={() => this.setState({showDateTimePicker: true})} value={Moment(this.convertTimeToDatetime(event.gatherTime)).format('HH:mm')} label={Lang.GatherTime} />
+            <EditLink onPress={() => this.setState({showGatherLocationPicker: true})} value={event.gatherLocation.name} label={Lang.GatherLocation} />
             <EditLink onPress={() => this.nextPage('contacts')} value={this.showContacts()} label={Lang.Contacts} />
-            <EditLink onPress={() => this.nextPage('limits')} value={this.props.newEvent.minAttendee.toString() + ' - ' + this.props.newEvent.maxAttendee.toString() + Lang.Persons} label={Lang.AttendeeLimits} />
+            <EditLink onPress={() => this.nextPage('limits')} value={event.minAttendee.toString() + ' - ' + event.maxAttendee.toString() + Lang.Persons} label={Lang.AttendeeLimits} />
           </View>
           <View style={styles.editor.group}>
             <EditLink onPress={() => this.nextPage('agenda')} label={Lang.DetailSchedule} required={true} />
           </View>
           <View style={styles.editor.group}>
-            <EditLink onPress={() => this.nextPage('expenses')} label={Lang.EventExpenses} required={true} />
-            <EditLink onPress={() => this.nextPage('gears')} value={this.props.newEvent.gears.images.length} label={Lang.GearsToBring} />
+            <EditLink onPress={() => this.nextPage('expenses')} label={Lang.EventExpenses} value={event.expenses.perPerson + Lang.Yuan} required={true} />
+            <EditLink onPress={() => this.nextPage('gears')} value={event.gears.images.length.toString()} label={Lang.GearsToBring} />
           </View>
           <View style={styles.editor.group}>
             <EditLink onPress={() => this.nextPage('destination')} label={Lang.Destination} />
             <EditLink onPress={() => this.nextPage('notes')} label={Lang.EventNotes} />
-            <EditLink onPress={() => this.nextPage('photos')} value={this.props.newEvent.photos.length} label={Lang.Photos} />
+            <EditLink onPress={() => this.nextPage('photos')} value={event.photos.length} label={Lang.Photos} />
           </View>
           <View style={styles.editor.group}>
             <EditLink onPress={() => this.nextPage('preview')} label={Lang.EventPreview} />
@@ -200,11 +219,12 @@ class EditEvent extends Component {
         </ScrollView>
         <TypePicker 
           visible={this.state.showTypePicker} 
-          selectedIndex={this.props.newEvent.type} 
+          selectedIndex={event.type} 
           onPress={(value) => this.setType(value)}
         />
         <DateTimePicker
-          datetime={this.props.newEvent.gatherTime}
+          mode="time"
+          datetime={event.gatherTime}
           showPicker={this.state.showDateTimePicker}
           cancelText={Lang.Cancel} 
           confirmText={Lang.Confirm}

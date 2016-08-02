@@ -44,17 +44,17 @@ export const setEventType = (eventType) => {
   }
 }
 
-export const setEventContacts = (contacts) => {
+export const setEventGroups = (groups) => {
   return {
-    type: ACTIONS.SET_EVENT_CONTACTS,
-    contacts
+    type: ACTIONS.SET_EVENT_GROUPS,
+    groups
   }
 }
 
-export const setGatherTime = (datetime) => {
+export const setGatherTime = (time) => {
   return {
     type: ACTIONS.SET_GATHER_TIME,
-    datetime
+    time
   }
 }
 
@@ -62,6 +62,13 @@ export const setGatherLocation = (poi) => {
   return {
     type: ACTIONS.SET_GATHER_LOCATION,
     poi
+  }
+}
+
+export const setEventContacts = (contacts) => {
+  return {
+    type: ACTIONS.SET_EVENT_CONTACTS,
+    contacts
   }
 }
 

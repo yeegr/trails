@@ -11,12 +11,12 @@ import {
 
 export default StyleSheet.create({
   wrapper: {
-    flex: 1,
     backgroundColor: AppSettings.color.background,
+    flex: 1
   },
   main: {
     flex: 1,
-    paddingTop: 64,
+    paddingTop: 44
   },
   pretitle: {
     color: AppSettings.color.midGray,

@@ -54,9 +54,15 @@ var mongoose = require('mongoose'),
       max: 100
     },
     tags: [String],
+    groups: [{
+      type: Number,
+      required: true
+    }],
     gatherTime: {
       type: Number,
-      required: false
+      required: false,
+      min: 0,
+      max: 1439
     },
     gatherLocation: {
       type: Point,
@@ -68,7 +74,7 @@ var mongoose = require('mongoose'),
       },
       mobileNumber: {
         type: Number,
-        match: /1\d{10}/
+        match: CONST.mobileRx
       },
       _id: false
     }],
@@ -128,33 +134,40 @@ var mongoose = require('mongoose'),
       type: Schema.Types.ObjectId,
       ref: 'User'
     }],
-    signups: [{
+    signUps: [{
+      added: {
+        type: Number
+      },
       user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
       },
-      realName: {
+      name: {
         type: String,
         required: true
       },
-      mobileNumber: {
+      mobile: {
         type: Number,
+        match: CONST.mobileRx,
         required: true
       },
-      personalId: {
+      pid: {
         type: String,
-        match: /1\d{10}/
+        match: CONST.pidRx
       },
       gender: {
         type: Number,
-        match: /0|1/
+        match: CONST.genderRx
+      },
+      level: {
+        type: Number,
+        match: CONST.levelRx
       },
       status: {
         type: String,
         enum: CONST.STATUSES.SIGNUP,
         default: CONST.STATUSES.SIGNUP[0]
-      },
-      _id: false
+      }
     }],
   }, {
     toObject: {
@@ -191,6 +204,33 @@ eventSchema.methods.addToList = function(type, id) {
 
 eventSchema.methods.removeFromList = function(type, id) {
   Util.removeFromList(this, this[type], id)
+}
+
+eventSchema.methods.addSignUps = function(signUps) {
+  var that = this,
+    date = new Date(),
+    time = date.getMilliseconds()
+
+  signUps.map(function(signUp) {
+    signUp.added = time
+    that.signUps.push(signUp)
+  })
+
+  this.save()
+}
+
+eventSchema.methods.removeSignUps = function(signUps) {
+  var that = this
+
+  signUps.map(function(signUp) {
+    that.signUps.map(function(each, index) {
+      if (signUp.mobile === each.mobile) {
+        that.signUps.splice(index, 1)
+      }
+    })
+  })
+
+  this.save()
 }
 
 eventSchema.methods.addComment = function(id, rating) {

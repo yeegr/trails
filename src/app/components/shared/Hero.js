@@ -25,13 +25,27 @@ const Hero = (props) => {
         style={[styles.hero]}
         source={{uri: AppSettings.assetUri + props.imageUri}}
       >
-        <Intro title={props.title} excerpt={props.excerpt} tags={props.tags} />
+        <Intro 
+          title={props.title}
+          excerpt={props.excerpt}
+          tags={props.tags}
+          bottomLeft={props.bottomLeft}
+          bottomRight={props.bottomRight}
+          topLeft={props.topLeft}
+          topRight={props.topRight}
+        />
       </Image>
     ),
     wrapper = (props.onPress) ? (<TouchableOpacity onPress={props.onPress}>{view}</TouchableOpacity>) : view
 
   return wrapper
-}
+},
+styles = StyleSheet.create({
+  hero: {
+    height: AppSettings.heroImageHeight,
+    flex: 1,
+  }
+})
 
 Hero.propTypes = {
   imageUri: PropTypes.string.isRequired,
@@ -40,12 +54,5 @@ Hero.propTypes = {
   tags: PropTypes.array,
   onPress: PropTypes.func
 }
-
-const styles = StyleSheet.create({
-  hero: {
-    height: AppSettings.heroImageHeight,
-    flex: 1,
-  },
-})
 
 export default Hero

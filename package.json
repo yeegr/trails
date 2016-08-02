@@ -12,6 +12,7 @@
   "license": "ISC",
   "scripts": {
     "start": "webpack && (npm run serve-assets | npm run serve-api)",
+    "postinstall": "rnpm link",
     "serve-assets": "http-server uploads -a localhost -p 8000",
     "serve-api": "node dev/api/index.js",
     "ios": "react-native run-ios",

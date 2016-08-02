@@ -5,6 +5,15 @@ import {
   Lang
 } from '../../settings'
 import * as ACTIONS from '../constants/newEventConstants'
+import Moment from 'moment'
+
+let today = new Date(),
+  hrs = today.getHours(),
+  mns = today.getMinutes(),
+  time = hrs * 60 + mns,
+  d = Moment(new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0, 0)),
+  e = d.add(1, 'days'),
+  timestamp = e.valueOf()
 
 const initState = {
   isEditing: false,
@@ -17,7 +26,8 @@ const initState = {
   description: '',
   excerpt: '',
   tags: [],
-  gatherTime: new Date,
+  groups: [timestamp],
+  gatherTime: time,
   gatherLocation: {
     name: ''
   },
@@ -71,9 +81,14 @@ newEventReducer = (state = initState, action) => {
         type: action.eventType
       })
 
+    case ACTIONS.SET_EVENT_GROUPS:
+      return Object.assign({}, state, {
+        groups: action.groups
+      })
+
     case ACTIONS.SET_GATHER_TIME:
       return Object.assign({}, state, {
-        gatherTime: action.datetime
+        gatherTime: action.time
       })
 
     case ACTIONS.SET_GATHER_LOCATION:

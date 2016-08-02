@@ -56,6 +56,7 @@ import SearchEvents from './event/SearchEvents'
 import EditEvent from './event/EditEvent'
 import EditEventHero from './event/EditEventHero'
 import EditEventTitle from './event/EditEventTitle'
+import EditEventGroups from './event/EditEventGroups'
 import EditEventContacts from './event/EditEventContacts'
 import EditAttendeeLimits from './event/EditAttendeeLimits'
 import AgendaList from './event/AgendaList'
@@ -415,6 +416,12 @@ class App extends Component {
 
               case 'EditEventTitle':
                 return (<EditEventTitle
+                  navigator={navigator}
+                  route={route} {...route.passProps}
+                />)
+
+              case 'EditEventGroups':
+                return (<EditEventGroups
                   navigator={navigator}
                   route={route} {...route.passProps}
                 />)

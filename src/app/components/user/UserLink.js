@@ -12,16 +12,11 @@ import React, {
 } from 'react'
 
 import {
-  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native'
-
-import Svg, {
-  Path
-} from 'react-native-svg'
 
 import global from '../../styles/global'
 import Avatar from '../shared/Avatar'

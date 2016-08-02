@@ -1,16 +1,11 @@
 'user strict'
 
-import {
-  AppSettings,
-  Graphics
-} from '../settings'
-
-import {
-  StyleSheet
-} from 'react-native'
+import {AppSettings} from '../settings'
+import {StyleSheet} from 'react-native'
 
 export default StyleSheet.create({
   item: {
+    /*
     backgroundColor: AppSettings.color.cardBackground,
     borderBottomColor: AppSettings.color.lightGray,
     borderBottomWidth: 1,
@@ -18,12 +13,15 @@ export default StyleSheet.create({
     borderTopWidth: 1,
     flex: 1,
     marginBottom: 20,
+    */
+    flex: 1,
   },
   card: {
     backgroundColor: AppSettings.color.cardBackground,
     borderRadius: 4,
     borderBottomWidth: 0,
     borderTopWidth: 0,
+    marginBottom: 20,
     marginHorizontal: 10,
     overflow: 'hidden',
   },
