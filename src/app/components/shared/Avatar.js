@@ -1,10 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -13,38 +8,84 @@ import React, {
 import {
   Image,
   StyleSheet,
-  TouchableOpacity
+  View
 } from 'react-native'
 
+import {
+  AppSettings,
+  Graphics
+} from '../../settings'
+
 const Avatar = (props) => {
-  let side = (props.side) ? props.side : Graphics.iconSide,
+  const sideLength = (props.size) ? Graphics.avatar[props.size] : Graphics.avatar.default,
+    backgroundColor = props.backgroundColor || Graphics.avatar.backgroundColor,
+    borderColor = props.borderColor || Graphics.avatar.borderColor,
+    borderWidth = props.borderWidth || 0,
     styles = StyleSheet.create({
       avatar: {
-        backgroundColor: (props.bgColor) ? props.bgColor : AppSettings.color.lightGray,
-        borderRadius: (props.side) ? props.side / 2 : Graphics.iconSide / 2,
-        height: side,
-        width: side,
+        backgroundColor: backgroundColor,
+        borderColor: borderColor,
+        borderRadius: sideLength / 2,
+        borderWidth: borderWidth,
+        height: sideLength,
+        width: sideLength
       }
-    }),
-    image = (props.user) ? (
-      <Image
-        style={styles.avatar}
-        source={{uri: AppSettings.assetUri + 'users/' + props.user.avatar}}
-      />
-    ) : null,
-    wrapper = (props.onPress || props.navigator) ? (
-      <TouchableOpacity style={styles.avatar} onPress={props.onPress}>{image}</TouchableOpacity>
-    ) : image
+    })
 
-  return wrapper
+  return (props.user) ? (
+    <Image
+      style={styles.avatar}
+      source={{uri: AppSettings.assetUri + 'users/' + props.user.avatar}}
+    />
+  ) : null
 }
 
 Avatar.propTypes = {
-  bgColor: PropTypes.string,
+  backgroundColor: PropTypes.string,
   height: PropTypes.number,
   width: PropTypes.number,
-  user: PropTypes.object,
-  onPress: PropTypes.func
+  user: PropTypes.object
 }
+
+export const AvatarList = (props) => {
+  let margin = 10
+
+  if (props.size) {
+    switch (props.size) {
+      case 'SML':
+        margin = 5
+      break
+
+      case 'L':
+        margin = 10
+      break
+
+      case 'XL':
+        margin = 15
+      break
+    }
+  }
+
+  const styles = StyleSheet.create({
+      avatar: {
+        marginRight: margin
+      }
+    })
+
+  return (props.users) ? (
+    <View style={{flexDirection: 'row'}}>
+      {
+        props.users.map((user, index) => {
+          return (
+            <View key={index} style={styles.avatar}>
+              <Avatar size={props.size} user={user} />
+            </View>
+          )
+        })
+      }
+    </View>
+  ) : null
+}
+
 
 export default Avatar

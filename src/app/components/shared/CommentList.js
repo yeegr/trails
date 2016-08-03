@@ -81,16 +81,16 @@ export class CommentsPreview extends Component {
 
 export const Comment = (props) => {
   return (
-    <View style={styles.detail.row}>
+    <View style={{flex: 1, flexDirection: 'row', paddingVertical: 10}}>
       <Avatar user={user} />
-      <View style={styles.detail.hgroup}>
+      <View style={{flex: 1, flexDirection: 'column', marginLeft: 10,}}>
         <View style={styles.detail.split}>
-          <Text style={[styles.global.title, {flex: 1}]}>{user.handle}</Text>
+          <Text style={[{flex: 1}]}>{user.handle}</Text>
           <View style={{width: 100, height: 20}}>
             <Rating value={comment.rating} />
           </View>
         </View>
-        <Text style={styles.global.subtitle}>{formatFromNow(comment.uploaded)}</Text>
+        <Text>{formatFromNow(comment.uploaded)}</Text>
         <Text style={local.CommentContent}>{comment.content}</Text>
       </View>
     </View>
@@ -129,16 +129,16 @@ export class Comment1 extends Component {
       user = comment.user
 
     return (
-      <View style={styles.detail.row}>
+      <View>
         <Avatar user={user} />
-        <View style={styles.detail.hgroup}>
+        <View style={{marginLeft: 10,}}>
           <View style={styles.detail.split}>
-            <Text style={[styles.global.title, {flex: 1}]}>{user.handle}</Text>
+            <Text style={[{flex: 1}]}>{user.handle}</Text>
             <View style={{width: 100, height: 20}}>
               <Rating value={comment.rating} />
             </View>
           </View>
-          <Text style={styles.global.subtitle}>{formatFromNow(comment.uploaded)}</Text>
+          <Text>{formatFromNow(comment.uploaded)}</Text>
           <Text style={commentStyles.content}>{comment.content}</Text>
         </View>
       </View>

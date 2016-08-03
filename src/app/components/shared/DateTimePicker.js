@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -19,6 +13,11 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+
+import {
+  Lang,
+  Graphics
+} from '../../settings'
 
 class DateTimePicker extends Component {
   constructor(props) {
@@ -62,8 +61,7 @@ class DateTimePicker extends Component {
       return null
     }
 
-    const mixStyles = Object.assign(styles, this.props.customStyles || null),
-      title = (this.props.title) ? <Text style={mixStyles.titleText}>{this.props.title}</Text> : null
+    const title = (this.props.title) ? <Text style={styles.titleText}>{this.props.title}</Text> : null
 
     return (
       <Modal animationType={"fade"} transparent={true}>
@@ -71,13 +69,13 @@ class DateTimePicker extends Component {
           <View style={styles.actionSheet}>
             <View style={styles.toolbar}>
               <TouchableOpacity onPress={this.onCancel}>
-                <Text style={[{color: AppSettings.color.midGray}, mixStyles.buttonText]}>{this.props.cancelText}</Text>
+                <Text style={styles.buttonText}>{this.props.cancelText}</Text>
               </TouchableOpacity>
               <View style={styles.title}>
-              {title}
+                {title}
               </View>
               <TouchableOpacity onPress={this.onConfirm}>
-                <Text style={mixStyles.buttonText}>{this.props.confirmText}</Text>
+                <Text style={styles.buttonText}>{this.props.confirmText}</Text>
               </TouchableOpacity>
             </View>
             <DatePickerIOS
@@ -96,27 +94,15 @@ class DateTimePicker extends Component {
   }
 }
 
-DateTimePicker.propTypes = {
-  datetime: PropTypes.any.isRequired,
-  showPicker: PropTypes.bool.isRequired,
-  cancelText: PropTypes.string.isRequired, 
-  confirmText: PropTypes.string.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-  customStyles: PropTypes.object,
-  mode: PropTypes.string,
-  interval: PropTypes.number
-}
-
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: 'rgba(0, 0, 0, .8)',
+    backgroundColor: Graphics.actionSheet.maskColor,
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end'
   },
   actionSheet: {
-    backgroundColor: '#fff'
+    backgroundColor: Graphics.actionSheet.backgroundColor
   },
   toolbar: {
     flexDirection: 'row',
@@ -129,17 +115,29 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 15,
   },
-  titleText: Object.assign({},
-    AppSettings.textStyles.extraLarge),
+  titleText: {
+    fontSize: Graphics.fontSizes.XL
+  },
   button: {
     flex: 0,
     paddingHorizontal: 15,
   },
-  buttonText: Object.assign({},
-    AppSettings.textStyles.extraLarge,
-    {
-      color: AppSettings.color.primary
-    }),
+  buttonText: {
+    color: Graphics.colors.primary,
+    fontSize: Graphics.fontSizes.XL
+  }
 })
+
+DateTimePicker.propTypes = {
+  datetime: PropTypes.any.isRequired,
+  showPicker: PropTypes.bool.isRequired,
+  cancelText: PropTypes.string.isRequired, 
+  confirmText: PropTypes.string.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+  customStyles: PropTypes.object,
+  mode: PropTypes.string,
+  interval: PropTypes.number
+}
 
 export default DateTimePicker

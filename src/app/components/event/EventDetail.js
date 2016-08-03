@@ -14,6 +14,7 @@ import React, {
 
 import {
   ScrollView,
+  StyleSheet,
   View,
   Image,
   TouchableOpacity,
@@ -33,13 +34,15 @@ import Moment from 'moment'
 import {ACTION_TARGETS} from '../../../constants'
 import Loading from '../shared/Loading'
 import Intro from '../shared/Intro'
+import TextView from '../shared/TextView'
 import ActionBar from '../shared/ActionBar'
+import ListItem from '../shared/ListItem'
 import Header from '../shared/Header'
-import Agenda from '../shared/Agenda'
+import DayList from '../shared/DayList'
 import Icon from '../shared/Icon'
 import OrderedList from '../shared/OrderedList'
-import {GearList} from '../shared/Gear'
-import {TagList} from '../shared/Tag'
+import GearList from '../shared/GearList'
+import TagList from '../shared/TagList'
 import UserLink from '../user/UserLink'
 import WebViewWrapper from '../shared/WebViewWrapper'
 import {formatMinutes} from '../../../common'
@@ -153,20 +156,13 @@ export default class EventDetail extends Component {
       eventGroups = (event.groups.length > 1) ? (
         <ListItem icon="calendar"
           label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}
-          text={Moment(event.groups[0]).format('LL') + '-' + Moment(event.groups[event.groups.length-1]).format('LL')} />
+          value={Moment(event.groups[0]).format('LL') + '-' + Moment(event.groups[event.groups.length-1]).format('LL')}
+        />
       ) : null,
-      gatherTime = (event.groups.length > 1) ? (
-        <ListItem icon="clock"
-          label={Lang.GatherTime}
-          text={formatMinutes(event.gatherTime)} />
-      ) : (
-        <ListItem icon="clock"
-          label={Lang.GatherTime}
-          text={Moment(event.groups[0]).format('ll') + formatMinutes(event.gatherTime)} />
-      ),
+      gatherTime = (event.groups.length > 1) ? formatMinutes(event.gatherTime) : Moment(event.groups[0]).format('ll') + formatMinutes(event.gatherTime),
       expensesDetail = (event.expenses.detail && event.expenses.detail.length > 0) ? (
         <View style={styles.detail.section}>
-          <Text style={styles.detail.h3}>{Lang.ExpensesDetail}</Text>
+          <TextView class='h3' text={Lang.ExpensesDetail} />
           <View style={styles.detail.list}>
             <OrderedList content={event.expenses.detail} />
           </View>
@@ -174,7 +170,7 @@ export default class EventDetail extends Component {
       ) : null,
       expensesInclude = (event.expenses.include && event.expenses.include.length > 0) ? (
         <View style={styles.detail.section}>
-          <Text style={styles.detail.h3}>{Lang.ExpensesInclude}</Text>
+          <TextView class='h3' text={Lang.ExpensesInclude} />
           <View style={styles.detail.list}>
             <OrderedList content={event.expenses.include} />
           </View>
@@ -182,7 +178,7 @@ export default class EventDetail extends Component {
       ) : null,
       expensesExclude = (event.expenses.exclude && event.expenses.exclude.length > 0) ? (
         <View style={styles.detail.section}>
-          <Text style={styles.detail.h3}>{Lang.ExpensesExclude}</Text>
+          <TextView class='h3' text={Lang.ExpensesExclude} />
           <View style={styles.detail.list}>
             <OrderedList content={event.expenses.exclude} />
           </View>
@@ -190,13 +186,13 @@ export default class EventDetail extends Component {
       ) : null,
       eventDestination = (event.destination && event.destination.length > 0) ? (
         <View ref="eventDestination" style={styles.detail.section}>
-          <Text style={styles.detail.h2}>{Lang.Destination}</Text>
+          <TextView class='h2' text={Lang.Destination} />
           <WebViewWrapper html={'<div>' + event.destination + '</div>'} />
         </View>
       ) : null,
       eventGears = (event.gears.images && event.gears.images.length > 0) ? (
         <View ref="eventGears" style={styles.detail.section}>
-          <Text style={styles.detail.h2}>{Lang.GearsToBring}</Text>
+          <Header text={Lang.GearsToBring} />
           <View style={[styles.detail.content, {paddingLeft: 15}]}>
             <GearList list={event.gears.images} />
           </View>
@@ -205,15 +201,23 @@ export default class EventDetail extends Component {
       ) : null,
       otherGears = (event.gears.tags && event.gears.tags.length > 0) ? (
         <View style={styles.detail.subsection}>
-          <Text style={styles.detail.h3}>{Lang.OtherGears}</Text>
+          <TextView class='h3' text={Lang.OtherGears} />
           <View style={[styles.detail.content, {paddingLeft: 15}]}>
             <TagList tags={event.gears.tags} />
           </View>
         </View>
       ) : null,
+      gearNotes = (event.gears.notes && event.gears.notes.length > 0) ? (
+        <View style={styles.detail.subsection}>
+          <TextView class='h3' text={Lang.OtherGears} />
+          <View style={[styles.detail.content, {paddingLeft: 15}]}>
+            <OrderedList content={event.gears.notes} />
+          </View>
+        </View>
+      ) : null,
       eventNotes = (event.notes && event.notes.length > 0) ? (
         <View ref="eventNotes" style={styles.detail.section}>
-          <Text style={styles.detail.h2}>{Lang.EventNotes}</Text>
+          <Header text={Lang.EventNotes} />
           <WebViewWrapper html={event.notes} />
         </View>
       ) : null
@@ -225,66 +229,62 @@ export default class EventDetail extends Component {
           backgroundSource={{uri: AppSettings.assetUri + event.hero}}
           windowHeight={240}
           header={(
-            <Intro title={event.title} excerpt={event.excerpt} />
+            <Intro
+              align='bottom' 
+              title={event.title}
+              excerpt={event.excerpt}
+            />
           )}>
           <View>
             <View style={styles.detail.article}>
               <View ref="eventInfo" style={styles.detail.section}>
-                <Text style={styles.detail.h2}>{Lang.EventInfo}</Text>
+                <Header text={Lang.EventInfo} />
                 <View style={styles.detail.list}>
                   <ListItem icon={event.type}
                     label={Lang.EventTitle}
-                    text={event.title} />
+                    value={event.title}
+                  />
                   {eventGroups}
-                  {gatherTime}
+                  <ListItem icon="clock"
+                    label={Lang.GatherTime}
+                    value={gatherTime}
+                  />
                   <ListItem icon="pin"
                     label={Lang.GatherLocation}
-                    text={event.gatherLocation.name} />
-                  <UserLink user={event.creator} navigator={navigator} />
+                    value={event.gatherLocation.name}
+                  />
+                  <View style={{marginBottom: 20}}>
+                    <UserLink user={event.creator} navigator={navigator} />
+                  </View>
                   <ListItem icon="phone"
                     label={Lang.Contacts}
-                    contacts={event.contacts} />
+                    value={
+                      event.contacts.map(function(contact, index) {
+                        return (
+                          <SimpleContact key={index} label={contact.title} number={contact.mobileNumber} />
+                        )
+                      })
+                    }
+                  />
                   <ListItem icon="group"
                     label={Lang.AttendeeLimits}
-                    maxAttendee={event.minAttendee}
-                    minAttendee={event.maxAttendee} />
+                    value={event.minAttendee + '-' + event.maxAttendee + Lang.Persons}
+                  />
                 </View>
               </View>
               <View ref="eventSignUps" style={styles.detail.section}>
-                <Text style={styles.detail.h2}>{Lang.SignUps}</Text>
+                <Header text={Lang.SignUps} />
                 <View style={styles.detail.content}>
-                  <View style={styles.detail.row}>
-                    <View style={styles.detail.row}>
-                    </View>
-                    <TouchableOpacity style={styles.detail.user}>
-                      
-                    </TouchableOpacity>
-                  </View>
                 </View>
               </View>
               <View ref="eventSchedule" style={styles.detail.section}>
-                <Text style={styles.detail.h2}>{Lang.DetailSchedule}</Text>
+                <Header text={Lang.DetailSchedule} />
                 <View style={styles.detail.list}>
-                {
-                  event.schedule.map(function(day, i) {
-                    return (
-                      <View key={i}>
-                        <Text style={styles.detail.h4}>{Lang.DayCountPrefix + Lang.dayArray[i] + Lang.DayCountPostfix}</Text>
-                        {
-                          day.map(function(agenda, j) {
-                            return (
-                              <Agenda day={i} key={j} agenda={agenda} />
-                            )
-                          })
-                        }
-                      </View>
-                    )
-                  })
-                }
+                  <DayList schedule={event.schedule} />
                 </View>
               </View>
               <View ref="eventExpenses" style={styles.detail.section}>
-                <Text style={styles.detail.h2}>{Lang.EventExpenses}</Text>
+                <Header text={Lang.EventExpenses} />
                 {expensesDetail}
                 {expensesInclude}
                 {expensesExclude}
@@ -301,7 +301,31 @@ export default class EventDetail extends Component {
   }
 }
 
-//        <Sidebar offsetY={64} visible={true} selectedIndex={this.state.selectedSectionIndex} onPress={(value) => this.scrollTo(value)} />
+const SimpleContact = (props) => {
+  const number = props.number.toString(),
+  styles = StyleSheet.create({
+    wrapper: {
+      flexDirection: 'row',
+      marginBottom: 5
+    },
+    label: {
+      width: 100
+    }
+  })
+
+  return (
+    <View style={styles.wrapper}>
+      <View style={styles.label}>
+        <TextView fontSize='L' text={props.label} />
+      </View>
+      <TouchableOpacity onPress={() => Communications.phonecall({number}, true)}>
+        <TextView fontSize='L' textColor={Graphics.textColors.mobileNumber} text={number} />
+      </TouchableOpacity>
+    </View>
+  )
+}
+/*
+<Sidebar offsetY={64} visible={true} selectedIndex={this.state.selectedSectionIndex} onPress={(value) => this.scrollTo(value)} />
 
 const Sidebar = (props) => {
   if (!props.visible) {
@@ -366,43 +390,4 @@ const Tab = (props) => {
     </TouchableOpacity>
   )
 }
-
-const ListItem = (props) => {
-  var content = null
-
-  if (props.contacts !== undefined) {
-    content = (
-      <View style={{flexDirection: 'column', marginVertical: 5}}>
-        {
-          props.contacts.map(function(contact, index) {
-            const number = contact.mobileNumber
-
-            return (
-              <View key={index} style={{flexDirection:'row', marginBottom: 5}}>
-                <Text style={[styles.global.title, {marginTop: 5, marginRight: 20}]}>{contact.title}</Text>
-                <TouchableOpacity onPress={() => Communications.phonecall({number}, true)}>
-                  <Text style={styles.global.title}>{contact.mobileNumber}</Text>
-                </TouchableOpacity>
-              </View>
-            )
-          })
-        }
-      </View>
-    )
-  } else if (props.minAttendee !== undefined && props.maxAttendee !== undefined) {
-    content = <Text style={styles.global.title}>{props.minAttendee} - {props.maxAttendee}{Lang.Persons}</Text>
-  } else {
-    content = <Text style={styles.global.title}>{props.text}</Text>
-  }
-
-  return (
-    <View style={styles.detail.row}>
-      <Icon type={props.icon} />
-      <View style={styles.detail.hgroup}>
-        <Text style={styles.global.pretitle}>{props.label}</Text>
-        {content}
-      </View>
-    </View>
-  )
-}
-
+*/

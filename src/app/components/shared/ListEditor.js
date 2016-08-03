@@ -79,10 +79,10 @@ class ListEditor extends Component {
   
   render() {
     return (
-      <View style={styles.listEditor}>
+      <View>
         <ListView
           enableEmptySections={true}
-          style={styles.list}
+          style={global.corner}
           scrollEnabled={true}
           dataSource={this.state.listRenderData}
           renderRow={this.renderRow}

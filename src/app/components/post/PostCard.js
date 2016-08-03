@@ -16,8 +16,9 @@ import {
 } from 'react-native'
 
 import Hero from '../shared/Hero'
-import UserLink from '../user/UserLink'
-import styles from '../../styles/main'
+import TinyStatus from '../shared/TinyStatus'
+import TinyUser from '../user/TinyUser'
+import global from '../../styles/global'
 
 const PostCard = (props) => {
   const data = props.data,
@@ -32,12 +33,21 @@ const PostCard = (props) => {
     }
 
   return (
-    <View style={styles.list.item}>
+    <View>
       <Hero 
         imageUri={data.hero} 
         title={data.title} 
         tags={data.tags}
-        topLeft={<UserLink user={data.creator} navigator={props.navigator} />} 
+        topLeft={
+          <View style={global.corner}>
+            <TinyUser user={data.creator} />
+          </View>
+        } 
+        topRight={
+          <View style={global.corner}>
+            <TinyStatus data={data} />
+          </View>
+        } 
         onPress={onPress}
       />
     </View>

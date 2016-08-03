@@ -103,7 +103,11 @@ const EditAccount = (props) => {
             <EditLink onPress={() => nextPage('pid')} label={Lang.PersonalId} value={user.pid} />
           </View>
         </ScrollView>
-        <CallToAction onPress={onLogoutPressed} label={Lang.Logout} />
+        <CallToAction
+          backgroundColor='red' 
+          label={Lang.Logout} 
+          onPress={onLogoutPressed} 
+        />
       </View>
     )
   } else {

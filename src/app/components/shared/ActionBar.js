@@ -1,4 +1,5 @@
 'use strict'
+import {Graphics} from '../../settings'
 
 import React, {
   Component,
@@ -14,39 +15,28 @@ import {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {AppSettings} from '../../settings'
 
 import Toolbar from '../shared/Toolbar'
+import CallToAction from '../shared/CallToAction'
 
 const ActionBar = (props) => {
   return (
-    <View style={styles.actionBar}>
-      <Toolbar type={props.type} data={props.data} showLabel={props.showLabel} />
-      <TouchableOpacity style={styles.actionButton} onPress={props.buttonEvent}>
-        <Text style={styles.actionText}>{props.buttonText}</Text>
-      </TouchableOpacity>
+    <View style={styles.wrapper}>
+      <View style={{flex:1}}>
+        <Toolbar type={props.type} data={props.data} />
+      </View>
+      <View style={{flex:1}}>
+        <CallToAction onPress={props.buttonEvent} label={props.buttonText} />
+      </View>
     </View>
   )
 },
 styles = StyleSheet.create({
-  actionBar: {
-    backgroundColor: '#fff',
-    flex: 0,
+  wrapper: {
+    backgroundColor: Graphics.actionBar.backgroundColor,
     flexDirection: 'row',
-    height: 60,
+    height: Graphics.actionBar.height,
     overflow: 'hidden',
-  },
-  actionButton: {
-    backgroundColor: AppSettings.color.primary,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  actionText: {
-    color: AppSettings.color.textOverlay,
-    fontSize: 14,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    paddingHorizontal: 60,
   }
 })
 

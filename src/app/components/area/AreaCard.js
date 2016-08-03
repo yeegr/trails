@@ -1,7 +1,6 @@
 'use strict'
 
 import {
-  AppSettings,
   Lang,
   Graphics
 } from '../../settings'
@@ -16,8 +15,9 @@ import {
 } from 'react-native'
 
 import Hero from '../shared/Hero'
-import Avatar from '../shared/Avatar'
-import styles from '../../styles/main'
+import TinyStatus from '../shared/TinyStatus'
+import {AvatarList} from '../shared/Avatar'
+import global from '../../styles/global'
 
 const AreaCard = (props) => {
   const {data} = props,
@@ -42,50 +42,28 @@ const AreaCard = (props) => {
     })
   }
 
-  /*
-  let leaders = null, fillers = []
-
-  if (data.leaders.length > 0) {
-    leaders = data.leaders.map(function(user, i){
-      return (
-        <View key={i} style={styles.global.grid}>
-          <Avatar user={user} side={Graphics.avatarSmall} navigator={this.props.navigator} />
-        </View>
-      )
-    })
-  }
-
-  if (data.leaders.length < AppSettings.maxLeadersPerArea) {
-    for (var i = 0, j = AppSettings.maxLeadersPerArea - data.leaders.length; i < j; i++) {
-      fillers.push(
-        <View key={i} style={styles.global.grid}>
-          <Avatar user={null} side={Graphics.avatarSmall} onPress={showInfoBoard} />
-        </View>
-      )
-    }
-  }
-  */
-
   return (
-    <View style={styles.list.item}>
+    <View>
       <Hero 
         imageUri={data.hero} 
         title={Lang.cities[data.city] + ' ' + data.name} 
+        excerpt={data.excerpt}
         tags={tags}
-        excerpt={null}
+        topRight={
+          <View style={global.corner}>
+            <TinyStatus data={data} />
+          </View>
+        } 
+        bottomLeft={
+          <View style={global.corner}>
+            <AvatarList users={data.leaders} />
+          </View>
+        } 
         onPress={onPress}
       />
     </View>
   )
 }
-/*
-      <View style={styles.list.itemFooter}>
-        <View style={styles.global.flex}>
-        {leaders}
-        {fillers}
-        </View>
-      </View>
-*/
 
 AreaCard.propTypes = {
   data: PropTypes.object.isRequired,

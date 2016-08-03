@@ -1,10 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -12,7 +7,6 @@ import React, {
 
 import {
   StyleSheet,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -24,7 +18,9 @@ import Svg, {
 import Moment from 'moment'
 
 import Icon from './Icon'
+import TextView from './TextView'
 import {formatMinutes,formatDuration} from '../../../common'
+import {Graphics} from '../../settings'
 
 const Agenda = (props) => {
   const agenda = props.agenda,
@@ -37,15 +33,17 @@ const Agenda = (props) => {
       <View style={styles.content}>
         <View style={styles.split}>
           <View style={{flex: 1}}>
-            <Text style={styles.pretitle}>{formatMinutes(agenda.startTime)}</Text>
-            <Text style={styles.title}>{agenda.startPoi.name}</Text>
+            <TextView class='h5' text={formatMinutes(agenda.startTime)} />
+            <TextView fontSize='L' text={agenda.startPoi.name} />
           </View>
-          <Svg width={16} height={16} style={{flex: 0, marginVertical: 16, marginHorizontal: 4}}>
-            <Path scale={0.33333} fill={AppSettings.color.primary} d={Graphics.glyph.next} />
-          </Svg>
+          <View style={{flex: 0, marginVertical: 16, marginHorizontal: 10}}>
+            <Svg width={16} height={16}>
+              <Path scale={0.33333} fill={Graphics.colors.primary} d={Graphics.glyph.next} />
+            </Svg>
+          </View>
           <View style={{flex: 1}}>
-            <Text style={[styles.pretitle, {textAlign: 'right'}]}>{formatMinutes(agenda.endTime)}</Text>
-            <Text style={[styles.title, {textAlign: 'right'}]}>{agenda.endPoi.name}</Text>
+            <TextView class='h5' style={{textAlign: 'right'}} text={formatMinutes(agenda.endTime)} />
+            <TextView fontSize='L' style={{textAlign: 'right'}} text={agenda.endPoi.name} />
           </View>
         </View>
       </View>
@@ -56,21 +54,21 @@ const Agenda = (props) => {
         <View>
           <View style={styles.split}>
             <View style={{flex: 1}}>
-              <Text style={styles.pretitle}>{formatMinutes(agenda.startTime)}</Text>
+              <TextView class='h5' text={formatMinutes(agenda.startTime)} />
             </View>
             <View style={{flex: 1}}>
-              <Text style={[styles.pretitle, {textAlign: 'right'}]}>{formatDuration(agenda.duration * 60)}</Text>
+              <TextView class='h5' style={{textAlign: 'right'}} text={formatDuration(agenda.duration * 60)} />
             </View>
           </View>
         </View>
-        <Text style={styles.title}>{agenda.startPoi.name}</Text>
+        <TextView fontSize='L' text={agenda.startPoi.name} />
       </View>
     )
   }
 
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <View style={styles.row}>
+      <View style={styles.wrapper}>
         <Icon type={type} />
         {view}
       </View>
@@ -79,29 +77,23 @@ const Agenda = (props) => {
 },
 
 styles = StyleSheet.create({
-  row: {
-    flex: 1,
+  wrapper: {
     flexDirection: 'row',
-    paddingVertical: 10,
+    marginBottom: 10,
   },
   content: {
     flex: 1,
-    marginLeft: 8
+    marginLeft: 10,
+    marginTop: 5
   },
   split: {
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'nowrap',
   },
-  pretitle: {
-    color: AppSettings.color.midGray,
-    fontSize: 12,
-    marginTop: 4,
-  },
-  title: {
-    fontSize: 14,
-    marginTop: 4,
-  },
+  label: {
+    marginBottom: 5
+  }
 })
 
 Agenda.propTypes = {

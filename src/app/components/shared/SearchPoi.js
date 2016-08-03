@@ -110,7 +110,7 @@ export default class SearchPoi extends Component {
     return (
       <TouchableOpacity onPress={() => this.selectPoi(rowData, rowId)}>
         <View key={rowId} style={[styles.searchResult, (this.state.selectedIndex === rowId) ? styles.selectedItem : null]}>
-          <View style={styles.list}>
+          <View style={global.corner}>
             <Text style={[styles.title, styles.index]}>{(parseInt(rowId) + 1).toString()}.</Text>
           </View>
           <View>

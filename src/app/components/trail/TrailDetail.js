@@ -39,7 +39,7 @@ import TrailMap from './TrailMap'
 import TrailChart from './TrailChart'
 import ActionBar from '../shared/ActionBar'
 import Header from '../shared/Header'
-import Toolbar from '../shared/Toolbar'
+import TextView from '../shared/TextView'
 import UserLink from '../user/UserLink'
 import {GalleryPreview} from '../shared/Gallery'
 import {CommentsPreview} from '../shared/CommentList'
@@ -68,7 +68,7 @@ class TrailDetail extends Component {
 
     let creator = this.props.user,
       commentPreview = null,
-      actionBar = null      
+      actionBar = null
 
     if (!this.props.preview) {
       let creator = trail.creator,
@@ -76,9 +76,13 @@ class TrailDetail extends Component {
         actionBar = <ActionBar type={ACTION_TARGETS.TRAIL} data={trail} showLabel={true} buttonText={Lang.DownloadTrail} buttonEvent={null} />
     }
 
+    let galleryPreview = (trail.photos.length > 0) ? (
+      <GalleryPreview navigator={navigator} gallery={trail.photos} />
+    ) : null
+
     return (
       <View style={styles.detail.wrapper}>
-        <ScrollView style={{paddingTop: 60}}>
+        <ScrollView style={{paddingTop: 44}}>
           <View style={styles.detail.article}>
             <View style={styles.detail.section}>
               <TrailInfo type={trail.type} title={trail.title} date={trail.date}/>
@@ -99,9 +103,9 @@ class TrailDetail extends Component {
             </View>
             <View style={styles.detail.section}>
               <Header text={Lang.Description} />
-              <Text style={{marginHorizontal: 15}}>{(trail.description.length < 1) ? Lang.NoDescription : trail.description}</Text>
+              <TextView style={{marginHorizontal: 15}} text={(trail.description.length < 1) ? Lang.NoDescription : trail.description} />
             </View>
-            <GalleryPreview navigator={navigator} gallery={trail.photos} />
+            {galleryPreview}
             {commentPreview}
           </View>
         </ScrollView>

@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -13,62 +7,64 @@ import React, {
 
 import {
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
 } from 'react-native'
 
 import Svg, {
-  Path,
-  Rect,
-  Circle
+  Path
 } from 'react-native-svg'
 
+import TextView from './TextView'
+import {Graphics} from '../../settings'
+
 const Icon = (props) => {
-  let label = (props.label) ? (<Text style={styles.iconLabel}>{props.label}</Text>) : null,
-    value = (props.value) ? (<Text style={styles.iconValue}>{props.value}</Text>) : null,
+  let label = (props.label) ? (
+      <TextView 
+        fontSize='XS'
+        textColor={Graphics.icon.labelColor}
+        style={{marginTop: 5}}
+        text={props.label}
+      />
+    ) : null,
+    value = (props.value) ? (
+      <TextView 
+        fontSize='XS'
+        textColor={Graphics.icon.valueColor}
+        style={{marginTop: 2}}
+        text={props.value.toString()}
+      />
+    ) : null,
     backgroundColor = (props.backgroundColor) ? {backgroundColor: props.backgroundColor} : null,
-    fill = (props.fillColor) ? props.fillColor : AppSettings.color.iconOverlay,
+    fillColor = (props.fillColor) ? props.fillColor : Graphics.icon.overlayColor,
     path = (props.type || props.type === 0) ? Graphics.glyph[props.type.toString()] : (props.pictogram ? props.pictogram : null),
-    length = Graphics.iconSide * Graphics.iconScale
+    sideLength = Graphics.icon.sideLength * Graphics.icon.scale
 
   return (
-    <View style={styles.icon}>
-      <View style={[styles.iconCircle, backgroundColor]}>
-        <Svg width={length} height={length}>
-          <Path scale={Graphics.iconScale} fill={fill} d={path} />
+    <View style={styles.wrapper}>
+      <View style={[styles.circle, backgroundColor]}>
+        <Svg width={sideLength} height={sideLength}>
+          <Path scale={Graphics.icon.scale} fill={fillColor} d={path} />
         </Svg>
       </View>
       {label}
       {value}
     </View>
   )  
-}
-
-const styles = StyleSheet.create({
-  icon: {
+},
+styles = StyleSheet.create({
+  wrapper: {
     alignItems: 'center',
     flexDirection: 'column',
     marginBottom: 10,
   },
-  iconCircle: {
+  circle: {
     alignItems: 'center',
-    backgroundColor: AppSettings.color.primary,
-    borderRadius: Graphics.iconSide / 2,
-    height: Graphics.iconSide,
+    backgroundColor: Graphics.colors.primary,
+    borderRadius: Graphics.icon.sideLength / 2,
+    height: Graphics.icon.sideLength,
     justifyContent: 'center',
     overflow: 'hidden',
-    width: Graphics.iconSide,
-  },
-  iconLabel: {
-    color: AppSettings.color.darkGray,
-    fontSize: 10,
-    marginTop: 5,
-  },
-  iconValue: {
-    color: AppSettings.color.foreground,
-    fontSize: 10,
-    marginTop: 2,
+    width: Graphics.icon.sideLength,
   }
 })
 

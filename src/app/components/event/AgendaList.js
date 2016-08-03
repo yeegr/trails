@@ -27,6 +27,7 @@ import * as newEventActions from '../../containers/actions/newEventActions'
 
 import Loading from '../shared/Loading'
 import Agenda from '../shared/Agenda'
+import DayList from '../shared/DayList'
 import CallToAction from '../shared/CallToAction'
 import {isNumeric} from '../../../common'
 import styles from '../../styles/main'
@@ -137,13 +138,9 @@ class AgendaList extends Component {
             </View>
           </View>          
           <View style={styles.editor.group}>
-            {
-              this.state.schedule.map((day, index) => {
-                return (
-                  <DayList key={index} day={day} index={index} itemPressed={this.editAgenda} />
-                )
-              })
-            }
+            <View style={styles.detail.list}>
+              <DayList schedule={this.state.schedule} itemPressed={this.editAgenda} />
+            </View>
           </View>
         </ScrollView>
         <CallToAction onPress={this.addAgenda} label={Lang.Add + Lang.Agenda} backgroundColor={AppSettings.color.primary} />
@@ -151,7 +148,7 @@ class AgendaList extends Component {
     )
   }
 }
-
+/*
 const DayList = (props) => {
   const day = props.day,
     dayIndex = props.index
@@ -162,7 +159,7 @@ const DayList = (props) => {
 
   return (
     <View style={styles.detail.list}>
-      <Text style={styles.global.pretitle}>{Lang.DayCountPrefix + Lang.dayArray[dayIndex] + Lang.DayCountPostfix}</Text>
+      <Text>{Lang.DayCountPrefix + Lang.dayArray[dayIndex] + Lang.DayCountPostfix}</Text>
       <View>
       {
         day.map(function(agenda, i) {
@@ -175,7 +172,7 @@ const DayList = (props) => {
     </View>
   )
 }
-
+*/
 function mapStateToProps(state, ownProps) {
   return {
     isEditing: state.newEvent.isEditing,

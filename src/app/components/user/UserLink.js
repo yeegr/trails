@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Graphics,
-  Lang
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -18,9 +12,13 @@ import {
   View
 } from 'react-native'
 
-import global from '../../styles/global'
 import Avatar from '../shared/Avatar'
-import Next from '../shared/Next'
+import TextView from '../shared/TextView'
+
+import {
+  Graphics,
+  Lang
+} from '../../settings'
 
 const UserLink = (props) => {
   const onPress = () => {
@@ -31,56 +29,35 @@ const UserLink = (props) => {
         id: props.user.id
       }
     })
-  },
-  next = (props.showArrow) ? (
-    <View style={styles.nextArrow}>
-      <Next fill={AppSettings.color.darkGray} fill={AppSettings.color.midGray} />
-    </View>
-  ) : null
+  }
 
   return (
-    <TouchableOpacity style={global.flex} onPress={onPress}>
-      <View style={styles.userLink}>
-        <View style={styles.userAvatar}>
-          <Avatar user={props.user} onPress={null} />
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.wrapper}>
+        <Avatar user={props.user} />
+        <View style={styles.content}>
+          <TextView class='h4' text={Lang.userLevelArray[parseInt(props.user.level)]} />
+          <TextView fontSize='L' text={props.user.handle} />
         </View>
-        <View>
-          <Text style={[global.pretitle, {color: AppSettings.color.gold}]}>
-            {Lang.userLevelArray[parseInt(props.user.level)]}
-          </Text>
-          <Text style={global.title}>{props.user.handle}</Text>
-        </View>
-        <View style={styles.misc}>
-        </View>
-        {next}
       </View>
     </TouchableOpacity>
   )
-}
+},
+styles = StyleSheet.create({
+  wrapper: {
+    flexDirection: 'row'
+  },
+  content: {
+    flex: 1,
+    marginBottom: 5,
+    marginLeft: 10,
+    paddingVertical: 5,
+  }
+})
 
 UserLink.propTypes = {
   user: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
-  showArrow: PropTypes.bool
+  navigator: PropTypes.object.isRequired
 }
-
-const styles = StyleSheet.create({
-    userLink: {
-      alignItems: 'flex-start',
-      flex: 1,
-      flexDirection: 'row',
-    },
-    userAvatar: {
-      marginRight: 10
-    },
-    misc: {
-      flex: 1,
-    },
-    nextArrow: {
-      marginTop: 18,
-      marginLeft: 10
-    }
-  }
-)
 
 export default UserLink

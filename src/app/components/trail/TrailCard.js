@@ -12,16 +12,17 @@ import React, {
 } from 'react'
 
 import {
+  StyleSheet,
   TouchableOpacity,
   View
 } from 'react-native'
 
-import styles from '../../styles/main'
 import TrailInfo from './TrailInfo'
 import TrailData from './TrailData'
 import TrailMap from './TrailMap'
 import Toolbar from '../shared/Toolbar'
 import UserLink from '../user/UserLink'
+import global from '../../styles/global'
 
 const TrailCard = (props) => {
   const {trail, navigator} = props,
@@ -36,7 +37,7 @@ const TrailCard = (props) => {
     }
 
   return (
-    <View style={[styles.list.item, styles.list.card]}>
+    <View style={styles.wrapper}>
       <TouchableOpacity onPress={() => gotoDetailPage()}>
         <TrailInfo type={trail.type} title={trail.title} date={trail.date}/>
       </TouchableOpacity>
@@ -47,15 +48,30 @@ const TrailCard = (props) => {
         maximumAltitude={trail.maximumAltitude}
         averageSpeed={trail.averageSpeed}
       />
-      <View style={styles.global.map}>
+      <View style={global.map}>
         <TrailMap points={trail.points} />
       </View>
-      <View style={styles.list.itemFooter}>
+      <View style={styles.footer}>
         <UserLink user={trail.creator} navigator={navigator} />
       </View>
     </View>
   )
-}
+},
+styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: Graphics.card.backgroundColor,
+    borderRadius: 4,
+    flex: 1,
+    marginBottom: 20,
+    marginHorizontal: 10,
+    overflow: 'hidden',
+  },
+  footer: {
+    flex: 1,
+    paddingHorizontal: 15,
+    marginVertical: 10,
+  }
+})
 
 TrailCard.propTypes = {
   trail: PropTypes.object.isRequired,

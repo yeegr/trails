@@ -53,15 +53,17 @@ export const TagList = (props) => {
 */
 
 export const TagList = (props) => {
-  let txt = '# '
+  if (props.tags.length > 0) {
+    let txt = '# '
 
-  props.tags.map(function(tag) {
-    txt += tag + ' '
-  })
+    props.tags.map(function(tag) {
+      txt += tag + ' '
+    })
 
-  return (
-    <Text style={styles.tagLabel}>{txt}</Text>
-  )
+    return <Text style={styles.tagLabel}>{txt}</Text>
+  } else {
+    return null
+  }
 }
 
 TagList.propTypes = {

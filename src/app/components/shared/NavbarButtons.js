@@ -1,9 +1,5 @@
 'use strict'
 
-import {
-  AppSettings
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -17,11 +13,14 @@ import {
   View
 } from 'react-native'
 
+import TextView from './TextView'
+import {Graphics} from '../../settings'
+
 export const NavbarIconButton = (props) => {
   let label = null
 
   if (props.showLabel === true) {
-    label = <Text style={styles.buttonText}>{props.label}</Text>
+    label = <TextView styles={{fontWeight: '500'}} fontSize='XL' textColor={Graphics.textColors.overlay} text={props.label} />
   }
 
   return (
@@ -34,41 +33,44 @@ export const NavbarIconButton = (props) => {
   )
 }
 
+export const NavbarTextButton = (props) => {
+  return (
+    <TouchableOpacity onPress={props.onPress}>
+      <View style={styles.button}>
+        <TextView styles={{fontWeight: '500'}} fontSize='XL' textColor={Graphics.textColors.overlay} text={props.label} />
+      </View>
+    </TouchableOpacity>
+  )
+}
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    paddingBottom: 9,
+    paddingTop: 7,
+  },
+  buttonIcon: {
+    height: 20,
+    width: 20,
+    tintColor: Graphics.textColors.overlay,
+  },
+  buttonText: {
+    color: Graphics.textColors.overlay,
+    fontSize: 17,
+    marginVertical: 1
+  },
+})
+
+
 NavbarIconButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   icon: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   showLabel: PropTypes.bool.isRequired
 }
-
-export const NavbarTextButton = (props) => {
-  return (
-    <TouchableOpacity onPress={props.onPress}>
-      <View style={styles.button}>
-        <Text style={styles.buttonText}>{props.label}</Text>
-      </View>
-    </TouchableOpacity>
-  )
-}
-
 NavbarTextButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired
 }
-
-const styles = StyleSheet.create({
-  button: {
-    flexDirection: 'row',
-    padding: 10,
-  },
-  buttonIcon: {
-    height: 20,
-    width: 20,
-    tintColor: AppSettings.color.textOverlay,
-  },
-  buttonText: {
-    color: AppSettings.color.textOverlay,
-    fontSize: 17,
-    marginVertical: 1
-  },
-})

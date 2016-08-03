@@ -19,15 +19,17 @@ import {
   View
 } from 'react-native'
 
+import ParallaxView from 'react-native-parallax-view'
+
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as loginActions from '../../containers/actions/loginActions'
 
-import ParallaxView from 'react-native-parallax-view'
-import styles from '../../styles/main'
 import Loading from '../shared/Loading'
-import Tag from '../shared/Tag'
+import Avatar from '../shared/Avatar'
+import TagList from '../shared/TagList'
 import EditLink from '../shared/EditLink'
+import styles from '../../styles/main'
 
 const UserInfo = (props) => {
   const user = props.user,
@@ -88,22 +90,12 @@ const UserInfo = (props) => {
       scrollableViewStyle={{backgroundColor: AppSettings.color.background}}
       header={(
         <View style={styles.user.hero}>
-          <View style={styles.user.heroItem}>
-            <View style={styles.user.avatarRing}>
-              <Image
-                style={styles.user.avatar}
-                source={{uri: AppSettings.assetUri + 'users/' + user.avatar}}
-              />
-            </View>
-          </View>
-          <View style={styles.user.heroItem}>
-            <Text style={styles.user.userHandle}>{user.handle}</Text>
-          </View>
-          <View style={styles.user.userTags}>
-            <Tag label="10年" bgColor="#f90" />
-          </View>
+          <Avatar user={user} size='XL' borderWidth={6} />
+          <Text style={styles.user.userHandle}>{user.handle}</Text>
+          <TagList tags={user.tags} />
         </View>
       )}>
+      <View style={styles.editor.group}></View>
       <View style={styles.editor.group}>
         <EditLink onPress={() => nextPage('orders')} label={Lang.MyOrders} />
       </View>

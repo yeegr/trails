@@ -37,10 +37,15 @@ import styles from '../../styles/main'
 class PostDetail extends Component {
   constructor(props) {
     super(props)
+    this.comment = this.comment.bind(this)
   }
 
   componentWillMount() {
     this.props.postsActions.getPost(this.props.id)
+  }
+
+  comment() {
+
   }
 
   render() {
@@ -54,10 +59,15 @@ class PostDetail extends Component {
       <View style={styles.detail.wrapper}>
         <ParallaxView style={styles.detail.wrapper}
           backgroundSource={{uri: AppSettings.assetUri + post.hero}}
-          windowHeight={320}
+          windowHeight={Graphics.heroImage.height}
           scrollableViewStyle={{backgroundColor: AppSettings.color.background}}
           header={(
-            <Intro title={post.title} />
+            <Intro
+              align='bottom' 
+              title={post.title} 
+              excerpt={post.excerpt} 
+              tags={post.tags}
+            />
           )}>
           <View style={styles.detail.article}>
             <View>
@@ -70,7 +80,7 @@ class PostDetail extends Component {
             </View>
           </View>
         </ParallaxView>
-        <ActionBar type={ACTION_TARGETS.POST} data={post} showLabel={true} buttonText={Lang.AddComment} buttonEvent={null} />
+        <ActionBar type={ACTION_TARGETS.POST} data={post} showLabel={true} buttonText={Lang.AddComment} buttonEvent={this.comment} />
       </View>
     )
   }

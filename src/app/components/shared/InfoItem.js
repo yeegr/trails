@@ -11,10 +11,11 @@ import React, {
 } from 'react'
 
 import {
-  Text,
+  StyleSheet,
   View
 } from 'react-native'
 
+import TextView from './TextView'
 import styles from '../../styles/main'
 
 const InfoItem = (props) => {
@@ -22,9 +23,13 @@ const InfoItem = (props) => {
     colon = (props.noColon) ? '' : '：'
 
   return (
-    <View style={styles.detail.textRow}>
-      <Text style={styles.detail.label}>{props.label + colon}</Text>
-      <Text style={[styles.detail.value, align]}>{props.value}</Text>
+    <View style={styles.detail.infoRow}>
+      <View style={styles.detail.label}>
+        <TextView text={props.label + colon} />
+      </View>
+      <View style={styles.detail.value}>
+        <TextView text={props.value} />
+      </View>
     </View>
   )
 }

@@ -7,12 +7,6 @@
     "apiUri":"http://localhost:3000/",
     "assetUri":"http://localhost:8000/",
     "amapKey":"cc81643ef299be79cc3b6aad2a1ac212",
-    "titleBar":{
-      "height":44
-    },
-    "heroImage":{
-      "height":240
-    },
     "maxLeadersPerArea":3,
     "maxTrailPreviewsPerArea":3,
     "maxPhotoPreviewsPerGallery":4,
@@ -31,26 +25,21 @@
     "maxEventAttendees":50,
     "textStyles":{
       "extralSmall":{
-        "fontSize":10,
-        "lineHeight":14
+        "fontSize":10
       },
       "small":{
-        "fontSize":12,
-        "lineHeight":16
+        "fontSize":12
       },
       "normal":{
-        "fontSize":14,
-        "lineHeight":22
+        "fontSize":14
       },
       "large":{
-        "fontSize":16,
-        "lineHeight":24
+        "fontSize":16
       },
       "extraLarge":{
         "fontSize":18
       },
       "xxxLarge":{
-        "fontFamily":"HelveticaNeue-Light",
         "fontSize":24
       }
     },
@@ -82,7 +71,8 @@
       "errorText":"rgba(255, 0, 0, 0.8)",
       "disabledButtonBackground":"#666",
       "listItemBackground":"#ffffff",
-      "inputBackground":"#ffffff"
+      "inputBackground":"#ffffff",
+      "avatarBorderColor":"rgba(255, 255, 255, .5)"
     }
   },
   "lang":{
@@ -686,6 +676,100 @@
     }
   },
   "graphics": {
+    "colors":{
+      "primary":"#00A652",
+      "background":"#ebebeb",
+      "foreground":"#000000",
+      "callToAction":"#ff0000",
+      "cardBackground":"#ffffff",
+      "listBackground":"#ffffff",
+      "tagBackground":"#05A2E7",
+      "textOverlay":"#ffffff",
+      "iconOverlay":"#ffffff",
+      "darkGray":"#696969",
+      "midGray":"#808080",
+      "lightGray":"#d3d3d3",
+      "star":"#f90",
+      "placeholderText":"rgba(0, 0, 0, 0.5)",
+      "errorText":"rgba(255, 0, 0, 0.8)",
+      "disabledButtonBackground":"#666",
+      "listItemBackground":"#ffffff",
+      "inputBackground":"#ffffff",
+      "avatarBorderColor":"rgba(255, 255, 255, .5)"
+    },
+    "app":{
+      "backgroundColor":"#ffffff",
+      "foregroundColor":"#000000"
+    },
+    "titleBar":{
+      "height":44
+    },
+    "heroImage":{
+      "height":240
+    },
+    "fontStyles":{
+      "default":"HelveticaNeue-Light"
+    },
+    "fontSizes":{
+      "default":14,
+      "XS":10,
+      "SML":12,
+      "M":14,
+      "L":16,
+      "XL":18,
+      "XXL":20,
+      "XXXL":24
+    },
+    "textColors":{
+      "default":"#000000",
+      "overlay":"#ffffff",
+      "disabled":"#808080",
+      "h1":"#000000",
+      "h2":"#696969",
+      "h3":"#808080",
+      "h4":"#808080",
+      "h5":"#808080",
+      "mobileNumber":"#05A2E7"
+    },
+    "actionBar":{
+      "backgroundColor":"#fff",
+      "height":60
+    },
+    "actionButton":{
+      "sideLength":32,
+      "iconScale":0.75,
+      "fillColor":"#808080",
+      "textColor":"#808080"
+    },
+    "statusBar":{
+      "sideLength":16,
+      "iconScale":0.5,
+      "fillColor":"#ffffff",
+      "textColor":"#ffffff"
+    },
+    "avatar":{
+      "backgroundColor":"#808080",
+      "borderColor":"rgba(255, 255, 255, .5)",
+      "default":48,
+      "SML":30,
+      "M":48,
+      "L":70,
+      "XL":100
+    },
+    "gear":{
+      "sideLength":60
+    },
+    "actionSheet":{
+      "maskColor":"rgba(0, 0, 0, .8)",
+      "backgroundColor":"#ffffff"
+    },
+    "card":{
+      "backgroundColor":"#ffffff"
+    },
+    "form":{
+      "backgroundColor":"#ffffff",
+      "borderColor":"#d3d3d3"
+    },
     "iconSide":48,
     "avatarSmall":40,
     "iconScale":0.75,
@@ -792,6 +876,11 @@
       "dashboard": "M38.8,11.9c-8.2-8.2-21.5-8.2-29.7,0C1,20.1,1,33.4,9.1,41.6l0.6,0.6h28.5l0.6-0.6c4-4,6.2-9.2,6.2-14.9 S42.8,15.9,38.8,11.9z M36.6,38.2H11.4c-2.6-2.8-4-6.3-4.3-9.9H11v-3H7.1c0.3-3.4,1.6-6.7,3.9-9.4l2.8,2.8l2.1-2.1l-2.8-2.8 c2.7-2.3,6-3.6,9.4-3.9v3.9h3V9.9c3.4,0.3,6.7,1.6,9.4,3.9l-2.8,2.8l2.1,2.1l2.8-2.8c2.2,2.7,3.6,5.9,3.9,9.4H37v3h3.9 C40.6,32,39.1,35.4,36.6,38.2z M32.1,20.8L26.9,26c0.3,1,0,2.1-0.8,2.9c-1.2,1.2-3.1,1.2-4.2,0c-1.2-1.2-1.2-3.1,0-4.2 c0.8-0.8,1.9-1,2.9-0.8l5.2-5.2L32.1,20.8z"
     },
     "icon": {
+      "sideLength":48,
+      "scale":0.75,
+      "overlayColor":"#ffffff",
+      "labelColor":"#363636",
+      "valueColor":"#000000",
       "prev": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAAmUlEQVRoge3asQqDMBRG4WMH0YdtX85BfDl1MdChXVJpfuV8kDXcQ6bABemb4TiX1gMTsABj41mqDcAMbMeZgUfTiSqUlygRK/BsOlEFI1IYkcKIFEakMCKFESmMSGFECiNSREac9cnvTrrn7z69yqvpRD8wJpUxqYxJZUwqY1IZk8qYVMakMibVLRYGivcVjsvvo9xiqUbFDgc2q0bbxH9pAAAAAElFTkSuQmCC",
       "search": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAC6UlEQVRoge2ZzWsTQRiHn/hRjxVqPi4aabzVgwdBqdDcxOYmCEWw4smTH4cKQq213sR/QkF6KREaalV6ylk92rs9ajVGe6iJqfUw7zprOiS7O7NJCvvAMmE383vf3+7MZPYNJCTEQsqyfw4oAUVgDMgDw3LtB7ABrANV4DXw2TKec4rACtACdgMev6XPRB/y3UMBeINOrgFUgFvAOSADHJYjA5wHbqMMNHz9VoHRHuf+j2lgSxL5BjwERkL0HwHmgZpo1IFJxzl2ZQF9NxeBtIVWBlgSrRYwY5tcUBbQY/ymI80UMAvsiHbsZqbRJi7HoD+FMtMixmFWQM8JV0/CxAP0nMnHEcBbnRbjEPeRAsoS64Vr8SJ6dbKZ2EE5AWyjhtkZl8IrKCNzLkW78FRiLrsSzKEmd4NwvxO2pIGmxM6E7XzAcK4EHALeooZWr9gE1iR2KWxnk5GitGsWSUXFi1ns+C0DJiOnpf0QOZ3oeDHHXIh9RU26XqxW7WQl9hcXYt4udciFWEiOSOxfYTuahta+xGRkS9phw7W4OSrtz7AdTUY2pC1ETic6p6T9FLajychHac9GzcYCL+Z62I4mI1VpL0bNxgIvZrXTl4KSRW9RjrkQDIi3RWnicOn3No3zrgQD8FhiVlyKTohojQgbuAjkUC9Wu8C4a/FVEV7CvpDXCf+LldOn4TGKvkuzcQQQ5iTGd+BkXEFKqMLADqpQ4Jqr6OLDpRj0/+Me6o79AZ7gZpilgPvoclANuOZAtysz6DpvGThuoZUDXqILdHXf556YmfQF3Ua9Y4dZ79OoJdbTqKOq8+2F7jiG8B7yqJKNNySawCvgDmrZzKK2/0PyeRy4i1oBm76EK6iJfUWS95vp2ZMBVbJZNiTR6WiKgQttWn03A+rH8gbwHHiPKiA05NgE3gHPgOt0HoYDYcYViZlBJTEzqCRmBpVAZvZDXauMSrrlO3eQPv69bYv/yTzqcy7WTNHbOkJCwl86QPyVIIkRuwAAAABJRU5ErkJggg==",
       "add": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAAWklEQVRoge3XsQ2AMAwAwcD+O0NPA02sF7obwMkrjbMWALCOzfOvqfPOXYOnCakRUiOkRkiNkBohNV+30ecWO+31nr95ESE1fog1QmqE1AipEVIjpEYIABB0A2/0Az6X8bpXAAAAAElFTkSuQmCC",

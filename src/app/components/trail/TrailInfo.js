@@ -12,27 +12,38 @@ import React, {
 } from 'react'
 
 import {
-  View,
-  Text,
-  TouchableOpacity
+  StyleSheet,
+  View
 } from 'react-native'
 
-import {formatTime} from '../../../common'
-
 import Icon from '../shared/Icon'
-import styles from '../../styles/main'
+import TextView from '../shared/TextView'
+import {formatTime} from '../../../common'
 
 const TrailInfo = (props) => {
   return (
-    <View style={styles.list.itemHeader}>
+    <View style={styles.wrapper}>
       <Icon type={props.type.toString()} />
-      <View style={styles.detail.hgroup}>
-        <Text numberOfLines={2} style={styles.global.title}>{(props.title.length < 1) ? Lang.Unnamed : props.title}</Text>
-        <Text style={styles.global.subtitle}>{formatTime(props.date)}</Text>
+      <View style={styles.content}>
+        <TextView fontSize='L' text={(props.title.length < 1) ? Lang.Unnamed : props.title} />
+        <TextView class='h5' text={formatTime(props.date)} />
       </View>
     </View>
   )
-}
+},
+styles = StyleSheet.create({
+  wrapper: {
+    flexDirection: 'row',
+    paddingBottom: 5,
+    paddingHorizontal: 15,
+    paddingTop: 15,
+  },
+  content: {
+    flex: 1,
+    marginLeft: 10,
+    marginTop: 5
+  }
+})
 
 TrailInfo.propTypes = {
   type: PropTypes.number.isRequired,

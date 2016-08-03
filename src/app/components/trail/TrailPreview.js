@@ -36,7 +36,7 @@ const TrailPreview = (props) => {
     }
 
   return (
-    <View style={styles.detail.main}>
+    <View>
       <View style={styles.detail.section}>
         <Header text={Lang.Trails} more={more} />
         <View style={styles.detail.content}>

@@ -20,9 +20,10 @@ import {
 
 import ParallaxView from 'react-native-parallax-view'
 
-import styles from '../../styles/main'
 import Loading from '../shared/Loading'
-import Tag from '../shared/Tag'
+import Avatar from '../shared/Avatar'
+import TagList from '../shared/Tag'
+import styles from '../../styles/main'
 
 export default class UserDetail extends Component {
   constructor(props) {
@@ -53,9 +54,7 @@ export default class UserDetail extends Component {
 
   render() {
     if (this.state.loading) {
-      return (
-        <Loading />
-      )
+      return <Loading />
     }
 
     const user = this.state.data,
@@ -68,25 +67,9 @@ export default class UserDetail extends Component {
         scrollableViewStyle={{backgroundColor: AppSettings.color.background}}
         header={(
           <View style={styles.user.hero}>
-            <View style={styles.user.heroItem}>
-              <View style={styles.user.avatarRing}>
-                <Image
-                  style={styles.user.avatar}
-                  source={{uri: AppSettings.assetUri + 'users/' + user.avatar}}
-                / >
-              </View>
-            </View>
-            <View style={styles.user.heroItem}>
-              <Text style={styles.user.userHandle}>{user.handle}</Text>
-            </View>
-            <View style={styles.user.userTags}>
-              <Tag label="10年" bgColor="#f90" />
-              {
-                user.tags.map(function(tag, i){
-                  return <Tag label={tag} key={i} />
-                })
-              }
-            </View>
+            <Avatar user={user} size='XL' borderWidth={6} />
+            <Text style={styles.user.userHandle}>{user.handle}</Text>
+            <TagList tags={user.tags} />
           </View>
         )}>
         <View>

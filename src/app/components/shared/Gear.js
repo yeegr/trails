@@ -1,10 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -13,79 +8,53 @@ import React, {
 import {
   Image,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
 } from 'react-native'
 
+import TextView from './TextView'
 import {hex2rgb} from '../../../common'
+import {
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
 
 const Gear = (props) => {
-  let selected = (props.selected) ? styles.gearSelected : null, 
-    gear = (
-      <Image style={styles.gear}
-        source={{uri: AppSettings.assetUri + 'gears/' + props.number + '.jpg'}}
-      >
-        <View style={[styles.gearCaption, selected]}>
-          <Text style={styles.gearLabel}>{Lang.gearArray[props.number]}</Text>
-        </View>
-      </Image>
-    )
+  let selected = (props.selected) ? styles.selected : null
 
-    return gear
-}
-
-Gear.propTypes = {
-  number: PropTypes.number.isRequired
-}
-
-export const GearList = (props) => {
   return (
-    <View style={styles.gearList}>
-    {
-      props.list.map(function(n, i) {
-        return (
-          <Gear key={i} number={n} />
-        )
-      })
-    }
-    </View>
+    <Image style={styles.wrapper}
+      source={{uri: AppSettings.assetUri + 'gears/' + props.number + '.jpg'}}
+    >
+      <View style={[styles.caption, selected]}>
+        <TextView fontSize='XS' textColor={Graphics.textColors.overlay} text={Lang.gearArray[props.number]} />
+      </View>
+    </Image>
   )
-}
-
-GearList.propTypes = {
-  list: PropTypes.array.isRequired
-}
-
-const styles = StyleSheet.create({
-  gear: {
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    overflow: 'hidden',
+},
+styles = StyleSheet.create({
+  wrapper: {
     borderRadius: 4,
+    flexDirection: 'column',
+    height: Graphics.gear.sideLength,
+    justifyContent: 'flex-end',
     marginRight: 10,
     marginBottom: 10,
-    height: 60,
-    width: 60,
+    overflow: 'hidden',
+    width: Graphics.gear.sideLength,
   },
-  gearCaption: {
+  caption: {
     backgroundColor: 'rgba(0, 0, 0, .5)',
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
-  gearSelected: {
-    backgroundColor: hex2rgb(AppSettings.color.primary, .5)
-  },
-  gearLabel: {
-    color: AppSettings.color.textOverlay,
-    fontSize: 10,
-  },
-  gearList: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
+  selected: {
+    backgroundColor: hex2rgb(Graphics.colors.primary, .5)
   }
 })
+
+Gear.propTypes = {
+  number: PropTypes.number.isRequired
+}
 
 export default Gear

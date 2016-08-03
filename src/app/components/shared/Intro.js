@@ -17,13 +17,18 @@ import {
   View
 } from 'react-native'
 
-import {TagList} from '../shared/Tag'
+import TextView from '../shared/TextView'
+import TagList from '../shared/TagList'
 
 const Intro = (props) => {
-  let align = (props.align === 'bottom') ? {paddingTop: AppSettings.titleBar.height} : null, 
+  let align = (props.align === 'bottom') ? {paddingTop: Graphics.titleBar.height, paddingBottom: 5} : null, 
     excerpt = (props.excerpt) ? (
       <View style={styles.section}>
-        <Text style={styles.excerpt}>{props.excerpt}</Text>
+        <TextView
+          style={{textAlign: 'center'}}
+          textColor={Graphics.textColors.overlay}
+          text={props.excerpt}
+        />
       </View>
     ) : null,
     tags = (props.tags) ? (
@@ -33,12 +38,12 @@ const Intro = (props) => {
     ) : null,
     bottomLeft = (props.bottomLeft) ? (
       <View style={[styles.corner, styles.cornerBottomLeft]}>
-        {props.topLeft}
+        {props.bottomLeft}
       </View>
     ) : null,
     bottomRight = (props.bottomRight) ? (
       <View style={[styles.corner, styles.cornerBottomRight]}>
-        {props.topRight}
+        {props.bottomRight}
       </View>
     ) : null,
     topLeft = (props.topLeft) ? (
@@ -55,11 +60,18 @@ const Intro = (props) => {
       <View style={styles.wrapper}>
         <View style={[styles.content, align]}>
           <View style={styles.section}>
-            <Text style={styles.title}>{props.title}</Text>
+            <TextView
+              fontSize='XXXL'
+              style={{textAlign: 'center'}}
+              textColor={Graphics.textColors.overlay}
+              text={props.title}
+            />
           </View>
           {excerpt}
           {tags}
         </View>
+        {bottomLeft}
+        {bottomRight}
         {topLeft}
         {topRight}
       </View>
@@ -71,48 +83,36 @@ styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, .5)',
-    height: AppSettings.heroImageHeight,
+    height: Graphics.heroImageHeight,
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
   },
   content: {
     alignItems: 'center',
-    padding: 15,
+    padding: 30,
   },
-  title: Object.assign({},
-    AppSettings.textStyles.xxxLarge,
-    {
-      color: AppSettings.color.textOverlay,
-    }),
-  excerpt: Object.assign({},
-    AppSettings.textStyles.large,
-    {
-      color: AppSettings.color.textOverlay,
-      marginVertical: 5
-    }),
   section: {
     marginTop: 5
   },
   corner: {
-    backgroundColor: 'white',
     position: 'absolute'
   },
   cornerBottomLeft: {
-    left: 15,
-    bottom: 15
+    left: 0,
+    bottom: 0
   },
   cornerBottomRight: {
-    right: 15,
-    bottom: 15
+    right: 0,
+    bottom: 0
   },
   cornerTopLeft: {
-    left: 15,
-    top: 15
+    left: 0,
+    top: 0
   },
   cornerTopRight: {
-    right: 15,
-    top: 15
+    right: 0,
+    top: 0
   }
 })
 

@@ -80,6 +80,8 @@ import EditUserPID from './mine/EditUserPID'
 import UserDetail from './user/UserDetail'
 import Gallery from './shared/Gallery'
 
+import TextView from './shared/TextView'
+
 import styles from '../styles/main'
 
 const NavigationBarRouteMapper = (tabId) => ({
@@ -164,9 +166,7 @@ const NavigationBarRouteMapper = (tabId) => ({
     var title = (index === 0) ? Lang[((tabId === HOME_TABS.AREAS) ? HOME_TABS.TRAILS : tabId)] : route.title
 
     return (
-      <Text style={styles.navbar.title}>
-        {title}
-      </Text>
+      <TextView style={{marginVertical: 5, fontWeight: '400'}} fontSize='XXL' textColor={Graphics.textColors.overlay} text={title} />
     )
   }
 })
@@ -265,7 +265,7 @@ class App extends Component {
       <View style={{flex: 1}}>
         <Navigator
           debugOverlay={false}
-          style={styles.global.wrapper}
+          style={{flex: 1}}
           initialRoute={{
             id: 'Home',
             type: 'Home',
@@ -554,7 +554,7 @@ class App extends Component {
           navigationBar={
             <Navigator.NavigationBar
               routeMapper={NavigationBarRouteMapper(this.props.selectedTab)}
-              style={styles.navbar.appearance}
+              style={styles.navbar.wrapper}
             />
           }
         />

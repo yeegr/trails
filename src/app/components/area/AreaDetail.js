@@ -61,7 +61,7 @@ class AreaDetail extends Component {
       <View style={styles.detail.wrapper}>
         <ParallaxView style={{flex: 1}}
           backgroundSource={{uri: AppSettings.assetUri + area.hero}}
-          windowHeight={AppSettings.heroImage.height}
+          windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
               align="bottom"

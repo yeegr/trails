@@ -1,7 +1,6 @@
 'use strict'
 
 import {
-  AppSettings,
   Lang,
   Graphics
 } from '../../settings'
@@ -12,10 +11,10 @@ import React, {
 } from 'react'
 
 import {
-  View,
-  TouchableOpacity,
+  StyleSheet,
   Text,
-  StyleSheet
+  TouchableOpacity,
+  View
 } from 'react-native'
 
 import Svg, {
@@ -27,6 +26,8 @@ import {connect} from 'react-redux'
 import {USER_ACTIONS} from '../../../constants'
 import * as loginActions from '../../containers/actions/loginActions'
 import * as toolbarActions from '../../containers/actions/toolbarActions'
+
+import TextView from './TextView'
 
 class Toolbar extends Component {
   constructor(props) {
@@ -42,7 +43,6 @@ class Toolbar extends Component {
         ref: this.props.data.id,
         creator: this.props.user.id
       }
-      console.log(JSON.stringify(requestBody))
       this.props.toolbarActions.send(requestBody);
     } else {
       this.props.loginActions.showLogin()
@@ -63,77 +63,101 @@ class Toolbar extends Component {
   }
 
   render() {
-    const showLabel = this.props.showLabel,
-      flex = (showLabel) ? {flex: 1} : null,
+    const showLabel = this.props.showLabel || false,
       data = this.props.toolbar
     
     return (
-      <View style={[styles.toolbar, flex]}>
-        <Button path={Graphics.button.like} onPress={() => this.act(USER_ACTIONS.LIKE)} showLabel={showLabel} label={data.likeCount.toString()} />
-        <Button path={Graphics.button.save} onPress={() => this.act(USER_ACTIONS.SAVE)} showLabel={showLabel} label={data.saveCount.toString()} />
-        <Button path={Graphics.button.share} onPress={() => this.act(USER_ACTIONS.SHARE)} showLabel={showLabel} label={data.shareCount.toString()} />
+      <View style={styles.toolbar}>
+        <Button 
+          path={Graphics.button.like}
+          showLabel={showLabel}
+          label={Lang.LIKE}  
+          value={data.likeCount}  
+          onPress={() => this.act(USER_ACTIONS.LIKE)}
+        />
+        <Button
+          path={Graphics.button.save}
+          showLabel={showLabel}
+          label={Lang.SAVE} 
+          value={data.saveCount} 
+          onPress={() => this.act(USER_ACTIONS.SAVE)}
+        />
+        <Button 
+          path={Graphics.button.share}
+          showLabel={showLabel}
+          label={Lang.SHARE}
+          value={data.shareCount}
+          onPress={() => this.act(USER_ACTIONS.SHARE)}
+        />
       </View>
     )
   }
 }
 
-Toolbar.propTypes = {
-  type: PropTypes.string.isRequired,
-  showLabel: PropTypes.bool.isRequired,
-  data: PropTypes.object.isRequired
-}
-
 const Button = (props) => {
-  let label = null,
-    scale = 1
-
-  if (props.showLabel) {
-    label = <Text style={styles.toolbarLabel}>{props.label.toString()}</Text>,
-    scale = 0.75
-  }
-
-  let sideLength = scale * Graphics.buttonSide
+  const actionButton = Graphics.actionButton,
+    iconScale = actionButton.iconScale,
+    sideLength = actionButton.sideLength * iconScale,
+    fillColor = props.fillColor || actionButton.fillColor,
+    textColor = props.textColor || actionButton.textColor,
+    label = (props.showLabel) ? (
+      <View style={{marginTop: 5}}>
+        <TextView
+          fontSize='XS'
+          fontWeight='bold'
+          textColor={textColor}
+          text={props.label}
+        />
+      </View>
+    ) : null
 
   return (
-    <TouchableOpacity style={styles.toolbarButton} onPress={props.onPress}>
-      <Svg width={sideLength} height={sideLength}>
-        <Path scale={scale} fill={AppSettings.color.midGray} d={props.path} />
-      </Svg>
-      {label}
+    <TouchableOpacity onPress={props.onPress}>
+      <View style={styles.button}>
+        <Svg width={sideLength} height={sideLength}>
+          <Path scale={iconScale} fill={fillColor} d={props.path} />
+        </Svg>
+        {label}
+        <Text style={[styles.value, {color: textColor}]}>{props.value.toString()}</Text>
+      </View>
     </TouchableOpacity>
   )
+},
+styles = StyleSheet.create({
+  toolbar: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: Graphics.actionBar.height,
+    justifyContent: 'space-around',
+    paddingHorizontal: 5
+  },
+  button: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginVertical: 5,
+    height: Graphics.actionButton.sideLength,
+    width: Graphics.actionButton.sideLength + 10
+  },
+  value: {
+    fontWeight: '500',
+    marginTop: 5,
+    textAlign: 'center',
+  },
+})
+
+Toolbar.propTypes = {
+  type: PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired,
+  showLabel: PropTypes.bool
 }
 
 Button.propTypes = {
   path: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
   label: PropTypes.string
 }
-
-const styles = StyleSheet.create({
-  toolbar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    height: 60,
-    width: Graphics.iconSide * 3,
-  },
-  toolbarButton: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 4,
-    paddingHorizontal: 5,
-    height: Graphics.buttonSide,
-    width: Graphics.buttonSide,
-  },
-  toolbarLabel: {
-    color: AppSettings.color.midGray,
-    fontWeight: '500',
-    marginTop: 4,
-    textAlign: 'center',
-  },
-})
 
 function mapStateToProps(state, ownProps) {
   return {

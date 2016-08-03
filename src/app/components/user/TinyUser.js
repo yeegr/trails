@@ -18,44 +18,37 @@ import {
 } from 'react-native'
 
 import Avatar from '../shared/Avatar'
+import TextView from '../shared/TextView'
 
 const TinyUser = (props) => {
   return (
-    <View style={styles.userLink}>
-      <Avatar user={props.user} onPress={null} />
-      <View>
-        <Text style={[global.pretitle, {color: AppSettings.color.gold}]}>
-          {Lang.userLevelArray[parseInt(props.user.level)]}
-        </Text>
-        <Text style={global.title}>{props.user.handle}</Text>
+    <View style={styles.wrapper}>
+      <View style={styles.avatar}>
+        <Avatar user={props.user} size='SML' />
       </View>
-      <View style={styles.misc}>
+      <View>
+        <Text style={styles.handle}>{props.user.handle}</Text>
       </View>
     </View>
   )
 },
 styles = StyleSheet.create({
-  userLink: {
-    alignItems: 'flex-start',
+  wrapper: {
+    alignItems: 'center',
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'flex-start'
   },
-  userAvatar: {
-    marginRight: 10
+  avatar: {
+    marginRight: 5
   },
-  misc: {
-    flex: 1,
-  },
-  nextArrow: {
-    marginTop: 18,
-    marginLeft: 10
+  handle: {
+    color: AppSettings.color.textOverlay
   }
 })
 
 TinyUser.propTypes = {
-  user: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
-  showArrow: PropTypes.bool
+  user: PropTypes.object.isRequired
 }
 
 export default TinyUser

@@ -28,12 +28,15 @@ import Svg, {
 import ParallaxView from 'react-native-parallax-view'
 import RadioForm from 'react-native-simple-radio-button'
 
+import Moment from 'moment'
+
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../containers/actions/eventsActions'
 
 import Intro from '../shared/Intro'
 import InfoItem from '../shared/InfoItem'
+import TextView from '../shared/TextView'
 import CallToAction from '../shared/CallToAction'
 import {formatTime, formatEndTime} from '../../../common'
 import styles from '../../styles/main'
@@ -143,9 +146,19 @@ class EventOrder extends Component {
   }
 
   render() {
+    this.props.event.groups.map((group)=>{
+      console.log(Moment(group))
+    })
+
     const event = this.props.event,
-      startDate = formatTime(event.gatherTime),
-      endDate = formatEndTime(event.gatherTime, event.schedule.length)
+      group = this.props.group || 0,      
+      startDate = Moment(event.groups[group]),
+      endDate = Moment(startDate).add(event.schedule.length, 'days'),
+      dates = (event.groups.length > 1) ? (
+        startDate.format('LL') + '-' + endDate.format('LL')
+      ) : (
+        startDate.format('LL')
+      )
 
       //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
       
@@ -156,12 +169,16 @@ class EventOrder extends Component {
           backgroundSource={{uri: AppSettings.assetUri + event.hero}}
           windowHeight={240}
           header={(
-            <Intro title={event.title} excerpt={event.excerpt} />
+            <Intro
+              align='bottom' 
+              title={event.title} 
+              excerpt={event.excerpt}
+            />
           )}>
           <View ref='scrollContent' style={{backgroundColor: AppSettings.color.background}}>
             <View style={styles.detail.section}>
-              <Text style={styles.detail.h2}>{Lang.EventInfo}</Text>
-              <InfoItem label={Lang.EventDates} value={startDate + '-' + endDate} />
+              <TextView class='h2' text={Lang.EventInfo} />
+              <InfoItem label={Lang.EventDates} value={dates} />
               <InfoItem label={Lang.PerHead} value={event.expenses.perHead.toString() + Lang.Yuan} />
             </View>
             <View style={styles.detail.section}>
@@ -184,15 +201,15 @@ class EventOrder extends Component {
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 3}}>
             <CallToAction 
-              backgroundColor={'white'}
-              foregroundColor={AppSettings.color.foreground}
+              backgroundColor={Graphics.textColors.overlay}
+              textColor={Graphics.colors.primary}
               label={Lang.AddSignUp}
               onPress={this.addUser}
             />
           </View>
           <View style={{flex: 2}}>
             <CallToAction
-              backgroundColor={AppSettings.color.primary}
+              backgroundColor={Graphics.colors.primary}
               label={Lang.SignUp}
               onPress={this.submit}
             />
@@ -246,10 +263,12 @@ class InputItem extends Component {
     genderArray = [{label: Lang.Female + '    ', value: 0}, {label: Lang.Male, value: 1}]
 
     return (
-      <View style={[styles.list.item, {paddingTop: 5}]}>
+      <View style={[styles.global.form, {paddingTop: 5}]}>
         <View style={{marginRight: 10}}>
-          <View style={styles.detail.textRow}>
-            <Text style={styles.detail.label}>{Lang.RealName + '：'}</Text>
+          <View style={styles.detail.infoRow}>
+            <View style={styles.detail.label}>
+              <TextView text={Lang.RealName + '：'} />
+            </View>
             <View style={styles.detail.input}>
               <TextInput
                 autoFocus={true}
@@ -259,8 +278,10 @@ class InputItem extends Component {
               />
             </View>
           </View>
-          <View style={styles.detail.textRow}>
-            <Text style={styles.detail.label}>{Lang.MobileNumber + '：'}</Text>
+          <View style={styles.detail.infoRow}>
+            <View style={styles.detail.label}>
+              <TextView text={Lang.MobileNumber + '：'} />
+            </View>
             <View style={styles.detail.input}>
               <TextInput
                 maxLength={11}
@@ -271,8 +292,10 @@ class InputItem extends Component {
               />
             </View>
           </View>
-          <View style={styles.detail.textRow}>
-            <Text style={styles.detail.label}>{Lang.PersonalId + '：'}</Text>
+          <View style={styles.detail.infoRow}>
+            <View style={styles.detail.label}>
+              <TextView text={Lang.PersonalId + '：'} />
+            </View>
             <View style={styles.detail.input}>
               <TextInput
                 maxLength={18}
@@ -283,8 +306,10 @@ class InputItem extends Component {
               />
             </View>
           </View>
-          <View style={[styles.detail.textRow, {paddingVertical: 10}]}>
-            <Text style={styles.detail.label}>{Lang.Gender + '：'}</Text>
+          <View style={[styles.detail.infoRow, {paddingVertical: 10}]}>
+            <View style={styles.detail.label}>
+              <TextView text={Lang.Gender + '：'} />
+            </View>
             <View style={[styles.detail.input, {borderBottomWidth: 0}]}>
               <RadioForm
                 radio_props={genderArray}
@@ -297,8 +322,10 @@ class InputItem extends Component {
               />
             </View>
           </View>
-          <View style={styles.detail.textRow}>
-            <Text style={styles.detail.label}>{Lang.UserLevel + '：'}</Text>
+          <View style={styles.detail.infoRow}>
+            <View style={styles.detail.label}>
+              <TextView text={Lang.UserLevel + '：'} />
+            </View>
             <View style={[styles.editor.value, {marginLeft: 0, justifyContent: 'flex-start'}]}>
               <Slider
                 style={{width: 150}}
@@ -308,7 +335,7 @@ class InputItem extends Component {
                 value={this.state.level}
                 onValueChange={(level) => this.updateState({level})}
               />
-              <Text style={{marginLeft: 15}}>{Lang.userLevelArray[this.state.level]}</Text>
+              <TextView style={{marginLeft: 15}} text={Lang.userLevelArray[this.state.level]} />
             </View>
           </View>
         </View>
