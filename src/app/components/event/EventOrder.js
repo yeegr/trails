@@ -27,6 +27,7 @@ import Svg, {
 
 import ParallaxView from 'react-native-parallax-view'
 import RadioForm from 'react-native-simple-radio-button'
+import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 import Moment from 'moment'
 
@@ -196,6 +197,7 @@ class EventOrder extends Component {
                 })
               }
             </View>
+            <KeyboardSpacer />
           </View>
         </ParallaxView>
         <View style={{flexDirection: 'row'}}>
