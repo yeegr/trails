@@ -3,12 +3,12 @@
 import {
   AppSettings,
   Lang,
-  Graphics,
-  WebViewCSS
+  Graphics
 } from '../../settings'
 
 import React, {
-  Component
+  Component,
+  PropTypes
 } from 'react'
 
 import {
@@ -29,8 +29,6 @@ import ParallaxView from 'react-native-parallax-view'
 import RadioForm from 'react-native-simple-radio-button'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 
-import Moment from 'moment'
-
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../containers/actions/eventsActions'
@@ -49,7 +47,7 @@ class EventOrder extends Component {
     this.removeUser = this.removeUser.bind(this)
     this.updateInfo = this.updateInfo.bind(this)
     this.validateData = this.validateData.bind(this)
-    this.pay = this.pay.bind(this)
+    this.nextStep = this.nextStep.bind(this)
 
     let user = this.props.user
 
@@ -107,15 +105,15 @@ class EventOrder extends Component {
       validateUserLevel = (data.level > -1 && data.level < 5)
 
     return (validateName && validateMobileNumber && validatePersonalId && validateGender && validateUserLevel) ? {
-      realName: data.realName.trim(),
-      mobileNumber: parseInt(data.mobileNumber),
-      personalId: data.personalId.trim(),
+      name: data.realName.trim(),
+      mobile: parseInt(data.mobileNumber),
+      pid: data.personalId.trim(),
       gender: data.gender,
       level: data.level
     } : false
   }
 
-  pay() {
+  nextStep() {
     let signUps = this.state.signUps,
       tmp = []
 
@@ -133,6 +131,7 @@ class EventOrder extends Component {
       title: Lang.EventPayment,
       passProps: {
         event: this.props.event,
+        group: this.props.group,
         signUps: tmp
       }
     })
@@ -202,7 +201,7 @@ class EventOrder extends Component {
           <View style={{flex: 2}}>
             <CallToAction
               label={Lang.Pay}
-              onPress={this.pay}
+              onPress={this.nextStep}
             />
           </View>
         </View>

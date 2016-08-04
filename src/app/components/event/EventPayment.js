@@ -3,12 +3,12 @@
 import {
   AppSettings,
   Lang,
-  Graphics,
-  WebViewCSS
+  Graphics
 } from '../../settings'
 
 import React, {
-  Component
+  Component,
+  PropTypes
 } from 'react'
 
 import {
@@ -28,32 +28,63 @@ import InfoItem from '../shared/InfoItem'
 import TextView from '../shared/TextView'
 import Icon from '../shared/Icon'
 import CallToAction from '../shared/CallToAction'
-import {formatTime, formatEndTime, calculateInsurance} from '../../../common'
+import {formatEventGroupLabel, calculateInsurance} from '../../../common'
 import styles from '../../styles/main'
 
 class EventPayment extends Component {
   constructor(props) {
     super(props)
     this.confirm = this.confirm.bind(this)
+    this.nextStep = this.nextStep.bind(this)
 
     this.state = {
-      //paymentMethods: [{label: Lang.Alipay, value: 0}, {label: Lang.WechatPay, value: 1}],
-      paymentMethods: [{label: Lang.Alipay, value: 0}],
-      paymentMethod: 0
+      signUps: this.props.signUps,
+      paymentMethod: AppSettings.defaultPaymentMethod,
+      total: 0,
     }
   }
 
-  confirm() {
+  componentWillUnmount() {
+    this.props.eventsActions.resetOrder()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.events.order) {
+      this.nextStep(nextProps.events.order)
+    }
+  }
+
+  nextStep(order) {
+    this.props.navigator.push({
+      id: 'OrderDetail',
+      title: Lang.OrderDetail,
+      passProps: {
+        event: this.props.event,
+        order
+      }
+    })
+  }
+
+  confirm(total) {
+    let order = {
+      creator: this.props.user.id,
+      event: this.props.event.id,
+      group: this.props.group,
+      method: this.state.paymentMethod,
+      signUps: this.state.signUps,
+      total 
+    }
+
+    this.props.eventsActions.pay(order)
   }
 
   render() {
     const event = this.props.event,
-      startDate = formatTime(event.gatherTime),
-      endDate = formatEndTime(event.gatherTime, event.schedule.length)
+      dates = formatEventGroupLabel(event, this.props.group)
       //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
 
     let total = 0
-      
+
     return(
       <View style={styles.detail.wrapper}>
         <ParallaxView style={{flex: 1}}
@@ -69,19 +100,20 @@ class EventPayment extends Component {
           <View style={{backgroundColor: Graphics.colors.background}}>
             <View style={styles.detail.section}>
               <TextView class='h2' text={Lang.EventInfo} />
-              <InfoItem label={Lang.EventDates} value={startDate + '-' + endDate} />
+              <InfoItem label={Lang.EventDates} value={dates} />
               <InfoItem label={Lang.PerHead} value={event.expenses.perHead.toString() + Lang.Yuan} />
             </View>
             <View style={styles.detail.section}>
               <TextView class='h2' text={Lang.SignUps} />
               <View style={styles.detail.infoList}>
                 {
-                  this.props.signUps.map((signUp, index) => {
+                  this.state.signUps.map((signUp, index) => {
                     let payment = calculateInsurance(event, signUp)
+                    signUp.payment = payment
                     total += payment
 
                     return (
-                      <InfoItem key={index} label={signUp.realName} value={payment + Lang.Yuan} align="right" noColon={true} />
+                      <InfoItem key={index} label={signUp.name} value={payment + Lang.Yuan} align="right" noColon={true} />
                     )
                   })
                 }
@@ -94,7 +126,7 @@ class EventPayment extends Component {
               <TextView class='h2' text={Lang.PaymentMethod} />
               <View style={styles.editor.group}>
                 {
-                  this.state.paymentMethods.map((method, index) => {
+                  AppSettings.paymentMethods.map((method, index) => {
                     const checkmark = (method.value === this.state.paymentMethod) ? (
                       <Icon 
                         backgroundColor={Graphics.colors.transparent} 
@@ -127,7 +159,7 @@ class EventPayment extends Component {
         <CallToAction
           backgroundColor={Graphics.colors.primary}
           label={Lang.Confirm}
-          onPress={this.confirm}
+          onPress={() => this.confirm(total)}
         />
       </View>
     )
@@ -136,6 +168,7 @@ class EventPayment extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
+    events: state.events,
     user: state.login.user
   }
 }

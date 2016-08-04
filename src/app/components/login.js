@@ -313,7 +313,7 @@ const {height, width} = Dimensions.get('window'),
       backgroundColor: Graphics.colors.primary,
     },
     buttonDisabled: {
-      backgroundColor: AppSettings.color.disabledButtonBackground,
+      backgroundColor: "#666",
       opacity: 0.8
     },
     buttonText: {

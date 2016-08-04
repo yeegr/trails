@@ -68,8 +68,8 @@ styles = StyleSheet.create({
     width: 200,
   },
   buttonDisabled: {
-    backgroundColor: AppSettings.color.midGray, 
-    borderColor: AppSettings.color.midGray,
+    backgroundColor: Graphics.colors.midGray, 
+    borderColor: Graphics.colors.midGray,
   },
   buttonText: {
     color: Graphics.colors.primary,

@@ -90,3 +90,52 @@ export const getEvent = (id) => {
       })
   }
 }
+
+export const resetOrder = () => {
+  return {
+    type: ACTIONS.RESET_ORDER
+  }
+}
+
+const sendPayRequest = () => {
+  return {
+    type: ACTIONS.PAY_REQUEST
+  }
+}
+
+const receivePayResponse = (order) => {
+  return {
+    type: ACTIONS.PAY_SUCCESS,
+    order
+  }
+}
+
+const payError = () => {
+  return {
+    type: ACTIONS.PAY_FAILURE
+  }
+}
+
+export const pay = (order) => {
+  let config = Object.assign({}, CONFIG.POST, {
+    body: JSON.stringify(order)
+  })
+
+  return (dispatch) => {
+    dispatch(sendPayRequest())
+
+    return fetch(AppSettings.apiUri + 'orders', config)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        if (res._id) {
+          dispatch(receivePayResponse(res))
+        } else {
+          dispatch(payError(res.message))
+          return Promise.reject(res)
+        }
+      })
+      .catch((err) => dispatch(payError(err)))
+  }
+}

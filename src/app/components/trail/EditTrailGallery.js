@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     paddingTop: 64
   },
   statusBar: {
-    borderTopColor: AppSettings.color.lightGray,
+    borderTopColor: Graphics.colors.border,
     borderTopWidth: 1,
     height: 48,
     flexDirection: 'row',
@@ -109,14 +109,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center'
   },
-  indicator: Object.assign({}, AppSettings.textStyles.normal, {
+  indicator: {
     justifyContent: 'center',
     marginBottom: 5,
     textAlign: 'right'
-  }),
-  imageCount: Object.assign({}, AppSettings.textStyles.large, {
+  },
+  imageCount: {
     color: Graphics.colors.primary,
-  }),
+    fontSize: Graphics.fontSizes.L
+  },
   button: {
     color: Graphics.colors.primary,
     paddingHorizontal: 10,

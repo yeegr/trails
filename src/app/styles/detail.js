@@ -31,13 +31,6 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 5
   },
-  h2: {
-    color: AppSettings.color.darkGray,
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginBottom: 15,
-    paddingHorizontal: 15,
-  },
   list: {
     flex: 1,
     flexDirection: 'column',
@@ -52,13 +45,13 @@ export default StyleSheet.create({
     flex: 1
   },
   input: {
-    borderBottomColor: AppSettings.color.midGray,
+    borderBottomColor: Graphics.colors.midGray,
     borderBottomWidth: 1,
     flex: 1,
   },
   textInput: {
     backgroundColor: Graphics.textInput.backgroundColor,
-    color: AppSettings.color.midGray,
+    color: Graphics.colors.midGray,
     flex: 1,
     height: 30,
     padding : 5
@@ -76,10 +69,10 @@ export default StyleSheet.create({
     paddingVertical: 5,
   },
   infoList: {
-    backgroundColor: AppSettings.color.listBackground,
-    borderBottomColor: AppSettings.color.lightGray,
+    backgroundColor: Graphics.list.backgroundColor,
+    borderBottomColor: Graphics.colors.border,
     borderBottomWidth: 1,
-    borderTopColor: AppSettings.color.lightGray,
+    borderTopColor: Graphics.colors.border,
     borderTopWidth: 1,
   }
 })

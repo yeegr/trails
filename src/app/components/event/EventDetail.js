@@ -369,7 +369,7 @@ const Sidebar = (props) => {
 
 const Tab = (props) => {
   var background = null,
-    foreground = AppSettings.color.midGray
+    foreground = Graphics.colors.midGray
 
   if (props.selected === true) {
     background = {backgroundColor: Graphics.colors.background, borderColor: Graphics.colors.primary },

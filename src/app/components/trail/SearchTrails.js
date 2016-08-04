@@ -117,7 +117,7 @@ export default class SearchTrails extends Component {
                   <TouchableOpacity key={i} style={{height: 75}} onPress={() => this.typePressed(i)}>
                     <View style={{marginRight: 12}}>
                       <Icon
-                        backgroundColor={(this.state.types.indexOf(i) > -1) ? Graphics.colors.primary : AppSettings.color.midGray} 
+                        backgroundColor={(this.state.types.indexOf(i) > -1) ? Graphics.colors.primary : Graphics.colors.midGray} 
                         type={i.toString()} 
                         label={Lang.tagArray[i]}
                       />

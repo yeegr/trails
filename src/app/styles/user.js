@@ -20,9 +20,9 @@ export default StyleSheet.create({
     flexDirection: 'column',
     paddingTop: 80,
   },
-  userHandle: Object.assign({}, 
-    AppSettings.textStyles.xxxLarge, {
-      color: Graphics.textColors.overlay,
-      marginVertical: 20,
-    }),
+  userHandle: {
+    color: Graphics.textColors.overlay,
+    fontSize: Graphics.fontSizes.XXXL,
+    marginVertical: 20
+  }
 })

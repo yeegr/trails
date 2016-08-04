@@ -4,9 +4,11 @@ import * as ACTIONS from '../constants/eventsConstants'
 
 const eventsReducer = (state = {
   isFetching: false,
+  isPaying: false,
   list: [],
   event: null,
-  message: null
+  message: null,
+  order: null
 }, action) => {
   switch (action.type) {
    case ACTIONS.REQUEST_EVENTS:
@@ -28,7 +30,7 @@ const eventsReducer = (state = {
         list: [],
       })
 
-   case ACTIONS.REQUEST_EVENT:
+    case ACTIONS.REQUEST_EVENT:
       return Object.assign({}, state, {
         isFetching: true
       })
@@ -45,6 +47,28 @@ const eventsReducer = (state = {
         isFetching: false,
         message: action.message,
         event: null
+      })
+
+    case ACTIONS.RESET_ORDER:
+      return Object.assign({}, state, {
+        order: null
+      })
+
+    case ACTIONS.PAY_REQUEST:
+      return Object.assign({}, state, {
+        isPaying: true
+      })
+
+    case ACTIONS.PAY_SUCCESS:
+      return Object.assign({}, state, {
+        isPaying: false,
+        order: action.order
+      })
+
+    case ACTIONS.PAY_FAILURE:
+      return Object.assign({}, state, {
+        isPaying: false,
+        message: action.message
       })
 
     default:

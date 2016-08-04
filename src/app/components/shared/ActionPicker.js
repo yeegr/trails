@@ -61,7 +61,7 @@ class ActionPicker extends Component {
           <View style={styles.actionSheet}>
             <View style={styles.toolbar}>
               <TouchableOpacity onPress={this.onCancel}>
-                <Text style={[{color: AppSettings.color.midGray}, mixStyles.buttonText]}>{this.props.cancelText}</Text>
+                <Text style={[{color: Graphics.colors.midGray}, mixStyles.buttonText]}>{this.props.cancelText}</Text>
               </TouchableOpacity>
               <View style={styles.title}>
               {title}
@@ -116,17 +116,17 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 15,
   },
-  titleText: Object.assign({},
-    AppSettings.textStyles.extraLarge),
+  titleText: {
+    fontSize: Graphics.fontSizes.XL
+  },
   button: {
     flex: 0,
     paddingHorizontal: 15,
   },
-  buttonText: Object.assign({},
-    AppSettings.textStyles.extraLarge,
-    {
-      color: Graphics.colors.primary
-    }),
+  buttonText: {
+    color: Graphics.colors.primary,
+    fontSize: Graphics.fontSizes.XL
+  }
 })
 
 export default ActionPicker

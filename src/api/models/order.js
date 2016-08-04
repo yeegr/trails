@@ -18,6 +18,11 @@ var mongoose = require('mongoose'),
       ref: 'Event',
       required: true
     },
+    group: {
+      type: Number,
+      required: true,
+      default: 0
+    },
     signUps: [{
       name: {
         type: String,
@@ -40,13 +45,19 @@ var mongoose = require('mongoose'),
       level: {
         type: Number,
         match: CONST.levelRx
-      }
+      },
+      payment: {
+        type: Number,
+        match: CONST.currencyRx,
+        required: true
+      },
+      _id: false
     }],
     total: {
       type: Number,
       required: true
     },
-    paymentMethod: {
+    method: {
       type: String,
       enum: CONST.PAYMENT_MEDHODS,
       default: CONST.PAYMENT_MEDHODS[0],
@@ -66,9 +77,9 @@ orderSchema.post('save', function(doc) {
     }
   })
 
-  Event.findById(doc.ref, function(err, data) {
+  Event.findById(doc.event, function(err, data) {
     if (data) {
-      data.addSignUps(data.signUps)
+      data.addSignUps(doc.group, doc.signUps)
     }
   })
 
@@ -89,7 +100,7 @@ orderSchema.post('remove', function(doc) {
 
   Event.findById(doc.ref, function(err, data) {
     if (data) {
-      data.removeSignUps(data.signUps)
+      data.removeSignUps(data.group, data.signUps)
     }
   })
 

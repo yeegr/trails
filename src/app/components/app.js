@@ -53,6 +53,7 @@ import EventDetail from './event/EventDetail'
 import EventOrder from './event/EventOrder'
 import SelectOrderGroup from './event/SelectOrderGroup'
 import EventPayment from './event/EventPayment'
+import OrderDetail from './mine/OrderDetail'
 import SearchEvents from './event/SearchEvents'
 import EditEvent from './event/EditEvent'
 import EditEventHero from './event/EditEventHero'
@@ -405,6 +406,12 @@ class App extends Component {
 
               case 'EventPayment':
                 return (<EventPayment
+                  navigator={navigator}
+                  route={route} {...route.passProps}
+                />)
+
+              case 'OrderDetail':
+                return (<OrderDetail
                   navigator={navigator}
                   route={route} {...route.passProps}
                 />)

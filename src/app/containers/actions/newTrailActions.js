@@ -113,21 +113,21 @@ export const setTrailPrivacy = (value) => {
   }
 }
 
-const _sendRequest = (trail) => {
+const sendRequest = (trail) => {
   return {
     type: ACTIONS.SAVE_TRAIL,
     trail
   }
 }
 
-const _receiveResponse = (trail) => {
+const receiveResponse = (trail) => {
   return {
     type: ACTIONS.SAVE_TRAIL_SUCCESS,
     trail
   }
 }
 
-const _uploadError = (message) => {
+const uploadError = (message) => {
   return {
     type: ACTIONS.SAVE_TRAIL_FAILURE,
     message
@@ -142,7 +142,7 @@ export const uploadTrail = (data) => {
   return (dispatch) => {
     dispatch(sendRequest(data))
 
-    return fetch(AppSettings.apiUri + 'trail', config)
+    return fetch(AppSettings.apiUri + 'trails', config)
       .then((res) => {
         return res.json()
       })

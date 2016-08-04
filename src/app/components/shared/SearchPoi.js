@@ -73,7 +73,7 @@ export default class SearchPoi extends Component {
       selectedPoi: null
     })
 
-    const url = 'http://restapi.amap.com/v3/place/text?key=' + AppSettings.amapKey + '&city=010&offset=10&page=1&extensions=all&keywords=' + this.state.keywords
+    const url = 'http://restapi.amap.com/v3/place/text?key=' + AppSettings.sdks.amap + '&city=010&offset=10&page=1&extensions=all&keywords=' + this.state.keywords
 
     fetch(url)
     .then((response) => response.json())
@@ -228,7 +228,7 @@ styles = StyleSheet.create({
   },
   searchBar: {
     backgroundColor: '#fff',
-    borderColor: AppSettings.color.lightGray,
+    borderColor: Graphics.colors.border,
     borderRadius: 3,
     borderWidth: 1,
     margin: 10,
@@ -241,7 +241,7 @@ styles = StyleSheet.create({
     height: 30
   },
   searchResult: {
-    borderBottomColor: AppSettings.color.lightGray,
+    borderBottomColor: Graphics.colors.border,
     borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',

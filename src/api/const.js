@@ -32,6 +32,7 @@ module.exports = {
   levelRx: /[0-4]{1}/,
   mobileRx: /1\d{10}/,
   pidRx: /\d{18}/,
+  currentcyRx: /\d{0,5}.\d{0,2}/,
 
   generateRandomString: function(length) {
     var txt = ''

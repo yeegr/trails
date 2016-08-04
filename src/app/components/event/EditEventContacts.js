@@ -136,7 +136,7 @@ const localStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   input: {
-    color: AppSettings.color.midGray,
+    color: Graphics.colors.midGray,
     marginRight: 2,
     textAlign: 'center',
     textAlignVertical: 'bottom',
@@ -145,7 +145,7 @@ const localStyles = StyleSheet.create({
   },
   underline: {
     borderBottomWidth: 1,
-    borderBottomColor: AppSettings.color.lightGray,
+    borderBottomColor: Graphics.colors.border,
     paddingBottom: 2,
   }
 })

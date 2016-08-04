@@ -97,6 +97,11 @@ var mongoose = require('mongoose'),
           type: Number,
           match: CONST.levelRx
         },
+        payment: {
+          type: Number,
+          match: CONST.currencyRx,
+          required: true
+        },
         status: {
           type: String,
           enum: CONST.STATUSES.SIGNUP,
@@ -219,26 +224,27 @@ eventSchema.methods.removeFromList = function(type, id) {
   Util.removeFromList(this, this[type], id)
 }
 
-eventSchema.methods.addSignUps = function(signUps) {
-  var that = this,
+eventSchema.methods.addSignUps = function(groupIndex, signUps) {
+  console.log(groupIndex, signUps)
+  var signUpList = this.groups[groupIndex].signUps,
     date = new Date(),
     time = date.getMilliseconds()
 
   signUps.map(function(signUp) {
     signUp.added = time
-    that.signUps.push(signUp)
+    signUpList.push(signUp)
   })
 
   this.save()
 }
 
-eventSchema.methods.removeSignUps = function(signUps) {
-  var that = this
+eventSchema.methods.removeSignUps = function(groupIndex, signUps) {
+  var signUpList = this.groups[groupIndex].signUps
 
   signUps.map(function(signUp) {
-    that.signUps.map(function(each, index) {
+    signUpList.map(function(each, index) {
       if (signUp.mobile === each.mobile) {
-        that.signUps.splice(index, 1)
+        signUpList.splice(index, 1)
       }
     })
   })

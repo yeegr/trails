@@ -180,12 +180,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   list: {
-    borderTopColor: AppSettings.color.lightGray,
+    borderTopColor: Graphics.colors.border,
     borderTopWidth: 1,
   },
   row: {
-    backgroundColor: AppSettings.color.listItemBackground,
-    borderBottomColor: AppSettings.color.lightGray,
+    backgroundColor: Graphics.editor.backgroundColor,
+    borderBottomColor: Graphics.colors.border,
     borderBottomWidth: 1,
     justifyContent: 'flex-start',
     padding: 15
@@ -197,20 +197,20 @@ const styles = StyleSheet.create({
   inputBar: {
     alignItems: 'center',
     backgroundColor: Graphics.textInput.backgroundColor,
-    borderTopColor: AppSettings.color.lightGray,
+    borderTopColor: Graphics.colors.border,
     borderTopWidth: 1,
     flexDirection: 'row',
     padding: 10,
   },
   inputWrapper: {
-    borderColor: AppSettings.color.lightGray,
+    borderColor: Graphics.colors.border,
     borderRadius: 4,
     borderWidth: 1,
     flex: 1,
     overflow: 'hidden',
   },
   textInput: {
-    color: AppSettings.color.midGray,
+    color: Graphics.colors.midGray,
     fontSize: 16,
     height: 44.5,
     paddingHorizontal: 15,

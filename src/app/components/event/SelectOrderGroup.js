@@ -31,20 +31,20 @@ import styles from '../../styles/main'
 class SelectOrderGroup extends Component {
   constructor(props) {
     super(props)
-    this.placeOrder = this.placeOrder.bind(this)
+    this.nextStep = this.nextStep.bind(this)
 
     this.state = {
       selectedGroup: null
     }
   }
 
-  placeOrder() {
+  nextStep() {
     this.props.navigator.push({
       id: 'EventOrder',
       title: Lang.SignUp,
       passProps: {
         event: this.props.event,
-        selectedGroup: this.state.selectedGroup
+        group: this.state.selectedGroup
       }
     })
   }
@@ -87,7 +87,7 @@ class SelectOrderGroup extends Component {
         <CallToAction
           disabled={(this.state.selectedGroup === null)}
           label={Lang.NextStep}
-          onPress={this.placeOrder}
+          onPress={this.nextStep}
         />
       </View>
     )

@@ -7,7 +7,7 @@ mongoose.Promise = global.Promise
 
 module.exports = function(app) {
   /* Create */
-  app.post('/order', function(req, res, next) {
+  app.post('/orders', function(req, res, next) {
     var tmp = new Order(req.body)
 
     User
@@ -23,6 +23,24 @@ module.exports = function(app) {
     .then(function(data) {
       if (data) {
         res.status(201).json(data)
+      }
+    })
+    .catch(function(err) {
+      res.status(500).send({error: err})
+    })
+  })
+
+  /* Read */
+  app.get('/orders/:id', function(req, res, next) {
+    Order
+    .findById(id)
+    .populate('event')
+    .exec()
+    .then(function(data) {
+      if (data) {
+        res.status(statusCode).json(data)
+      } else {
+        res.status(404).send()
       }
     })
     .catch(function(err) {

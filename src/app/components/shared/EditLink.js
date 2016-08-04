@@ -39,7 +39,7 @@ const EditLink = (props) => {
 
   let required = (props.required) ? {color: 'red'} : null,
     arrow = (props.hideArrow) ? null : (
-      <Next path={Graphics.arrow.next} fill={AppSettings.color.lightGray} />
+      <Next path={Graphics.arrow.next} fill={Graphics.arrow.fill} />
     )
 
   return (

@@ -15,7 +15,7 @@ export default StyleSheet.create({
   group: {
     backgroundColor: '#fff',
     borderTopWidth: 1,
-    borderTopColor: AppSettings.color.lightGray,
+    borderTopColor: Graphics.colors.border,
     marginBottom: 15,
   },
   row: {
@@ -28,7 +28,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     borderTopWidth: 0,
     borderBottomWidth: 1,
-    borderBottomColor: AppSettings.color.lightGray,
+    borderBottomColor: Graphics.colors.border,
     flexDirection: 'row',
     justifyContent: 'center',
     paddingHorizontal: 15,
@@ -47,7 +47,7 @@ export default StyleSheet.create({
     marginRight: 5,
   },
   valueText: {
-    color: AppSettings.color.midGray,
+    color: Graphics.colors.midGray,
     textAlign: 'right',
     width: 200
   },
@@ -60,24 +60,19 @@ export default StyleSheet.create({
   },
   textInput: {
     backgroundColor: Graphics.textInput.backgroundColor,
-    color: AppSettings.color.midGray,
+    color: Graphics.colors.midGray,
     fontSize: 16,
     height: 44.5,
     paddingHorizontal: 15,
     paddingVertical: 10,
   },
   numberInput: {
-    color: AppSettings.color.midGray,
+    color: Graphics.colors.midGray,
     marginRight: 2,
     textAlign: 'right',
     textAlignVertical: 'bottom',
     height: 18,
     width: 120
-  },
-  endnote: {
-    color: AppSettings.color.darkGray,
-    paddingBottom: 15,
-    paddingHorizontal: 15,
   },
 
   currencyPrefix: {
@@ -108,21 +103,5 @@ export default StyleSheet.create({
   numberButtonText: {
     color: Graphics.colors.primary,
     lineHeight: 14
-  },
-
-
-  mainButton: {
-    alignItems: 'center', 
-    backgroundColor: '#f00',
-    flex: 1,
-    flexDirection: 'row',
-    height: 60,
-    justifyContent: 'center',
-  },
-  mainButtonText: Object.assign({},
-    AppSettings.textStyles.extraLarge,
-    {
-      color: Graphics.textColors.overlay,
-      fontWeight: '500'
-    }),
+  }
 })

@@ -34,7 +34,7 @@ const EditTrailType = (props) => {
             AppSettings.trailTypes.map(function(i) {
               return (
                 <TouchableOpacity key={i} onPress={() => props.newTrailActions.setTrailType(i)} style={{marginHorizontal: 2}}>
-                  <Icon backgroundColor={(i === props.type) ? Graphics.colors.primary : AppSettings.color.midGray} 
+                  <Icon backgroundColor={(i === props.type) ? Graphics.colors.primary : Graphics.colors.midGray} 
                     type={i.toString()} 
                     label={Lang.tagArray[i]}
                   />

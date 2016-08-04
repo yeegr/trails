@@ -2,11 +2,10 @@
   "app": {
     "version":"0.0.1",
     "platform":"iOS",
-    "expiredOn":"2016-07-01",
+    "expiredOn":"2016-09-01",
     "baseUri":"http://localhost/",
     "apiUri":"http://localhost:3000/",
     "assetUri":"http://localhost:8000/",
-    "amapKey":"cc81643ef299be79cc3b6aad2a1ac212",
     "maxLeadersPerArea":3,
     "maxTrailPreviewsPerArea":3,
     "maxPhotoPreviewsPerGallery":4,
@@ -21,38 +20,11 @@
     "gearList":[0,1,2,3,10,11,12,13,14,15,18,30,31,40,50,51,52,60,70,71,72,80,81,82,83,84],
     "minEventAttendees":40,
     "maxEventAttendees":50,
+    "defaultPaymentMethod":"Alipay",
 
-    "sdk": {
+    "sdks": {
+      "amap":"cc81643ef299be79cc3b6aad2a1ac212",
       "wechat":"wx22e98ca9eb46c04f"
-    },
-
-    "textStyles":{
-      "extralSmall":{
-        "fontSize":10
-      },
-      "small":{
-        "fontSize":12
-      },
-      "normal":{
-        "fontSize":14
-      },
-      "large":{
-        "fontSize":16
-      },
-      "extraLarge":{
-        "fontSize":18
-      },
-      "xxxLarge":{
-        "fontSize":24
-      }
-    },
-    "color":{
-      "listBackground":"#ffffff",
-      "darkGray":"#696969",
-      "midGray":"#808080",
-      "lightGray":"#d3d3d3",
-      "disabledButtonBackground":"#666",
-      "listItemBackground":"#ffffff"
     }
   },
   "lang":{
@@ -202,6 +174,7 @@
     "ConfirmOrder":"确认订单",
     "Pay":"支付",
     "EventPayment":"支付",
+    "OrderDetail":"订单详情",
 
     "Alipay":"支付宝",
     "WechatPay":"微信支付",
@@ -277,6 +250,7 @@
 
     "Tags":"标签",
 
+    "payments":[{"label":"支付宝","value":"Alipay"}],
     "userLevels":"驴小白,驴小兵,驴小侠,驴将军,驴大王",
     "dayCount":"一,二,三,四,五,六,七,八,九,十,十一,十二,十三,十四,十五,十六,十七,十八,十九,二十",
     "gearList":"冲锋衣,抓绒衣,保暖衣,速干衣,内衣,,,,,,高山鞋,登山鞋,徒步鞋,保暖靴,跑鞋,凉鞋,,,护膝,,徒步袜,旅行袜,保暖袜,,,,,,,,防水手套,软壳手套,毛线手套,皮革手套,,,,,,,背包,小型背包,中型背包,大型背包,,,,,,,帐篷,睡袋,军用铲,,,,,,,,登山杖,,,,,,,,,,瑞士军刀,手电,望远镜,,,,,,,,证件,户外设备,水壶,口罩,雨具",
@@ -665,8 +639,10 @@
       "transparent":"rgba(0,0,0,0)",
       "background":"#ebebeb",
       "foreground":"#000000",
+      "border":"#d3d3d3",
       "warning":"#ff0000",
       "disabled":"#696969",
+
       "darkGray":"#696969",
       "midGray":"#808080",
       "lightGray":"#d3d3d3"
@@ -764,7 +740,14 @@
       "minHeight":44.5,
       "maxHeight":82.5
     },
+    "list":{
+      "backgroundColor":"#ffffff"
+    },
+    "editor":{
+      "backgroundColor":"#ffffff"
+    },
     "arrow":{
+      "fill":"#d3d3d3",
       "height":24,
       "width":12,
       "next":"M2.5,3.5L1.1,4.9l7,7.1l-7,7.1l1.4,1.4l8.4-8.5L2.5,3.5z"

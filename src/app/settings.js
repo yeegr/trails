@@ -25,13 +25,16 @@ export const device = {
   width
 }
 
-export let AppSettings = settings.app
-AppSettings.mobileNumberPattern = new RegExp(/1+\d{10}/)
-AppSettings.trailTypes = [0,1,2,3,4,5,6,7,8,9]
 export let Lang = settings.lang
 Lang.dayArray = Lang.dayCount.split(',')
 Lang.tagArray = Lang.tagList.split(',')
 Lang.gearArray = Lang.gearList.split(',')
 Lang.userLevelArray = Lang.userLevels.split(',')
+
+export let AppSettings = settings.app
+AppSettings.mobileNumberPattern = new RegExp(/1+\d{10}/)
+AppSettings.trailTypes = [0,1,2,3,4,5,6,7,8,9]
+AppSettings.paymentMethods = Lang.payments
+
 export const Graphics = settings.graphics
 export const WebViewCSS = '<style>img {max-width: 100%} p {text-indent: 2em}</style>'
