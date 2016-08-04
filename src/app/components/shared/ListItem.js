@@ -44,7 +44,7 @@ const ListItem = (props) => {
 styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
-    marginBottom: 10
+    marginBottom: 20
   },
   content: {
     flex: 1,

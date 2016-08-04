@@ -22,6 +22,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as loginActions from '../../containers/actions/loginActions'
 
+import Icon from '../shared/Icon'
 import styles from '../../styles/main'
 
 class EditUserLevel extends Component {
@@ -40,6 +41,8 @@ class EditUserLevel extends Component {
   }
 
   render() {
+    let transparent = 'rgba(0,0,0,0)'
+
     return (
       <View style={styles.detail.wrapper}>
         <ScrollView style={styles.editor.scroll}>
@@ -57,7 +60,7 @@ class EditUserLevel extends Component {
                         </Text>
                       </View>
                       <View style={styles.editor.value}>
-                        <Text>{(level === this.state.level).toString()}</Text>
+                        <Icon sideLength='36' backgroundColor={transparent} fillColor={(level === this.state.level) ? Graphics.colors.primary : transparent} type='checkmark' />
                       </View>
                     </View>
                   </TouchableOpacity>

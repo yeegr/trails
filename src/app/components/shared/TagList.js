@@ -25,7 +25,7 @@ export const TagList = (props) => {
 }
 
 TagList.propTypes = {
-  tags: PropTypes.array.isRequired
+  tags: PropTypes.array
 }
 
 export default TagList

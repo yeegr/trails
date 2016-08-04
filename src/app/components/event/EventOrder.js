@@ -211,7 +211,6 @@ class EventOrder extends Component {
           </View>
           <View style={{flex: 2}}>
             <CallToAction
-              backgroundColor={Graphics.colors.primary}
               label={Lang.SignUp}
               onPress={this.submit}
             />

@@ -51,26 +51,12 @@ import styles from '../../styles/main'
 export default class EventDetail extends Component {
   constructor(props) {
     super(props)
-    this._cutoffY = 320 - 64,
-    this._cutoffMin = this._cutoffY - 10,
-    this._cutoffMax = this._cutoffY + 10,
-    this.handleScroll = this.handleScroll.bind(this)
-    this.measure = this.measure.bind(this)
-    this.scrollTo = this.scrollTo.bind(this)
     this.placeOrder = this.placeOrder.bind(this)
-
-    let heroHeight = 240, 
-      marginTop = 64
-
-    this.offsetY = heroHeight - marginTop
 
     this.state = {
       loading: true,
-      scrollTop: heroHeight,
-      selectedSectionIndex: 0,
       destinationHeight: 0,
-      eventNoteHeight: 0,
-      showInside: true
+      eventNoteHeight: 0
     }
   }
 
@@ -82,8 +68,6 @@ export default class EventDetail extends Component {
         loading: false,
         data: response
       })
-
-      setTimeout(() => this.measure(), 500)
     })
     .catch((error) => {
       console.warn(error)
@@ -94,53 +78,21 @@ export default class EventDetail extends Component {
     this.fetchData(this.props.id)
   }
 
-  measure() {
-    let posArray = [], 
-      refArray = ['eventInfo', 'eventSignUps', 'eventSchedule', 'eventExpenses', 'eventDestination', 'eventGears', 'eventNotes']
-
-    refArray.map((ref) => {
-      if (this.refs[ref]) {
-        this.refs[ref].measure((fx, fy, width, height, px, py) => {
-          posArray.push(Math.floor(py) - 80)
-        })
-      }
-    })
-
-    setTimeout(() => this.setState({posArray}), 100)
-  }
-
-  handleScroll(evt) {
-    let y = evt.nativeEvent.contentOffset.y,
-      posArray = this.state.posArray,
-      index = 0
-
-    if (y < posArray[1]) {
-      index = 0
-    } else if (y >= posArray[1] && y < posArray[2]) {
-      index = 1
-    } else if (y >= posArray[2] && y < posArray[3]) {
-      index = 2
-    } else if (y >= posArray[3] && y < posArray[4]) {
-      index = 3
-    } else if (y >= posArray[4] && y < posArray[5]) {
-      index = 4
-    } else if (y >= posArray[5]) {
-      index = 5
-    }
-
-    this.setState({selectedSectionIndex: index})
-  }
-
-  scrollTo(index) {
-    this.refs.scroll.scrollTo({x: 0, y: this.state.posArray[index], animated: false})
-  }
-
   placeOrder() {
+    let event = this.state.data, 
+      id = 'EventOrder',
+      title = Lang.SignUp
+
+    if (event.groups.length > 1) {
+      id = 'SelectOrderGroup',
+      title = Lang.SelectOrderGroup
+    } 
+
     this.props.navigator.push({
-      id: 'EventOrder',
-      title: Lang.SignUp,
+      id,
+      title,
       passProps: {
-        event: this.state.data
+        event
       }
     })
   }
@@ -150,13 +102,15 @@ export default class EventDetail extends Component {
       return <Loading />
     }
 
+    console.log(this.state.data)
+
     const event = this.state.data,
       navigator = this.props.navigator,
       avatarRadius = 20,
       eventGroups = (event.groups.length > 1) ? (
         <ListItem icon="calendar"
           label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}
-          value={Moment(event.groups[0]).format('LL') + '-' + Moment(event.groups[event.groups.length-1]).format('LL')}
+          value={Moment(event.groups[0].startDate).format('LL') + '-' + Moment(event.groups[event.groups.length-1].startDate).format('LL')}
         />
       ) : null,
       gatherTime = (event.groups.length > 1) ? formatMinutes(event.gatherTime) : Moment(event.groups[0]).format('ll') + formatMinutes(event.gatherTime),
@@ -325,6 +279,49 @@ const SimpleContact = (props) => {
   )
 }
 /*
+
+  measure() {
+    let posArray = [], 
+      refArray = ['eventInfo', 'eventSignUps', 'eventSchedule', 'eventExpenses', 'eventDestination', 'eventGears', 'eventNotes']
+
+    refArray.map((ref) => {
+      if (this.refs[ref]) {
+        this.refs[ref].measure((fx, fy, width, height, px, py) => {
+          posArray.push(Math.floor(py) - 80)
+        })
+      }
+    })
+
+    setTimeout(() => this.setState({posArray}), 100)
+  }
+
+  handleScroll(evt) {
+    let y = evt.nativeEvent.contentOffset.y,
+      posArray = this.state.posArray,
+      index = 0
+
+    if (y < posArray[1]) {
+      index = 0
+    } else if (y >= posArray[1] && y < posArray[2]) {
+      index = 1
+    } else if (y >= posArray[2] && y < posArray[3]) {
+      index = 2
+    } else if (y >= posArray[3] && y < posArray[4]) {
+      index = 3
+    } else if (y >= posArray[4] && y < posArray[5]) {
+      index = 4
+    } else if (y >= posArray[5]) {
+      index = 5
+    }
+
+    this.setState({selectedSectionIndex: index})
+  }
+
+  scrollTo(index) {
+    this.refs.scroll.scrollTo({x: 0, y: this.state.posArray[index], animated: false})
+  }
+
+
 <Sidebar offsetY={64} visible={true} selectedIndex={this.state.selectedSectionIndex} onPress={(value) => this.scrollTo(value)} />
 
 const Sidebar = (props) => {

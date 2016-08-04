@@ -86,7 +86,7 @@ var mongoose = require('mongoose'),
     },
     pid: {
       type: String,
-      default: null,
+      default: '',
       match: CONST.pidRx
     },
     emergencies: [{

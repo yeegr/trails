@@ -55,8 +55,56 @@ var mongoose = require('mongoose'),
     },
     tags: [String],
     groups: [{
-      type: Number,
-      required: true
+      startDate: {
+        type: Number,
+        required: true
+      },
+      deadline: {
+        type: Number,
+        required: true
+      },
+      status: {
+        type: String,
+        enum: CONST.STATUSES.GROUP,
+        default: CONST.STATUSES.GROUP[0]
+      },
+      signUps: [{
+        added: {
+          type: Number
+        },
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: 'User'
+        },
+        name: {
+          type: String,
+          required: true
+        },
+        mobile: {
+          type: Number,
+          match: CONST.mobileRx,
+          required: true
+        },
+        pid: {
+          type: String,
+          match: CONST.pidRx
+        },
+        gender: {
+          type: Number,
+          match: CONST.genderRx
+        },
+        level: {
+          type: Number,
+          match: CONST.levelRx
+        },
+        status: {
+          type: String,
+          enum: CONST.STATUSES.SIGNUP,
+          default: CONST.STATUSES.SIGNUP[0]
+        },
+        _id: false
+      }],
+      _id: false
     }],
     gatherTime: {
       type: Number,
@@ -133,42 +181,7 @@ var mongoose = require('mongoose'),
     shares: [{
       type: Schema.Types.ObjectId,
       ref: 'User'
-    }],
-    signUps: [{
-      added: {
-        type: Number
-      },
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-      },
-      name: {
-        type: String,
-        required: true
-      },
-      mobile: {
-        type: Number,
-        match: CONST.mobileRx,
-        required: true
-      },
-      pid: {
-        type: String,
-        match: CONST.pidRx
-      },
-      gender: {
-        type: Number,
-        match: CONST.genderRx
-      },
-      level: {
-        type: Number,
-        match: CONST.levelRx
-      },
-      status: {
-        type: String,
-        enum: CONST.STATUSES.SIGNUP,
-        default: CONST.STATUSES.SIGNUP[0]
-      }
-    }],
+    }]
   }, {
     toObject: {
       virtuals: true

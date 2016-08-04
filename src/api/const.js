@@ -18,6 +18,7 @@ module.exports = {
     AREA: ["submitting", "pending", "approved", "rejected", "suspended"],
     TRAIL: ["private", "submitting", "pending", "approved", "rejected", "suspended"],
     EVENT: ["private", "submitting", "pending", "approved", "rejected", "completed", "suspended"],
+    GROUP: ["accepting", "filled", "due"],
     SIGNUP: ["submitting", "pending", "approved", "rejected", "completed"],
     PAYMENT: ["submitting", "pending", "received", "rejected"],
     POST: ["draft", "pending", "approved", "published"],
@@ -30,7 +31,7 @@ module.exports = {
   genderRx: /0|1/,
   levelRx: /[0-4]{1}/,
   mobileRx: /1\d{10}/,
-  pidRx: /d{18}/,
+  pidRx: /\d{18}/,
 
   generateRandomString: function(length) {
     var txt = ''
