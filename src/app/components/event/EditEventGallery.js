@@ -89,7 +89,7 @@ class EditEventGallery extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: AppSettings.color.background,
+    backgroundColor: Graphics.colors.background,
     flex: 1,
     flexDirection: 'column',
   },
@@ -115,10 +115,10 @@ const styles = StyleSheet.create({
     textAlign: 'right'
   }),
   imageCount: Object.assign({}, AppSettings.textStyles.large, {
-    color: AppSettings.color.primary,
+    color: Graphics.colors.primary,
   }),
   button: {
-    color: AppSettings.color.primary,
+    color: Graphics.colors.primary,
     paddingHorizontal: 10,
     paddingVertical: 10,
   }

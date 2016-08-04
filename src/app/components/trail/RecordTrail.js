@@ -130,7 +130,7 @@ class RecordTrail extends Component {
         <CallToAction
           onPress={this._toggleRecording}
           label={(this.props.newTrail.isRecording) ? Lang.StopRecording : Lang.StartRecording}
-          backgroundColor={(this.props.newTrail.isRecording) ? AppSettings.color.callToAction : AppSettings.color.primary}
+          backgroundColor={(this.props.newTrail.isRecording) ? Graphics.color.warning : Graphics.colors.primary}
         />
       </View>
     )

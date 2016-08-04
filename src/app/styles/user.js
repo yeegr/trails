@@ -22,7 +22,7 @@ export default StyleSheet.create({
   },
   userHandle: Object.assign({}, 
     AppSettings.textStyles.xxxLarge, {
-      color: AppSettings.color.textOverlay,
+      color: Graphics.textColors.overlay,
       marginVertical: 20,
     }),
 })

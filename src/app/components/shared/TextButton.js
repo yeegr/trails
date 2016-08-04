@@ -58,7 +58,7 @@ const TextButton = (props) => {
 styles = StyleSheet.create({
   button: {
     alignItems: 'center',
-    borderColor: AppSettings.color.primary,
+    borderColor: Graphics.colors.primary,
     borderRadius: 20,
     borderWidth: 1,
     flexDirection: 'row',
@@ -72,7 +72,7 @@ styles = StyleSheet.create({
     borderColor: AppSettings.color.midGray,
   },
   buttonText: {
-    color: AppSettings.color.primary,
+    color: Graphics.colors.primary,
     textAlign: 'center'
   },
   buttonTextDisabled: {

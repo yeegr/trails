@@ -28,7 +28,7 @@ const InfoItem = (props) => {
         <TextView text={props.label + colon} />
       </View>
       <View style={styles.detail.value}>
-        <TextView text={props.value} />
+        <TextView style={align} text={props.value} />
       </View>
     </View>
   )

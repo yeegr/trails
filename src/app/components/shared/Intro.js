@@ -21,7 +21,7 @@ import TextView from '../shared/TextView'
 import TagList from '../shared/TagList'
 
 const Intro = (props) => {
-  let align = (props.align === 'bottom') ? {paddingTop: Graphics.titleBar.height, paddingBottom: 5} : null, 
+  let align = (props.align === 'bottom') ? {paddingTop: Graphics.titlebar.height, paddingBottom: 5} : null, 
     excerpt = (props.excerpt) ? (
       <View style={styles.section}>
         <TextView

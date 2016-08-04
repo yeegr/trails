@@ -52,11 +52,11 @@ class Home extends Component {
     return (
       <View style={styles.global.wrapper}>
         <TabBarIOS
-          tintColor={AppSettings.color.primary}
+          tintColor={Graphics.colors.primary}
         >
           <TabBarIOS.Item
             title={Lang.Trails}
-            icon={{uri: Graphics.icon.trail, scale: 3}}
+            icon={{uri: Graphics.tabbar.trail, scale: 3}}
             selected={selectedTab === HOME_TABS.AREAS}
             onPress={() => this.onTabPressed(HOME_TABS.AREAS)}
           >
@@ -66,7 +66,7 @@ class Home extends Component {
           </TabBarIOS.Item>
           <TabBarIOS.Item
             title={Lang.Events}
-            icon={{uri: Graphics.icon.event, scale: 3}}
+            icon={{uri: Graphics.tabbar.event, scale: 3}}
             selected={selectedTab === HOME_TABS.EVENTS}
             onPress={() => this.onTabPressed(HOME_TABS.EVENTS)}
           >
@@ -76,7 +76,7 @@ class Home extends Component {
           </TabBarIOS.Item>
           <TabBarIOS.Item
             title={Lang.Posts}
-            icon={{uri: Graphics.icon.post, scale: 3}}
+            icon={{uri: Graphics.tabbar.post, scale: 3}}
             selected={selectedTab === HOME_TABS.POSTS}
             onPress={() => this.onTabPressed(HOME_TABS.POSTS)}
           >
@@ -86,7 +86,7 @@ class Home extends Component {
           </TabBarIOS.Item>
           <TabBarIOS.Item
             title={Lang.Mine}
-            icon={{uri: Graphics.icon.mine, scale: 3}}
+            icon={{uri: Graphics.tabbar.mine, scale: 3}}
             selected={selectedTab === HOME_TABS.MINE}
             onPress={() => this.onTabPressed(HOME_TABS.MINE)}
           >

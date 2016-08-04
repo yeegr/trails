@@ -19,10 +19,13 @@
     "userBackground":"ui/user-background.jpg",
     "loginBackground":"ui/login-background.jpg",
     "gearList":[0,1,2,3,10,11,12,13,14,15,18,30,31,40,50,51,52,60,70,71,72,80,81,82,83,84],
-    "minTextInputHeight":44.5,
-    "maxTextInputHeight":82.5,
     "minEventAttendees":40,
     "maxEventAttendees":50,
+
+    "sdk": {
+      "wechat":"wx22e98ca9eb46c04f"
+    },
+
     "textStyles":{
       "extralSmall":{
         "fontSize":10
@@ -43,36 +46,13 @@
         "fontSize":24
       }
     },
-    "mapping": {
-      "strokeDasharray":[10,5],
-      "strokeStyle":"solid",
-      "strokeWeight":1,
-      "strokeOPacity":0.8,
-      "strokeColor":"#ff0000"
-    },
-    "sdk": {
-      "wechat":"wx22e98ca9eb46c04f"
-    },
     "color":{
-      "primary":"#00A652",
-      "background":"#ebebeb",
-      "foreground":"#000000",
-      "callToAction":"#ff0000",
-      "cardBackground":"#ffffff",
       "listBackground":"#ffffff",
-      "tagBackground":"#05A2E7",
-      "textOverlay":"#ffffff",
-      "iconOverlay":"#ffffff",
       "darkGray":"#696969",
       "midGray":"#808080",
       "lightGray":"#d3d3d3",
-      "star":"#f90",
-      "placeholderText":"rgba(0, 0, 0, 0.5)",
-      "errorText":"rgba(255, 0, 0, 0.8)",
       "disabledButtonBackground":"#666",
-      "listItemBackground":"#ffffff",
-      "inputBackground":"#ffffff",
-      "avatarBorderColor":"rgba(255, 255, 255, .5)"
+      "listItemBackground":"#ffffff"
     }
   },
   "lang":{
@@ -209,7 +189,10 @@
     "OtherGears":"其他装备",
     "EventNotes":"注意事项",
     "SignUpNow":"即刻报名",
-    "SelectOrderGroup":"选择活动批次",
+    "SelectOrderGroup":"选择批次",
+    "DeadlinePassed":"报名已截止",
+    "GroupCountPrefix":"第",
+    "GroupCountPostfix":"批",
     "EventDates":"活动日期",
     "RealName":"真实姓名",
     "SignUp":"报名",
@@ -218,7 +201,7 @@
     "PaymentMethod":"付款方式",
     "ConfirmOrder":"确认订单",
     "Pay":"支付",
-    "EventPayment":"",
+    "EventPayment":"支付",
 
     "Alipay":"支付宝",
     "WechatPay":"微信支付",
@@ -679,34 +662,14 @@
   "graphics": {
     "colors":{
       "primary":"#00A652",
+      "transparent":"rgba(0,0,0,0)",
       "background":"#ebebeb",
       "foreground":"#000000",
-      "callToAction":"#ff0000",
-      "cardBackground":"#ffffff",
-      "listBackground":"#ffffff",
-      "tagBackground":"#05A2E7",
-      "textOverlay":"#ffffff",
-      "iconOverlay":"#ffffff",
+      "warning":"#ff0000",
+      "disabled":"#696969",
       "darkGray":"#696969",
       "midGray":"#808080",
-      "lightGray":"#d3d3d3",
-      "star":"#f90",
-      "placeholderText":"rgba(0, 0, 0, 0.5)",
-      "errorText":"rgba(255, 0, 0, 0.8)",
-      "disabledButtonBackground":"#666",
-      "listItemBackground":"#ffffff",
-      "inputBackground":"#ffffff",
-      "avatarBorderColor":"rgba(255, 255, 255, .5)"
-    },
-    "app":{
-      "backgroundColor":"#ffffff",
-      "foregroundColor":"#000000"
-    },
-    "titleBar":{
-      "height":44
-    },
-    "heroImage":{
-      "height":240
+      "lightGray":"#d3d3d3"
     },
     "fontStyles":{
       "default":"HelveticaNeue-Light"
@@ -724,13 +687,31 @@
     "textColors":{
       "default":"#000000",
       "overlay":"#ffffff",
-      "disabled":"#808080",
+      "placeholder":"rgba(0, 0, 0, 0.5)",
+      "disabled":"#d3d3d3",
+      "subhead":"#696969",
+      "endnote":"#808080",
       "h1":"#000000",
       "h2":"#696969",
       "h3":"#808080",
       "h4":"#808080",
       "h5":"#808080",
       "mobileNumber":"#05A2E7"
+    },
+    "icon": {
+      "backgroundColor":"#808080",
+      "sideLength":48,
+      "scale":0.75,
+      "overlayColor":"#ffffff",
+      "labelColor":"#363636",
+      "valueColor":"#000000"
+    },
+    "app":{
+      "backgroundColor":"#ffffff",
+      "foregroundColor":"#000000"
+    },
+    "heroImage":{
+      "height":240
     },
     "actionBar":{
       "backgroundColor":"#fff",
@@ -771,16 +752,31 @@
       "backgroundColor":"#ffffff",
       "borderColor":"#d3d3d3"
     },
-    "iconSide":48,
-    "avatarSmall":40,
-    "iconScale":0.75,
-    "buttonSide":32,
+    "tag":{
+      "backgroundColor":"rgba(5,162,231,0.8)",
+      "textColor":"#ffffff"
+    },
+    "star":{
+      "color":"#f90"
+    },
+    "textInput":{
+      "backgroundColor":"rgba(0,0,0,0)",
+      "minHeight":44.5,
+      "maxHeight":82.5
+    },
     "arrow":{
       "height":24,
       "width":12,
       "next":"M2.5,3.5L1.1,4.9l7,7.1l-7,7.1l1.4,1.4l8.4-8.5L2.5,3.5z"
     },
-    "glyph":{
+    "mapping": {
+      "strokeDasharray":[10,5],
+      "strokeStyle":"solid",
+      "strokeWeight":1,
+      "strokeOPacity":0.8,
+      "strokeColor":"#ff0000"
+    },
+    "glyphs":{
       "0":"M17,21.1l-2.2-0.5c-0.5-0.1-0.7-0.4-0.6-0.9l1.9-7.8c0.1-0.5,0.4-0.7,0.9-0.6l2.2,0.5 c0.5,0.1,0.7,0.4,0.6,0.9l-1.9,7.8C17.8,21,17.5,21.2,17,21.1z M28.8,38.7c0,0.1,0,0.2,0,0.4c0,0.5-0.2,1-0.6,1.3 C27.9,40.8,27.5,41,27,41c-1,0-1.6-0.5-1.8-1.4l-3.1-13.3l-3.2,13.4C18.6,40.6,18,41,17,41c-0.5,0-0.9-0.2-1.3-0.5 c-0.4-0.4-0.6-0.8-0.6-1.3c0-0.2,0-0.3,0-0.4L20.8,15c0.2-0.9,0.7-1.6,1.6-2c0.3-0.2,0.7-0.2,1.2-0.2c1.4-0.1,2.3,0.7,2.7,2.3 l1,4.2l3.8,1c0.7,0.2,1,0.6,1,1.2c0,0.9-0.4,1.3-1.3,1.3c-0.1,0-0.2,0-0.3,0l-4.4-1.1c-0.3,0-0.5-0.2-0.8-0.5 c-0.1-0.1-0.1-0.2-0.2-0.4l-0.3-1.2L24.6,21L28.8,38.7z M22.5,11.6c-0.5-0.5-0.8-1.2-0.8-1.9c0-0.7,0.3-1.4,0.8-1.9 C23,7.3,23.6,7,24.3,7c0.7,0,1.4,0.3,1.9,0.8C26.8,8.3,27,8.9,27,9.7c0,0.8-0.3,1.4-0.8,1.9c-0.5,0.5-1.2,0.8-1.9,0.8 C23.6,12.4,23,12.1,22.5,11.6z M35.8,16.1L35.8,16.1l-4.5,24.4c-0.1,0.3-0.3,0.5-0.6,0.5c-0.4,0-0.6-0.2-0.6-0.6v0L34.6,16 c0.1-0.3,0.3-0.5,0.6-0.5C35.6,15.5,35.8,15.7,35.8,16.1z",
       "1":"M31.2,40.5c-0.4,0.3-0.9,0.5-1.4,0.5c-1-0.1-1.6-0.6-1.7-1.5l-1.2-6.7l-4.1-4.4l-0.9,4.3 c-0.1,0.3-0.3,0.6-0.4,0.8L17.5,40c-0.4,0.7-1,1-1.8,0.9c-0.5,0-0.9-0.3-1.3-0.7c-0.3-0.4-0.5-0.8-0.5-1.4c0-0.3,0.1-0.6,0.3-0.8 l3.6-6.1l3-13.4l-2,1.6L17.8,25c-0.1,0.8-0.6,1.1-1.4,1.1c-0.8-0.1-1.2-0.5-1.1-1.4c0-0.1,0-0.1,0-0.2l1.2-5.5 c0.1-0.3,0.2-0.5,0.4-0.6l5.7-4.6c0.5-0.4,1.2-0.6,2-0.6c0.9,0.1,1.7,0.5,2.2,1.4l2.9,5.6l3.8,2.7c0.4,0.3,0.5,0.6,0.5,1.1 c-0.1,0.8-0.5,1.2-1.4,1.1c-0.3-0.1-0.5-0.1-0.6-0.2l-4.2-2.9c-0.1-0.1-0.2-0.2-0.3-0.4l-1.1-2.1l-1.2,5.6l5,5.9 c0.1,0.1,0.2,0.3,0.2,0.6l1.4,7.1c0,0.2,0,0.3,0,0.4C31.8,39.7,31.6,40.2,31.2,40.5z M23.1,11.6c-0.5-0.6-0.7-1.3-0.7-2 c0.1-0.8,0.4-1.4,1-1.9C24,7.2,24.7,7,25.5,7c0.8,0.1,1.4,0.4,1.9,1c0.5,0.6,0.7,1.3,0.6,2c0,0.8-0.4,1.4-0.9,1.9 c-0.6,0.5-1.3,0.7-2,0.7C24.2,12.6,23.6,12.2,23.1,11.6z",
       "2":"M27.5,12.6c-0.3-1.5,0.7-2.9,2.2-3.1c1.5-0.3,2.9,0.7,3.1,2.2c0.3,1.5-0.7,2.9-2.2,3.1 C29.2,15,27.8,14,27.5,12.6z M38.6,14.9c-0.1-0.8-0.9-1.3-1.6-1.1c-0.3,0.1-0.6,0.2-0.8,0.5l-2.8,4l-4.8-3.4 c-0.4-0.2-0.8-0.4-1.3-0.3l-6.4,1.1c-0.4,0.1-0.8,0.3-0.9,0.7l-3.5,5.9C16.1,22.6,16,23,16,23.4c0.1,0.7,0.8,1.2,1.6,1.1 c0.4-0.1,0.8-0.3,0.9-0.7l3.3-5.5l2.4-0.4L17,30.1l-6.2,1.1c-0.1,0-0.3,0.1-0.4,0.1c-0.9,0.4-1.3,1.4-0.9,2.3 c0.3,0.8,1.1,1.2,1.9,1l7.2-1.3c1.5-0.2,2-1,2-1l2.8-4.6l4.8,3.3l-0.4,7.7c0,0.1,0,0.3,0,0.4c0.2,0.9,1.1,1.6,2,1.4 c0.8-0.1,1.4-0.9,1.4-1.7l0.4-9.4c0.2-1.5-0.7-2.1-0.7-2.1l-4.2-3l3.1-5.3l3,2.1c0,0,1.2,0.9,2.2-0.6l3.4-4.9 C38.6,15.6,38.7,15.3,38.6,14.9z",
@@ -845,14 +841,14 @@
       "clock":"M24,7C14.6,7,7,14.6,7,24s7.6,17,17,17s17-7.6,17-17S33.4,7,24,7z M24,38c-7.7,0-14-6.3-14-14s6.3-14,14-14 s14,6.3,14,14S31.7,38,24,38z M25,14h-3v12l10.5,6.3l1.5-2.5l-9-5.3V14z",
       "checkmark":"M20.9,41.3c-0.2,0-0.5-0.1-0.7-0.3L5.3,27.6c-0.4-0.4-0.4-1-0.1-1.4c0.4-0.4,1-0.4,1.4-0.1l14,12.7L41.2,7.1 c0.3-0.5,0.9-0.6,1.4-0.3c0.5,0.3,0.6,0.9,0.3,1.4L21.8,40.9c-0.2,0.2-0.4,0.4-0.7,0.4C21,41.3,21,41.3,20.9,41.3z"
     },
-    "button":{
+    "toolbar":{
       "share":"M25.5,28.8h-19v-18H12c0.6,0,1,0.4,1,1s-0.4,1-1,1H8.5v14h15v-14H20c-0.6,0-1-0.4-1-1s0.4-1,1-1 h5.5V28.8z M16,20.3c-0.6,0-1-0.4-1-1V6.7L12.7,9c-0.4,0.4-1,0.4-1.4,0s-0.4-1,0-1.4L16,2.8l4.7,4.7c0.4,0.4,0.4,1,0,1.4 s-1,0.4-1.4,0L17,6.7v12.6C17,19.8,16.6,20.3,16,20.3z",
       "saved":"M16,28.3l-0.6-0.5c-0.7-0.5-1.5-1.1-2.6-1.8C8.6,23.1,2.3,18.8,2.3,11.9C2.3,7.5,5.9,4,10.2,4 c2.2,0,4.3,0.9,5.8,2.5C17.5,4.9,19.6,4,21.8,4c4.4,0,7.9,3.5,7.9,7.9c0,6.9-6.3,11.2-10.5,14.1c-1,0.7-1.9,1.3-2.6,1.9L16,28.3z",
       "save":"M16,28.3l-0.6-0.5c-0.7-0.5-1.5-1.1-2.6-1.8C8.6,23.1,2.3,18.8,2.3,11.9C2.3,7.5,5.9,4,10.2,4 c2.2,0,4.3,0.9,5.8,2.5C17.5,4.9,19.6,4,21.8,4c4.4,0,7.9,3.5,7.9,7.9c0,6.9-6.3,11.2-10.5,14.1c-1,0.7-1.9,1.3-2.6,1.9L16,28.3z M10.2,6C7,6,4.3,8.6,4.3,11.9c0,5.9,5.5,9.7,9.6,12.4c0.8,0.5,1.5,1,2.1,1.5c0.6-0.5,1.3-0.9,2.1-1.5c4-2.8,9.6-6.5,9.6-12.4 C27.7,8.6,25,6,21.8,6c-2,0-3.8,1-4.9,2.6L16,9.9l-0.8-1.2C14.1,7,12.2,6,10.2,6z",
       "liked":"M23,30H10.3C6.8,30,4,27.2,4,23.7v-6.3c0-1.3,0.4-2.6,1.2-3.7l7.5-10.3C13.2,2.6,14.1,2,15,2 c1.2,0,3,1.1,3,3.4c0,0.7-0.2,1.1-0.3,1.5l-0.1,0.3c-0.2,0.6-1.3,3.2-2.1,4.8c2.2,0,6.2,0,7.8,0.1h0c2.1,0,3.4,1.5,3.4,2.9 c0,0.4-0.1,0.9-0.1,1.2c0.7,0.5,1.4,1.3,1.4,2.6c0,0.8-0.3,1.5-0.8,2.1c0.4,0.5,0.8,1.1,0.8,2c0,1.3-0.8,2.2-1.5,2.7 c0.1,0.3,0.2,0.8,0.2,1.2C26.7,28.1,25.3,30,23,30z",
       "like":"M23,30H10.3C6.8,30,4,27.2,4,23.7v-6.3c0-1.3,0.4-2.6,1.2-3.7l7.5-10.3C13.2,2.6,14.1,2,15,2 c1.2,0,3,1.1,3,3.4c0,0.7-0.2,1.1-0.3,1.5l-0.1,0.3c-0.2,0.6-1.3,3.2-2.1,4.8c2.2,0,6.2,0,7.8,0.1h0c2.1,0,3.4,1.5,3.4,2.9 c0,0.4-0.1,0.9-0.1,1.2c0.7,0.5,1.4,1.3,1.4,2.6c0,0.8-0.3,1.5-0.8,2.1c0.4,0.5,0.8,1.1,0.8,2c0,1.3-0.8,2.2-1.5,2.7 c0.1,0.3,0.2,0.8,0.2,1.2C26.7,28.1,25.3,30,23,30z M15,4c-0.2,0-0.5,0.2-0.7,0.5L6.8,14.9C6.3,15.6,6,16.5,6,17.4v6.3 c0,2.4,1.9,4.3,4.3,4.3H23c1.1,0,1.7-0.9,1.7-1.2c0-0.6-0.3-1.1-0.3-1.1c-0.2-0.3-0.2-0.6-0.1-0.9c0.1-0.3,0.3-0.5,0.6-0.6 c0,0,1.1-0.5,1.1-1.3c0-0.7-0.6-1-0.7-1c-0.3-0.2-0.6-0.5-0.6-0.9c0-0.4,0.2-0.7,0.5-0.9c0,0,0.8-0.5,0.8-1.3 c0-0.8-0.8-1.1-0.9-1.1c-0.5-0.2-0.7-0.6-0.6-1.1c0.1-0.3,0.2-1.2,0.2-1.6c0-0.3-0.4-0.9-1.4-0.9C21,14,14,14,13.9,14 c-0.3,0-0.7-0.2-0.8-0.5c-0.2-0.3-0.2-0.6-0.1-1c0.6-1.4,2.4-5.3,2.6-6.1c0.1-0.1,0.1-0.2,0.1-0.4C15.9,5.8,16,5.7,16,5.4 C16,4.1,15,4,15,4z"
     },
-    "rating":{
+    "ratings":{
       "10":"M10,15.3l6.2,3.7l-1.6-7L20,7.2l-7.2-0.6L10,0L7.2,6.6L0,7.2L5.5,12l-1.6,7L10,15.3z M100,7.2 l-7.2-0.6L90,0l-2.8,6.6L80,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L100,7.2z M90,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4 l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L90,13.4z M80,7.2l-7.2-0.6L70,0l-2.8,6.6L60,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L80,7.2z  M70,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L70,13.4z M60,7.2l-7.2-0.6L50,0l-2.8,6.6L40,7.2 l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L60,7.2z M50,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3 L50,13.4z M40,7.2l-7.2-0.6L30,0l-2.8,6.6L20,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L40,7.2z M30,13.4l-3.8,2.3l1-4.3l-3.3-2.9 l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L30,13.4z",
       "15":"M10,15.3l6.2,3.7l-1.6-7L20,7.2l-7.2-0.6L10,0L7.2,6.6L0,7.2L5.5,12l-1.6,7L10,15.3z M100,7.2 l-7.2-0.6L90,0l-2.8,6.6L80,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L100,7.2z M90,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4 l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L90,13.4z M80,7.2l-7.2-0.6L70,0l-2.8,6.6L60,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L80,7.2z  M70,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L70,13.4z M60,7.2l-7.2-0.6L50,0l-2.8,6.6L40,7.2 l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L60,7.2z M50,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3 L50,13.4z M40,7.2l-7.2-0.6L30,0l-2.8,6.6L20,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L40,7.2z M30,13.4V4.1l1.7,4l4.4,0.4 l-3.3,2.9l1,4.3L30,13.4z",
       "20":"M10,15.3l6.2,3.7l-1.6-7L20,7.2l-7.2-0.6L10,0L7.2,6.6L0,7.2L5.5,12l-1.6,7L10,15.3z M30,15.3 l6.2,3.7l-1.6-7L40,7.2l-7.2-0.6L30,0l-2.8,6.6L20,7.2l5.5,4.7l-1.6,7L30,15.3z M100,7.2l-7.2-0.6L90,0l-2.8,6.6L80,7.2l5.5,4.7 l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L100,7.2z M90,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L90,13.4z  M80,7.2l-7.2-0.6L70,0l-2.8,6.6L60,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L80,7.2z M70,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4 l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L70,13.4z M60,7.2l-7.2-0.6L50,0l-2.8,6.6L40,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7 L60,7.2z M50,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L50,13.4z",
@@ -865,11 +861,15 @@
       "05":"M100,7.2l-7.2-0.6L90,0l-2.8,6.6L80,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L100,7.2z  M90,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L90,13.4z M80,7.2l-7.2-0.6L70,0l-2.8,6.6L60,7.2 l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L80,7.2z M70,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3 L70,13.4z M60,7.2l-7.2-0.6L50,0l-2.8,6.6L40,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L60,7.2z M50,13.4l-3.8,2.3l1-4.3l-3.3-2.9 l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L50,13.4z M20,7.2l-7.2-0.6L10,0L7.2,6.6L0,7.2L5.5,12l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7 L20,7.2z M10,13.4V4.1l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L10,13.4z M40,7.2l-7.2-0.6L30,0l-2.8,6.6L20,7.2l5.5,4.7l-1.6,7l6.2-3.7 l6.2,3.7l-1.6-7L40,7.2z M30,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L30,13.4z",
       "00":"M100,7.2l-7.2-0.6L90,0l-2.8,6.6L80,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L100,7.2z  M90,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L90,13.4z M80,7.2l-7.2-0.6L70,0l-2.8,6.6L60,7.2 l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L80,7.2z M70,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3 L70,13.4z M60,7.2l-7.2-0.6L50,0l-2.8,6.6L40,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L60,7.2z M50,13.4l-3.8,2.3l1-4.3l-3.3-2.9 l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L50,13.4z M40,7.2l-7.2-0.6L30,0l-2.8,6.6L20,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7 l-1.6-7L40,7.2z M30,13.4l-3.8,2.3l1-4.3l-3.3-2.9l4.4-0.4l1.7-4l1.7,4l4.4,0.4l-3.3,2.9l1,4.3L30,13.4z M20,7.2l-7.2-0.6L10,0 L7.2,6.6L0,7.2l5.5,4.7l-1.6,7l6.2-3.7l6.2,3.7l-1.6-7L20,7.2z M10,13.4l-3.8,2.3l1-4.3L3.9,8.5l4.4-0.4l1.7-4l1.7,4l4.4,0.4 l-3.3,2.9l1,4.3L10,13.4z"
     },
-    "pictogram": {
+    "pictograms": {
       "1": "M38,10v28H10V10H38 M38,6H10c-2.2,0-4,1.8-4,4v28c0,2.2,1.8,4,4,4h28c2.2,0,4-1.8,4-4V10C42,7.8,40.2,6,38,6z M24,34h4V14h-8v4h4V34z",
+      "1.5": "M38,10v28H10V10H38 M38,6H10c-2.2,0-4,1.8-4,4v28c0,2.2,1.8,4,4,4h28c2.2,0,4-1.8,4-4V10C42,7.8,40.2,6,38,6z M24,34h4V14h-8v4h4V34z",
       "2": "M38,10v28H10V10H38 M38,6H10c-2.2,0-4,1.8-4,4v28c0,2.2,1.8,4,4,4h28c2.2,0,4-1.8,4-4V10C42,7.8,40.2,6,38,6z M30,30h-8v-4h4c2.2,0,4-1.8,4-4v-4c0-2.2-1.8-4-4-4h-8v4h8v4h-4c-2.2,0-4,1.8-4,4v8h12V30z",
+      "2.5": "M38,10v28H10V10H38 M38,6H10c-2.2,0-4,1.8-4,4v28c0,2.2,1.8,4,4,4h28c2.2,0,4-1.8,4-4V10C42,7.8,40.2,6,38,6z M30,30h-8v-4h4c2.2,0,4-1.8,4-4v-4c0-2.2-1.8-4-4-4h-8v4h8v4h-4c-2.2,0-4,1.8-4,4v8h12V30z",
       "3": "M38,10v28H10V10H38 M38,6H10c-2.2,0-4,1.8-4,4v28c0,2.2,1.8,4,4,4h28c2.2,0,4-1.8,4-4V10C42,7.8,40.2,6,38,6z M30,30v-3c0-1.7-1.3-3-3-3c1.7,0,3-1.3,3-3v-3c0-2.2-1.8-4-4-4h-8v4h8v4h-4v4h4v4h-8v4h8C28.2,34,30,32.2,30,30z",
+      "3.5": "M38,10v28H10V10H38 M38,6H10c-2.2,0-4,1.8-4,4v28c0,2.2,1.8,4,4,4h28c2.2,0,4-1.8,4-4V10C42,7.8,40.2,6,38,6z M30,30v-3c0-1.7-1.3-3-3-3c1.7,0,3-1.3,3-3v-3c0-2.2-1.8-4-4-4h-8v4h8v4h-4v4h4v4h-8v4h8C28.2,34,30,32.2,30,30z",
       "4": "M38,10v28H10V10H38 M38,6H10c-2.2,0-4,1.8-4,4v28c0,2.2,1.8,4,4,4h28c2.2,0,4-1.8,4-4V10C42,7.8,40.2,6,38,6z M26,34h4V14h-4v8h-4v-8h-4v12h8V34z",
+      "4.5": "M38,10v28H10V10H38 M38,6H10c-2.2,0-4,1.8-4,4v28c0,2.2,1.8,4,4,4h28c2.2,0,4-1.8,4-4V10C42,7.8,40.2,6,38,6z M26,34h4V14h-4v8h-4v-8h-4v12h8V34z",
       "5": "M38,10v28H10V10H38 M38,6H10c-2.2,0-4,1.8-4,4v28c0,2.2,1.8,4,4,4h28c2.2,0,4-1.8,4-4V10C42,7.8,40.2,6,38,6z M30,30v-4c0-2.2-1.8-4-4-4h-4v-4h8v-4H18v12h8v4h-8v4h8C28.2,34,30,32.2,30,30z",
       "timer": "M30 2H18v4h12V2zm-8 26h4V16h-4v12zm16.05-13.23l2.85-2.85c-.86-1.03-1.8-1.97-2.83-2.83l-2.85 2.85C32.15 9.48 28.24 8 23.99 8 14.04 8 6 16.06 6 26s8.04 18 17.99 18S42 35.94 42 26c0-4.25-1.48-8.15-3.95-11.23zM24 40c-7.73 0-14-6.27-14-14s6.27-14 14-14 14 6.27 14 14-6.27 14-14 14z",
       "ruler": "M42 12H6c-2.21 0-4 1.79-4 4v16c0 2.21 1.79 4 4 4h36c2.21 0 4-1.79 4-4V16c0-2.21-1.79-4-4-4zm0 20H6V16h4v8h4v-8h4v8h4v-8h4v8h4v-8h4v8h4v-8h4v16z",
@@ -877,15 +877,13 @@
       "goingUp": "M18 32h12V20h8L24 6 10 20h8zm-8 4h28v4H10z",
       "dashboard": "M38.8,11.9c-8.2-8.2-21.5-8.2-29.7,0C1,20.1,1,33.4,9.1,41.6l0.6,0.6h28.5l0.6-0.6c4-4,6.2-9.2,6.2-14.9 S42.8,15.9,38.8,11.9z M36.6,38.2H11.4c-2.6-2.8-4-6.3-4.3-9.9H11v-3H7.1c0.3-3.4,1.6-6.7,3.9-9.4l2.8,2.8l2.1-2.1l-2.8-2.8 c2.7-2.3,6-3.6,9.4-3.9v3.9h3V9.9c3.4,0.3,6.7,1.6,9.4,3.9l-2.8,2.8l2.1,2.1l2.8-2.8c2.2,2.7,3.6,5.9,3.9,9.4H37v3h3.9 C40.6,32,39.1,35.4,36.6,38.2z M32.1,20.8L26.9,26c0.3,1,0,2.1-0.8,2.9c-1.2,1.2-3.1,1.2-4.2,0c-1.2-1.2-1.2-3.1,0-4.2 c0.8-0.8,1.9-1,2.9-0.8l5.2-5.2L32.1,20.8z"
     },
-    "icon": {
-      "sideLength":48,
-      "scale":0.75,
-      "overlayColor":"#ffffff",
-      "labelColor":"#363636",
-      "valueColor":"#000000",
+    "titlebar": {
+      "height":44,
       "prev": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAAmUlEQVRoge3asQqDMBRG4WMH0YdtX85BfDl1MdChXVJpfuV8kDXcQ6bABemb4TiX1gMTsABj41mqDcAMbMeZgUfTiSqUlygRK/BsOlEFI1IYkcKIFEakMCKFESmMSGFECiNSREac9cnvTrrn7z69yqvpRD8wJpUxqYxJZUwqY1IZk8qYVMakMibVLRYGivcVjsvvo9xiqUbFDgc2q0bbxH9pAAAAAElFTkSuQmCC",
       "search": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAC6UlEQVRoge2ZzWsTQRiHn/hRjxVqPi4aabzVgwdBqdDcxOYmCEWw4smTH4cKQq213sR/QkF6KREaalV6ylk92rs9ajVGe6iJqfUw7zprOiS7O7NJCvvAMmE383vf3+7MZPYNJCTEQsqyfw4oAUVgDMgDw3LtB7ABrANV4DXw2TKec4rACtACdgMev6XPRB/y3UMBeINOrgFUgFvAOSADHJYjA5wHbqMMNHz9VoHRHuf+j2lgSxL5BjwERkL0HwHmgZpo1IFJxzl2ZQF9NxeBtIVWBlgSrRYwY5tcUBbQY/ymI80UMAvsiHbsZqbRJi7HoD+FMtMixmFWQM8JV0/CxAP0nMnHEcBbnRbjEPeRAsoS64Vr8SJ6dbKZ2EE5AWyjhtkZl8IrKCNzLkW78FRiLrsSzKEmd4NwvxO2pIGmxM6E7XzAcK4EHALeooZWr9gE1iR2KWxnk5GitGsWSUXFi1ns+C0DJiOnpf0QOZ3oeDHHXIh9RU26XqxW7WQl9hcXYt4udciFWEiOSOxfYTuahta+xGRkS9phw7W4OSrtz7AdTUY2pC1ETic6p6T9FLajychHac9GzcYCL+Z62I4mI1VpL0bNxgIvZrXTl4KSRW9RjrkQDIi3RWnicOn3No3zrgQD8FhiVlyKTohojQgbuAjkUC9Wu8C4a/FVEV7CvpDXCf+LldOn4TGKvkuzcQQQ5iTGd+BkXEFKqMLADqpQ4Jqr6OLDpRj0/+Me6o79AZ7gZpilgPvoclANuOZAtysz6DpvGThuoZUDXqILdHXf556YmfQF3Ua9Y4dZ79OoJdbTqKOq8+2F7jiG8B7yqJKNNySawCvgDmrZzKK2/0PyeRy4i1oBm76EK6iJfUWS95vp2ZMBVbJZNiTR6WiKgQttWn03A+rH8gbwHHiPKiA05NgE3gHPgOt0HoYDYcYViZlBJTEzqCRmBpVAZvZDXauMSrrlO3eQPv69bYv/yTzqcy7WTNHbOkJCwl86QPyVIIkRuwAAAABJRU5ErkJggg==",
-      "add": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAAWklEQVRoge3XsQ2AMAwAwcD+O0NPA02sF7obwMkrjbMWALCOzfOvqfPOXYOnCakRUiOkRkiNkBohNV+30ecWO+31nr95ESE1fog1QmqE1AipEVIjpEYIABB0A2/0Az6X8bpXAAAAAElFTkSuQmCC",
+      "add": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAAWklEQVRoge3XsQ2AMAwAwcD+O0NPA02sF7obwMkrjbMWALCOzfOvqfPOXYOnCakRUiOkRkiNkBohNV+30ecWO+31nr95ESE1fog1QmqE1AipEVIjpEYIABB0A2/0Az6X8bpXAAAAAElFTkSuQmCC"
+    },
+    "tabbar": {
       "trail": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAADqklEQVRoge3aSYgdVRQG4K/Tpo0dFSKCtmhQs1CMgoIah4C4UgQHRF2Iim5CogTBjYsoLrKwRUWy0YADJFEUNwHFhRAhoPQiOCGYaOOwsaOuHKISnMrFveWrrlf1XlW96uQV9A8FXafuPff8fc85dziPZYwf3sch3IfJFvVORp2HMI/NWNWi/gncjoMCB0nmmTc6oZTAfE53gh+xDaeNoB+uxVxO9yISoxAqIpDquQMHMvIjeA5raxK4EHszen4oIrICd+KLjOwbbMIJA5TX6bcRb+Pf2O6f+H75EAKnYwf+iv1+xyxOLSJS17CmxOES7Mafmb4f4OZcu9V4FL9kiO/GTKZNKZEUg1ylTF43ttYKLnYko+uA4IpbLHadvYJr5TGUyCBCbSYHQvBvE5JBfow5IbjLUJlIipTQl/FpO10T0vNmIaV+LqTXiSF9EiQTeiSGdRhXJISAPdZYja+iAS9G2SSewbNY31RxVdcaBesEN4FpPSKvRNkZ+DvK9mf6VVk4a8dIU9yAP+IYlw5odxUe0wvsG4X1Zr+wjpShEpFbhbR3bjWbTeEpHMaCsGg9EvW/bPj6ksV6vfR7z4B2lYjsiN8+qzj4LH3pc1ZwnSZYg1uwckCbSkROwT68U3Hgw/qJfF+x7zBswus4OSdvFCM3YWuBshQL+ol8V8/eUrwV9T2Rkzcikq7un8T3FXgNv+FNxa71ZHPbF+EKHMX2nLwRkQ14D7vi+zR+FbLLTiHYZ4WZSYN9qrntfZgukLWWfmc0D+YmWGXxQn7M1pE2sQY/4Y2MrJNEztGfQBIkdRaoccAC3sXX+Q/Lu9/jiJOU2N2lGJkRjsWvZmQJkq7NyAXCruLsoo9dm5GP8EBGtnzUPV5YiesM2NJ3xbW2C3Y+lJN3bmX/VrBzQ04+1jEyJczAvYJ9e/CxcNf7Uq5tkv2j6Yycj7uFRQqux6fCNmJdQ52UH5mLUNm1ii4UpnCb3q36g7Ht1oy+u6LsfuFmcqfi80QR6hyZKxMp++9cLVSj9uCsTPvzcJmeqz6e6XdNlG3Ew7go02+FMItnqndkrkykjQuFi4V7qhQfRj1H9c7/+6LsZzxdMGbZkbkykaW4ULgSLwjXpOnMPS/UV3bhRNWPzCO5VlsXCm2gj0hZmaDphUJahjgYn6Wq6v5PJFsd7WpVd65s4C5VdbfI7b+6WtUd2bBxqeoORVequiMRajM5MFpVtzayP5JZih/h0Kvqzgspu0pVdxljif8AXhryd9wy5ugAAAAASUVORK5CYII=",
       "event": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAB6UlEQVRoge2Yv0vDQBiGn7RqJ5WCg1AH7ebgfyDOVkTcnRzEoZu7i/4JLuLspLODq4OCsxRX226iiwoKahzyRUL6g+vlrnfWPPDRhl7e916S7y4NqLEGtIFQqgXUFM8dBOs+SfG4miYNhuUTi/Y6du5TsDAZJxTovC+7VS/6naNTOj4toBZIiIpi8CAhbJNBfVpBYnDQZ2B6jMo5Ouj4hDBiPaJCWz6T97Kt5VfbR2WJq4lgcm1fHWyOSuj4hECo2iM+8z97xHtGJkiyR/40I3NFxhLf81XLB/IgvpEH8Q0fglSBkgkhWy8SVCgBDamqpsbv/F0GORDvBvpXxXmQJeAD+AKWM+g4DVIArsX3KKOW0yB74vkATGbUchZkHngRzw0Des6CXIrfqSE9o0EqQFlh3LZ4PQIzGT1jjAUpA3dSc33GzQJP4rWVwS+NsSAVohBx8y72GHcmYy4yeHXD6K1VBq5E55nOfWFdfnsFFjJ6pTHe7CXgXLTeiCYPMEX0xjwE6gZ80lhZtYrAseh9AjvAiRzfYOch1dryGwCHovkt9U7v3smK9X2kTvQcFQL7FvRjhrIhbgK3wIQlfRjizj5uURvyt/GekgfxjTyIb+RBfCMgejLt94foL9AsAvfACjDteDK6tIDdH0uM4aSOOZe8AAAAAElFTkSuQmCC",
       "post": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAA0UlEQVRoge3ZQQ6CMBCF4V/jFTTx/jfShcfBDSsTQltmXkfy/oSdAT4apiSC+6+WxOMDPM8AWYA38FBCss4rW5lsyAsRJhtyR4TJhoAIo4CAAKOCQDJGCYFEjBoCSZgZEEjAzIJAMEaxs/d8zmx2abhgy+96G304m/dxGzzh0XofzC78Ongj5TKkWoZU6+jUit5jhse8V2QteqMc7jQrYki1Zk+tsHfMK7LmqRWdIdWaPbV+87eWp1a1DKmWIdUypFqGVKt1Z8/4jyS006yIq9YXoCuK+rpLYFwAAAAASUVORK5CYII=",

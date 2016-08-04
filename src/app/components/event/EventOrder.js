@@ -39,7 +39,7 @@ import Intro from '../shared/Intro'
 import InfoItem from '../shared/InfoItem'
 import TextView from '../shared/TextView'
 import CallToAction from '../shared/CallToAction'
-import {formatTime, formatEndTime} from '../../../common'
+import {formatEventGroupLabel} from '../../../common'
 import styles from '../../styles/main'
 
 class EventOrder extends Component {
@@ -49,7 +49,7 @@ class EventOrder extends Component {
     this.removeUser = this.removeUser.bind(this)
     this.updateInfo = this.updateInfo.bind(this)
     this.validateData = this.validateData.bind(this)
-    this.submit = this.submit.bind(this)
+    this.pay = this.pay.bind(this)
 
     let user = this.props.user
 
@@ -115,7 +115,7 @@ class EventOrder extends Component {
     } : false
   }
 
-  submit() {
+  pay() {
     let signUps = this.state.signUps,
       tmp = []
 
@@ -147,28 +147,18 @@ class EventOrder extends Component {
   }
 
   render() {
-    this.props.event.groups.map((group)=>{
-      console.log(Moment(group))
-    })
-
     const event = this.props.event,
-      group = this.props.group || 0,      
-      startDate = Moment(event.groups[group]),
-      endDate = Moment(startDate).add(event.schedule.length, 'days'),
-      dates = (event.groups.length > 1) ? (
-        startDate.format('LL') + '-' + endDate.format('LL')
-      ) : (
-        startDate.format('LL')
-      )
+      selectedGroup = this.props.selectedGroup || 0,
+      dates = formatEventGroupLabel(event, selectedGroup)
 
       //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
       
     return(
       <View style={styles.detail.wrapper}>
-        <ParallaxView style={{flex: 1}}
-          ref='scrollView'
+        <ParallaxView ref='scrollView'
+          style={{flex: 1}}
           backgroundSource={{uri: AppSettings.assetUri + event.hero}}
-          windowHeight={240}
+          windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
               align='bottom' 
@@ -176,7 +166,7 @@ class EventOrder extends Component {
               excerpt={event.excerpt}
             />
           )}>
-          <View ref='scrollContent' style={{backgroundColor: AppSettings.color.background}}>
+          <View ref='scrollContent' style={{backgroundColor: Graphics.colors.background}}>
             <View style={styles.detail.section}>
               <TextView class='h2' text={Lang.EventInfo} />
               <InfoItem label={Lang.EventDates} value={dates} />
@@ -211,8 +201,8 @@ class EventOrder extends Component {
           </View>
           <View style={{flex: 2}}>
             <CallToAction
-              label={Lang.SignUp}
-              onPress={this.submit}
+              label={Lang.Pay}
+              onPress={this.pay}
             />
           </View>
         </View>
@@ -317,7 +307,7 @@ class InputItem extends Component {
                 initial={this.state.gender}
                 formHorizontal={true}
                 labelHorizontal={true}
-                buttonColor={AppSettings.color.primary}
+                buttonColor={Graphics.colors.primary}
                 animation={true}
                 onPress={(value) => {this.updateState({gender: value})}}
               />
@@ -360,7 +350,7 @@ const localStyles = StyleSheet.create({
     width: 100
   },
   button: {
-    backgroundColor: AppSettings.color.background,
+    backgroundColor: Graphics.colors.background,
     borderRadius: 18,
     height: 36,
     marginRight: 18,

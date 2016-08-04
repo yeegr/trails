@@ -43,7 +43,7 @@ styles = StyleSheet.create({
     marginRight: 5
   },
   handle: {
-    color: AppSettings.color.textOverlay
+    color: Graphics.textColors.overlay
   }
 })
 

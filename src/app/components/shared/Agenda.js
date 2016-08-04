@@ -38,7 +38,7 @@ const Agenda = (props) => {
           </View>
           <View style={{flex: 0, marginVertical: 16, marginHorizontal: 10}}>
             <Svg width={16} height={16}>
-              <Path scale={0.33333} fill={Graphics.colors.primary} d={Graphics.glyph.next} />
+              <Path scale={0.33333} fill={Graphics.colors.primary} d={Graphics.glyphs.next} />
             </Svg>
           </View>
           <View style={{flex: 1}}>

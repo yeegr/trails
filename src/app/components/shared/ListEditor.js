@@ -103,7 +103,7 @@ class InputBar extends Component {
     this.state = {
       text: this.props.text || '',
       index: this.props.index || -1,
-      height: AppSettings.minTextInputHeight
+      height: Graphics.textInput.minHeight
     }
   }
 
@@ -125,13 +125,13 @@ class InputBar extends Component {
     this.setState({
       text: '',
       index: -1,
-      height: AppSettings.minTextInputHeight
+      height: Graphics.textInput.minHeight
     })
   }
 
   onChange(evt) {
     var height = evt.nativeEvent.contentSize.height,
-      height = (height > AppSettings.maxTextInputHeight) ? AppSettings.maxTextInputHeight : Math.max(AppSettings.minTextInputHeight, height)
+      height = (height > Graphics.textInput.maxHeight) ? Graphics.textInput.maxHeight : Math.max(Graphics.textInput.minHeight, height)
 
     this.setState({
       text: evt.nativeEvent.text,
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
 
   inputBar: {
     alignItems: 'center',
-    backgroundColor: AppSettings.color.inputBackground,
+    backgroundColor: Graphics.textInput.backgroundColor,
     borderTopColor: AppSettings.color.lightGray,
     borderTopWidth: 1,
     flexDirection: 'row',
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   inputButtonText: {
-    color: AppSettings.color.primary,
+    color: Graphics.colors.primary,
   },
 })
 

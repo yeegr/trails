@@ -1,9 +1,5 @@
 'use strict'
 
-import {
-  AppSettings
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -16,7 +12,7 @@ import {
   View
 } from 'react-native'
 
-import {hex2rgb} from '../../../common'
+import {Graphics} from '../../settings'
 
 const Tag = (props) => {
   let bgColor = (props.bgColor) ? {backgroundColor: props.bgColor} : {},
@@ -72,7 +68,7 @@ TagList.propTypes = {
 
 const styles = StyleSheet.create({
   tag: {
-    backgroundColor: hex2rgb(AppSettings.color.tagBackground, 0.8),
+    backgroundColor: Graphics.tag.backgroundColor,
     borderRadius: 12,
     marginRight: 10,
     marginVertical: 5,
@@ -80,7 +76,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   tagLabel: {
-    color: AppSettings.color.textOverlay,
+    color: Graphics.textColors.overlay,
     fontSize: 12,
   },
   tagList: {

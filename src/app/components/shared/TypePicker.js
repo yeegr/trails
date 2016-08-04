@@ -1,7 +1,7 @@
 'use strict'
 
 import {
-  AppSettings,
+  Graphics,
   Lang
 } from '../../settings'
 
@@ -48,7 +48,7 @@ IconGrid = (props) => {
       props.list.map((i) => {
         return (
           <TouchableOpacity key={i} style={styles.button} onPress={() => props.onPress(i)}>
-            <Icon backgroundColor={(i === props.selectedIndex) ? AppSettings.color.primary : AppSettings.color.midGray} 
+            <Icon backgroundColor={(i === props.selectedIndex) ? Graphics.colors.primary : Graphics.icon.backgroundColor} 
               type={i.toString()} 
               label={Lang.tagArray[i]}
             />
@@ -62,14 +62,14 @@ IconGrid = (props) => {
 
 styles = StyleSheet.create({
   modal: {
-    backgroundColor: AppSettings.color.background,
+    backgroundColor: Graphics.colors.background,
     flex: 1
   },
   dialog: {
     padding: 10,
   },
   grid: {
-    borderBottomColor: AppSettings.color.lightGray,
+    borderBottomColor: Graphics.colors.lightGray,
     borderBottomWidth: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',

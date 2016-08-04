@@ -60,8 +60,8 @@ const TrailMap = (props) => {
     >
       <MapView.Polyline
         coordinates={path}
-        strokeColor={AppSettings.mapping.strokeColor}
-        strokeWidth={AppSettings.mapping.strokeWeight}
+        strokeColor={Graphics.mapping.strokeColor}
+        strokeWidth={Graphics.mapping.strokeWeight}
       />
       <MapView.Marker
         coordinate={startMarker.coord}

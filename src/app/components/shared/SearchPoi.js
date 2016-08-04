@@ -153,7 +153,7 @@ export default class SearchPoi extends Component {
               <CallToAction 
                 onPress={this.onConfirm} 
                 label={Lang.Confirm} 
-                backgroundColor={AppSettings.color.primary}
+                backgroundColor={Graphics.colors.primary}
                 disabled={(this.state.selectedPoi === null)}
               />
             </View>
@@ -249,7 +249,7 @@ styles = StyleSheet.create({
     paddingVertical: 10
   },
   selectedItem: {
-    backgroundColor: hex2rgb(AppSettings.color.primary, .5)
+    backgroundColor: hex2rgb(Graphics.colors.primary, .5)
   },
   list: {
     flex: 0,

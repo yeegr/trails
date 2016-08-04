@@ -117,7 +117,7 @@ export default class SearchTrails extends Component {
                   <TouchableOpacity key={i} style={{height: 75}} onPress={() => this.typePressed(i)}>
                     <View style={{marginRight: 12}}>
                       <Icon
-                        backgroundColor={(this.state.types.indexOf(i) > -1) ? AppSettings.color.primary : AppSettings.color.midGray} 
+                        backgroundColor={(this.state.types.indexOf(i) > -1) ? Graphics.colors.primary : AppSettings.color.midGray} 
                         type={i.toString()} 
                         label={Lang.tagArray[i]}
                       />
@@ -139,7 +139,7 @@ export default class SearchTrails extends Component {
                   minimumRange={1}
                   lowerValue={this.state.difficultyLevelLower}
                   upperValue={this.state.difficultyLevelUpper}
-                  trackColor={AppSettings.color.primary}
+                  trackColor={Graphics.colors.primary}
                   onChange={this.onDifficultyChange}
                   style={styles.search.slider}
                 />
@@ -158,7 +158,7 @@ export default class SearchTrails extends Component {
                   minimumRange={3}
                   lowerValue={this.state.totalDistanceLower}
                   upperValue={this.state.totalDistanceUpper}
-                  trackColor={AppSettings.color.primary}
+                  trackColor={Graphics.colors.primary}
                   onChange={this.onDistanceChange}
                   style={styles.search.slider}
                 />
@@ -167,7 +167,7 @@ export default class SearchTrails extends Component {
             </View>
           </View>
         </View>
-        <CallToAction onPress={this.search} label={Lang.Search} backgroundColor={AppSettings.color.primary} />
+        <CallToAction onPress={this.search} label={Lang.Search} backgroundColor={Graphics.colors.primary} />
       </View>
     )
   }

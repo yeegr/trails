@@ -64,7 +64,7 @@ export default class UserDetail extends Component {
       <ParallaxView style={styles.user.wrapper}
         backgroundSource={{uri: AppSettings.assetUri + AppSettings.userBackground }}
         windowHeight={320}
-        scrollableViewStyle={{backgroundColor: AppSettings.color.background}}
+        scrollableViewStyle={{backgroundColor: Graphics.colors.background}}
         header={(
           <View style={styles.user.hero}>
             <Avatar user={user} size='XL' borderWidth={6} />

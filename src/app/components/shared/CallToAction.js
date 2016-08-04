@@ -17,17 +17,16 @@ import TextView from './TextView'
 import {hex2rgb} from '../../../common'
 
 const CallToAction = (props) => {
-  let backgroundColor = props.backgroundColor || Graphics.colors.primary,
-    textColor = props.textColor || Graphics.textColors.overlay
-
-  backgroundColor = (props.disabled) ? hex2rgb(Graphics.textColors.disabled) : backgroundColor
-  textColor = (props.disabled) ? Graphics.textColor.disabled : textColor
+  let bgColor = props.backgroundColor || Graphics.colors.primary,
+    textColor = props.textColor || Graphics.textColors.overlay,
+    backgroundColor = (props.disabled) ? Graphics.colors.disabled : bgColor,
+    foregroundColor = (props.disabled) ? Graphics.textColors.disabled : textColor
 
   let view = (
     <View style={[styles.wrapper, {backgroundColor}]}>
       <TextView
         fontSize='L'
-        textColor={textColor} 
+        textColor={foregroundColor} 
         text={props.label}
       />
     </View>
@@ -45,11 +44,10 @@ const CallToAction = (props) => {
 },
 styles = StyleSheet.create({
   wrapper: {
-    alignItems: 'center', 
-    flex: 1,
+    alignItems: 'center',
     flexDirection: 'row',
     height: Graphics.actionBar.height,
-    justifyContent: 'center',
+    justifyContent: 'center'
   }
 })
 

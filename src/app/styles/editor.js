@@ -59,7 +59,7 @@ export default StyleSheet.create({
     flex: 1
   },
   textInput: {
-    backgroundColor: AppSettings.color.inputBackground,
+    backgroundColor: Graphics.textInput.backgroundColor,
     color: AppSettings.color.midGray,
     fontSize: 16,
     height: 44.5,
@@ -89,7 +89,7 @@ export default StyleSheet.create({
 
   numberButton: {
     alignItems: 'center',
-    borderColor: AppSettings.color.primary,
+    borderColor: Graphics.colors.primary,
     borderWidth: 1,
     flexDirection: 'row',
     height: 20, 
@@ -106,7 +106,7 @@ export default StyleSheet.create({
     borderTopRightRadius: 2,
   },
   numberButtonText: {
-    color: AppSettings.color.primary,
+    color: Graphics.colors.primary,
     lineHeight: 14
   },
 
@@ -122,7 +122,7 @@ export default StyleSheet.create({
   mainButtonText: Object.assign({},
     AppSettings.textStyles.extraLarge,
     {
-      color: AppSettings.color.textOverlay,
+      color: Graphics.textColors.overlay,
       fontWeight: '500'
     }),
 })

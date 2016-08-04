@@ -21,7 +21,7 @@ import Chart from 'react-native-chart'
 
 import {formatTrailChartData} from '../../../common'
 
-const chartColor = AppSettings.color.textOverlay,
+const chartColor = Graphics.textColors.overlay,
 
   TrailChart = (props) => {
     const data = formatTrailChartData(props.points)
@@ -33,7 +33,7 @@ const chartColor = AppSettings.color.textOverlay,
           data={data}
           verticalGridStep={5}
           type="line"
-          color={AppSettings.color.primary}
+          color={Graphics.colors.primary}
           axisColor={chartColor}
           axisLabelColor={chartColor}
           gridColor={chartColor}

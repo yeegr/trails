@@ -20,6 +20,14 @@ export function formatEndTime(dt, days) {
   return moment(tmp).add(days, 'days').locale(locale).format(fmt)
 }
 
+export function formatEventGroupLabel(event, groupIndex) {
+  const startDate = moment(event.groups[groupIndex].startDate),
+    days = event.schedule.length
+
+  return startDate.format('LL') + '-' + moment(startDate).add(days, 'days').format('LL')
+} 
+
+
 export function calculateTrailData(points) {
   const firstPoint = points[0],
     lastPoint = points[points.length - 1],

@@ -11,7 +11,7 @@ import {
 
 export default StyleSheet.create({
   wrapper: {
-    backgroundColor: AppSettings.color.background,
+    backgroundColor: Graphics.colors.background,
     flex: 1,
     flexDirection: 'column',
   },
@@ -48,7 +48,7 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   icon: {
-    backgroundColor: AppSettings.color.primary,
+    backgroundColor: Graphics.colors.primary,
     borderRadius: 4,
     height: 48,
     marginRight: 9,

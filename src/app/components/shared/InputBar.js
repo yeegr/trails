@@ -26,7 +26,7 @@ export default class InputBar extends Component {
     this.state = {
       text: this.props.text || '',
       index: this.props.index || -1,
-      height: AppSettings.minTextInputHeight
+      height: Graphics.textInput.minHeight
     }
   }
 
@@ -46,7 +46,7 @@ export default class InputBar extends Component {
           style={[styles.editor.textInput, styles.editor.textInputBorder, {height: this.state.height}]}
           onChange={(evt) => {
             var height = evt.nativeEvent.contentSize.height,
-              height = (height > AppSettings.maxTextInputHeight) ? AppSettings.maxTextInputHeight : Math.max(AppSettings.minTextInputHeight, height)
+              height = (height > Graphics.textInput.maxHeight) ? Graphics.textInput.maxHeight : Math.max(Graphics.textInput.minHeight, height)
 
             this.setState({
               text: evt.nativeEvent.text,

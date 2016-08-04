@@ -114,7 +114,7 @@ class Login extends Component {
             maxLength={AppSettings.validationCodeLength}
             style={styles.loginInput}
             placeholder={Lang.ValidationCode}
-            placeholderTextColor={AppSettings.color.placeholderText}
+            placeholderTextColor={Graphics.colors.placeholder}
             onFocus={() => {this.setState({validationCode: ''})}}
             onChangeText={this.onValidationCodeChanged}
             value={this.state.validationCode}
@@ -143,7 +143,7 @@ class Login extends Component {
     return (
       <Image source={{uri: AppSettings.assetUri + AppSettings.loginBackground}} style={[styles.backgroundImage, toggle]}>
         <TouchableOpacity onPress={this.hideLogin} style={styles.closeButton}>
-          <Icon backgroundColor="transparent" fillColor="rgba(255, 255, 255, 0.8)" pictogram={Graphics.pictogram.timer} />
+          <Icon backgroundColor="transparent" fillColor="rgba(255, 255, 255, 0.8)" pictogram={Graphics.pictograms.timer} />
         </TouchableOpacity>
         <View style={styles.loginForm}>
           <Text style={styles.label}>{Lang.MobileNumber}</Text>
@@ -154,7 +154,7 @@ class Login extends Component {
             keyboardType="phone-pad"
             maxLength={AppSettings.mobileNumberLength}
             placeholder={Lang.MobileNumberSample}
-            placeholderTextColor={AppSettings.color.placeholderText}
+            placeholderTextColor={Graphics.colors.placeholder}
             style={styles.loginInput}
             disabled={!this.props.login.disableVerification}
             onChangeText={this.onMobileNumberChanged}
@@ -286,13 +286,13 @@ const {height, width} = Dimensions.get('window'),
       flex: 1
     },
     label: {
-      color: AppSettings.color.textOverlay,
+      color: Graphics.textColors.overlay,
       marginTop: 10,
       paddingLeft: 4,
       paddingRight: 4
     },
     loginInput: {
-      color: AppSettings.color.foreground,
+      color: Graphics.colors.foreground,
       backgroundColor: 'rgba(255, 255, 255, 0.5)',
       borderRadius: 4,
       fontSize: 24,
@@ -310,22 +310,22 @@ const {height, width} = Dimensions.get('window'),
       borderRadius: 5
     },
     buttonEnabled: {
-      backgroundColor: AppSettings.color.primary,
+      backgroundColor: Graphics.colors.primary,
     },
     buttonDisabled: {
       backgroundColor: AppSettings.color.disabledButtonBackground,
       opacity: 0.8
     },
     buttonText: {
-      color: AppSettings.color.textOverlay,
+      color: Graphics.textColors.overlay,
       fontSize: 24
     },
     closeButton: {
-      height: Graphics.iconSide,
+      height: Graphics.icon.sideLength,
       right: 10,
       top: 25,
       position: 'absolute',
-      width: Graphics.iconSide
+      width: Graphics.icon.sideLength
     }
   })
 

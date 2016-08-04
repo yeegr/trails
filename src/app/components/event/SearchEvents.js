@@ -64,7 +64,7 @@ export default class SearchEvents extends Component {
             />
           </View>
         </View>
-        <CallToAction onPress={this.search} label={Lang.Search} backgroundColor={AppSettings.color.primary} />
+        <CallToAction onPress={this.search} label={Lang.Search} backgroundColor={Graphics.colors.primary} />
       </View>
     )
   }

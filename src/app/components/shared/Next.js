@@ -20,7 +20,7 @@ const Next = (props) => {
   let width = 9,
     height = 12,
     scale = 0.75,
-    fill = AppSettings.color.primary,
+    fill = Graphics.colors.primary,
     path = "M12,8l-8,8l-0.9-0.9L10.3,8l-7-7.1L4.1,0L12,8z"
 
   if (props.path === Graphics.arrow.next) {

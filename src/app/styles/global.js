@@ -10,7 +10,7 @@ export default StyleSheet.create({
   },
   main: {
     flex: 1,
-    paddingTop: Graphics.titleBar.height
+    paddingTop: Graphics.titlebar.height
   },
   map: {
     backgroundColor: Graphics.colors.lightGray,

@@ -25,19 +25,19 @@ const TinyStatus = (props) => {
   const data = props.data,
     likeIcon = (data.likeCount > 0) ? (
       <Icon 
-        path={Graphics.button.like}
+        path={Graphics.toolbar.like}
         value={data.likeCount}
       />
     ) : null,
     saveIcon = (data.saveCount > 0) ? (
       <Icon 
-        path={Graphics.button.save}
+        path={Graphics.toolbar.save}
         value={data.saveCount}
       />
     ) : null,
     shareIcon = (data.shareCount > 0) ? (
       <Icon 
-        path={Graphics.button.share}
+        path={Graphics.toolbar.share}
         value={data.shareCount}
       />
     ) : null

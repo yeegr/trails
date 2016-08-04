@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   text: {
-    color: AppSettings.color.textOverlay,
+    color: Graphics.textColors.overlay,
     fontSize: 30,
     fontWeight: 'bold',
   },

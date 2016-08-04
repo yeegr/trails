@@ -45,13 +45,14 @@ const UserLink = (props) => {
 },
 styles = StyleSheet.create({
   wrapper: {
-    flexDirection: 'row'
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
   },
   content: {
     flex: 1,
-    marginBottom: 5,
     marginLeft: 10,
-    paddingVertical: 5,
+    marginTop: 5
   }
 })
 

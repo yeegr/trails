@@ -181,7 +181,7 @@ export default class EventDetail extends Component {
         <ParallaxView style={{flex: 1}}
           ref='scrollView'
           backgroundSource={{uri: AppSettings.assetUri + event.hero}}
-          windowHeight={240}
+          windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
               align='bottom' 
@@ -372,8 +372,8 @@ const Tab = (props) => {
     foreground = AppSettings.color.midGray
 
   if (props.selected === true) {
-    background = {backgroundColor: AppSettings.color.background, borderColor: AppSettings.color.primary },
-    foreground = AppSettings.color.primary
+    background = {backgroundColor: Graphics.colors.background, borderColor: Graphics.colors.primary },
+    foreground = Graphics.colors.primary
   }
 
   return (

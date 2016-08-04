@@ -36,7 +36,7 @@ const Icon = (props) => {
     ) : null,
     backgroundColor = (props.backgroundColor) ? {backgroundColor: props.backgroundColor} : null,
     fillColor = (props.fillColor) ? props.fillColor : Graphics.icon.overlayColor,
-    path = (props.type || props.type === 0) ? Graphics.glyph[props.type.toString()] : (props.pictogram ? props.pictogram : null),
+    path = (props.type || props.type === 0) ? Graphics.glyphs[props.type.toString()] : (props.pictogram ? props.pictogram : null),
     sideLength = props.sideLength ? parseInt(props.sideLength) : Graphics.icon.sideLength,
     scale = sideLength / Graphics.icon.sideLength * Graphics.icon.scale,
     margin = sideLength * (1 - Graphics.icon.scale) / 2,

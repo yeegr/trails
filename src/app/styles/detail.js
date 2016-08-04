@@ -9,13 +9,13 @@ import {StyleSheet} from 'react-native'
 
 export default StyleSheet.create({
   wrapper: {
-    backgroundColor: AppSettings.color.background,
+    backgroundColor: Graphics.colors.background,
     flex: 1,
     flexDirection: 'column',
   },
   article: {
     flex: 1,
-    backgroundColor: AppSettings.color.background,
+    backgroundColor: Graphics.colors.background,
   },
   section: {
     marginVertical: 15,
@@ -57,7 +57,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   textInput: {
-    backgroundColor: AppSettings.color.inputBackground,
+    backgroundColor: Graphics.textInput.backgroundColor,
     color: AppSettings.color.midGray,
     flex: 1,
     height: 30,

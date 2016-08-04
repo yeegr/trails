@@ -12,20 +12,12 @@ import React, {
 } from 'react'
 
 import {
-  ListView,
   StyleSheet,
-  TextInput,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native'
 
-import Svg, {
-  Circle
-} from 'react-native-svg'
-
 import ParallaxView from 'react-native-parallax-view'
-import RadioForm from 'react-native-simple-radio-button'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
@@ -33,6 +25,8 @@ import * as eventsActions from '../../containers/actions/eventsActions'
 
 import Intro from '../shared/Intro'
 import InfoItem from '../shared/InfoItem'
+import TextView from '../shared/TextView'
+import Icon from '../shared/Icon'
 import CallToAction from '../shared/CallToAction'
 import {formatTime, formatEndTime, calculateInsurance} from '../../../common'
 import styles from '../../styles/main'
@@ -43,7 +37,8 @@ class EventPayment extends Component {
     this.confirm = this.confirm.bind(this)
 
     this.state = {
-      paymentMethods: [{label: Lang.Alipay, value: 0}, {label: Lang.WechatPay, value: 1}],
+      //paymentMethods: [{label: Lang.Alipay, value: 0}, {label: Lang.WechatPay, value: 1}],
+      paymentMethods: [{label: Lang.Alipay, value: 0}],
       paymentMethod: 0
     }
   }
@@ -62,20 +57,23 @@ class EventPayment extends Component {
     return(
       <View style={styles.detail.wrapper}>
         <ParallaxView style={{flex: 1}}
-          ref='scrollView'
           backgroundSource={{uri: AppSettings.assetUri + event.hero}}
-          windowHeight={240}
+          windowHeight={Graphics.heroImage.height}
           header={(
-            <Intro title={event.title} excerpt={event.excerpt} />
+            <Intro
+              align='bottom'
+              title={event.title}
+              excerpt={event.excerpt}
+            />
           )}>
-          <View ref='scrollContent' style={{backgroundColor: AppSettings.color.background}}>
+          <View style={{backgroundColor: Graphics.colors.background}}>
             <View style={styles.detail.section}>
-              <Text style={styles.detail.h2}>{Lang.EventInfo}</Text>
+              <TextView class='h2' text={Lang.EventInfo} />
               <InfoItem label={Lang.EventDates} value={startDate + '-' + endDate} />
               <InfoItem label={Lang.PerHead} value={event.expenses.perHead.toString() + Lang.Yuan} />
             </View>
             <View style={styles.detail.section}>
-              <Text style={styles.detail.h2}>{Lang.SignUps}</Text>
+              <TextView class='h2' text={Lang.SignUps} />
               <View style={styles.detail.infoList}>
                 {
                   this.props.signUps.map((signUp, index) => {
@@ -93,20 +91,29 @@ class EventPayment extends Component {
               </View>
             </View>
             <View style={styles.detail.section}>
-              <Text style={styles.detail.h2}>{Lang.PaymentMethod}</Text>
+              <TextView class='h2' text={Lang.PaymentMethod} />
               <View style={styles.editor.group}>
                 {
                   this.state.paymentMethods.map((method, index) => {
+                    const checkmark = (method.value === this.state.paymentMethod) ? (
+                      <Icon 
+                        backgroundColor={Graphics.colors.transparent} 
+                        fillColor={Graphics.colors.primary} 
+                        sideLength='36'
+                        type='checkmark'
+                      />
+                    ) : null
+
                     return (
                       <TouchableOpacity 
                         key={index} 
                         onPress={() => this.setState({paymentMethod: method.value})}>
                         <View style={[styles.editor.link, {}]}>
                           <View style={styles.editor.label}>
-                            <Text>{method.label}</Text>
+                            <TextView text={method.label} />
                           </View>
                           <View style={styles.editor.value}>
-                            <Text>{(method.value === this.state.paymentMethod).toString()}</Text>
+                            {checkmark}
                           </View>
                         </View>
                       </TouchableOpacity>
@@ -118,8 +125,8 @@ class EventPayment extends Component {
           </View>
         </ParallaxView>
         <CallToAction
-          backgroundColor={AppSettings.color.primary}
-          label={Lang.Pay}
+          backgroundColor={Graphics.colors.primary}
+          label={Lang.Confirm}
           onPress={this.confirm}
         />
       </View>

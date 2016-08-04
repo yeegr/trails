@@ -69,7 +69,8 @@ styles = StyleSheet.create({
   footer: {
     flex: 1,
     paddingHorizontal: 15,
-    marginVertical: 10,
+    paddingTop: 10,
+    paddingBottom: 10
   }
 })
 

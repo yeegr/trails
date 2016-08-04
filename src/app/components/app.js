@@ -96,7 +96,7 @@ const NavigationBarRouteMapper = (tabId) => ({
     return (
       <NavbarIconButton
         onPress={() => navigator.pop()}
-        icon={Graphics.icon.prev}
+        icon={Graphics.titlebar.prev}
         label={previousRoute.title}
         showLabel={true}
       />
@@ -118,7 +118,7 @@ const NavigationBarRouteMapper = (tabId) => ({
               <View style={styles.navbar.toolbar}>
                 <NavbarIconButton
                   onPress={() => navigator.push(search(tabId))}
-                  icon={Graphics.icon.search}
+                  icon={Graphics.titlebar.search}
                   label={Lang.Search}
                   showLabel={false}
                 />
@@ -131,13 +131,13 @@ const NavigationBarRouteMapper = (tabId) => ({
               <View style={styles.navbar.toolbar}>
                 <NavbarIconButton
                   onPress={() => navigator.push(search(tabId))}
-                  icon={Graphics.icon.search}
+                  icon={Graphics.titlebar.search}
                   label={Lang.Search}
                   showLabel={false}
                 />
                 <NavbarIconButton
                   onPress={() => navigator.push(add(tabId))}
-                  icon={Graphics.icon.add}
+                  icon={Graphics.titlebar.add}
                   label={Lang.Add}
                   showLabel={false}
                 />
@@ -398,7 +398,7 @@ class App extends Component {
                 />)
 
               case 'SelectOrderGroup':
-                return (<EventPayment
+                return (<SelectOrderGroup
                   navigator={navigator}
                   route={route} {...route.passProps}
                 />)

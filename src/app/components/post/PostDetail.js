@@ -60,7 +60,7 @@ class PostDetail extends Component {
         <ParallaxView style={styles.detail.wrapper}
           backgroundSource={{uri: AppSettings.assetUri + post.hero}}
           windowHeight={Graphics.heroImage.height}
-          scrollableViewStyle={{backgroundColor: AppSettings.color.background}}
+          scrollableViewStyle={{backgroundColor: Graphics.colors.background}}
           header={(
             <Intro
               align='bottom' 

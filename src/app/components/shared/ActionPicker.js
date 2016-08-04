@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   buttonText: Object.assign({},
     AppSettings.textStyles.extraLarge,
     {
-      color: AppSettings.color.primary
+      color: Graphics.colors.primary
     }),
 })
 

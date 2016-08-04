@@ -69,21 +69,21 @@ class Toolbar extends Component {
     return (
       <View style={styles.toolbar}>
         <Button 
-          path={Graphics.button.like}
+          path={Graphics.toolbar.like}
           showLabel={showLabel}
           label={Lang.LIKE}  
           value={data.likeCount}  
           onPress={() => this.act(USER_ACTIONS.LIKE)}
         />
         <Button
-          path={Graphics.button.save}
+          path={Graphics.toolbar.save}
           showLabel={showLabel}
           label={Lang.SAVE} 
           value={data.saveCount} 
           onPress={() => this.act(USER_ACTIONS.SAVE)}
         />
         <Button 
-          path={Graphics.button.share}
+          path={Graphics.toolbar.share}
           showLabel={showLabel}
           label={Lang.SHARE}
           value={data.shareCount}

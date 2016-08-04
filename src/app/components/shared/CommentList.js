@@ -100,7 +100,7 @@ export const Comment = (props) => {
 export const Rating = (props) => {
   return (
     <Svg style={local.Stars}>
-      <Path fill={AppSettings.color.star} d={AppSettings.rating[props.value]} />
+      <Path fill={Graphics.star.color} d={AppSettings.rating[props.value]} />
     </Svg>
   )
 }
@@ -154,7 +154,7 @@ export class Rating1 extends Component {
   render() {
     return (
       <Svg style={commentStyles.stars}>
-        <Path fill={AppSettings.color.star} d={AppSettings.rating[this.props.value]} />
+        <Path fill={Graphics.star.color} d={AppSettings.rating[this.props.value]} />
       </Svg>
     )
   }

@@ -186,7 +186,7 @@ class EditAgenda extends Component {
     let cancelButton = (
       <CallToAction 
         label={Lang.DELETE}
-        backgroundColor={AppSettings.color.callToAction} 
+        backgroundColor={Graphics.color.warning} 
         onPress={this.deleteAgenda}
       />
     )
@@ -195,7 +195,7 @@ class EditAgenda extends Component {
       cancelButton = (
         <CallToAction 
           label={Lang.Cancel}
-          backgroundColor={AppSettings.color.callToAction} 
+          backgroundColor={Graphics.color.warning} 
           onPress={this.cancel}
         />
       )
@@ -237,7 +237,7 @@ class EditAgenda extends Component {
           <View style={{flex: 3}}>
             <CallToAction 
               label={Lang.Save}
-              backgroundColor={AppSettings.color.primary} 
+              backgroundColor={Graphics.colors.primary} 
               onPress={this.saveAgenda}
             />
           </View>

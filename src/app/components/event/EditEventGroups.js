@@ -105,7 +105,7 @@ class EditEventGroups extends Component {
         <CallToAction 
           onPress={() => this.setState({showDateTimePicker: true, currentGroupIndex: null})}
           label={Lang.AddGroup}
-          backgroundColor={AppSettings.color.primary}
+          backgroundColor={Graphics.colors.primary}
         />
         <DateTimePicker
           mode="date"

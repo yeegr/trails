@@ -143,7 +143,7 @@ class AgendaList extends Component {
             </View>
           </View>
         </ScrollView>
-        <CallToAction onPress={this.addAgenda} label={Lang.Add + Lang.Agenda} backgroundColor={AppSettings.color.primary} />
+        <CallToAction onPress={this.addAgenda} label={Lang.Add + Lang.Agenda} backgroundColor={Graphics.colors.primary} />
       </View>
     )
   }
