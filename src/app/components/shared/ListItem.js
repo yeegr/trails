@@ -23,7 +23,9 @@ const ListItem = (props) => {
 
   view = (
     <View style={styles.wrapper}>
-      <Icon type={props.icon} />
+      <View style={styles.icon}>
+        <Icon type={props.icon} />
+      </View>
       <View style={styles.content}>
         <TextView class='h4' text={props.label} />
         {value}
@@ -45,6 +47,9 @@ styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     marginBottom: 20
+  },
+  icon: {
+    justifyContent: 'center'
   },
   content: {
     flex: 1,

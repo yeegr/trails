@@ -22,42 +22,76 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../containers/actions/eventsActions'
 
-import InfoItem from '../shared/InfoItem'
 import TextView from '../shared/TextView'
-import {formatEventGroupLabel} from '../../../common'
+import InfoItem from '../shared/InfoItem'
+import SimpleContact from '../shared/SimpleContact'
+import {formatEventGroupLabel, getTimeFromId} from '../../../common'
 import styles from '../../styles/main'
 
 class OrderDetail extends Component {
   constructor(props) {
     super(props)
+    this.navToEvent = this.navToEvent.bind(this)
+  }
+
+  navToEvent() {
+    this.props.navigator.push({
+      id: 'EventDetail',
+      title: Lang.EventDetail,
+      passProps: {
+        id: this.props.event.id
+      }
+    })
   }
 
   render() {
     const event = this.props.event,
-      order = this.props.order,
-      dates = formatEventGroupLabel(event, order.group)
+    order = this.props.order,
+    dates = formatEventGroupLabel(event, order.group)
 
     return (
       <View style={styles.detail.wrapper}>
-        <ScrollView style={{flex: 1}}>
+        <ScrollView style={{flex: 1, paddingTop: 64}}>
           <View style={styles.detail.article}>
             <View style={styles.detail.section}>
               <TextView class='h2' text={Lang.EventInfo} />
-              <InfoItem label={Lang.EventTitle} value={event.title} />
-              <InfoItem label={Lang.EventDates} value={dates} />
-              <InfoItem label={Lang.Contacts} value={dates} />
+              <View style={styles.detail.group}>
+                <InfoItem label={Lang.EventTitle} value={
+                  <TouchableOpacity onPress={this.navToEvent}>
+                    <TextView 
+                      textColor={Graphics.textColors.link} 
+                      text={event.title}
+                    />
+                  </TouchableOpacity>
+                } />
+                <InfoItem label={Lang.EventDates} value={dates} />
+              </View>
             </View>
             <View style={styles.detail.section}>
               <TextView class='h2' text={Lang.SignUpInfo} />
+              <View style={styles.detail.group}>
                 {
                   order.signUps.map((signUp, index) => {
-                    <infoItem key={index} label={signUp.name} value={signUp.payment} />
+                    return (
+                      <InfoItem
+                        key={index}
+                        align='right'
+                        noColon={true}
+                        label={signUp.name}
+                        value={signUp.payment.toString() + Lang.Yuan}
+                      />
+                    )
                   })
                 }
+              </View>
             </View>
-          
-            <View>
-              <TextView text={'order id: ' + this.props.order._id} />
+            <View style={styles.detail.section}>
+              <TextView class='h2' text={Lang.OrderInfo} />
+              <View style={styles.detail.group}>
+                <InfoItem label={Lang.OrderId} value={order._id} />
+                <InfoItem label={Lang.PayTime} value={getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
+                <InfoItem label={Lang.Total} value={order.total + Lang.Yuan} />
+              </View>
             </View>
           </View>
         </ScrollView>

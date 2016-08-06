@@ -23,7 +23,9 @@ import {formatTime} from '../../../common'
 const TrailInfo = (props) => {
   return (
     <View style={styles.wrapper}>
-      <Icon type={props.type.toString()} />
+      <View style={styles.icon}>
+        <Icon type={props.type.toString()} />
+      </View>
       <View style={styles.content}>
         <TextView fontSize='L' text={(props.title.length < 1) ? Lang.Unnamed : props.title} />
         <TextView class='h5' text={formatTime(props.date)} />
@@ -37,6 +39,9 @@ styles = StyleSheet.create({
     paddingBottom: 5,
     paddingHorizontal: 15,
     paddingTop: 15,
+  },
+  icon: {
+    justifyContent: 'center'
   },
   content: {
     flex: 1,

@@ -8,7 +8,8 @@ const toolbarReducer = (state = {
   ref: null,
   likeCount: 0,
   saveCount: 0,
-  shareCount: 0
+  shareCount: 0,
+  commentCount: 0
 }, action) => {
   switch (action.type) {
     case ACTIONS.RESET_TOOLBAR:
@@ -18,7 +19,8 @@ const toolbarReducer = (state = {
         ref: action.stats.ref,
         likeCount: action.stats.likeCount,
         saveCount: action.stats.saveCount,
-        shareCount: action.stats.shareCount
+        shareCount: action.stats.shareCount,
+        commentCount: action.stats.commentCount
       }
 
     case ACTIONS.REQUEST_TOOLBAR_ACTION:

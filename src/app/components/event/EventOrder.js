@@ -33,9 +33,11 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../containers/actions/eventsActions'
 
-import Intro from '../shared/Intro'
-import InfoItem from '../shared/InfoItem'
 import TextView from '../shared/TextView'
+import Intro from '../shared/Intro'
+import Icon from '../shared/Icon'
+import InfoItem from '../shared/InfoItem'
+import InputItem from '../shared/InputItem'
 import CallToAction from '../shared/CallToAction'
 import {formatEventGroupLabel} from '../../../common'
 import styles from '../../styles/main'
@@ -54,9 +56,9 @@ class EventOrder extends Component {
     this.state = {
       initPageHeight: 0,
       signUps: [{
-        realName: (user.name) ? user.name : '',
-        mobileNumber: user.mobile.toString(),
-        personalId: (user.pid) ? user.pid.toString() : '',
+        name: user.name || '',
+        mobile: user.mobile.toString(),
+        pid: user.pid || '',
         gender: user.gender || 1,
         level: user.level || 0
       }]
@@ -66,9 +68,9 @@ class EventOrder extends Component {
   addUser() {
     let signUps = this.state.signUps
     signUps.push({
-      realName: '',
-      mobileNumber: '',
-      personalId: '',
+      name: '',
+      mobile: '',
+      pid: '',
       gender: 1,
       level: 0
     })
@@ -98,16 +100,16 @@ class EventOrder extends Component {
   }
 
   validateData(data) {
-    const validateName = data.realName.trim().length > 1,
-      validateMobileNumber = AppSettings.mobileNumberPattern.test(data.mobileNumber),
-      validatePersonalId = /\d{18}/.test(data.personalId.trim()),
+    const validateName = data.name.trim().length > 1,
+      validateMobileNumber = AppSettings.mobileNumberPattern.test(data.mobile),
+      validatePersonalId = /\d{18}/.test(data.pid.trim()),
       validateGender = (data.gender === 0 || data.gender === 1),
       validateUserLevel = (data.level > -1 && data.level < 5)
 
     return (validateName && validateMobileNumber && validatePersonalId && validateGender && validateUserLevel) ? {
-      name: data.realName.trim(),
-      mobile: parseInt(data.mobileNumber),
-      pid: data.personalId.trim(),
+      name: data.name.trim(),
+      mobile: parseInt(data.mobile),
+      pid: data.pid.trim(),
       gender: data.gender,
       level: data.level
     } : false
@@ -175,7 +177,7 @@ class EventOrder extends Component {
               {
                 this.state.signUps.map((signUp, index) => {
                   return (
-                    <InputItem 
+                    <MiniForm 
                       key={index} 
                       index={index} 
                       signUp={signUp} 
@@ -210,7 +212,7 @@ class EventOrder extends Component {
   }
 }
 
-class InputItem extends Component {
+class MiniForm extends Component {
   constructor(props) {
     super(props)
     this.updateState = this.updateState.bind(this)
@@ -218,9 +220,9 @@ class InputItem extends Component {
     let signUp = this.props.signUp
 
     this.state = {
-      realName: signUp.realName,
-      mobileNumber: signUp.mobileNumber,
-      personalId: signUp.personalId,
+      name: signUp.name,
+      mobile: signUp.mobile,
+      pid: signUp.pid,
       gender: signUp.gender,
       level: signUp.level
     }
@@ -238,14 +240,7 @@ class InputItem extends Component {
     const removeButton = (this.props.index > 0) ? (
       <View style={localStyles.button}>
         <TouchableOpacity onPress={() => this.props.removeUser(this.props.index)}>
-          <Svg height={28} width={28}>
-            <Circle
-              cx="14"
-              cy="14"
-              r="14"
-              fill="red"
-            />
-          </Svg>
+          <Icon type='minus' sideLength='32' fillColor='red' backgroundColor={Graphics.colors.transparent} />
         </TouchableOpacity>
       </View>
     ) : null,
@@ -255,52 +250,47 @@ class InputItem extends Component {
     return (
       <View style={[styles.global.form, {paddingTop: 5}]}>
         <View style={{marginRight: 10}}>
-          <View style={styles.detail.infoRow}>
-            <View style={styles.detail.label}>
-              <TextView text={Lang.RealName + '：'} />
-            </View>
-            <View style={styles.detail.input}>
+          <InputItem
+            label={Lang.RealName}
+            input={
               <TextInput
                 autoFocus={true}
                 style={styles.detail.textInput}
-                value={this.state.realName}
-                onChangeText={(realName) => this.updateState({realName})}
+                value={this.state.name}
+                onChangeText={(name) => this.updateState({name})}
               />
-            </View>
-          </View>
-          <View style={styles.detail.infoRow}>
-            <View style={styles.detail.label}>
-              <TextView text={Lang.MobileNumber + '：'} />
-            </View>
-            <View style={styles.detail.input}>
+            }
+            inputStyle='underline'
+          />
+          <InputItem
+            label={Lang.MobileNumber}
+            input={
               <TextInput
                 maxLength={11}
                 keyboardType='phone-pad'
                 style={styles.detail.textInput}
-                value={this.state.mobileNumber}
-                onChangeText={(mobileNumber) => this.updateState({mobileNumber: mobileNumber.trim()})}
+                value={this.state.mobile}
+                onChangeText={(mobile) => this.updateState({mobile: mobile.trim()})}
               />
-            </View>
-          </View>
-          <View style={styles.detail.infoRow}>
-            <View style={styles.detail.label}>
-              <TextView text={Lang.PersonalId + '：'} />
-            </View>
-            <View style={styles.detail.input}>
+            }
+            inputStyle='underline'
+          />
+          <InputItem
+            label={Lang.PersonalId}
+            input={
               <TextInput
                 maxLength={18}
                 keyboardType='numeric'
                 style={styles.detail.textInput}
-                value={this.state.personalId}
-                onChangeText={(personalId) => this.updateState({personalId: personalId.trim()})}
+                value={this.state.pid}
+                onChangeText={(pid) => this.updateState({pid: pid.trim()})}
               />
-            </View>
-          </View>
-          <View style={[styles.detail.infoRow, {paddingVertical: 10}]}>
-            <View style={styles.detail.label}>
-              <TextView text={Lang.Gender + '：'} />
-            </View>
-            <View style={[styles.detail.input, {borderBottomWidth: 0}]}>
+            }
+            inputStyle='underline'
+          />
+          <InputItem
+            label={Lang.Gender}
+            input={
               <RadioForm
                 radio_props={genderArray}
                 initial={this.state.gender}
@@ -310,24 +300,29 @@ class InputItem extends Component {
                 animation={true}
                 onPress={(value) => {this.updateState({gender: value})}}
               />
-            </View>
-          </View>
-          <View style={styles.detail.infoRow}>
-            <View style={styles.detail.label}>
-              <TextView text={Lang.UserLevel + '：'} />
-            </View>
-            <View style={[styles.editor.value, {marginLeft: 0, justifyContent: 'flex-start'}]}>
-              <Slider
-                style={{width: 150}}
-                maximumValue={4}
-                minimumValue={0}
-                step={1}
-                value={this.state.level}
-                onValueChange={(level) => this.updateState({level})}
-              />
-              <TextView style={{marginLeft: 15}} text={Lang.userLevelArray[this.state.level]} />
-            </View>
-          </View>
+            }
+          />
+          <InputItem
+            label={Lang.UserLevel}
+            input={
+              <View style={{alignItems: 'center', flexDirection: 'row'}}>
+                <Slider
+                  style={{width: 150}}
+                  maximumValue={4}
+                  minimumValue={0}
+                  step={1}
+                  value={this.state.level}
+                  onValueChange={(level) => this.updateState({level})}
+                />
+                <TextView style={{marginLeft: 15}} text={Lang.userLevelArray[this.state.level]} />
+              </View>
+            }
+            styles={{
+              wrapper: {
+                marginBottom: 10
+              }
+            }}
+          />
         </View>
         <View style={localStyles.actionBar}>
           {removeButton}
@@ -350,11 +345,10 @@ const localStyles = StyleSheet.create({
   },
   button: {
     backgroundColor: Graphics.colors.background,
-    borderRadius: 18,
-    height: 36,
-    marginRight: 18,
-    padding: 4,
-    width: 36,
+    borderRadius: 16,
+    height: 32,
+    marginRight: 16,
+    width: 32,
   }
 })
 

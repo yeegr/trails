@@ -55,14 +55,24 @@ class EventPayment extends Component {
   }
 
   nextStep(order) {
-    this.props.navigator.push({
-      id: 'OrderDetail',
-      title: Lang.OrderDetail,
-      passProps: {
-        event: this.props.event,
-        order
-      }
-    })
+    let event = this.props.event, 
+      navigator = this.props.navigator,
+      stack = navigator.getCurrentRoutes()
+
+    stack.splice(2, stack.length - 3)
+    navigator.immediatelyResetRouteStack(stack)
+
+    setTimeout(() => {
+      navigator.replace({
+        id: 'OrderDetail',
+        title: Lang.OrderDetail,
+        passProps: {
+          event,
+          order
+        }
+      })
+    }, 0)
+
   }
 
   confirm(total) {
@@ -100,12 +110,14 @@ class EventPayment extends Component {
           <View style={{backgroundColor: Graphics.colors.background}}>
             <View style={styles.detail.section}>
               <TextView class='h2' text={Lang.EventInfo} />
-              <InfoItem label={Lang.EventDates} value={dates} />
-              <InfoItem label={Lang.PerHead} value={event.expenses.perHead.toString() + Lang.Yuan} />
+              <View style={styles.detail.group}>
+                <InfoItem label={Lang.EventDates} value={dates} />
+                <InfoItem label={Lang.PerHead} value={event.expenses.perHead.toString() + Lang.Yuan} />
+              </View>
             </View>
             <View style={styles.detail.section}>
               <TextView class='h2' text={Lang.SignUps} />
-              <View style={styles.detail.infoList}>
+              <View style={[styles.detail.group, {marginBottom: 0}]}>
                 {
                   this.state.signUps.map((signUp, index) => {
                     let payment = calculateInsurance(event, signUp)

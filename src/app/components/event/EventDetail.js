@@ -31,13 +31,12 @@ import Communications from 'react-native-communications'
 
 import Moment from 'moment'
 
-import {ACTION_TARGETS} from '../../../constants'
-import Loading from '../shared/Loading'
-import Intro from '../shared/Intro'
 import TextView from '../shared/TextView'
-import ActionBar from '../shared/ActionBar'
-import ListItem from '../shared/ListItem'
+import Loading from '../shared/Loading'
 import Header from '../shared/Header'
+import Intro from '../shared/Intro'
+import ListItem from '../shared/ListItem'
+import SimpleContact from '../shared/SimpleContact'
 import DayList from '../shared/DayList'
 import Icon from '../shared/Icon'
 import OrderedList from '../shared/OrderedList'
@@ -45,13 +44,16 @@ import GearList from '../shared/GearList'
 import TagList from '../shared/TagList'
 import UserLink from '../user/UserLink'
 import WebViewWrapper from '../shared/WebViewWrapper'
+import Toolbar from '../shared/Toolbar'
+import CallToAction from '../shared/CallToAction'
+import {ACTION_TARGETS} from '../../../constants'
 import {formatMinutes} from '../../../common'
 import styles from '../../styles/main'
 
 export default class EventDetail extends Component {
   constructor(props) {
     super(props)
-    this.placeOrder = this.placeOrder.bind(this)
+    this.signUp = this.signUp.bind(this)
 
     this.state = {
       loading: true,
@@ -78,7 +80,7 @@ export default class EventDetail extends Component {
     this.fetchData(this.props.id)
   }
 
-  placeOrder() {
+  signUp() {
     let event = this.state.data, 
       id = 'EventOrder',
       title = Lang.SignUp
@@ -101,8 +103,6 @@ export default class EventDetail extends Component {
     if (this.state.loading) {
       return <Loading />
     }
-
-    console.log(this.state.data)
 
     const event = this.state.data,
       navigator = this.props.navigator,
@@ -189,72 +189,82 @@ export default class EventDetail extends Component {
               excerpt={event.excerpt}
             />
           )}>
-          <View>
-            <View style={styles.detail.article}>
-              <View ref="eventInfo" style={styles.detail.section}>
-                <Header text={Lang.EventInfo} />
-                <View style={styles.detail.list}>
-                  <ListItem icon={event.type}
-                    label={Lang.EventTitle}
-                    value={event.title}
-                  />
-                  {eventGroups}
-                  <ListItem icon="clock"
-                    label={Lang.GatherTime}
-                    value={gatherTime}
-                  />
-                  <ListItem icon="pin"
-                    label={Lang.GatherLocation}
-                    value={event.gatherLocation.name}
-                  />
-                  <View style={{marginBottom: 20}}>
-                    <UserLink user={event.creator} navigator={navigator} />
-                  </View>
-                  <ListItem icon="phone"
-                    label={Lang.Contacts}
-                    value={
-                      event.contacts.map(function(contact, index) {
-                        return (
-                          <SimpleContact key={index} label={contact.title} number={contact.mobileNumber} />
-                        )
-                      })
-                    }
-                  />
-                  <ListItem icon="group"
-                    label={Lang.AttendeeLimits}
-                    value={event.minAttendee + '-' + event.maxAttendee + Lang.Persons}
-                  />
+          <View style={styles.detail.article}>
+            <Toolbar
+              navigator={this.props.navigator}
+              type={ACTION_TARGETS.EVENT}
+              data={event}
+            />
+            <View ref="eventInfo" style={styles.detail.section}>
+              <Header text={Lang.EventInfo} />
+              <View style={styles.detail.list}>
+                <ListItem icon={event.type}
+                  label={Lang.EventTitle}
+                  value={event.title}
+                />
+                {eventGroups}
+                <ListItem icon="clock"
+                  label={Lang.GatherTime}
+                  value={gatherTime}
+                />
+                <ListItem icon="pin"
+                  label={Lang.GatherLocation}
+                  value={event.gatherLocation.name}
+                />
+                <View style={{marginBottom: 20}}>
+                  <UserLink user={event.creator} navigator={navigator} />
                 </View>
+                <ListItem icon="phone"
+                  label={Lang.Contacts}
+                  value={
+                    <View style={{marginTop: 5}}>
+                      {
+                        event.contacts.map((contact, index) => {
+                          return (
+                            <SimpleContact key={index} label={contact.title} number={contact.mobileNumber} fontSize='L' />
+                          )
+                        })
+                      }
+                    </View>
+                  }
+                />
+                <ListItem icon="group"
+                  label={Lang.AttendeeLimits}
+                  value={event.minAttendee + '-' + event.maxAttendee + Lang.Persons}
+                />
               </View>
-              <View ref="eventSignUps" style={styles.detail.section}>
-                <Header text={Lang.SignUps} />
-                <View style={styles.detail.content}>
-                </View>
-              </View>
-              <View ref="eventSchedule" style={styles.detail.section}>
-                <Header text={Lang.DetailSchedule} />
-                <View style={styles.detail.list}>
-                  <DayList schedule={event.schedule} />
-                </View>
-              </View>
-              <View ref="eventExpenses" style={styles.detail.section}>
-                <Header text={Lang.EventExpenses} />
-                {expensesDetail}
-                {expensesInclude}
-                {expensesExclude}
-              </View>
-              {eventDestination}
-              {eventGears}
-              {eventNotes}
             </View>
+            <View ref="eventSignUps" style={styles.detail.section}>
+              <Header text={Lang.SignUps} />
+              <View style={styles.detail.content}>
+              </View>
+            </View>
+            <View ref="eventSchedule" style={styles.detail.section}>
+              <Header text={Lang.DetailSchedule} />
+              <View style={styles.detail.list}>
+                <DayList schedule={event.schedule} />
+              </View>
+            </View>
+            <View ref="eventExpenses" style={styles.detail.section}>
+              <Header text={Lang.EventExpenses} />
+              {expensesDetail}
+              {expensesInclude}
+              {expensesExclude}
+            </View>
+            {eventDestination}
+            {eventGears}
+            {eventNotes}
           </View>
         </ParallaxView>
-        <ActionBar type={ACTION_TARGETS.EVENT} data={event} showLabel={true} buttonText={Lang.SignUpNow} buttonEvent={this.placeOrder} />
+        <CallToAction
+          label={Lang.SignUpNow}
+          onPress={this.signUp}
+        />
       </View>
     )
   }
 }
-
+/*
 const SimpleContact = (props) => {
   const number = props.number.toString(),
   styles = StyleSheet.create({
@@ -278,6 +288,7 @@ const SimpleContact = (props) => {
     </View>
   )
 }
+*/
 /*
 
   measure() {
@@ -378,13 +389,34 @@ const Tab = (props) => {
 
   return (
     <TouchableOpacity onPress={() => props.onPress(props.index)}>
-      <View style={[styles.binder.tab, background]}>
-        <Svg scale={0.5} width="24" height="24" style={styles.binder.icon}>
+      <View style={[binder.tab, background]}>
+        <Svg scale={0.5} width="24" height="24" style={binder.icon}>
           <Path scale={0.5} fill={foreground} d={props.path}/>
         </Svg>
-        <Text style={[styles.binder.label, {color: foreground}]}>{props.label}</Text>
+        <Text style={[binder.label, {color: foreground}]}>{props.label}</Text>
       </View>
     </TouchableOpacity>
   )
 }
+
+
+const bind = StyleSheet.create({
+  tab: {
+    backgroundColor: 'transparent',
+    borderLeftWidth: 4,
+    borderColor: 'transparent',
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    height: 80,
+    width: 80,
+  },
+  icon: {
+    marginTop: 15,
+    marginBottom: 10
+  },
+  label: {
+    fontSize: 12,
+  }
+})
 */

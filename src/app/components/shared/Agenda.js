@@ -69,7 +69,9 @@ const Agenda = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.wrapper}>
-        <Icon type={type} />
+        <View style={styles.icon}>
+          <Icon type={type} />
+        </View>
         {view}
       </View>
     </TouchableOpacity>
@@ -80,6 +82,9 @@ styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     marginBottom: 20,
+  },
+  icon: {
+    justifyContent: 'center'
   },
   content: {
     flex: 1,

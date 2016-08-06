@@ -2,6 +2,7 @@
 
 import {
   AppSettings,
+  Lang,
   Graphics
 } from '../../settings'
 
@@ -16,22 +17,39 @@ import {
 } from 'react-native'
 
 import TextView from './TextView'
-import styles from '../../styles/main'
 
 const InfoItem = (props) => {
   let align = (props.align) ? {textAlign: props.align} : null,
-    colon = (props.noColon) ? '' : '：'
+  colon = (props.noColon) ? '' : Lang.colon,
+  value = (typeof(props.value) === 'string') ? (
+    <TextView style={align} text={props.value} />
+  ) : props.value
 
   return (
-    <View style={styles.detail.infoRow}>
-      <View style={styles.detail.label}>
+    <View style={styles.wrapper}>
+      <View style={styles.label}>
         <TextView text={props.label + colon} />
       </View>
-      <View style={styles.detail.value}>
-        <TextView style={align} text={props.value} />
+      <View style={styles.value}>
+        {value}
       </View>
     </View>
   )
-}
+},
+styles = StyleSheet.create({
+  wrapper: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+  },
+  label: {
+    width: 100
+  },
+  value: {
+    flex: 1
+  }
+})
 
 export default InfoItem

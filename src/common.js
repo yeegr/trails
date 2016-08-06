@@ -8,16 +8,32 @@ const locale = 'zh-cn'
 var hrs = (locale === 'zh-cn') ? '小时' : 'hrs',
     min = (locale === 'zh-cn') ? '分钟' : 'min'
 
+// format time
+export function getTimeFromId(id) {
+  let timestamp = id.toString().substring(0, 8)
+  return moment(parseInt(timestamp, 16) * 1000)
+}
+
+export function formatMinutes(minutes) {
+  if (isNumeric(minutes)) {
+    let h = Math.floor(minutes / 60),
+      m = minutes % 60
+    return zerorize(h) + ':' + zerorize(m)
+  }
+}
+
+export function convertTime(seconds) {
+  return moment(isNumeric(seconds) ? (seconds * 1000) : dt)
+}
+
 export function formatTime(dt) {
-  var tmp = isNumeric(dt) ? (dt * 1000) : dt,
-    fmt = arguments[1] ? arguments[1] : 'll'
-  return moment(tmp).locale(locale).format(fmt)
+  var fmt = arguments[1] ? arguments[1] : 'll'
+  return convertTime(dt).locale(locale).format(fmt)
 }
 
 export function formatEndTime(dt, days) {
-  var tmp = isNumeric(dt) ? (dt * 1000) : dt,
-    fmt = arguments[2] ? arguments[2] : 'll'
-  return moment(tmp).add(days, 'days').locale(locale).format(fmt)
+  var fmt = arguments[2] ? arguments[2] : 'll'
+  return convertTime(dt).add(days, 'days').locale(locale).format(fmt)
 }
 
 export function formatEventGroupLabel(event, groupIndex) {
@@ -27,7 +43,19 @@ export function formatEventGroupLabel(event, groupIndex) {
   return startDate.format('LL') + '-' + moment(startDate).add(days, 'days').format('LL')
 } 
 
+export function formatFromNow(timestamp) {
+  return Moment(timestamp * 1000).locale(locale).fromNow()
+}
 
+export function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n)
+}
+
+export function zerorize(n) {
+  return (n < 10) ? '0' + n.toString() : n.toString()
+}
+
+// format trail data
 export function calculateTrailData(points) {
   const firstPoint = points[0],
     lastPoint = points[points.length - 1],
@@ -52,14 +80,6 @@ export function calculateTrailData(points) {
     totalElevation: maximumAltitude - minimumAltitude,
     maximumAltitude,
     averageSpeed: Math.round(totalSpeed / points.length * 10) / 10
-  }
-}
-
-export function formatMinutes(minutes) {
-  if (isNumeric(minutes)) {
-    let h = Math.floor(minutes / 60),
-      m = minutes % 60
-    return zerorize(h) + ':' + zerorize(m)
   }
 }
 
@@ -121,18 +141,39 @@ export function getMapCenter(points) {
   }
 }
 
-export function zerorize(n) {
-  return (n < 10) ? '0' + n.toString() : n.toString()
+const earthRadiusInKm = 6371
+
+function rad2deg(radians) {
+  return radians * 180 / Math.PI
 }
 
-export function formatFromNow(timestamp) {
-  return Moment(timestamp * 1000).locale('zh-cn').fromNow()
+function deg2rad(degrees) {
+  return degrees * Math.PI / 180
 }
 
-export function isNumeric(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n)
+function getLatitudeDelta(latitude) {
+  let radiusInKm = arguments[1] || 3
+  return rad2deg(radiusInKm / earthRadiusInKm / Math.cos(deg2rad(latitude)))
 }
 
+export function setRegion(point, aspect_ratio) {
+  let latitudeDelta = getLatitudeDelta(point.latitude),
+    longitudeDelta = latitudeDelta * aspect_ratio
+
+  return {
+    latitude: point.latitude,
+    longitude: point.longitude,
+    altitude: point.altitude,
+    latitudeDelta,
+    longitudeDelta
+  }
+}
+
+export function showTrailDifficulty(level) {
+  return (level / 2).toString()
+}
+
+// detail information
 export function phoneLink(phoneNumber) {
   return "tel:" + phoneNumber
 }
@@ -180,6 +221,7 @@ export function calcWebViewHeight(key, evt) {
     return tmp
 }
 
+// alt functions
 const charList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
 export function generateRandomString(length) {
@@ -192,48 +234,7 @@ export function generateRandomString(length) {
   return txt
 }
 
-const earthRadiusInKm = 6371
-
-function rad2deg(radians) {
-  return radians * 180 / Math.PI
-}
-
-function deg2rad(degrees) {
-  return degrees * Math.PI / 180
-}
-
-function getLatitudeDelta(latitude) {
-  let radiusInKm = arguments[1] || 3
-  return rad2deg(radiusInKm / earthRadiusInKm / Math.cos(deg2rad(latitude)))
-}
-
-export function setRegion(point, aspect_ratio) {
-  let latitudeDelta = getLatitudeDelta(point.latitude),
-    longitudeDelta = latitudeDelta * aspect_ratio
-
-  return {
-    latitude: point.latitude,
-    longitude: point.longitude,
-    altitude: point.altitude,
-    latitudeDelta,
-    longitudeDelta
-  }
-}
-
-export function showTrailDifficulty(level) {
-  return (level / 2).toString()
-}
-
-export function createMatrix(length) {
-  let matrix = []
-
-  for (let i = 0; i < length; i++) {
-    matrix.push([])
-  }
-
-  return matrix
-}
-
+// insurance
 export function calculateInsurance(event, user) {
   const eventDurationArray = [0.001, 0.0018, 0.0021, 0.003],
     eventDifficultyArray = [1,2,3,4,5,6,7,8,9,10],

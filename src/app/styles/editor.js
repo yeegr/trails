@@ -59,7 +59,7 @@ export default StyleSheet.create({
     flex: 1
   },
   textInput: {
-    backgroundColor: Graphics.textInput.backgroundColor,
+    backgroundColor: Graphics.colors.transparent,
     color: Graphics.colors.midGray,
     fontSize: 16,
     height: 44.5,

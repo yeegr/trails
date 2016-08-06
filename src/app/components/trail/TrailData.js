@@ -21,14 +21,19 @@ import {showTrailDifficulty, formatDuration} from '../../../common'
 import Icon from '../shared/Icon'
 
 const TrailData = (props) => {
-  const trail = props.trail
+  const trail = props.trail,
+  stack = 'vertical'
 
   let difficultyLevel = showTrailDifficulty(props.difficultyLevel), 
     difficultyLevelIcon = (difficultyLevel) ? (
       <Icon
-        backgroundColor="transparent"
+        backgroundColor={Graphics.colors.transparent}
         fillColor={Graphics.colors.primary}
-        pictogram={Graphics.pictograms[difficultyLevel]}
+        labelColor={Graphics.colors.midGray}
+        path={Graphics.pictograms[difficultyLevel]}
+        showLabel={true}
+        stack={stack}
+        textColr={Graphics.icon.valueColor}
         label={Lang.DifficultyLevel}
         value={difficultyLevel}
       />) : null
@@ -37,37 +42,55 @@ const TrailData = (props) => {
     <View style={styles.data}>
       {difficultyLevelIcon}
       <Icon
-        backgroundColor="transparent"
+        backgroundColor={Graphics.colors.transparent}
         fillColor={Graphics.colors.primary}
-        pictogram={Graphics.pictograms.timer}
+        labelColor={Graphics.colors.midGray}
+        path={Graphics.pictograms.timer}
+        showLabel={true}
+        stack={stack}
+        textColr={Graphics.icon.valueColor}
         label={Lang.TotalDuration}
         value={formatDuration(props.totalDuration)}
       />
       <Icon
-        backgroundColor="transparent"
+        backgroundColor={Graphics.colors.transparent}
         fillColor={Graphics.colors.primary}
-        pictogram={Graphics.pictograms.ruler}
+        path={Graphics.pictograms.ruler}
+        showLabel={true}
+        stack={stack}
+        textColr={Graphics.icon.valueColor}
         label={Lang.TotalDistance}
         value={props.totalDistance.toString() + Lang.Kilometre}
       />
       <Icon
-        backgroundColor="transparent"
+        backgroundColor={Graphics.colors.transparent}
         fillColor={Graphics.colors.primary}
-        pictogram={Graphics.pictograms.trendingUp}
+        labelColor={Graphics.colors.midGray}
+        path={Graphics.pictograms.trendingUp}
+        showLabel={true}
+        stack={stack}
+        textColr={Graphics.icon.valueColor}
         label={Lang.TotalElevation}
         value={props.totalElevation.toString() + Lang.Metre}
       />
       <Icon
-        backgroundColor="transparent"
+        backgroundColor={Graphics.colors.transparent}
         fillColor={Graphics.colors.primary}
-        pictogram={Graphics.pictograms.goingUp}
+        labelColor={Graphics.colors.midGray}
+        path={Graphics.pictograms.goingUp}
+        showLabel={true}
+        stack={stack}
         label={Lang.MaximumAltitude}
         value={props.maximumAltitude.toString() + Lang.Metre}
       />
       <Icon
-        backgroundColor="transparent"
+        backgroundColor={Graphics.colors.transparent}
         fillColor={Graphics.colors.primary}
-        pictogram={Graphics.pictograms.dashboard}
+        labelColor={Graphics.colors.midGray}
+        path={Graphics.pictograms.dashboard}
+        showLabel={true}
+        stack={stack}
+        textColr={Graphics.icon.valueColor}
         label={Lang.AverageSpeed}
         value={props.averageSpeed.toString() + Lang.KilometrePerHour}
       />

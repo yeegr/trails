@@ -27,12 +27,14 @@ import {USER_ACTIONS} from '../../../constants'
 import * as loginActions from '../../containers/actions/loginActions'
 import * as toolbarActions from '../../containers/actions/toolbarActions'
 
+import Icon from './Icon'
 import TextView from './TextView'
 
 class Toolbar extends Component {
   constructor(props) {
     super(props)
     this.act = this.act.bind(this)
+    this.comment = this.comment.bind(this)
   }
 
   act(type) {
@@ -49,114 +51,125 @@ class Toolbar extends Component {
     }
   }
 
+  comment() {
+    this.props.navigator.push({
+      id: 'Comments',
+      title: Lang.Comments,
+      passProps: {
+        type: this.props.type,
+        data: this.props.data
+      }
+    })
+  }
+
   componentDidMount() {
     const data = this.props.data,
-      initState = {
-        target: this.props.type,
-        ref: data.id,
-        likeCount: data.likeCount,
-        saveCount: data.saveCount,
-        shareCount: data.shareCount
-      }
+    init = {
+      target: this.props.type,
+      ref: data.id,
+      likeCount: data.likeCount,
+      saveCount: data.saveCount,
+      shareCount: data.shareCount,
+      commentCount: data.commentCount
+    }
 
-    this.props.toolbarActions.resetToolbar(initState)
+    this.props.toolbarActions.resetToolbar(init)
   }
 
   render() {
-    const showLabel = this.props.showLabel || false,
-      data = this.props.toolbar
-    
+    const toolbar = this.props.toolbar,
+    stack = this.props.stack || 'horizontal',
+    icon = Graphics.toolbar.icon,
+    sideLength = icon.sideLength,
+    viewBox = icon.viewBox,
+    scale = icon.scale,
+    fillColor = this.props.fillColor || icon.fillColor,
+    textColor = this.props.textColor || icon.textColor
+
     return (
-      <View style={styles.toolbar}>
-        <Button 
-          path={Graphics.toolbar.like}
-          showLabel={showLabel}
-          label={Lang.LIKE}  
-          value={data.likeCount}  
-          onPress={() => this.act(USER_ACTIONS.LIKE)}
-        />
-        <Button
-          path={Graphics.toolbar.save}
-          showLabel={showLabel}
-          label={Lang.SAVE} 
-          value={data.saveCount} 
-          onPress={() => this.act(USER_ACTIONS.SAVE)}
-        />
-        <Button 
-          path={Graphics.toolbar.share}
-          showLabel={showLabel}
-          label={Lang.SHARE}
-          value={data.shareCount}
-          onPress={() => this.act(USER_ACTIONS.SHARE)}
-        />
+      <View style={styles.wrapper}>
+        <TouchableOpacity onPress={() => this.act(USER_ACTIONS.LIKE)}>
+          <Icon
+            backgroundColor={Graphics.colors.transparent}
+            fillColor={fillColor}
+            labelColor={textColor}
+            scale={scale}
+            showLabel={false}
+            sideLength={sideLength}
+            stack={stack}
+            valueColor={textColor}
+            viewBox={icon.viewBox}
+            path={Graphics.toolbar.like}
+            label={Lang.LIKE}
+            value={toolbar.likeCount}  
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.act(USER_ACTIONS.SAVE)}>
+          <Icon
+            backgroundColor={Graphics.colors.transparent}
+            fillColor={fillColor}
+            labelColor={textColor}
+            scale={scale}
+            showLabel={false}
+            sideLength={sideLength}
+            stack={stack}
+            valueColor={textColor}
+            viewBox={icon.viewBox}
+            path={Graphics.toolbar.save}
+            label={Lang.SAVE}
+            value={toolbar.saveCount}  
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.act(USER_ACTIONS.SHARE)}>
+          <Icon
+            backgroundColor={Graphics.colors.transparent}
+            fillColor={fillColor}
+            labelColor={textColor}
+            scale={scale}
+            showLabel={false}
+            sideLength={sideLength}
+            stack={stack}
+            valueColor={textColor}
+            viewBox={icon.viewBox}
+            path={Graphics.toolbar.share}
+            label={Lang.SHARE}
+            value={toolbar.shareCount}  
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.comment}>
+          <Icon
+            backgroundColor={Graphics.colors.transparent}
+            fillColor={fillColor}
+            labelColor={textColor}
+            scale={scale}
+            showLabel={false}
+            sideLength={sideLength}
+            stack={stack}
+            valueColor={textColor}
+            viewBox={icon.viewBox}
+            path={Graphics.toolbar.comment}
+            label={Lang.Comment}
+            value={toolbar.commentCount}  
+          />
+        </TouchableOpacity>
       </View>
     )
   }
 }
 
-const Button = (props) => {
-  const actionButton = Graphics.actionButton,
-    iconScale = actionButton.iconScale,
-    sideLength = actionButton.sideLength * iconScale,
-    fillColor = props.fillColor || actionButton.fillColor,
-    textColor = props.textColor || actionButton.textColor,
-    label = (props.showLabel) ? (
-      <View style={{marginTop: 5}}>
-        <TextView
-          fontSize='XS'
-          fontWeight='bold'
-          textColor={textColor}
-          text={props.label}
-        />
-      </View>
-    ) : null
-
-  return (
-    <TouchableOpacity onPress={props.onPress}>
-      <View style={styles.button}>
-        <Svg width={sideLength} height={sideLength}>
-          <Path scale={iconScale} fill={fillColor} d={props.path} />
-        </Svg>
-        {label}
-        <Text style={[styles.value, {color: textColor}]}>{props.value.toString()}</Text>
-      </View>
-    </TouchableOpacity>
-  )
-},
-styles = StyleSheet.create({
-  toolbar: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: Graphics.actionBar.height,
-    justifyContent: 'space-around',
-    paddingHorizontal: 5
-  },
-  button: {
+const styles = StyleSheet.create({
+  wrapper: {
     alignItems: 'center',
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    marginVertical: 5,
-    height: Graphics.actionButton.sideLength,
-    width: Graphics.actionButton.sideLength + 10
-  },
-  value: {
-    fontWeight: '500',
-    marginTop: 5,
-    textAlign: 'center',
-  },
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  }
 })
 
 Toolbar.propTypes = {
   type: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   showLabel: PropTypes.bool
-}
-
-Button.propTypes = {
-  path: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
-  label: PropTypes.string
 }
 
 function mapStateToProps(state, ownProps) {

@@ -10,7 +10,6 @@ import * as ACTIONS from '../constants/toolbarConstants'
 import {AppSettings} from '../../settings'
 
 export const resetToolbar = (stats) => {
-  console.log(stats)
   return {
     type: ACTIONS.RESET_TOOLBAR,
     stats

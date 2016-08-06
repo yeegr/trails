@@ -14,17 +14,15 @@ import React, {
 import {
   Navigator,
   ScrollView,
+  TouchableOpacity,
   View,
-  Text,
-  Image,
-  TouchableHighlight,
-  TouchableOpacity
 } from 'react-native'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as homeActions from '../containers/actions/homeActions'
 import * as newTrailActions from '../containers/actions/newTrailActions'
+import * as newEventActions from '../containers/actions/newEventActions'
 import * as eventsActions from '../containers/actions/eventsActions'
 import {isLoggedIn} from '../containers/actions/loginActions'
 import {
