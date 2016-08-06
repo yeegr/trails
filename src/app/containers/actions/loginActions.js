@@ -154,6 +154,44 @@ export const loginUser = (creds) => {
   }
 }
 
+
+const receiveUser = (user) => {
+  return {
+    type: ACTIONS.GET_SUCCESS,
+    token: user.token,
+    user
+  }
+}
+
+const getUserError = (message) => {
+  return {
+    type: ACTIONS.GET_FAILURE,
+    message
+  }
+}
+
+export const getUpdatedUser = (user_id) => {
+  return (dispatch) => {
+    return fetch(AppSettings.apiUri + 'users/' + user_id, CONFIG.GET)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        if (res.id) {
+          AsyncStorage
+          .setItem(USER, JSON.stringify(res))
+          .then(() => {
+            dispatch(receiveUser(res))
+          })
+        } else {
+          dispatch(getUserError(res.message))
+          return Promise.reject(res)
+        }
+      })
+      .catch((err) => dispatch(getUserError(err)))
+  }
+}
+
 const requestLogout = () => {
   return {
     type: ACTIONS.LOGOUT_REQUEST

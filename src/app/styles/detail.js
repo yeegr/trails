@@ -16,6 +16,10 @@ export default StyleSheet.create({
     backgroundColor: Graphics.colors.background,
     flex: 1
   },
+  toolbar: {
+    marginBottom: 5,
+    paddingVertical: 15
+  },
   section: {
     marginVertical: 15
   },

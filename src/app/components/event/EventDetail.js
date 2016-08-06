@@ -190,11 +190,13 @@ export default class EventDetail extends Component {
             />
           )}>
           <View style={styles.detail.article}>
-            <Toolbar
-              navigator={this.props.navigator}
-              type={ACTION_TARGETS.EVENT}
-              data={event}
-            />
+            <View style={styles.detail.toolbar}>
+              <Toolbar
+                navigator={navigator}
+                type={ACTION_TARGETS.EVENT}
+                data={event}
+              />
+            </View>
             <View ref="eventInfo" style={styles.detail.section}>
               <Header text={Lang.EventInfo} />
               <View style={styles.detail.list}>
@@ -264,31 +266,7 @@ export default class EventDetail extends Component {
     )
   }
 }
-/*
-const SimpleContact = (props) => {
-  const number = props.number.toString(),
-  styles = StyleSheet.create({
-    wrapper: {
-      flexDirection: 'row',
-      marginBottom: 5
-    },
-    label: {
-      width: 100
-    }
-  })
 
-  return (
-    <View style={styles.wrapper}>
-      <View style={styles.label}>
-        <TextView fontSize='L' text={props.label} />
-      </View>
-      <TouchableOpacity onPress={() => Communications.phonecall({number}, true)}>
-        <TextView fontSize='L' textColor={Graphics.textColors.mobileNumber} text={number} />
-      </TouchableOpacity>
-    </View>
-  )
-}
-*/
 /*
 
   measure() {

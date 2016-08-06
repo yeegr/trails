@@ -27,10 +27,9 @@ import {ACTION_TARGETS} from '../../../constants'
 import Loading from '../shared/Loading'
 import ParallaxView from 'react-native-parallax-view'
 import Intro from '../shared/Intro'
+import Toolbar from '../shared/Toolbar'
 import Header from '../shared/Header'
-import Tag from '../shared/Tag'
 import UserLink from '../user/UserLink'
-import ActionBar from '../shared/ActionBar'
 import WebViewWrapper from '../shared/WebViewWrapper'
 import styles from '../../styles/main'
 
@@ -64,23 +63,26 @@ class PostDetail extends Component {
           header={(
             <Intro
               align='bottom' 
-              title={post.title} 
-              excerpt={post.excerpt} 
+              title={post.title}
               tags={post.tags}
             />
           )}>
           <View style={styles.detail.article}>
-            <View>
-              <View style={[styles.detail.content, {padding: 15}]}>
-                <UserLink user={post.creator} navigator={navigator} showArrow={true} />
-              </View>
+            <View style={styles.detail.toolbar}>
+              <Toolbar
+                navigator={navigator}
+                type={ACTION_TARGETS.POST}
+                data={post}
+              />
+            </View>
+            <View style={[styles.detail.content, {padding: 15}]}>
+              <UserLink user={post.creator} navigator={navigator} showArrow={true} />
             </View>
             <View style={styles.detail.section}>
               <WebViewWrapper html={post.content} url={AppSettings.baseUri + 'posts/post/' + post.id} />
             </View>
           </View>
         </ParallaxView>
-        <ActionBar type={ACTION_TARGETS.POST} data={post} showLabel={true} buttonText={Lang.AddComment} buttonEvent={this.comment} />
       </View>
     )
   }

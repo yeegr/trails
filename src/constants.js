@@ -29,6 +29,13 @@ export const USER_ACTIONS = {
   SHARE: 'SHARE'
 }
 
+export const TOOLBAR_TYPE_KEYS = {
+  Area: 'areas',
+  Trail: 'trails',
+  Event: 'events',
+  Post: 'posts'
+}
+
 export const USER = 'user'
 export const ACCESS_TOKEN = 'access_token'
 

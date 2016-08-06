@@ -23,7 +23,7 @@ import Svg, {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {USER_ACTIONS} from '../../../constants'
+import {USER_ACTIONS, TOOLBAR_TYPE_KEYS} from '../../../constants'
 import * as loginActions from '../../containers/actions/loginActions'
 import * as toolbarActions from '../../containers/actions/toolbarActions'
 
@@ -35,6 +35,8 @@ class Toolbar extends Component {
     super(props)
     this.act = this.act.bind(this)
     this.comment = this.comment.bind(this)
+
+    console.log(this.props.user)
   }
 
   act(type) {
@@ -77,7 +79,10 @@ class Toolbar extends Component {
   }
 
   render() {
-    const toolbar = this.props.toolbar,
+    const user = this.props.user, 
+    type = this.props.type,
+    id = this.props.data.id,
+    toolbar = this.props.toolbar,
     stack = this.props.stack || 'horizontal',
     icon = Graphics.toolbar.icon,
     sideLength = icon.sideLength,
@@ -86,44 +91,71 @@ class Toolbar extends Component {
     fillColor = this.props.fillColor || icon.fillColor,
     textColor = this.props.textColor || icon.textColor
 
+    const likesArray = user.likes[TOOLBAR_TYPE_KEYS[type]],
+    savesArray = user.saves[TOOLBAR_TYPE_KEYS[type]],
+    sharesArray = user.shares[TOOLBAR_TYPE_KEYS[type]]
+
+    //console.log(likesArray)
+    //console.log(savesArray)
+    //console.log(sharesArray)
+
+    const likeFillColor = (likesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor,
+    saveFillColor = (savesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor,
+    shareFillColor = (sharesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor,
+    commentFillColor = fillColor
+
+    let likeIcon = (
+      <Icon
+        backgroundColor={Graphics.colors.transparent}
+        fillColor={likeFillColor}
+        labelColor={textColor}
+        scale={scale}
+        showLabel={false}
+        sideLength={sideLength}
+        stack={stack}
+        valueColor={textColor}
+        viewBox={icon.viewBox}
+        path={Graphics.toolbar.like}
+        label={Lang.LIKE}
+        value={toolbar.likeCount}  
+      />
+    ),
+    saveIcon = (
+      <Icon
+        backgroundColor={Graphics.colors.transparent}
+        fillColor={saveFillColor}
+        labelColor={textColor}
+        scale={scale}
+        showLabel={false}
+        sideLength={sideLength}
+        stack={stack}
+        valueColor={textColor}
+        viewBox={icon.viewBox}
+        path={Graphics.toolbar.save}
+        label={Lang.SAVE}
+        value={toolbar.saveCount}  
+      />
+    )
+
+    const likeView = (likesArray.indexOf(id) < 0) ? (
+      <TouchableOpacity onPress={() => this.act(USER_ACTIONS.LIKE)}>
+        {likeIcon}
+      </TouchableOpacity>
+    ) : likeIcon,
+    saveView = (savesArray.indexOf(id) < 0) ? (
+      <TouchableOpacity onPress={() => this.act(USER_ACTIONS.SAVE)}>
+        {saveIcon}
+      </TouchableOpacity>
+    ) : saveIcon
+
     return (
       <View style={styles.wrapper}>
-        <TouchableOpacity onPress={() => this.act(USER_ACTIONS.LIKE)}>
-          <Icon
-            backgroundColor={Graphics.colors.transparent}
-            fillColor={fillColor}
-            labelColor={textColor}
-            scale={scale}
-            showLabel={false}
-            sideLength={sideLength}
-            stack={stack}
-            valueColor={textColor}
-            viewBox={icon.viewBox}
-            path={Graphics.toolbar.like}
-            label={Lang.LIKE}
-            value={toolbar.likeCount}  
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.act(USER_ACTIONS.SAVE)}>
-          <Icon
-            backgroundColor={Graphics.colors.transparent}
-            fillColor={fillColor}
-            labelColor={textColor}
-            scale={scale}
-            showLabel={false}
-            sideLength={sideLength}
-            stack={stack}
-            valueColor={textColor}
-            viewBox={icon.viewBox}
-            path={Graphics.toolbar.save}
-            label={Lang.SAVE}
-            value={toolbar.saveCount}  
-          />
-        </TouchableOpacity>
+        {likeView}
+        {saveView}
         <TouchableOpacity onPress={() => this.act(USER_ACTIONS.SHARE)}>
           <Icon
             backgroundColor={Graphics.colors.transparent}
-            fillColor={fillColor}
+            fillColor={shareFillColor}
             labelColor={textColor}
             scale={scale}
             showLabel={false}
@@ -139,7 +171,7 @@ class Toolbar extends Component {
         <TouchableOpacity onPress={this.comment}>
           <Icon
             backgroundColor={Graphics.colors.transparent}
-            fillColor={fillColor}
+            fillColor={commentFillColor}
             labelColor={textColor}
             scale={scale}
             showLabel={false}

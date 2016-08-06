@@ -7,6 +7,7 @@ import {
 } from '../../../constants'
 
 import * as ACTIONS from '../constants/toolbarConstants'
+import * as loginActions from './loginActions'
 import {AppSettings} from '../../settings'
 
 export const resetToolbar = (stats) => {
@@ -51,6 +52,7 @@ export const send = (req) => {
       })
       .then((res) => {
         dispatch(receiveActionResponse(res))
+        dispatch(loginActions.getUpdatedUser(req.creator))
       })
       .catch((err) => dispatch(receiveActionError(err)))
   }

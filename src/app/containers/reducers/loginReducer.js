@@ -101,6 +101,17 @@ const loginReducer = (state = {
         user: null
       })
 
+    case ACTIONS.GET_SUCCESS:
+      return Object.assign({}, state, {
+        message: '',
+        user: action.user
+      })
+
+    case ACTIONS.GET_FAILURE:
+      return Object.assign({}, state, {
+        message: action.message
+      })
+
     case ACTIONS.REQUEST_USER_UPDATE:
       return Object.assign({}, state, {
         isFetching: true
