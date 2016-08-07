@@ -40,7 +40,6 @@ export default StyleSheet.create({
   },
   value: {
     alignItems: 'center',
-    flex: 0,
     flexDirection: 'row',
     justifyContent: 'center',
     marginLeft: 15,
@@ -49,7 +48,7 @@ export default StyleSheet.create({
   valueText: {
     color: Graphics.colors.midGray,
     textAlign: 'right',
-    width: 200
+    width: 120
   },
   more: {
     marginRight: 15,

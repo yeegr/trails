@@ -113,13 +113,17 @@ export default class SearchTrails extends Component {
             <View style={styles.search.grid}>
             {
               AppSettings.trailTypes.map((i) => {
+                const color = (this.state.types.indexOf(i) > -1) ? Graphics.colors.primary : Graphics.colors.midGray
+
                 return (
-                  <TouchableOpacity key={i} style={{height: 75}} onPress={() => this.typePressed(i)}>
-                    <View style={{marginRight: 12}}>
+                  <TouchableOpacity key={i} onPress={() => this.typePressed(i)}>
+                    <View style={{marginBottom: 20, marginRight: 12}}>
                       <Icon
-                        backgroundColor={(this.state.types.indexOf(i) > -1) ? Graphics.colors.primary : Graphics.colors.midGray} 
+                        backgroundColor={color}
+                        stack="vertical" 
+                        valueColor={color}
                         type={i.toString()} 
-                        label={Lang.tagArray[i]}
+                        value={Lang.tagArray[i]}
                       />
                     </View>
                   </TouchableOpacity>

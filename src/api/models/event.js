@@ -31,6 +31,11 @@ var mongoose = require('mongoose'),
       default: false,
       required: true
     },
+    city: {
+      type: String,
+      required: true,
+      default: '010'
+    },
     title: {
       type: String,
       required: true,

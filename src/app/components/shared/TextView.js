@@ -54,10 +54,18 @@ const TextView = (props) => {
         fontSize: Graphics.fontSizes.SML,
         fontWeight: '400',
       })
-    })
+    }),
+    ellipsizeMode = props.ellipsizeMode || 'wrap',
+    numberOfLines = props.numberOfLines || 0
 
   return (
-    <Text style={styles[type]}>{props.text}</Text>
+    <Text
+      ellipsizeMode={ellipsizeMode}
+      numberOfLines={numberOfLines}
+      style={styles[type]}
+    >
+      {props.text}
+    </Text>
   )
 }
 

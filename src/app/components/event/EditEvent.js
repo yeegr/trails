@@ -41,6 +41,7 @@ class EditEvent extends Component {
     this.setType = this.setType.bind(this)
 
     this.state = {
+      showCityPicker: false,
       showTypePicker: false,
       showDateTimePicker: false,
       showGatherLocationPicker: false
@@ -192,8 +193,9 @@ class EditEvent extends Component {
             </View>
           </View>
           <View style={styles.editor.group}>
-            <EditLink onPress={() => this.nextPage('hero')} value={(event.hero !== '') ? '' : ''} required={true} label={Lang.HeroImage} />
             <EditLink onPress={() => this.nextPage('title')} value={event.title} required={true} label={Lang.EventTitle} />
+            <EditLink onPress={() => this.setState({showCityPicker: true})} value={Lang.cities['010']} required={true} label={Lang.DepartCity} />
+            <EditLink onPress={() => this.nextPage('hero')} value={(event.hero !== '') ? '' : ''} required={true} label={Lang.HeroImage} />
             <EditLink onPress={() => this.setState({showTypePicker: true})} value={Lang.tagArray[event.type]} required={true} label={Lang.EventType} />
             <EditLink onPress={() => this.nextPage('groups')} value={event.groups.length.toString()} required={true} label={Lang.EventGroups} />
             <EditLink onPress={() => this.setState({showDateTimePicker: true})} value={Moment(this.convertTimeToDatetime(event.gatherTime)).format('HH:mm')} label={Lang.GatherTime} />

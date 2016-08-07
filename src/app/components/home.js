@@ -61,7 +61,10 @@ class Home extends Component {
             onPress={() => this.onTabPressed(HOME_TABS.AREAS)}
           >
             <ScrollView style={styles.global.home}>
-              <AreaList navigator={navigator} params="" />
+              <AreaList
+                navigator={navigator}
+                params=""
+              />
             </ScrollView>
           </TabBarIOS.Item>
           <TabBarIOS.Item
@@ -71,7 +74,10 @@ class Home extends Component {
             onPress={() => this.onTabPressed(HOME_TABS.EVENTS)}
           >
             <ScrollView style={styles.global.home}>
-              <EventList navigator={navigator} params="" />
+              <EventList 
+                navigator={navigator} 
+                params=""
+              />
             </ScrollView>
           </TabBarIOS.Item>
           <TabBarIOS.Item
@@ -81,7 +87,10 @@ class Home extends Component {
             onPress={() => this.onTabPressed(HOME_TABS.POSTS)}
           >
             <ScrollView style={styles.global.home}>
-              <PostList navigator={navigator} params="" />
+              <PostList
+                navigator={navigator}
+                params=""
+              />
             </ScrollView>
           </TabBarIOS.Item>
           <TabBarIOS.Item

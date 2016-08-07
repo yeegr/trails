@@ -45,6 +45,12 @@ const UserInfo = (props) => {
           query = "?creator=" + user.id
         break;
 
+        case 'manage':
+          id = 'EventManager',
+          title = Lang.ManageEvents,
+          query = "?creator=" + user.id
+        break;
+
         case 'trails':
           id = 'TrailList',
           title = Lang.MyTrails,
@@ -98,6 +104,9 @@ const UserInfo = (props) => {
       <View style={styles.editor.group}></View>
       <View style={styles.editor.group}>
         <EditLink onPress={() => nextPage('orders')} value={user.orders.length} label={Lang.MyOrders} />
+      </View>
+      <View style={styles.editor.group}>
+        <EditLink onPress={() => nextPage('manage')} value={1} label={Lang.ManageEvents} />
       </View>
       <View style={styles.editor.group}>
         <EditLink onPress={() => nextPage('trails')} value={user.trails.length} label={Lang.MyTrails} />

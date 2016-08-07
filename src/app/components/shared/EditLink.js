@@ -16,11 +16,8 @@ import {
   View
 } from 'react-native'
 
-import Svg, {
-  Path
-} from 'react-native-svg'
-
 import Avatar from './Avatar'
+import TextView from './TextView'
 import Next from './Next'
 import styles from '../../styles/main'
 
@@ -31,9 +28,12 @@ const EditLink = (props) => {
     value = <Avatar user={props.user} />
   } else if (props.value) {
     value = (
-      <Text numberOfLines={1} lineBreakMode="tail" style={styles.editor.valueText}>
-        {props.value}
-      </Text>
+      <TextView
+        numberOfLines={1}
+        ellipsizeMode="tail"
+        style={{textAlign: 'right', width: 120}}
+        text={props.value.toString()}
+      />
     )
   }
 
@@ -46,9 +46,10 @@ const EditLink = (props) => {
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.editor.link}>
         <View style={styles.editor.label}>
-          <Text style={required}>
-            {props.label}
-          </Text>
+          <TextView
+            style={required}
+            text={props.label}
+          />
         </View>
         <View style={styles.editor.value}>
           {value}

@@ -43,9 +43,11 @@ export default StyleSheet.create({
     height: 40,
   },
   grid: {
+    alignItems: 'flex-start',
+    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 10,
+    marginTop: 10
   },
   icon: {
     backgroundColor: Graphics.colors.primary,

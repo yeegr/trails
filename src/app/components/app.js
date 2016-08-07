@@ -76,6 +76,8 @@ import EditUserMobile from './mine/EditUserMobile'
 import EditUserLevel from './mine/EditUserLevel'
 import EditUserName from './mine/EditUserName'
 import EditUserPID from './mine/EditUserPID'
+import EventManager from './mine/EventManager'
+import SignUpList from './mine/SignUpList'
 import OrderList from './mine/OrderList'
 import OrderDetail from './mine/OrderDetail'
 import UserDetail from './user/UserDetail'
@@ -549,6 +551,26 @@ class App extends Component {
                   navigator={navigator}
                   route={route} {...route.passProps}
                 />)
+
+              case 'EventManager':
+                return (
+                  <ScrollView style={styles.global.main}>
+                    <EventManager
+                      navigator={navigator}
+                      route={route} {...route.passProps}
+                    />
+                  </ScrollView>
+                )
+
+              case 'SignUpList':
+                return (
+                  <ScrollView style={styles.global.main}>
+                    <SignUpList
+                      navigator={navigator}
+                      route={route} {...route.passProps}
+                    />
+                  </ScrollView>
+                )
 
               case 'OrderList':
                 return (

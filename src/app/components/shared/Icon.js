@@ -80,7 +80,6 @@ styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    paddingHorizontal: 10
   },
   value: {
     fontWeight: 'bold',

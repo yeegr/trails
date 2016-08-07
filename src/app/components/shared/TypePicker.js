@@ -46,12 +46,19 @@ IconGrid = (props) => {
     <View style={styles.grid}>
     {
       props.list.map((i) => {
+        const color = (i === props.selectedIndex) ? Graphics.colors.primary : Graphics.icon.backgroundColor
+
         return (
-          <TouchableOpacity key={i} style={styles.button} onPress={() => props.onPress(i)}>
-            <Icon backgroundColor={(i === props.selectedIndex) ? Graphics.colors.primary : Graphics.icon.backgroundColor} 
-              type={i.toString()} 
-              label={Lang.tagArray[i]}
-            />
+          <TouchableOpacity key={i} onPress={() => props.onPress(i)}>
+            <View style={styles.button}>
+              <Icon
+                backgroundColor={color}
+                stack="vertical"
+                textColor={color} 
+                type={i.toString()} 
+                value={Lang.tagArray[i]}
+              />
+            </View>
           </TouchableOpacity>
         )
       })
@@ -69,6 +76,7 @@ styles = StyleSheet.create({
     padding: 10,
   },
   grid: {
+    alignItems: 'flex-start',
     borderBottomColor: Graphics.colors.lightGray,
     borderBottomWidth: 1,
     flexDirection: 'row',
@@ -76,8 +84,8 @@ styles = StyleSheet.create({
     marginTop: 10
   },
   button: {
-    marginHorizontal: 5,
-    height: 70
+    marginBottom: 10,
+    marginHorizontal: 5
   },
   title: {
     flex: 1,
