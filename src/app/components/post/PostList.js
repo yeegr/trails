@@ -15,9 +15,8 @@ import {
   ListView
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-
+import {bindActionCreators} from 'redux'
 import * as postsActions from '../../containers/actions/postsActions'
 
 import Loading from '../shared/Loading'
@@ -54,6 +53,7 @@ class PostList extends Component {
     return (
       <ListView
         enableEmptySections={true}
+        scrollEnabled={false}
         dataSource={this.dataSource.cloneWithRows(posts)}
         renderRow={this.renderRow}
       />

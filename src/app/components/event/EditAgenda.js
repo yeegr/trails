@@ -16,8 +16,8 @@ import {
   View
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../containers/actions/newEventActions'
 
 import EditLink from '../shared/EditLink'
@@ -202,7 +202,7 @@ class EditAgenda extends Component {
     }
 
     return (
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <ScrollView style={styles.editor.scroll}>
           <View style={styles.editor.group}>
             <EditLink 

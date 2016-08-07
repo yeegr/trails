@@ -5,12 +5,17 @@ import {StyleSheet} from 'react-native'
 
 export default StyleSheet.create({
   wrapper: {
-    backgroundColor: Graphics.app.backgroundColor,
+    backgroundColor: Graphics.colors.background,
     flex: 1
   },
-  main: {
+  home: {
     flex: 1,
     paddingTop: Graphics.titlebar.height
+  },
+  main: {
+    backgroundColor: Graphics.colors.background,
+    flex: 1,
+    paddingTop: Graphics.titlebar.height + 20
   },
   map: {
     backgroundColor: Graphics.colors.lightGray,

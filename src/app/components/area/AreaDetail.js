@@ -19,8 +19,8 @@ import {
 } from 'react-native'
 import ParallaxView from 'react-native-parallax-view'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as areasActions from '../../containers/actions/areasActions'
 
 import Loading from '../shared/Loading'
@@ -60,7 +60,7 @@ class AreaDetail extends Component {
     }
 
     return (
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <ParallaxView style={{flex: 1}}
           backgroundSource={{uri: AppSettings.assetUri + area.hero}}
           windowHeight={Graphics.heroImage.height}

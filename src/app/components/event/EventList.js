@@ -16,9 +16,8 @@ import {
   View
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-
+import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../containers/actions/eventsActions'
 
 import Loading from '../shared/Loading'
@@ -55,6 +54,7 @@ class EventList extends Component {
     return (
       <ListView
         enableEmptySections={true}
+        scrollEnabled={false}
         dataSource={this.dataSource.cloneWithRows(events)}
         renderRow={this.renderRow}
       />

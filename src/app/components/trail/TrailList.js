@@ -19,13 +19,13 @@ import {
   Text
 } from 'react-native'
 
-import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 import * as trailsActions from '../../containers/actions/trailsActions'
 
-import styles from '../../styles/main'
 import Loading from '../shared/Loading'
 import TrailCard from './TrailCard'
+import styles from '../../styles/main'
 
 class TrailList extends Component {
   constructor(props) {
@@ -76,9 +76,9 @@ class TrailList extends Component {
 
     const list = (
       <ListView
-        scrollEnabled={false}
-        style={styles.global.list}
+        style={styles.global.wrapper}
         enableEmptySections={true}
+        scrollEnabled={false}
         dataSource={this.dataSource.cloneWithRows(trails)}
         renderRow={this.renderRow.bind(this)}
       />

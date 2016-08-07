@@ -6,6 +6,7 @@ import search from './search'
 import detail from './detail'
 import editor from './editor'
 import user from './user'
+import list from './list'
 
 export default {
   global,
@@ -13,5 +14,6 @@ export default {
   search,
   detail,
   editor,
-  user
+  user,
+  list
 }

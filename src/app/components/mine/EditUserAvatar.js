@@ -24,8 +24,8 @@ import {
 
 import ImagePicker from 'react-native-image-picker'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as loginActions from '../../containers/actions/loginActions'
 
 class EditUserAvatar extends Component {

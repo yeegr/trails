@@ -53,7 +53,7 @@ class SelectOrderGroup extends Component {
     const event = this.props.event
 
     return (
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <ParallaxView style={{flex: 1}}
           backgroundSource={{uri: AppSettings.assetUri + event.hero}}
           windowHeight={Graphics.heroImage.height}

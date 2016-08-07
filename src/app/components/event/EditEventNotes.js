@@ -13,8 +13,8 @@ import React, {
 
 import {View} from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../containers/actions/newEventActions'
 
 import ListEditor from '../shared/ListEditor'

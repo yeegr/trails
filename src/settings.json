@@ -210,7 +210,7 @@
 
     "Mine":"我的",
     "MyInfo":"个人信息",
-    "MyOrders":"我的活动订单",
+    "MyOrders":"我的订单",
     "MyTrails":"我的轨迹",
     "MyEvents":"我的活动",
     "MyPosts":"我的文章",
@@ -655,12 +655,13 @@
       "default":"HelveticaNeue-Light"
     },
     "fontSizes":{
-      "default":14,
-      "XS":10,
-      "SML":12,
-      "M":14,
-      "L":16,
-      "XL":18,
+      "default":12,
+      "XXS":8,
+      "XS":9,
+      "SML":10,
+      "M":12,
+      "L":14,
+      "XL":16,
       "XXL":20,
       "XXXL":24
     },

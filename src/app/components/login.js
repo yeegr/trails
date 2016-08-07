@@ -23,8 +23,8 @@ import {
   View
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as loginActions from '../containers/actions/loginActions'
 
 //import * as WeChat from 'react-native-wechat'

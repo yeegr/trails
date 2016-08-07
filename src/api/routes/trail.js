@@ -101,8 +101,6 @@ module.exports = function(app) {
     }
     */
 
-    console.log(query)
-
     Trail
     .find(query)
     .limit(CONST.DEFAULT_PAGINATION)

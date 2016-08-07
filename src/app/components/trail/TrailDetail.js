@@ -24,20 +24,20 @@ import Svg, {
   Path
 } from 'react-native-svg'
 
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import * as trailsActions from '../../containers/actions/trailsActions'
-
 import ParallaxView from 'react-native-parallax-view'
 import Chart from 'react-native-chart'
 
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import * as trailsActions from '../../containers/actions/trailsActions'
 import {ACTION_TARGETS} from '../../../constants'
+
 import Loading from '../shared/Loading'
+import Toolbar from '../shared/Toolbar'
 import TrailInfo from './TrailInfo'
 import TrailData from './TrailData'
 import TrailMap from './TrailMap'
 import TrailChart from './TrailChart'
-import ActionBar from '../shared/ActionBar'
 import Header from '../shared/Header'
 import TextView from '../shared/TextView'
 import UserLink from '../user/UserLink'
@@ -67,21 +67,31 @@ class TrailDetail extends Component {
     }
 
     let creator = this.props.user,
-      commentPreview = null,
-      actionBar = null
+      commentsPreview = null,
+      toolbar = null
 
     if (!this.props.preview) {
-      let creator = trail.creator,
-        commentPreview = <CommentsPreview comments={trail.comments} average={trail.ratingAverage}  />,
-        actionBar = <ActionBar type={ACTION_TARGETS.TRAIL} data={trail} showLabel={true} buttonText={Lang.DownloadTrail} buttonEvent={null} />
+      creator = trail.creator,
+      commentsPreview = <CommentsPreview comments={trail.comments} average={trail.ratingAverage}  />,
+      toolbar = (
+        <View style={styles.detail.toolbar}>
+          <Toolbar
+            navigator={navigator}
+            type={ACTION_TARGETS.TRAIL}
+            data={trail}
+          />
+        </View>
+      )
     }
+
+    console.log(toolbar)
 
     let galleryPreview = (trail.photos.length > 0) ? (
       <GalleryPreview navigator={navigator} gallery={trail.photos} />
     ) : null
 
     return (
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <ScrollView style={{paddingTop: 44}}>
           <View style={styles.detail.article}>
             <View style={styles.detail.section}>
@@ -106,10 +116,10 @@ class TrailDetail extends Component {
               <TextView style={{marginHorizontal: 15}} text={(trail.description.length < 1) ? Lang.NoDescription : trail.description} />
             </View>
             {galleryPreview}
-            {commentPreview}
+            {commentsPreview}
           </View>
         </ScrollView>
-        {actionBar}
+          {toolbar}
       </View>
     )
   }

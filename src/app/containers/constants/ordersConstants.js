@@ -1,0 +1,5 @@
+'use strict'
+
+export const REQUEST_ORDERS = 'REQUEST_ORDERS'
+export const LIST_ORDERS_SUCCESS = 'LIST_ORDERS_SUCCESS'
+export const LIST_ORDERS_FAILURE = 'LIST_ORDERS_FAILURE'

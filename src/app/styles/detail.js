@@ -1,17 +1,9 @@
 'user strict'
 
-import {
-  AppSettings,
-  Graphics
-} from '../settings'
-
+import {Graphics} from '../settings'
 import {StyleSheet} from 'react-native'
 
 export default StyleSheet.create({
-  wrapper: {
-    backgroundColor: Graphics.colors.background,
-    flex: 1
-  },
   article: {
     backgroundColor: Graphics.colors.background,
     flex: 1

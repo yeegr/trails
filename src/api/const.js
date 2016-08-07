@@ -3,7 +3,7 @@
 var charList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
 module.exports = {
-  DEFAULT_PAGINATION: 5,
+  DEFAULT_PAGINATION: 20,
   USER_LIST_FIELDS: "handle avatar xp level trails events posts comments followers",
   ACTIONS: {
     COMMON: ["CREATE", "UPDATE", "DELETE"],

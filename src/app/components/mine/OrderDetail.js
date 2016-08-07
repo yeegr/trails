@@ -50,7 +50,7 @@ class OrderDetail extends Component {
     dates = formatEventGroupLabel(event, order.group)
 
     return (
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <ScrollView style={{flex: 1, paddingTop: 64}}>
           <View style={styles.detail.article}>
             <View style={styles.detail.section}>

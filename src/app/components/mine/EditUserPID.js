@@ -17,8 +17,8 @@ import {
   View
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as loginActions from '../../containers/actions/loginActions'
 
 import styles from '../../styles/main'
@@ -49,7 +49,7 @@ class EditUserPID extends Component {
 
   render() {
     return (
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <ScrollView style={styles.editor.scroll}>
           <View style={styles.editor.group}>
             <TextInput

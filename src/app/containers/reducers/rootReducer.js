@@ -9,10 +9,11 @@ import login from './loginReducer'
 import intro from './introReducer'
 import areas from './areasReducer'
 import events from './eventsReducer'
-import newEvent from './newEventReducer'
+import orders from './ordersReducer'
 import posts from './postsReducer'
 import toolbar from './toolbarReducer'
 import trails from './trailsReducer'
+import newEvent from './newEventReducer'
 import newTrail from './newTrailReducer'
 
 const rootReducer = combineReducers({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   areas,
   trails,
   events,
+  orders,
   posts,
   toolbar,
   newEvent,

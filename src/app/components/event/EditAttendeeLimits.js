@@ -18,8 +18,8 @@ import {
   View
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../containers/actions/newEventActions'
 
 import styles from '../../styles/main'
@@ -45,7 +45,7 @@ class EditAttendeeLimits extends Component {
 
   render() {
     return (
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <ScrollView style={styles.editor.scroll}>
           <View style={styles.editor.group}>
             <View style={[styles.editor.link, {height: 44}]}>

@@ -19,8 +19,8 @@ import {
   Text
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as postsActions from '../../containers/actions/postsActions'
 import {ACTION_TARGETS} from '../../../constants'
 
@@ -55,8 +55,8 @@ class PostDetail extends Component {
     }
 
     return (
-      <View style={styles.detail.wrapper}>
-        <ParallaxView style={styles.detail.wrapper}
+      <View style={styles.global.wrapper}>
+        <ParallaxView style={styles.global.wrapper}
           backgroundSource={{uri: AppSettings.assetUri + post.hero}}
           windowHeight={Graphics.heroImage.height}
           scrollableViewStyle={{backgroundColor: Graphics.colors.background}}

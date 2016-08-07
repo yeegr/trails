@@ -19,8 +19,8 @@ import {
 
 import ParallaxView from 'react-native-parallax-view'
 
-import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 import * as eventsActions from '../../containers/actions/eventsActions'
 
 import Intro from '../shared/Intro'
@@ -96,7 +96,7 @@ class EventPayment extends Component {
     let total = 0
 
     return(
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <ParallaxView style={{flex: 1}}
           backgroundSource={{uri: AppSettings.assetUri + event.hero}}
           windowHeight={Graphics.heroImage.height}

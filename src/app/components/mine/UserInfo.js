@@ -21,8 +21,8 @@ import {
 
 import ParallaxView from 'react-native-parallax-view'
 
-import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 import * as loginActions from '../../containers/actions/loginActions'
 
 import Loading from '../shared/Loading'
@@ -97,7 +97,7 @@ const UserInfo = (props) => {
       )}>
       <View style={styles.editor.group}></View>
       <View style={styles.editor.group}>
-        <EditLink onPress={() => nextPage('orders')} label={Lang.MyOrders} />
+        <EditLink onPress={() => nextPage('orders')} value={user.orders.length} label={Lang.MyOrders} />
       </View>
       <View style={styles.editor.group}>
         <EditLink onPress={() => nextPage('trails')} value={user.trails.length} label={Lang.MyTrails} />

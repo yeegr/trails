@@ -81,8 +81,6 @@ module.exports = function(app) {
     .exec()
     .then(function(data) {
       if (data) {
-
-
         res.status(200).json(data)
       } else {
         res.status(404).send()

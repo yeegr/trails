@@ -44,7 +44,7 @@ class EditUserHandle extends Component {
 
   render() {
     return (
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <ScrollView style={styles.editor.scroll}>
           <View style={styles.editor.group}>
             <TextInput

@@ -17,8 +17,8 @@ import {
   View
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../containers/actions/newTrailActions'
 
 import Icon from '../shared/Icon'
@@ -26,7 +26,7 @@ import styles from '../../styles/main'
 
 const EditTrailType = (props) => {
   return (
-    <View style={styles.detail.wrapper}>
+    <View style={styles.global.wrapper}>
       <ScrollView style={styles.editor.scroll}>
         <View style={styles.editor.group}>
           <View style={[styles.search.grid, {paddingHorizontal: 5}]}>

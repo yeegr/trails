@@ -155,7 +155,7 @@ class EventOrder extends Component {
       //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
       
     return(
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <ParallaxView ref='scrollView'
           style={{flex: 1}}
           backgroundSource={{uri: AppSettings.assetUri + event.hero}}

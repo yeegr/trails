@@ -132,7 +132,7 @@ class EditEventExpenses extends Component {
     }
 
     return (
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <View style={styles.editor.scroll}>
           <SegmentedControlIOS
             values={[Lang.EventExpenses, Lang.ExpensesDetail, Lang.ExpensesInclude, Lang.ExpensesExclude]}

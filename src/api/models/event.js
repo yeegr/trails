@@ -42,7 +42,8 @@ var mongoose = require('mongoose'),
       required: true
     },
     hero: {
-      type: String
+      type: String,
+      required: true
     },
     description: {
       type: String,

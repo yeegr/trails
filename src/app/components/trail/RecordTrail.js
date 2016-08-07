@@ -22,8 +22,8 @@ import {
 
 //import MapView from 'react-native-maps'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../containers/actions/newTrailActions'
 
 import CallToAction from '../shared/CallToAction'

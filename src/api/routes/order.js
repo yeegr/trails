@@ -6,6 +6,23 @@ var mongoose = require('mongoose'),
 mongoose.Promise = global.Promise
 
 module.exports = function(app) {
+  function getOneById(id, res, statusCode) {
+    Order
+    .findById(id)
+    .populate('event')
+    .exec()
+    .then(function(data) {
+      if (data) {
+        res.status(statusCode).json(data)
+      } else {
+        res.status(404).send()
+      }
+    })
+    .catch(function(err) {
+      res.status(500).send({error: err})
+    })
+  }
+
   /* Create */
   app.post('/orders', function(req, res, next) {
     var tmp = new Order(req.body)
@@ -39,6 +56,32 @@ module.exports = function(app) {
     .then(function(data) {
       if (data) {
         res.status(statusCode).json(data)
+      } else {
+        res.status(404).send()
+      }
+    })
+    .catch(function(err) {
+      res.status(500).send({error: err})
+    })
+  })
+
+  /* List */
+  app.get('/orders', function(req, res) {
+    var query = {}
+
+    if (req.query.creator) {
+      query.creator = req.query.creator
+    }
+
+    Order
+    .find(query)
+    .populate('event')
+    .limit(CONST.DEFAULT_PAGINATION)
+    .sort({_id: -1})
+    .exec()
+    .then(function(data) {
+      if (data) {
+        res.status(200).json(data)
       } else {
         res.status(404).send()
       }

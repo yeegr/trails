@@ -15,9 +15,8 @@ import {
   ListView
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-
+import {bindActionCreators} from 'redux'
 import * as areasActions from '../../containers/actions/areasActions'
 
 import Loading from '../shared/Loading'

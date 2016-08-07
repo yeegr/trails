@@ -17,8 +17,8 @@ import {
   StyleSheet
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as homeActions from '../containers/actions/homeActions'
 
 import {changeTab} from '../containers/actions/homeActions'
@@ -60,7 +60,7 @@ class Home extends Component {
             selected={selectedTab === HOME_TABS.AREAS}
             onPress={() => this.onTabPressed(HOME_TABS.AREAS)}
           >
-            <ScrollView style={styles.global.main}>
+            <ScrollView style={styles.global.home}>
               <AreaList navigator={navigator} params="" />
             </ScrollView>
           </TabBarIOS.Item>
@@ -70,7 +70,7 @@ class Home extends Component {
             selected={selectedTab === HOME_TABS.EVENTS}
             onPress={() => this.onTabPressed(HOME_TABS.EVENTS)}
           >
-            <ScrollView style={styles.global.main}>
+            <ScrollView style={styles.global.home}>
               <EventList navigator={navigator} params="" />
             </ScrollView>
           </TabBarIOS.Item>
@@ -80,7 +80,7 @@ class Home extends Component {
             selected={selectedTab === HOME_TABS.POSTS}
             onPress={() => this.onTabPressed(HOME_TABS.POSTS)}
           >
-            <ScrollView style={styles.global.main}>
+            <ScrollView style={styles.global.home}>
               <PostList navigator={navigator} params="" />
             </ScrollView>
           </TabBarIOS.Item>

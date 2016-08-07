@@ -173,7 +173,7 @@ class EditEvent extends Component {
     const event = this.props.newEvent
 
     return (
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <ScrollView style={styles.editor.scroll}>
           <View style={styles.editor.group}>
             <View style={styles.editor.link}>

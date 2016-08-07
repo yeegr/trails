@@ -17,15 +17,11 @@ import {
   View
 } from 'react-native'
 
-import Svg, {
-  Path
-} from 'react-native-svg'
-
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {USER_ACTIONS, TOOLBAR_TYPE_KEYS} from '../../../constants'
+import {bindActionCreators} from 'redux'
 import * as loginActions from '../../containers/actions/loginActions'
 import * as toolbarActions from '../../containers/actions/toolbarActions'
+import {USER_ACTIONS, TOOLBAR_TYPE_KEYS} from '../../../constants'
 
 import Icon from './Icon'
 import TextView from './TextView'

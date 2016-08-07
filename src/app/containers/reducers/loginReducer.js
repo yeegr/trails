@@ -75,7 +75,7 @@ const loginReducer = (state = {
         isAuthenticated: true,
         showLogin: false,
         showVerification: false,
-        message: '',
+        message: null,
         token: action.token,
         user: action.user
       })
@@ -103,7 +103,7 @@ const loginReducer = (state = {
 
     case ACTIONS.GET_SUCCESS:
       return Object.assign({}, state, {
-        message: '',
+        message: null,
         user: action.user
       })
 

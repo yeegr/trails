@@ -177,7 +177,7 @@ export default class EventDetail extends Component {
       ) : null
 
     return (
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <ParallaxView style={{flex: 1}}
           ref='scrollView'
           backgroundSource={{uri: AppSettings.assetUri + event.hero}}

@@ -20,8 +20,8 @@ import {
   View
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../containers/actions/newEventActions'
 
 import ListEditor from '../shared/ListEditor'
@@ -100,7 +100,7 @@ class EditEventGears extends Component {
     }
 
     return (
-      <View style={styles.detail.wrapper}>
+      <View style={styles.global.wrapper}>
         <View style={styles.editor.scroll}>
           <SegmentedControlIOS
             values={[Lang.SelectGear, Lang.OtherGears, Lang.GearNotes]}

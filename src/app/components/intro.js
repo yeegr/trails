@@ -17,8 +17,8 @@ import {
   View
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as introActions from '../containers/actions/introActions'
 
 import AppIntro from 'react-native-app-intro'

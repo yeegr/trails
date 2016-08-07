@@ -20,8 +20,8 @@ import {
   View
 } from 'react-native'
 
-import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 import * as newTrailActions from '../../containers/actions/newTrailActions'
 
 import {ACTION_TARGETS} from '../../../constants'
@@ -101,7 +101,7 @@ const EditTrail = (props) => {
   ) : null 
 
   return (
-    <View style={styles.detail.wrapper}>
+    <View style={styles.global.wrapper}>
       <ScrollView style={styles.editor.scroll}>
         <View style={styles.editor.group}>
           <View style={styles.editor.link}>

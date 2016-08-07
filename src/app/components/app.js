@@ -18,8 +18,8 @@ import {
   View,
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import * as homeActions from '../containers/actions/homeActions'
 import * as newTrailActions from '../containers/actions/newTrailActions'
 import * as newEventActions from '../containers/actions/newEventActions'
@@ -51,7 +51,6 @@ import EventDetail from './event/EventDetail'
 import EventOrder from './event/EventOrder'
 import SelectOrderGroup from './event/SelectOrderGroup'
 import EventPayment from './event/EventPayment'
-import OrderDetail from './mine/OrderDetail'
 import SearchEvents from './event/SearchEvents'
 import EditEvent from './event/EditEvent'
 import EditEventHero from './event/EditEventHero'
@@ -77,6 +76,8 @@ import EditUserMobile from './mine/EditUserMobile'
 import EditUserLevel from './mine/EditUserLevel'
 import EditUserName from './mine/EditUserName'
 import EditUserPID from './mine/EditUserPID'
+import OrderList from './mine/OrderList'
+import OrderDetail from './mine/OrderDetail'
 import UserDetail from './user/UserDetail'
 import Gallery from './shared/Gallery'
 
@@ -309,13 +310,6 @@ class App extends Component {
                   route={route} {...route.passProps}
                 />)
 
-              case 'Gallery':
-                return (
-                  <ScrollView style={styles.global.main}>
-                    <Gallery navigator={navigator} route={route} {...route.passProps} />
-                  </ScrollView>
-                )
-
               case 'TrailList':
                 return (
                   <ScrollView style={styles.global.main}>
@@ -376,7 +370,7 @@ class App extends Component {
 
               case 'EventList':
                 return (
-                  <ScrollView style={[styles.global.main, {paddingTop: 80}]}>
+                  <ScrollView style={styles.global.main}>
                     <EventList 
                       navigator={navigator} 
                       route={route} {...route.passProps}
@@ -404,12 +398,6 @@ class App extends Component {
 
               case 'EventPayment':
                 return (<EventPayment
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
-
-              case 'OrderDetail':
-                return (<OrderDetail
                   navigator={navigator}
                   route={route} {...route.passProps}
                 />)
@@ -561,6 +549,32 @@ class App extends Component {
                   navigator={navigator}
                   route={route} {...route.passProps}
                 />)
+
+              case 'OrderList':
+                return (
+                  <ScrollView style={styles.global.main}>
+                    <OrderList
+                      navigator={navigator}
+                      route={route} {...route.passProps}
+                    />
+                  </ScrollView>
+                )
+
+              case 'OrderDetail':
+                return (<OrderDetail
+                  navigator={navigator}
+                  route={route} {...route.passProps}
+                />)
+
+              case 'Gallery':
+                return (
+                  <ScrollView style={styles.global.main}>
+                    <Gallery 
+                      navigator={navigator}
+                      route={route} {...route.passProps}
+                    />
+                  </ScrollView>
+                )
             }
           }}
           navigationBar={
