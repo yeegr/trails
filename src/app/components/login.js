@@ -143,7 +143,7 @@ class Login extends Component {
     return (
       <Image source={{uri: AppSettings.assetUri + AppSettings.loginBackground}} style={[styles.backgroundImage, toggle]}>
         <TouchableOpacity onPress={this.hideLogin} style={styles.closeButton}>
-          <Icon backgroundColor="transparent" fillColor="rgba(255, 255, 255, 0.8)" type="close" />
+          <Icon backgroundColor={Graphics.colors.transparent} fillColor="rgba(255, 255, 255, 0.8)" type="close" />
         </TouchableOpacity>
         <View style={styles.loginForm}>
           <Text style={styles.label}>{Lang.MobileNumber}</Text>
@@ -322,8 +322,8 @@ const {height, width} = Dimensions.get('window'),
     },
     closeButton: {
       height: Graphics.icon.sideLength,
-      right: 10,
-      top: 25,
+      right: 15,
+      top: 30,
       position: 'absolute',
       width: Graphics.icon.sideLength
     }

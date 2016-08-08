@@ -14,14 +14,25 @@ export default StyleSheet.create({
     marginBottom: 10
   },
   thumb: {
-    height: 80,
+    height: 100,
     marginRight: 10,
-    width: 120
+    width: 150,
+    resizeMode: 'cover'
   },
   content: {
     flex: 1
   },
   title: {
-    marginBottom: 5
+    marginVertical: 5
+  },
+  header: {
+    backgroundColor: Graphics.colors.primary,
+    marginBottom: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 10
+  },
+  row: {
+    marginHorizontal: 15,
+    marginBottom: 10
   }
 })

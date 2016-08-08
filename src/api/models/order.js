@@ -23,7 +23,24 @@ var mongoose = require('mongoose'),
       required: true,
       default: 0
     },
+    title: {
+      type: String,
+      required: true
+    },
+    hero: {
+      type: String
+    },
+    startDate: {
+      type: Number
+    },
+    daySpan: {
+      type: Number
+    },
     signUps: [{
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      },
       name: {
         type: String,
         required: true,
@@ -48,8 +65,7 @@ var mongoose = require('mongoose'),
       },
       payment: {
         type: Number,
-        match: CONST.currencyRx,
-        required: true
+        match: CONST.currencyRx
       },
       _id: false
     }],
@@ -73,13 +89,13 @@ orderSchema.pre('save', function(next) {
 orderSchema.post('save', function(doc) {
   User.findById(doc.creator, function(err, user) {
     if (user) {
-      user.addToList('orders', doc.id)
+      user.addOrder(doc._id)
     }
   })
 
   Event.findById(doc.event, function(err, data) {
     if (data) {
-      data.addSignUps(doc.group, doc.signUps)
+      data.addOrder(doc.total, doc.group, doc.signUps)
     }
   })
 
@@ -100,7 +116,7 @@ orderSchema.post('remove', function(doc) {
 
   Event.findById(doc.ref, function(err, data) {
     if (data) {
-      data.removeSignUps(data.group, data.signUps)
+      data.addOrder(doc.total, doc.group, doc.signUps)
     }
   })
 

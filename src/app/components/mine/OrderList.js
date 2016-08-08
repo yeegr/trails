@@ -20,39 +20,32 @@ import {
 } from 'react-native'
 
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import * as ordersActions from '../../containers/actions/ordersActions'
 
 import Loading from '../shared/Loading'
 import TextView from '../shared/TextView'
 import InfoItem from '../shared/InfoItem'
-import {formatEventGroupLabel, getTimeFromId} from '../../../common'
+import {formatEventGroupLabel, formatDateSpan, getTimeFromId} from '../../../common'
 import styles from '../../styles/main'
 
-class OrderList extends Component {
-  constructor(props) {
-    super(props)
-    this.dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 != r2
-    })
-    this.renderRow = this.renderRow.bind(this)
-    this.selectOrder = this.selectOrder.bind(this)
-  }
+const OrderList = (props) => {
+  const dataSource = new ListView.DataSource({
+    rowHasChanged: (r1, r2) => r1 != r2
+  }),
 
-  selectOrder(order) {
-    this.props.navigator.push({
+  selectOrder = (order) => {
+    props.navigator.push({
       id: 'OrderDetail',
       title: Lang.OrderDetail,
       passProps: {
-        order,
-        event: order.event
+        event: order.event,
+        order
       }
     })
-  }
+  },
 
-  renderRow(order, sectionId, rowId) {
+  renderRow = (order, sectionId, rowId) => {
     const {event} = order,
-    dates = formatEventGroupLabel(event, order.group),
+    dates = formatDateSpan(order.startDate, order.daySpan),
     infoStyles = {
       wrapper: {
         paddingLeft: 0,
@@ -66,18 +59,18 @@ class OrderList extends Component {
     })
 
     return (
-      <TouchableOpacity key={rowId} onPress={() => this.selectOrder(order)}>
+      <TouchableOpacity key={rowId} onPress={() => selectOrder(order)}>
         <View style={styles.list.item}>
           <Image
             style={styles.list.thumb}
-            source={{uri: AppSettings.assetUri + event.hero}}
+            source={{uri: AppSettings.assetUri + order.hero}}
           />
           <View style={styles.list.content}>
             <View style={styles.list.title}>
               <TextView
-                style={{fontWeight: 'bold'}}
+                style={{fontWeight: '400', marginBottom: 2}}
                 fontSize='L'
-                text={event.title} 
+                text={order.title} 
               />
               <TextView
                 textColor={Graphics.textColors.endnote}
@@ -85,51 +78,32 @@ class OrderList extends Component {
               />
             </View>
             <View>
-              <InfoItem styles={infoStyles} label={Lang.SignUps} value={names.join('，')} />
-              <InfoItem styles={infoStyles} label={Lang.Total} value={order.total + Lang.Yuan} />
-              <InfoItem styles={infoStyles} label={Lang.PayTime} value={getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
+              <InfoItem styles={infoStyles} labelWidth={70} label={Lang.SignUps} value={names.join('，')} />
+              <InfoItem styles={infoStyles} labelWidth={70} label={Lang.Total} value={order.total + Lang.Yuan} />
+              <InfoItem styles={infoStyles} labelWidth={70} label={Lang.PayTime} value={getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
             </View>
           </View>
         </View>
       </TouchableOpacity>
     )
-  }
+  },
 
-  componentDidMount() {
-    this.props.ordersActions.listOrders({
-      creator: this.props.user.id
-    })
-  }
+  {orders} = props.user
 
-  render() {
-    const {orders} = this.props
-
-    if (!orders) {
-      return <Loading />
-    }
-
-    return (
-      <ListView
-        enableEmptySections={true}
-        scrollEnabled={false}
-        dataSource={this.dataSource.cloneWithRows(orders)}
-        renderRow={this.renderRow}
-      />
-    )
-  }
+  return (
+    <ListView
+      enableEmptySections={true}
+      scrollEnabled={false}
+      dataSource={dataSource.cloneWithRows(orders)}
+      renderRow={renderRow}
+    />
+  )
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.login.user,
-    orders: state.orders.list
+    user: state.login.user
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    ordersActions: bindActionCreators(ordersActions, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(OrderList)
+export default connect(mapStateToProps)(OrderList)

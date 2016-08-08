@@ -46,4 +46,9 @@ styles = StyleSheet.create({
   }
 })
 
+SimpleContact.propTypes = {
+  label: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired
+}
+
 export default SimpleContact

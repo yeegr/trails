@@ -55,8 +55,7 @@ class EventPayment extends Component {
   }
 
   nextStep(order) {
-    let event = this.props.event, 
-      navigator = this.props.navigator,
+    let {event, navigator} = this.props,
       stack = navigator.getCurrentRoutes()
 
     stack.splice(2, stack.length - 3)
@@ -76,10 +75,15 @@ class EventPayment extends Component {
   }
 
   confirm(total) {
-    let order = {
-      creator: this.props.user.id,
-      event: this.props.event.id,
-      group: this.props.group,
+    let {user, event, group} = this.props,
+      order = {
+      creator: user.id,
+      event: event.id,
+      group,
+      title: event.title,
+      hero: event.hero,
+      startDate: event.groups[group].startDate,
+      daySpan: event.schedule.length, 
       method: this.state.paymentMethod,
       signUps: this.state.signUps,
       total 

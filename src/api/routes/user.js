@@ -11,6 +11,7 @@ module.exports = function(app) {
   function getOneById(id, res, statusCode) {
     User
     .findById(id)
+    .populate('orders')
     .exec()
     .then(function(data) {
       if (data) {

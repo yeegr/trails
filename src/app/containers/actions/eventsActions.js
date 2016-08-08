@@ -3,6 +3,7 @@
 import {CONFIG} from '../../../constants'
 import {AppSettings} from '../../settings'
 import * as ACTIONS from '../constants/eventsConstants'
+import * as loginActions from './loginActions'
 
 // list events
 const requestEvents = (params) => {
@@ -131,6 +132,7 @@ export const pay = (order) => {
       .then((res) => {
         if (res._id) {
           dispatch(receivePayResponse(res))
+          dispatch(loginActions.getUpdatedUser(order.creator))
         } else {
           dispatch(payError(res.message))
           return Promise.reject(res)

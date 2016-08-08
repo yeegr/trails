@@ -127,4 +127,5 @@ function mapDispatchToProps(dispatch) {
     changeTab: (tabId) => dispatch(changeTab(tabId))
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(EditAccount)

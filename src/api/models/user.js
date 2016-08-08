@@ -109,7 +109,7 @@ var mongoose = require('mongoose'),
     }],
     orders: [{
       type: Schema.Types.ObjectId,
-      ref: 'Event'
+      ref: 'Order'
     }],
     posts: [{
       type: Schema.Types.ObjectId,
@@ -216,6 +216,16 @@ userSchema.virtual('totalComments').get(function() {
 userSchema.virtual('totalFollowers').get(function() {
   return this.followers.length
 })
+
+userSchema.methods.addOrder = function(id) {
+  this.orders.push(id)
+  this.save()
+}
+
+userSchema.methods.removeOrder = function(id) {
+  this.orders.splice(this.orders.indexOf(id), 1)
+  this.save()
+}
 
 userSchema.methods.addToList = function(key, id) {
   var list = (arguments[2]) ? this[arguments[2]][key] : this[key]

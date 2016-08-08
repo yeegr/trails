@@ -43,6 +43,12 @@ export function formatEventGroupLabel(event, groupIndex) {
   return startDate.format('LL') + '-' + moment(startDate).add(days, 'days').format('LL')
 } 
 
+export function formatDateSpan(startDate, days) {
+  const start = moment(startDate)
+
+  return start.format('LL') + '-' + moment(start).add(days, 'days').format('LL')
+} 
+
 export function formatFromNow(timestamp) {
   return Moment(timestamp * 1000).locale(locale).fromNow()
 }

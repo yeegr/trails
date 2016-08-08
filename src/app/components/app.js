@@ -564,12 +564,10 @@ class App extends Component {
 
               case 'SignUpList':
                 return (
-                  <ScrollView style={styles.global.main}>
-                    <SignUpList
-                      navigator={navigator}
-                      route={route} {...route.passProps}
-                    />
-                  </ScrollView>
+                  <SignUpList
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
                 )
 
               case 'OrderList':

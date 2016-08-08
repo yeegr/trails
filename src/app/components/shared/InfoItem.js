@@ -26,11 +26,12 @@ const InfoItem = (props) => {
   ) : props.value
 
   const customStyles = props.styles || null,
-  customWrapperStyles = (customStyles) ? (customStyles.wrapper || null) : null
+  customWrapperStyles = (customStyles) ? (customStyles.wrapper || null) : null,
+  labelStyles = (props.labelWidth) ? {width : props.labelWidth} : null 
 
   return (
     <View style={[styles.wrapper, customWrapperStyles]}>
-      <View style={styles.label}>
+      <View style={[styles.label, labelStyles]}>
         <TextView text={props.label + colon} />
       </View>
       <View style={styles.value}>

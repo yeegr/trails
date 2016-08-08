@@ -59,7 +59,7 @@ const TinyStatus = (props) => {
   )
 },
 Stat = (props) => {
-  const icon = Graphics.statusBar.icon
+  const icon = Graphics.tinyStatus.icon
 
   return (
     <View style={styles.stat}>

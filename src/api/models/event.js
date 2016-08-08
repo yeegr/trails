@@ -9,6 +9,7 @@ var mongoose = require('mongoose'),
   Point = require('./point'),
   Photo = require('./photo'),
   User = require('./user'),
+  Now = (new Date()).getTime(),
   eventSchema = new Schema({
     creator: {
       type: Schema.ObjectId,
@@ -95,10 +96,6 @@ var mongoose = require('mongoose'),
           type: String,
           match: CONST.pidRx
         },
-        gender: {
-          type: Number,
-          match: CONST.genderRx
-        },
         level: {
           type: Number,
           match: CONST.levelRx
@@ -117,6 +114,11 @@ var mongoose = require('mongoose'),
       }],
       _id: false
     }],
+    total: {
+      type: Number,
+      required: true,
+      default: 0
+    },
     gatherTime: {
       type: Number,
       required: false,
@@ -231,7 +233,6 @@ eventSchema.methods.removeFromList = function(type, id) {
 }
 
 eventSchema.methods.addSignUps = function(groupIndex, signUps) {
-  console.log(groupIndex, signUps)
   var signUpList = this.groups[groupIndex].signUps,
     date = new Date(),
     time = date.getMilliseconds()
@@ -242,6 +243,16 @@ eventSchema.methods.addSignUps = function(groupIndex, signUps) {
   })
 
   this.save()
+}
+
+eventSchema.methods.addOrder = function(subtotal, groupIndex, signUps) {
+  this.total += subtotal
+
+  if (subtotal < 0) {
+    this.removeSignUps(groupIndex, signUps)
+  } else {
+    this.addSignUps(groupIndex, signUps)
+  }
 }
 
 eventSchema.methods.removeSignUps = function(groupIndex, signUps) {

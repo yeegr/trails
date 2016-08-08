@@ -47,12 +47,13 @@ class EventManager extends Component {
     })
   }
 
-  signupList(event) {
+  signupList(event, groupIndex) {
     this.props.navigator.push({
       id: 'SignUpList',
       title: Lang.SignUpList,
       passProps: {
-        event
+        event,
+        groupIndex
       }
     })
   }
@@ -65,14 +66,21 @@ class EventManager extends Component {
   renderRow(event, sectionId, rowId) {
     return (
       <View style={styles.detail.section}>
-        <TouchableOpacity onPress={() => this.eventPage(event._id)}>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity onPress={() => this.eventPage(event._id)}>
+            <TextView
+              style={{flex: 1, fontWeight: '400', marginBottom: 5, paddingHorizontal: 15}}
+              fontSize="XL"
+              textColor={Graphics.textColors.link}
+              text={event.title}
+            />
+          </TouchableOpacity>
           <TextView
-            style={{fontWeight: '400', marginBottom: 5, paddingHorizontal: 15}}
+            style={{flex: 1, marginBottom: 5, paddingHorizontal: 15, textAlign: 'right'}}
             fontSize="XL"
-            textColor={Graphics.textColors.link}
-            text={event.title}
+            text={event.total + Lang.Yuan}
           />
-        </TouchableOpacity>
+        </View>
         <View style={styles.editor.group}>
           {
             event.groups.map((group, index) => {
@@ -82,7 +90,7 @@ class EventManager extends Component {
                   key={index}
                   label={dates}
                   value={group.signUps.length} 
-                  onPress={() => this.signupList(group)}
+                  onPress={() => this.signupList(event, index)}
                 />
               )
             })

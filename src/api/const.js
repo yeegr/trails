@@ -19,7 +19,7 @@ module.exports = {
     TRAIL: ["private", "submitting", "pending", "approved", "rejected", "suspended"],
     EVENT: ["private", "submitting", "pending", "approved", "rejected", "completed", "suspended"],
     GROUP: ["accepting", "filled", "due"],
-    SIGNUP: ["submitting", "pending", "approved", "rejected", "completed"],
+    SIGNUP: ["submitted", "pending", "approved", "rejected"],
     PAYMENT: ["submitting", "pending", "received", "rejected"],
     POST: ["draft", "pending", "approved", "published"],
   },

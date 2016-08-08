@@ -15,7 +15,7 @@ export default StyleSheet.create({
   main: {
     backgroundColor: Graphics.colors.background,
     flex: 1,
-    paddingTop: Graphics.titlebar.height + 20
+    paddingTop: Graphics.statusbar.height + Graphics.titlebar.height
   },
   map: {
     backgroundColor: Graphics.colors.lightGray,
