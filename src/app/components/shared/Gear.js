@@ -38,7 +38,6 @@ styles = StyleSheet.create({
     flexDirection: 'column',
     height: Graphics.gear.sideLength,
     justifyContent: 'flex-end',
-    marginRight: 10,
     marginBottom: 10,
     overflow: 'hidden',
     width: Graphics.gear.sideLength,

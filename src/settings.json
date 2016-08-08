@@ -658,13 +658,13 @@
       "default":"HelveticaNeue-Light"
     },
     "fontSizes":{
-      "default":12,
-      "XXS":8,
-      "XS":9,
-      "SML":10,
-      "M":12,
-      "L":14,
-      "XL":16,
+      "default":14,
+      "XXS":10,
+      "XS":11,
+      "SML":12,
+      "M":14,
+      "L":16,
+      "XL":18,
       "XXL":20,
       "XXXL":24
     },
@@ -704,7 +704,7 @@
       "XL":100
     },
     "gear":{
-      "sideLength":60
+      "sideLength":70
     },
     "actionSheet":{
       "maskColor":"rgba(0, 0, 0, .8)",

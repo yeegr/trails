@@ -31,8 +31,6 @@ class Toolbar extends Component {
     super(props)
     this.act = this.act.bind(this)
     this.comment = this.comment.bind(this)
-
-    console.log(this.props.user)
   }
 
   act(type) {
@@ -61,46 +59,39 @@ class Toolbar extends Component {
   }
 
   componentDidMount() {
-    const data = this.props.data,
+    const {data, type} = this.props,
+    {id, likeCount, saveCount, shareCount, commentCount} = data,
     init = {
-      target: this.props.type,
-      ref: data.id,
-      likeCount: data.likeCount,
-      saveCount: data.saveCount,
-      shareCount: data.shareCount,
-      commentCount: data.commentCount
+      target: type,
+      ref: id,
+      likeCount,
+      saveCount,
+      shareCount,
+      commentCount
     }
 
     this.props.toolbarActions.resetToolbar(init)
   }
 
   render() {
-    const user = this.props.user, 
-    type = this.props.type,
-    id = this.props.data.id,
-    toolbar = this.props.toolbar,
+    let {user, type, toolbar, data} = this.props,
     stack = this.props.stack || 'horizontal',
     icon = Graphics.toolbar.icon,
     sideLength = icon.sideLength,
     viewBox = icon.viewBox,
     scale = icon.scale,
     fillColor = this.props.fillColor || icon.fillColor,
-    textColor = this.props.textColor || icon.textColor
+    textColor = this.props.textColor || icon.textColor,
+    id = data.id,
 
-    const likesArray = user.likes[TOOLBAR_TYPE_KEYS[type]],
-    savesArray = user.saves[TOOLBAR_TYPE_KEYS[type]],
-    sharesArray = user.shares[TOOLBAR_TYPE_KEYS[type]]
+    likeFillColor = fillColor,
+    saveFillColor = fillColor,
+    shareFillColor = fillColor,
+    commentFillColor = fillColor,
 
-    //console.log(likesArray)
-    //console.log(savesArray)
-    //console.log(sharesArray)
+    showLogin = this.props.loginActions.showLogin,
 
-    const likeFillColor = (likesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor,
-    saveFillColor = (savesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor,
-    shareFillColor = (sharesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor,
-    commentFillColor = fillColor
-
-    let likeIcon = (
+    likeIcon = (
       <Icon
         backgroundColor={Graphics.colors.transparent}
         fillColor={likeFillColor}
@@ -131,55 +122,109 @@ class Toolbar extends Component {
         label={Lang.SAVE}
         value={toolbar.saveCount}  
       />
-    )
+    ),
+    shareIcon = (
+      <Icon
+        backgroundColor={Graphics.colors.transparent}
+        fillColor={shareFillColor}
+        labelColor={textColor}
+        scale={scale}
+        showLabel={false}
+        sideLength={sideLength}
+        stack={stack}
+        valueColor={textColor}
+        viewBox={icon.viewBox}
+        path={Graphics.toolbar.share}
+        label={Lang.SHARE}
+        value={toolbar.shareCount}  
+      />
+    ),
+    commentIcon = (
+      <Icon
+        backgroundColor={Graphics.colors.transparent}
+        fillColor={commentFillColor}
+        labelColor={textColor}
+        scale={scale}
+        showLabel={false}
+        sideLength={sideLength}
+        stack={stack}
+        valueColor={textColor}
+        viewBox={icon.viewBox}
+        path={Graphics.toolbar.comment}
+        label={Lang.Comment}
+        value={toolbar.commentCount}  
+      />
+    ),
 
-    const likeView = (likesArray.indexOf(id) < 0) ? (
-      <TouchableOpacity onPress={() => this.act(USER_ACTIONS.LIKE)}>
+    likeView = (
+      <TouchableOpacity onPress={showLogin}>
         {likeIcon}
       </TouchableOpacity>
-    ) : likeIcon,
-    saveView = (savesArray.indexOf(id) < 0) ? (
-      <TouchableOpacity onPress={() => this.act(USER_ACTIONS.SAVE)}>
+    ),
+    saveView = (
+      <TouchableOpacity onPress={showLogin}>
         {saveIcon}
       </TouchableOpacity>
-    ) : saveIcon
+    ),
+    shareView = (
+      <TouchableOpacity onPress={showLogin}>
+        {shareIcon}
+      </TouchableOpacity>
+    ),
+    commentView = (
+      <TouchableOpacity onPress={showLogin}>
+        {commentIcon}
+      </TouchableOpacity>
+    )
+
+    console.log(toolbar)
+
+    if (user) {
+      const likesArray = user.likes[TOOLBAR_TYPE_KEYS[type]],
+      savesArray = user.saves[TOOLBAR_TYPE_KEYS[type]],
+      sharesArray = user.shares[TOOLBAR_TYPE_KEYS[type]]
+
+      likeFillColor = (likesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor,
+      saveFillColor = (savesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor,
+      shareFillColor = (sharesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor
+
+      if (likesArray.indexOf(id) < 0) {
+        likeView = (
+          <TouchableOpacity onPress={() => this.act(USER_ACTIONS.LIKE)}>
+            {likeIcon}
+          </TouchableOpacity>
+        )
+      }
+
+      if (savesArray.indexOf(id) < 0) {
+        saveView = (
+          <TouchableOpacity onPress={() => this.act(USER_ACTIONS.SAVE)}>
+            {saveIcon}
+          </TouchableOpacity>
+        )
+      }
+
+      shareView = (
+        <TouchableOpacity onPress={() => this.act(USER_ACTIONS.SHARE)}>
+          {shareIcon}
+        </TouchableOpacity>
+      )
+
+      commentView = (
+        <TouchableOpacity onPress={this.comment}>
+          {commentIcon}
+        </TouchableOpacity>
+      )
+    }
+
+
 
     return (
       <View style={styles.wrapper}>
         {likeView}
         {saveView}
-        <TouchableOpacity onPress={() => this.act(USER_ACTIONS.SHARE)}>
-          <Icon
-            backgroundColor={Graphics.colors.transparent}
-            fillColor={shareFillColor}
-            labelColor={textColor}
-            scale={scale}
-            showLabel={false}
-            sideLength={sideLength}
-            stack={stack}
-            valueColor={textColor}
-            viewBox={icon.viewBox}
-            path={Graphics.toolbar.share}
-            label={Lang.SHARE}
-            value={toolbar.shareCount}  
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.comment}>
-          <Icon
-            backgroundColor={Graphics.colors.transparent}
-            fillColor={commentFillColor}
-            labelColor={textColor}
-            scale={scale}
-            showLabel={false}
-            sideLength={sideLength}
-            stack={stack}
-            valueColor={textColor}
-            viewBox={icon.viewBox}
-            path={Graphics.toolbar.comment}
-            label={Lang.Comment}
-            value={toolbar.commentCount}  
-          />
-        </TouchableOpacity>
+        {shareView}
+        {commentView}
       </View>
     )
   }

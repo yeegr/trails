@@ -31,6 +31,11 @@ import Communications from 'react-native-communications'
 
 import Moment from 'moment'
 
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import * as eventsActions from '../../containers/actions/eventsActions'
+import {ACTION_TARGETS} from '../../../constants'
+
 import TextView from '../shared/TextView'
 import Loading from '../shared/Loading'
 import Header from '../shared/Header'
@@ -46,42 +51,26 @@ import UserLink from '../user/UserLink'
 import WebViewWrapper from '../shared/WebViewWrapper'
 import Toolbar from '../shared/Toolbar'
 import CallToAction from '../shared/CallToAction'
-import {ACTION_TARGETS} from '../../../constants'
 import {formatMinutes} from '../../../common'
 import styles from '../../styles/main'
 
-export default class EventDetail extends Component {
+class EventDetail extends Component {
   constructor(props) {
     super(props)
     this.signUp = this.signUp.bind(this)
 
     this.state = {
-      loading: true,
       destinationHeight: 0,
       eventNoteHeight: 0
     }
   }
 
-  fetchData(id) {
-    fetch(AppSettings.apiUri + 'events/' + id)
-    .then((response) => response.json())
-    .then((response) => {
-      this.setState({
-        loading: false,
-        data: response
-      })
-    })
-    .catch((error) => {
-      console.warn(error)
-    })
-  }
-
-  componentDidMount() {
-    this.fetchData(this.props.id)
+  componentWillMount() {
+    this.props.eventsActions.getEvent(this.props.id)
   }
 
   signUp() {
-    let event = this.state.data, 
+    let event = this.props.event, 
       id = 'EventOrder',
       title = Lang.SignUp
 
@@ -100,13 +89,15 @@ export default class EventDetail extends Component {
   }
 
   render() {
-    if (this.state.loading) {
+    const {event, navigator} = this.props
+
+    if (!event) {
       return <Loading />
     }
 
-    const event = this.state.data,
-      navigator = this.props.navigator,
-      avatarRadius = 20,
+    console.log(this.props.user == null)
+
+    const avatarRadius = 20,
       eventGroups = (event.groups.length > 1) ? (
         <ListItem icon="calendar"
           label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}
@@ -147,7 +138,7 @@ export default class EventDetail extends Component {
       eventGears = (event.gears.images && event.gears.images.length > 0) ? (
         <View ref="eventGears" style={styles.detail.section}>
           <Header text={Lang.GearsToBring} />
-          <View style={[styles.detail.content, {paddingLeft: 15}]}>
+          <View style={[styles.detail.content, {paddingHorizontal: 12}]}>
             <GearList list={event.gears.images} />
           </View>
           {otherGears}
@@ -259,6 +250,7 @@ export default class EventDetail extends Component {
           </View>
         </ParallaxView>
         <CallToAction
+          disabled={(this.props.user === null)}
           label={Lang.SignUpNow}
           onPress={this.signUp}
         />
@@ -266,6 +258,25 @@ export default class EventDetail extends Component {
     )
   }
 }
+
+EventDetail.propTypes = {
+  id: PropTypes.string.isRequired
+}
+
+function mapStateToProps(state, ownProps) {
+  return {
+    event: state.events.event,
+    user: state.login.user
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    eventsActions: bindActionCreators(eventsActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventDetail)
 
 /*
 
