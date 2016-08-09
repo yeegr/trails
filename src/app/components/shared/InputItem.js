@@ -22,7 +22,10 @@ const InputItem = (props) => {
   return (
     <View style={[styles.wrapper, (props.styles && props.styles.wrapper) ? props.styles.wrapper : null]}>
       <View style={styles.label}>
-        <TextView text={props.label + Lang.colon} />
+        <TextView
+          textColor={(props.required) ? Graphics.textColors.required : Graphics.textColors.foreground}
+          text={props.label + Lang.colon}
+        />
       </View>
       <View style={[styles.input, inputStyle]}>
         {props.input}

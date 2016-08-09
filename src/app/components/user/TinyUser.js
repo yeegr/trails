@@ -27,7 +27,11 @@ const TinyUser = (props) => {
         <Avatar user={props.user} size='SML' />
       </View>
       <View>
-        <Text style={styles.handle}>{props.user.handle}</Text>
+        <TextView
+          style={{fontWeight: '400'}}
+          textColor={Graphics.textColors.overlay} 
+          text={props.user.handle}
+        />
       </View>
     </View>
   )
@@ -41,9 +45,6 @@ styles = StyleSheet.create({
   },
   avatar: {
     marginRight: 5
-  },
-  handle: {
-    color: Graphics.textColors.overlay
   }
 })
 

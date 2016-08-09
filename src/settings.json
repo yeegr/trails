@@ -127,6 +127,7 @@
     "EventInfo":"活动信息",
     "DepartCity":"出发城市",
     "EventTitle":"活动名称",
+    "SelectCity":"选择城市",
     "EventGroups":"活动批次",
     "Groups":"批次",
     "GatherTime":"集合时间",
@@ -670,7 +671,9 @@
     },
     "textColors":{
       "default":"#000000",
+      "foreground":"#000000",
       "overlay":"#ffffff",
+      "required":"#ff0000",
       "placeholder":"rgba(0, 0, 0, 0.5)",
       "disabled":"#d3d3d3",
       "subhead":"#696969",

@@ -37,24 +37,19 @@ const EditLink = (props) => {
     )
   }
 
-  let required = (props.required) ? {color: 'red'} : null,
-    arrow = (props.hideArrow) ? null : (
-      <Next path={Graphics.arrow.next} fill={Graphics.arrow.fill} />
-    )
-
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.editor.link}>
         <View style={styles.editor.label}>
           <TextView
-            style={required}
+            textColor={(props.required) ? Graphics.textColors.required : Graphics.textColors.foreground}
             text={props.label}
           />
         </View>
         <View style={styles.editor.value}>
           {value}
         </View>
-        {arrow}
+        <Next path={Graphics.arrow.next} fill={Graphics.arrow.fill} />
       </View>
     </TouchableOpacity>
   )

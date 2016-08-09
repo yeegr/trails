@@ -13,20 +13,25 @@ import React, {
 import {
   Modal,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native'
 
+import TextView from '../shared/TextView'
 import Icon from '../shared/Icon'
+import styles from '../../styles/main'
 
 const TypePicker = (props) => {
   return (
-    <Modal animationType={"slide"} transparent={true} visible={props.visible}>
-      <ScrollView style={styles.modal}>
-        <View style={styles.dialog}>
-          <Text style={styles.title}>{Lang.SelectAgendaType}</Text>
+    <Modal animationType={"slide"} transparent={false} visible={props.visible}>
+      <ScrollView style={styles.modal.wrapper}>
+        <View style={styles.modal.main}>
+          <TextView
+            style={{flex: 1, marginVertical: 20, textAlign: 'center'}}
+            fontSize='XL'
+            text={props.title || Lang.SelectAgendaType}
+          />
           <IconGrid list={[93,92,90,91,94]} selectedIndex={props.selectedIndex} onPress={(value) => props.onPress(value)} />
           <IconGrid list={[100,101,102]} selectedIndex={props.selectedIndex} onPress={(value) => props.onPress(value)} />
           <IconGrid list={[0,1,2,3,4,5,6,7,8,9]} selectedIndex={props.selectedIndex} onPress={(value) => props.onPress(value)} />
@@ -37,20 +42,27 @@ const TypePicker = (props) => {
           <IconGrid list={[80,81,82,83,84]} selectedIndex={props.selectedIndex} onPress={(value) => props.onPress(value)} />
         </View>
       </ScrollView>
+      <TouchableOpacity onPress={props.hidePicker} style={styles.modal.close}>
+        <Icon 
+          backgroundColor={Graphics.colors.transparent}
+          fillColor="rgba(0, 0, 0, 0.5)"
+          type="close"
+        />
+      </TouchableOpacity>
     </Modal>
   )
 },
 
 IconGrid = (props) => {
   return (
-    <View style={styles.grid}>
+    <View style={styles.modal.grid}>
     {
       props.list.map((i) => {
         const color = (i === props.selectedIndex) ? Graphics.colors.primary : Graphics.icon.backgroundColor
 
         return (
           <TouchableOpacity key={i} onPress={() => props.onPress(i)}>
-            <View style={styles.button}>
+            <View style={styles.modal.button}>
               <Icon
                 backgroundColor={color}
                 stack="vertical"
@@ -65,41 +77,13 @@ IconGrid = (props) => {
     }
     </View>
   )
-},
-
-styles = StyleSheet.create({
-  modal: {
-    backgroundColor: Graphics.colors.background,
-    flex: 1
-  },
-  dialog: {
-    padding: 10,
-  },
-  grid: {
-    alignItems: 'flex-start',
-    borderBottomColor: Graphics.colors.lightGray,
-    borderBottomWidth: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 10
-  },
-  button: {
-    marginBottom: 10,
-    marginHorizontal: 5
-  },
-  title: {
-    flex: 1,
-    fontSize: 20,
-    marginTop: 20,
-    padding: 10,
-    textAlign: 'center'
-  }
-})
+}
 
 TypePicker.propTypes = {
   visible: PropTypes.bool.isRequired,
   selectedIndex: PropTypes.number,
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
+  hidePicker: PropTypes.func.isRequired
 }
 
 IconGrid.propTypes = {

@@ -37,6 +37,13 @@ export const setEventTitle = (title) => {
   }
 }
 
+export const setDepartCity = (city) => {
+  return {
+    type: ACTIONS.SET_DEPART_CITY,
+    city
+  }
+}
+
 export const setEventType = (eventType) => {
   return {
     type: ACTIONS.SET_EVENT_TYPE,

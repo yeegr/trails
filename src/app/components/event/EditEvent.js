@@ -14,7 +14,6 @@ import React, {
 import {
   ScrollView,
   Switch,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -26,7 +25,9 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../containers/actions/newEventActions'
 
+import TextView from '../shared/TextView'
 import EditLink from '../shared/EditLink'
+import CityPicker from '../shared/CityPicker'
 import TypePicker from '../shared/TypePicker'
 import DateTimePicker from '../shared/DateTimePicker'
 import SearchPoi from '../shared/SearchPoi'
@@ -179,12 +180,16 @@ class EditEvent extends Component {
           <View style={styles.editor.group}>
             <View style={styles.editor.link}>
               <View style={styles.editor.label}>
-                <Text>{Lang.PrivacySetting}</Text>
+                <TextView
+                  textColor={Graphics.textColors.required}
+                  text={Lang.PrivacySetting}
+                />
               </View>
               <View style={styles.editor.value}>
-                <Text style={[styles.editor.valueText, {marginRight: 10}]}>
-                {(event.isPublic) ? Lang.Public : Lang.Private}
-                </Text>
+                <TextView
+                  style={{marginRight: 10}}
+                  text={(event.isPublic) ? Lang.Public : Lang.Private}
+                />
                 <Switch
                   onValueChange={(value) => this.props.newEventActions.setEventPrivacy(value)}
                   value={event.isPublic}
@@ -194,7 +199,7 @@ class EditEvent extends Component {
           </View>
           <View style={styles.editor.group}>
             <EditLink onPress={() => this.nextPage('title')} value={event.title} required={true} label={Lang.EventTitle} />
-            <EditLink onPress={() => this.setState({showCityPicker: true})} value={Lang.cities['010']} required={true} label={Lang.DepartCity} />
+            <EditLink onPress={() => this.setState({showCityPicker: true})} value={Lang.cities[event.city]} required={true} label={Lang.DepartCity} />
             <EditLink onPress={() => this.nextPage('hero')} value={(event.hero !== '') ? '' : ''} required={true} label={Lang.HeroImage} />
             <EditLink onPress={() => this.setState({showTypePicker: true})} value={Lang.tagArray[event.type]} required={true} label={Lang.EventType} />
             <EditLink onPress={() => this.nextPage('groups')} value={event.groups.length.toString()} required={true} label={Lang.EventGroups} />
@@ -220,7 +225,8 @@ class EditEvent extends Component {
           </View>
         </ScrollView>
         <TypePicker 
-          visible={this.state.showTypePicker} 
+          visible={this.state.showTypePicker}
+          hidePicker={() => this.setState({showTypePicker: false})} 
           selectedIndex={event.type} 
           onPress={(value) => this.setType(value)}
         />

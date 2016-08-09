@@ -21,6 +21,7 @@ const initState = {
   isPublic: false,
   privacyStatus: 'private',
   title: Lang.Unnamed,
+  city: '010',
   type: 0,
   hero: '',
   description: '',
@@ -74,6 +75,11 @@ newEventReducer = (state = initState, action) => {
     case ACTIONS.SET_EVENT_TITLE:
       return Object.assign({}, state, {
         title: action.title
+      })
+
+    case ACTIONS.SET_DEPART_TYPE:
+      return Object.assign({}, state, {
+        city: action.city
       })
 
     case ACTIONS.SET_EVENT_TYPE:
