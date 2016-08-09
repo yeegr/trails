@@ -23,10 +23,7 @@ import JumpListView from './JumpListView'
 import styles from '../../styles/main'
 
 const CityPicker = (props) => {
-  const data = {
-    A: ['010','021','022'],
-    B: ['0837','0997','1997','0483']
-  }
+  const data = Lang.citiesByPinyin
 
   return (
     <Modal animationType={"slide"} transparent={false} visible={props.visible}>
@@ -60,7 +57,7 @@ const CityPicker = (props) => {
                 <TextView
                   style={{backgroundColor: Graphics.colors.transparent}}
                   textColor='#007AFF'
-                  text={text}
+                  text={text.substring(0,1)}
                 />
               )
             }}

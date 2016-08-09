@@ -116,6 +116,7 @@ class JumpListView extends Component {
         <ListView
           ref="list"
           enableEmptySections={true}
+          removeClippedSubviews={false}
           scrollEnabled={true}
           dataSource={this.dataSource.cloneWithRowsAndSections(this.props.data)}
           renderRow={this.renderRow}
