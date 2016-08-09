@@ -9,6 +9,7 @@ export default StyleSheet.create({
     flex: 1
   },
   main: {
+    flex: 1,
     padding: 10,
   },
   grid: {
@@ -36,5 +37,16 @@ export default StyleSheet.create({
     top: 30,
     position: 'absolute',
     width: Graphics.icon.sideLength
+  },
+  header: {
+    backgroundColor: Graphics.colors.lightGray,
+    justifyContent: 'center',
+    marginRight: 30,
+    paddingHorizontal: 10
+  },
+  cell: {
+    justifyContent: 'center',
+    marginRight: 30,
+    paddingHorizontal: 10
   }
 })

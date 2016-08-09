@@ -77,7 +77,7 @@ newEventReducer = (state = initState, action) => {
         title: action.title
       })
 
-    case ACTIONS.SET_DEPART_TYPE:
+    case ACTIONS.SET_DEPART_CITY:
       return Object.assign({}, state, {
         city: action.city
       })

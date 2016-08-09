@@ -39,6 +39,7 @@ class EditEvent extends Component {
     this.convertTimeToDatetime = this.convertTimeToDatetime.bind(this)
     this.showContacts = this.showContacts.bind(this)
     this.nextPage = this.nextPage.bind(this)
+    this.setCity = this.setCity.bind(this)
     this.setType = this.setType.bind(this)
 
     this.state = {
@@ -161,6 +162,11 @@ class EditEvent extends Component {
     })
   }
 
+  setCity(city) {
+    this.props.newEventActions.setDepartCity(city)
+    this.setState({showCityPicker: false})
+  }
+
   setType(type) {
     this.props.newEventActions.setEventType(type)
     this.setState({showTypePicker: false})
@@ -224,6 +230,12 @@ class EditEvent extends Component {
             <EditLink onPress={() => this.nextPage('preview')} label={Lang.EventPreview} />
           </View>
         </ScrollView>
+        <CityPicker 
+          visible={this.state.showCityPicker}
+          hidePicker={() => this.setState({showCityPicker: false})} 
+          selectedIndex={event.city} 
+          onPress={(value) => this.setCity(value)}
+        />
         <TypePicker 
           visible={this.state.showTypePicker}
           hidePicker={() => this.setState({showTypePicker: false})} 

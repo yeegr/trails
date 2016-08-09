@@ -13,7 +13,6 @@ import React, {
 import {
   Modal,
   ScrollView,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native'
