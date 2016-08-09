@@ -23,11 +23,11 @@ import {
   View
 } from 'react-native'
 
+import * as WeChat from 'react-native-wechat'
+
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as loginActions from '../containers/actions/loginActions'
-
-//import * as WeChat from 'react-native-wechat'
 
 import Icon from '../components/shared/Icon'
 
@@ -58,10 +58,9 @@ class Login extends Component {
     }
   }
 
-  /*
   async componentDidMount() {
     try {
-      await WeChat.registerApp(AppSettings.sdk.wechat);
+      await WeChat.registerApp(AppSettings.sdks.wechat);
 
       this.setState({
         apiVersion: await WeChat.getApiVersion(),
@@ -76,12 +75,9 @@ class Login extends Component {
   }
   
   async openWXApp() {
-    await WeChat.openWXApp()
-  }
-  */
-
-  openWXApp() {
     this.props.loginActions.hideLogin()
+
+    await WeChat.openWXApp()
   }
 
   toggleWXButton(showWXLogin) {
