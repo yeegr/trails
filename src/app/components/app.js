@@ -20,6 +20,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+
 import * as homeActions from '../containers/actions/homeActions'
 import * as newTrailActions from '../containers/actions/newTrailActions'
 import * as newEventActions from '../containers/actions/newEventActions'
