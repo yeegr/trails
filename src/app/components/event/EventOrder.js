@@ -240,7 +240,12 @@ class MiniForm extends Component {
     const removeButton = (this.props.index > 0) ? (
       <View style={localStyles.button}>
         <TouchableOpacity onPress={() => this.props.removeUser(this.props.index)}>
-          <Icon type='minus' sideLength='32' fillColor='red' backgroundColor={Graphics.colors.transparent} />
+          <Icon
+            backgroundColor={Graphics.colors.transparent}
+            fillColor="red" 
+            sideLength={32}
+            type="minus"
+          />
         </TouchableOpacity>
       </View>
     ) : null,

@@ -145,7 +145,7 @@ class Login extends Component {
           <Text style={styles.label}>{Lang.MobileNumber}</Text>
           <TextInput
             ref="mobileNumber"
-            autoFocus={true}
+            autoFocus={false}
             autoCorrect={false}
             keyboardType="phone-pad"
             maxLength={AppSettings.mobileNumberLength}

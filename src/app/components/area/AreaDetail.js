@@ -30,7 +30,7 @@ import Icon from '../shared/Icon'
 import UserList from '../user/UserList'
 import TrailPreview from '../trail/TrailPreview'
 import {GalleryPreview} from '../shared/Gallery'
-import {CommentPreview} from '../shared/CommentList'
+import {CommentPreview} from '../shared/Comments'
 import styles from '../../styles/main'
 
 class AreaDetail extends Component {

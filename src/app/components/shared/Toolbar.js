@@ -48,6 +48,8 @@ class Toolbar extends Component {
   }
 
   comment() {
+    console.log(this.props.data)
+
     this.props.navigator.push({
       id: 'Comments',
       title: Lang.Comments,
@@ -176,8 +178,6 @@ class Toolbar extends Component {
         {commentIcon}
       </TouchableOpacity>
     )
-
-    console.log(toolbar)
 
     if (user) {
       const likesArray = user.likes[TOOLBAR_TYPE_KEYS[type]],

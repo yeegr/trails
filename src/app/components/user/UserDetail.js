@@ -22,7 +22,7 @@ import ParallaxView from 'react-native-parallax-view'
 
 import Loading from '../shared/Loading'
 import Avatar from '../shared/Avatar'
-import TagList from '../shared/Tag'
+import TagList from '../shared/TagList'
 import styles from '../../styles/main'
 
 export default class UserDetail extends Component {

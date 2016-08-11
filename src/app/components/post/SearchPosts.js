@@ -26,7 +26,6 @@ import Svg, {
 } from 'react-native-svg'
 
 import {HOME_TABS} from '../../../constants'
-import Tag from '../shared/Tag'
 import styles from '../../styles/main'
 
 export default class SearchPosts extends Component {

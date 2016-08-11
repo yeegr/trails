@@ -10,6 +10,7 @@ module.exports = function(app) {
     Post
     .findById(id)
     .populate('creator', CONST.USER_LIST_FIELDS)
+    .populate('comments')
     .exec()
     .then(function(data) {
       if (data) {

@@ -82,6 +82,7 @@ import SignUpList from './mine/SignUpList'
 import OrderList from './mine/OrderList'
 import OrderDetail from './mine/OrderDetail'
 import UserDetail from './user/UserDetail'
+import Comments from './shared/Comments'
 import Gallery from './shared/Gallery'
 
 import TextView from './shared/TextView'
@@ -278,40 +279,52 @@ class App extends Component {
           renderScene={(route, navigator) => {
             switch (route.id) {
               case 'Home':
-                return (<Home
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <Home
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'UserDetail':
-                return (<UserDetail
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <UserDetail
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'SearchTrails':
-                return (<SearchTrails
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <SearchTrails
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'SearchEvents':
-                return (<SearchEvents
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <SearchEvents
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'SearchPosts':
-                return (<SearchPosts
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <SearchPosts
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'AreaDetail':
-                return (<AreaDetail
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <AreaDetail
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'TrailList':
                 return (
@@ -324,52 +337,68 @@ class App extends Component {
                 )
 
               case 'TrailDetail':
-                return (<TrailDetail
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <TrailDetail
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'RecordTrail':
-                return (<RecordTrail
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <RecordTrail
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditTrail':
-                return (<EditTrail
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditTrail
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditTrailTitle':
-                return (<EditTrailTitle
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditTrailTitle
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditTrailType':
-                return (<EditTrailType
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditTrailType
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditTrailDifficulty':
-                return (<EditTrailDifficulty
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditTrailDifficulty
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditTrailDescription':
-                return (<EditTrailDescription
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditTrailDescription
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditTrailGallery':
-                return (<EditTrailGallery
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditTrailGallery
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EventList':
                 return (
@@ -382,106 +411,140 @@ class App extends Component {
                 )
 
               case 'EventDetail':
-                return (<EventDetail
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EventDetail
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EventOrder':
-                return (<EventOrder
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EventOrder
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'SelectOrderGroup':
-                return (<SelectOrderGroup
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <SelectOrderGroup
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EventPayment':
-                return (<EventPayment
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EventPayment
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditEvent':
-                return (<EditEvent
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditEvent
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditEventHero':
-                return (<EditEventHero
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditEventHero
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditEventTitle':
-                return (<EditEventTitle
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditEventTitle
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditEventGroups':
-                return (<EditEventGroups
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditEventGroups
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditEventContacts':
-                return (<EditEventContacts
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditEventContacts
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditAttendeeLimits':
-                return (<EditAttendeeLimits
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditAttendeeLimits
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'AgendaList':
-                return (<AgendaList
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <AgendaList
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditAgenda':
-                return (<EditAgenda
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditAgenda
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditEventExpenses':
-                return (<EditEventExpenses
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditEventExpenses
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditEventGears':
-                return (<EditEventGears
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditEventGears
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditEventDestination':
-                return (<EditEventDestination
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditEventDestination
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditEventNotes':
-                return (<EditEventNotes
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditEventNotes
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditEventGallery':
-                return (<EditEventGallery
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditEventGallery
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'PostList':
                 return (
@@ -494,64 +557,84 @@ class App extends Component {
                 )
 
               case 'PostDetail':
-                return (<PostDetail
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <PostDetail
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'AboutUs':
-                return (<AboutUs
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <AboutUs
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditAccount':
-                return (<EditAccount
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditAccount
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditUserAvatar':
-                return (<EditUserAvatar
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditUserAvatar
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditUserHandle':
-                return (<EditUserHandle
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditUserHandle
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditUserMobile':
-                return (<EditUserMobile
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditUserMobile
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditUserPersonalId':
-                return (<EditUserPersonalId
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditUserPersonalId
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditUserLevel':
-                return (<EditUserLevel
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditUserLevel
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditUserName':
-                return (<EditUserName
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditUserName
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EditUserPID':
-                return (<EditUserPID
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <EditUserPID
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'EventManager':
                 return (
@@ -582,10 +665,20 @@ class App extends Component {
                 )
 
               case 'OrderDetail':
-                return (<OrderDetail
-                  navigator={navigator}
-                  route={route} {...route.passProps}
-                />)
+                return (
+                  <OrderDetail
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'Comments':
+                return (
+                  <Comments 
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
 
               case 'Gallery':
                 return (

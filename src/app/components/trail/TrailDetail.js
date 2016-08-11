@@ -42,7 +42,7 @@ import Header from '../shared/Header'
 import TextView from '../shared/TextView'
 import UserLink from '../user/UserLink'
 import {GalleryPreview} from '../shared/Gallery'
-import {CommentsPreview} from '../shared/CommentList'
+import {CommentsPreview} from '../shared/Comments'
 import styles from '../../styles/main'
 
 class TrailDetail extends Component {
@@ -83,8 +83,6 @@ class TrailDetail extends Component {
         </View>
       )
     }
-
-    console.log(toolbar)
 
     let galleryPreview = (trail.photos.length > 0) ? (
       <GalleryPreview navigator={navigator} gallery={trail.photos} />
