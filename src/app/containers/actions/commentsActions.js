@@ -6,21 +6,20 @@ import {
   USER
 } from '../../../constants'
 
-import * as ACTIONS from '../constants/commentConstants'
+import * as ACTIONS from '../constants/commentsConstants'
 import * as loginActions from './loginActions'
 import {AppSettings} from '../../settings'
 
-const sendListRequest = (params) => {
+const sendListRequest = () => {
   return {
-    type: ACTIONS.SEND_LIST_REQUEST,
-    params
+    type: ACTIONS.SEND_LIST_REQUEST
   }
 }
 
 const receiveListResponse = (response) => {
   return {
     type: ACTIONS.LIST_COMMENTS_SUCCESS,
-    response
+    list: response.comments
   }
 }
 
@@ -31,16 +30,15 @@ const receiveListError = (message) => {
   }
 }
 
-export const listComments = (params) => {
+export const listComments = (type, id) => {
   return (dispatch) => {
-    dispatch(sendListRequest(params))
+    dispatch(sendListRequest())
 
-    return fetch(AppSettings.apiUri + 'comments/' + params)
+    return fetch(AppSettings.apiUri + 'comments?type=' + type + '&id=' + id)
       .then((res) => {
         return res.json()
       })
       .then((res) => {
-        console.log(res)
         dispatch(receiveListResponse(res))
       })
       .catch((err) => dispatch(receiveListError(err)))

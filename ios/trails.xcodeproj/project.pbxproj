@@ -393,6 +393,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9AD2B9A51D59F6AD00F2B4A5 /* RCTWeChat.xcodeproj */,
 				9A6CDCFB1D5AF71E009E2D5D /* RCTTest.xcodeproj */,
 				9A9038A11D48AFBF00055558 /* ART.xcodeproj */,
 				9A90389A1D488D0000055558 /* RCTCameraRoll.xcodeproj */,
@@ -431,7 +432,6 @@
 				9AD2B9C01D59F71000F2B4A5 /* libsqlite3.tbd */,
 				9AD2B9BE1D59F70800F2B4A5 /* CoreTelephony.framework */,
 				9AD2B9BC1D59F6FB00F2B4A5 /* SystemConfiguration.framework */,
-				9AD2B9A51D59F6AD00F2B4A5 /* RCTWeChat.xcodeproj */,
 				13B07FAE1A68108700A75B9A /* trails */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* trailsTests */,

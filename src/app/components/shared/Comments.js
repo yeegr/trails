@@ -28,8 +28,9 @@ import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as commentActions from '../../containers/actions/commentActions'
+import * as commentsActions from '../../containers/actions/commentsActions'
 
+import Loading from './Loading'
 import Avatar from './Avatar'
 import Header from './Header'
 import InputBar from './InputBar'
@@ -43,13 +44,12 @@ class Comments extends Component {
     this.updateList = this.updateList.bind(this)
 
     this.state = {
-      list: this.props.data.comments,
-      text: ''
+      rating: -1
     }
   }
 
   componentDidMount() {
-    //this.props.commentActions.loadComments(this.props.type, this.props.data.id)
+    this.props.commentsActions.listComments(this.props.type, this.props.data.id)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,6 +57,10 @@ class Comments extends Component {
   }
 
   updateList(content) {
+    if (this.state.rating < 0) {
+      return true
+    }
+
     let payload = {
       creator: this.props.user._id,
       target: this.props.type,
@@ -64,15 +68,21 @@ class Comments extends Component {
       content
     }
 
-    this.props.commentActions.createComment(payload)
+    console.log(payload)
+
+    //this.props.commentsActions.createComment(payload)
   }
 
   render() {
+    const {comments, navigator} = this.props
 
-    console.log(this.state.list)
+    if (!comments) {
+      return <Loading />
+    }
+
     return (
-      <View style={[styles.global.wrapper, {paddingTop: 64}]}>
-        <CommentList comments={this.state.list} />
+      <View style={[styles.global.wrapper, {paddingTop: Graphics.statusbar.height + Graphics.titlebar.height + 20}]}>
+        <CommentList comments={comments} />
         <InputBar
           type="comment"
           onSubmit={(text) => this.updateList(text)}
@@ -105,34 +115,40 @@ const CommentList = (props) => {
       />
     </View>
   )
-}
+},
 
-const Comment = (props) => {
-  if (props.comment !== null) {
-    const comment = props.comment, 
-    user = comment.user
+Comment = (props) => {
+  console.log(props.comment)
 
-    return (
-      <TextView text={JSON.stringify(props.comment)} />
-    )
-  }
-}
-/*
-      <View style={{flex: 1, flexDirection: 'row', paddingVertical: 10}}>
-        <Avatar user={user} />
-        <View style={{flex: 1, flexDirection: 'column', marginLeft: 10,}}>
-          <View style={styles.detail.split}>
-            <Text style={[{flex: 1}]}>{user.handle}</Text>
-            <View style={{width: 100, height: 20}}>
-              <Rating value={comment.rating} />
-            </View>
-          </View>
-          <Text>{formatFromNow(comment.uploaded)}</Text>
-          <Text style={local.CommentContent}>{comment.content}</Text>
-        </View>
+  const comment = props.comment, 
+  user = comment.creator,
+
+  styles = StyleSheet.create({
+    wrapper: {
+      alignItems: 'flex-start',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      marginBottom: 20
+    },
+    content: {
+      flex: 1,
+      marginLeft: 10,
+      marginTop: 5
+    }
+  })
+
+  return (
+    <View style={styles.wrapper}>
+      <Avatar user={user} />
+      <View style={styles.content}>
+        <TextView class='h4' text={user.handle} />
+        <TextView text={comment.content} />
       </View>
-*/
-const CommentsPreview = (props) => {
+    </View>
+  )
+},
+
+CommentsPreview = (props) => {
   const comments = props.comments,
     previews = comments.slice(0, AppSettings.maxCommentsPreviewCount),
     more = {
@@ -155,10 +171,22 @@ const CommentsPreview = (props) => {
     </View>
   )
 }
-
-
-
-
+/*
+      <View style={{flex: 1, flexDirection: 'row', paddingVertical: 10}}>
+        <Avatar user={user} />
+        <View style={{flex: 1, flexDirection: 'column', marginLeft: 10,}}>
+          <View style={styles.detail.split}>
+            <Text style={[{flex: 1}]}>{user.handle}</Text>
+            <View style={{width: 100, height: 20}}>
+              <Rating value={comment.rating} />
+            </View>
+          </View>
+          <Text>{formatFromNow(comment.uploaded)}</Text>
+          <Text style={local.CommentContent}>{comment.content}</Text>
+        </View>
+      </View>
+*/
+/*
 export const Rating = (props) => {
   return (
     <Svg style={local.Stars}>
@@ -234,20 +262,21 @@ const commentStyles = StyleSheet.create({
     },
   })
 
-
+*/
 function mapStateToProps(state, ownProps) {
   return {
     user: state.login.user,
     area: state.areas.area,
     trail: state.trails.trail,
     event: state.events.event,
-    post: state.posts.post
+    post: state.posts.post,
+    comments: state.comments.list
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    commentActions: bindActionCreators(commentActions, dispatch)
+    commentsActions: bindActionCreators(commentsActions, dispatch)
   }
 }
 
