@@ -31,6 +31,7 @@ import Toolbar from '../shared/Toolbar'
 import Header from '../shared/Header'
 import UserLink from '../user/UserLink'
 import WebViewWrapper from '../shared/WebViewWrapper'
+import {CommentsPreview} from '../shared/Comments'
 import styles from '../../styles/main'
 
 class PostDetail extends Component {
@@ -53,6 +54,16 @@ class PostDetail extends Component {
     if (!post) {
       return <Loading />
     }
+
+    let commentsPreview = (post.comments.length > 0) ? (
+      <CommentsPreview 
+        navigator={navigator}
+        type={ACTION_TARGETS.POST}
+        data={post}
+        average={post.ratingAverage}
+        comments={post.comments}
+      />
+    ) : null
 
     return (
       <View style={styles.global.wrapper}>
@@ -81,6 +92,7 @@ class PostDetail extends Component {
             <View style={styles.detail.section}>
               <WebViewWrapper html={post.content} url={AppSettings.baseUri + 'posts/post/' + post.id} />
             </View>
+            {commentsPreview}
           </View>
         </ParallaxView>
       </View>

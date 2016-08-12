@@ -10,7 +10,16 @@ module.exports = function(app) {
     Post
     .findById(id)
     .populate('creator', CONST.USER_LIST_FIELDS)
-    .populate('comments')
+    .populate({
+      path: 'comments',
+      modal: 'Comment',
+      limit: 3,
+      populate: {
+        path: 'creator',
+        modal: 'User',
+        select: CONST.USER_LIST_FIELDS
+      }
+    })
     .exec()
     .then(function(data) {
       if (data) {

@@ -118,8 +118,6 @@ const CommentList = (props) => {
 },
 
 Comment = (props) => {
-  console.log(props.comment)
-
   const comment = props.comment, 
   user = comment.creator,
 
@@ -146,9 +144,9 @@ Comment = (props) => {
       </View>
     </View>
   )
-},
+}
 
-CommentsPreview = (props) => {
+export const CommentsPreview = (props) => {
   const comments = props.comments,
     previews = comments.slice(0, AppSettings.maxCommentsPreviewCount),
     more = {
@@ -158,7 +156,8 @@ CommentsPreview = (props) => {
           id: 'Comments',
           title: Lang.Comments,
           passProps: {
-            data: props.comments
+            type: props.type,
+            data: props.data
           }
         })
       }
@@ -171,6 +170,9 @@ CommentsPreview = (props) => {
     </View>
   )
 }
+
+
+
 /*
       <View style={{flex: 1, flexDirection: 'row', paddingVertical: 10}}>
         <Avatar user={user} />

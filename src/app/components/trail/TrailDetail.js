@@ -72,7 +72,7 @@ class TrailDetail extends Component {
 
     if (!this.props.preview) {
       creator = trail.creator,
-      commentsPreview = <CommentsPreview comments={trail.comments} average={trail.ratingAverage}  />,
+      commentsPreview = <CommentsPreview comments={trail.comments} average={trail.ratingAverage} />,
       toolbar = (
         <View style={styles.detail.toolbar}>
           <Toolbar

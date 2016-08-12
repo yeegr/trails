@@ -27,7 +27,7 @@ const Gear = (props) => {
       source={{uri: AppSettings.assetUri + 'gears/' + props.number + '.jpg'}}
     >
       <View style={[styles.caption, selected]}>
-        <TextView fontSize='XS' textColor={Graphics.textColors.overlay} text={Lang.gearArray[props.number]} />
+        <TextView fontSize='XXS' textColor={Graphics.textColors.overlay} text={Lang.gearArray[props.number]} />
       </View>
     </Image>
   )

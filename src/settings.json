@@ -733,7 +733,7 @@
       "XL":100
     },
     "gear":{
-      "sideLength":70
+      "sideLength":60
     },
     "actionSheet":{
       "maskColor":"rgba(0, 0, 0, .8)",
