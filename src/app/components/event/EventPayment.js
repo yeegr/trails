@@ -93,7 +93,7 @@ class EventPayment extends Component {
   }
 
   render() {
-    const event = this.props.event,
+    const {event} = this.props,
       dates = formatEventGroupLabel(event, this.props.group)
       //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
 

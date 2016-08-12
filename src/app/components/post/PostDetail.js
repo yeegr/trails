@@ -3,8 +3,7 @@
 import {
   AppSettings,
   Lang,
-  Graphics,
-  WebViewCSS
+  Graphics
 } from '../../settings'
 
 import React, {
@@ -13,10 +12,9 @@ import React, {
 } from 'react'
 
 import {
-  View,
-  Image,
+  Text,
   TouchableOpacity,
-  Text
+  View
 } from 'react-native'
 
 import {connect} from 'react-redux'
@@ -37,15 +35,10 @@ import styles from '../../styles/main'
 class PostDetail extends Component {
   constructor(props) {
     super(props)
-    this.comment = this.comment.bind(this)
   }
 
   componentWillMount() {
     this.props.postsActions.getPost(this.props.id)
-  }
-
-  comment() {
-
   }
 
   render() {
@@ -60,8 +53,6 @@ class PostDetail extends Component {
         navigator={navigator}
         type={ACTION_TARGETS.POST}
         data={post}
-        average={post.ratingAverage}
-        comments={post.comments}
       />
     ) : null
 

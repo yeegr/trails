@@ -13,16 +13,9 @@ import React, {
 
 import {
   ListView,
+  StyleSheet,
   View,
-  Image,
-  Text,
-  TouchableOpacity,
-  StyleSheet
 } from 'react-native'
-
-import Svg, {
-  Path
-} from 'react-native-svg'
 
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 
@@ -35,16 +28,18 @@ import Avatar from './Avatar'
 import Header from './Header'
 import InputBar from './InputBar'
 import TextView from './TextView'
+import Rating from './Rating'
 import {formatFromNow} from '../../../common'
 import styles from '../../styles/main'
 
 class Comments extends Component {
   constructor(props) {
     super(props)
-    this.updateList = this.updateList.bind(this)
+    this.uploadComment = this.uploadComment.bind(this)
 
     this.state = {
-      rating: -1
+      rating: 0,
+      text: ''
     }
   }
 
@@ -56,21 +51,16 @@ class Comments extends Component {
     console.log(nextProps)
   }
 
-  updateList(content) {
-    if (this.state.rating < 0) {
-      return true
-    }
-
+  uploadComment(input) {
     let payload = {
       creator: this.props.user._id,
       target: this.props.type,
       ref: this.props.data._id,
-      content
+      rating: input.rating,
+      content: input.comment
     }
 
-    console.log(payload)
-
-    //this.props.commentsActions.createComment(payload)
+    this.props.commentsActions.createComment(payload)
   }
 
   render() {
@@ -85,7 +75,9 @@ class Comments extends Component {
         <CommentList comments={comments} />
         <InputBar
           type="comment"
-          onSubmit={(text) => this.updateList(text)}
+          rating={this.state.rating}
+          text={this.state.text}
+          onSubmit={(comment) => this.uploadComment(comment)}
         />
         <KeyboardSpacer />
       </View>
@@ -147,7 +139,8 @@ Comment = (props) => {
 }
 
 export const CommentsPreview = (props) => {
-  const comments = props.comments,
+  const average = props.data.ratingAverage,
+    comments = props.data.comments,
     previews = comments.slice(0, AppSettings.maxCommentsPreviewCount),
     more = {
       text: Lang.AllComments,
@@ -165,106 +158,18 @@ export const CommentsPreview = (props) => {
 
   return (
     <View style={styles.detail.section}>
-      <Header text={Lang.Comments} more={more} />
+      <Header 
+        text={Lang.Comments}
+        more={more}
+        misc={
+          <Rating type="default" value={average} />
+        }
+      />
       <CommentList comments={previews} />
     </View>
   )
 }
 
-
-
-/*
-      <View style={{flex: 1, flexDirection: 'row', paddingVertical: 10}}>
-        <Avatar user={user} />
-        <View style={{flex: 1, flexDirection: 'column', marginLeft: 10,}}>
-          <View style={styles.detail.split}>
-            <Text style={[{flex: 1}]}>{user.handle}</Text>
-            <View style={{width: 100, height: 20}}>
-              <Rating value={comment.rating} />
-            </View>
-          </View>
-          <Text>{formatFromNow(comment.uploaded)}</Text>
-          <Text style={local.CommentContent}>{comment.content}</Text>
-        </View>
-      </View>
-*/
-/*
-export const Rating = (props) => {
-  return (
-    <Svg style={local.Stars}>
-      <Path fill={Graphics.star.color} d={AppSettings.rating[props.value]} />
-    </Svg>
-  )
-}
-
-Rating.propTypes = {
-  value: PropTypes.number.isRequired
-}
-
-const local = StyleSheet.create({
-    CommentContent: {
-      marginTop: 10,
-    },
-    Stars: {
-      height: 20,
-      width: 100,
-    },
-  })
-
-export class Comment1 extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    const comment = this.props.comment,
-      user = comment.user
-
-    return (
-      <View>
-        <Avatar user={user} />
-        <View style={{marginLeft: 10,}}>
-          <View style={styles.detail.split}>
-            <Text style={[{flex: 1}]}>{user.handle}</Text>
-            <View style={{width: 100, height: 20}}>
-              <Rating value={comment.rating} />
-            </View>
-          </View>
-          <Text>{formatFromNow(comment.uploaded)}</Text>
-          <Text style={commentStyles.content}>{comment.content}</Text>
-        </View>
-      </View>
-    )
-  }
-}
-
-export class Rating1 extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <Svg style={commentStyles.stars}>
-        <Path fill={Graphics.star.color} d={AppSettings.rating[this.props.value]} />
-      </Svg>
-    )
-  }
-}
-
-
-
-const commentStyles = StyleSheet.create({
-    content: {
-      marginTop: 10,
-    },
-    stars: {
-      height: 20,
-      width: 100,
-    },
-  })
-
-*/
 function mapStateToProps(state, ownProps) {
   return {
     user: state.login.user,

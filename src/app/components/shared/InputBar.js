@@ -22,6 +22,7 @@ import {
 
 import {connect} from 'react-redux'
 
+import Rating from './Rating'
 import Avatar from './Avatar'
 import Icon from './Icon'
 import TextView from './TextView'
@@ -31,11 +32,13 @@ class InputBar extends Component {
     super(props)
     this.create = this.create.bind(this)
     this.submit = this.submit.bind(this)
-
+    this.toggle = this.toggle.bind(this)
 
     this.state = {
+      index: this.props.index || -1,
       text: this.props.text || '',
-      index: this.props.index || -1
+      rating: this.props.rating || 0,
+      showRater: this.props.showRater || false
     }
   }
 
@@ -48,7 +51,34 @@ class InputBar extends Component {
 
   submit() {
     let tmp = this.state.text.trim()
-    this.props.onSubmit(tmp, this.state.index)
+
+    if (tmp.length > 0) {
+      switch (this.props.type) {
+        case 'list':
+          this.props.onSubmit(tmp, this.state.index)
+        break
+
+        case 'comment':
+          if (this.state.rating < 1) {
+            this.setState({showRater: true})
+          } else {
+            this.setState({showRater: false})
+
+            this.props.onSubmit({
+              comment: this.state.text,
+              rating: this.state.rating
+            })
+          }
+        break
+      }
+    }
+  }
+
+  toggle() {
+    let showRater = this.state.showRater
+    this.setState({
+      showRater: !showRater
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -70,7 +100,16 @@ class InputBar extends Component {
   }
 
   render() {
-    let left = null
+    let left = null,
+    rater = (this.state.showRater) ? (
+      <View style={styles.rater}>
+        <Rating
+          type="M"
+          value={this.state.rating}
+          onValueChange={(rating) => this.setState({rating})}
+        />
+      </View>
+    ) : null
 
     switch (this.props.type) {
       case 'list':
@@ -90,37 +129,53 @@ class InputBar extends Component {
 
       case 'comment':
         left = (
-          <View style={{paddingHorizontal: 10}}>
-            <Avatar user={this.props.user} size='S' />
-          </View>
+          <TouchableOpacity onPress={this.toggle}>
+            <View style={styles.button}>
+              <Icon
+                backgroundColor={Graphics.colors.transparent}
+                fillColor={Graphics.colors.primary}
+                sideLength={Graphics.avatar.M}
+                type="star"
+              />
+            </View>
+          </TouchableOpacity>
         )
       break
     }
 
     return (
       <View style={styles.wrapper}>
-        {left}
+        {rater}
         <View style={styles.input}>
-          <TextInput
-            ref='textInput'
-            autoFocus={true}
-            autoCorrect={true}
-            multiline={true}
-            style={styles.text}
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
-          />
-        </View>
-        <TouchableOpacity onPress={this.submit}>
-          <View style={styles.button}>
+          {left}
+          <View style={styles.inputBorder}>
             <Icon
               backgroundColor={Graphics.colors.transparent}
-              fillColor={Graphics.colors.primary} 
+              fillColor={Graphics.colors.lightGray} 
               sideLength={Graphics.avatar.M}
-              type="ok"
+              type="edit"
+            />
+            <TextInput
+              ref='textInput'
+              autoFocus={true}
+              autoCorrect={true}
+              multiline={true}
+              style={styles.textInput}
+              onChangeText={(text) => this.setState({text})}
+              value={this.state.text}
             />
           </View>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={this.submit}>
+            <View style={styles.button}>
+              <Icon
+                backgroundColor={Graphics.colors.transparent}
+                fillColor={Graphics.colors.primary} 
+                sideLength={Graphics.avatar.M}
+                type="ok"
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -128,22 +183,31 @@ class InputBar extends Component {
 
 const styles = StyleSheet.create({
   wrapper: {
-    alignItems: 'center',
     backgroundColor: Graphics.colors.white,
     borderTopColor: Graphics.colors.border,
-    borderTopWidth: 1,
+    borderTopWidth: 1
+  },
+  rater: {
+    paddingHorizontal: 10,
+    paddingTop: 10,
+  },
+  input: {
+    alignItems: 'center',
     flexDirection: 'row',
     paddingVertical: 10,
   },
-  input: {
+  inputBorder: {
+    alignItems: 'center',
     borderColor: Graphics.colors.border,
     borderRadius: 2,
     borderWidth: 1,
     flex: 1,
+    flexDirection: 'row'
   },
-  text: {
+  textInput: {
     fontFamily: Graphics.fontStyles.default,
     fontSize: Graphics.fontSizes.default,
+    flex: 1,
     height: 40,
     paddingHorizontal: 10,
     paddingVertical: 5
