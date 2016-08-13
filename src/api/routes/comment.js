@@ -38,6 +38,9 @@ module.exports = function(app) {
     .populate({
       path: 'comments',
       modal: 'Comment',
+      options: {
+        sort: {'_id': -1}
+      }, 
       populate: {
         path: 'creator',
         modal: 'User',

@@ -67,12 +67,10 @@ class TrailDetail extends Component {
     }
 
     let creator = this.props.user,
-      commentsPreview = null,
       toolbar = null
 
     if (!this.props.preview) {
       creator = trail.creator,
-      commentsPreview = <CommentsPreview comments={trail.comments} average={trail.ratingAverage} />,
       toolbar = (
         <View style={styles.detail.toolbar}>
           <Toolbar
@@ -86,6 +84,13 @@ class TrailDetail extends Component {
 
     let galleryPreview = (trail.photos.length > 0) ? (
       <GalleryPreview navigator={navigator} gallery={trail.photos} />
+    ) : null,
+    commentsPreview = (trail.comments.length > 0) ? (
+      <CommentsPreview 
+        navigator={navigator}
+        type={ACTION_TARGETS.TRAIL}
+        data={trail}
+      />
     ) : null
 
     return (
@@ -94,6 +99,7 @@ class TrailDetail extends Component {
           <View style={styles.detail.article}>
             <View style={styles.detail.section}>
               <TrailInfo type={trail.type} title={trail.title} date={trail.date}/>
+              {toolbar}
               <TrailData difficultyLevel={trail.difficultyLevel}
                 totalDuration={trail.totalDuration}
                 totalDistance={trail.totalDistance}
@@ -117,7 +123,6 @@ class TrailDetail extends Component {
             {commentsPreview}
           </View>
         </ScrollView>
-          {toolbar}
       </View>
     )
   }

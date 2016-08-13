@@ -62,7 +62,10 @@ class InputBar extends Component {
           if (this.state.rating < 1) {
             this.setState({showRater: true})
           } else {
-            this.setState({showRater: false})
+            this.setState({
+              rating: 0,
+              showRater: false
+            })
 
             this.props.onSubmit({
               comment: this.state.text,
@@ -100,7 +103,9 @@ class InputBar extends Component {
   }
 
   render() {
-    let left = null,
+    let placeholder = this.props.placeholder || '', 
+    left = null,
+    star = null,
     rater = (this.state.showRater) ? (
       <View style={styles.rater}>
         <Rating
@@ -119,7 +124,7 @@ class InputBar extends Component {
               <Icon
                 backgroundColor={Graphics.colors.transparent}
                 fillColor={Graphics.colors.primary}
-                sideLength={Graphics.avatar.M}
+                sideLength={Graphics.avatar.S}
                 type="plus"
               />
             </View>
@@ -129,12 +134,17 @@ class InputBar extends Component {
 
       case 'comment':
         left = (
+          <View style={styles.button}>
+            <Avatar user={this.props.user} size="S" />
+          </View>
+        ),
+        star = (
           <TouchableOpacity onPress={this.toggle}>
-            <View style={styles.button}>
+            <View style={[styles.button, {paddingLeft: 0}]}>
               <Icon
                 backgroundColor={Graphics.colors.transparent}
                 fillColor={Graphics.colors.primary}
-                sideLength={Graphics.avatar.M}
+                sideLength={Graphics.avatar.S}
                 type="star"
               />
             </View>
@@ -152,7 +162,7 @@ class InputBar extends Component {
             <Icon
               backgroundColor={Graphics.colors.transparent}
               fillColor={Graphics.colors.lightGray} 
-              sideLength={Graphics.avatar.M}
+              sideLength={Graphics.avatar.S}
               type="edit"
             />
             <TextInput
@@ -161,6 +171,7 @@ class InputBar extends Component {
               autoCorrect={true}
               multiline={true}
               style={styles.textInput}
+              placeholder={placeholder}
               onChangeText={(text) => this.setState({text})}
               value={this.state.text}
             />
@@ -170,11 +181,12 @@ class InputBar extends Component {
               <Icon
                 backgroundColor={Graphics.colors.transparent}
                 fillColor={Graphics.colors.primary} 
-                sideLength={Graphics.avatar.M}
-                type="ok"
+                sideLength={Graphics.avatar.S}
+                type="checkmark"
               />
             </View>
           </TouchableOpacity>
+          {star}
         </View>
       </View>
     )
@@ -188,6 +200,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1
   },
   rater: {
+    alignItems: 'center',
     paddingHorizontal: 10,
     paddingTop: 10,
   },
@@ -213,7 +226,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5
   },
   button: {
-    margin: 5
+    padding: 10
   }
 })
 

@@ -81,7 +81,7 @@ export const createComment = (req) => {
       })
       .then((res) => {
         dispatch(receiveCreateResponse(res))
-        //dispatch(loginActions.getUpdatedUser(req.creator))
+        dispatch(listComments(req.target, req.ref))
       })
       .catch((err) => dispatch(receiveCreateError(err)))
   }

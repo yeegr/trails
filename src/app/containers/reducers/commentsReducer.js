@@ -36,12 +36,10 @@ const commentsReducer = (state = {
         })
 
     case ACTIONS.CREATE_COMMENT_SUCCESS:
-    console.log(action.response)
       return Object.assign({},
         state, {
           isFetching: false
-        },
-        action.response)
+        })
 
     case ACTIONS.CREATE_COMMENT_FAILURE:
       return Object.assign({},

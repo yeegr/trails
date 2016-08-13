@@ -10,6 +10,19 @@ module.exports = function(app) {
     Trail
     .findById(id)
     .populate('creator', CONST.USER_LIST_FIELDS)
+    .populate({
+      path: 'comments',
+      modal: 'Comment',
+      limit: 3,
+      options: {
+        sort: {'_id': -1}
+      },
+      populate: {
+        path: 'creator',
+        modal: 'User',
+        select: CONST.USER_LIST_FIELDS
+      }
+    })
     .exec()
     .then(function(data) {
       if (data) {

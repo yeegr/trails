@@ -14,6 +14,9 @@ module.exports = function(app) {
       path: 'comments',
       modal: 'Comment',
       limit: 3,
+      options: {
+        sort: {'_id': -1}
+      },
       populate: {
         path: 'creator',
         modal: 'User',

@@ -13,6 +13,7 @@ import React, {
 
 import {
   ListView,
+  ScrollView,
   StyleSheet,
   View,
 } from 'react-native'
@@ -29,7 +30,7 @@ import Header from './Header'
 import InputBar from './InputBar'
 import TextView from './TextView'
 import Rating from './Rating'
-import {formatFromNow} from '../../../common'
+import {getTimeFromId, formatFromNow} from '../../../common'
 import styles from '../../styles/main'
 
 class Comments extends Component {
@@ -45,10 +46,6 @@ class Comments extends Component {
 
   componentDidMount() {
     this.props.commentsActions.listComments(this.props.type, this.props.data.id)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
   }
 
   uploadComment(input) {
@@ -71,12 +68,15 @@ class Comments extends Component {
     }
 
     return (
-      <View style={[styles.global.wrapper, {paddingTop: Graphics.statusbar.height + Graphics.titlebar.height + 20}]}>
-        <CommentList comments={comments} />
+      <View style={styles.global.wrapper}>
+        <ScrollView style={{flex: 1, paddingTop: Graphics.statusbar.height + Graphics.titlebar.height + 15}}>
+          <CommentList comments={comments} />
+        </ScrollView>
         <InputBar
           type="comment"
           rating={this.state.rating}
           text={this.state.text}
+          placeholder={Lang.CommentPlaceholder}
           onSubmit={(comment) => this.uploadComment(comment)}
         />
         <KeyboardSpacer />
@@ -97,15 +97,12 @@ const CommentList = (props) => {
   }
 
   return (
-    <View style={styles.detail.list}>
-      <ListView
-        enableEmptySections={true}
-        scrollEnabled={false}
-        style={{flex: 1}}
-        dataSource={dataSource.cloneWithRows(props.comments)}
-        renderRow={renderRow}
-      />
-    </View>
+    <ListView
+      enableEmptySections={true}
+      scrollEnabled={false}
+      dataSource={dataSource.cloneWithRows(props.comments)}
+      renderRow={renderRow}
+    />
   )
 },
 
@@ -118,12 +115,16 @@ Comment = (props) => {
       alignItems: 'flex-start',
       flexDirection: 'row',
       justifyContent: 'flex-start',
-      marginBottom: 20
+      marginBottom: 20,
+      paddingHorizontal: 15
     },
     content: {
       flex: 1,
       marginLeft: 10,
       marginTop: 5
+    },
+    header: {
+      flexDirection: 'row'
     }
   })
 
@@ -131,7 +132,18 @@ Comment = (props) => {
     <View style={styles.wrapper}>
       <Avatar user={user} />
       <View style={styles.content}>
-        <TextView class='h4' text={user.handle} />
+        <View style={styles.header}>
+          <TextView
+            style={{flex: 1}} 
+            class='h4' 
+            text={user.handle}
+          />
+          <TextView 
+            class='h4'
+            text={getTimeFromId(comment._id).fromNow()}
+          />
+        </View>
+        <Rating type="S" value={comment.rating} />
         <TextView text={comment.content} />
       </View>
     </View>
@@ -141,7 +153,7 @@ Comment = (props) => {
 export const CommentsPreview = (props) => {
   const average = props.data.ratingAverage,
     comments = props.data.comments,
-    previews = comments.slice(0, AppSettings.maxCommentsPreviewCount),
+    previews = comments.slice(0, AppSettings.maxCommentPreviews),
     more = {
       text: Lang.AllComments,
       onPress: () => {

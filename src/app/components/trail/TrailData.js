@@ -55,6 +55,7 @@ const TrailData = (props) => {
       <Icon
         backgroundColor={Graphics.colors.transparent}
         fillColor={Graphics.colors.primary}
+        labelColor={Graphics.colors.midGray}
         path={Graphics.pictograms.ruler}
         showLabel={true}
         stack={stack}
