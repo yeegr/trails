@@ -43,7 +43,7 @@ const calcWebViewHeight = (key, evt) =>{
   let tmp = {}
 
   if (!isNaN(evt.jsEvaluationValue)) {
-    tmp[key] = parseInt(evt.jsEvaluationValue) 
+    tmp[key] = parseInt(evt.jsEvaluationValue)
   }
 
   return tmp
