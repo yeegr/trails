@@ -11,8 +11,8 @@ import React, {
   PropTypes
 } from 'react'
 
-import {View} from 'react-native'
-import MapView from 'react-native-maps'
+import {View,MapView} from 'react-native'
+//import MapView from 'react-native-maps'
 
 import {formatTrailPoints, getMapCenter} from '../../../common'
 
