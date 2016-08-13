@@ -12,7 +12,6 @@ import React, {
 } from 'react'
 
 import {
-  MapView,
   Alert,
   Dimensions,
   Text,
@@ -20,7 +19,7 @@ import {
   View
 } from 'react-native'
 
-//import MapView from 'react-native-maps'
+import MapView from 'react-native-maps'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'

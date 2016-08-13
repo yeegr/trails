@@ -11,8 +11,8 @@ import React, {
   PropTypes
 } from 'react'
 
-import {View,MapView} from 'react-native'
-//import MapView from 'react-native-maps'
+import {View} from 'react-native'
+import MapView from 'react-native-maps'
 
 import {formatTrailPoints, getMapCenter} from '../../../common'
 
@@ -67,6 +67,9 @@ const TrailMap = (props) => {
     </MapView>
   )
 }
+
+/*
+*/
 
 TrailMap.propTypes = {
   points: PropTypes.array.isRequired

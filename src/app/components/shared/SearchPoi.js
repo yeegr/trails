@@ -12,7 +12,6 @@ import React, {
 } from 'react'
 
 import {
-  MapView,
   Dimensions,
   ListView,
   Modal,
@@ -24,7 +23,7 @@ import {
   View
 } from 'react-native'
 
-//import MapView from 'react-native-maps'
+import MapView from 'react-native-maps'
 import CallToAction from './CallToAction'
 import {setRegion, hex2rgb} from '../../../common'
 

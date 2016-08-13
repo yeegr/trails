@@ -1,6 +1,7 @@
 package com.trails;
 
 import com.facebook.react.ReactActivity;
+import com.airbnb.android.react.maps.MapsPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.horcrux.svg.RNSvgPackage;
 import com.imagepicker.ImagePickerPackage;
