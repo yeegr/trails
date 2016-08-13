@@ -11,17 +11,10 @@ import React, {
   PropTypes
 } from 'react'
 
-import {
-  MapView,
-  View
-} from 'react-native'
+import {View} from 'react-native'
+import MapView from 'react-native-maps'
 
-//import MapView from 'react-native-maps'
-
-import {
-  formatTrailPoints,
-  getMapCenter
-} from '../../../common'
+import {formatTrailPoints, getMapCenter} from '../../../common'
 
 const TrailMap = (props) => {
   var points = props.points,

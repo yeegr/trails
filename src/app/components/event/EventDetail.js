@@ -3,8 +3,7 @@
 import {
   AppSettings,
   Lang,
-  Graphics,
-  WebViewCSS
+  Graphics
 } from '../../settings'
 
 import React, {
@@ -14,17 +13,10 @@ import React, {
 
 import {
   ScrollView,
-  StyleSheet,
-  View,
-  Image,
   TouchableOpacity,
-  Text,
+  View,
   WebView
 } from 'react-native'
-
-import Svg, {
-  Path
-} from 'react-native-svg'
 
 import ParallaxView from 'react-native-parallax-view'
 import Communications from 'react-native-communications'

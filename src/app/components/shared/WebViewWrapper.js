@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Graphics,
-  WebViewCSS
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -15,8 +9,6 @@ import {
   StyleSheet,
   WebView
 } from 'react-native'
-
-import {calcWebViewHeight} from '../../../common'
 
 class WebViewWrapper extends Component {
   constructor(props) {
@@ -32,11 +24,12 @@ class WebViewWrapper extends Component {
   }
 
   render() {
-    const {html, url} = this.props
+    const {html, url} = this.props,
+    css = '<style>html {font-size: 12px} img {max-width: 100%} p {text-indent: 2em}</style>'
 
     return (
       <WebView
-        source={{html: WebViewCSS + html, baseUrl: url}}
+        source={{html: css + html, baseUrl: url}}
         injectedJavaScript="document.body.offsetHeight"
         onNavigationStateChange={this.onNavigationStateChange.bind(this, 'docHeight')}
         scrollEnabled={false}
@@ -46,10 +39,19 @@ class WebViewWrapper extends Component {
   }  
 }
 
-const styles = StyleSheet.create({
+const calcWebViewHeight = (key, evt) =>{
+  let tmp = {}
+
+  if (!isNaN(evt.jsEvaluationValue)) {
+    tmp[key] = parseInt(evt.jsEvaluationValue) 
+  }
+
+  return tmp
+},
+styles = StyleSheet.create({
   webview: {
     backgroundColor: 'transparent',
-    flex: 1,
+    flex: 1
   }
 })
 

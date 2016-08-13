@@ -82,7 +82,7 @@ const Intro = (props) => {
 styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, .5)',
+    backgroundColor: 'rgba(0, 0, 0, 0)',
     height: Graphics.heroImageHeight,
     flex: 1,
     flexDirection: 'column',

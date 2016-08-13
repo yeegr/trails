@@ -217,16 +217,6 @@ export function hex2rgb(hex) {
   return color
 }
 
-export function calcWebViewHeight(key, evt) {
-    let tmp = {}
-
-    if (!isNaN(evt.jsEvaluationValue)) {
-      tmp[key] = parseInt(evt.jsEvaluationValue) + 140
-    }
-
-    return tmp
-}
-
 // alt functions
 const charList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
