@@ -21,11 +21,7 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
-import * as homeActions from '../containers/actions/homeActions'
-import * as newTrailActions from '../containers/actions/newTrailActions'
-import * as newEventActions from '../containers/actions/newEventActions'
-import * as eventsActions from '../containers/actions/eventsActions'
-import {isLoggedIn} from '../containers/actions/loginActions'
+import * as loginActions from '../containers/actions/loginActions'
 import {
   HOME_TABS,
   ACTION_TARGETS
@@ -84,12 +80,10 @@ import OrderDetail from './mine/OrderDetail'
 import UserDetail from './user/UserDetail'
 import Comments from './shared/Comments'
 import Gallery from './shared/Gallery'
-
 import TextView from './shared/TextView'
-
 import styles from '../styles/main'
 
-const NavigationBarRouteMapper = (tabId) => ({
+const NavigationBarRouteMapper = (tabId, loginActions) => ({
   LeftButton: function(route, navigator, index, navState) {
     if (index === 0) {
       return null
@@ -134,13 +128,13 @@ const NavigationBarRouteMapper = (tabId) => ({
             rightTitleBar = (
               <View style={styles.navbar.toolbar}>
                 <NavbarIconButton
-                  onPress={() => navigator.push(search(tabId))}
+                  onPress={() => navigator.push(this.search(tabId))}
                   icon={Graphics.titlebar.search}
                   label={Lang.Search}
                   showLabel={false}
                 />
                 <NavbarIconButton
-                  onPress={() => navigator.push(add(tabId))}
+                  onPress={() => this.add(navigator, tabId)}
                   icon={Graphics.titlebar.add}
                   label={Lang.Add}
                   showLabel={false}
@@ -173,80 +167,76 @@ const NavigationBarRouteMapper = (tabId) => ({
     return (
       <TextView style={{marginVertical: 5, fontWeight: '400'}} fontSize='XXL' textColor={Graphics.textColors.overlay} text={title} />
     )
+  },
+
+  search: function(type) {
+    let id = '', title = ''
+
+    switch (type) {
+      case HOME_TABS.AREAS:
+        id = 'SearchTrails'
+        title = Lang[HOME_TABS.TRAILS]
+      break
+
+      case HOME_TABS.EVENTS:
+        id = 'SearchEvents'
+        title = Lang[HOME_TABS.EVENTS]
+      break
+
+      case HOME_TABS.POSTS:
+        id = 'SearchPosts'
+        title = Lang[HOME_TABS.POSTS]
+      break
+    }
+
+    return {
+      id,
+      title: Lang.Search + title
+    }
+  },
+
+  add: function(navigator, type) {
+    loginActions
+    .isLoggedIn()
+    .then((login) => {
+      if (login.token && login.user) {
+        var id = null,
+          title = ''
+
+        switch (type) {
+          case HOME_TABS.AREAS:
+          case HOME_TABS.TRAILS:
+            id = 'RecordTrail',
+            title = Lang.AddTrail
+          break
+
+          case HOME_TABS.EVENTS:
+            id = 'EditEvent',
+            title = Lang.AddEvent
+          break
+        }
+
+        navigator.push({
+          id: id,
+          title: title
+        })      
+      } else {
+        loginActions.showLogin()
+      }
+    })
   }
 })
-
-function save(type) {
-  switch(type) {
-    case ACTION_TARGETS.TRAIL:
-      
-    break
-  }
-}
-
-function search(type) {
-  let id = '', title = ''
-
-  switch (type) {
-    case HOME_TABS.AREAS:
-      id = 'SearchTrails'
-      title = Lang[HOME_TABS.TRAILS]
-    break
-
-    case HOME_TABS.EVENTS:
-      id = 'SearchEvents'
-      title = Lang[HOME_TABS.EVENTS]
-    break
-
-    case HOME_TABS.POSTS:
-      id = 'SearchPosts'
-      title = Lang[HOME_TABS.POSTS]
-    break
-  }
-
-  return {
-    id,
-    title: Lang.Search + title
-  }
-}
-
-function add(type) {
-  var id = null,
-    title = ''
-
-  switch (type) {
-    case HOME_TABS.AREAS:
-    case HOME_TABS.TRAILS:
-      id = 'RecordTrail',
-      title = Lang.AddTrail
-    break
-
-    case HOME_TABS.EVENTS:
-      id = 'EditEvent',
-      title = Lang.AddEvent
-    break
-  }
-
-  return {
-    id: id,
-    title: title
-  }
-}
 
 class App extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      showIntro: true
-    }
   }
 
   fetchSettings() {
     fetch(AppSettings.apiUri + 'settings/latest')
-    .then((response) => response.json())
-    .then((responseData) => {
-      console.log(responseData)
+    .then((res) => res.json())
+    .then((res) => {
+      console.log(res)
     })
     .catch((error) => {
       console.warn(error)
@@ -254,7 +244,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.isLoggedIn()
+    this.props.loginActions.isLoggedIn()
     //this.fetchSettings()
     //this.fetchUser(token)
   }
@@ -693,7 +683,7 @@ class App extends Component {
           }}
           navigationBar={
             <Navigator.NavigationBar
-              routeMapper={NavigationBarRouteMapper(this.props.selectedTab)}
+              routeMapper={NavigationBarRouteMapper(this.props.selectedTab, this.props.loginActions)}
               style={styles.navbar.wrapper}
             />
           }
@@ -702,10 +692,6 @@ class App extends Component {
       </View>
     )
   }
-}
-
-App.propTypes = {
-  isLoggedIn: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
@@ -718,7 +704,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    isLoggedIn: () => dispatch(isLoggedIn())
+    loginActions: bindActionCreators(loginActions, dispatch)
   }
 }
 

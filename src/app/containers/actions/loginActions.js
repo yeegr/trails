@@ -26,6 +26,7 @@ export const isLoggedIn = () => {
 }
 
 export const showLogin = () => {
+  console.log('login action')
   return {
     type: ACTIONS.SHOW_LOGIN
   }

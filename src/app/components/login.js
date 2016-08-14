@@ -23,6 +23,7 @@ import {
   View
 } from 'react-native'
 
+import KeyboardSpacer from 'react-native-keyboard-spacer'
 import * as WeChat from 'react-native-wechat'
 
 import {connect} from 'react-redux'
@@ -43,8 +44,6 @@ class Login extends Component {
     this.onLoginPressed = this.onLoginPressed.bind(this)
     this.openWXApp = this.openWXApp.bind(this)
     this.toggleWXButton = this.toggleWXButton.bind(this)
-
-    const {height, width} = Dimensions.get('window')
 
     this.state = {
       apiVersion: 'waiting...',
@@ -73,10 +72,13 @@ class Login extends Component {
       console.error(e);
     }
   }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps)
+  }
   
   async openWXApp() {
     this.props.loginActions.hideLogin()
-
     await WeChat.openWXApp()
   }
 
@@ -134,39 +136,40 @@ class Login extends Component {
       weixinAuthButton = null
     }
 
-    let toggle = (this.props.showLogin) ? styles.showLogin : styles.hideLogin
-
     return (
-      <Image source={{uri: AppSettings.assetUri + AppSettings.loginBackground}} style={[styles.backgroundImage, toggle]}>
-        <TouchableOpacity onPress={this.hideLogin} style={styles.closeButton}>
-          <Icon backgroundColor={Graphics.colors.transparent} fillColor="rgba(255, 255, 255, 0.8)" type="close" />
-        </TouchableOpacity>
-        <View style={styles.loginForm}>
-          <Text style={styles.label}>{Lang.MobileNumber}</Text>
-          <TextInput
-            ref="mobileNumber"
-            autoFocus={false}
-            autoCorrect={false}
-            keyboardType="phone-pad"
-            maxLength={AppSettings.mobileNumberLength}
-            placeholder={Lang.MobileNumberSample}
-            placeholderTextColor={Graphics.colors.placeholder}
-            style={styles.loginInput}
-            disabled={!this.props.login.disableVerification}
-            onChangeText={this.onMobileNumberChanged}
-            value={this.state.mobileNumber}
-          />
-          <TouchableOpacity
-            disabled={this.props.login.disableVerification}
-            style={[styles.button, verificationButtonStyle]}
-            onPress={this.getValidation}>
-            <Text style={styles.buttonText}>{this.state.getValidationButtonText}</Text>
+      <Modal animationType={"slide"} transparent={false} visible={this.props.showLogin}>
+        <Image source={{uri: AppSettings.assetUri + AppSettings.loginBackground}} style={styles.backgroundImage}>
+          <TouchableOpacity onPress={this.hideLogin} style={styles.closeButton}>
+            <Icon backgroundColor={Graphics.colors.transparent} fillColor="rgba(255, 255, 255, 0.8)" type="close" />
           </TouchableOpacity>
-          {loginView}
-        </View>
-        {loginProgress}
-        {weixinAuthButton}
-      </Image>
+          <View style={styles.loginForm}>
+            <Text style={styles.label}>{Lang.MobileNumber}</Text>
+            <TextInput
+              ref="mobileNumber"
+              autoFocus={false}
+              autoCorrect={false}
+              keyboardType="phone-pad"
+              maxLength={AppSettings.mobileNumberLength}
+              placeholder={Lang.MobileNumberSample}
+              placeholderTextColor={Graphics.colors.placeholder}
+              style={styles.loginInput}
+              disabled={!this.props.login.disableVerification}
+              onChangeText={this.onMobileNumberChanged}
+              value={this.state.mobileNumber}
+            />
+            <TouchableOpacity
+              disabled={this.props.login.disableVerification}
+              style={[styles.button, verificationButtonStyle]}
+              onPress={this.getValidation}>
+              <Text style={styles.buttonText}>{this.state.getValidationButtonText}</Text>
+            </TouchableOpacity>
+            {loginView}
+          </View>
+          {loginProgress}
+          {weixinAuthButton}
+          <KeyboardSpacer />
+        </Image>
+      </Modal>
     )
   }
 
@@ -254,19 +257,15 @@ class Login extends Component {
   }
 }
 
-const {height, width} = Dimensions.get('window'),
-  styles = StyleSheet.create({
+const styles = StyleSheet.create({
     backgroundImage: {
       backgroundColor: '#f00',
       position: 'absolute',
-      height: height,
-      width: width
-    },
-    showLogin: {
-      top: 0
-    },
-    hideLogin: {
-      top: height
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      resizeMode: 'cover'
     },
     loginForm: {
       backgroundColor: 'transparent',
@@ -276,10 +275,11 @@ const {height, width} = Dimensions.get('window'),
     },
     weixinLogin: {
       bottom: 50,
+      flex: 1,
+      left: 0,
       paddingHorizontal: 50,
       position: 'absolute',
-      width: width,
-      flex: 1
+      right: 0
     },
     label: {
       color: Graphics.textColors.overlay,

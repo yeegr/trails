@@ -23,6 +23,7 @@ import KeyboardSpacer from 'react-native-keyboard-spacer'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as commentsActions from '../../containers/actions/commentsActions'
+import * as loginActions from '../../containers/actions/loginActions'
 
 import Loading from './Loading'
 import Avatar from './Avatar'
@@ -150,21 +151,25 @@ Comment = (props) => {
   )
 }
 
-export const CommentsPreview = (props) => {
+const Preview = (props) => {
   const average = props.data.ratingAverage,
     comments = props.data.comments,
     previews = comments.slice(0, AppSettings.maxCommentPreviews),
     more = {
       text: Lang.AllComments,
       onPress: () => {
-        props.navigator.push({
-          id: 'Comments',
-          title: Lang.Comments,
-          passProps: {
-            type: props.type,
-            data: props.data
-          }
-        })
+        if (props.user) {
+          props.navigator.push({
+            id: 'Comments',
+            title: Lang.Comments,
+            passProps: {
+              type: props.type,
+              data: props.data
+            }
+          })
+        } else {
+          props.loginActions.showLogin()
+        }
       }
     }
 
@@ -195,8 +200,10 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    commentsActions: bindActionCreators(commentsActions, dispatch)
+    commentsActions: bindActionCreators(commentsActions, dispatch),
+    loginActions: bindActionCreators(loginActions, dispatch)
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Comments)
+export const CommentsPreview = connect(mapStateToProps, mapDispatchToProps)(Preview)

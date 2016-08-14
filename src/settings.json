@@ -718,7 +718,8 @@
       "foregroundColor":"#000000"
     },
     "heroImage":{
-      "height":240
+      "height":240,
+      "opacity":0.6
     },
     "actionBar":{
       "backgroundColor":"#fff",

@@ -55,7 +55,7 @@ const TextView = (props) => {
         fontWeight: '400',
       })
     }),
-    ellipsizeMode = props.ellipsizeMode || 'wrap',
+    ellipsizeMode = props.ellipsizeMode || 'tail',
     numberOfLines = props.numberOfLines || 0
 
   return (

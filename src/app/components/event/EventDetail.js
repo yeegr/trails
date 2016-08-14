@@ -26,6 +26,7 @@ import Moment from 'moment'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../containers/actions/eventsActions'
+import * as loginActions from '../../containers/actions/loginActions'
 import {ACTION_TARGETS} from '../../../constants'
 
 import TextView from '../shared/TextView'
@@ -63,22 +64,26 @@ class EventDetail extends Component {
   }
 
   signUp() {
-    let event = this.props.event, 
-      id = 'EventOrder',
-      title = Lang.SignUp
+    if (this.props.user) {
+      let event = this.props.event, 
+        id = 'EventOrder',
+        title = Lang.SignUp
 
-    if (event.groups.length > 1) {
-      id = 'SelectOrderGroup',
-      title = Lang.SelectOrderGroup
-    } 
+      if (event.groups.length > 1) {
+        id = 'SelectOrderGroup',
+        title = Lang.SelectOrderGroup
+      } 
 
-    this.props.navigator.push({
-      id,
-      title,
-      passProps: {
-        event
-      }
-    })
+      this.props.navigator.push({
+        id,
+        title,
+        passProps: {
+          event
+        }
+      })
+    } else {
+      this.props.loginActions.showLogin()
+    }
   }
 
   render() {
@@ -168,7 +173,6 @@ class EventDetail extends Component {
     return (
       <View style={styles.global.wrapper}>
         <ParallaxView style={{flex: 1}}
-          ref='scrollView'
           backgroundSource={{uri: AppSettings.assetUri + event.hero}}
           windowHeight={Graphics.heroImage.height}
           header={(
@@ -249,7 +253,6 @@ class EventDetail extends Component {
           </View>
         </ParallaxView>
         <CallToAction
-          disabled={(this.props.user === null)}
           label={Lang.SignUpNow}
           onPress={this.signUp}
         />
@@ -271,7 +274,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    eventsActions: bindActionCreators(eventsActions, dispatch)
+    eventsActions: bindActionCreators(eventsActions, dispatch),
+    loginActions: bindActionCreators(loginActions, dispatch)
   }
 }
 

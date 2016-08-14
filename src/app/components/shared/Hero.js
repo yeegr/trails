@@ -1,10 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -18,13 +13,15 @@ import {
 } from 'react-native'
 
 import Intro from '../shared/Intro'
+import {AppSettings, Graphics} from '../../settings'
 
 const Hero = (props) => {
   let view = (
-      <Image
-        style={[styles.hero]}
-        source={{uri: AppSettings.assetUri + props.imageUri}}
-      >
+      <View style={styles.wrapper}>
+        <Image 
+          style={styles.image}
+          source={{uri: AppSettings.assetUri + props.imageUri}}
+        />
         <Intro 
           title={props.title}
           excerpt={props.excerpt}
@@ -34,16 +31,26 @@ const Hero = (props) => {
           topLeft={props.topLeft}
           topRight={props.topRight}
         />
-      </Image>
+      </View>
     ),
     wrapper = (props.onPress) ? (<TouchableOpacity onPress={props.onPress}>{view}</TouchableOpacity>) : view
 
   return wrapper
 },
 styles = StyleSheet.create({
-  hero: {
-    height: AppSettings.heroImageHeight,
+  wrapper: {
+    backgroundColor: '#000000',
     flex: 1,
+    height: Graphics.heroImage.height
+  },
+  image: {
+    bottom: 0,
+    left: 0,
+    opacity: Graphics.heroImage.opacity,
+    resizeMode: 'cover',
+    right: 0,
+    position: 'absolute',
+    top: 0
   }
 })
 

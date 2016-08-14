@@ -53,15 +53,15 @@ class PostDetail extends Component {
         navigator={navigator}
         type={ACTION_TARGETS.POST}
         data={post}
+        user={this.props.user}
       />
     ) : null
 
     return (
       <View style={styles.global.wrapper}>
-        <ParallaxView style={styles.global.wrapper}
+        <ParallaxView style={{flex: 1}}
           backgroundSource={{uri: AppSettings.assetUri + post.hero}}
           windowHeight={Graphics.heroImage.height}
-          scrollableViewStyle={{backgroundColor: Graphics.colors.background}}
           header={(
             <Intro
               align='bottom' 
@@ -97,7 +97,8 @@ PostDetail.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    post: state.posts.post
+    post: state.posts.post,
+    user: state.login.user
   }
 }
 
