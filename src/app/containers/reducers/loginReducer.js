@@ -1,9 +1,7 @@
 'use strict'
 
-import {
-  AsyncStorage
-} from 'react-native'
-
+import {AsyncStorage} from 'react-native'
+import {ACCESS_TOKEN, USER} from '../../../constants'
 import * as ACTIONS from '../constants/loginConstants'
 
 const loginReducer = (state = {
@@ -15,48 +13,58 @@ const loginReducer = (state = {
   isFetching: false
 }, action) => {
   switch (action.type) {
-   case ACTIONS.IS_LOGGED_IN:
+    case ACTIONS.IS_LOGGED_IN:
       return Object.assign({}, state, {
-        token: action.token,
+        isAuthenticated: true,
+        toke: action.token,
         user: action.user
       })
 
-   case ACTIONS.SHOW_LOGIN:
+    case ACTIONS.IS_LOGGED_OUT:
+      AsyncStorage.multiRemove([ACCESS_TOKEN, USER])
+
+      return Object.assign({}, state, {
+        isAuthenticated: false,
+        toke: null,
+        user: null
+      })
+
+    case ACTIONS.SHOW_LOGIN:
       return Object.assign({}, state, {
         showLogin: true
       })
 
-   case ACTIONS.HIDE_LOGIN:
+    case ACTIONS.HIDE_LOGIN:
       return Object.assign({}, state, {
         showLogin: false
       })
 
-   case ACTIONS.ENABLE_VERIFICATION:
+    case ACTIONS.ENABLE_VERIFICATION:
       return Object.assign({}, state, {
         disableVerification: false
       })
 
-   case ACTIONS.DISABLE_VERIFICATION:
+    case ACTIONS.DISABLE_VERIFICATION:
       return Object.assign({}, state, {
         disableVerification: true
       })
 
-   case ACTIONS.SHOW_VERIFICATION:
+    case ACTIONS.SHOW_VERIFICATION:
       return Object.assign({}, state, {
         showVerification: true
       })
 
-   case ACTIONS.HIDE_VERIFICATION:
+    case ACTIONS.HIDE_VERIFICATION:
       return Object.assign({}, state, {
         showVerification: false
       })
 
-   case ACTIONS.ENABLE_LOGIN:
+    case ACTIONS.ENABLE_LOGIN:
       return Object.assign({}, state, {
         disableLogin: false
       })
 
-   case ACTIONS.DISABLE_LOGIN:
+    case ACTIONS.DISABLE_LOGIN:
       return Object.assign({}, state, {
         disableLogin: true
       })

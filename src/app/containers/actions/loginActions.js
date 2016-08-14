@@ -1,32 +1,34 @@
 'use strict'
 
 import {AsyncStorage} from 'react-native'
-
-import {
-  CONFIG,
-  ACCESS_TOKEN,
-  USER
-} from '../../../constants'
 import {AppSettings} from '../../settings'
+import {CONFIG, ACCESS_TOKEN, USER} from '../../../constants'
 import * as ACTIONS from '../constants/loginConstants'
 
 export const isLoggedIn = () => {
   return AsyncStorage
     .multiGet([ACCESS_TOKEN, USER])
     .then((arr) => {
+      if (arr[0][1] && arr[1][1]) {
+        return {
+          type: ACTIONS.IS_LOGGED_IN,
+          token: arr[0][1],
+          user: JSON.parse(arr[1][1])
+        }
+      }
+
       return {
-        type: ACTIONS.IS_LOGGED_IN,
-        token: arr[0][1],
-        user: JSON.parse(arr[1][1])
+        type: ACTIONS.IS_LOGGED_OUT
       }
     })
     .catch((err) => {
-      console.log(err)
+      return {
+        type: ACTIONS.IS_LOGGED_OUT
+      }
     })
 }
 
 export const showLogin = () => {
-  console.log('login action')
   return {
     type: ACTIONS.SHOW_LOGIN
   }

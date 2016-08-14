@@ -83,7 +83,7 @@ import Gallery from './shared/Gallery'
 import TextView from './shared/TextView'
 import styles from '../styles/main'
 
-const NavigationBarRouteMapper = (tabId, loginActions) => ({
+const NavigationBarRouteMapper = (tabId, login, loginActions) => ({
   LeftButton: function(route, navigator, index, navState) {
     if (index === 0) {
       return null
@@ -196,34 +196,32 @@ const NavigationBarRouteMapper = (tabId, loginActions) => ({
   },
 
   add: function(navigator, type) {
-    loginActions
-    .isLoggedIn()
-    .then((login) => {
-      if (login.token && login.user) {
-        var id = null,
-          title = ''
+    console.log(login)
 
-        switch (type) {
-          case HOME_TABS.AREAS:
-          case HOME_TABS.TRAILS:
-            id = 'RecordTrail',
-            title = Lang.AddTrail
-          break
+    if (login.isAuthenticated) {
+      var id = null,
+        title = ''
 
-          case HOME_TABS.EVENTS:
-            id = 'EditEvent',
-            title = Lang.AddEvent
-          break
-        }
+      switch (type) {
+        case HOME_TABS.AREAS:
+        case HOME_TABS.TRAILS:
+          id = 'RecordTrail',
+          title = Lang.AddTrail
+        break
 
-        navigator.push({
-          id: id,
-          title: title
-        })      
-      } else {
-        loginActions.showLogin()
+        case HOME_TABS.EVENTS:
+          id = 'EditEvent',
+          title = Lang.AddEvent
+        break
       }
-    })
+
+      navigator.push({
+        id: id,
+        title: title
+      })
+    } else {
+      loginActions.showLogin()      
+    }
   }
 })
 
@@ -683,12 +681,12 @@ class App extends Component {
           }}
           navigationBar={
             <Navigator.NavigationBar
-              routeMapper={NavigationBarRouteMapper(this.props.selectedTab, this.props.loginActions)}
+              routeMapper={NavigationBarRouteMapper(this.props.selectedTab, this.props.login, this.props.loginActions)}
               style={styles.navbar.wrapper}
             />
           }
         />
-        <Login showLogin={this.props.showLogin} />
+        <Login showLogin={this.props.login.showLogin} />
       </View>
     )
   }
@@ -697,8 +695,8 @@ class App extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     selectedTab: state.home.selectedTab,
-    showLogin: state.login.showLogin,
-    showIntro: state.intro.showIntro
+    showIntro: state.intro.showIntro,
+    login: state.login
   }
 }
 

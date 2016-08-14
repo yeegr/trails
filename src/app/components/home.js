@@ -38,9 +38,9 @@ class Home extends Component {
   }
 
   onTabPressed(tabId) {
-    if (tabId === HOME_TABS.MINE && this.props.user === null) {
-       this.props.showLogin()
-       return false
+    if (tabId === HOME_TABS.MINE && !this.props.user) {
+      this.props.showLogin()
+      return false
     }
 
     this.props.changeTab(tabId)

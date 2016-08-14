@@ -60,7 +60,7 @@ const OrderList = (props) => {
 
     return (
       <TouchableOpacity key={rowId} onPress={() => selectOrder(order)}>
-        <View style={styles.list.item}>
+        <View style={[styles.list.item, styles.list.borders]}>
           <Image
             style={styles.list.thumb}
             source={{uri: AppSettings.assetUri + order.hero}}
@@ -78,9 +78,9 @@ const OrderList = (props) => {
               />
             </View>
             <View>
-              <InfoItem styles={infoStyles} labelWidth={70} label={Lang.SignUps} value={names.join('，')} />
-              <InfoItem styles={infoStyles} labelWidth={70} label={Lang.Total} value={order.total + Lang.Yuan} />
-              <InfoItem styles={infoStyles} labelWidth={70} label={Lang.PayTime} value={getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
+              <InfoItem styles={infoStyles} labelWidth={75} label={Lang.SignUps} value={names.join('，')} />
+              <InfoItem styles={infoStyles} labelWidth={75} label={Lang.Total} value={order.total + Lang.Yuan} />
+              <InfoItem styles={infoStyles} labelWidth={75} label={Lang.PayTime} value={getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
             </View>
           </View>
         </View>

@@ -1,6 +1,7 @@
 'use strict'
 
 export const IS_LOGGED_IN = 'IS_LOGGED_IN'
+export const IS_LOGGED_OUT = 'IS_LOGGED_OUT'
 export const SHOW_LOGIN = 'SHOW_LOGIN'
 export const HIDE_LOGIN = 'HIDE_LOGIN'
 

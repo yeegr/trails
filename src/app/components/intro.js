@@ -43,7 +43,12 @@ Intro = (props) => {
   }
  
   return (
-    <AppIntro skipBtnLabel={Lang.Skip} doneBtnLabel={Lang.Done} onSkipBtnClick={() => _exitIntro()} onDoneBtnClick={() => _exitIntro()}>
+    <AppIntro 
+      skipBtnLabel={Lang.Skip}
+      doneBtnLabel={Lang.Done}
+      onSkipBtnClick={() => _exitIntro()}
+      onDoneBtnClick={() => _exitIntro()}
+    >
       <View style={[styles.slide, {backgroundColor: '#fa931d'}]}>
         <View level={10}><Text style={styles.text}>Page 1</Text></View>
         <View level={15}><Text style={styles.text}>Page 1</Text></View>

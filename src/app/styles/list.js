@@ -13,10 +13,17 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 10
   },
+  borders: {
+    backgroundColor: Graphics.colors.white,
+    borderBottomColor: Graphics.colors.lightGray,
+    borderBottomWidth: 1,
+    borderTopColor: Graphics.colors.lightGray,
+    borderTopWidth: 1
+  },
   thumb: {
-    height: 100,
+    height: 120,
     marginRight: 10,
-    width: 150,
+    width: 120,
     resizeMode: 'cover'
   },
   content: {
