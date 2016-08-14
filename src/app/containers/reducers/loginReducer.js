@@ -5,7 +5,6 @@ import {ACCESS_TOKEN, USER} from '../../../constants'
 import * as ACTIONS from '../constants/loginConstants'
 
 const loginReducer = (state = {
-  isAuthenticated: false,
   showLogin: false,
   disableVerification: true,
   showVerification: false,
@@ -15,7 +14,6 @@ const loginReducer = (state = {
   switch (action.type) {
     case ACTIONS.IS_LOGGED_IN:
       return Object.assign({}, state, {
-        isAuthenticated: true,
         toke: action.token,
         user: action.user
       })
@@ -24,7 +22,6 @@ const loginReducer = (state = {
       AsyncStorage.multiRemove([ACCESS_TOKEN, USER])
 
       return Object.assign({}, state, {
-        isAuthenticated: false,
         toke: null,
         user: null
       })
@@ -72,7 +69,6 @@ const loginReducer = (state = {
    case ACTIONS.REQUEST_LOGIN:
       return Object.assign({}, state, {
         isFetching: true,
-        isAuthenticated: false,
         disableVerification: true,
         disableLogin: true
       })
@@ -80,7 +76,6 @@ const loginReducer = (state = {
     case ACTIONS.LOGIN_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        isAuthenticated: true,
         showLogin: false,
         showVerification: false,
         message: null,
@@ -91,20 +86,17 @@ const loginReducer = (state = {
     case ACTIONS.LOGIN_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        isAuthenticated: false,
         message: action.message
       })
 
     case ACTIONS.LOGOUT_REQUEST:
       return Object.assign({}, state, {
-        isFetching: true,
-        isAuthenticated: false
+        isFetching: true
       })
 
     case ACTIONS.LOGOUT_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        isAuthenticated: false,
         token: null,
         user: null
       })

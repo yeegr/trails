@@ -196,9 +196,7 @@ const NavigationBarRouteMapper = (tabId, login, loginActions) => ({
   },
 
   add: function(navigator, type) {
-    console.log(login)
-
-    if (login.isAuthenticated) {
+    if (login.user) {
       var id = null,
         title = ''
 
