@@ -1,13 +1,8 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../settings'
-
 import React, {
-  Component
+  Component,
+  PropTypes
 } from 'react'
 
 import {
@@ -29,6 +24,7 @@ import AreaList from './area/AreaList'
 import EventList from './event/EventList'
 import PostList from './post/PostList'
 import UserInfo from './mine/UserInfo'
+import {Lang, Graphics} from '../settings'
 import styles from '../styles/main'
 
 class Home extends Component {

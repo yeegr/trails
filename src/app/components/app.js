@@ -83,6 +83,8 @@ import Gallery from './shared/Gallery'
 import TextView from './shared/TextView'
 import styles from '../styles/main'
 
+import Test from './test'
+
 const NavigationBarRouteMapper = (tabId, login, loginActions) => ({
   LeftButton: function(route, navigator, index, navState) {
     if (index === 0) {
@@ -246,14 +248,12 @@ class App extends Component {
   }
 
   render() {
-    /*
     if (this.props.showIntro) {
-      return <Intro />
+      return <Test />
     }
-    */
 
     return (
-      <View style={{flex: 1}}>
+      <View>
         <Navigator
           debugOverlay={false}
           style={{flex: 1}}

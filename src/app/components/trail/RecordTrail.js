@@ -13,7 +13,6 @@ import {
   View
 } from 'react-native'
 
-import Update from 'react-addons-update'
 import MapView from 'react-native-maps'
 
 import {connect} from 'react-redux'
@@ -135,8 +134,6 @@ class RecordTrail extends Component {
       path: path.concat([addDistance]),
       points: this.state.points.concat([this._normalizeCoords(addDistance)])
     })
-
-    console.log(this.state)
   }
 
   _convertCoords(coords) {
@@ -219,6 +216,15 @@ class RecordTrail extends Component {
             region={setRegion(this.state.currentPosition, this.state.ASPECT_RATIO)}
           >
             {path}
+            <MapView.Polyline
+              coordinates={[
+                this._convertCoords({latitude: 39.906667, longitude: 116.373333}),
+                this._convertCoords({latitude: 39.926667, longitude: 116.393333}),
+                this._convertCoords({latitude: 39.926667, longitude: 116.393333})
+              ]}
+              strokeColor={Graphics.mapping.strokeColor}
+              strokeWidth={Graphics.mapping.strokeWeight}
+            />
           </MapView>
         </View>
         <CallToAction
