@@ -62,30 +62,46 @@ export function zerorize(n) {
 }
 
 // format trail data
+export function calculatPointDistance(p1, p2) {
+  let distLat = deg2rad(p2.latitude - p1.latitude),
+      distLng = deg2rad(p2.longitude - p1.longitude),
+      distAlt = (p2.altitude - p1.altitude) / 1000,
+      a = Math.sin(distLat / 2),
+      b = Math.sin(distLng / 2),
+      c = a * a + b * b * Math.cos(deg2rad(p1.latitude)) * Math.cos(deg2rad(p2.latitude)),
+      d = 2 * Math.atan2(Math.sqrt(c), Math.sqrt(1-c)),
+      e = earthRadiusInKm * d,
+      f = Math.sqrt(e * e + distAlt * distAlt),
+      g = parseFloat(f.toFixed(5))
+
+  return g
+}
+
 export function calculateTrailData(points) {
   const firstPoint = points[0],
     lastPoint = points[points.length - 1],
     totalDuration = lastPoint[0] - firstPoint[0],
-    totalDistance = lastPoint[4]
+    totalDistance = parseFloat(lastPoint[5].toFixed(3))
 
   let elevationArray = [], 
     totalSpeed = 0
 
   points.map((point) => {
     elevationArray.push(point[3])
-    totalSpeed += point[5]
+    totalSpeed += point[4]
   })
 
   const maximumAltitude = Math.max(...elevationArray),
-    minimumAltitude = Math.min(...elevationArray)
+    minimumAltitude = Math.min(...elevationArray),
+    averageSpeed = parseFloat(Math.round(totalSpeed).toFixed(1))
 
   return {
     date: firstPoint[0],
     totalDuration,
     totalDistance,
-    totalElevation: maximumAltitude - minimumAltitude,
+    totalElevation: Math.round(maximumAltitude - minimumAltitude),
     maximumAltitude,
-    averageSpeed: Math.round(totalSpeed / points.length * 10) / 10
+    averageSpeed
   }
 }
 
@@ -111,13 +127,17 @@ export function formatTrailChartData(points) {
 }
 
 export function formatTrailPoints(points) {
-  var path = points.map(function(arr, index) {
-      return {
-        latitude: arr[1],
-        longitude: arr[2]
-      }
-    })
-  return path
+  if (points.length > 0) {
+    var path = points.map(function(arr, index) {
+        return {
+          latitude: arr[1],
+          longitude: arr[2]
+        }
+      })
+    return path
+  }
+
+  return null
 }
 
 export function getMapCenter(points) {
@@ -148,6 +168,7 @@ export function getMapCenter(points) {
 }
 
 const earthRadiusInKm = 6371
+const earthRadiusInM = 6378135
 
 function rad2deg(radians) {
   return radians * 180 / Math.PI
@@ -157,21 +178,17 @@ function deg2rad(degrees) {
   return degrees * Math.PI / 180
 }
 
-function getLatitudeDelta(latitude) {
-  let radiusInKm = arguments[1] || 3
-  return rad2deg(radiusInKm / earthRadiusInKm / Math.cos(deg2rad(latitude)))
-}
-
-export function setRegion(point, aspect_ratio) {
-  let latitudeDelta = getLatitudeDelta(point.latitude),
-    longitudeDelta = latitudeDelta * aspect_ratio
+export function setRegion(point, aspectRatio) {
+  let radiusInKm = arguments[2] || 0.5,
+    radiusInRad = radiusInKm / earthRadiusInKm,
+    latitudeDelta = rad2deg(radiusInRad / Math.cos(deg2rad(point.latitude))),
+    longitudeDelta = aspectRatio * rad2deg(radiusInRad)
 
   return {
     latitude: point.latitude,
     longitude: point.longitude,
-    altitude: point.altitude,
-    latitudeDelta,
-    longitudeDelta
+    latitudeDelta: latitudeDelta,
+    longitudeDelta: longitudeDelta
   }
 }
 

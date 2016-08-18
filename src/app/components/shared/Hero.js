@@ -39,7 +39,7 @@ const Hero = (props) => {
 },
 styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: '#000000',
+    backgroundColor: Graphics.heroImage.backgroundColor,
     flex: 1,
     height: Graphics.heroImage.height
   },

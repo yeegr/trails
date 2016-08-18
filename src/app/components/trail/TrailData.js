@@ -61,7 +61,7 @@ const TrailData = (props) => {
         stack={stack}
         textColr={Graphics.icon.valueColor}
         label={Lang.TotalDistance}
-        value={props.totalDistance.toString() + Lang.Kilometre}
+        value={props.totalDistance.toFixed(3) + Lang.Kilometre}
       />
       <Icon
         backgroundColor={Graphics.colors.transparent}
@@ -72,7 +72,7 @@ const TrailData = (props) => {
         stack={stack}
         textColr={Graphics.icon.valueColor}
         label={Lang.TotalElevation}
-        value={props.totalElevation.toString() + Lang.Metre}
+        value={props.totalElevation.toFixed(0) + Lang.Metre}
       />
       <Icon
         backgroundColor={Graphics.colors.transparent}
@@ -82,7 +82,7 @@ const TrailData = (props) => {
         showLabel={true}
         stack={stack}
         label={Lang.MaximumAltitude}
-        value={props.maximumAltitude.toString() + Lang.Metre}
+        value={props.maximumAltitude.toFixed(0) + Lang.Metre}
       />
       <Icon
         backgroundColor={Graphics.colors.transparent}

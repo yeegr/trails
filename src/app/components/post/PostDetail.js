@@ -59,7 +59,7 @@ class PostDetail extends Component {
 
     return (
       <View style={styles.global.wrapper}>
-        <ParallaxView style={{flex: 1}}
+        <ParallaxView
           backgroundSource={{uri: AppSettings.assetUri + post.hero}}
           windowHeight={Graphics.heroImage.height}
           header={(

@@ -102,6 +102,7 @@ const _getTrailData = (points) => {
 
 export const calculateData = (points) => {
   return (dispatch) => {
+    dispatch(saveTrailPoints(points))
     dispatch(_startCalculation())
     return dispatch(_getTrailData(points))
   }

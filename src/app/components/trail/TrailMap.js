@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -15,6 +9,7 @@ import {View} from 'react-native'
 import MapView from 'react-native-maps'
 
 import {formatTrailPoints, getMapCenter} from '../../../common'
+import {Graphics} from '../../settings'
 
 const TrailMap = (props) => {
   var points = props.points,
@@ -39,7 +34,6 @@ const TrailMap = (props) => {
     <MapView
       style={{flex: 1}}
       mapType="satellite"
-      region={region}
       showsPointsOfInterest={false}
       showsCompass={false}
       showsScale={false}
@@ -50,6 +44,7 @@ const TrailMap = (props) => {
       rotateEnabled={false}
       pitchEnabled={false}
       scrollEnabled={false}
+      region={region}
     >
       <MapView.Polyline
         coordinates={path}
@@ -67,9 +62,6 @@ const TrailMap = (props) => {
     </MapView>
   )
 }
-
-/*
-*/
 
 TrailMap.propTypes = {
   points: PropTypes.array.isRequired

@@ -172,7 +172,7 @@ class EventDetail extends Component {
 
     return (
       <View style={styles.global.wrapper}>
-        <ParallaxView style={{flex: 1}}
+        <ParallaxView
           backgroundSource={{uri: AppSettings.assetUri + event.hero}}
           windowHeight={Graphics.heroImage.height}
           header={(

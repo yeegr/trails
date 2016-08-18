@@ -36,8 +36,6 @@ import styles from '../../styles/main'
 class AreaDetail extends Component {
   constructor(props) {
     super(props)
-
-    console.log('?')
   }
 
   componentWillMount() {
@@ -61,7 +59,7 @@ class AreaDetail extends Component {
 
     return (
       <View style={styles.global.wrapper}>
-        <ParallaxView style={{flex: 1}}
+        <ParallaxView
           backgroundSource={{uri: AppSettings.assetUri + area.hero}}
           windowHeight={Graphics.heroImage.height}
           header={(
@@ -75,7 +73,7 @@ class AreaDetail extends Component {
           <View style={styles.detail.article}>
             <View style={styles.detail.section}>
               <Header text={Lang.Tags} />
-              <View style={styles.detail.grid}>
+              <View style={[styles.detail.grid, {marginTop: 10}]}>
               {
                 area.tags.map(function(val, index) {
                   return (

@@ -83,7 +83,11 @@ class TrailDetail extends Component {
     }
 
     let galleryPreview = (trail.photos.length > 0) ? (
-      <GalleryPreview navigator={navigator} gallery={trail.photos} />
+      <GalleryPreview
+        navigator={navigator}
+        type="preview"
+        gallery={trail.photos}
+      />
     ) : null,
     commentsPreview = (trail.comments.length > 0) ? (
       <CommentsPreview 
@@ -110,7 +114,6 @@ class TrailDetail extends Component {
               <View style={[styles.global.map, {marginHorizontal: 15}]}>
                 <TrailMap points={trail.points} />
               </View>
-              <TrailChart points={trail.points} />
             </View>
             <View style={[styles.detail.section, {marginHorizontal: 15}]}>
               <UserLink user={creator} navigator={navigator} showArrow={true} />

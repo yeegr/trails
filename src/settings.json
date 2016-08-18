@@ -71,7 +71,7 @@
     "SomeDonkey":"某驴",
     "Type":"类型",
     "Unnamed":"暂未命名",
-    "NoDescriptions":"暂无描述",
+    "NoDescription":"暂无描述",
 
     "Trail":"轨迹",
     "Trails":"轨迹",
@@ -719,6 +719,7 @@
     },
     "heroImage":{
       "height":240,
+      "backgroundColor":"#000000",
       "opacity":0.6
     },
     "actionBar":{

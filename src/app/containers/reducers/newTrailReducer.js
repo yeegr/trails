@@ -19,7 +19,8 @@ const initState = {
   difficultyLevel: 2,
   description: '',
   points: points,
-  photos: []
+  photos: [],
+  comments: []
 },
 
 newTrailReducer = (state = initState, action) => {
@@ -44,7 +45,7 @@ newTrailReducer = (state = initState, action) => {
 
     case ACTIONS.SAVE_TRAIL_POINTS:
       return Object.assign({}, state, {
-        points
+        points: action.points
       })
 
     case ACTIONS.SET_TRAIL_TITLE:
