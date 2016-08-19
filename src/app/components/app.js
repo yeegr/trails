@@ -25,7 +25,7 @@ import * as loginActions from '../containers/actions/loginActions'
 import {
   HOME_TABS,
   ACTION_TARGETS
-} from '../../constants'
+} from '../../util/constants'
 
 import Loading from './shared/Loading'
 import {NavbarIconButton, NavbarTextButton} from './shared/NavbarButtons'
@@ -248,12 +248,8 @@ class App extends Component {
   }
 
   render() {
-    if (this.props.showIntro) {
-      return <Test />
-    }
-
     return (
-      <View>
+      <View style={{flex: 1}}>
         <Navigator
           debugOverlay={false}
           style={{flex: 1}}

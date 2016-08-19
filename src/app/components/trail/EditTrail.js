@@ -24,8 +24,8 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as newTrailActions from '../../containers/actions/newTrailActions'
 
-import {ACTION_TARGETS} from '../../../constants'
-import {showTrailDifficulty} from '../../../common'
+import {ACTION_TARGETS} from '../../../util/constants'
+import {showTrailDifficulty} from '../../../util/common'
 import EditLink from '../shared/EditLink'
 import styles from '../../styles/main'
 

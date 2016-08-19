@@ -1,7 +1,7 @@
 'use strict'
 
 import {AsyncStorage} from 'react-native'
-import {ACCESS_TOKEN, USER} from '../../../constants'
+import {ACCESS_TOKEN, USER} from '../../../util/constants'
 import * as ACTIONS from '../constants/loginConstants'
 
 const loginReducer = (state = {

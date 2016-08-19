@@ -25,7 +25,7 @@ import * as eventsActions from '../../containers/actions/eventsActions'
 import TextView from '../shared/TextView'
 import InfoItem from '../shared/InfoItem'
 import SimpleContact from '../shared/SimpleContact'
-import {formatEventGroupLabel, getTimeFromId} from '../../../common'
+import {formatEventGroupLabel, getTimeFromId} from '../../../util/common'
 import styles from '../../styles/main'
 
 class OrderDetail extends Component {

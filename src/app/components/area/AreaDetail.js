@@ -12,10 +12,8 @@ import React, {
 } from 'react'
 
 import {
-  View,
-  Image,
-  TouchableOpacity,
-  Text
+  Text,
+  View
 } from 'react-native'
 import ParallaxView from 'react-native-parallax-view'
 
@@ -36,6 +34,10 @@ import styles from '../../styles/main'
 class AreaDetail extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      paraHeight: 300
+    }
   }
 
   componentWillMount() {
@@ -57,6 +59,16 @@ class AreaDetail extends Component {
       })
     }
 
+    setTimeout(() => {
+      let paraContent = this.refs.paraContent
+
+      paraContent.measure((fx, fy, width, height, px, py) => {
+        this.setState({
+          paraHeight: height
+        })
+      })
+    }, 1000)
+
     return (
       <View style={styles.global.wrapper}>
         <ParallaxView
@@ -66,11 +78,11 @@ class AreaDetail extends Component {
             <Intro
               align="bottom"
               title={Lang.cities[area.city] + ' ' + area.name}
-              excerpt={area.description}
-              tags={tags}
+              excerpt={area.excerpt}
             />
           )}>
-          <View style={styles.detail.article}>
+          <View ref="paraContent" style={[styles.detail.article, {height: this.state.paraHeight}]}>
+            <Text>height: {this.state.paraHeight}</Text>
             <View style={styles.detail.section}>
               <Header text={Lang.Tags} />
               <View style={[styles.detail.grid, {marginTop: 10}]}>

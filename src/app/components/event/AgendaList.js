@@ -29,7 +29,7 @@ import Loading from '../shared/Loading'
 import Agenda from '../shared/Agenda'
 import DayList from '../shared/DayList'
 import CallToAction from '../shared/CallToAction'
-import {isNumeric} from '../../../common'
+import {isNumeric} from '../../../util/common'
 import styles from '../../styles/main'
 
 class AgendaList extends Component {

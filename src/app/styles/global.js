@@ -6,11 +6,11 @@ import {StyleSheet} from 'react-native'
 export default StyleSheet.create({
   wrapper: {
     backgroundColor: Graphics.colors.background,
-    flex: 1
+    flex: 1,
   },
   home: {
     flex: 1,
-    paddingTop: Graphics.titlebar.height
+    paddingTop: Graphics.statusbar.height + Graphics.titlebar.height
   },
   main: {
     backgroundColor: Graphics.colors.background,

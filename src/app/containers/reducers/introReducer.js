@@ -1,7 +1,7 @@
 'use strict'
 
 import {AsyncStorage} from 'react-native'
-import {ACCESS_TOKEN} from '../../../constants'
+import {ACCESS_TOKEN} from '../../../util/constants'
 import {
   SHOW_INTRO,
   HIDE_INTRO,

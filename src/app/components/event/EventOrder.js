@@ -39,7 +39,7 @@ import Icon from '../shared/Icon'
 import InfoItem from '../shared/InfoItem'
 import InputItem from '../shared/InputItem'
 import CallToAction from '../shared/CallToAction'
-import {formatEventGroupLabel} from '../../../common'
+import {formatEventGroupLabel} from '../../../util/common'
 import styles from '../../styles/main'
 
 class EventOrder extends Component {
@@ -162,12 +162,12 @@ class EventOrder extends Component {
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
-              align='bottom' 
+              align="bottom"
               title={event.title} 
               excerpt={event.excerpt}
             />
           )}>
-          <View ref='scrollContent' style={{backgroundColor: Graphics.colors.background}}>
+          <View ref="scrollContent" style={{backgroundColor: Graphics.colors.background}}>
             <View style={styles.detail.section}>
               <TextView class='h2' text={Lang.EventInfo} />
               <InfoItem label={Lang.EventDates} value={dates} />

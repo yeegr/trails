@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 
 import TextView from './TextView'
-import {hex2rgb} from '../../../common'
+import {hex2rgb} from '../../../util/common'
 import {
   AppSettings,
   Lang,

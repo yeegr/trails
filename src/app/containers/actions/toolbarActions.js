@@ -4,7 +4,7 @@ import {
   CONFIG,
   ACCESS_TOKEN,
   USER
-} from '../../../constants'
+} from '../../../util/constants'
 
 import * as ACTIONS from '../constants/toolbarConstants'
 import * as loginActions from './loginActions'

@@ -25,7 +25,7 @@ import Intro from '../shared/Intro'
 import TextView from '../shared/TextView'
 import Icon from '../shared/Icon'
 import CallToAction from '../shared/CallToAction'
-import {formatEventGroupLabel} from '../../../common'
+import {formatEventGroupLabel} from '../../../util/common'
 import styles from '../../styles/main'
 
 class SelectOrderGroup extends Component {
@@ -59,7 +59,7 @@ class SelectOrderGroup extends Component {
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
-              align='bottom' 
+              align="bottom"
               title={event.title} 
               excerpt={event.excerpt}
             />

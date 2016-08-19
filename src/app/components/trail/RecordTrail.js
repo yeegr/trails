@@ -21,7 +21,7 @@ import * as newTrailActions from '../../containers/actions/newTrailActions'
 
 import CallToAction from '../shared/CallToAction'
 import TextView from '../shared/TextView'
-import {calculatPointDistance, setRegion, formatTrailPoints} from '../../../common'
+import {calculatPointDistance, setRegion, formatTrailPoints} from '../../../util/common'
 import * as Coord from '../../../util/coord'
 import {Lang, Graphics} from '../../settings'
 import styles from '../../styles/main'

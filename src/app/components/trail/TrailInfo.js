@@ -18,7 +18,7 @@ import {
 
 import Icon from '../shared/Icon'
 import TextView from '../shared/TextView'
-import {formatTime} from '../../../common'
+import {formatTime} from '../../../util/common'
 
 const TrailInfo = (props) => {
   return (

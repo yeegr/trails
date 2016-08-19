@@ -28,7 +28,7 @@ import DurationPicker from '../shared/DurationPicker'
 import SearchPoi from '../shared/SearchPoi'
 import Icon from '../shared/Icon'
 import CallToAction from '../shared/CallToAction'
-import {formatMinutes,formatDuration} from '../../../common'
+import {formatMinutes,formatDuration} from '../../../util/common'
 import styles from '../../styles/main'
 
 class EditAgenda extends Component {

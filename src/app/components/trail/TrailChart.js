@@ -19,7 +19,7 @@ import {
 
 import Chart from 'react-native-chart'
 
-import {formatTrailChartData} from '../../../common'
+import {formatTrailChartData} from '../../../util/common'
 
 const chartColor = Graphics.textColors.overlay,
 

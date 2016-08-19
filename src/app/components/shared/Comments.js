@@ -31,7 +31,7 @@ import Header from './Header'
 import InputBar from './InputBar'
 import TextView from './TextView'
 import Rating from './Rating'
-import {getTimeFromId, formatFromNow} from '../../../common'
+import {getTimeFromId, formatFromNow} from '../../../util/common'
 import styles from '../../styles/main'
 
 class Comments extends Component {

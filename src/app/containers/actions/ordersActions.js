@@ -1,6 +1,6 @@
 'use strict'
 
-import {CONFIG} from '../../../constants'
+import {CONFIG} from '../../../util/constants'
 import {AppSettings} from '../../settings'
 import * as ACTIONS from '../constants/ordersConstants'
 

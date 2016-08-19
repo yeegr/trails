@@ -14,7 +14,7 @@ import {
 } from 'react-native'
 
 import TextView from './TextView'
-import {hex2rgb} from '../../../common'
+import {hex2rgb} from '../../../util/common'
 
 const CallToAction = (props) => {
   let bgColor = props.backgroundColor || Graphics.colors.primary,

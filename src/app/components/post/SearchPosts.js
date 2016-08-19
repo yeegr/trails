@@ -25,7 +25,7 @@ import Svg, {
   Path
 } from 'react-native-svg'
 
-import {HOME_TABS} from '../../../constants'
+import {HOME_TABS} from '../../../util/constants'
 import styles from '../../styles/main'
 
 export default class SearchPosts extends Component {

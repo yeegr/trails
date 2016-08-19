@@ -28,7 +28,7 @@ import InfoItem from '../shared/InfoItem'
 import TextView from '../shared/TextView'
 import Icon from '../shared/Icon'
 import CallToAction from '../shared/CallToAction'
-import {formatEventGroupLabel, calculateInsurance} from '../../../common'
+import {formatEventGroupLabel, calculateInsurance} from '../../../util/common'
 import styles from '../../styles/main'
 
 class EventPayment extends Component {

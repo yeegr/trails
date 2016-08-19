@@ -20,7 +20,7 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as postsActions from '../../containers/actions/postsActions'
-import {ACTION_TARGETS} from '../../../constants'
+import {ACTION_TARGETS} from '../../../util/constants'
 
 import Loading from '../shared/Loading'
 import ParallaxView from 'react-native-parallax-view'
@@ -60,11 +60,12 @@ class PostDetail extends Component {
     return (
       <View style={styles.global.wrapper}>
         <ParallaxView
+          style={{flex: 1}}
           backgroundSource={{uri: AppSettings.assetUri + post.hero}}
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
-              align='bottom' 
+              align="bottom"
               title={post.title}
               tags={post.tags}
             />

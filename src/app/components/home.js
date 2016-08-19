@@ -18,7 +18,7 @@ import * as homeActions from '../containers/actions/homeActions'
 
 import {changeTab} from '../containers/actions/homeActions'
 import {showLogin} from '../containers/actions/loginActions'
-import {HOME_TABS} from '../../constants'
+import {HOME_TABS} from '../../util/constants'
 
 import AreaList from './area/AreaList'
 import EventList from './event/EventList'
@@ -46,59 +46,52 @@ class Home extends Component {
     const {selectedTab, navigator} = this.props
 
     return (
-      <View style={styles.global.wrapper}>
-        <TabBarIOS
-          tintColor={Graphics.colors.primary}
+      <TabBarIOS
+        style={{flex: 1}}
+        tintColor={Graphics.colors.primary}
+      >
+        <TabBarIOS.Item
+          title={Lang.Trails}
+          icon={{uri: Graphics.tabbar.trail, scale: 3}}
+          selected={selectedTab === HOME_TABS.AREAS}
+          onPress={() => this.onTabPressed(HOME_TABS.AREAS)}
         >
-          <TabBarIOS.Item
-            title={Lang.Trails}
-            icon={{uri: Graphics.tabbar.trail, scale: 3}}
-            selected={selectedTab === HOME_TABS.AREAS}
-            onPress={() => this.onTabPressed(HOME_TABS.AREAS)}
-          >
-            <ScrollView style={styles.global.home}>
-              <AreaList
-                navigator={navigator}
-                params=""
-              />
-            </ScrollView>
-          </TabBarIOS.Item>
-          <TabBarIOS.Item
-            title={Lang.Events}
-            icon={{uri: Graphics.tabbar.event, scale: 3}}
-            selected={selectedTab === HOME_TABS.EVENTS}
-            onPress={() => this.onTabPressed(HOME_TABS.EVENTS)}
-          >
-            <ScrollView style={styles.global.home}>
-              <EventList 
-                navigator={navigator} 
-                params=""
-              />
-            </ScrollView>
-          </TabBarIOS.Item>
-          <TabBarIOS.Item
-            title={Lang.Posts}
-            icon={{uri: Graphics.tabbar.post, scale: 3}}
-            selected={selectedTab === HOME_TABS.POSTS}
-            onPress={() => this.onTabPressed(HOME_TABS.POSTS)}
-          >
-            <ScrollView style={styles.global.home}>
-              <PostList
-                navigator={navigator}
-                params=""
-              />
-            </ScrollView>
-          </TabBarIOS.Item>
-          <TabBarIOS.Item
-            title={Lang.Mine}
-            icon={{uri: Graphics.tabbar.mine, scale: 3}}
-            selected={selectedTab === HOME_TABS.MINE}
-            onPress={() => this.onTabPressed(HOME_TABS.MINE)}
-          >
-            <UserInfo navigator={navigator} />
-          </TabBarIOS.Item>
-        </TabBarIOS>
-      </View>
+          <AreaList
+            navigator={navigator}
+            params=""
+          />
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title={Lang.Events}
+          icon={{uri: Graphics.tabbar.event, scale: 3}}
+          selected={selectedTab === HOME_TABS.EVENTS}
+          onPress={() => this.onTabPressed(HOME_TABS.EVENTS)}
+        >
+          <EventList 
+            navigator={navigator} 
+            params=""
+          />
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title={Lang.Posts}
+          icon={{uri: Graphics.tabbar.post, scale: 3}}
+          selected={selectedTab === HOME_TABS.POSTS}
+          onPress={() => this.onTabPressed(HOME_TABS.POSTS)}
+        >
+          <PostList
+            navigator={navigator}
+            params=""
+          />
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title={Lang.Mine}
+          icon={{uri: Graphics.tabbar.mine, scale: 3}}
+          selected={selectedTab === HOME_TABS.MINE}
+          onPress={() => this.onTabPressed(HOME_TABS.MINE)}
+        >
+          <UserInfo navigator={navigator} />
+        </TabBarIOS.Item>
+      </TabBarIOS>
     )
   }
 }

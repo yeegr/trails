@@ -22,7 +22,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../containers/actions/newTrailActions'
 
-import {showTrailDifficulty} from '../../../common'
+import {showTrailDifficulty} from '../../../util/common'
 import styles from '../../styles/main'
 
 const EditTrailDifficulty = (props) => {

@@ -24,7 +24,7 @@ import {connect} from 'react-redux'
 import Loading from '../shared/Loading'
 import TextView from '../shared/TextView'
 import InfoItem from '../shared/InfoItem'
-import {formatEventGroupLabel, formatDateSpan, getTimeFromId} from '../../../common'
+import {formatEventGroupLabel, formatDateSpan, getTimeFromId} from '../../../util/common'
 import styles from '../../styles/main'
 
 const OrderList = (props) => {

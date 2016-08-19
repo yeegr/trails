@@ -30,7 +30,7 @@ import Chart from 'react-native-chart'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as trailsActions from '../../containers/actions/trailsActions'
-import {ACTION_TARGETS} from '../../../constants'
+import {ACTION_TARGETS} from '../../../util/constants'
 
 import Loading from '../shared/Loading'
 import Toolbar from '../shared/Toolbar'

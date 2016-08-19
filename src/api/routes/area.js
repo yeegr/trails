@@ -18,7 +18,8 @@ module.exports = function(app) {
     .populate({
       path: 'trails',
       options: {
-        limit: 3
+        limit: 3,
+        sort: ({'_id': -1})
       },
       populate: {
         path: 'creator'
@@ -27,9 +28,9 @@ module.exports = function(app) {
     .populate({
       path: 'comments',
       modal: 'Comment',
-      limit: 3,
       options: {
-        sort: {'_id': -1}
+        limit: 3,
+        sort: ({'_id': -1})
       },
       populate: {
         path: 'creator',

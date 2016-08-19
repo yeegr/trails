@@ -19,7 +19,7 @@ import Moment from 'moment'
 
 import Icon from './Icon'
 import TextView from './TextView'
-import {formatMinutes,formatDuration} from '../../../common'
+import {formatMinutes,formatDuration} from '../../../util/common'
 import {Graphics} from '../../settings'
 
 const Agenda = (props) => {

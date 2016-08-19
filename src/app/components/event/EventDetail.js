@@ -27,7 +27,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../containers/actions/eventsActions'
 import * as loginActions from '../../containers/actions/loginActions'
-import {ACTION_TARGETS} from '../../../constants'
+import {ACTION_TARGETS} from '../../../util/constants'
 
 import TextView from '../shared/TextView'
 import Loading from '../shared/Loading'
@@ -45,7 +45,7 @@ import Toolbar from '../shared/Toolbar'
 import CallToAction from '../shared/CallToAction'
 import {CommentsPreview} from '../shared/Comments'
 import UserLink from '../user/UserLink'
-import {formatMinutes} from '../../../common'
+import {formatMinutes} from '../../../util/common'
 import styles from '../../styles/main'
 
 class EventDetail extends Component {
@@ -177,7 +177,7 @@ class EventDetail extends Component {
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
-              align='bottom' 
+              align="bottom"
               title={event.title}
               excerpt={event.excerpt}
             />

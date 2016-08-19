@@ -8,7 +8,7 @@ import React, {
 import {View} from 'react-native'
 import MapView from 'react-native-maps'
 
-import {formatTrailPoints, getMapCenter} from '../../../common'
+import {formatTrailPoints, getMapCenter} from '../../../util/common'
 import {Graphics} from '../../settings'
 
 const TrailMap = (props) => {

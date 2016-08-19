@@ -25,7 +25,7 @@ import {
 
 import MapView from 'react-native-maps'
 import CallToAction from './CallToAction'
-import {setRegion, hex2rgb} from '../../../common'
+import {setRegion, hex2rgb} from '../../../util/common'
 
 import Loading from './Loading'
 

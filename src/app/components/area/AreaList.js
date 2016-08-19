@@ -38,7 +38,11 @@ class AreaList extends Component {
 
   renderRow(rowData, sectionId, rowId) {
     return (
-      <AreaCard navigator={this.props.navigator} data={rowData} key={rowId} />
+      <AreaCard
+        key={rowId}
+        navigator={this.props.navigator}
+        data={rowData}
+      />
     )
   }
 
@@ -51,7 +55,10 @@ class AreaList extends Component {
 
     return (
       <ListView
+        automaticallyAdjustContentInsets={false}
         enableEmptySections={true}
+        scrollEnabled={true}
+        style={styles.global.home}
         dataSource={this.dataSource.cloneWithRows(areas)}
         renderRow={this.renderRow}
       />

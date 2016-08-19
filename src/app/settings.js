@@ -3,7 +3,7 @@
 import {Dimensions} from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 
-const settings = require('../settings.json'),
+const settings = require('../util/settings.json'),
   {height, width} = Dimensions.get('window')
 
 export const device = {

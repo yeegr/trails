@@ -21,7 +21,7 @@ import {
 import Loading from '../shared/Loading'
 import TextView from '../shared/TextView'
 import SimpleContact from '../shared/SimpleContact'
-import {formatEventGroupLabel} from '../../../common'
+import {formatEventGroupLabel} from '../../../util/common'
 import styles from '../../styles/main'
 
 class SignUpList extends Component {

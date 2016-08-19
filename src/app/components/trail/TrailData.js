@@ -16,7 +16,7 @@ import {
   StyleSheet
 } from 'react-native'
 
-import {showTrailDifficulty, formatDuration} from '../../../common'
+import {showTrailDifficulty, formatDuration} from '../../../util/common'
 
 import Icon from '../shared/Icon'
 

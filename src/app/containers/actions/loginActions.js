@@ -2,7 +2,7 @@
 
 import {AsyncStorage} from 'react-native'
 import {AppSettings} from '../../settings'
-import {CONFIG, ACCESS_TOKEN, USER} from '../../../constants'
+import {CONFIG, ACCESS_TOKEN, USER} from '../../../util/constants'
 import * as ACTIONS from '../constants/loginConstants'
 
 export const isLoggedIn = () => {

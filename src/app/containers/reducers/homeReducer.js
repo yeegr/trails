@@ -1,6 +1,6 @@
 'use strict'
 
-import {HOME_TABS} from '../../../constants'
+import {HOME_TABS} from '../../../util/constants'
 import {TAB_CHANGED} from '../constants/homeConstants'
 
 const homeReducer = (state = {

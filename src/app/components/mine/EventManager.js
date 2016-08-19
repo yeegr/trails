@@ -24,7 +24,7 @@ import * as eventsActions from '../../containers/actions/eventsActions'
 import Loading from '../shared/Loading'
 import TextView from '../shared/TextView'
 import EditLink from '../shared/EditLink'
-import {formatEventGroupLabel} from '../../../common'
+import {formatEventGroupLabel} from '../../../util/common'
 import styles from '../../styles/main'
 
 class EventManager extends Component {

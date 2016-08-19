@@ -6,11 +6,11 @@ import {
   CONFIG,
   ACCESS_TOKEN,
   USER
-} from '../../../constants'
+} from '../../../util/constants'
 
 import {AppSettings} from '../../settings'
 import * as ACTIONS from '../constants/newTrailConstants'
-import {calculateTrailData} from '../../../common'
+import {calculateTrailData} from '../../../util/common'
 
 export const createTrail = (creator) => {
   return {
