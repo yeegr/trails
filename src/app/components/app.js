@@ -224,7 +224,7 @@ const NavigationBarRouteMapper = (tabId, login, loginActions) => ({
     }
   }
 })
-
+import AreaList from './area/AreaList'
 class App extends Component {
   constructor(props) {
     super(props)
@@ -248,6 +248,15 @@ class App extends Component {
   }
 
   render() {
+    if (this.props.showIntro) {
+      return (
+        <AreaList
+          navigator={navigator}
+          params=""
+        />
+      )
+    }
+
     return (
       <View style={{flex: 1}}>
         <Navigator

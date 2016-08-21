@@ -1,14 +1,13 @@
 var express = require('express'),
-  bodyParser = require('body-parser'),
-  cors = require('cors'),
-  port = process.env.PORT || 3000,
-  router = express.Router(),
-	http = require('http'),
 	logger = require('morgan'),
 	errorHandler = require('errorhandler'),
+  bodyParser = require('body-parser'),
+  cors = require('cors'),
 	mongoose = require('mongoose'),
+	db = 'mongodb://localhost/trails',
+  port = process.env.PORT || 3000,
   app = express(),
-	db = 'mongodb://localhost/trails'
+  router = express.Router()
 
 if (process.env.NODE_ENV === 'development') {
   app.use(logger('dev'))
@@ -51,8 +50,8 @@ router.post('/drop', function(req, res, next) {
 	res.status(200).send()
 })
 
-// REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /api
+// REGISTER ROUTES
+// =============================================================================
 app.use('/', router)
 
 // START THE SERVER

@@ -36,6 +36,13 @@ export const TOOLBAR_TYPE_KEYS = {
   Post: 'posts'
 }
 
+export const ASSET_FOLDERS = {
+  Area: 'areas',
+  Trail: 'trails',
+  Event: 'events',
+  Post: 'posts'
+}
+
 export const USER = 'user'
 export const ACCESS_TOKEN = 'access_token'
 

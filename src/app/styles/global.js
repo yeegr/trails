@@ -10,7 +10,8 @@ export default StyleSheet.create({
   },
   home: {
     flex: 1,
-    paddingTop: Graphics.statusbar.height + Graphics.titlebar.height
+    marginBottom: Graphics.tabbar.height,
+    paddingTop: Graphics.statusbar.height + Graphics.titlebar.height,
   },
   main: {
     backgroundColor: Graphics.colors.background,

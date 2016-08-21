@@ -6,6 +6,7 @@ import React, {
 } from 'react'
 
 import {
+  Dimensions,
   Image,
   StyleSheet,
   View,
@@ -20,11 +21,13 @@ import {
 } from '../../settings'
 
 const Gear = (props) => {
-  let selected = (props.selected) ? styles.selected : null
+  let {width, height} = Dimensions.get('window'), 
+  selected = (props.selected) ? styles.selected : null
 
   return (
     <Image style={styles.wrapper}
-      source={{uri: AppSettings.assetUri + 'gears/' + props.number + '.jpg'}}
+      source={{uri: AppSettings.assetUri + '?type=gear&path=' + props.number + '.jpg' + '&res=' + width + 'x' + height}}
+//    source={{uri: AppSettings.assetUri + 'gears/' + props.number + '.jpg'}}
     >
       <View style={[styles.caption, selected]}>
         <TextView fontSize='XXS' textColor={Graphics.textColors.overlay} text={Lang.gearArray[props.number]} />

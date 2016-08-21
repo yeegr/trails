@@ -15,6 +15,7 @@ import {
   Text,
   View
 } from 'react-native'
+
 import ParallaxView from 'react-native-parallax-view'
 
 import {connect} from 'react-redux'
@@ -22,6 +23,7 @@ import {bindActionCreators} from 'redux'
 import * as areasActions from '../../containers/actions/areasActions'
 
 import Loading from '../shared/Loading'
+import ImagePath from '../shared/ImagePath'
 import Header from '../shared/Header'
 import Intro from '../shared/Intro'
 import Icon from '../shared/Icon'
@@ -29,6 +31,7 @@ import UserList from '../user/UserList'
 import TrailPreview from '../trail/TrailPreview'
 import {GalleryPreview} from '../shared/Gallery'
 import {CommentPreview} from '../shared/Comments'
+import {ASSET_FOLDERS} from '../../../util/constants'
 import styles from '../../styles/main'
 
 class AreaDetail extends Component {
@@ -59,20 +62,17 @@ class AreaDetail extends Component {
       })
     }
 
+    const url = ImagePath({type: 'hero', path: ASSET_FOLDERS.Area + '/' + area.id + '/' + area.hero})
+    //console.log(url)
+
     setTimeout(() => {
       let paraContent = this.refs.paraContent
-
-      paraContent.measure((fx, fy, width, height, px, py) => {
-        this.setState({
-          paraHeight: height
-        })
-      })
     }, 1000)
 
     return (
       <View style={styles.global.wrapper}>
         <ParallaxView
-          backgroundSource={{uri: AppSettings.assetUri + area.hero}}
+          backgroundSource={{uri: url}}
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
@@ -81,23 +81,27 @@ class AreaDetail extends Component {
               excerpt={area.excerpt}
             />
           )}>
-          <View ref="paraContent" style={[styles.detail.article, {height: this.state.paraHeight}]}>
-            <Text>height: {this.state.paraHeight}</Text>
+          <View ref="paraContent" style={[styles.detail.article]}>
             <View style={styles.detail.section}>
               <Header text={Lang.Tags} />
               <View style={[styles.detail.grid, {marginTop: 10}]}>
               {
                 area.tags.map(function(val, index) {
                   return (
-                    <View key={index} style={{marginRight: 5}}>
-                      <Icon type={val} label={Lang.tagList.split(',')[val]} />
+                    <View key={index} style={{marginRight: 10, marginBottom: 10}}>
+                      <Icon sideLength={40} type={val} label={Lang.tagList.split(',')[val]} />
                     </View>
                   )
                 })
               }
               </View>
             </View>
-            <GalleryPreview navigator={navigator} gallery={area.photos} />
+            <GalleryPreview
+              navigator={navigator}
+              type={ASSET_FOLDERS.Area}
+              id={area._id}
+              photos={area.photos}
+            />
             <View style={styles.detail.section}>
               <Header text={Lang.Leaders} />
               <View style={styles.detail.content}>

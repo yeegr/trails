@@ -20,6 +20,7 @@ export default StyleSheet.create({
     marginBottom: 15
   },
   grid: {
+    alignItems: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',

@@ -47,7 +47,6 @@ class Home extends Component {
 
     return (
       <TabBarIOS
-        style={{flex: 1}}
         tintColor={Graphics.colors.primary}
       >
         <TabBarIOS.Item
@@ -57,6 +56,7 @@ class Home extends Component {
           onPress={() => this.onTabPressed(HOME_TABS.AREAS)}
         >
           <AreaList
+            key={'area-list'}
             navigator={navigator}
             params=""
           />
@@ -68,6 +68,7 @@ class Home extends Component {
           onPress={() => this.onTabPressed(HOME_TABS.EVENTS)}
         >
           <EventList 
+            key={'event-list'}
             navigator={navigator} 
             params=""
           />
@@ -79,6 +80,7 @@ class Home extends Component {
           onPress={() => this.onTabPressed(HOME_TABS.POSTS)}
         >
           <PostList
+            key={'post-list'}
             navigator={navigator}
             params=""
           />
@@ -89,7 +91,10 @@ class Home extends Component {
           selected={selectedTab === HOME_TABS.MINE}
           onPress={() => this.onTabPressed(HOME_TABS.MINE)}
         >
-          <UserInfo navigator={navigator} />
+          <UserInfo
+            key={'user-info'}
+            navigator={navigator}
+          />
         </TabBarIOS.Item>
       </TabBarIOS>
     )

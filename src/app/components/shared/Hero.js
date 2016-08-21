@@ -12,15 +12,18 @@ import {
   View
 } from 'react-native'
 
+import ImagePath from '../shared/ImagePath'
 import Intro from '../shared/Intro'
 import {AppSettings, Graphics} from '../../settings'
 
 const Hero = (props) => {
+  const url = ImagePath({type: 'hero', path: props.imageUri})
+
   let view = (
       <View style={styles.wrapper}>
         <Image 
           style={styles.image}
-          source={{uri: AppSettings.assetUri + props.imageUri}}
+          source={{uri: url}}
         />
         <Intro 
           title={props.title}

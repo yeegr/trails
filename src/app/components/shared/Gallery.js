@@ -1,13 +1,8 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component
+  Component,
+  PropTypes
 } from 'react'
 
 import {
@@ -19,19 +14,32 @@ import {
   View
 } from 'react-native'
 
-import detail from '../../styles/detail'
+import {
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
+
+import ImagePath from './ImagePath'
 import Header from './Header'
+import detail from '../../styles/detail'
 
 const Gallery = (props) => {
-  let styles = (props.type === 'preview') ? previewStyles : galleryStyles
+  let photos = props.photos,
+    styles = props.styles || galleryStyles
 
   return (
     <View style={styles.grid}>
     {
-      props.data.map(function(photo, i) {
+      props.photos.map(function(photo, i) {
+        const url = ImagePath({type: 'thumb', path: props.type + '/' + props.id + '/' + photo.url})
+
         return (
           <TouchableOpacity key={i}>
-            <Image style={styles.thumb} source={{uri: AppSettings.assetUri + photo.thumb}} />
+            <Image
+              style={styles.thumb}
+              source={{uri: url}}
+            />
           </TouchableOpacity>
         )
       })
@@ -41,15 +49,17 @@ const Gallery = (props) => {
 }
 
 export const GalleryPreview = (props) => {
-  const previews = props.gallery.slice(0, AppSettings.maxPhotoPreviewsPerGallery),
-    more = (props.gallery.length > AppSettings.maxPhotoPreviewsPerGallery) ? {
+  const previews = props.photos.slice(0, AppSettings.maxPhotoPreviewsPerGallery),
+    more = (props.photos.length > AppSettings.maxPhotoPreviewsPerGallery) ? {
       text: Lang.MorePhotos,
       onPress: () => {
         props.navigator.push({
           id: 'Gallery',
           title: Lang.Photos,
           passProps: {
-            data: props.gallery
+            type: props.type,
+            id: props.id,
+            photos: props.photos
           }
         })
       }
@@ -58,7 +68,7 @@ export const GalleryPreview = (props) => {
   return (
     <View style={detail.section}>
       <Header text={Lang.Photos} more={more} />
-      <Gallery type="preview" data={previews} />
+      <Gallery type={props.type} id={props.id} photos={previews} styles={previewStyles} />
     </View>
   )
 }
@@ -66,9 +76,10 @@ export const GalleryPreview = (props) => {
 const {height, width} = Dimensions.get('window'),
   galleryStyles = StyleSheet.create({
     grid: {
+      alignItems: 'flex-start',
       flex: 1,
       flexDirection: 'row',
-      flexWrap: 'wrap',
+      flexWrap: 'wrap'
     },
     thumb: {
       height: width / 3,
@@ -77,6 +88,7 @@ const {height, width} = Dimensions.get('window'),
   }),
   previewStyles = StyleSheet.create({
     grid: {
+      alignItems: 'flex-start',
       flex: 1,
       flexDirection: 'row',
       flexWrap: 'nowrap',

@@ -7,10 +7,6 @@ var mongoose = require('mongoose'),
       type: String,
       required: true
     },
-    thumb: {
-      type: String,
-      required: true
-    },
     desc: {
       type: String,
       required: false,

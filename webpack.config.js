@@ -17,11 +17,14 @@ module.exports = {
   debug: true,
   devtool: 'sourcemap',
   noInfo: true,
-  entry: './src/api/main.js',
+  entry: {
+    api: __dirname + '/src/api/main.js',
+    static: __dirname + '/src/static/root.js'
+  },
   target: 'node',
   output: {
-    path: path.join(__dirname, 'dev/api'),
-    filename: 'index.js'
+    path: path.join(__dirname, 'dev/'),
+    filename: '[name].js'
   },
   externals: nodeModules,
   plugins: [
