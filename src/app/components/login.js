@@ -31,6 +31,7 @@ import {bindActionCreators} from 'redux'
 import * as loginActions from '../containers/actions/loginActions'
 
 import Icon from '../components/shared/Icon'
+import ImagePath from '../components/shared/ImagePath'
 
 class Login extends Component {
   constructor(props) {
@@ -136,9 +137,11 @@ class Login extends Component {
       weixinAuthButton = null
     }
 
+    const loginBackgroundUrl = ImagePath({type: 'background', path: AppSettings.loginBackground})
+
     return (
       <Modal animationType={"slide"} transparent={false} visible={this.props.showLogin}>
-        <Image source={{uri: AppSettings.assetUri + AppSettings.loginBackground}} style={styles.backgroundImage}>
+        <Image source={{uri: loginBackgroundUrl}} style={styles.backgroundImage}>
           <TouchableOpacity onPress={this.hideLogin} style={styles.closeButton}>
             <Icon backgroundColor={Graphics.colors.transparent} fillColor="rgba(255, 255, 255, 0.8)" type="close" />
           </TouchableOpacity>

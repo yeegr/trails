@@ -248,14 +248,6 @@ class App extends Component {
   }
 
   render() {
-    if (this.props.showIntro) {
-      return (
-        <AreaList
-          navigator={navigator}
-          params=""
-        />
-      )
-    }
 
     return (
       <View style={{flex: 1}}>

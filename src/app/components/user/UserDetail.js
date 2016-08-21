@@ -21,6 +21,7 @@ import {
 import ParallaxView from 'react-native-parallax-view'
 
 import Loading from '../shared/Loading'
+import ImagePath from '../shared/ImagePath'
 import Avatar from '../shared/Avatar'
 import TagList from '../shared/TagList'
 import styles from '../../styles/main'
@@ -58,11 +59,12 @@ export default class UserDetail extends Component {
     }
 
     const user = this.state.data,
-      navigator = this.props.navigator
+      navigator = this.props.navigator,
+      userBackgroundUrl = ImagePath({type: 'background', path: AppSettings.userBackground})
 
     return (
       <ParallaxView style={styles.user.wrapper}
-        backgroundSource={{uri: AppSettings.assetUri + AppSettings.userBackground }}
+        backgroundSource={{uri: userBackgroundUrl}}
         windowHeight={320}
         scrollableViewStyle={{backgroundColor: Graphics.colors.background}}
         header={(

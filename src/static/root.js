@@ -53,6 +53,11 @@ router.get('/', function(req, res, next) {
   }
 
   switch (type) {
+    case 'background':
+      width = screenWidth
+      height = null
+    break
+
     case 'hero':
       width = screenWidth
       height = width * 2 / 3
