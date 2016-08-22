@@ -1,7 +1,5 @@
 'user strict'
 
-var charList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-
 module.exports = {
   DEFAULT_PAGINATION: 20,
   USER_LIST_FIELDS: "handle avatar xp level trails events posts comments followers",
@@ -35,7 +33,8 @@ module.exports = {
   currentcyRx: /\d{0,5}.\d{0,2}/,
 
   generateRandomString: function(length) {
-    var txt = ''
+    var charList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+    txt = ''
 
     for (var i = 0; i < length; i++) {
       txt += charList.charAt(Math.floor(Math.random() * charList.length))

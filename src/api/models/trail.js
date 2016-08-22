@@ -45,23 +45,25 @@ var mongoose = require('mongoose'),
       ref: 'Area'
     }],
     difficultyLevel: {
-      type: Number,
-      required: true
+      type: Number, //1-5
+      required: true,
+      min: 1,
+      max: 5
     },
     totalDistance: {
-      type: Number
+      type: Number  //km
     },
     totalDuration: {
-      type: Number
+      type: Number  //seconds
     },
     totalElevation: {
-      type: Number
+      type: Number  //metre
     },
     maximumAltitude: {
-      type: Number
+      type: Number  //metre
     },
     averageSpeed: {
-      type: Number
+      type: Number  //km/h
     },
     description: {
       type: String,

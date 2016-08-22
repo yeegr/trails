@@ -18,7 +18,7 @@ module.exports = {
   devtool: 'sourcemap',
   noInfo: true,
   entry: {
-    api: __dirname + '/src/api/main.js',
+    api: __dirname + '/src/api/root.js',
     static: __dirname + '/src/static/root.js'
   },
   target: 'node',
