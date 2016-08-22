@@ -33,7 +33,6 @@ var log = require('./routes/log')(app),
 	order = require('./routes/order')(app)
 	comment = require('./routes/comment')(app)
 
-
 router.use(function(req, res, next) {
   next()
 })
