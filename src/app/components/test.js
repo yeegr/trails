@@ -31,10 +31,10 @@ class Test extends Component {
     return (
       <View style={{flex: 1}}>
         <ScrollView style={{flex: 1}}>
-          <View style={{height: 300, backgroundColor:'red'}} />
           <View style={{height: 300, backgroundColor:'green'}} />
           <View style={{height: 300, backgroundColor:'yellow'}} />
           <View style={{height: 300, backgroundColor:'blue'}} />
+          <View style={{height: 300, backgroundColor:'red'}} />
         </ScrollView>
       </View>
     )

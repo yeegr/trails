@@ -5,8 +5,6 @@ import {AsyncStorage} from 'react-native'
 import {Lang} from '../../settings'
 import * as ACTIONS from '../constants/newTrailConstants'
 
-const points = require('../../../points')
-
 const initState = {
   isRecording: false,
   isCalculating: false,
@@ -18,7 +16,7 @@ const initState = {
   areas: [],
   difficultyLevel: 2,
   description: '',
-  points: points,
+  points: [],
   photos: [],
   comments: []
 },

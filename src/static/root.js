@@ -79,8 +79,6 @@ router.get('/', function(req, res, next) {
     break
   }
 
-  console.log(width, height)
-
   var transformer = scale(width, height)
 
   http

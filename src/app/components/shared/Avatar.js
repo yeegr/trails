@@ -11,10 +11,8 @@ import {
   View
 } from 'react-native'
 
-import {
-  AppSettings,
-  Graphics
-} from '../../settings'
+import ImagePath from './ImagePath'
+import {Graphics} from '../../settings'
 
 const Avatar = (props) => {
   const sideLength = (props.size) ? Graphics.avatar[props.size] : Graphics.avatar.default,
@@ -30,12 +28,13 @@ const Avatar = (props) => {
         height: sideLength,
         width: sideLength
       }
-    })
+    }),
+    url = ImagePath({type: 'avatar', path: 'users/' + props.user.avatar})
 
   return (props.user) ? (
     <Image
       style={styles.avatar}
-      source={{uri: AppSettings.assetUri + 'users/' + props.user.avatar}}
+      source={{uri: url}}
     />
   ) : null
 }

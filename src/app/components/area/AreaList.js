@@ -46,7 +46,6 @@ class AreaList extends Component {
         scrollEnabled={true}
         style={styles.global.home}
       >
-      <View style={{height: 1500}}>
         {
           areas.map((area, index) => {
             return (
@@ -58,12 +57,10 @@ class AreaList extends Component {
             )
           })
         }
-      </View>
       </ScrollView>
     )
   }
 }
-
 
 function mapStateToProps(state, ownProps) {
   return {

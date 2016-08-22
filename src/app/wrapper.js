@@ -7,6 +7,7 @@ import configureStore from './containers/store/configureStore'
 import App from './components/app'
 
 let store = configureStore()
+
 class Wrapper extends Component {
   constructor(props) {
     super(props)
@@ -21,7 +22,7 @@ class Wrapper extends Component {
   }
 }
 
-//store.subscribe(() => {store.getState()})
+store.subscribe(() => {store.getState()})
 
 export default Wrapper
 //export default CodePush(Wrapper)
