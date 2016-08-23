@@ -1,13 +1,7 @@
 'user strict'
 
-import {
-  AppSettings,
-  Graphics
-} from '../settings'
-
-import {
-  StyleSheet
-} from 'react-native'
+import {StyleSheet} from 'react-native'
+import {Graphics} from '../settings'
 
 export default StyleSheet.create({
   wrapper: {
@@ -17,21 +11,20 @@ export default StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    marginTop: 64,
+    marginTop: Graphics.statusbar.height + Graphics.titlebar.height
   },
   section: {
     marginBottom: 20,
-    marginLeft: 10,
-    marginRight: 10,
     marginTop: 10,
+    paddingHorizontal: 15
+  },
+  expand: {
+    paddingRight: 5
   },
   row: {
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'flex-start'
-  },
-  expand: {
-    marginRight: 0
   },
   label: {
     color: 'gray',
@@ -48,23 +41,5 @@ export default StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 10
-  },
-  icon: {
-    backgroundColor: Graphics.colors.primary,
-    borderRadius: 4,
-    height: 48,
-    marginRight: 9,
-    marginBottom: 9,
-    width: 48
-  },
-  slider: {
-    height: 50,
-    width: 270
-  },
-  value: {
-    fontSize: 16,
-    marginHorizontal: 5,
-    textAlign: 'center',
-    width: 30,
   }
 })

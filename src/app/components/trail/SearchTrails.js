@@ -19,19 +19,18 @@ import {
   View,
 } from 'react-native'
 
-import RangeSlider from 'react-native-nmrangeslider-ios'
+//import RangeSlider from 'react-native-nmrangeslider-ios'
 
 import Icon from '../shared/Icon'
+import RangeSlider from '../shared/RangeSlider'
 import CallToAction from '../shared/CallToAction'
 import styles from '../../styles/main'
 
-export default class SearchTrails extends Component {
+class SearchTrails extends Component {
   constructor(props) {
     super(props)
     this.search = this.search.bind(this)
     this.typePressed = this.typePressed.bind(this)
-    this.onDifficultyChange = this.onDifficultyChange.bind(this)
-    this.onDistanceChange = this.onDistanceChange.bind(this)
 
     this.state = {
       keywords: '',
@@ -48,12 +47,15 @@ export default class SearchTrails extends Component {
   search() {
     let keywords = 'keywords=' + this.state.keywords,
       types = '&types=' + this.state.types,
-      minDifficultyLevel = '&minDifficulty=' + this.state.difficultyLevelLower.toString(),
-      maxDifficultyLevel = '&maxDifficulty=' + this.state.difficultyLevelUpper.toString(),
-      minDistance = '&minDistance=' + this.state.totalDistanceLower.toString(),
-      maxDistance = '&maxDistance=' + this.state.totalDistanceUpper.toString(),
-      //minRating = '&minRating=' + this.state.averageRatingLower.toString(),
-      //maxRating = '&maxRating=' + this.state.averageRatingUpper.toString(),
+      difficultyRange = this.refs.difficultyRange.getRange(),
+      distanceRange = this.refs.distanceRange.getRange(),
+      minDifficultyLevel = '&minDifficulty=' + difficultyRange[0].toString(),
+      maxDifficultyLevel = '&maxDifficulty=' + difficultyRange[1].toString(),
+      minDistance = '&minDistance=' + distanceRange[0].toString(),
+      maxDistance = '&maxDistance=' + distanceRange[1].toString(),
+      //ratingRange = this.refs.ratingRange.getRange(),
+      //minRating = '&minRating=' + ratingRange[0].toString(),
+      //maxRating = '&maxRating=' + ratingRange[1].toString(),
       query = '?' + keywords + types + minDifficultyLevel + maxDifficultyLevel + minDistance + maxDistance// + minRating + maxRating
 
     this.props.navigator.push({
@@ -76,20 +78,6 @@ export default class SearchTrails extends Component {
 
     this.setState({
       types
-    })
-  }
-
-  onDifficultyChange(range) {
-    this.setState({
-      difficultyLevelLower: range[0],
-      difficultyLevelUpper: range[1],
-    })
-  }
-
-  onDistanceChange(range) {
-    this.setState({
-      totalDistanceLower: range[0],
-      totalDistanceUpper: range[1],
     })
   }
 
@@ -117,7 +105,7 @@ export default class SearchTrails extends Component {
 
                 return (
                   <TouchableOpacity key={i} onPress={() => this.typePressed(i)}>
-                    <View style={{marginBottom: 20, marginRight: 12}}>
+                    <View style={{marginBottom: 15, marginRight: 10}}>
                       <Icon
                         backgroundColor={color}
                         stack="vertical" 
@@ -135,39 +123,27 @@ export default class SearchTrails extends Component {
           <View style={styles.search.section}>
             <Text style={styles.search.label}>{Lang.DifficultyLevel}</Text>
             <View style={styles.search.row}>
-              <Text style={styles.search.value}>{this.state.difficultyLevelLower.toString()}</Text>
-              <View>
-                <RangeSlider
-                  minimumValue={1}
-                  maximumValue={5}
-                  minimumRange={1}
-                  lowerValue={this.state.difficultyLevelLower}
-                  upperValue={this.state.difficultyLevelUpper}
-                  trackColor={Graphics.colors.primary}
-                  onChange={this.onDifficultyChange}
-                  style={styles.search.slider}
-                />
-              </View>
-              <Text style={styles.search.value}>{this.state.difficultyLevelUpper.toString()}</Text>
+              <RangeSlider
+                ref="difficultyRange"
+                minimumValue={1}
+                maximumValue={5}
+                minimumRange={1}
+                lowerValue={this.state.difficultyLevelLower}
+                upperValue={this.state.difficultyLevelUpper}
+              />
             </View>
           </View>
           <View style={styles.search.section}>
             <Text style={styles.search.label}>{Lang.TotalDistance}</Text>
             <View style={styles.search.row}>
-              <Text style={styles.search.value}>{this.state.totalDistanceLower.toString()}</Text>
-              <View>
-                <RangeSlider
-                  minimumValue={1}
-                  maximumValue={150}
-                  minimumRange={3}
-                  lowerValue={this.state.totalDistanceLower}
-                  upperValue={this.state.totalDistanceUpper}
-                  trackColor={Graphics.colors.primary}
-                  onChange={this.onDistanceChange}
-                  style={styles.search.slider}
-                />
-              </View>
-              <Text style={styles.search.value}>{this.state.totalDistanceUpper.toString()}</Text>
+              <RangeSlider
+                ref="distanceRange"
+                minimumValue={1}
+                maximumValue={150}
+                minimumRange={5}
+                lowerValue={this.state.totalDistanceLower}
+                upperValue={this.state.totalDistanceUpper}
+              />
             </View>
           </View>
         </View>
@@ -176,19 +152,5 @@ export default class SearchTrails extends Component {
     )
   }
 }
-/*
-          <View style={styles.search.section}>
-            <Text style={styles.search.label}>{Lang.AverageRating}</Text>
-            <View style={styles.search.row}>
-              <Text style={styles.search.value}>{this.state.averageRating.toString()}</Text>
-              <Slider
-                style={styles.search.slider}
-                maximumValue={5}
-                minimumValue={1}
-                step={1}
-                value={this.state.averageRating}
-                onValueChange={(value) => this.setState({averageRating: value})}
-              />
-            </View>
-          </View>
-*/
+
+export default SearchTrails

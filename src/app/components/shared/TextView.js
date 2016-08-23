@@ -18,7 +18,7 @@ const TextView = (props) => {
     fontWeight = (props.fontWeight) ? {fontWeight: props.fontWeight} : null,
     fontSize = {fontSize: Graphics.fontSizes[props.fontSize || 'default']},
     textColor = {color: (props.textColor || Graphics.textColors.default)},
-    baseStyles = Object.assign({}, props.style, fontFamily, fontSize, textColor), 
+    baseStyles = Object.assign({}, props.style, fontFamily, fontSize, textColor),
     styles = StyleSheet.create({
       text: baseStyles,
       title: Object.assign({}, baseStyles, {
