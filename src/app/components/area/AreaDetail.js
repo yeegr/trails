@@ -1,7 +1,6 @@
 'use strict'
 
 import {
-  AppSettings,
   Lang,
   Graphics
 } from '../../settings'
@@ -11,10 +10,7 @@ import React, {
   PropTypes
 } from 'react'
 
-import {
-  Text,
-  View
-} from 'react-native'
+import {View} from 'react-native'
 
 import ParallaxView from 'react-native-parallax-view'
 
@@ -63,7 +59,6 @@ class AreaDetail extends Component {
     }
 
     const url = ImagePath({type: 'hero', path: ASSET_FOLDERS.Area + '/' + area.id + '/' + area.hero})
-    //console.log(url)
 
     setTimeout(() => {
       let paraContent = this.refs.paraContent
@@ -84,12 +79,18 @@ class AreaDetail extends Component {
           <View ref="paraContent" style={[styles.detail.article]}>
             <View style={styles.detail.section}>
               <Header text={Lang.Tags} />
-              <View style={[styles.detail.grid, {marginTop: 10}]}>
+              <View style={styles.detail.grid}>
               {
-                area.tags.map(function(val, index) {
+                area.tags.map(function(i) {
                   return (
-                    <View key={index} style={{marginRight: 10, marginBottom: 10}}>
-                      <Icon sideLength={40} type={val} label={Lang.tagList.split(',')[val]} />
+                    <View key={i} style={styles.detail.icon}>
+                      <Icon
+                        sideLength={40}
+                        stack="vertical" 
+                        type={i.toString()}
+                        valueColor={Graphics.icon.labelColor}
+                        value={Lang.tagArray[i]}
+                      />
                     </View>
                   )
                 })

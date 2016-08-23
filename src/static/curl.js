@@ -3,11 +3,11 @@ var request = require('request'),
 
 module.exports = function(app) {
   app.get('/curl', function(req, res, next) {
-    getTrailInfo(res, req.query.id)
+    getTrailInfo(res, req.query.id, req.query.area)
   })
 }
 
-function getTrailInfo(res, id) {
+function getTrailInfo(res, id, area) {
   var url = 'http://www.foooooot.com/trip/' + id
 
   request({
@@ -17,7 +17,7 @@ function getTrailInfo(res, id) {
     if (!error) {
       var dom = $(body),
       title = dom.find('h1.title').get(0).innerHTML.trim(),
-      desc = dom.find('div.trip_box_description').get(0).innerHTML.trim(),
+      desc = dom.find('div.trip_box_description').get(0).innerHTML.replace(/<(?:.|\n)*?>/gm, '').replace(/\&nbsp\;/gi, '').replace(/\n/gi, '').trim(),
       desc = (desc.length < 3) ? '' : desc,
       type = dom.find('dl.trip_box_right dd:nth-child(3) a').get(0).innerHTML.trim(),
       data = dom.find('dl.trip_box_right dd:nth-child(4)').get(0).innerHTML.trim(),
@@ -106,6 +106,7 @@ function getTrailInfo(res, id) {
       getTrailPoints(res, {
         url,
         id,
+        area,
         title,
         desc,
         type: trailType,
@@ -128,7 +129,7 @@ function getTrailPoints(res, info) {
       data = calculateTrailData(points),
       trail = {
         creator: '57b91b676df29171025b9e14',
-        areas: ['57b91c046df29171025b9e17'],
+        areas: [info.area],
         title: info.title,
         description: info.desc,
         type: info.type,

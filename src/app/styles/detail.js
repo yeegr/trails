@@ -27,6 +27,10 @@ export default StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 5
   },
+  icon: {
+    marginBottom: 10,
+    marginRight: 10
+  },
   list: {
     flex: 1,
     flexDirection: 'column',
