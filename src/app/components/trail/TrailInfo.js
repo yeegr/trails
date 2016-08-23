@@ -35,12 +35,15 @@ const TrailInfo = (props) => {
 },
 styles = StyleSheet.create({
   wrapper: {
+    alignItems: 'flex-start',
     flexDirection: 'row',
+    justifyContent: 'flex-start',
     paddingBottom: 5,
     paddingHorizontal: 15,
-    paddingTop: 15,
+    marginTop: 15,
   },
   icon: {
+    height: Graphics.icon.sideLength,
     justifyContent: 'center'
   },
   content: {

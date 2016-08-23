@@ -713,9 +713,19 @@
       "mobileNumber":"#05A2E7",
       "link":"#05A2E7"
     },
+    "chart":{
+      "backgroundColor":"transparent",
+      "axisColor":"#333",
+      "gridColor":"#333",
+      "labelColor":"#000",
+      "pointColor":"#fff"
+    },
     "app":{
       "backgroundColor":"#ffffff",
-      "foregroundColor":"#000000"
+      "foregroundColor":"#000000",
+      "labelColor":"#ffffff",
+      "axisColor":"#eeeeee",
+      "gridColor":"#ff0000"
     },
     "heroImage":{
       "height":240,

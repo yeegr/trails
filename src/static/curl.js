@@ -127,16 +127,18 @@ function getTrailPoints(res, info) {
       points = JSON.parse(tmp),
       data = calculateTrailData(points),
       trail = {
+        creator: '57b91b676df29171025b9e14',
+        areas: ['57b91c046df29171025b9e17'],
         title: info.title,
         description: info.desc,
         type: info.type,
-        difficultyLevel: info.difficulty,
-        totalDistance: data.totalDistance,
-        totalDuration: data.totalDuration,
-        totalElevation: data.totalElevation,
-        maximumAltitude: data.maximumAltitude,
+        difficultyLevel: info.difficulty * 2,
         averageSpeed: data.averageSpeed,
-        points: points
+        points: points,
+//        totalDistance: data.totalDistance,
+//        totalDuration: data.totalDuration,
+//        totalElevation: data.totalElevation,
+//        maximumAltitude: data.maximumAltitude
       }
 
       res.status(200).send(JSON.stringify(trail))

@@ -113,7 +113,7 @@ export function formatDuration(seconds) {
 }
 
 export function formatTrailChartData(points) {
-  const step = Math.floor(points.length / 8)
+  const step = Math.floor(points.length / 10)
 
   let arr = [], startTime = points[0][0]
 

@@ -13,54 +13,53 @@ import React, {
 
 import {
   Dimensions,
-  View,
-  StyleSheet
+  StyleSheet,
+  View
 } from 'react-native'
 
 import Chart from 'react-native-chart'
-
 import {formatTrailChartData} from '../../../util/common'
 
-const chartColor = Graphics.textColors.overlay,
+const TrailChart = (props) => {
+  const data = formatTrailChartData(props.points)
 
-  TrailChart = (props) => {
-    const data = formatTrailChartData(props.points)
-
-    return (
-      <View style={styles.wrapper}>
-        <Chart
-          style={styles.chart}
-          data={data}
-          verticalGridStep={5}
-          type="line"
-          color={Graphics.colors.primary}
-          axisColor={chartColor}
-          axisLabelColor={chartColor}
-          gridColor={chartColor}
-        />
-      </View>
-    )
+  return (
+    <View style={styles.wrapper}>
+      <Chart
+        type="line"
+        color={Graphics.colors.primary}
+        axisColor={Graphics.chart.axisColor}
+        axisLabelColor={Graphics.chart.labelColor}
+        dataPointColor={Graphics.colors.primary}
+        dataPointFillColor={Graphics.chart.pointColor}
+        dataPointRadius={2}
+        gridColor={Graphics.chart.gridColor}
+        hideHorizontalGridLines={true}
+        hideVerticalGridLines={true}
+        style={styles.chart}
+        showDataPoint={true}
+        data={data}
+      />
+    </View>
+  )
+},
+{height, width} = Dimensions.get('window'),
+margin = 15,
+styles = StyleSheet.create({
+  wrapper: {
+    alignItems: 'center',
+    backgroundColor: Graphics.chart.backgroundColor,
+    flex: 1,
+    justifyContent: 'center',
+    marginHorizontal: margin,
+    paddingBottom: 5,
+    paddingTop: 10,
   },
-  
-  {height, width} = Dimensions.get('window'),
-  margin = 15,
-  styles = StyleSheet.create({
-    wrapper: {
-        alignItems: 'center',
-        backgroundColor: 'black',
-        flex: 1,
-        justifyContent: 'center',
-        marginHorizontal: margin,
-        paddingBottom: 5,
-        paddingRight: margin,
-        paddingTop: 10,
-    },
-    chart: {
-      flex: 1,
-      height: 360,
-      width: width - margin * 2 - margin
-    },
-  })
+  chart: {
+    height: 320,
+    width: width - margin * 2 - 10
+  },
+})
 
 TrailChart.propTypes = {
   points: PropTypes.array.isRequired

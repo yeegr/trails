@@ -104,7 +104,8 @@ class TrailDetail extends Component {
             <View style={styles.detail.section}>
               <TrailInfo type={trail.type} title={trail.title} date={trail.date}/>
               {toolbar}
-              <TrailData difficultyLevel={trail.difficultyLevel}
+              <TrailData
+                difficultyLevel={trail.difficultyLevel}
                 totalDuration={trail.totalDuration}
                 totalDistance={trail.totalDistance}
                 totalElevation={trail.totalElevation}
@@ -114,6 +115,7 @@ class TrailDetail extends Component {
               <View style={[styles.global.map, {marginHorizontal: 15}]}>
                 <TrailMap points={trail.points} />
               </View>
+              <TrailChart points={trail.points} />
             </View>
             <View style={[styles.detail.section, {marginHorizontal: 15}]}>
               <UserLink user={creator} navigator={navigator} showArrow={true} />

@@ -61,7 +61,7 @@ const TrailData = (props) => {
         stack={stack}
         textColr={Graphics.icon.valueColor}
         label={Lang.TotalDistance}
-        value={props.totalDistance.toFixed(3) + Lang.Kilometre}
+        value={props.totalDistance.toFixed(1) + Lang.Kilometre}
       />
       <Icon
         backgroundColor={Graphics.colors.transparent}
