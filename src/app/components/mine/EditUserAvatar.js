@@ -28,13 +28,15 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as loginActions from '../../containers/actions/loginActions'
 
+import ImagePath from '../shared/ImagePath'
+
 class EditUserAvatar extends Component {
   constructor(props) {
     super(props)
     this.selectPhoto = this.selectPhoto.bind(this)
 
     this.state = {
-      sourceUri: AppSettings.assetUri + 'users/' + this.props.user.avatar
+      sourceUri: ImagePath({type: 'avatar', path: 'users/' + this.props.user.avatar}) 
     }
   }
 
