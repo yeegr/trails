@@ -8,22 +8,21 @@ import React, {
 import {
   Alert,
   Dimensions,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native'
 
 import MapView from 'react-native-maps'
+import CoordTransform from 'coordtransform'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../containers/actions/newTrailActions'
 
-import CallToAction from '../shared/CallToAction'
 import TextView from '../shared/TextView'
-import {calculatPointDistance, setRegion, formatTrailPoints} from '../../../util/common'
-import * as Coord from '../../../util/coord'
+import CallToAction from '../shared/CallToAction'
 import {Lang, Graphics} from '../../settings'
+import {calculatPointDistance, setRegion, formatTrailPoints} from '../../../util/common'
 import styles from '../../styles/main'
 
 class RecordTrail extends Component {
@@ -41,8 +40,8 @@ class RecordTrail extends Component {
     this.state = {
       ASPECT_RATIO: 9 / 16,
       currentPosition: {
-        latitude: 39.916667,
-        longitude: 116.383333,
+        latitude: 39.900392,
+        longitude: 116.397855,
         altitude: 1,
         speed: 0
       },
@@ -77,8 +76,8 @@ class RecordTrail extends Component {
           }),
           {
             enableHighAccuracy: true,
-            timeout: 20000,
-            maximumAge: 1000
+            timeout: 5000,
+            maximumAge: 0
           }
         )
       }
@@ -95,6 +94,15 @@ class RecordTrail extends Component {
       title: Lang.EditTrail,
       props: {
       }
+    })
+  }
+
+  _convertCoords(coords) {
+    let gcj = CoordTransform.wgs84togcj02(coords.longitude, coords.latitude)
+
+    return Object.assign({}, coords, {
+      latitude: parseFloat(gcj[1].toFixed(7)),
+      longitude: parseFloat(gcj[0].toFixed(8))
     })
   }
 
@@ -136,15 +144,6 @@ class RecordTrail extends Component {
     })
   }
 
-  _convertCoords(coords) {
-    let gcj = Coord.wgs2gcj(coords.latitude, coords.longitude)
-
-    return Object.assign({}, coords, {
-      latitude: parseFloat(gcj.lat.toFixed(7)),
-      longitude: parseFloat(gcj.lng.toFixed(8))
-    })
-  }
-
   componentWillMount() {
     this.props.newTrailActions.createTrail(this.props.user)
   }
@@ -159,16 +158,16 @@ class RecordTrail extends Component {
     }, 500)
 
     navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.setState({
-          currentPosition: this._convertCoords(this._formatCoords(position.coords))
-        })
-      },
+      (position) => this.setState({
+        currentPosition: this._formatCoords(this._convertCoords(position.coords))
+      }),
       (error) => this.setState({
         currentPosition: {
           timestamp: Math.round((new Date()).getTime() / 1000),
-          latitude: 39.916667,
-          longitude: 116.3833333,
+//          latitude: 39.916667,
+//          longitude: 116.3833333,
+          latitude: this.state.baseCoord.latitude,
+          longitude: this.state.baseCoord.longitude,
           altitude: 55,
           speed: 0
         },
@@ -176,8 +175,8 @@ class RecordTrail extends Component {
       }),
       {
         enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 1000
+        timeout: 5000,
+        maximumAge: 0
       }
     )
   }
@@ -187,14 +186,6 @@ class RecordTrail extends Component {
   } 
 
   render() {
-    let path = (this.props.newTrail.isRecording && this.state.path.length > 0) ? (
-      <MapView.Polyline
-        coordinates={this.state.path}
-        strokeColor={Graphics.mapping.strokeColor}
-        strokeWidth={Graphics.mapping.strokeWeight}
-      />
-    ) : null
-
     return (
       <View style={{flex: 1, marginTop: 64}}>
         <View ref="map" style={{flex: 1}}>
@@ -215,13 +206,8 @@ class RecordTrail extends Component {
             followUserLocation={true}
             region={setRegion(this.state.currentPosition, this.state.ASPECT_RATIO)}
           >
-            {path}
             <MapView.Polyline
-              coordinates={[
-                this._convertCoords({latitude: 39.906667, longitude: 116.373333}),
-                this._convertCoords({latitude: 39.926667, longitude: 116.393333}),
-                this._convertCoords({latitude: 39.926667, longitude: 116.393333})
-              ]}
+              coordinates={this.state.path}
               strokeColor={Graphics.mapping.strokeColor}
               strokeWidth={Graphics.mapping.strokeWeight}
             />
@@ -233,7 +219,7 @@ class RecordTrail extends Component {
           backgroundColor={(this.props.newTrail.isRecording) ? Graphics.colors.warning : Graphics.colors.primary}
         />
         <View style={{height: 60}}>
-          <TextView text={JSON.stringify(this.state.path)} />
+          <TextView text={this.state.points.length.toString()} />
         </View>
       </View>
     )

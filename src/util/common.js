@@ -162,13 +162,12 @@ export function getMapCenter(points) {
   return {
     latitude: totalLat / points.length,
     longitude: totalLng / points.length,
-    latitudeDelta: latDelta * 1.2,
-    longitudeDelta: lngDelta * 1.2
+    latitudeDelta: latDelta * 1.5,
+    longitudeDelta: lngDelta * 1.5
   }
 }
 
 const earthRadiusInKm = 6371
-const earthRadiusInM = 6378135
 
 function rad2deg(radians) {
   return radians * 180 / Math.PI
