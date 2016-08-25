@@ -37,4 +37,6 @@ AppSettings.trailTypes = [0,1,2,3,4,5,6,7,8,9]
 AppSettings.paymentMethods = Lang.payments
 
 export const Graphics = settings.graphics
+Graphics.page = {}
+Graphics.page.marginTop = Graphics.statusbar.height + Graphics.titlebar.height
 export const WebViewCSS = '<style>img {max-width: 100%} p {text-indent: 2em}</style>'

@@ -22,7 +22,7 @@ import {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as newTrailActions from '../../containers/actions/newTrailActions'
+import * as newTrailActions from '../../redux/actions/newTrailActions'
 
 import {ACTION_TARGETS} from '../../../util/constants'
 import {showTrailDifficulty} from '../../../util/common'

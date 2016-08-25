@@ -25,8 +25,8 @@ import Moment from 'moment'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as eventsActions from '../../containers/actions/eventsActions'
-import * as loginActions from '../../containers/actions/loginActions'
+import * as eventsActions from '../../redux/actions/eventsActions'
+import * as loginActions from '../../redux/actions/loginActions'
 import {ACTION_TARGETS} from '../../../util/constants'
 
 import TextView from '../shared/TextView'

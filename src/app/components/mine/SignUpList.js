@@ -94,7 +94,7 @@ class SignUpList extends Component {
     groups = event.groups
 
     return (
-      <View style={{flex: 1, marginTop: Graphics.statusbar.height + Graphics.titlebar.height}}>
+      <View style={{flex: 1, marginTop: Graphics.page.marginTop}}>
         <TouchableOpacity onPress={() => this.eventPage(event._id)}>
           <TextView
             style={{fontWeight: '400', marginBottom: 5, marginTop: 15, paddingHorizontal: 15}}

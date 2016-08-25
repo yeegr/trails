@@ -23,7 +23,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../containers/actions/newEventActions'
+import * as newEventActions from '../../redux/actions/newEventActions'
 
 import Loading from '../shared/Loading'
 import Agenda from '../shared/Agenda'

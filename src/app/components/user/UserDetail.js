@@ -14,8 +14,7 @@ import React, {
 import {
   View,
   Image,
-  Text,
-  TabBarIOS
+  Text
 } from 'react-native'
 
 import ParallaxView from 'react-native-parallax-view'

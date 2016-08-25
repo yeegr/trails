@@ -29,7 +29,7 @@ import Chart from 'react-native-chart'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as trailsActions from '../../containers/actions/trailsActions'
+import * as trailsActions from '../../redux/actions/trailsActions'
 import {ACTION_TARGETS} from '../../../util/constants'
 
 import Loading from '../shared/Loading'
@@ -48,8 +48,6 @@ import styles from '../../styles/main'
 class TrailDetail extends Component {
   constructor(props) {
     super(props)
-
-    console.log(this.props.newTrail)
   }
 
   componentWillMount() {

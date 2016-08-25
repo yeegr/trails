@@ -19,7 +19,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as eventsActions from '../../containers/actions/eventsActions'
+import * as eventsActions from '../../redux/actions/eventsActions'
 
 import Loading from '../shared/Loading'
 import TextView from '../shared/TextView'

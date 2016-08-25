@@ -26,7 +26,7 @@ import ImagePicker from 'react-native-image-picker'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../containers/actions/newEventActions'
+import * as newEventActions from '../../redux/actions/newEventActions'
 
 class EditEventHero extends Component {
   constructor(props) {

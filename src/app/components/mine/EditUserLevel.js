@@ -19,7 +19,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../containers/actions/loginActions'
+import * as loginActions from '../../redux/actions/loginActions'
 
 import TextView from '../shared/TextView'
 import Icon from '../shared/Icon'

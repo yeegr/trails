@@ -11,12 +11,12 @@ export default StyleSheet.create({
   home: {
     flex: 1,
     marginBottom: Graphics.tabbar.height,
-    paddingTop: Graphics.statusbar.height + Graphics.titlebar.height,
+    paddingTop: Graphics.page.marginTop,
   },
   main: {
     backgroundColor: Graphics.colors.background,
     flex: 1,
-    paddingTop: Graphics.statusbar.height + Graphics.titlebar.height
+    paddingTop: Graphics.page.marginTop
   },
   map: {
     backgroundColor: Graphics.colors.lightGray,

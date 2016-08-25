@@ -19,7 +19,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as postsActions from '../../containers/actions/postsActions'
+import * as postsActions from '../../redux/actions/postsActions'
 import {ACTION_TARGETS} from '../../../util/constants'
 
 import Loading from '../shared/Loading'

@@ -21,7 +21,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../containers/actions/loginActions'
+import * as loginActions from '../../redux/actions/loginActions'
 
 import TextButton from '../shared/TextButton'
 import styles from '../../styles/main'

@@ -18,7 +18,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as areasActions from '../../containers/actions/areasActions'
+import * as areasActions from '../../redux/actions/areasActions'
 
 import Loading from '../shared/Loading'
 import AreaCard from './AreaCard'

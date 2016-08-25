@@ -23,7 +23,7 @@ import Immutable from 'immutable'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../containers/actions/newEventActions'
+import * as newEventActions from '../../redux/actions/newEventActions'
 
 import TextView from '../shared/TextView'
 import EditLink from '../shared/EditLink'

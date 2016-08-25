@@ -19,7 +19,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as introActions from '../containers/actions/introActions'
+import * as introActions from '../redux/actions/introActions'
 
 import AppIntro from 'react-native-app-intro'
 

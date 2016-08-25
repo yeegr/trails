@@ -21,7 +21,7 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
-import * as loginActions from '../containers/actions/loginActions'
+import * as loginActions from '../redux/actions/loginActions'
 import {
   HOME_TABS,
   ACTION_TARGETS
@@ -82,8 +82,6 @@ import Comments from './shared/Comments'
 import Gallery from './shared/Gallery'
 import TextView from './shared/TextView'
 import styles from '../styles/main'
-
-import Test from './test'
 
 const NavigationBarRouteMapper = (tabId, login, loginActions) => ({
   LeftButton: function(route, navigator, index, navState) {

@@ -61,6 +61,10 @@ export function zerorize(n) {
   return (n < 10) ? '0' + n.toString() : n.toString()
 }
 
+export function getTimestamp() {
+  return Math.round((new Date()).getTime() / 1000)
+}
+
 // format trail data
 export function calculatPointDistance(p1, p2) {
   let distLat = deg2rad(p2.latitude - p1.latitude),
@@ -113,9 +117,11 @@ export function formatDuration(seconds) {
 }
 
 export function formatTrailChartData(points) {
-  const step = Math.floor(points.length / 10)
+  let step = Math.floor(points.length / 10),
+  arr = [],
+  startTime = points[0][0]
 
-  let arr = [], startTime = points[0][0]
+  step = (step < 1) ? 1 : step
 
   points.map((point, index) => {
     if (index % step === 0) {
@@ -302,3 +308,5 @@ export function calculateInsurance(event, user) {
 
   return (Math.round(base * coef * 100) / 100)
 }
+
+

@@ -19,8 +19,8 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../containers/actions/loginActions'
-import * as toolbarActions from '../../containers/actions/toolbarActions'
+import * as loginActions from '../../redux/actions/loginActions'
+import * as toolbarActions from '../../redux/actions/toolbarActions'
 import {USER_ACTIONS, TOOLBAR_TYPE_KEYS} from '../../../util/constants'
 
 import Icon from './Icon'

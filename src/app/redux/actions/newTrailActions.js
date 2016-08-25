@@ -32,6 +32,7 @@ export const stopRecording = () => {
 }
 
 export const saveTrailPoints = (points) => {
+  console.log(points)
   return {
     type: ACTIONS.SAVE_TRAIL_POINTS,
     points

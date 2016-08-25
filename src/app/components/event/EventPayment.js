@@ -21,7 +21,7 @@ import ParallaxView from 'react-native-parallax-view'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as eventsActions from '../../containers/actions/eventsActions'
+import * as eventsActions from '../../redux/actions/eventsActions'
 
 import Intro from '../shared/Intro'
 import InfoItem from '../shared/InfoItem'

@@ -22,8 +22,8 @@ import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as commentsActions from '../../containers/actions/commentsActions'
-import * as loginActions from '../../containers/actions/loginActions'
+import * as commentsActions from '../../redux/actions/commentsActions'
+import * as loginActions from '../../redux/actions/loginActions'
 
 import Loading from './Loading'
 import Avatar from './Avatar'
@@ -70,7 +70,7 @@ class Comments extends Component {
 
     return (
       <View style={styles.global.wrapper}>
-        <ScrollView style={{flex: 1, paddingTop: Graphics.statusbar.height + Graphics.titlebar.height + 15}}>
+        <ScrollView style={{flex: 1, paddingTop: Graphics.page.marginTop + 15}}>
           <CommentList comments={comments} />
         </ScrollView>
         <InputBar

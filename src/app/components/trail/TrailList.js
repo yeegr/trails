@@ -21,7 +21,7 @@ import {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as trailsActions from '../../containers/actions/trailsActions'
+import * as trailsActions from '../../redux/actions/trailsActions'
 
 import Loading from '../shared/Loading'
 import TrailCard from './TrailCard'

@@ -21,8 +21,8 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../containers/actions/loginActions'
-import {changeTab} from '../../containers/actions/homeActions'
+import * as loginActions from '../../redux/actions/loginActions'
+import {changeTab} from '../../redux/actions/homeActions'
 
 import EditLink from '../shared/EditLink'
 import CallToAction from '../shared/CallToAction'

@@ -15,7 +15,7 @@ import {View} from 'react-native'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../containers/actions/newEventActions'
+import * as newEventActions from '../../redux/actions/newEventActions'
 
 import ListEditor from '../shared/ListEditor'
 import styles from '../../styles/main'

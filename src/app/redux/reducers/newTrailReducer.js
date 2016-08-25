@@ -42,6 +42,7 @@ newTrailReducer = (state = initState, action) => {
       })
 
     case ACTIONS.SAVE_TRAIL_POINTS:
+    console.log(action.points)
       return Object.assign({}, state, {
         points: action.points
       })

@@ -11,7 +11,7 @@ export default StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    marginTop: Graphics.statusbar.height + Graphics.titlebar.height
+    marginTop: Graphics.page.marginTop
   },
   section: {
     marginBottom: 20,

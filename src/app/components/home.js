@@ -14,10 +14,10 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as homeActions from '../containers/actions/homeActions'
+import * as homeActions from '../redux/actions/homeActions'
 
-import {changeTab} from '../containers/actions/homeActions'
-import {showLogin} from '../containers/actions/loginActions'
+import {changeTab} from '../redux/actions/homeActions'
+import {showLogin} from '../redux/actions/loginActions'
 import {HOME_TABS} from '../../util/constants'
 
 import AreaList from './area/AreaList'

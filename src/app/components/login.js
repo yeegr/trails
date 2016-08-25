@@ -28,7 +28,7 @@ import * as WeChat from 'react-native-wechat'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../containers/actions/loginActions'
+import * as loginActions from '../redux/actions/loginActions'
 
 import Icon from '../components/shared/Icon'
 import ImagePath from '../components/shared/ImagePath'

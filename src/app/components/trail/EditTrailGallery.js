@@ -22,7 +22,7 @@ import CameraRollPicker from 'react-native-camera-roll-picker'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newTrailActions from '../../containers/actions/newTrailActions'
+import * as newTrailActions from '../../redux/actions/newTrailActions'
 
 class EditTrailGallery extends Component {
   constructor(props) {

@@ -14,7 +14,6 @@ import React, {
 import {
   AsyncStorage,
   Image,
-  TabBarIOS,
   Text,
   View
 } from 'react-native'
@@ -23,7 +22,7 @@ import ParallaxView from 'react-native-parallax-view'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as loginActions from '../../containers/actions/loginActions'
+import * as loginActions from '../../redux/actions/loginActions'
 
 import Loading from '../shared/Loading'
 import ImagePath from '../shared/ImagePath'

@@ -23,6 +23,8 @@ import {formatTrailChartData} from '../../../util/common'
 const TrailChart = (props) => {
   const data = formatTrailChartData(props.points)
 
+console.log(data)
+
   return (
     <View style={styles.wrapper}>
       <Chart

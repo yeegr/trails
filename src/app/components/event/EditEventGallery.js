@@ -22,7 +22,7 @@ import CameraRollPicker from 'react-native-camera-roll-picker'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../containers/actions/newEventActions'
+import * as newEventActions from '../../redux/actions/newEventActions'
 
 class EditEventGallery extends Component {
   constructor(props) {
