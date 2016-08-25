@@ -2,8 +2,17 @@
 #
 !node_modules/
 node_modules/*
+
+!node_modules/react-native-nmrangeslider-ios/
+node_modules/react-native-nmrangeslider-ios/*
 !node_modules/react-native-nmrangeslider-ios/NMRangeSliderIOS.js
+
+!node_modules/react-native-parallax-view/
+node_modules/react-native-parallax-view/*
+!node_modules/react-native-parallax-view/lib/
+node_modules/react-native-parallax-view/lib/*
 !node_modules/react-native-parallax-view/lib/ParallaxView.js
+
 npm-debug.log
 typings
 dist
