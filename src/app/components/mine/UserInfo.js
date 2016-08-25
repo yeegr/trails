@@ -102,6 +102,7 @@ class UserInfo extends Component {
     const {user} = this.props,
       userBackgroundUrl = ImagePath({type: 'background', path: AppSettings.userBackground})
 
+console.log(userBackgroundUrl)
     return (
       <ParallaxView style={styles.user.wrapper}
         backgroundSource={{uri: userBackgroundUrl}}
