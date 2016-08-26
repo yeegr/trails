@@ -39,6 +39,7 @@ import RecordTrail from './trail/RecordTrail'
 import EditTrail from './trail/EditTrail'
 import EditTrailTitle from './trail/EditTrailTitle'
 import EditTrailType from './trail/EditTrailType'
+import SelectTrailAreas from './trail/SelectTrailAreas'
 import EditTrailDifficulty from './trail/EditTrailDifficulty'
 import EditTrailDescription from './trail/EditTrailDescription'
 import EditTrailGallery from './trail/EditTrailGallery'
@@ -343,6 +344,14 @@ class App extends Component {
               case 'EditTrailTitle':
                 return (
                   <EditTrailTitle
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'SelectTrailAreas':
+                return (
+                  <SelectTrailAreas
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />

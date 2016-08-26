@@ -14,6 +14,7 @@ const initState = {
   title: Lang.Unnamed,
   type: 0,
   areas: [],
+  areasText: [],
   difficultyLevel: 2,
   description: '',
   points: [],
@@ -42,7 +43,6 @@ newTrailReducer = (state = initState, action) => {
       })
 
     case ACTIONS.SAVE_TRAIL_POINTS:
-    console.log(action.points)
       return Object.assign({}, state, {
         points: action.points
       })
@@ -50,6 +50,12 @@ newTrailReducer = (state = initState, action) => {
     case ACTIONS.SET_TRAIL_TITLE:
       return Object.assign({}, state, {
         title: action.title
+      })
+
+    case ACTIONS.SET_TRAIL_AREAS:
+      return Object.assign({}, state, {
+        areas: action.areas,
+        areasText: action.areasText
       })
 
     case ACTIONS.SET_TRAIL_TYPE:

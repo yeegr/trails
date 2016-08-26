@@ -2,6 +2,7 @@
 
 module.exports = {
   DEFAULT_PAGINATION: 20,
+  VIRTUAL_FIELS: " likes likeCount saves saveCount shares shareCount comments commentCount ratingAverage",
   USER_LIST_FIELDS: "handle avatar xp level trails events posts comments followers",
   ACTIONS: {
     COMMON: ["CREATE", "UPDATE", "DELETE"],

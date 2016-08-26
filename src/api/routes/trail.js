@@ -9,7 +9,11 @@ module.exports = function(app) {
   function getOneById(id, res, statusCode) {
     Trail
     .findById(id)
-    .populate('creator', CONST.USER_LIST_FIELDS)
+    .populate({
+      path: 'creator',
+      modal: 'User',
+      select: CONST.USER_LIST_FIELDS
+    })
     .populate({
       path: 'comments',
       modal: 'Comment',

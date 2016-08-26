@@ -9,7 +9,7 @@ const areasReducer = (state = {
   area: null
 }, action) => {
   switch (action.type) {
-   case ACTIONS.REQUEST_AREAS:
+    case ACTIONS.REQUEST_AREAS:
       return Object.assign({}, state, {
         isFetching: true
       })

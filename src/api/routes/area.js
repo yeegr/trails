@@ -77,17 +77,31 @@ module.exports = function(app) {
 
   /* List */
   app.get('/areas', function(req, res, next) {
-    var query = {}
+    var query = {},
+    options = {}
+
+    options.select = ''
 
     if (req.query.city) {
       query.city = req.query.city
     }
 
+    if (req.query.type) {
+      switch (req.query.type) {
+        case 'compact':
+          options.select = 'name hero' + CONST.VIRTUAL_FIELS
+        break
+      }
+    }
+
     Area
     .find(query)
+    .select(options.select)
     .limit(CONST.DEFAULT_PAGINATION)
     .populate({
       path: 'leaders',
+      modal: 'User',
+      select: CONST.USER_LIST_FILEDS,
       options: {
         limit: 3
       }

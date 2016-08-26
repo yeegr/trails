@@ -32,7 +32,7 @@ class PostList extends Component {
     })
   }
 
-  componentDidMount() {
+  componentWillMount() {
     let params = this.props.query || this.props.params
     this.props.postsActions.listPosts(params)
   }

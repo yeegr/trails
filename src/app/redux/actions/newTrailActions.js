@@ -32,7 +32,6 @@ export const stopRecording = () => {
 }
 
 export const saveTrailPoints = (points) => {
-  console.log(points)
   return {
     type: ACTIONS.SAVE_TRAIL_POINTS,
     points
@@ -43,6 +42,14 @@ export const setTrailTitle = (title) => {
   return {
     type: ACTIONS.SET_TRAIL_TITLE,
     title
+  }
+}
+
+export const setTrailAreas = (areas, areasText) => {
+  return {
+    type: ACTIONS.SET_TRAIL_AREAS,
+    areas,
+    areasText
   }
 }
 

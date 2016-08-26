@@ -6,7 +6,6 @@
     "baseUri":"http://192.168.0.102/",
     "apiUri":"http://192.168.0.102:3000/",
     "assetUri":"http://192.168.0.102:8000/",
-    "locationFollowInterval":1000,
     "maxLeadersPerArea":3,
     "maxTrailPreviewsPerArea":3,
     "maxPhotoPreviewsPerGallery":4,
@@ -45,6 +44,7 @@
 
     "Confirm":"确定",
     "Cancel":"取消",
+    "Pause":"暂停",
 
     "Login":"登录",
     "LoginOrRegister":"登录或注册",
@@ -86,7 +86,7 @@
     "MoreTrails":"更多轨迹",
     "TrailType":"轨迹类型",
     "TrailTypes":"轨迹类型",
-    "SelectArea":"选择属区",
+    "SelectAreas":"选择属区",
     "TrailData":"轨迹数据",
     "TrailTitle":"轨迹名称",
     "TrailPreview":"轨迹预览",

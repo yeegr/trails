@@ -41,8 +41,8 @@ const EditTrail = (props) => {
       break;
 
       case 'area':
-        id = 'SelectTrailArea',
-        title = Lang.SelectArea
+        id = 'SelectTrailAreas',
+        title = Lang.SelectAreas
       break;
 
       case 'desc':
@@ -75,6 +75,7 @@ const EditTrail = (props) => {
       id,
       title,
       passProps: {
+        city: '010',
         preview: (type === 'preview')
       }
     })
@@ -98,7 +99,7 @@ const EditTrail = (props) => {
         </Text>
       </View>
     </View>
-  ) : null 
+  ) : null
 
   return (
     <View style={styles.global.wrapper}>
@@ -124,7 +125,7 @@ const EditTrail = (props) => {
           <EditLink onPress={() => nextPage('title')} value={props.newTrail.title} required={true} label={Lang.TrailTitle} />
           <EditLink onPress={() => nextPage('type')} value={Lang.tagArray[props.newTrail.type]} required={true} label={Lang.TrailType} />
           <EditLink onPress={() => nextPage('difficulty')} value={showTrailDifficulty(props.newTrail.difficultyLevel)} required={true} label={Lang.DifficultyLevel} />
-          <EditLink onPress={() => nextPage('area')} value={props.newTrail.areas.join()} required={props.newTrail.isPublic} label={Lang.SelectArea} />
+          <EditLink onPress={() => nextPage('area')} value={props.newTrail.areasText.join(',')} required={true} label={Lang.SelectAreas} />
           <EditLink onPress={() => nextPage('desc')} value={props.newTrail.description} label={Lang.Description} />
           <EditLink onPress={() => nextPage('photos')} value={props.newTrail.photos.length} label={Lang.Photos} />
         </View>
