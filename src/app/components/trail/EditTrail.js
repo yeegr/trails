@@ -77,7 +77,7 @@ const EditTrail = (props) => {
       id,
       title,
       passProps: {
-        city: '010',
+        city: AppSettings.defaultcity,
         preview: (type === 'preview')
       }
     })

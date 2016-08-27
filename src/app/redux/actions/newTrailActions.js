@@ -122,6 +122,25 @@ export const setTrailPrivacy = (value) => {
   }
 }
 
+export const saveTrail = () => {
+  return (dispatch, getState) => {
+    const newTrail = getState().newTrail
+
+    if (validateTrail(newTrail)) {
+      dispatch(uploadTrail(newTrail))
+    }
+  }
+}
+
+const validateTrail = (trail) => {
+  return (
+    (trail.title.length > AppSettings.minTrailTitleLength) && 
+    (trail.type > -1) && 
+    (trail.difficultyLevel > -1) && 
+    (trail.areas.length > 0)
+  )
+}
+
 const sendUploadRequest = (trail) => {
   return {
     type: ACTIONS.SAVE_TRAIL,
@@ -130,7 +149,6 @@ const sendUploadRequest = (trail) => {
 }
 
 const receiveUploadResponse = (trail) => {
-  console.log(trail)
   return {
     type: ACTIONS.SAVE_TRAIL_SUCCESS,
     trail
@@ -144,14 +162,12 @@ const uploadError = (message) => {
   }
 }
 
-export const uploadTrail = (data) => {
+const uploadTrail = (data) => {
   let config = Object.assign({}, CONFIG.POST, {
     body: JSON.stringify(data)
   })
 
   return (dispatch) => {
-    console.log(dispatch)
-
     dispatch(sendUploadRequest(data))
 
     return fetch(AppSettings.apiUri + 'trails', config)
@@ -159,8 +175,6 @@ export const uploadTrail = (data) => {
         return res.json()
       })
       .then((res) => {
-        console.log('response')
-        console.log(res)
         if (res.id) {
           dispatch(receiveUploadResponse(res))
         } else {
@@ -169,27 +183,5 @@ export const uploadTrail = (data) => {
         }
       })
       .catch((err) => dispatch(saveError(err)))
-  }
-}
-
-const validateTrail = (state) => {
-  console.log(state)
-  return (
-    (state.title.length > AppSettings.minTrailTitleLength) && 
-    (state.type > -1) && 
-    (state.difficultyLevel > -1) && 
-    (state.areas.length > 0)
-  )
-}
-
-export const saveTrail = () => {
-  return (dispatch, getState) => {
-    const newTrail = getState().newTrail
-
-    console.log('validate: ' + validateTrail(newTrail))
-
-    if (validateTrail(newTrail)) {
-      dispatch(uploadTrail(newTrail))
-    }
   }
 }

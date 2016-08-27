@@ -21,7 +21,7 @@ const initState = {
   isPublic: false,
   privacyStatus: 'private',
   title: '',
-  city: '010',
+  city: AppSettings.defaultCity,
   type: 0,
   hero: '',
   description: '',

@@ -187,7 +187,7 @@ class EditEvent extends Component {
             <View style={styles.editor.link}>
               <View style={styles.editor.label}>
                 <TextView
-                  textColor={Graphics.textColors.required}
+                  textColor={Graphics.colors.primary}
                   text={Lang.PrivacySetting}
                 />
               </View>
@@ -204,21 +204,21 @@ class EditEvent extends Component {
             </View>
           </View>
           <View style={styles.editor.group}>
-            <EditLink onPress={() => this.nextPage('title')} value={(event.title.length > 0) ? event.title : Lang.Unnamed} required={true} label={Lang.EventTitle} />
-            <EditLink onPress={() => this.setState({showCityPicker: true})} value={Lang.cities[event.city]} required={true} label={Lang.DepartCity} />
-            <EditLink onPress={() => this.nextPage('hero')} value={(event.hero !== '') ? '' : ''} required={true} label={Lang.HeroImage} />
-            <EditLink onPress={() => this.setState({showTypePicker: true})} value={Lang.tagArray[event.type]} required={true} label={Lang.EventType} />
-            <EditLink onPress={() => this.nextPage('groups')} value={event.groups.length.toString()} required={true} label={Lang.EventGroups} />
+            <EditLink onPress={() => this.nextPage('title')} value={(event.title.length >= AppSettings.minEventTitleLength) ? event.title : Lang.Unnamed} required={true} validated={(event.title.length >= AppSettings.minEventTitleLength)} label={Lang.EventTitle} />
+            <EditLink onPress={() => this.setState({showCityPicker: true})} value={Lang.cities[event.city]} required={true} validated={(event.city !== null)} label={Lang.DepartCity} />
+            <EditLink onPress={() => this.nextPage('hero')} value={(event.hero !== '') ? '' : ''} required={true} validated={(event.hero !== '')} label={Lang.HeroImage} />
+            <EditLink onPress={() => this.setState({showTypePicker: true})} value={Lang.tagArray[event.type]} required={true} validated={(event.type > -1)} label={Lang.EventType} />
+            <EditLink onPress={() => this.nextPage('groups')} value={event.groups.length.toString()} required={true} validated={(event.groups.length > 0)} label={Lang.EventGroups} />
             <EditLink onPress={() => this.setState({showDateTimePicker: true})} value={Moment(this.convertTimeToDatetime(event.gatherTime)).format('HH:mm')} label={Lang.GatherTime} />
             <EditLink onPress={() => this.setState({showGatherLocationPicker: true})} value={event.gatherLocation.name} label={Lang.GatherLocation} />
             <EditLink onPress={() => this.nextPage('contacts')} value={this.showContacts()} label={Lang.Contacts} />
             <EditLink onPress={() => this.nextPage('limits')} value={event.minAttendee.toString() + ' - ' + event.maxAttendee.toString() + Lang.Persons} label={Lang.AttendeeLimits} />
           </View>
           <View style={styles.editor.group}>
-            <EditLink onPress={() => this.nextPage('agenda')} label={Lang.DetailSchedule} required={true} />
+            <EditLink onPress={() => this.nextPage('agenda')} label={Lang.DetailSchedule} required={true} validated={(event.schedule.length > 0)} />
           </View>
           <View style={styles.editor.group}>
-            <EditLink onPress={() => this.nextPage('expenses')} label={Lang.EventExpenses} value={event.expenses.perPerson + Lang.Yuan} required={true} />
+            <EditLink onPress={() => this.nextPage('expenses')} label={Lang.EventExpenses} value={event.expenses.perPerson + Lang.Yuan} required={true} validated={(event.expenses.perPerson !== null && event.expenses.perPerson > -1)} />
             <EditLink onPress={() => this.nextPage('gears')} value={event.gears.images.length.toString()} label={Lang.GearsToBring} />
           </View>
           <View style={styles.editor.group}>

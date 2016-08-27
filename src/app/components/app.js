@@ -231,6 +231,10 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
         case ACTION_TARGETS.TRAIL:
           dispatch(newTrailActions.saveTrail())
         break
+
+        case ACTION_TARGETS.EVENT:
+          dispatch(newEventActions.saveEvent())
+        break
       }
     } else {
       dispatch(loginActions.showLogin())      

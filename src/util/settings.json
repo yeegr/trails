@@ -13,6 +13,7 @@
     "maxCommentPreviewsPerTrail":3,
     "maxCommentPreviews":3,
     "minTrailTitleLength":6,
+    "minEventTitleLength":6,
     "getValidationTimer":5,
     "mobileNumberLength":11,
     "validationCodeLength":6,
@@ -23,6 +24,7 @@
     "minEventAttendees":40,
     "maxEventAttendees":50,
     "defaultPaymentMethod":"Alipay",
+    "defaultCity":"010",
 
     "sdks": {
       "amap":"cc81643ef299be79cc3b6aad2a1ac212",

@@ -149,3 +149,73 @@ export const setEventPhotos = (photos) => {
     photos
   }
 }
+
+export const saveEvent = () => {
+  return (dispatch, getState) => {
+    const newEvent = getState().newEvent
+
+    if (validateEvent(newEvent)) {
+      dispatch(uploadEvent(newEvent))
+    }
+  }
+}
+
+const validateEvent = (event) => {
+  return (
+    (event.isPublic !== null && event.isPublic !== undefined) &&
+    (event.title.length > AppSettings.minEventTitleLength) &&
+    (event.city.length > 2) && 
+    (event.hero.length > 0) && 
+    (event.type > -1) && 
+    (event.groups.length > 0) && 
+    (event.schedule.length > 0) && 
+    (event.expenses.perPerson !== null && event.expenses.perPerson > -1)
+  )
+}
+
+const sendUploadRequest = (event) => {
+  return {
+    type: ACTIONS.SAVE_EVENT,
+    event
+  }
+}
+
+const receiveUploadResponse = (event) => {
+  return {
+    type: ACTIONS.SAVE_EVENT_SUCCESS,
+    event
+  }
+}
+
+const uploadError = (message) => {
+  return {
+    type: ACTIONS.SAVE_EVENT_FAILURE,
+    message
+  }
+}
+
+const uploadEvent = (data) => {
+  let config = Object.assign({}, CONFIG.POST, {
+    body: JSON.stringify(data)
+  })
+
+  return (dispatch) => {
+    dispatch(sendUploadRequest(data))
+
+    return fetch(AppSettings.apiUri + 'events', config)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        console.log('response')
+        console.log(res)
+        if (res.id) {
+          dispatch(receiveUploadResponse(res))
+        } else {
+          dispatch(saveError(res.message))
+          return Promise.reject(res)
+        }
+      })
+      .catch((err) => dispatch(saveError(err)))
+  }
+}
