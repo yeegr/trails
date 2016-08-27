@@ -204,7 +204,7 @@ class EditEvent extends Component {
             </View>
           </View>
           <View style={styles.editor.group}>
-            <EditLink onPress={() => this.nextPage('title')} value={event.title} required={true} label={Lang.EventTitle} />
+            <EditLink onPress={() => this.nextPage('title')} value={(event.title.length > 0) ? event.title : Lang.Unnamed} required={true} label={Lang.EventTitle} />
             <EditLink onPress={() => this.setState({showCityPicker: true})} value={Lang.cities[event.city]} required={true} label={Lang.DepartCity} />
             <EditLink onPress={() => this.nextPage('hero')} value={(event.hero !== '') ? '' : ''} required={true} label={Lang.HeroImage} />
             <EditLink onPress={() => this.setState({showTypePicker: true})} value={Lang.tagArray[event.type]} required={true} label={Lang.EventType} />

@@ -76,7 +76,7 @@ class RecordTrail extends Component {
   _saveRecording() {
     this.props.newTrailActions.calculateData(this._finalizePath())
 
-    this.props.navigator.push({
+    this.props.navigator.replace({
       id: 'EditTrail',
       title: Lang.EditTrail
     })

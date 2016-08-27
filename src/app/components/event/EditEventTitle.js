@@ -28,14 +28,12 @@ class EditEventTitle extends Component {
     super(props)
 
     this.state = {
-      title: (this.props.title === Lang.Unnamed) ? '' : this.props.title
+      title: this.props.title
     }
   }
 
   componentWillUnmount() {
-    let tmp = this.state.title.trim(),
-     title = (tmp === '') ? Lang.Unnamed : tmp 
-
+    let title = this.state.title.trim()
     this.props.newEventActions.setEventTitle(title)
   }
 

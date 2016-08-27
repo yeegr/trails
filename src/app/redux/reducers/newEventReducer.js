@@ -20,7 +20,7 @@ const initState = {
   isFetching: false,
   isPublic: false,
   privacyStatus: 'private',
-  title: Lang.Unnamed,
+  title: '',
   city: '010',
   type: 0,
   hero: '',

@@ -22,6 +22,8 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 import * as loginActions from '../redux/actions/loginActions'
+import * as newTrailActions from '../redux/actions/newTrailActions'
+import * as newEventActions from '../redux/actions/newEventActions'
 import {
   HOME_TABS,
   ACTION_TARGETS
@@ -84,7 +86,7 @@ import Gallery from './shared/Gallery'
 import TextView from './shared/TextView'
 import styles from '../styles/main'
 
-const NavigationBarRouteMapper = (tabId, login, loginActions) => ({
+const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
   LeftButton: function(route, navigator, index, navState) {
     if (index === 0) {
       return null
@@ -151,11 +153,11 @@ const NavigationBarRouteMapper = (tabId, login, loginActions) => ({
       break
 
       case 'EditTrail':
-        rightTitleBar = <NavbarTextButton onPress={() => save(ACTION_TARGETS.TRAIL)} label={Lang.Save} />
+        rightTitleBar = <NavbarTextButton onPress={() => this.save(ACTION_TARGETS.TRAIL)} label={Lang.Save} />
       break
 
       case 'EditEvent':
-        rightTitleBar = <NavbarTextButton onPress={() => save(ACTION_TARGETS.EVENT)} label={Lang.Save} />
+        rightTitleBar = <NavbarTextButton onPress={() => this.save(ACTION_TARGETS.EVENT)} label={Lang.Save} />
       break
     }
 
@@ -219,11 +221,23 @@ const NavigationBarRouteMapper = (tabId, login, loginActions) => ({
         title: title
       })
     } else {
-      loginActions.showLogin()      
+      dispatch(loginActions.showLogin())      
+    }
+  },
+
+  save: function(type) {
+    if (login.user) {
+      switch (type) {
+        case ACTION_TARGETS.TRAIL:
+          dispatch(newTrailActions.saveTrail())
+        break
+      }
+    } else {
+      dispatch(loginActions.showLogin())      
     }
   }
 })
-import AreaList from './area/AreaList'
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -241,7 +255,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.loginActions.isLoggedIn()
+    this.props.dispatch(loginActions.isLoggedIn())
     //this.fetchSettings()
     //this.fetchUser(token)
   }
@@ -682,7 +696,7 @@ class App extends Component {
           }}
           navigationBar={
             <Navigator.NavigationBar
-              routeMapper={NavigationBarRouteMapper(this.props.selectedTab, this.props.login, this.props.loginActions)}
+              routeMapper={NavigationBarRouteMapper(this.props.selectedTab, this.props.login, this.props.dispatch)}
               style={styles.navbar.wrapper}
             />
           }
@@ -701,10 +715,13 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
+/*
 function mapDispatchToProps(dispatch) {
   return {
+    dispatch: dispatch,
     loginActions: bindActionCreators(loginActions, dispatch)
   }
 }
+*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps)(App)

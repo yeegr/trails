@@ -19,8 +19,6 @@ import {
   View,
 } from 'react-native'
 
-//import RangeSlider from 'react-native-nmrangeslider-ios'
-
 import Icon from '../shared/Icon'
 import RangeSlider from '../shared/RangeSlider'
 import CallToAction from '../shared/CallToAction'

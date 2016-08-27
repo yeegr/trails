@@ -37,12 +37,16 @@ const EditLink = (props) => {
     )
   }
 
+  const textColor = (props.validated) ? Graphics.colors.primary : (
+    (props.required) ? Graphics.textColors.required : Graphics.textColors.foreground
+  ) 
+
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.editor.link}>
         <View style={styles.editor.label}>
           <TextView
-            textColor={(props.required) ? Graphics.textColors.required : Graphics.textColors.foreground}
+            textColor={textColor}
             text={props.label}
           />
         </View>

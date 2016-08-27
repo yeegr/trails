@@ -30,7 +30,9 @@ import EditLink from '../shared/EditLink'
 import styles from '../../styles/main'
 
 const EditTrail = (props) => {
-  const nextPage = (type) => {
+  const trail = props.newTrail,
+
+  nextPage = (type) => {
     let id = null,
       title = null
 
@@ -88,14 +90,14 @@ const EditTrail = (props) => {
     })
   },
 
-  status = (props.newTrail.isPublic) ? (
+  status = (trail.isPublic) ? (
       <View style={[styles.editor.link, {paddingVertical: 15}]}>
       <View style={styles.editor.label}>
         <Text>{Lang.PrivacyStatus}</Text>
       </View>
       <View style={styles.editor.value}>
         <Text style={[styles.editor.valueText, {marginRight: 10}]}>
-          {Lang[props.newTrail.privacyStatus]}
+          {Lang[trail.privacyStatus]}
         </Text>
       </View>
     </View>
@@ -111,23 +113,23 @@ const EditTrail = (props) => {
             </View>
             <View style={styles.editor.value}>
               <Text style={[styles.editor.valueText, {marginRight: 10}]}>
-                {(props.newTrail.isPublic) ? Lang.Public : Lang.Private}
+                {(trail.isPublic) ? Lang.Public : Lang.Private}
               </Text>
               <Switch
                 onValueChange={(value) => props.newTrailActions.setTrailPrivacy(value)}
-                value={props.newTrail.isPublic}
+                value={trail.isPublic}
               />
             </View>
           </View>
           {status}
         </View>
         <View style={styles.editor.group}>
-          <EditLink onPress={() => nextPage('title')} value={props.newTrail.title} required={true} label={Lang.TrailTitle} />
-          <EditLink onPress={() => nextPage('type')} value={Lang.tagArray[props.newTrail.type]} required={true} label={Lang.TrailType} />
-          <EditLink onPress={() => nextPage('difficulty')} value={showTrailDifficulty(props.newTrail.difficultyLevel)} required={true} label={Lang.DifficultyLevel} />
-          <EditLink onPress={() => nextPage('area')} value={props.newTrail.areasText.join(',')} required={true} label={Lang.SelectAreas} />
-          <EditLink onPress={() => nextPage('desc')} value={props.newTrail.description} label={Lang.Description} />
-          <EditLink onPress={() => nextPage('photos')} value={props.newTrail.photos.length} label={Lang.Photos} />
+          <EditLink onPress={() => nextPage('title')} value={(trail.title.length >= AppSettings.minTrailTitleLength) ? trail.title : Lang.Unnamed} required={true} validated={(trail.title.length >= AppSettings.minTrailTitleLength)} label={Lang.TrailTitle} />
+          <EditLink onPress={() => nextPage('type')} value={Lang.tagArray[trail.type]} required={true} validated={(trail.type > -1)} label={Lang.TrailType} />
+          <EditLink onPress={() => nextPage('difficulty')} value={showTrailDifficulty(trail.difficultyLevel)} required={true} validated={(trail.difficultyLevel > -1)} label={Lang.DifficultyLevel} />
+          <EditLink onPress={() => nextPage('area')} value={trail.areasText.join(',')} required={true} validated={(trail.areas.length > 0)} label={Lang.SelectAreas} />
+          <EditLink onPress={() => nextPage('desc')} value={trail.description} label={Lang.Description} />
+          <EditLink onPress={() => nextPage('photos')} value={trail.photos.length} label={Lang.Photos} />
         </View>
         <View style={styles.editor.group}>
           <EditLink onPress={() => nextPage('preview')} label={Lang.TrailPreview} />

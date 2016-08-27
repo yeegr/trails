@@ -33,7 +33,7 @@ export const stopRecording = () => {
 
 export const saveTrailPoints = (points) => {
   return {
-    type: ACTIONS.SAVE_TRAIL_POINTS,
+    type: ACTIONS.SET_TRAIL_POINTS,
     points
   }
 }
@@ -122,14 +122,15 @@ export const setTrailPrivacy = (value) => {
   }
 }
 
-const sendRequest = (trail) => {
+const sendUploadRequest = (trail) => {
   return {
     type: ACTIONS.SAVE_TRAIL,
     trail
   }
 }
 
-const receiveResponse = (trail) => {
+const receiveUploadResponse = (trail) => {
+  console.log(trail)
   return {
     type: ACTIONS.SAVE_TRAIL_SUCCESS,
     trail
@@ -149,20 +150,46 @@ export const uploadTrail = (data) => {
   })
 
   return (dispatch) => {
-    dispatch(sendRequest(data))
+    console.log(dispatch)
+
+    dispatch(sendUploadRequest(data))
 
     return fetch(AppSettings.apiUri + 'trails', config)
       .then((res) => {
         return res.json()
       })
       .then((res) => {
-        if (res.token && res.id) {
-          dispatch(receiveResponse(res))
+        console.log('response')
+        console.log(res)
+        if (res.id) {
+          dispatch(receiveUploadResponse(res))
         } else {
           dispatch(saveError(res.message))
           return Promise.reject(res)
         }
       })
       .catch((err) => dispatch(saveError(err)))
+  }
+}
+
+const validateTrail = (state) => {
+  console.log(state)
+  return (
+    (state.title.length > AppSettings.minTrailTitleLength) && 
+    (state.type > -1) && 
+    (state.difficultyLevel > -1) && 
+    (state.areas.length > 0)
+  )
+}
+
+export const saveTrail = () => {
+  return (dispatch, getState) => {
+    const newTrail = getState().newTrail
+
+    console.log('validate: ' + validateTrail(newTrail))
+
+    if (validateTrail(newTrail)) {
+      dispatch(uploadTrail(newTrail))
+    }
   }
 }

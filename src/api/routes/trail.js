@@ -68,6 +68,11 @@ module.exports = function(app) {
   app.get('/trails', function(req, res, next) {
     var query = {}
 
+    if (req.query.hasOwnProperty('area') && req.query.area !== '') {
+      query.areas = {}
+      query.areas.$in = [req.query.area]
+    }
+
     if (req.query.hasOwnProperty('keywords') && req.query.keywords !== '') {
       var keywords = new RegExp(req.query.keywords.trim().replace(' ', '|'))
       query.$or = []

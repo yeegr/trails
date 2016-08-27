@@ -30,7 +30,7 @@ export const listTrails = (params) => {
   return (dispatch) => {
     dispatch(requestTrails(params))
 
-    return fetch(AppSettings.apiUri + 'trails/' + params)
+    return fetch(AppSettings.apiUri + 'trails/?' + params)
       .then((response) => {
         return response.json()
       })

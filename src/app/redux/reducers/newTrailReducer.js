@@ -2,16 +2,17 @@
 
 import {AsyncStorage} from 'react-native'
 
-import {Lang} from '../../settings'
+import {AppSettings, Lang} from '../../settings'
 import * as ACTIONS from '../constants/newTrailConstants'
 
 const initState = {
   isRecording: false,
   isCalculating: false,
+  isValidated: false,
 
   privacyStatus: 'private',
   isPublic: false,
-  title: Lang.Unnamed,
+  title: '',
   type: 0,
   areas: [],
   areasText: [],
@@ -26,7 +27,8 @@ newTrailReducer = (state = initState, action) => {
   switch (action.type) {
     case ACTIONS.CREATE_TRAIL:
       return Object.assign({}, initState, {
-        creator: action.creator
+        creator: action.creator,
+        isValidated: false
       })
 
     case ACTIONS.EDIT_TRAIL:
@@ -42,7 +44,7 @@ newTrailReducer = (state = initState, action) => {
         isRecording: false
       })
 
-    case ACTIONS.SAVE_TRAIL_POINTS:
+    case ACTIONS.SET_TRAIL_POINTS:
       return Object.assign({}, state, {
         points: action.points
       })
@@ -105,6 +107,14 @@ newTrailReducer = (state = initState, action) => {
         isPublic: true,
         privacyStatus: 'submitting'
       })
+
+    case ACTIONS.VALIDATE_NEW_TRAIL:
+      return (
+        (state.title.length > AppSettings.minTrailTitleLength) && 
+        (state.type > -1) && 
+        (state.difficultyLevel > -1) && 
+        (state.areas.length > 0)
+      )
 
     case ACTIONS.SAVE_TRAIL:
       return Object.assign({}, state, {
