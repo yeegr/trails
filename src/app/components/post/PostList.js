@@ -39,7 +39,11 @@ class PostList extends Component {
 
   renderRow(rowData, sectionId, rowId) {
     return (
-      <PostCard navigator={this.props.navigator} data={rowData} key={rowId} />
+      <PostCard
+        key={rowId}
+        navigator={this.props.navigator}
+        data={rowData}
+      />
     )
   }
 
@@ -54,8 +58,7 @@ class PostList extends Component {
       <ListView
         automaticallyAdjustContentInsets={false}
         enableEmptySections={true}
-        scrollEnabled={true}
-        style={styles.global.home}
+        scrollEnabled={false}
         dataSource={this.dataSource.cloneWithRows(posts)}
         renderRow={this.renderRow}
       />

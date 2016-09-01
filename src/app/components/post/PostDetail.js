@@ -24,12 +24,14 @@ import {ACTION_TARGETS} from '../../../util/constants'
 
 import Loading from '../shared/Loading'
 import ParallaxView from 'react-native-parallax-view'
+import ImagePath from '../shared/ImagePath'
 import Intro from '../shared/Intro'
 import Toolbar from '../shared/Toolbar'
 import Header from '../shared/Header'
 import UserLink from '../user/UserLink'
 import WebViewWrapper from '../shared/WebViewWrapper'
 import {CommentsPreview} from '../shared/Comments'
+import {ASSET_FOLDERS} from '../../../util/constants'
 import styles from '../../styles/main'
 
 class PostDetail extends Component {
@@ -57,11 +59,13 @@ class PostDetail extends Component {
       />
     ) : null
 
+    const url = ImagePath({type: 'hero', path: ASSET_FOLDERS.Post + '/' + post.id + '/' + post.hero})
+
     return (
       <View style={styles.global.wrapper}>
         <ParallaxView
           style={{flex: 1}}
-          backgroundSource={{uri: AppSettings.assetUri + post.hero}}
+          backgroundSource={{uri: url}}
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
@@ -78,10 +82,10 @@ class PostDetail extends Component {
                 data={post}
               />
             </View>
-            <View style={[styles.detail.content, {padding: 15}]}>
+            <View style={{paddingHorizontal: 15}}>
               <UserLink user={post.creator} navigator={navigator} showArrow={true} />
             </View>
-            <View style={styles.detail.section}>
+            <View style={[styles.detail.section, {paddingLeft: 10}]}>
               <WebViewWrapper html={post.content} url={AppSettings.baseUri + 'posts/post/' + post.id} />
             </View>
             {commentsPreview}

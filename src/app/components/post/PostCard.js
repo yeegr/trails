@@ -18,6 +18,7 @@ import {
 import Hero from '../shared/Hero'
 import TinyStatus from '../shared/TinyStatus'
 import TinyUser from '../user/TinyUser'
+import {ASSET_FOLDERS} from '../../../util/constants'
 import global from '../../styles/global'
 
 const PostCard = (props) => {
@@ -35,7 +36,7 @@ const PostCard = (props) => {
   return (
     <View>
       <Hero 
-        imageUri={data.hero} 
+        imageUri={ASSET_FOLDERS.Post + '/' + data._id + '/' + data.hero} 
         title={data.title} 
         tags={data.tags}
         topLeft={

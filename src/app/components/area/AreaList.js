@@ -12,8 +12,7 @@ import React, {
 } from 'react'
 
 import {
-  View,
-  ScrollView
+  ListView
 } from 'react-native'
 
 import {connect} from 'react-redux'
@@ -27,10 +26,24 @@ import styles from '../../styles/main'
 class AreaList extends Component {
   constructor(props) {
     super(props)
+    this.renderRow = this.renderRow.bind(this)
+    this.dataSource = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 != r2
+    })
   }
 
   componentWillMount() {
     this.props.areasActions.listAreas(this.props.params)
+  }
+
+  renderRow(rowData, sectionId, rowId) {
+    return (
+      <AreaCard
+        key={rowId}
+        navigator={this.props.navigator}
+        data={rowData}
+      />
+    )
   }
 
   render() {
@@ -41,23 +54,13 @@ class AreaList extends Component {
     }
 
     return (
-      <ScrollView
+      <ListView
         automaticallyAdjustContentInsets={false}
-        scrollEnabled={true}
-        style={styles.global.home}
-      >
-        {
-          areas.map((area, index) => {
-            return (
-              <AreaCard
-                key={index}
-                navigator={navigator}
-                data={area}
-              />
-            )
-          })
-        }
-      </ScrollView>
+        enableEmptySections={true}
+        scrollEnabled={false}
+        dataSource={this.dataSource.cloneWithRows(areas)}
+        renderRow={this.renderRow}
+      />
     )
   }
 }

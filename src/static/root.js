@@ -25,7 +25,8 @@ router.use(function(req, res, next) {
   next()
 })
 
-var curl = require('./curl')(app)
+var curl = require('./curl')(app),
+wiki = require('./wiki')(app)
 
 router.get('/', function(req, res, next) {
   var os = req.query.os,

@@ -55,11 +55,13 @@ class Home extends Component {
           selected={selectedTab === HOME_TABS.AREAS}
           onPress={() => this.onTabPressed(HOME_TABS.AREAS)}
         >
-          <AreaList
-            key={'area-list'}
-            navigator={navigator}
-            params=""
-          />
+          <ScrollView style={styles.global.home}>
+            <AreaList
+              key={'area-list'}
+              navigator={navigator}
+              params=""
+            />
+          </ScrollView>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title={Lang.Events}
@@ -79,11 +81,13 @@ class Home extends Component {
           selected={selectedTab === HOME_TABS.POSTS}
           onPress={() => this.onTabPressed(HOME_TABS.POSTS)}
         >
-          <PostList
-            key={'post-list'}
-            navigator={navigator}
-            params=""
-          />
+          <ScrollView style={styles.global.home}>
+            <PostList
+              key={'post-list'}
+              navigator={navigator}
+              params=""
+            />
+          </ScrollView>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title={Lang.Mine}
