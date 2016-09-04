@@ -1,0 +1,68 @@
+@import '_mixins';
+
+* {
+    border-width: 0;
+    box-sizing: inherit;
+    color: inherit;
+    cursor: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-size-adjust: none;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    ._appearance;
+}
+
+html {
+    box-sizing: border-box;
+    cursor: default;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    cursor: pointer;
+    font-size: inherit;
+    text-decoration: none;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+address,
+tel {
+    display: inline-block;
+}
+
+form label,
+button,
+input[type=button],
+input[type=submit] {
+    cursor: pointer;
+}
+
+button,
+input[type=button],
+input[type=submit] {
+    background-color: transparent;
+}
+
+input::-webkit-calendar-picker-indicator,
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+    margin: 0;
+    padding: 0;
+    ._appearance;
+}
+
+:focus {
+    outline: none;
+}
+

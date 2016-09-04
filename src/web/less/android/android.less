@@ -1,0 +1,817 @@
+@import '_reset';
+@import '_responsive';
+@import 'variables';
+@import 'symbols';
+
+* {
+    font-family: 'Noto Sans CJK SC', Arial, Helvetica, sans-serif;
+    font-size: @baseLength * 1.5;
+    ._user-select(inherit);
+}
+
+p {
+    cursor: text;
+    ._user-select(text);
+}
+
+body {
+    background-color: @backgroundColor;
+	color: @foregroundColor;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100%;
+
+    -webkit-overflow-scrolling: touch;
+    ._user-select;
+}
+
+wrapper,
+app {
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+wrapper {
+    z-index: 1;
+}
+
+wrapper[tabless] {
+    nav {
+        display: none;
+    }
+
+    page {
+        margin-top: 0;
+    }
+
+    sidebar.fixed {
+        top: 0;
+    }
+}
+
+nav {
+    height: @tabbarHeight;
+    position: fixed;
+    width: 100%;
+    z-index: 10000;
+    ._flex-box;
+}
+
+tabbar {
+    background-color: @primaryColor;
+    height: 100%;
+    width: 100%;
+    ._flex-box;
+    ._box-shadow;
+}
+
+tab {
+    color: fade(@textOverlayColor, 50%);
+    cursor: pointer;
+    display: block;
+    ._flex(1);
+
+    &:hover,
+    &[selected] {
+        color: @textOverlayColor;
+    }
+
+    &:hover {
+        background-color: fade(@foregroundColor, 10%);
+    }
+
+    a {
+        display: block;
+        font-size: 1rem;
+        font-weight: bold;
+        height: 100%;
+        line-height: @tabbarHeight;
+        text-align: center;
+        width: 100%;
+    }
+}
+
+hero {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
+    position: relative;
+    width: 100%;
+
+    intro {
+        background-image: linear-gradient(transparent, rgba(0, 0, 0, .6));
+        bottom: 0;
+        box-sizing: border-box;
+        display: block;
+        padding: @doubleLength;
+        position: absolute;
+        width: 100%;
+
+        p {
+            color: @textOverlayColor;
+            font-size: 1.2rem;
+        }
+
+        tag {
+            margin-top: @tagFontSize / 2;
+        }
+    }
+}
+
+page {
+    height: calc(~"100% - "@tabbarHeight);
+    margin-top: @tabbarHeight;
+    position: relative;
+    ._flex-box;
+    ._flex-direction(column);
+
+    &> list {
+        margin-top: @baseLength;
+    }
+}
+
+list {
+    display: block;
+    height: 100%;
+    position: relative;
+
+    row {
+        margin-bottom: @doubleLength;
+    }
+}
+
+row {
+    margin: 0 @doubleLength @doubleLength @doubleLength;
+    ._flex-box;
+}
+
+detail {
+    display: block;
+    height: 100%;
+    position: relative;
+
+    hero {
+        height: @baseLength * 30;
+    }
+}
+
+section {
+    display: block;
+    margin-bottom: @doubleLength;
+    position: relative;
+
+    &.map {
+        margin-bottom: 0;
+    }
+}
+
+header {
+    margin: 0 @doubleLength @baseLength @doubleLength;
+    ._flex-box;
+    ._align-items(center);
+
+    .text-more {
+        color: @primaryColor;
+    }
+}
+
+h1 {
+    color: @primaryColor;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.6rem;
+    ._flex(1);
+    ._flex-box;
+
+    span {
+        margin-right: @baseLength;
+    }
+}
+
+h2 {
+    color: @darkGreyColor;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: @doubleLength;
+}
+
+h3 {
+    color: fade(@textOverlayColor, 60%);
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: @halfLength;
+}
+
+grid {
+    margin: 0 @baseLength @baseLength @baseLength;
+    ._flex-box;
+    ._flex-wrap;
+
+    &.figure-list {
+        margin: 0;
+        ._justify-content(space-between);
+    }
+}
+
+tier {
+    height: 100%;
+    ._flex-box;
+    ._flex(1);
+}
+
+card {
+    background-color: @cardBackgroundColor;
+    display: block;
+    border-radius: @cardCornerRadius;
+    margin: 0 @baseLength @baseLength @baseLength;
+    ._box-shadow;
+
+    &[type=info] {
+        padding-top: @doubleLength;
+    }
+
+    hero {
+        border-top-left-radius: @cardCornerRadius;
+        border-top-right-radius: @cardCornerRadius;
+        height: @baseLength * 20;
+    }
+
+    foot {
+        display: block;
+        padding: @baseLength 0;
+
+        row {
+            height: @iconSideLength;
+            margin: 0 @halfLength 0 @baseLength;
+            ._align-items(center);
+        }
+
+        start {
+            margin-left: @baseLength;
+            margin-right: @baseLength;
+            height: @iconSideLength;
+            width: @iconSideLength;
+        }
+
+        tier {
+            margin-left: @baseLength;
+        }
+
+        .avatar-link {
+            margin-right: @baseLength;
+            width: @iconSideLength;
+        }
+
+        avatar {
+            height: @iconSideLength;
+        }
+
+        title {
+            font-size: 1.1rem;
+        }
+    }
+}
+
+avatar {
+    background-color: @primaryColor;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+    display: block;
+    height: 100%;
+    width: 100%;
+    ._flex;
+}
+
+start,
+end {
+    ._flex;
+}
+
+start {
+    height: @pictogramSideLength;
+    margin-right: @doubleLength;
+    width: @pictogramSideLength;
+}
+
+center {
+    display: block;
+    text-align: left;
+    ._flex(1);
+}
+
+toolbar {
+    ._flex-box;
+}
+
+
+pretitle,
+title,
+subtitle {
+    display: block;
+}
+
+title {
+    font-size: 1.2rem;
+    white-space: normal;
+}
+
+pretitle,
+subtitle {
+    color: @lightGreyColor;
+    font-size: 0.8rem;
+    height: 1rem;
+    line-height: 1rem;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+pretitle {
+    margin-top: @unitLength * 4;
+    margin-bottom: -(@unitLength * 2);
+}
+
+
+tag {
+    background-color: fade(@tagBackgroundColor, 80%);
+    border-radius: @tagFontSize;
+    color: @tagForegroundColor;
+    display: inline-block;
+    font-size: @tagFontSize;
+    height: @tagFontSize * 2;
+    line-height: @tagFontSize * 2;
+    margin-right: @tagFontSize / 2;
+    padding: 0 @tagFontSize;
+
+    &.primary {
+        background-color: fade(@primaryColor, 80%);
+    }
+
+    &.gold {
+        background-color: #eec900;
+        color: @textOverlayColor;
+    }
+}
+
+captain {
+    background-color: fade(@primaryColor, 80%);
+    border-radius: @tagFontSize;
+    color: @tagForegroundColor;
+    display: inline-block;
+    font-size: @tagFontSize;
+    height: @tagFontSize * 2;
+    line-height: @tagFontSize * 2;
+    margin-right: @tagFontSize / 2;
+    padding: 0 @tagFontSize;
+
+    &[data-level="5"] {
+        background-color: fade(#eec900, 80%);
+        color: @textOverlayColor;
+    }
+}
+
+pictogram {
+    background-color: @primaryColor;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    flex: none;
+    height: @pictogramSideLength;
+    width: @pictogramSideLength;
+
+    &[shape="circle"] {
+        border-radius: 50%;
+    }
+
+    &[shape="rounded"] {
+        border-radius: 4px;
+    }
+}
+
+[type="glyph"] {
+    background-color: transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: @glyphSideLength @glyphSideLength;
+    box-sizing: content-box;
+    display: inline-block;
+    height: @glyphSideLength;
+    width: @glyphSideLength;
+}
+
+button[type="glyph"] {
+    padding: @baseLength;
+    position: relative;
+
+    -webkit-tap-highlight-color: fade(@primaryColor, 50%);
+}
+
+
+.gold {
+   color: #eec900; // Gold 2
+}
+
+icon {
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-bottom: @baseLength;
+    text-align: center;
+    white-space: nowrap;
+    width: @pictogramSideLength;
+    ._flex-box(inline-flex);
+    ._flex-direction(column);
+    ._align-items(center);
+
+    pictogram {
+        height: @tripleLength;
+        margin-bottom: @unitLength;
+        width: @tripleLength;
+    }
+}
+
+preview {
+    margin: 0 @doubleLength @doubleLength @doubleLength;
+    ._flex-box;
+    ._justify-content(space-between);
+
+    photo {
+        display: block;
+        height: @baseLength * 9.5;
+        width: @baseLength * 9.5;
+
+        @media (-webkit-min-device-pixel-ratio: 3) and (min-width: 375px) {
+            height: @baseLength * 9.12;
+            width: @baseLength * 9.12;
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 3) and (min-width: 414px) {
+            height: @baseLength * 8.26;
+            width: @baseLength * 8.26;
+        }
+    }
+}
+
+gallery {
+    ._flex-box;
+    ._flex-wrap;
+}
+
+photo {
+    background-color: fade(@primaryColor, 20%);
+    background-position: center center;
+    background-size: cover;
+    cursor: pointer;
+    display: block;
+    height: 33.333vw;
+    width: 33.333vw;
+}
+
+comment {
+    color: @darkGreyColor;
+}
+
+tile {
+    display: block;
+    text-align: center;
+    ._flex(1);
+
+    tile-caption,
+    tile-data {
+        display: block;
+        text-align: center;
+    }
+
+    tile-caption {
+        color: @lightGreyColor;
+        font-size: 0.8rem;
+        margin-bottom: 0.2rem;
+    }
+
+    tile-data {
+        font-size: 0.7rem;
+        height: 0.7rem;
+        line-height: 0.7rem;
+    }
+}
+
+map {
+    background-color: fade(@primaryColor, 5%);
+    box-sizing: initial;
+    display: block;
+    height: 100%;
+    min-height: 320px;
+    max-height: 100vh;
+    width: 100%;
+
+    .amap-controls {
+        height: 100%;
+    }
+}
+
+marker {
+    background-color: transparent;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: block;
+    height: @unitLength * 28;
+    margin: (@unitLength * 2) 0 0 -(@unitLength * 2);
+    position: absolute;
+    width: @unitLength * 24;
+}
+
+main {
+    display: block;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+
+    > section:first-child {
+        margin-top: @doubleLength;
+    }
+}
+
+sidebar {
+    background-position: right top;
+    background-image: -webkit-linear-gradient(top, @borderShadowColor, @borderShadowColor);
+    background-repeat: repeat-y;
+    background-size: 0.5px 1px;
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: @sidebarWidth;
+    z-index: 20;
+
+    &.fixed {
+        position: fixed;
+        top: @tabbarHeight;
+    }
+
+    ear {
+        border-bottom: 0.5px solid transparent;
+        border-left: @unitLength * 2 solid transparent;
+        border-top: 0.5px solid transparent;
+        box-sizing: border-box;
+        color: @darkGreyColor;
+        cursor: pointer;
+        display: block;
+        font-size: 0.8rem;
+        height: @baseLength * 9;
+        line-height: 1em;
+        margin-bottom: @halfLength;
+        text-align: center;
+        width: 100%;
+
+        svg {
+            display: inline-block;
+            fill: @darkGreyColor;
+            height: @baseLength * 3;
+            margin: @doubleLength 0 @baseLength 0;
+            width: @baseLength * 3;
+        }
+
+        &[selected] {
+            border-bottom: 0.5px solid @borderColor;
+            border-top: 0.5px solid @borderColor;
+            border-left: @unitLength * 2 solid @primaryColor;
+            background-color: #fff;
+            background-repeat: no-repeat;
+            background-position: right center;
+            background-size: @unitLength * 6 @unitLength * 24;
+            color: @primaryColor;
+
+            svg {
+                fill: @primaryColor;
+            }
+        }
+    }
+}
+
+
+article {
+    background-color: #fff;
+    display: inline-block;
+    height: auto;
+    left: auto;
+    right: 0;
+    padding-top: @doubleLength;
+    position: absolute;
+    transform: translate3d(0, 0, 0);
+    width: calc(~"100% - "@sidebarWidth);
+    z-index: 10;
+
+    &.fixed {
+        padding-top: @tabbarHeight;
+    }
+}
+
+.tel {
+    display: block;
+    margin-top: @halfLength;
+}
+
+day {
+    display: block;
+}
+
+split {
+    background-position: 50% (@glyphSideLength - @doubleLength) / 2;
+    display: block;
+    min-height: @glyphSideLength;
+
+    pretitle {
+        margin-bottom: @unitLength * 2;
+
+        span {
+            line-height: 1rem;
+        }
+    }
+
+    title {
+        span {
+            line-height: 1.5rem;
+        }
+    }
+
+    pretitle,
+    title {
+        font-size: 1rem;
+        ._flex;
+
+        span {
+            display: inline-block;
+            vertical-align: top;
+            width: calc(~"50% - "@doubleLength);
+        }
+        span:first-child {
+            margin-right: @doubleLength;
+            text-align: left !important;
+        }
+        span:last-child {
+            margin-left: @doubleLength;
+            text-align: right;
+        }
+    }
+}
+
+.html-content {
+    ol {
+        margin: 0.5rem 0 0 1.2rem;
+
+        li {
+            list-style-type: decimal;
+        }
+    }
+
+    p {
+        margin-bottom: 1rem;
+        text-indent: 2rem;
+    }
+
+    img {
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+}
+
+.tag-list {
+    margin-top: 0.5rem;
+    line-height: 2rem;
+}
+
+gear {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: @unitLength * 2;
+    box-shadow: 0 @unitLength @halfLength rgba(0, 0, 0, .5);
+    display: block;
+    height: @baseLength * 9;
+    margin-bottom: @baseLength;
+    position: relative;
+    width: @baseLength * 9;
+
+    gear-caption {
+        border-bottom-left-radius: @unitLength * 2;
+        border-bottom-right-radius: @unitLength * 2;
+        color: #fff;
+        display: block;
+        background-color: rgba(0, 0, 0, 0.5);
+        bottom: 0;
+        box-sizing: border-box;
+        font-size: 0.8rem;
+        padding: @halfLength @baseLength;
+        position: absolute;
+        width: 100%;
+    }
+}
+
+post {
+    display: block;
+    margin: 0 @doubleLength;
+    padding-bottom: @doubleLength;
+}
+
+
+stamp {
+    @height: @holeDiameter * 2 * 8;
+    @width: @holeDiameter * 2 * 6;
+    @holeDiameter: @baseLength * 3 / 4;
+    @holeRadius: @holeDiameter / 2;
+    @stampColor: white;
+    @spacing: @holeDiameter * 2;
+
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    display: inline-block;
+    height: @height;
+    margin: @holeDiameter;
+    position: relative;
+    width: @width;
+
+    &::before {
+        background-image: radial-gradient(transparent 0, transparent @holeRadius, @stampColor @holeRadius, @stampColor),
+            radial-gradient(transparent 0, transparent @holeRadius, @stampColor @holeRadius, @stampColor),
+            radial-gradient(transparent 0, transparent @holeRadius, @stampColor @holeRadius, @stampColor),
+            radial-gradient(transparent 0, transparent @holeRadius, @stampColor @holeRadius, @stampColor);
+        background-repeat: repeat-x,
+            repeat-y,
+            repeat-x,
+            repeat-y;
+    	background-position: -@holeDiameter -@holeDiameter,
+            -@holeDiameter -@holeDiameter,
+            -@holeDiameter (@height + @holeDiameter),
+            (@width + @holeDiameter) -@holeDiameter;
+        background-size: @spacing @spacing;
+        content: '';
+        display: block;
+	    filter: drop-shadow(0 0 @baseLength rgba(0,0,0,0.5));
+        height: @height + @holeDiameter * 2;
+        left: -@holeDiameter;
+        position: absolute;
+        top: -@holeDiameter;
+        width: @width + @holeDiameter * 2;
+        z-index: -1;
+    }
+}
+
+.user-link {
+    display: inline-flex;
+    flex: 1;
+}
+
+.avatar-link {
+    display: inline-block;
+}
+
+user {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: @baseLength * 30;
+    position: relative;
+    text-align: center;
+    ._flex-box;
+    ._flex-direction(column);
+    ._align-items(center);
+
+    circle.avatar {
+        border: @halfLength solid @backgroundColor;
+        box-sizing: content-box;
+        display: block;
+        margin-top: @baseLength * 6;
+        height: @baseLength * 8;
+        width: @baseLength * 8;
+    }
+
+    captain {
+        margin-bottom: @baseLength;
+        margin-top: -@baseLength;
+    }
+
+    title {
+        color: @textOverlayColor;
+        display: block;
+        margin-bottom: @baseLength;
+    }
+
+    div {
+        margin-bottom: @baseLength;
+    }
+}
+
+points {
+    color: @textOverlayColor;
+    background-color: @primaryColor;
+}

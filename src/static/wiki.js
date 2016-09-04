@@ -20,12 +20,13 @@ function getEpisodeNames(res, path, duplicate) {
       text = ''
 
       for (var i = 0, j = list.length; i < j; i++) {
+      console.log('dup: ' + (duplicate === 'true'))
         var tmp = list[i].innerHTML
 
         tmp = (tmp.indexOf('<sup') > -1) ? tmp.substring(0, tmp.indexOf('<sup')) : tmp,
-        tmp = tmp.replace(/<\/?[^>]+(>|$)/g, "").replace(/\"|\?/g, '').replace(': ', ' - ').replace('/', ' - ')
+        tmp = tmp.replace(/<\/?[^>]+(>|$)/g, "").replace(/\"\s\"/g, '-').replace(/\"|\?/g, '').replace(': ', ' - ').replace('/', ' - ')
 
-        text += tmp + '<br/>' + (duplicate) ? (tmp + '<br/>') : ''
+        text += tmp + '<br/>' + ((duplicate === 'true') ? (tmp + '<br/>') : '')
       }
 
       res.status(200).send(text)
