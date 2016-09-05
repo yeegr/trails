@@ -60,7 +60,9 @@ class EventDetail extends Component {
   }
 
   componentWillMount() {
-    this.props.eventsActions.getEvent(this.props.id)
+    if (!this.props.preview) {
+      this.props.eventsActions.getEvent(this.props.id)
+    }
   }
 
   signUp() {
@@ -87,10 +89,27 @@ class EventDetail extends Component {
   }
 
   render() {
-    const {event, navigator} = this.props
+    const event = (this.props.preview) ? this.props.newEvent : this.props.event,
+    {navigator} = this.props
 
     if (!event) {
       return <Loading />
+    }
+
+    let creator = this.props.user, 
+    toolbar = null
+
+    if (!this.props.preview) {
+      creator = event.creator,
+      toolbar = (
+        <View style={styles.detail.toolbar}>
+          <Toolbar
+            navigator={navigator}
+            type={ACTION_TARGETS.EVENT}
+            data={event}
+          />
+        </View>
+      )
     }
 
     const avatarRadius = 20,
@@ -183,13 +202,7 @@ class EventDetail extends Component {
             />
           )}>
           <View style={styles.detail.article}>
-            <View style={styles.detail.toolbar}>
-              <Toolbar
-                navigator={navigator}
-                type={ACTION_TARGETS.EVENT}
-                data={event}
-              />
-            </View>
+            {toolbar}
             <View ref="eventInfo" style={styles.detail.section}>
               <Header text={Lang.EventInfo} />
               <View style={styles.detail.list}>
@@ -207,7 +220,7 @@ class EventDetail extends Component {
                   value={event.gatherLocation.name}
                 />
                 <View style={{marginBottom: 20}}>
-                  <UserLink user={event.creator} navigator={navigator} />
+                  <UserLink user={creator} navigator={navigator} />
                 </View>
                 <ListItem icon="phone"
                   label={Lang.Contacts}
@@ -262,12 +275,17 @@ class EventDetail extends Component {
 }
 
 EventDetail.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string,
+  event: PropTypes.object,
+  newEvent: PropTypes.object,
+  user: PropTypes.object.isRequired,
+  preview: PropTypes.bool
 }
 
 function mapStateToProps(state, ownProps) {
   return {
     event: state.events.event,
+    newEvent: state.newEvent,
     user: state.login.user
   }
 }

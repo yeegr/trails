@@ -25,6 +25,7 @@
     "maxEventAttendees":50,
     "defaultPaymentMethod":"Alipay",
     "defaultCity":"010",
+    "maxEventScheduleDays":20,
 
     "sdks": {
       "amap":"cc81643ef299be79cc3b6aad2a1ac212",
@@ -158,6 +159,7 @@
     "EndTime":"截止时间",
     "EndLocation":"截止地点",
     "ApproxDuration":"大约用时",
+    "SelectTrail":"选择轨迹",
     "EventExpenses":"活动费用",
     "ExpensesDetail":"费用说明",
     "ExpensesInclude":"费用包含",

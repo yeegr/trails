@@ -18,8 +18,8 @@ let today = new Date(),
 const initState = {
   isEditing: false,
   isFetching: false,
-  isPublic: false,
-  privacyStatus: 'private',
+  isPublic: true,
+  privacyStatus: 'public',
   title: '',
   city: AppSettings.defaultCity,
   type: 0,
@@ -51,7 +51,8 @@ const initState = {
     notes: []
   },
   photos: [],
-  notes: ['x', 'y', 'z']
+  notes: ['x', 'y', 'z'],
+  comments: []
 },
 
 newEventReducer = (state = initState, action) => {
@@ -117,15 +118,12 @@ newEventReducer = (state = initState, action) => {
       let days = action.days,
         schedule = state.schedule
 
-        console.log('reducer')
-        console.log(days)
-      
       if (days > schedule.length) {
         for (let i = schedule.length; i < days; i++) {
           schedule.push([])
         }
       } else if (days < schedule.length) {
-        schedule.splice(days + 1, schedule.length - day)
+        schedule.splice(days - 1, schedule.length - days)
       }
 
       return Object.assign({}, state, {
@@ -137,14 +135,14 @@ newEventReducer = (state = initState, action) => {
         isEditing: true
       })
 
-    case ACTIONS.SET_EVENT_SCHEDULE:
+    case ACTIONS.SET_EVENT_AGENDA:
       var schedule = state.schedule,
-        day = schedule[action.day],
         agenda = action.agenda,
-        index = 0
+        day = schedule[agenda.day],
+        index = action.index
 
-      if (action.index) {
-        day.splice(action.index, 1)
+      if (index) {
+        day.splice(index, 1)
       }
 
       if (day.length < 1) {

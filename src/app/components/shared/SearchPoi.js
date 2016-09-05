@@ -142,13 +142,14 @@ export default class SearchPoi extends Component {
 
         actionBar = (
           <View style={{flexDirection: 'row', width: width}}>
-            <View style={{flex: 2}}>
+            <View style={{flex: 1}}>
               <CallToAction 
+                backgroundColor={Graphics.colors.warning}
                 onPress={this.onCancel} 
                 label={Lang.Cancel}
               />
             </View>
-            <View style={{flex: 3}}>
+            <View style={{flex: 1}}>
               <CallToAction 
                 onPress={this.onConfirm} 
                 label={Lang.Confirm} 

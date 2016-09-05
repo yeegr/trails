@@ -21,8 +21,8 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as loginActions from '../../redux/actions/loginActions'
 
-import TextView from '../shared/TextView'
 import Icon from '../shared/Icon'
+import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 class EditUserLevel extends Component {

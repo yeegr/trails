@@ -116,7 +116,7 @@ class TrailDetail extends Component {
               <TrailChart points={trail.points} />
             </View>
             <View style={[styles.detail.section, {marginHorizontal: 15}]}>
-              <UserLink user={creator} navigator={navigator} showArrow={true} />
+              <UserLink user={creator} navigator={navigator} />
             </View>
             <View style={styles.detail.section}>
               <Header text={Lang.Description} />

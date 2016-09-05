@@ -99,10 +99,9 @@ export const editEventSchedule = () => {
   }
 }
 
-export const setEventSchedule = (day, index, agenda) => {
+export const setEventAgenda = (index, agenda) => {
   return {
-    type: ACTIONS.SET_EVENT_SCHEDULE,
-    day,
+    type: ACTIONS.SET_EVENT_AGENDA,
     index,
     agenda
   }

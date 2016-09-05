@@ -60,6 +60,7 @@ import EditEventContacts from './event/EditEventContacts'
 import EditAttendeeLimits from './event/EditAttendeeLimits'
 import AgendaList from './event/AgendaList'
 import EditAgenda from './event/EditAgenda'
+import SelectTrail from './event/SelectTrail'
 import EditEventExpenses from './event/EditEventExpenses'
 import EditEventGears from './event/EditEventGears'
 import EditEventDestination from './event/EditEventDestination'
@@ -508,6 +509,14 @@ class App extends Component {
               case 'EditAgenda':
                 return (
                   <EditAgenda
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'SelectTrail':
+                return (
+                  <SelectTrail
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />

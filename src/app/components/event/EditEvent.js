@@ -83,76 +83,88 @@ class EditEvent extends Component {
       case 'hero':
         id = 'EditEventHero',
         title = Lang.HeroImage
-      break;
+      break
 
       case 'title':
         id = 'EditEventTitle',
         title = Lang.EventTitle
-      break;
+      break
 
       case 'groups':
         id = 'EditEventGroups',
         title = Lang.EventGroups
-      break;
+      break
 
       case 'location':
         id = 'EditEventLocation',
         title = Lang.GatherLocation
-      break;
+      break
 
       case 'contacts':
         id = 'EditEventContacts',
         title = Lang.Contacts
-      break;
+      break
 
       case 'desc':
         id = 'EditEventDescription',
         title = Lang.EventType
-      break;
+      break
 
       case 'limits':
         id = 'EditAttendeeLimits',
         title = Lang.AttendeeLimits
-      break;
+      break
 
       case 'agenda':
         id = 'AgendaList',
         title = Lang.DetailSchedule
-      break;
+      break
 
       case 'expenses':
         id = 'EditEventExpenses',
         title = Lang.EventExpenses
-      break;
+      break
 
       case 'gears':
         id = 'EditEventGears',
         title = Lang.GearsToBring
-      break;
+      break
 
       case 'destination':
         id = 'EditEventDestination',
         title = Lang.Destination
-      break;
+      break
 
       case 'notes':
         id = 'EditEventNotes',
         title = Lang.EventNotes
-      break;
+      break
 
       case 'photos':
         id = 'EditEventGallery',
         title = Lang.Photos
-      break;
+      break
+
+      case 'preview':
+        const event = this.props.newEvent
+
+        console.log(event.title.length)
+        console.log(event.hero.length)
+        console.log(event.schedule.length > 0 && event.schedule[0].length > 0)
+        //id = 'EventDetail',
+        //title = Lang.EventDetail
+      break
     }
 
-    this.props.navigator.push({
-      id,
-      title,
-      passProps: {
-        preview: (type === 'preview')
-      }
-    })
+    if (id !== null && title !== null) {
+      this.props.navigator.push({
+        id,
+        title,
+        passProps: {
+          preview: (type === 'preview')
+        }
+      })
+    }
   }
 
   resetNavigation() {
@@ -180,9 +192,9 @@ class EditEvent extends Component {
   render() {
     const event = this.props.newEvent
 
-    return (
-      <View style={styles.global.wrapper}>
-        <ScrollView style={styles.editor.scroll}>
+// saved for future
+/*
+    const privacy = (
           <View style={styles.editor.group}>
             <View style={styles.editor.link}>
               <View style={styles.editor.label}>
@@ -203,6 +215,12 @@ class EditEvent extends Component {
               </View>
             </View>
           </View>
+    )
+*/
+
+    return (
+      <View style={styles.global.wrapper}>
+        <ScrollView style={styles.editor.scroll}>
           <View style={styles.editor.group}>
             <EditLink onPress={() => this.nextPage('title')} value={(event.title.length >= AppSettings.minEventTitleLength) ? event.title : Lang.Unnamed} required={true} validated={(event.title.length >= AppSettings.minEventTitleLength)} label={Lang.EventTitle} />
             <EditLink onPress={() => this.setState({showCityPicker: true})} value={Lang.cities[event.city]} required={true} validated={(event.city !== null)} label={Lang.DepartCity} />
@@ -215,7 +233,7 @@ class EditEvent extends Component {
             <EditLink onPress={() => this.nextPage('limits')} value={event.minAttendee.toString() + ' - ' + event.maxAttendee.toString() + Lang.Persons} label={Lang.AttendeeLimits} />
           </View>
           <View style={styles.editor.group}>
-            <EditLink onPress={() => this.nextPage('agenda')} label={Lang.DetailSchedule} required={true} validated={(event.schedule.length > 0)} />
+            <EditLink onPress={() => this.nextPage('agenda')} label={Lang.DetailSchedule} required={true} validated={(event.schedule.length > 0 && event.schedule[0].length > 0)} />
           </View>
           <View style={styles.editor.group}>
             <EditLink onPress={() => this.nextPage('expenses')} label={Lang.EventExpenses} value={event.expenses.perPerson + Lang.Yuan} required={true} validated={(event.expenses.perPerson !== null && event.expenses.perPerson > -1)} />

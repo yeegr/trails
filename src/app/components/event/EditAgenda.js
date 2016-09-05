@@ -1,8 +1,8 @@
 'use strict'
 
 import {
-  AppSettings,
-  Lang
+  Lang,
+  Graphics
 } from '../../settings'
 
 import React, {
@@ -12,7 +12,6 @@ import React, {
 
 import {
   ScrollView,
-  Text,
   View
 } from 'react-native'
 
@@ -58,7 +57,6 @@ class EditAgenda extends Component {
     }
 
     this.state = {
-      day: this.props.day || 0,
       index: this.props.index, 
       agenda,
       showDayPicker: false,
@@ -81,6 +79,7 @@ class EditAgenda extends Component {
     let agenda = this.state.agenda
     agenda[key] = value
     this.setState({agenda})
+    console.log(this.state)
   }
 
   showTypePicker() {
@@ -126,7 +125,7 @@ class EditAgenda extends Component {
     }
 
     if (errors.length === 0) {
-      this.props.newEventActions.setEventSchedule(this.state.day, this.state.index, agenda)
+      this.props.newEventActions.setEventAgenda(this.state.index, this.state.agenda)
       this.back()    
     }
   }
@@ -152,7 +151,7 @@ class EditAgenda extends Component {
       endView = null,
       agenda = this.state.agenda
 
-    for (let i = 0; i < this.props.days; i++) {
+    for (let i = 0; i < this.props.schedule.length; i++) {
       dayLabels.push(Lang.DayCountPrefix + Lang.dayArray[i] + Lang.DayCountPostfix)
     }
 
@@ -183,21 +182,17 @@ class EditAgenda extends Component {
       )
     }
 
-    let cancelButton = (
-      <CallToAction 
-        label={Lang.DELETE}
-        backgroundColor={Graphics.color.warning} 
-        onPress={this.deleteAgenda}
-      />
-    )
+    let deleteButton = null
 
-    if (this.props.mode === 'new') {
-      cancelButton = (
-        <CallToAction 
-          label={Lang.Cancel}
-          backgroundColor={Graphics.color.warning} 
-          onPress={this.cancel}
-        />
+    if (this.props.mode !== 'new') {
+      deleteButton = (
+        <View style={{flex: 1}}>
+          <CallToAction 
+            label={Lang.DELETE}
+            backgroundColor={Graphics.colors.warning} 
+            onPress={this.deleteAgenda}
+          />
+        </View>
       )
     }
 
@@ -208,7 +203,7 @@ class EditAgenda extends Component {
             <EditLink 
               label={Lang.AgendaDay} 
               onPress={() => this.showDayPicker()}
-              value={Lang.DayCountPrefix + Lang.dayArray[this.state.day] + Lang.DayCountPostfix}
+              value={Lang.DayCountPrefix + Lang.dayArray[this.state.agenda.day || 0] + Lang.DayCountPostfix}
             />
           </View>
           <View style={styles.editor.group}>
@@ -227,14 +222,17 @@ class EditAgenda extends Component {
               onPress={() => this.setState({showStartPoiPicker: true})} 
               value={agenda.startPoi.name}
             />
+            <EditLink 
+              label={Lang.SelectTrail}
+              onPress={() => this.props.navigator.push({id: 'SelectTrail', title: Lang.SelectTrail})} 
+              value={agenda.startPoi.name}
+            />
           </View>
           {endView}
         </ScrollView>
         <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 2}}>
-            {cancelButton}
-          </View>
-          <View style={{flex: 3}}>
+          {deleteButton}
+          <View style={{flex: 1}}>
             <CallToAction 
               label={Lang.Save}
               backgroundColor={Graphics.colors.primary} 
@@ -249,13 +247,14 @@ class EditAgenda extends Component {
           confirmText={Lang.Confirm}
           onConfirm={(value) => this.setKey('day', value)}
           onCancel={() => this.setState({showDayPicker: false})}
-          selectedValue={this.state.day}
+          selectedValue={this.state.agenda.day}
           labels={dayLabels}
         />
         <TypePicker 
           visible={this.state.showTypePicker} 
           selectedIndex={this.state.agenda.type} 
           onPress={(value) => this.setType(value)}
+          hidePicker={() => this.setState({showTypePicker: false})}
         />
         <DateTimePicker
           mode="time"

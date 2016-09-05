@@ -1,9 +1,8 @@
 'use strict'
 
 import {
-  AppSettings,
-  Lang,
-  Graphics
+  Graphics,
+  Lang
 } from '../../settings'
 
 import React, {
@@ -13,6 +12,7 @@ import React, {
 
 import {
   ListView,
+  TouchableOpacity,
   View
 } from 'react-native'
 
@@ -20,11 +20,12 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as trailsActions from '../../redux/actions/trailsActions'
 
+import Icon from '../shared/Icon'
 import Loading from '../shared/Loading'
-import TrailCard from './TrailCard'
+import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
-class TrailList extends Component {
+class SelectTrail extends Component {
   constructor(props) {
     super(props)
     this.renderRow = this.renderRow.bind(this)
@@ -38,61 +39,73 @@ class TrailList extends Component {
 
     this.state = {
       loading: true,
-      dataSource: ds.cloneWithRows([])
+      dataSource: ds.cloneWithRows([]),
+      selectedIndex: this.props.trailId
     }
   }
 
   componentWillMount() {
-    if (!this.props.trails) {
-      this.props.trailsActions.listTrails(this.props.query)
-    }
+    this.props.trailsActions.listTrails("?creator=" + this.props.user.id)
   }
 
   componentDidMount() {
-    if (this.props.trails) {
-      this.setState({
-        loading: false,
-        dataSource: this.state.dataSource.cloneWithRows(this.props.trails)
-      })
-    } else {
-      this.setState({
-        loading: this.props.isFetching,
-        dataSource: this.state.dataSource.cloneWithRows(this.props.remoteTrails)
-      })
-    }
+    this.setState({
+      loading: this.props.isFetching,
+      dataSource: this.state.dataSource.cloneWithRows(this.props.trails)
+    })
   }
 
   renderRow(rowData, sectionId, rowId) {
+    let icon = (this.state.selectedIndex === rowData.id) ? (
+      <Icon
+        backgroundColor={Graphics.colors.transparent}
+        fillColor={Graphics.colors.primary}
+        sideLength='36'
+        type='checkmark'
+      />
+    ) : null
+
     return (
-      <TrailCard navigator={this.props.navigator} trail={rowData} key={rowId} />
+      <TouchableOpacity onPress={() => this.setState({selectedIndex: rowData.id})}>
+        <View style={styles.editor.link}>
+          <View style={styles.editor.label}>
+            <TextView text={rowData.title} />
+          </View>
+          <View style={styles.editor.value}>
+            {icon}
+          </View>
+        </View>
+      </TouchableOpacity>
     )
   }
 
   render() {
-    const trails = (this.props.trails) ? this.props.trails : this.props.remoteTrails,
-    {navigator} = this.props
+    const {trails, navigator} = this.props
 
     if (!trails) {
       return <Loading />
     }
 
-    const list = (
+    return (
       <ListView
         style={styles.global.wrapper}
         enableEmptySections={true}
-        scrollEnabled={false}
+        scrollEnabled={true}
+        style={styles.global.main}
         dataSource={this.dataSource.cloneWithRows(trails)}
         renderRow={this.renderRow.bind(this)}
       />
     )
-
-    return (this.props.trails) ? list : <View style={{paddingTop: 20}}>{list}</View>
   }
+}
+
+SelectTrail.propTypes = {
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    remoteTrails: state.trails.list,
+    user: state.login.user,
+    trails: state.trails.list,
     isFetching: state.trails.isFetching
   }
 }
@@ -103,5 +116,5 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TrailList)
+export default connect(mapStateToProps, mapDispatchToProps)(SelectTrail)
 
