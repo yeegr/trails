@@ -65,7 +65,7 @@ const CityPicker = (props) => {
           />
         </View>
       </View>
-      <TouchableOpacity onPress={props.hidePicker} style={styles.modal.close}>
+      <TouchableOpacity onPress={props.onCancel} style={styles.modal.close}>
         <Icon 
           backgroundColor={Graphics.colors.transparent}
           fillColor="rgba(0, 0, 0, 0.5)"
@@ -80,7 +80,7 @@ CityPicker.propTypes = {
   visible: PropTypes.bool.isRequired,
   selectedIndex: PropTypes.string,
   onPress: PropTypes.func.isRequired,
-  hidePicker: PropTypes.func.isRequired
+  onCancel: PropTypes.func.isRequired
 }
 
 export default CityPicker

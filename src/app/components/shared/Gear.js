@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native'
 
+import ImagePath from './ImagePath'
 import TextView from './TextView'
 import {hex2rgb} from '../../../util/common'
 import {
@@ -21,14 +22,11 @@ import {
 } from '../../settings'
 
 const Gear = (props) => {
-  let {width, height} = Dimensions.get('window'), 
+  const url = ImagePath({type: 'gear', path: 'gears/' + props.number + '.jpg'}),
   selected = (props.selected) ? styles.selected : null
 
   return (
-    <Image style={styles.wrapper}
-      source={{uri: AppSettings.assetUri + '?type=gear&path=' + props.number + '.jpg' + '&res=' + width + 'x' + height}}
-//    source={{uri: AppSettings.assetUri + 'gears/' + props.number + '.jpg'}}
-    >
+    <Image style={styles.wrapper} source={{uri: url}}>
       <View style={[styles.caption, selected]}>
         <TextView fontSize='XXS' textColor={Graphics.textColors.overlay} text={Lang.gearArray[props.number]} />
       </View>

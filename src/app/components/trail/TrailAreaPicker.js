@@ -24,7 +24,7 @@ import TextView from '../shared/TextView'
 import {AppSettings, Graphics} from '../../settings'
 import {ASSET_FOLDERS} from '../../../util/constants'
 
-class SelectTrailAreas extends Component {
+class TrailAreaPicker extends Component {
   constructor(props) {
     super(props)
     this._listAreas = this._listAreas.bind(this)
@@ -127,7 +127,7 @@ styles = StyleSheet.create({
   }
 })
 
-SelectTrailAreas.propTypes = {
+TrailAreaPicker.propTypes = {
   city: PropTypes.string.isRequired
 }
 
@@ -143,4 +143,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectTrailAreas)
+export default connect(mapStateToProps, mapDispatchToProps)(TrailAreaPicker)

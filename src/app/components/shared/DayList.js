@@ -26,7 +26,13 @@ const DayList = (props) => {
               {
                 day.map(function(agenda, i) {
                   return (
-                    <Agenda key={i} day={d} agenda={agenda} onPress={props.itemPressed} />
+                    <Agenda 
+                      key={i}
+                      day={d}
+                      index={i}
+                      agenda={agenda}
+                      onPress={(agenda) => props.itemPressed(d, i, agenda)}
+                    />
                   )
                 })
               }

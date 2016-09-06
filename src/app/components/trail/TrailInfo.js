@@ -27,8 +27,8 @@ const TrailInfo = (props) => {
         <Icon type={props.type.toString()} />
       </View>
       <View style={styles.content}>
-        <TextView fontSize='L' text={(props.title.length < 1) ? Lang.Unnamed : props.title} />
-        <TextView class='h5' text={formatTime(props.date)} />
+        <TextView fontSize="L" text={(props.title.length < 1) ? Lang.Unnamed : props.title} />
+        <TextView class="h5" text={formatTime(props.date)} />
       </View>
     </View>
   )

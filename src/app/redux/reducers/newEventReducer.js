@@ -28,7 +28,7 @@ const initState = {
   excerpt: '',
   tags: [],
   groups: [timestamp],
-  gatherTime: time,
+  gatherTime: null,
   gatherLocation: {
     name: ''
   },
@@ -138,10 +138,10 @@ newEventReducer = (state = initState, action) => {
     case ACTIONS.SET_EVENT_AGENDA:
       var schedule = state.schedule,
         agenda = action.agenda,
-        day = schedule[agenda.day],
+        day = schedule[action.day],
         index = action.index
 
-      if (index) {
+      if (index > -1) {
         day.splice(index, 1)
       }
 
@@ -165,10 +165,11 @@ newEventReducer = (state = initState, action) => {
 
     case ACTIONS.DELETE_EVENT_AGENDA:
       var schedule = state.schedule,
-        agenda = action.agenda
+        day = schedule[action.day],
+        index = action.index
 
-      if (agenda.index > -1) {
-        schedule[agenda.day].splice(agenda.index, 1)
+      if (index > -1) {
+        day.splice(index, 1)
       }
 
       return Object.assign({}, state, {

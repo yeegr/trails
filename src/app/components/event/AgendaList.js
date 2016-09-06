@@ -143,7 +143,10 @@ class AgendaList extends Component {
           </View>          
           <View style={[styles.editor.group, {paddingTop: 10}]}>
             <View style={styles.detail.list}>
-              <DayList schedule={this.state.schedule} itemPressed={this.editAgenda} />
+              <DayList
+                schedule={this.state.schedule}
+                itemPressed={(day, index, agenda) => this.editAgenda(day, index, agenda)}
+              />
             </View>
           </View>
         </ScrollView>

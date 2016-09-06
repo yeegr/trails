@@ -99,18 +99,20 @@ export const editEventSchedule = () => {
   }
 }
 
-export const setEventAgenda = (index, agenda) => {
+export const setEventAgenda = (day, index, agenda) => {
   return {
     type: ACTIONS.SET_EVENT_AGENDA,
+    day,
     index,
     agenda
   }
 }
 
-export const deleteEventAgenda = (agenda) => {
+export const deleteEventAgenda = (day, index) => {
   return {
     type: ACTIONS.DELETE_EVENT_AGENDA,
-    agenda
+    day,
+    index
   }
 }
 

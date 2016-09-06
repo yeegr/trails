@@ -76,7 +76,7 @@ class EditEventGears extends Component {
           {
             AppSettings.gearList.map(function(value, index) {
               return (
-                <TouchableOpacity key={index} onPress={() => selectGear(value)}>
+                <TouchableOpacity key={index} onPress={() => selectGear(value)} style={{marginRight: 10}}>
                   <Gear number={value} selected={(stateImages.indexOf(value) > -1)} />
                 </TouchableOpacity>
               )

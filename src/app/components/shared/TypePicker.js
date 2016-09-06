@@ -27,7 +27,7 @@ const TypePicker = (props) => {
       <ScrollView style={styles.modal.wrapper}>
         <View style={styles.modal.main}>
           <TextView
-            style={{flex: 1, marginVertical: 20, textAlign: 'center'}}
+            style={{marginVertical: 20, textAlign: 'center'}}
             fontSize='XL'
             text={props.title || Lang.SelectAgendaType}
           />
@@ -41,7 +41,7 @@ const TypePicker = (props) => {
           <IconGrid list={[80,81,82,83,84]} selectedIndex={props.selectedIndex} onPress={(value) => props.onPress(value)} />
         </View>
       </ScrollView>
-      <TouchableOpacity onPress={props.hidePicker} style={styles.modal.close}>
+      <TouchableOpacity onPress={props.onCancel} style={styles.modal.close}>
         <Icon 
           backgroundColor={Graphics.colors.transparent}
           fillColor="rgba(0, 0, 0, 0.5)"
@@ -82,7 +82,7 @@ TypePicker.propTypes = {
   visible: PropTypes.bool.isRequired,
   selectedIndex: PropTypes.number,
   onPress: PropTypes.func.isRequired,
-  hidePicker: PropTypes.func.isRequired
+  onCancel: PropTypes.func.isRequired
 }
 
 IconGrid.propTypes = {

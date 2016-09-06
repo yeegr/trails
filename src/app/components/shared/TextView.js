@@ -53,6 +53,11 @@ const TextView = (props) => {
         color: Graphics.textColors.h5,
         fontSize: Graphics.fontSizes.SML,
         fontWeight: '400',
+      }),
+      h6: Object.assign({}, baseStyles, {
+        color: Graphics.textColors.h6,
+        fontSize: Graphics.fontSizes.XS,
+        fontWeight: '400',
       })
     }),
     ellipsizeMode = props.ellipsizeMode || 'tail',

@@ -24,7 +24,7 @@ import {Graphics} from '../../settings'
 
 const Agenda = (props) => {
   const agenda = props.agenda,
-    type = agenda.type
+  type = agenda.type
 
   let view = null
 
@@ -67,7 +67,7 @@ const Agenda = (props) => {
   }
 
   return (
-    <TouchableOpacity onPress={props.onPress}>
+    <TouchableOpacity onPress={() => props.onPress(agenda)}>
       <View style={styles.wrapper}>
         <View style={styles.icon}>
           <Icon type={type} />

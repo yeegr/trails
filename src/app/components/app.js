@@ -41,7 +41,7 @@ import RecordTrail from './trail/RecordTrail'
 import EditTrail from './trail/EditTrail'
 import EditTrailTitle from './trail/EditTrailTitle'
 import EditTrailType from './trail/EditTrailType'
-import SelectTrailAreas from './trail/SelectTrailAreas'
+import TrailAreaPicker from './trail/TrailAreaPicker'
 import EditTrailDifficulty from './trail/EditTrailDifficulty'
 import EditTrailDescription from './trail/EditTrailDescription'
 import EditTrailGallery from './trail/EditTrailGallery'
@@ -60,7 +60,6 @@ import EditEventContacts from './event/EditEventContacts'
 import EditAttendeeLimits from './event/EditAttendeeLimits'
 import AgendaList from './event/AgendaList'
 import EditAgenda from './event/EditAgenda'
-import SelectTrail from './event/SelectTrail'
 import EditEventExpenses from './event/EditEventExpenses'
 import EditEventGears from './event/EditEventGears'
 import EditEventDestination from './event/EditEventDestination'
@@ -100,7 +99,7 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
         onPress={() => navigator.pop()}
         icon={Graphics.titlebar.prev}
         label={previousRoute.title}
-        showLabel={true}
+        showLabel={false}
       />
     )
   },
@@ -368,9 +367,9 @@ class App extends Component {
                   />
                 )
 
-              case 'SelectTrailAreas':
+              case 'TrailAreaPicker':
                 return (
-                  <SelectTrailAreas
+                  <TrailAreaPicker
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />
@@ -509,14 +508,6 @@ class App extends Component {
               case 'EditAgenda':
                 return (
                   <EditAgenda
-                    navigator={navigator}
-                    route={route} {...route.passProps}
-                  />
-                )
-
-              case 'SelectTrail':
-                return (
-                  <SelectTrail
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />

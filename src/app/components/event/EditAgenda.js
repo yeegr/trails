@@ -25,6 +25,7 @@ import TypePicker from '../shared/TypePicker'
 import DateTimePicker from '../shared/DateTimePicker'
 import DurationPicker from '../shared/DurationPicker'
 import SearchPoi from '../shared/SearchPoi'
+import TrailPicker from './TrailPicker'
 import Icon from '../shared/Icon'
 import CallToAction from '../shared/CallToAction'
 import {formatMinutes,formatDuration} from '../../../util/common'
@@ -35,66 +36,48 @@ class EditAgenda extends Component {
     super(props)
     this.back = this.back.bind(this)
     this.cancel = this.cancel.bind(this)
-    this.showDayPicker = this.showDayPicker.bind(this)
-    this.showTypePicker = this.showTypePicker.bind(this)
 
     this.setKey = this.setKey.bind(this)
-    this.setType = this.setType.bind(this)
     this.saveAgenda = this.saveAgenda.bind(this)
     this.deleteAgenda = this.deleteAgenda.bind(this)
 
     let now = new Date(),
     nowMinutes = now.getHours() * 60 + now.getMinutes(), 
     agenda = this.props.agenda || {
+      id: null,
       type: null,
       startTime: nowMinutes,
       startPoi: {},
       endTime: nowMinutes,
       endPoi: {},
       duration: 120,
-      trail: null,
-      difficultyLevel: null
+      trail: null
     }
 
     this.state = {
-      index: this.props.index, 
       agenda,
+      day: this.props.day || 0,
+      index: this.props.index,
       showDayPicker: false,
       showTypePicker: false,
       showStartTimePicker: false,
       showStartPoiPicker: false,
       showEndTimePicker: false,
       showDurationPicker: false,
-      showEndPoiPicker: false
+      showEndPoiPicker: false,
+      showTrailPicker: false
     }
-  }
-
-  showDayPicker() {
-    this.setState({
-      showDayPicker: true
-    })
   }
 
   setKey(key, value) {
     let agenda = this.state.agenda
     agenda[key] = value
-    this.setState({agenda})
-    console.log(this.state)
-  }
-
-  showTypePicker() {
-    this.setState({
-      showTypePicker: true
-    })
-  }
-
-  setType(value) {
-    let agenda = this.state.agenda
-    agenda.type = value
 
     this.setState({
       agenda,
-      showTypePicker: false
+      showDayPicker: false,
+      showTypePicker: false,
+      showTrailPicker: false
     })
   }
 
@@ -125,13 +108,15 @@ class EditAgenda extends Component {
     }
 
     if (errors.length === 0) {
-      this.props.newEventActions.setEventAgenda(this.state.index, this.state.agenda)
+      console.log('save agenda')
+      console.log(this.state.day)
+      this.props.newEventActions.setEventAgenda(this.state.day, this.state.index, this.state.agenda)
       this.back()    
     }
   }
 
   deleteAgenda() {
-    this.props.newEventActions.deleteEventAgenda(this.state.agenda)
+    this.props.newEventActions.deleteEventAgenda(this.state.day, this.state.index)
     this.back()    
   }
 
@@ -148,11 +133,24 @@ class EditAgenda extends Component {
 
   render() {
     let dayLabels = [],
+      trailView = null,
       endView = null,
       agenda = this.state.agenda
 
     for (let i = 0; i < this.props.schedule.length; i++) {
       dayLabels.push(Lang.DayCountPrefix + Lang.dayArray[i] + Lang.DayCountPostfix)
+    }
+
+    if (agenda.type !== null && agenda.type > -1 && agenda.type < 90) {
+      trailView = (
+        <View style={styles.editor.group}>
+          <EditLink 
+            label={Lang.SelectTrail}
+            onPress={() => this.setState({showTrailPicker: true})}
+            value={(agenda.trail && agenda.trail.id) ? agenda.trail.title : ''}
+          />
+        </View>
+      )
     }
 
     if (agenda.type > 79 && agenda.type < 100) {
@@ -202,32 +200,33 @@ class EditAgenda extends Component {
           <View style={styles.editor.group}>
             <EditLink 
               label={Lang.AgendaDay} 
-              onPress={() => this.showDayPicker()}
+              required={true}
+              validated={(this.state.day > -1)}
+              onPress={() => this.setState({showDayPicker: true})}
               value={Lang.DayCountPrefix + Lang.dayArray[this.state.agenda.day || 0] + Lang.DayCountPostfix}
             />
           </View>
           <View style={styles.editor.group}>
             <EditLink
-              label={Lang.AgendaType} 
-              onPress={() => this.showTypePicker()}
+              required={true}
+              label={Lang.AgendaType}
+              onPress={() => this.setState({showTypePicker: true})}
               value={Lang.tagArray[agenda.type]} 
             />
             <EditLink 
+              required={true}
               label={Lang.StartTime} 
               onPress={() => this.setState({showStartTimePicker: true})}
               value={formatMinutes(agenda.startTime)}
             />
             <EditLink 
+              required={true}
               label={Lang.StartLocation}
               onPress={() => this.setState({showStartPoiPicker: true})} 
               value={agenda.startPoi.name}
             />
-            <EditLink 
-              label={Lang.SelectTrail}
-              onPress={() => this.props.navigator.push({id: 'SelectTrail', title: Lang.SelectTrail})} 
-              value={agenda.startPoi.name}
-            />
           </View>
+          {trailView}
           {endView}
         </ScrollView>
         <View style={{flexDirection: 'row'}}>
@@ -245,16 +244,16 @@ class EditAgenda extends Component {
           showPicker={this.state.showDayPicker}
           cancelText={Lang.Cancel} 
           confirmText={Lang.Confirm}
-          onConfirm={(value) => this.setKey('day', value)}
+          onConfirm={(value) => this.setState({'day': value})}
           onCancel={() => this.setState({showDayPicker: false})}
-          selectedValue={this.state.agenda.day}
+          selectedValue={this.state.day}
           labels={dayLabels}
         />
         <TypePicker 
           visible={this.state.showTypePicker} 
           selectedIndex={this.state.agenda.type} 
-          onPress={(value) => this.setType(value)}
-          hidePicker={() => this.setState({showTypePicker: false})}
+          onPress={(value) => this.setKey('type', value)}
+          onCancel={() => this.setState({showTypePicker: false})}
         />
         <DateTimePicker
           mode="time"
@@ -297,6 +296,12 @@ class EditAgenda extends Component {
           onCancel={() => this.setState({showDurationPicker: false})}
           interval={15}
           duration={agenda.duration}
+        />
+        <TrailPicker
+          showPicker={this.state.showTrailPicker}
+          onPress={(value) => this.setKey('trail', value)}
+          onCancel={() => this.setState({showTrailPicker: false})}
+          trail={(agenda.trail) ? agenda.trail : null}
         />
       </View>
     )
