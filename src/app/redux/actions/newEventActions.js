@@ -93,6 +93,7 @@ export const setEventScheduleDays = (days) => {
     days
   }
 }
+
 export const editEventSchedule = () => {
   return {
     type: ACTIONS.EDIT_EVENT_SCHEDULE
@@ -154,10 +155,11 @@ export const setEventPhotos = (photos) => {
 export const saveEvent = () => {
   return (dispatch, getState) => {
     const newEvent = getState().newEvent
+    newEvent.creator = getState().login.user._id
 
-    if (validateEvent(newEvent)) {
-      dispatch(uploadEvent(newEvent))
-    }
+    //if (validateEvent(newEvent)) {
+      dispatch(sendEvent(newEvent))
+    //}
   }
 }
 
@@ -170,49 +172,125 @@ const validateEvent = (event) => {
     (event.type > -1) && 
     (event.groups.length > 0) && 
     (event.schedule.length > 0) && 
-    (event.expenses.perPerson !== null && event.expenses.perPerson > -1)
+    (event.expenses.perHead !== null && event.expenses.perHead > -1)
   )
 }
 
-const sendUploadRequest = (event) => {
+const sendSaveRequest = () => {
   return {
-    type: ACTIONS.SAVE_EVENT,
-    event
+    type: ACTIONS.SAVE_EVENT
   }
 }
 
-const receiveUploadResponse = (event) => {
+const receiveSaveResponse = (event) => {
   return {
     type: ACTIONS.SAVE_EVENT_SUCCESS,
     event
   }
 }
 
-const uploadError = (message) => {
+const saveError = (message) => {
   return {
     type: ACTIONS.SAVE_EVENT_FAILURE,
     message
   }
 }
 
-const uploadEvent = (data) => {
+const sendEvent = (data) => {
+/*
+  let body = new FormData()
+
+  body.append('file', {
+    type: 'image/jpg',
+    name: 'hero.jpg',
+    uri: data.hero
+  })
+
+  body.append('title', data.title)
+  body.append('city', data.city)
+  body.append('type', data.type)
+  body.append('description', data.description)
+  body.append('excerpt', data.excerpt)
+  body.append('tags', JSON.stringify(data.tags))
+  body.append('groups', JSON.stringify(data.groups))
+  body.append('gatherTime', data.gatherTime)
+  body.append('gatherLocation', JSON.stringify(data.gatherLocation))
+  body.append('contacts', JSON.stringify(data.contacts))
+  body.append('minAttendee', data.minAttendee)
+  body.append('maxAttendee', data.maxAttendee)
+  body.append('schedule', JSON.stringify(data.schedule))
+  body.append('expenses', JSON.stringify(data.expenses))
+  body.append('destination', data.destination)
+  body.append('gears', data.gears)
+  body.append('photos', data.photos)
+  body.append('notes', data.notes)
+
+  let config = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    body
+  }
+
+  console.log(body)
+*/
+
   let config = Object.assign({}, CONFIG.POST, {
     body: JSON.stringify(data)
   })
 
   return (dispatch) => {
-    dispatch(sendUploadRequest(data))
+    dispatch(sendSaveRequest())
 
     return fetch(AppSettings.apiUri + 'events', config)
       .then((res) => {
         return res.json()
       })
       .then((res) => {
+        if (res.id) {
+          dispatch(uploadEventHero(res.id, data.hero))
+        } else {
+          dispatch(saveError(res.message))
+          return Promise.reject(res)
+        }
+      })
+      .catch((err) => dispatch(saveError(err)))
+  }
+}
+
+const uploadEventHero = (id, uri) => {
+  let body = new FormData()
+
+  body.append('file', {
+    type: 'image/jpg',
+    name: 'hero.jpg',
+    uri
+  })
+
+  let config = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    body
+  }
+
+  return (dispatch) => {
+    //dispatch(sendUploadRequest())
+
+    return fetch(AppSettings.apiUri + 'events/' + id + '/hero', config)
+      .then((res) => {
+        console.log(res)
+        return res.json()
+      })
+      .then((res) => {
         console.log('response')
         console.log(res)
         if (res.id) {
-          dispatch(receiveUploadResponse(res))
+          dispatch(receiveSaveResponse(res))
         } else {
+          console.log('image error')
           dispatch(saveError(res.message))
           return Promise.reject(res)
         }

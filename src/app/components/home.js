@@ -69,11 +69,13 @@ class Home extends Component {
           selected={selectedTab === HOME_TABS.EVENTS}
           onPress={() => this.onTabPressed(HOME_TABS.EVENTS)}
         >
-          <EventList 
-            key={'event-list'}
-            navigator={navigator} 
-            params=""
-          />
+          <ScrollView style={styles.global.home}>
+            <EventList 
+              key={'event-list'}
+              navigator={navigator} 
+              params=""
+            />
+          </ScrollView>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title={Lang.Posts}

@@ -36,7 +36,7 @@ class EditEventGroups extends Component {
     this.state = {
       groups: this.props.groups,
       showDateTimePicker: false,
-      currentGroupIndex: 0
+      currentGroupIndex: -1
     }
   }
 
@@ -51,28 +51,29 @@ class EditEventGroups extends Component {
   }
 
   setDate(date) {
-    let time = (new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0)).getTime(),
-      groups = this.state.groups,
-      index = this.state.currentGroupIndex
+    let groups = this.state.groups,
+      index = this.state.currentGroupIndex,
+      time = (new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0)).getTime()
 
-    if (index) {
-      groups[index] = time
-    } else {
-      let exists = false
+    console.log(index)
+    console.log(groups)
 
-      for (var i = 0, j = groups.length; i < j; i++) {
-        if (groups[i] === time) {
-          exists = true
-          break
-        }
-      }
-
-      if (!exists) {
-        groups.push(time)
-      }
+    if (index > -1) {
+      groups.splice(index, 1)
     }
 
-    groups.sort()
+    console.log(groups)
+
+    groups.push({
+      startDate: time / 1000,
+      deadline: (time / 1000) - 86400 
+    })
+
+    groups.sort((a, b) => {
+      return (a.startDate > b.startDate)
+    })
+
+    console.log(groups)
 
     this.setState({
       showDateTimePicker: false,
@@ -103,7 +104,7 @@ class EditEventGroups extends Component {
           </View>
         </ScrollView>
         <CallToAction 
-          onPress={() => this.setState({showDateTimePicker: true, currentGroupIndex: null})}
+          onPress={() => this.setState({showDateTimePicker: true, currentGroupIndex: -1})}
           label={Lang.AddGroup}
           backgroundColor={Graphics.colors.primary}
         />

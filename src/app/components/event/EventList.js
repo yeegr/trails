@@ -55,8 +55,7 @@ class EventList extends Component {
       <ListView
         automaticallyAdjustContentInsets={false}
         enableEmptySections={true}
-        scrollEnabled={true}
-        style={styles.global.home}
+        scrollEnabled={false}
         dataSource={this.dataSource.cloneWithRows(events)}
         renderRow={this.renderRow}
       />

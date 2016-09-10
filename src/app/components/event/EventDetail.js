@@ -27,11 +27,12 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../redux/actions/eventsActions'
 import * as loginActions from '../../redux/actions/loginActions'
-import {ACTION_TARGETS} from '../../../util/constants'
+import {ACTION_TARGETS, ASSET_FOLDERS} from '../../../util/constants'
 
 import TextView from '../shared/TextView'
 import Loading from '../shared/Loading'
 import Header from '../shared/Header'
+import ImagePath from '../shared/ImagePath'
 import Intro from '../shared/Intro'
 import ListItem from '../shared/ListItem'
 import SimpleContact from '../shared/SimpleContact'
@@ -113,86 +114,87 @@ class EventDetail extends Component {
     }
 
     const avatarRadius = 20,
-      eventGroups = (event.groups.length > 1) ? (
-        <ListItem icon="calendar"
-          label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}
-          value={Moment(event.groups[0].startDate).format('LL') + '-' + Moment(event.groups[event.groups.length-1].startDate).format('LL')}
-        />
-      ) : null,
-      gatherTime = (event.groups.length > 1) ? formatMinutes(event.gatherTime) : Moment(event.groups[0]).format('ll') + formatMinutes(event.gatherTime),
-      expensesDetail = (event.expenses.detail && event.expenses.detail.length > 0) ? (
-        <View style={styles.detail.section}>
-          <TextView class='h3' text={Lang.ExpensesDetail} />
-          <View style={styles.detail.list}>
-            <OrderedList content={event.expenses.detail} />
-          </View>
+    backgroundImageUri = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
+    eventGroups = (event.groups.length > 1) ? (
+      <ListItem icon="calendar"
+        label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}
+        value={Moment(event.groups[0].startDate).format('LL') + '-' + Moment(event.groups[event.groups.length-1].startDate).format('LL')}
+      />
+    ) : null,
+    gatherTime = (event.groups.length > 1) ? formatMinutes(event.gatherTime) : Moment(event.groups[0]).format('ll') + formatMinutes(event.gatherTime),
+    expensesDetail = (event.expenses.detail && event.expenses.detail.length > 0) ? (
+      <View style={styles.detail.section}>
+        <TextView class='h3' text={Lang.ExpensesDetail} />
+        <View style={styles.detail.list}>
+          <OrderedList content={event.expenses.detail} />
         </View>
-      ) : null,
-      expensesInclude = (event.expenses.include && event.expenses.include.length > 0) ? (
-        <View style={styles.detail.section}>
-          <TextView class='h3' text={Lang.ExpensesInclude} />
-          <View style={styles.detail.list}>
-            <OrderedList content={event.expenses.include} />
-          </View>
+      </View>
+    ) : null,
+    expensesInclude = (event.expenses.include && event.expenses.include.length > 0) ? (
+      <View style={styles.detail.section}>
+        <TextView class='h3' text={Lang.ExpensesInclude} />
+        <View style={styles.detail.list}>
+          <OrderedList content={event.expenses.include} />
         </View>
-      ) : null,
-      expensesExclude = (event.expenses.exclude && event.expenses.exclude.length > 0) ? (
-        <View style={styles.detail.section}>
-          <TextView class='h3' text={Lang.ExpensesExclude} />
-          <View style={styles.detail.list}>
-            <OrderedList content={event.expenses.exclude} />
-          </View>
+      </View>
+    ) : null,
+    expensesExclude = (event.expenses.exclude && event.expenses.exclude.length > 0) ? (
+      <View style={styles.detail.section}>
+        <TextView class='h3' text={Lang.ExpensesExclude} />
+        <View style={styles.detail.list}>
+          <OrderedList content={event.expenses.exclude} />
         </View>
-      ) : null,
-      eventDestination = (event.destination && event.destination.length > 0) ? (
-        <View ref="eventDestination" style={styles.detail.section}>
-          <TextView class='h2' text={Lang.Destination} />
-          <WebViewWrapper html={'<div>' + event.destination + '</div>'} />
+      </View>
+    ) : null,
+    eventDestination = (event.destination && event.destination.length > 0) ? (
+      <View ref="eventDestination" style={styles.detail.section}>
+        <TextView class='h2' text={Lang.Destination} />
+        <WebViewWrapper html={'<div>' + event.destination + '</div>'} />
+      </View>
+    ) : null,
+    eventGears = (event.gears.images && event.gears.images.length > 0) ? (
+      <View ref="eventGears" style={styles.detail.section}>
+        <Header text={Lang.GearsToBring} />
+        <View style={[styles.detail.content, {paddingHorizontal: 12}]}>
+          <GearList list={event.gears.images} />
         </View>
-      ) : null,
-      eventGears = (event.gears.images && event.gears.images.length > 0) ? (
-        <View ref="eventGears" style={styles.detail.section}>
-          <Header text={Lang.GearsToBring} />
-          <View style={[styles.detail.content, {paddingHorizontal: 12}]}>
-            <GearList list={event.gears.images} />
-          </View>
-          {otherGears}
+        {otherGears}
+      </View>
+    ) : null,
+    otherGears = (event.gears.tags && event.gears.tags.length > 0) ? (
+      <View style={styles.detail.subsection}>
+        <TextView class='h3' text={Lang.OtherGears} />
+        <View style={[styles.detail.content, {paddingLeft: 15}]}>
+          <TagList tags={event.gears.tags} />
         </View>
-      ) : null,
-      otherGears = (event.gears.tags && event.gears.tags.length > 0) ? (
-        <View style={styles.detail.subsection}>
-          <TextView class='h3' text={Lang.OtherGears} />
-          <View style={[styles.detail.content, {paddingLeft: 15}]}>
-            <TagList tags={event.gears.tags} />
-          </View>
+      </View>
+    ) : null,
+    gearNotes = (event.gears.notes && event.gears.notes.length > 0) ? (
+      <View style={styles.detail.subsection}>
+        <TextView class='h3' text={Lang.OtherGears} />
+        <View style={[styles.detail.content, {paddingLeft: 15}]}>
+          <OrderedList content={event.gears.notes} />
         </View>
-      ) : null,
-      gearNotes = (event.gears.notes && event.gears.notes.length > 0) ? (
-        <View style={styles.detail.subsection}>
-          <TextView class='h3' text={Lang.OtherGears} />
-          <View style={[styles.detail.content, {paddingLeft: 15}]}>
-            <OrderedList content={event.gears.notes} />
-          </View>
-        </View>
-      ) : null,
-      eventNotes = (event.notes && event.notes.length > 0) ? (
-        <View ref="eventNotes" style={styles.detail.section}>
-          <Header text={Lang.EventNotes} />
-          <WebViewWrapper html={event.notes} />
-        </View>
-      ) : null,
-      commentsPreview = (event.comments.length > 0) ? (
-        <CommentsPreview 
-          navigator={navigator}
-          type={ACTION_TARGETS.EVENT}
-          data={event}
-        />
-      ) : null
+      </View>
+    ) : null,
+    eventNotes = (event.notes && event.notes.length > 0) ? (
+      <View ref="eventNotes" style={styles.detail.section}>
+        <Header text={Lang.EventNotes} />
+        <WebViewWrapper html={event.notes} />
+      </View>
+    ) : null,
+    commentsPreview = (event.comments.length > 0) ? (
+      <CommentsPreview 
+        navigator={navigator}
+        type={ACTION_TARGETS.EVENT}
+        data={event}
+      />
+    ) : null
 
     return (
       <View style={styles.global.wrapper}>
         <ParallaxView
-          backgroundSource={{uri: AppSettings.assetUri + event.hero}}
+          backgroundSource={{uri: backgroundImageUri}}
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro

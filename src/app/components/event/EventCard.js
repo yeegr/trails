@@ -20,6 +20,7 @@ import Hero from '../shared/Hero'
 import TinyStatus from '../shared/TinyStatus'
 import TextView from '../shared/TextView'
 import TinyUser from '../user/TinyUser'
+import {ASSET_FOLDERS} from '../../../util/constants'
 import global from '../../styles/global'
 
 const EventCard = (props) => {
@@ -36,8 +37,8 @@ const EventCard = (props) => {
 
   return (
     <View>
-      <Hero 
-        imageUri={data.hero} 
+      <Hero
+        imageUri={ASSET_FOLDERS.Event + '/' + data._id + '/' + data.hero} 
         title={data.title}
         excerpt={data.excerpt}
         tags={data.tags}

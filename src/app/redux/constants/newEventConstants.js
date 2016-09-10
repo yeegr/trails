@@ -1,5 +1,8 @@
 'use strict'
 
+export const CREAT_EVENT = 'CREAT_EVENT'
+export const EDIT_EVENT = 'EDIT_EVENT'
+
 export const SET_EVENT_PRIVACY = 'SET_EVENT_PRIVACY'
 export const SET_EVENT_HERO = 'SET_EVENT_HERO'
 export const SET_DEPART_CITY = 'SET_DEPART_CITY'

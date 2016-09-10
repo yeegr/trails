@@ -239,6 +239,7 @@ const userUpdateError = (message) => {
 
 export const updateUserAvatar = (user_id, uri) => {
   let formData = new FormData()
+
   formData.append('file', {
     type: 'image/jpg',
     name: 'avatar.jpg',

@@ -1,7 +1,10 @@
 var mongoose = require('mongoose'),
   CONST = require('../const'),
   User = require('../models/user'),
-  Event = require('../models/event')
+  Event = require('../models/event'),
+  formidable = require('formidable'),
+  fs = require('fs'),
+  path = require('path')
 
 mongoose.Promise = global.Promise
 
@@ -52,6 +55,11 @@ module.exports = function(app) {
     })
     .then(function(data) {
       if (data) {
+        var dir = 'uploads/events/' + data._id
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir)
+        } 
+
         getOneById(data._id, res, 201)
       }
     })
@@ -88,7 +96,7 @@ module.exports = function(app) {
   })
 
   /* Update */
-  app.put('/events/:id', function(req, res) {
+  app.put('/events/:id', function(req, res, next) {
     Event
     .findById(req.params.id)
     .exec()
@@ -104,6 +112,44 @@ module.exports = function(app) {
       .catch(function(err) {
         res.status(500).send({error: err})
       })
+    })
+  })
+
+  app.put('/events/:id/hero', function(req, res, next) {
+    Event
+    .findById(req.params.id)
+    .exec()
+    .then(function(event) {
+      if (event) {
+        var fileName = CONST.generateRandomString(8),
+            form = new formidable.IncomingForm()
+
+        form.parse(req, function(err, fields, files) {
+          fs.rename(files.file.path, path.join('uploads/events/' + req.params.id + '/' + fileName + '.jpg'), (err) => {
+            if (err) {
+              throw err
+            }
+
+            event
+            .set({
+              hero: fileName + '.jpg'
+            })
+            .save()
+            .then(function(data) {
+              if (data) {
+                getOneById(data._id, res, 200)
+              }
+            })
+            .catch(function(err) {
+              res.status(500).send({error: err})
+            })
+            
+          })
+        })
+      }
+    })
+    .catch(function(err) {
+      res.status(500).send({error: err})
     })
   })
 

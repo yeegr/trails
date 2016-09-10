@@ -51,7 +51,13 @@ class EditEvent extends Component {
   }
 
   componentWillMount() {
-  //    this.props.newEventActions.resetEvent()
+    if (!this.props.event) {
+      this.props.newEventActions.createEvent()
+    }
+  }
+
+  componentWillUnmount() {
+
   }
 
   convertTimeToDatetime(minutes) {
@@ -239,9 +245,9 @@ class EditEvent extends Component {
             <EditLink
               label={Lang.HeroImage}
               required={true}
-              validated={(event.hero !== '')}
+              validated={(event.hero.length > 0 && event.hero !== AppSettings.assetUri)}
               onPress={() => this.nextPage('hero')}
-              value={(event.hero !== '') ? '' : ''}
+              value={(event.hero !== AppSettings.assetUri) ? '' : ''}
             />
             <EditLink
               label={Lang.EventType}
@@ -290,9 +296,9 @@ class EditEvent extends Component {
             <EditLink
               label={Lang.EventExpenses}
               required={true}
-              validated={(event.expenses.perPerson !== null && event.expenses.perPerson > -1)}
+              validated={(event.expenses.perHead !== null && event.expenses.perHead > -1)}
               onPress={() => this.nextPage('expenses')}
-              value={event.expenses.perPerson + Lang.Yuan}
+              value={event.expenses.perHead + Lang.Yuan}
             />
             <EditLink
               label={Lang.GearsToBring}

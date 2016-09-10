@@ -12,6 +12,7 @@ import React, {
 } from 'react'
 
 import {
+  Alert,
   Navigator,
   ScrollView,
   TouchableOpacity,
@@ -96,7 +97,7 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
 
     return (
       <NavbarIconButton
-        onPress={() => navigator.pop()}
+        onPress={() => this.back(navigator, route.id)}
         icon={Graphics.titlebar.prev}
         label={previousRoute.title}
         showLabel={false}
@@ -195,6 +196,25 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
     return {
       id,
       title: Lang.Search + title
+    }
+  },
+
+  back: function(navigator, routeId) {
+    switch (routeId) {
+      case 'EditEvent':
+        Alert.alert(
+          Lang.AreYouSure,
+          Lang.ExitAlert,
+          [
+            {text: Lang.Cancel},
+            {text: Lang.Confirm, onPress: () => navigator.pop()}
+          ]
+        )
+      break
+      
+      default:
+        navigator.pop()
+      break
     }
   },
 

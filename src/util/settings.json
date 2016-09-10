@@ -6,6 +6,7 @@
     "baseUri":"http://192.168.0.102/",
     "apiUri":"http://192.168.0.102:3000/",
     "assetUri":"http://192.168.0.102:8000/",
+    "defaultEventHeroUri":"default/hero-006.jpg",
     "maxLeadersPerArea":3,
     "maxTrailPreviewsPerArea":3,
     "maxPhotoPreviewsPerGallery":4,
@@ -188,6 +189,8 @@
     "OrderInfo":"订单信息",
     "OrderId":"订单号",
     "PayTime":"支付时间",
+    "AreYouSure":"真的吗？",
+    "ExitAlert":"如果您现在退出，新的编辑将消失",
 
     "AddEvent":"添加活动",
     "EditEvent":"编辑活动",

@@ -18,16 +18,21 @@ let today = new Date(),
 const initState = {
   isEditing: false,
   isFetching: false,
+  isUploading: false,
+
   isPublic: true,
   privacyStatus: 'public',
   title: '',
   city: AppSettings.defaultCity,
   type: 0,
-  hero: '',
+  hero: AppSettings.defaultEventHeroUri,
   description: '',
   excerpt: '',
   tags: [],
-  groups: [timestamp],
+  groups: [{
+    startDate: timestamp,
+    deadline: timestamp - 86400
+  }],
   gatherTime: null,
   gatherLocation: {
     name: ''
@@ -37,7 +42,7 @@ const initState = {
   maxAttendee: AppSettings.maxEventAttendees,
   schedule: [[]],
   expenses: {
-    perPerson: 0,
+    perHead: 0,
     deposit: 0,
     insurance: true,
     detail: ['1','2','3','4','5'],
@@ -205,6 +210,23 @@ newEventReducer = (state = initState, action) => {
     case ACTIONS.SET_EVENT_PHOTOS:
       return Object.assign({}, state, {
         photos: action.photos
+      })
+
+    case ACTIONS.SAVE_EVENT:
+      return Object.assign({}, state, {
+        isUploading: true
+      })
+
+    case ACTIONS.SAVE_EVENT_SUCCESS:
+      return Object.assign({}, state, {
+        isUploading: false,
+        event: action.event
+      })
+
+    case ACTIONS.SAVE_EVENT_FAILURE:
+      return Object.assign({}, state, {
+        isUploading: false,
+        message: action.message
       })
 
     default:

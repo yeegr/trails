@@ -28,18 +28,36 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
+import ImagePath from '../shared/ImagePath'
+
 class EditEventHero extends Component {
   constructor(props) {
     super(props)
     this.selectPhoto = this.selectPhoto.bind(this)
 
     this.state = {
-      imageUri: ((this.props.heroUri.substring(0, 1) === '/') ? '' : AppSettings.assetUri) + this.props.heroUri
+      imageUri: (this.props.heroUri.substring(0, 1) === '/') ? this.props.heroUri : ImagePath({type: 'background', path: this.props.heroUri})
     }
   }
 
   componentWillUnmount() {
-    this.props.newEventActions.setEventHero(this.state.imageUri)
+    var path
+
+    if (this.state.imageUri.substring(0, 4) === 'http') {
+      let arr = this.state.imageUri.split('&')
+
+      arr.map((tmp) => {
+        if (tmp.substring(0, 5) === 'path=') {
+          path = tmp.substring(5)
+        }
+      })
+    } else {
+      path = this.state.imageUri
+    }
+
+    if (path !== this.props.heroUri) {
+      this.props.newEventActions.setEventHero(path)
+    }
   }
 
   selectPhoto() {

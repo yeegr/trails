@@ -9,6 +9,7 @@ const initState = {
   isRecording: false,
   isCalculating: false,
   isValidated: false,
+  isUploading: false,
 
   privacyStatus: 'private',
   isPublic: false,
@@ -118,18 +119,18 @@ newTrailReducer = (state = initState, action) => {
 
     case ACTIONS.SAVE_TRAIL:
       return Object.assign({}, state, {
-        isFetching: true
+        isUploading: true
       })
 
     case ACTIONS.SAVE_TRAIL_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: false,
+        isUploading: false,
         trail: action.trail
       })
 
     case ACTIONS.SAVE_TRAIL_FAILURE:
       return Object.assign({}, state, {
-        isFetching: false,
+        isUploading: false,
         message: action.message
       })
 

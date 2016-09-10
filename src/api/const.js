@@ -16,7 +16,7 @@ module.exports = {
   STATUSES: {
     AREA: ["submitting", "pending", "approved", "rejected", "suspended"],
     TRAIL: ["private", "submitting", "pending", "approved", "rejected", "suspended"],
-    EVENT: ["private", "submitting", "pending", "approved", "rejected", "completed", "suspended"],
+    EVENT: ["private", "submitting", "pending", "approved", "rejected", "public", "suspended"],
     GROUP: ["accepting", "filled", "due"],
     SIGNUP: ["submitted", "pending", "approved", "rejected"],
     PAYMENT: ["submitting", "pending", "received", "rejected"],

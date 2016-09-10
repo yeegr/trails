@@ -33,7 +33,7 @@ class EditEventExpenses extends Component {
 
     this.state = {
       selectedIndex: 0,
-      perPerson: this.props.perPerson.toString(),
+      perHead: this.props.perHead.toString(),
       deposit: this.props.deposit.toString(),
       insurance: this.props.insurance,
       detail: this.props.detail,
@@ -44,7 +44,7 @@ class EditEventExpenses extends Component {
 
   componentWillUnmount() {
     this.props.newEventActions.setEventExpenses({
-      perPerson: parseInt(this.state.perPerson),
+      perHead: parseInt(this.state.perHead),
       deposit: parseInt(this.state.deposit),
       insurance: this.state.insurance,
       detail: this.state.detail,
@@ -72,8 +72,8 @@ class EditEventExpenses extends Component {
                     maxLength={6}
                     placeholder={(0).toString()}
                     style={styles.editor.numberInput}
-                    value={this.state.perPerson}
-                    onChangeText={(value) => this.setState({perPerson: value})}
+                    value={this.state.perHead}
+                    onChangeText={(value) => this.setState({perHead: value})}
                   />
                   <Text style={styles.editor.currencyPostfix}>{Lang.Yuan}</Text>
                 </View>
@@ -152,7 +152,7 @@ class EditEventExpenses extends Component {
 }
 
 EditEventExpenses.propTypes = {
-  perPerson: PropTypes.number.isRequired,
+  perHead: PropTypes.number.isRequired,
   deposit: PropTypes.number,
   insurance: PropTypes.bool.isRequired,
   detail: PropTypes.array.isRequired,
@@ -162,7 +162,7 @@ EditEventExpenses.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    perPerson: state.newEvent.expenses.perPerson,
+    perHead: state.newEvent.expenses.perHead,
     deposit: state.newEvent.expenses.deposit,
     insurance: state.newEvent.expenses.insurance,
     detail: state.newEvent.expenses.detail,
