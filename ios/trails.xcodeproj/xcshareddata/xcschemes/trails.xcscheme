@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "trails.app"
-               BlueprintName = "trails"
-               ReferencedContainer = "container:trails.xcodeproj">
+               BlueprintName = "lvshitu"
+               ReferencedContainer = "container:lvshitu.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "trailsTests.xctest"
-               BlueprintName = "trailsTests"
-               ReferencedContainer = "container:trails.xcodeproj">
+               BuildableName = "lvshitu.xctest"
+               BlueprintName = "lvshituTests"
+               ReferencedContainer = "container:lvshitu.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "trailsTests.xctest"
-               BlueprintName = "trailsTests"
-               ReferencedContainer = "container:trails.xcodeproj">
+               BuildableName = "lvshitu.xctest"
+               BlueprintName = "lvshituTests"
+               ReferencedContainer = "container:lvshitu.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -58,8 +58,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "trails.app"
-            BlueprintName = "trails"
-            ReferencedContainer = "container:trails.xcodeproj">
+            BlueprintName = "lvshitu"
+            ReferencedContainer = "container:lvshitu.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "trails.app"
-            BlueprintName = "trails"
-            ReferencedContainer = "container:trails.xcodeproj">
+            BlueprintName = "lvshitu"
+            ReferencedContainer = "container:lvshitu.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -100,8 +100,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "trails.app"
-            BlueprintName = "trails"
-            ReferencedContainer = "container:trails.xcodeproj">
+            BlueprintName = "lvshitu"
+            ReferencedContainer = "container:lvshitu.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
