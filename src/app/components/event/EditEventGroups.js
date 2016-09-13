@@ -50,30 +50,23 @@ class EditEventGroups extends Component {
     return d
   }
 
-  setDate(date) {
+  setDate(dt) {
     let groups = this.state.groups,
       index = this.state.currentGroupIndex,
-      time = (new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0)).getTime()
-
-    console.log(index)
-    console.log(groups)
+      time = (new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 0, 0, 0, 0)).getTime()
 
     if (index > -1) {
       groups.splice(index, 1)
     }
 
-    console.log(groups)
-
     groups.push({
-      startDate: time / 1000,
-      deadline: (time / 1000) - 86400 
+      startDate: time,
+      deadline: time - 86400000
     })
 
     groups.sort((a, b) => {
       return (a.startDate > b.startDate)
     })
-
-    console.log(groups)
 
     this.setState({
       showDateTimePicker: false,
@@ -90,12 +83,12 @@ class EditEventGroups extends Component {
         <ScrollView style={styles.editor.scroll}>
           <View style={styles.editor.group}>
             {
-              this.state.groups.map((date, index) => {
+              this.state.groups.map((group, index) => {
                 return (
                   <EditLink
                     key={index}
                     label={Lang.SelectDate}
-                    value={Moment(date).format('LL')}
+                    value={Moment(group.startDate).format('LL')}
                     onPress={() => this.setState({showDateTimePicker: true, currentGroupIndex: index})}
                   />
                 )

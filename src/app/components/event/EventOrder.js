@@ -32,20 +32,25 @@ import KeyboardSpacer from 'react-native-keyboard-spacer'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../redux/actions/eventsActions'
+import * as navbarActions from '../../redux/actions/navbarActions'
 
-import TextView from '../shared/TextView'
-import Intro from '../shared/Intro'
+import CallToAction from '../shared/CallToAction'
 import Icon from '../shared/Icon'
 import InfoItem from '../shared/InfoItem'
 import InputItem from '../shared/InputItem'
-import CallToAction from '../shared/CallToAction'
+import Intro from '../shared/Intro'
+import ImagePath from '../shared/ImagePath'
+import TextView from '../shared/TextView'
+
+import {ASSET_FOLDERS} from '../../../util/constants'
 import {formatEventGroupLabel} from '../../../util/common'
+
 import styles from '../../styles/main'
 
 class EventOrder extends Component {
   constructor(props) {
     super(props)
-    this.addUser = this.addUser.bind(this)
+    this.addSignUp = this.addSignUp.bind(this)
     this.removeUser = this.removeUser.bind(this)
     this.updateInfo = this.updateInfo.bind(this)
     this.validateData = this.validateData.bind(this)
@@ -65,7 +70,13 @@ class EventOrder extends Component {
     }
   }
 
-  addUser() {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.navbar.addingEventSignup) {
+      this.addSignUp()
+    }
+  }
+
+  addSignUp() {
     let signUps = this.state.signUps
     signUps.push({
       name: '',
@@ -150,7 +161,8 @@ class EventOrder extends Component {
   render() {
     const event = this.props.event,
       selectedGroup = this.props.selectedGroup || 0,
-      dates = formatEventGroupLabel(event, selectedGroup)
+      dates = formatEventGroupLabel(event, selectedGroup),
+      eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero})
 
       //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
       
@@ -158,7 +170,7 @@ class EventOrder extends Component {
       <View style={styles.global.wrapper}>
         <ParallaxView ref='scrollView'
           style={{flex: 1}}
-          backgroundSource={{uri: AppSettings.assetUri + event.hero}}
+          backgroundSource={{uri: eventBackgroundUrl}}
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
@@ -191,22 +203,10 @@ class EventOrder extends Component {
             <KeyboardSpacer />
           </View>
         </ParallaxView>
-        <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 3}}>
-            <CallToAction 
-              backgroundColor={Graphics.textColors.overlay}
-              textColor={Graphics.colors.primary}
-              label={Lang.AddSignUp}
-              onPress={this.addUser}
-            />
-          </View>
-          <View style={{flex: 2}}>
-            <CallToAction
-              label={Lang.Pay}
-              onPress={this.nextStep}
-            />
-          </View>
-        </View>
+        <CallToAction
+          label={Lang.Pay}
+          onPress={this.nextStep}
+        />
       </View>
     )
   }
@@ -339,7 +339,7 @@ class MiniForm extends Component {
 
 const localStyles = StyleSheet.create({
   actionBar: {
-    bottom: -18,
+    bottom: -16,
     flex: 1,
     flexDirection: 'row',
     height: 36,
@@ -354,18 +354,21 @@ const localStyles = StyleSheet.create({
     height: 32,
     marginRight: 16,
     width: 32,
+    paddingTop: 4
   }
 })
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.login.user
+    user: state.login.user,
+    navbar: state.navbar
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    eventsActions: bindActionCreators(eventsActions, dispatch)
+    eventsActions: bindActionCreators(eventsActions, dispatch),
+    navbarActions: bindActionCreators(navbarActions, dispatch)
   }
 }
 

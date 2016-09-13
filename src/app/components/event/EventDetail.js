@@ -114,7 +114,7 @@ class EventDetail extends Component {
     }
 
     const avatarRadius = 20,
-    backgroundImageUri = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
+    eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
     eventGroups = (event.groups.length > 1) ? (
       <ListItem icon="calendar"
         label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}
@@ -194,7 +194,7 @@ class EventDetail extends Component {
     return (
       <View style={styles.global.wrapper}>
         <ParallaxView
-          backgroundSource={{uri: backgroundImageUri}}
+          backgroundSource={{uri: eventBackgroundUrl}}
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
@@ -280,7 +280,7 @@ EventDetail.propTypes = {
   id: PropTypes.string,
   event: PropTypes.object,
   newEvent: PropTypes.object,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object,
   preview: PropTypes.bool
 }
 

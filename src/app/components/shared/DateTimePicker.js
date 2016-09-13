@@ -25,14 +25,7 @@ class DateTimePicker extends Component {
     this.onCancel = this.onCancel.bind(this)
     this.onConfirm = this.onConfirm.bind(this)
 
-    let datetime = this.props.datetime
-
-    if (this.props.mode === 'time') {
-      let now = new Date()
-      now.setHours(Math.floor(datetime / 60))
-      now.setMinutes(datetime % 60)
-      datetime = now
-    }
+    let datetime = this.props.datetime || new Date()
 
     this.state = {
       mode: this.props.mode || 'datetime',
@@ -129,7 +122,7 @@ const styles = StyleSheet.create({
 })
 
 DateTimePicker.propTypes = {
-  datetime: PropTypes.any.isRequired,
+  datetime: PropTypes.any,
   showPicker: PropTypes.bool.isRequired,
   cancelText: PropTypes.string.isRequired, 
   confirmText: PropTypes.string.isRequired,

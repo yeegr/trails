@@ -25,6 +25,7 @@ import {bindActionCreators} from 'redux'
 import * as loginActions from '../redux/actions/loginActions'
 import * as newTrailActions from '../redux/actions/newTrailActions'
 import * as newEventActions from '../redux/actions/newEventActions'
+import * as navbarActions from '../redux/actions/navbarActions'
 import {
   HOME_TABS,
   ACTION_TARGETS
@@ -150,15 +151,31 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
       break
 
       case 'Search':
-        rightTitleBar = <NavbarTextButton onPress={null} label={Lang.Search} />
+        rightTitleBar = <NavbarTextButton
+          onPress={null}
+          label={Lang.Search}
+        />
+      break
+
+      case 'EventOrder':
+        rightTitleBar = <NavbarTextButton
+          onPress={() => this.addEventSignUp()}
+          label={Lang.Add}
+        />
       break
 
       case 'EditTrail':
-        rightTitleBar = <NavbarTextButton onPress={() => this.save(ACTION_TARGETS.TRAIL)} label={Lang.Save} />
+        rightTitleBar = <NavbarTextButton
+          onPress={() => this.save(ACTION_TARGETS.TRAIL)}
+          label={Lang.Save}
+        />
       break
 
       case 'EditEvent':
-        rightTitleBar = <NavbarTextButton onPress={() => this.save(ACTION_TARGETS.EVENT)} label={Lang.Save} />
+        rightTitleBar = <NavbarTextButton
+          onPress={() => this.save(ACTION_TARGETS.EVENT)}
+          label={Lang.Save}
+        />
       break
     }
 
@@ -216,6 +233,10 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
         navigator.pop()
       break
     }
+  },
+
+  addEventSignUp: function() {
+    dispatch(navbarActions.addEventSignUp())
   },
 
   add: function(navigator, type) {

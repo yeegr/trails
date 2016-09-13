@@ -16,6 +16,7 @@ import toolbar from './toolbarReducer'
 import comments from './commentsReducer'
 import newEvent from './newEventReducer'
 import newTrail from './newTrailReducer'
+import navbar from './navbarReducer'
 
 const rootReducer = combineReducers({
   home,
@@ -29,7 +30,8 @@ const rootReducer = combineReducers({
   toolbar,
   comments,
   newEvent,
-  newTrail
+  newTrail,
+  navbar
 })
 
 export default rootReducer

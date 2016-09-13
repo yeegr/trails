@@ -41,6 +41,7 @@ class EditEvent extends Component {
     this.nextPage = this.nextPage.bind(this)
     this.setCity = this.setCity.bind(this)
     this.setType = this.setType.bind(this)
+    this.setLocation = this.setLocation.bind(this)
 
     this.state = {
       showCityPicker: false,
@@ -153,10 +154,6 @@ class EditEvent extends Component {
 
       case 'preview':
         const event = this.props.newEvent
-
-        console.log(event.title.length)
-        console.log(event.hero.length)
-        console.log(event.schedule.length > 0 && event.schedule[0].length > 0)
         //id = 'EventDetail',
         //title = Lang.EventDetail
       break
@@ -191,7 +188,7 @@ class EditEvent extends Component {
   }
 
   setLocation(poi) {
-    this.props.newEventActions.setEventGatherLocation(poi)
+    this.props.newEventActions.setGatherLocation(poi)
     this.setState({showGatherLocationPicker: false})
   }
 
@@ -265,16 +262,22 @@ class EditEvent extends Component {
             />
             <EditLink
               label={Lang.GatherTime}
+              required={true}
+              validated={(event.gatherTime !== null)}
               onPress={() => this.setState({showDateTimePicker: true})}
               value={(event.gatherTime) ? Moment(this.convertTimeToDatetime(event.gatherTime)).format('HH:mm') : ''}
             />
             <EditLink
               label={Lang.GatherLocation}
+              required={true}
+              validated={(event.gatherLocation.name.length > 0)}
               onPress={() => this.setState({showGatherLocationPicker: true})}
               value={event.gatherLocation.name}
             />
             <EditLink
               label={Lang.Contacts}
+              required={true}
+              validated={(event.contacts.length > 0)}
               onPress={() => this.nextPage('contacts')}
               value={this.showContacts()}
             />
@@ -342,7 +345,7 @@ class EditEvent extends Component {
         />
         <DateTimePicker
           mode="time"
-          datetime={event.gatherTime || new Date()}
+          datetime={event.gatherTime}
           showPicker={this.state.showDateTimePicker}
           cancelText={Lang.Cancel} 
           confirmText={Lang.Confirm}
@@ -353,7 +356,7 @@ class EditEvent extends Component {
         <SearchPoi
           showPicker={this.state.showGatherLocationPicker}
           value={this.state.gatherLocation}
-          onConfirm={(value) => this.setKey('gatherLocation', value)}
+          onConfirm={(value) => this.setLocation(value)}
           onCancel={() => this.setState({showGatherLocationPicker: false})}
         />
       </View>

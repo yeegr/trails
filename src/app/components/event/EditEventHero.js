@@ -29,6 +29,7 @@ import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
 import ImagePath from '../shared/ImagePath'
+import {ASSET_FOLDERS} from '../../../util/constants'
 
 class EditEventHero extends Component {
   constructor(props) {

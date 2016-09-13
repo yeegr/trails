@@ -119,12 +119,14 @@ class UserInfo extends Component {
           <EditLink onPress={() => this.nextPage('orders')} value={user.orders.length} label={Lang.MyOrders} />
         </View>
         <View style={styles.editor.group}>
-          <EditLink onPress={() => this.nextPage('manage')} value={1} label={Lang.ManageEvents} />
-        </View>
-        <View style={styles.editor.group}>
           <EditLink onPress={() => this.nextPage('trails')} value={user.trails.length} label={Lang.MyTrails} />
           <EditLink onPress={() => this.nextPage('events')} value={user.events.length} label={Lang.MyEvents} />
           <EditLink onPress={() => this.nextPage('posts')} value={user.posts.length} label={Lang.MyPosts} />
+        </View>
+        <View style={styles.editor.group}>
+          <EditLink onPress={() => this.nextPage('trails')} value={user.saves.trails.length.toString()} label={Lang.MySavedTrails} />
+          <EditLink onPress={() => this.nextPage('events')} value={user.saves.events.length.toString()} label={Lang.MySavedEvents} />
+          <EditLink onPress={() => this.nextPage('posts')} value={user.saves.posts.length.toString()} label={Lang.MySavedPosts} />
         </View>
         <View style={styles.editor.group}>
           <EditLink onPress={() => this.nextPage('edit')} label={Lang.MyAccount} />

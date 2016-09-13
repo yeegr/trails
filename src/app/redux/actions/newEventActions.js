@@ -157,21 +157,26 @@ export const saveEvent = () => {
     const newEvent = getState().newEvent
     newEvent.creator = getState().login.user._id
 
-    //if (validateEvent(newEvent)) {
+    if (validateEvent(newEvent)) {
+    console.log(newEvent)
       dispatch(sendEvent(newEvent))
-    //}
+    }
   }
 }
 
 const validateEvent = (event) => {
   return (
     (event.isPublic !== null && event.isPublic !== undefined) &&
-    (event.title.length > AppSettings.minEventTitleLength) &&
+    (event.title.length >= AppSettings.minEventTitleLength) &&
     (event.city.length > 2) && 
     (event.hero.length > 0) && 
     (event.type > -1) && 
     (event.groups.length > 0) && 
+    (event.gatherTime !== null) && 
+    (event.gatherLocation.name.length > 0) && 
+    (event.contacts.length > 0) && 
     (event.schedule.length > 0) && 
+    (event.schedule[0].length > 0) && 
     (event.expenses.perHead !== null && event.expenses.perHead > -1)
   )
 }
@@ -260,41 +265,39 @@ const sendEvent = (data) => {
 }
 
 const uploadEventHero = (id, uri) => {
-  let body = new FormData()
+  if (uri !== AppSettings.defaultEventHeroUri) {
+    let body = new FormData()
 
-  body.append('file', {
-    type: 'image/jpg',
-    name: 'hero.jpg',
-    uri
-  })
+    body.append('file', {
+      type: 'image/jpg',
+      name: 'hero.jpg',
+      uri
+    })
 
-  let config = {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-    body
-  }
+    let config = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      body
+    }
 
-  return (dispatch) => {
-    //dispatch(sendUploadRequest())
+    return (dispatch) => {
+      //dispatch(sendUploadRequest())
 
-    return fetch(AppSettings.apiUri + 'events/' + id + '/hero', config)
-      .then((res) => {
-        console.log(res)
-        return res.json()
-      })
-      .then((res) => {
-        console.log('response')
-        console.log(res)
-        if (res.id) {
-          dispatch(receiveSaveResponse(res))
-        } else {
-          console.log('image error')
-          dispatch(saveError(res.message))
-          return Promise.reject(res)
-        }
-      })
-      .catch((err) => dispatch(saveError(err)))
+      return fetch(AppSettings.apiUri + 'events/' + id + '/hero', config)
+        .then((res) => {
+          return res.json()
+        })
+        .then((res) => {
+          if (res.id) {
+            dispatch(receiveSaveResponse(res))
+          } else {
+            dispatch(saveError(res.message))
+            return Promise.reject(res)
+          }
+        })
+        .catch((err) => dispatch(saveError(err)))
+    }
   }
 }
