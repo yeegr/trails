@@ -10,6 +10,7 @@ export default StyleSheet.create({
   },
   home: {
     flex: 1,
+    flexDirection: 'column',
     paddingTop: Graphics.titlebar.height,
   },
   main: {

@@ -1092,7 +1092,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.lvshitu.trails;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lvshitu.app;
 				PRODUCT_NAME = trails;
 				PROVISIONING_PROFILE = "";
 			};
@@ -1125,7 +1125,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.lvshitu.trails;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lvshitu.app;
 				PRODUCT_NAME = trails;
 				PROVISIONING_PROFILE = "";
 			};

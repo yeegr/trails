@@ -24,7 +24,7 @@ import AreaList from './area/AreaList'
 import EventList from './event/EventList'
 import PostList from './post/PostList'
 import UserInfo from './mine/UserInfo'
-import {Lang, Graphics} from '../settings'
+import {AppSettings, Lang, Graphics} from '../settings'
 import styles from '../styles/main'
 
 class Home extends Component {
@@ -57,9 +57,9 @@ class Home extends Component {
         >
           <ScrollView style={styles.global.home}>
             <AreaList
-              key={'area-list'}
+              key={"area-list"}
               navigator={navigator}
-              params=""
+              query=""
             />
           </ScrollView>
         </TabBarIOS.Item>
@@ -70,10 +70,10 @@ class Home extends Component {
           onPress={() => this.onTabPressed(HOME_TABS.EVENTS)}
         >
           <ScrollView style={styles.global.home}>
-            <EventList 
-              key={'event-list'}
+            <EventList
+              key={"event-list"}
               navigator={navigator} 
-              params=""
+              query={AppSettings.home.events + this.props.selectedCity}
             />
           </ScrollView>
         </TabBarIOS.Item>
@@ -85,9 +85,9 @@ class Home extends Component {
         >
           <ScrollView style={styles.global.home}>
             <PostList
-              key={'post-list'}
+              key={"post-list"}
               navigator={navigator}
-              params=""
+              query=""
             />
           </ScrollView>
         </TabBarIOS.Item>
@@ -98,7 +98,7 @@ class Home extends Component {
           onPress={() => this.onTabPressed(HOME_TABS.MINE)}
         >
           <UserInfo
-            key={'user-info'}
+            key={"user-info"}
             navigator={navigator}
           />
         </TabBarIOS.Item>
@@ -109,6 +109,7 @@ class Home extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
+    selectedCity: state.navbar.selectedCity,
     selectedTab: state.home.selectedTab,
     user: state.login.user
   }

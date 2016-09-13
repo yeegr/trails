@@ -93,11 +93,11 @@ const EditTrail = (props) => {
   status = (trail.isPublic) ? (
       <View style={[styles.editor.link, {paddingVertical: 15}]}>
       <View style={styles.editor.label}>
-        <Text>{Lang.PrivacyStatus}</Text>
+        <Text>{Lang.status}</Text>
       </View>
       <View style={styles.editor.value}>
         <Text style={[styles.editor.valueText, {marginRight: 10}]}>
-          {Lang[trail.privacyStatus]}
+          {Lang[trail.status]}
         </Text>
       </View>
     </View>

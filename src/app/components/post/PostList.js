@@ -33,8 +33,7 @@ class PostList extends Component {
   }
 
   componentWillMount() {
-    let params = this.props.query || this.props.params
-    this.props.postsActions.listPosts(params)
+    this.props.postsActions.listPosts(this.props.query)
   }
 
   renderRow(rowData, sectionId, rowId) {

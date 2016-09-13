@@ -3,7 +3,8 @@
 import * as ACTIONS from '../constants/navbarConstants'
 
 const navbarReducer = (state = {
-  addingEventSignup: false
+  addingEventSignup: false,
+  selectedCity: '010'
 }, action) => {
   switch (action.type) {
     case ACTIONS.ADD_EVENT_SIGNUP:

@@ -33,7 +33,7 @@ class AreaList extends Component {
   }
 
   componentWillMount() {
-    this.props.areasActions.listAreas(this.props.params)
+    this.props.areasActions.listAreas(this.props.query)
   }
 
   renderRow(rowData, sectionId, rowId) {

@@ -21,7 +21,7 @@ const initState = {
   isUploading: false,
 
   isPublic: true,
-  privacyStatus: 'public',
+  status: 'public',
   title: '',
   city: AppSettings.defaultCity,
   type: 0,

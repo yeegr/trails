@@ -78,6 +78,24 @@ class UserInfo extends Component {
         query = "?creator=" + user.id
       break;
 
+      case 'savedTrails':
+        id = 'TrailList',
+        title = Lang.SavedTrails,
+        query = "?in=" + JSON.stringify(user.saves.trails).replace(/\"/g, '')
+      break;
+
+      case 'savedEvents':
+        id = 'EventList',
+        title = Lang.SavedEvents,
+        query = "?in=" + JSON.stringify(user.saves.events).replace(/\"/g, '')
+      break;
+
+      case 'savedPosts':
+        id = 'PostList',
+        title = Lang.SavedPosts,
+        query = "?in=" + JSON.stringify(user.saves.posts).replace(/\"/g, '')
+      break;
+
       case 'edit':
         id = 'EditAccount',
         title = Lang.EditAccount
@@ -124,9 +142,9 @@ class UserInfo extends Component {
           <EditLink onPress={() => this.nextPage('posts')} value={user.posts.length} label={Lang.MyPosts} />
         </View>
         <View style={styles.editor.group}>
-          <EditLink onPress={() => this.nextPage('trails')} value={user.saves.trails.length.toString()} label={Lang.MySavedTrails} />
-          <EditLink onPress={() => this.nextPage('events')} value={user.saves.events.length.toString()} label={Lang.MySavedEvents} />
-          <EditLink onPress={() => this.nextPage('posts')} value={user.saves.posts.length.toString()} label={Lang.MySavedPosts} />
+          <EditLink onPress={() => this.nextPage('savedTrails')} value={user.saves.trails.length.toString()} label={Lang.SavedTrails} />
+          <EditLink onPress={() => this.nextPage('savedEvents')} value={user.saves.events.length.toString()} label={Lang.SavedEvents} />
+          <EditLink onPress={() => this.nextPage('savedPosts')} value={user.saves.posts.length.toString()} label={Lang.SavedPosts} />
         </View>
         <View style={styles.editor.group}>
           <EditLink onPress={() => this.nextPage('edit')} label={Lang.MyAccount} />

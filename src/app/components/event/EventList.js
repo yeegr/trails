@@ -34,8 +34,11 @@ class EventList extends Component {
   }
 
   componentDidMount() {
-    let params = this.props.query || this.props.params
-    this.props.eventsActions.listEvents(params)
+    this.props.eventsActions.listEvents(this.props.query)
+  }
+
+  componentWillUnmount() {
+    this.props.eventsActions.listEvents(AppSettings.home.events + this.props.selectedCity)
   }
 
   renderRow(rowData, sectionId, rowId) {
@@ -65,6 +68,8 @@ class EventList extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
+    selectedCity: state.navbar.selectedCity,
+    selectedTab: state.home.selectedTab,
     events: state.events.list
   }
 }

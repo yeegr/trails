@@ -11,7 +11,7 @@ const initState = {
   isValidated: false,
   isUploading: false,
 
-  privacyStatus: 'private',
+  status: 'submitting',
   isPublic: false,
   title: '',
   type: 0,
@@ -100,13 +100,13 @@ newTrailReducer = (state = initState, action) => {
     case ACTIONS.SET_TO_PRIVATE:
       return Object.assign({}, state, {
         isPublic: false,
-        privacyStatus: 'private'
+        status: 'private'
       })
 
     case ACTIONS.SET_TO_PUBLIC:
       return Object.assign({}, state, {
         isPublic: true,
-        privacyStatus: 'submitting'
+        status: 'submitting'
       })
 
     case ACTIONS.VALIDATE_NEW_TRAIL:

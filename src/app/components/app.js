@@ -158,9 +158,11 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
       break
 
       case 'EventOrder':
-        rightTitleBar = <NavbarTextButton
+        rightTitleBar = <NavbarIconButton
           onPress={() => this.addEventSignUp()}
+          icon={Graphics.titlebar.add}
           label={Lang.Add}
+          showLabel={false}
         />
       break
 

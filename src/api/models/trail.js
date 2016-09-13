@@ -19,7 +19,7 @@ var mongoose = require('mongoose'),
       required: true,
       default: Util.getTimestamp()
     },
-    privacyStatus: {
+    status: {
       type: String,
       enum: CONST.STATUSES.TRAIL,
       default: CONST.STATUSES.TRAIL[0],

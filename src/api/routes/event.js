@@ -72,6 +72,24 @@ module.exports = function(app) {
   app.get('/events', function(req, res) {
     var query = {}
 
+    if (req.query.hasOwnProperty('isPublic')) {
+      query.isPublic = req.query.isPublic
+    }
+
+    if (req.query.hasOwnProperty('status')) {
+      query.status = req.query.status
+    }
+
+    if (req.query.hasOwnProperty('city')) {
+      query.city = req.query.city
+    }
+
+    if (req.query.hasOwnProperty('in') && req.query.in !== '') {
+      var tmp = (req.query.in).substring(1, (req.query.in).length - 1)
+      query._id = {}
+      query._id.$in = tmp.split(',')
+    }
+
     Event
     .find(query)
     .limit(CONST.DEFAULT_PAGINATION)

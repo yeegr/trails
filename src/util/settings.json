@@ -28,6 +28,10 @@
     "defaultCity":"010",
     "maxEventScheduleDays":20,
 
+    "home": {
+      "events":"?isPublic=true&status=public&city="
+    },
+
     "sdks": {
       "amap":"cc81643ef299be79cc3b6aad2a1ac212",
       "wechat":"wx22e98ca9eb46c04f"
@@ -114,7 +118,7 @@
     "DetailMap":"详细地图",
     "Map":"地图",
     "PrivacySetting":"隐私设置",
-    "PrivacyStatus":"隐私状态",
+    "status":"隐私状态",
     "Public":"公开",
     "Private":"不公开",
     "Creator":"作者",
@@ -229,9 +233,9 @@
     "MyEvents":"我管理的活动",
     "MyPosts":"我发布的文章",
     "MySaves":"我的收藏",
-    "MySavedTrails":"我收藏的轨迹",
-    "MySavedEvents":"我收藏的活动",
-    "MySavedPosts":"我收藏的文章",
+    "SavedTrails":"我收藏的轨迹",
+    "SavedEvents":"我收藏的活动",
+    "SavedPosts":"我收藏的文章",
     "PersonalId":"身份证号码",
     "UserLevel":"用户级别",
     "Avatar":"头像",
