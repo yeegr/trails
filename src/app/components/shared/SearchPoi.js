@@ -27,6 +27,8 @@ import MapView from 'react-native-maps'
 import CallToAction from './CallToAction'
 import {setRegion, hex2rgb} from '../../../util/common'
 
+import {NavbarIconButton} from './NavbarButtons'
+import Icon from './Icon'
 import Loading from './Loading'
 
 export default class SearchPoi extends Component {
@@ -141,23 +143,12 @@ export default class SearchPoi extends Component {
         )
 
         actionBar = (
-          <View style={{flexDirection: 'row', width: width}}>
-            <View style={{flex: 1}}>
-              <CallToAction 
-                backgroundColor={Graphics.colors.warning}
-                onPress={this.onCancel} 
-                label={Lang.Cancel}
-              />
-            </View>
-            <View style={{flex: 1}}>
-              <CallToAction 
-                onPress={this.onConfirm} 
-                label={Lang.Confirm} 
-                backgroundColor={Graphics.colors.primary}
-                disabled={(this.state.selectedPoi === null)}
-              />
-            </View>
-          </View>
+          <CallToAction 
+            onPress={this.onConfirm} 
+            label={Lang.Confirm} 
+            backgroundColor={Graphics.colors.primary}
+            disabled={(this.state.selectedPoi === null)}
+          />
         )
       }
     }
@@ -173,9 +164,39 @@ export default class SearchPoi extends Component {
     }
 
     return (
-      <Modal transparent={false} visible={this.props.showPicker}>
+      <Modal animationType={"slide"} transparent={false} visible={this.props.showPicker}>
         <View style={styles.wrapper}>
-          <View style={styles.wrapper}>
+          <View style={styles.titleBar}>
+            <NavbarIconButton
+              onPress={this.onCancel}
+              icon={Graphics.titlebar.prev}
+              label={Lang.Cancel}
+              showLabel={false}
+            />
+            <View style={styles.searchBar}>
+              <TextInput
+                autoCorrect={false}
+                autoFocus={true}
+                blurOnSubmit={true}
+                maxLength={100}
+                placeholder={Lang.SearchPoiPlaceholder}
+                returnKeyType="search"
+                style={styles.searchInput}
+                value={this.state.keywords}
+                onChangeText={(keywords) => this.setState({keywords})}
+                onSubmitEditing={(event) => this.submit()}
+              />
+              <TouchableOpacity onPress={() => this.setState({keywords: ''})}>
+                <Icon
+                  backgroundColor={Graphics.colors.transparent}
+                  fillColor={Graphics.colors.lightGray}
+                  sideLength={24}
+                  type={"cancel"}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.content}>
             <MapView
               style={styles.map}
               mapType="satellite"
@@ -195,20 +216,6 @@ export default class SearchPoi extends Component {
             {list}
             {actionBar}
           </View>
-          <View style={styles.searchBar}>
-            <TextInput
-              autoCorrect={false}
-              autoFocus={true}
-              blurOnSubmit={true}
-              maxLength={100}
-              placeholder={Lang.SearchPoiPlaceholder}
-              returnKeyType="search"
-              style={styles.searchInput}
-              value={this.state.keywords}
-              onChangeText={(keywords) => this.setState({keywords})}
-              onSubmitEditing={(event) => this.submit()}
-            />
-          </View>
         </View>
       </Modal>
     )
@@ -219,26 +226,41 @@ const {height, width} = Dimensions.get('window'),
 ASPECT_RATIO = width / height,
 styles = StyleSheet.create({
   wrapper: {
-    position: 'absolute',
+    flex: 1,
     height: height,
     width: width
+  },
+  titleBar: {
+    backgroundColor: Graphics.colors.primary,
+    flexDirection: 'row',
+    height: 80,
+    alignItems: 'center',
+    paddingBottom: 10,
+    paddingTop: 30
+  },
+  content: {
+    flex: 1
   },
   map: {
     flex: 1
   },
   searchBar: {
+    alignItems: 'center',
     backgroundColor: '#fff',
     borderColor: Graphics.colors.border,
     borderRadius: 3,
     borderWidth: 1,
-    margin: 10,
-    marginTop: 30,      
-    paddingHorizontal: 10,
+    flex: 1,
+    flexDirection: 'row',
+    marginRight: 20,
+    paddingLeft: 10,
+    paddingRight: 5,
     paddingVertical: 5,
   },
   searchInput: {
     flex: 1,
-    height: 30
+    height: 30,
+    marginRight: 10
   },
   searchResult: {
     borderBottomColor: Graphics.colors.border,

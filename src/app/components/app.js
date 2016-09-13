@@ -67,6 +67,7 @@ import EditEventGears from './event/EditEventGears'
 import EditEventDestination from './event/EditEventDestination'
 import EditEventNotes from './event/EditEventNotes'
 import EditEventGallery from './event/EditEventGallery'
+import EventSaved from './event/EventSaved'
 import PostList from './post/PostList'
 import PostDetail from './post/PostDetail'
 import SearchPosts from './post/SearchPosts'
@@ -591,6 +592,14 @@ class App extends Component {
               case 'EditEventGallery':
                 return (
                   <EditEventGallery
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'EventSaved':
+                return (
+                  <EventSaved
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />
