@@ -13,7 +13,7 @@ import React, {
 
 import {
   ListView,
-  View
+  RefreshControl
 } from 'react-native'
 
 import {connect} from 'react-redux'
@@ -27,14 +27,24 @@ import styles from '../../styles/main'
 class EventList extends Component {
   constructor(props) {
     super(props)
+    this.fetchData = this.fetchData.bind(this)
+    this.onRefresh = this.onRefresh.bind(this)
     this.renderRow = this.renderRow.bind(this)
     this.dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 != r2
     })
   }
 
-  componentDidMount() {
+  fetchData() {
     this.props.eventsActions.listEvents(this.props.query)
+  }
+
+  onRefresh() {
+    this.fetchData()
+  }
+
+  componentDidMount() {
+    this.fetchData()
   }
 
   componentWillUnmount() {
@@ -50,7 +60,7 @@ class EventList extends Component {
   render() {
     const {events, navigator} = this.props
 
-    if (!events) {
+    if (!events.list) {
       return <Loading />
     }
 
@@ -58,8 +68,14 @@ class EventList extends Component {
       <ListView
         automaticallyAdjustContentInsets={false}
         enableEmptySections={true}
-        scrollEnabled={false}
-        dataSource={this.dataSource.cloneWithRows(events)}
+        refreshControl={
+          <RefreshControl
+            refreshing={events.isFetching}
+            onRefresh={() => this.onRefresh()}
+          />
+        }
+        scrollEnabled={true}
+        dataSource={this.dataSource.cloneWithRows(events.list)}
         renderRow={this.renderRow}
       />
     )
@@ -70,7 +86,7 @@ function mapStateToProps(state, ownProps) {
   return {
     selectedCity: state.navbar.selectedCity,
     selectedTab: state.home.selectedTab,
-    events: state.events.list
+    events: state.events
   }
 }
 

@@ -55,13 +55,13 @@ class Home extends Component {
           selected={selectedTab === HOME_TABS.AREAS}
           onPress={() => this.onTabPressed(HOME_TABS.AREAS)}
         >
-          <ScrollView style={styles.global.home}>
+          <View style={styles.global.home}>
             <AreaList
               key={"area-list"}
               navigator={navigator}
               query=""
             />
-          </ScrollView>
+          </View>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title={Lang.Events}
@@ -69,13 +69,13 @@ class Home extends Component {
           selected={selectedTab === HOME_TABS.EVENTS}
           onPress={() => this.onTabPressed(HOME_TABS.EVENTS)}
         >
-          <ScrollView style={styles.global.home}>
+          <View style={styles.global.home}>
             <EventList
               key={"event-list"}
               navigator={navigator} 
               query={AppSettings.home.events + this.props.selectedCity}
             />
-          </ScrollView>
+          </View>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title={Lang.Posts}
@@ -83,13 +83,13 @@ class Home extends Component {
           selected={selectedTab === HOME_TABS.POSTS}
           onPress={() => this.onTabPressed(HOME_TABS.POSTS)}
         >
-          <ScrollView style={styles.global.home}>
+          <View style={styles.global.home}>
             <PostList
               key={"post-list"}
               navigator={navigator}
               query=""
             />
-          </ScrollView>
+          </View>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title={Lang.Mine}

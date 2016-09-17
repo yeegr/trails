@@ -12,7 +12,8 @@ import React, {
 } from 'react'
 
 import {
-  ListView
+  ListView,
+  RefreshControl
 } from 'react-native'
 
 import {connect} from 'react-redux'
@@ -26,14 +27,24 @@ import styles from '../../styles/main'
 class AreaList extends Component {
   constructor(props) {
     super(props)
+    this.fetchData = this.fetchData.bind(this)
+    this.onRefresh = this.onRefresh.bind(this)
     this.renderRow = this.renderRow.bind(this)
     this.dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 != r2
     })
   }
 
-  componentWillMount() {
+  fetchData() {
     this.props.areasActions.listAreas(this.props.query)
+  }
+
+  onRefresh() {
+    this.fetchData()
+  }
+
+  componentWillMount() {
+    this.fetchData()
   }
 
   renderRow(rowData, sectionId, rowId) {
@@ -49,7 +60,7 @@ class AreaList extends Component {
   render() {
     const {areas, navigator} = this.props
 
-    if (!areas) {
+    if (!areas.list) {
       return <Loading />
     }
 
@@ -57,8 +68,14 @@ class AreaList extends Component {
       <ListView
         automaticallyAdjustContentInsets={false}
         enableEmptySections={true}
-        scrollEnabled={false}
-        dataSource={this.dataSource.cloneWithRows(areas)}
+        refreshControl={
+          <RefreshControl
+            refreshing={areas.isFetching}
+            onRefresh={() => this.onRefresh()}
+          />
+        }
+        scrollEnabled={true}
+        dataSource={this.dataSource.cloneWithRows(areas.list)}
         renderRow={this.renderRow}
       />
     )
@@ -67,7 +84,7 @@ class AreaList extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    areas: state.areas.list
+    areas: state.areas
   }
 }
 
