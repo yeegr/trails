@@ -4,6 +4,7 @@ import * as ACTIONS from '../constants/navbarConstants'
 
 const navbarReducer = (state = {
   addingEventSignup: false,
+  savingEventAgenda: false,
   selectedCity: '010'
 }, action) => {
   switch (action.type) {
@@ -15,6 +16,16 @@ const navbarReducer = (state = {
     case ACTIONS.EVENT_SIGNUP_ADDED:
       return Object.assign({}, state, {
         addingEventSignup: false
+      })
+
+    case ACTIONS.SAVE_AGENDA:
+      return Object.assign({}, state, {
+        savingEventAgenda: true
+      })
+
+    case ACTIONS.AGENDA_SAVED:
+      return Object.assign({}, state, {
+        savingEventAgenda: false
       })
 
     default:

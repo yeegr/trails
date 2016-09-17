@@ -2,7 +2,8 @@
 
 import {
   AppSettings,
-  Lang
+  Lang,
+  Defaults
 } from '../../settings'
 import * as ACTIONS from '../constants/newEventConstants'
 import Moment from 'moment'
@@ -19,6 +20,7 @@ const initState = {
   isEditing: false,
   isFetching: false,
   isUploading: false,
+  isSaved: false,
 
   isPublic: true,
   status: 'public',
@@ -45,18 +47,18 @@ const initState = {
     perHead: 0,
     deposit: 0,
     insurance: true,
-    detail: ['1','2','3','4','5'],
-    include: ['A','B','C','D','E','F'],
-    exclude: ['a','b','c']
+    detail: Defaults.Event.Expenses.Detail,
+    include: Defaults.Event.Expenses.Includes,
+    exclude: Defaults.Event.Expenses.Excludes
   },
   destination: '',
   gears: {
-    images: [0],
+    images: [],
     tags: [],
     notes: []
   },
   photos: [],
-  notes: ['x', 'y', 'z'],
+  notes: Defaults.Event.Notes,
   comments: []
 },
 
@@ -220,6 +222,7 @@ newEventReducer = (state = initState, action) => {
     case ACTIONS.SAVE_EVENT_SUCCESS:
       return Object.assign({}, state, {
         isUploading: false,
+        isSaved: true,
         event: action.event
       })
 

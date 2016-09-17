@@ -39,7 +39,6 @@ class AgendaList extends Component {
     this.addToDays = this.addToDays.bind(this)
     this.reduceDays = this.reduceDays.bind(this)
     this.setDays = this.setDays.bind(this)
-    this.addAgenda = this.addAgenda.bind(this)
     this.editAgenda = this.editAgenda.bind(this)
 
     this.state = {
@@ -48,7 +47,6 @@ class AgendaList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
     this.setState({
       schedule: nextProps.newEvent.schedule
     })
@@ -71,17 +69,6 @@ class AgendaList extends Component {
     this.props.newEventActions.setEventScheduleDays(days)
   }
 
-  addAgenda() {
-    this.props.navigator.push({
-      id: 'EditAgenda',
-      title: Lang.Add + Lang.Agenda,
-      passProps: {
-        mode: 'new',
-        days: this.state.days
-      }
-    })
-  }
-
   editAgenda(day, index, agenda) {
     this.props.newEventActions.editEventSchedule()
 
@@ -90,7 +77,6 @@ class AgendaList extends Component {
       title: Lang.Edit + Lang.Agenda,
       passProps: {
         mode: 'edit',
-        days: this.state.days,
         day,
         index,
         agenda
@@ -150,7 +136,6 @@ class AgendaList extends Component {
             </View>
           </View>
         </ScrollView>
-        <CallToAction onPress={this.addAgenda} label={Lang.Add + Lang.Agenda} backgroundColor={Graphics.colors.primary} />
       </View>
     )
   }

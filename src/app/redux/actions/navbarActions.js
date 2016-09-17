@@ -13,3 +13,15 @@ export const eventSignUpAdded = () => {
     type: ACTIONS.EVENT_SIGNUP_ADDED
   }
 }
+
+export const saveAgenda = () => {
+  return {
+    type: ACTIONS.SAVE_AGENDA
+  }
+}
+
+export const agendaSaved = () => {
+  return {
+    type: ACTIONS.AGENDA_SAVED
+  }
+}

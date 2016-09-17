@@ -31,6 +31,7 @@ import CityPicker from '../shared/CityPicker'
 import TypePicker from '../shared/TypePicker'
 import DateTimePicker from '../shared/DateTimePicker'
 import SearchPoi from '../shared/SearchPoi'
+import {formatMinutes} from '../../../util/common'
 import styles from '../../styles/main'
 
 class EditEvent extends Component {
@@ -57,8 +58,16 @@ class EditEvent extends Component {
     }
   }
 
-  componentWillUnmount() {
-
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.newEvent.isSaved) {
+      this.props.navigator.replace({
+        id: 'EventSubmitted',
+        title: Lang.EventSubmitted,
+        passProps: {
+          event: nextProps.newEvent
+        }
+      })
+    }
   }
 
   convertTimeToDatetime(minutes) {
@@ -265,7 +274,7 @@ class EditEvent extends Component {
               required={true}
               validated={(event.gatherTime !== null)}
               onPress={() => this.setState({showDateTimePicker: true})}
-              value={(event.gatherTime) ? Moment(this.convertTimeToDatetime(event.gatherTime)).format('HH:mm') : ''}
+              value={(event.gatherTime) ? formatMinutes(event.gatherTime) : ''}
             />
             <EditLink
               label={Lang.GatherLocation}
@@ -347,6 +356,7 @@ class EditEvent extends Component {
           mode="time"
           datetime={event.gatherTime}
           showPicker={this.state.showDateTimePicker}
+          title={Lang.GatherTime}
           cancelText={Lang.Cancel} 
           confirmText={Lang.Confirm}
           onConfirm={(value) => this.props.newEventActions.setGatherTime(value)}

@@ -18,6 +18,7 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
+import * as navbarActions from '../../redux/actions/navbarActions'
 
 import EditLink from '../shared/EditLink'
 import ActionPicker from '../shared/ActionPicker'
@@ -28,7 +29,7 @@ import SearchPoi from '../shared/SearchPoi'
 import TrailPicker from './TrailPicker'
 import Icon from '../shared/Icon'
 import CallToAction from '../shared/CallToAction'
-import {formatMinutes,formatDuration} from '../../../util/common'
+import {formatMinutes, formatDuration} from '../../../util/common'
 import styles from '../../styles/main'
 
 class EditAgenda extends Component {
@@ -41,14 +42,12 @@ class EditAgenda extends Component {
     this.saveAgenda = this.saveAgenda.bind(this)
     this.deleteAgenda = this.deleteAgenda.bind(this)
 
-    let now = new Date(),
-    nowMinutes = now.getHours() * 60 + now.getMinutes(), 
-    agenda = this.props.agenda || {
+    let agenda = this.props.agenda || {
       id: null,
       type: null,
-      startTime: nowMinutes,
+      startTime: null,
       startPoi: {},
-      endTime: nowMinutes,
+      endTime: null,
       endPoi: {},
       duration: 120,
       trail: null
@@ -108,9 +107,7 @@ class EditAgenda extends Component {
     }
 
     if (errors.length === 0) {
-      console.log('save agenda')
-      console.log(this.state.day)
-      this.props.newEventActions.setEventAgenda(this.state.day, this.state.index, this.state.agenda)
+      this.props.newEventActions.setEventAgenda(this.state.day, this.state.index, agenda)
       this.back()    
     }
   }
@@ -121,6 +118,7 @@ class EditAgenda extends Component {
   }
 
   back() {
+    this.props.navbarActions.agendaSaved()
     this.props.navigator.replacePreviousAndPop({
       id: 'AgendaList',
       title: Lang.DetailSchedule
@@ -129,6 +127,12 @@ class EditAgenda extends Component {
 
   cancel() {
     this.props.navigator.pop(0)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.savingEventAgenda) {
+      this.saveAgenda()
+    }
   }
 
   render() {
@@ -158,8 +162,8 @@ class EditAgenda extends Component {
         <View style={styles.editor.group}>
           <EditLink
             label={Lang.EndTime}  
-            onPress={() => this.setState({showEndTimePicker: true})} 
-            value={formatMinutes(agenda.endTime)} 
+            onPress={() => this.setState({showEndTimePicker: true})}
+            value={(agenda.endTime) ? formatMinutes(agenda.endTime) : ''}
           />
           <EditLink
             label={Lang.EndLocation}
@@ -184,13 +188,11 @@ class EditAgenda extends Component {
 
     if (this.props.mode !== 'new') {
       deleteButton = (
-        <View style={{flex: 1}}>
-          <CallToAction 
-            label={Lang.DELETE}
-            backgroundColor={Graphics.colors.warning} 
-            onPress={this.deleteAgenda}
-          />
-        </View>
+        <CallToAction 
+          label={Lang.DELETE}
+          backgroundColor={Graphics.colors.warning} 
+          onPress={this.deleteAgenda}
+        />
       )
     }
 
@@ -203,25 +205,28 @@ class EditAgenda extends Component {
               required={true}
               validated={(this.state.day > -1)}
               onPress={() => this.setState({showDayPicker: true})}
-              value={Lang.DayCountPrefix + Lang.dayArray[this.state.agenda.day || 0] + Lang.DayCountPostfix}
+              value={Lang.DayCountPrefix + Lang.dayArray[agenda.day || 0] + Lang.DayCountPostfix}
             />
           </View>
           <View style={styles.editor.group}>
             <EditLink
-              required={true}
               label={Lang.AgendaType}
+              required={true}
+              validated={(agenda.type !== null)}
               onPress={() => this.setState({showTypePicker: true})}
               value={Lang.tagArray[agenda.type]} 
             />
             <EditLink 
               required={true}
               label={Lang.StartTime} 
+              validated={(agenda.startTime !== null)}
               onPress={() => this.setState({showStartTimePicker: true})}
-              value={formatMinutes(agenda.startTime)}
+              value={(agenda.startTime) ? formatMinutes(agenda.startTime) : ''}
             />
             <EditLink 
               required={true}
               label={Lang.StartLocation}
+              validated={(agenda.startPoi.name && agenda.startPoi.name.length > 0)}
               onPress={() => this.setState({showStartPoiPicker: true})} 
               value={agenda.startPoi.name}
             />
@@ -229,16 +234,7 @@ class EditAgenda extends Component {
           {trailView}
           {endView}
         </ScrollView>
-        <View style={{flexDirection: 'row'}}>
-          {deleteButton}
-          <View style={{flex: 1}}>
-            <CallToAction 
-              label={Lang.Save}
-              backgroundColor={Graphics.colors.primary} 
-              onPress={this.saveAgenda}
-            />
-          </View>
-        </View>
+        {deleteButton}
         <ActionPicker 
           title={Lang.SelectDay}
           showPicker={this.state.showDayPicker}
@@ -251,19 +247,19 @@ class EditAgenda extends Component {
         />
         <TypePicker 
           visible={this.state.showTypePicker} 
-          selectedIndex={this.state.agenda.type} 
+          selectedIndex={agenda.type} 
           onPress={(value) => this.setKey('type', value)}
           onCancel={() => this.setState({showTypePicker: false})}
         />
         <DateTimePicker
+          cancelText={Lang.Cancel} 
+          confirmText={Lang.Confirm}
+          datetime={agenda.startTime}
           mode="time"
           showPicker={this.state.showStartTimePicker}
           title={Lang.StartTime}
-          cancelText={Lang.Cancel} 
-          confirmText={Lang.Confirm}
           onConfirm={(value) => this.setKey('startTime', value)}
           onCancel={() => this.setState({showStartTimePicker: false})}
-          datetime={agenda.startTime}
         />
         <SearchPoi 
           showPicker={this.state.showStartPoiPicker} 
@@ -310,13 +306,15 @@ class EditAgenda extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    schedule: state.newEvent.schedule
+    schedule: state.newEvent.schedule,
+    savingEventAgenda: state.navbar.savingEventAgenda
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    newEventActions: bindActionCreators(newEventActions, dispatch)
+    newEventActions: bindActionCreators(newEventActions, dispatch),
+    navbarActions: bindActionCreators(navbarActions, dispatch)
   }
 }
 

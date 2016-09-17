@@ -67,7 +67,7 @@ import EditEventGears from './event/EditEventGears'
 import EditEventDestination from './event/EditEventDestination'
 import EditEventNotes from './event/EditEventNotes'
 import EditEventGallery from './event/EditEventGallery'
-import EventSaved from './event/EventSaved'
+import EventSubmitted from './event/EventSubmitted'
 import PostList from './post/PostList'
 import PostDetail from './post/PostDetail'
 import SearchPosts from './post/SearchPosts'
@@ -114,7 +114,10 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
       case 'Home':
         switch (tabId) {
           case HOME_TABS.MINE:
-            rightTitleBar = <View style={styles.navbar.toolbar}></View>
+            rightTitleBar = (
+              <View style={styles.navbar.toolbar}>
+              </View>
+            )
           break
 
           case HOME_TABS.POSTS:
@@ -160,10 +163,34 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
 
       case 'EventOrder':
         rightTitleBar = <NavbarIconButton
-          onPress={() => this.addEventSignUp()}
+          onPress={() => dispatch(navbarActions.addEventSignUp())}
           icon={Graphics.titlebar.add}
           label={Lang.Add}
           showLabel={false}
+        />
+      break
+
+      case 'AgendaList':
+        rightTitleBar = <NavbarIconButton
+          onPress={() => {
+            navigator.push({
+              id: 'EditAgenda',
+              title: Lang.Add + Lang.Agenda,
+              passProps: {
+                mode: 'new'
+              }
+            })
+          }}
+          icon={Graphics.titlebar.add}
+          label={Lang.Add}
+          showLabel={false}
+        />
+      break
+
+      case 'EditAgenda':
+        rightTitleBar = <NavbarTextButton
+          onPress={() => this.save(ACTION_TARGETS.AGENDA)}
+          label={Lang.Save}
         />
       break
 
@@ -238,10 +265,6 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
     }
   },
 
-  addEventSignUp: function() {
-    dispatch(navbarActions.addEventSignUp())
-  },
-
   add: function(navigator, type) {
     if (login.user) {
       var id = null,
@@ -278,6 +301,10 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
 
         case ACTION_TARGETS.EVENT:
           dispatch(newEventActions.saveEvent())
+        break
+
+        case ACTION_TARGETS.AGENDA:
+          dispatch(navbarActions.saveAgenda())
         break
       }
     } else {
@@ -597,9 +624,9 @@ class App extends Component {
                   />
                 )
 
-              case 'EventSaved':
+              case 'EventSubmitted':
                 return (
-                  <EventSaved
+                  <EventSubmitted
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />

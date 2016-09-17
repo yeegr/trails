@@ -4,6 +4,7 @@ export const ACTION_TARGETS = {
   AREA: 'Area',
   TRAIL: 'Trail', 
   EVENT: 'Event',
+  AGENDA: 'Agenda',
   POST: 'Post',
   USER: 'User',
   MINE: 'Mine'

@@ -261,72 +261,72 @@ class Login extends Component {
 }
 
 const styles = StyleSheet.create({
-    backgroundImage: {
-      backgroundColor: '#f00',
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      resizeMode: 'cover'
-    },
-    loginForm: {
-      backgroundColor: 'transparent',
-      marginTop: 200,
-      paddingBottom: 20,
-      paddingHorizontal: 50,
-    },
-    weixinLogin: {
-      bottom: 50,
-      flex: 1,
-      left: 0,
-      paddingHorizontal: 50,
-      position: 'absolute',
-      right: 0
-    },
-    label: {
-      color: Graphics.textColors.overlay,
-      marginTop: 10,
-      paddingLeft: 4,
-      paddingRight: 4
-    },
-    loginInput: {
-      color: Graphics.colors.foreground,
-      backgroundColor: 'rgba(255, 255, 255, 0.5)',
-      borderRadius: 4,
-      fontSize: 24,
-      height: 50,
-      marginTop: 10,
-      padding: 4,
-      textAlign: 'center'
-    },
-    button: {
-      height: 50,
-      alignSelf: 'stretch',
-      marginTop: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 5
-    },
-    buttonEnabled: {
-      backgroundColor: Graphics.colors.primary,
-    },
-    buttonDisabled: {
-      backgroundColor: "#666",
-      opacity: 0.8
-    },
-    buttonText: {
-      color: Graphics.textColors.overlay,
-      fontSize: 24
-    },
-    closeButton: {
-      height: Graphics.icon.sideLength,
-      right: 15,
-      top: 30,
-      position: 'absolute',
-      width: Graphics.icon.sideLength
-    }
-  })
+  backgroundImage: {
+    backgroundColor: Graphics.colors.background,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    resizeMode: 'cover'
+  },
+  loginForm: {
+    backgroundColor: 'transparent',
+    marginTop: 200,
+    paddingBottom: 20,
+    paddingHorizontal: 50,
+  },
+  weixinLogin: {
+    bottom: 50,
+    flex: 1,
+    left: 0,
+    paddingHorizontal: 50,
+    position: 'absolute',
+    right: 0
+  },
+  label: {
+    color: Graphics.textColors.overlay,
+    marginTop: 10,
+    paddingLeft: 4,
+    paddingRight: 4
+  },
+  loginInput: {
+    color: Graphics.colors.foreground,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    borderRadius: 4,
+    fontSize: 24,
+    height: 50,
+    marginTop: 10,
+    padding: 4,
+    textAlign: 'center'
+  },
+  button: {
+    height: 50,
+    alignSelf: 'stretch',
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5
+  },
+  buttonEnabled: {
+    backgroundColor: Graphics.colors.primary,
+  },
+  buttonDisabled: {
+    backgroundColor: "#666",
+    opacity: 0.8
+  },
+  buttonText: {
+    color: Graphics.textColors.overlay,
+    fontSize: 24
+  },
+  closeButton: {
+    height: Graphics.icon.sideLength,
+    right: 15,
+    top: 30,
+    position: 'absolute',
+    width: Graphics.icon.sideLength
+  }
+})
 
 Login.propTypes = {
   loginActions: PropTypes.object.isRequired

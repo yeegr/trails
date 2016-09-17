@@ -150,7 +150,7 @@ module.exports = function(app) {
 
             event
             .set({
-              hero: fileName + '.jpg'
+              hero: req.params.id + '/' + fileName + '.jpg'
             })
             .save()
             .then(function(data) {
