@@ -67,7 +67,7 @@ class UserInfo extends Component {
       break;
 
       case 'events':
-        id = 'EventList',
+        id = 'EventManager',
         title = Lang.MyEvents,
         query = "?creator=" + user.id
       break;

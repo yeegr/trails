@@ -22,14 +22,35 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
+import TextView from '../shared/TextView'
+
+import styles from '../../styles/main'
+
 class EventSubmitted extends Component {
   constructor(props) {
     super(props)
   }
 
   render() {
+    console.log(this.props.user._id)
     return (
-      <View />
+      <ScrollView style={styles.global.main}>
+        <View style={{padding: 15}}>
+          <TextView
+            style={{textAlign: 'center'}}
+            text={Lang.EventSubmittedDetail}
+          />
+          <TouchableOpacity onPress={() => this.props.navigator.push({
+            id: 'EventManager',
+            title: Lang.ManageEvents
+          })}>
+            <TextView
+              style={{textAlign: 'center'}}
+              text={Lang.JumpToEventManager}
+            />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     )
   }
 }

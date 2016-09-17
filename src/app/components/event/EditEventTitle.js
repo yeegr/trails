@@ -21,6 +21,8 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
+import TextView from '../shared/TextView'
+
 import styles from '../../styles/main'
 
 class EditEventTitle extends Component {
@@ -50,6 +52,12 @@ class EditEventTitle extends Component {
               placeholder={Lang.EventTitle}
               onChangeText={(value) => this.setState({title: value})}
               value={this.state.title}
+            />
+          </View>
+          <View style={{paddingHorizontal: 15}}>
+            <TextView
+              class="h5"
+              text={Lang.MaximumTitleLength}
             />
           </View>
         </ScrollView>

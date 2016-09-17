@@ -59,8 +59,7 @@ class EventManager extends Component {
   }
 
   componentDidMount() {
-    let params = this.props.query || this.props.params
-    this.props.eventsActions.listEvents(params)
+    this.props.eventsActions.listEvents("?creator=" + this.props.user._id)
   }
 
   renderRow(event, sectionId, rowId) {
@@ -82,19 +81,19 @@ class EventManager extends Component {
           />
         </View>
         <View style={styles.editor.group}>
-          {
-            event.groups.map((group, index) => {
-              const dates = formatEventGroupLabel(event, index)
-              return (
-                <EditLink
-                  key={index}
-                  label={dates}
-                  value={group.signUps.length} 
-                  onPress={() => this.signupList(event, index)}
-                />
-              )
-            })
-          }
+        {
+          event.groups.map((group, index) => {
+            const dates = formatEventGroupLabel(event, index)
+            return (
+              <EditLink
+                key={index}
+                label={dates}
+                value={group.signUps.length} 
+                onPress={() => this.signupList(event, index)}
+              />
+            )
+          })
+        }
         </View>
       </View>
     )
@@ -120,7 +119,8 @@ class EventManager extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    events: state.events.list
+    events: state.events.list,
+    user: state.login.user
   }
 }
 

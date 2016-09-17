@@ -138,6 +138,7 @@
     "EventInfo":"活动信息",
     "DepartCity":"出发城市",
     "EventTitle":"活动名称",
+    "MaximumTitleLength":"活动名称不能超过6个字节",
     "SelectCity":"选择城市",
     "EventGroups":"活动批次",
     "Groups":"批次",
@@ -196,6 +197,8 @@
     "AreYouSure":"真的吗？",
     "ExitAlert":"如果您现在退出，新的编辑将消失",
     "EventSubmitted":"提交成功",
+    "EventSubmittedDetail":"您的活动已经成功提交，我们将尽快审核，并在24小时内发布。",
+    "JumpToEventManager":"转到《我管理的活动》页查看当前状态。",
 
     "AddEvent":"添加活动",
     "EditEvent":"编辑活动",
@@ -213,6 +216,7 @@
     "IncludeInsurance":"购买保险",
     "RequiredExpense":"“人均费用”和“会员费用”、“非会员费用”两组中至少必填一组",
     "EventPreview":"活动预览",
+
 
     "Post":"文章",
     "Posts":"文章",
