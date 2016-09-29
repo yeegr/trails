@@ -17,8 +17,8 @@ import TextView from '../shared/TextView'
 import {Graphics} from '../../settings'
 
 const SimpleContact = (props) => {
-  const number = props.number.toString(),
-    fontSize = props.fontSize || 'M'
+  const phoneNumber = props.number.toString(),
+  fontSize = props.fontSize || 'M'
 
   return (
     <View style={styles.wrapper}>
@@ -26,8 +26,8 @@ const SimpleContact = (props) => {
         <TextView fontSize={fontSize} text={props.label} />
       </View>
       <View style={styles.value}>
-        <TouchableOpacity onPress={() => Communications.phonecall({number}, true)}>
-          <TextView fontSize={fontSize} textColor={Graphics.textColors.mobileNumber} text={number} />
+        <TouchableOpacity onPress={() => Communications.phonecall(phoneNumber, true)}>
+          <TextView fontSize={fontSize} textColor={Graphics.textColors.mobileNumber} text={phoneNumber} />
         </TouchableOpacity>
       </View>
     </View>

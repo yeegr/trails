@@ -137,17 +137,19 @@ class EventOrder extends Component {
       }
     })
 
-    this.setState({signUps: tmp})
+    if (tmp.length > 0) {
+      this.setState({signUps: tmp})
 
-    this.props.navigator.push({
-      id: 'EventPayment',
-      title: Lang.EventPayment,
-      passProps: {
-        event: this.props.event,
-        group: this.props.group,
-        signUps: tmp
-      }
-    })
+      this.props.navigator.push({
+        id: 'EventPayment',
+        title: Lang.EventPayment,
+        passProps: {
+          event: this.props.event,
+          selectedGroup: this.props.selectedGroup || 0,
+          signUps: tmp
+        }
+      })
+    }
   }
 
   componentDidMount() {
@@ -160,9 +162,9 @@ class EventOrder extends Component {
 
   render() {
     const event = this.props.event,
+      eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event.hero}),
       selectedGroup = this.props.selectedGroup || 0,
-      dates = formatEventGroupLabel(event, selectedGroup),
-      eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero})
+      dates = formatEventGroupLabel(event, selectedGroup)
 
       //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
       
@@ -204,7 +206,7 @@ class EventOrder extends Component {
           </View>
         </ParallaxView>
         <CallToAction
-          label={Lang.Pay}
+          label={(event.expenses.perHead === 0) ? Lang.SignUp : Lang.Pay}
           onPress={this.nextStep}
         />
       </View>

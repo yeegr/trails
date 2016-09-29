@@ -1,11 +1,11 @@
 {
   "app":{
-    "version":"0.0.1",
+    "version":"0.2.0",
     "platform":"iOS",
-    "expiredOn":"2016-09-01",
-    "baseUri":"http://192.168.0.102/",
-    "apiUri":"http://192.168.0.102:3000/",
-    "assetUri":"http://192.168.0.102:8000/",
+    "expiredOn":"2016-11-01",
+    "baseUri":"http://192.168.0.103/",
+    "apiUri":"http://192.168.0.103:3000/",
+    "assetUri":"http://192.168.0.103:8000/",
     "defaultEventHeroUri":"default/hero-006.jpg",
     "maxLeadersPerArea":3,
     "maxTrailPreviewsPerArea":3,

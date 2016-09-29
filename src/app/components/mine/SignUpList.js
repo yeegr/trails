@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -19,8 +13,10 @@ import {
 } from 'react-native'
 
 import Loading from '../shared/Loading'
-import TextView from '../shared/TextView'
 import SimpleContact from '../shared/SimpleContact'
+import TextView from '../shared/TextView'
+
+import {AppSettings, Lang, Graphics} from '../../settings'
 import {formatEventGroupLabel} from '../../../util/common'
 import styles from '../../styles/main'
 
@@ -57,6 +53,7 @@ class SignUpList extends Component {
   }
 
   renderRow(rowData, sectionId, rowId) {
+    console.log(rowData)
     return (
       <View style={styles.list.row}>
         <SimpleContact 

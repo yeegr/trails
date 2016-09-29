@@ -33,7 +33,7 @@ router.get('/', function(req, res, next) {
     screen = req.query.res.split('x'),
     type = req.query.type,
     path = req.query.path,
-    server = 'http://192.168.0.102:8080/',
+    server = 'http://uploads:80/',
     url = server + path,
     screenWidth = parseInt(screen[0]),
     screenHeight = parseInt(screen[1]),

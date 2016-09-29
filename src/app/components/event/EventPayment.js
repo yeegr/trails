@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -23,11 +17,15 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as eventsActions from '../../redux/actions/eventsActions'
 
-import Intro from '../shared/Intro'
-import InfoItem from '../shared/InfoItem'
-import TextView from '../shared/TextView'
-import Icon from '../shared/Icon'
 import CallToAction from '../shared/CallToAction'
+import ImagePath from '../shared/ImagePath'
+import Icon from '../shared/Icon'
+import InfoItem from '../shared/InfoItem'
+import Intro from '../shared/Intro'
+import TextView from '../shared/TextView'
+
+import {AppSettings, Lang, Graphics} from '../../settings'
+import {ASSET_FOLDERS} from '../../../util/constants'
 import {formatEventGroupLabel, calculateInsurance} from '../../../util/common'
 import styles from '../../styles/main'
 
@@ -75,14 +73,14 @@ class EventPayment extends Component {
   }
 
   confirm(total) {
-    let {user, event, group} = this.props,
+    let {user, event, selectedGroup} = this.props,
       order = {
       creator: user.id,
       event: event.id,
-      group,
+      selectedGroup,
       title: event.title,
       hero: event.hero,
-      startDate: event.groups[group].startDate,
+      startDate: event.groups[selectedGroup].startDate,
       daySpan: event.schedule.length, 
       method: this.state.paymentMethod,
       signUps: this.state.signUps,
@@ -94,15 +92,52 @@ class EventPayment extends Component {
 
   render() {
     const {event} = this.props,
-      dates = formatEventGroupLabel(event, this.props.group)
+      eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event.hero}),
+      selectedGroup = this.props.selectedGroup,
+      dates = formatEventGroupLabel(event, selectedGroup)
       //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
+
+    const paymentMethodSelector = (event.expenses.perHead > 0) ? (
+      <View style={styles.detail.section}>
+        <TextView class='h2' text={Lang.PaymentMethod} />
+        <View style={styles.editor.group}>
+        {
+          AppSettings.paymentMethods.map((method, index) => {
+            const checkmark = (method.value === this.state.paymentMethod) ? (
+              <Icon 
+                backgroundColor={Graphics.colors.transparent} 
+                fillColor={Graphics.colors.primary} 
+                sideLength='36'
+                type='checkmark'
+              />
+            ) : null
+
+            return (
+              <TouchableOpacity 
+                key={index} 
+                onPress={() => this.setState({paymentMethod: method.value})}>
+                <View style={[styles.editor.link, {}]}>
+                  <View style={styles.editor.label}>
+                    <TextView text={method.label} />
+                  </View>
+                  <View style={styles.editor.value}>
+                    {checkmark}
+                  </View>
+                </View>
+              </TouchableOpacity>
+            )
+          })
+        }
+        </View>
+      </View>
+    ) : null
 
     let total = 0
 
     return(
       <View style={styles.global.wrapper}>
         <ParallaxView
-          backgroundSource={{uri: AppSettings.assetUri + event.hero}}
+          backgroundSource={{uri: eventBackgroundUrl}}
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
@@ -138,38 +173,7 @@ class EventPayment extends Component {
                 <InfoItem label={Lang.Total} value={total.toString() + Lang.Yuan} align="right" />
               </View>
             </View>
-            <View style={styles.detail.section}>
-              <TextView class='h2' text={Lang.PaymentMethod} />
-              <View style={styles.editor.group}>
-                {
-                  AppSettings.paymentMethods.map((method, index) => {
-                    const checkmark = (method.value === this.state.paymentMethod) ? (
-                      <Icon 
-                        backgroundColor={Graphics.colors.transparent} 
-                        fillColor={Graphics.colors.primary} 
-                        sideLength='36'
-                        type='checkmark'
-                      />
-                    ) : null
-
-                    return (
-                      <TouchableOpacity 
-                        key={index} 
-                        onPress={() => this.setState({paymentMethod: method.value})}>
-                        <View style={[styles.editor.link, {}]}>
-                          <View style={styles.editor.label}>
-                            <TextView text={method.label} />
-                          </View>
-                          <View style={styles.editor.value}>
-                            {checkmark}
-                          </View>
-                        </View>
-                      </TouchableOpacity>
-                    )
-                  })
-                }
-              </View>
-            </View>
+            {paymentMethodSelector}
           </View>
         </ParallaxView>
         <CallToAction

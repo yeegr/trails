@@ -21,9 +21,12 @@ import {
 
 import {connect} from 'react-redux'
 
+import ImagePath from '../shared/ImagePath'
+import InfoItem from '../shared/InfoItem'
 import Loading from '../shared/Loading'
 import TextView from '../shared/TextView'
-import InfoItem from '../shared/InfoItem'
+
+import {ASSET_FOLDERS} from '../../../util/constants'
 import {formatEventGroupLabel, formatDateSpan, getTimeFromId} from '../../../util/common'
 import styles from '../../styles/main'
 
@@ -52,7 +55,8 @@ const OrderList = (props) => {
         paddingVertical: 0
       }
     }, 
-    names = []
+    names = [],
+    heroUri = ImagePath({type: 'thumb', path: ASSET_FOLDERS.Event + '/' + order.hero})
 
     order.signUps.map((signUp) => {
       names.push(signUp.name)
@@ -63,7 +67,7 @@ const OrderList = (props) => {
         <View style={[styles.list.item, styles.list.borders]}>
           <Image
             style={styles.list.thumb}
-            source={{uri: AppSettings.assetUri + order.hero}}
+            source={{uri: heroUri}}
           />
           <View style={styles.list.content}>
             <View style={styles.list.title}>

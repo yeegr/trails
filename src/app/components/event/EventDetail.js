@@ -19,7 +19,6 @@ import {
 } from 'react-native'
 
 import ParallaxView from 'react-native-parallax-view'
-import Communications from 'react-native-communications'
 
 import Moment from 'moment'
 
