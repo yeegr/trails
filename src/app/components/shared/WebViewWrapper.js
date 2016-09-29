@@ -10,6 +10,10 @@ import {
   WebView
 } from 'react-native'
 
+import {
+  Graphics
+} from '../../settings'
+
 class WebViewWrapper extends Component {
   constructor(props) {
     super(props)
@@ -25,11 +29,11 @@ class WebViewWrapper extends Component {
 
   render() {
     const {html, url} = this.props,
-    css = '<style>html {font-size: 10pt} body {margin: 0, padding: 0} img {max-width: 100%} p {text-indent: 2em} ol {padding-left: 2em} li {margin-bottom: 1.4em}</style>'
+    CSS = '<style>' + Graphics.CSS + '</style>'
 
     return (
       <WebView
-        source={{html: css + html, baseUrl: url}}
+        source={{html: CSS + html, baseUrl: url}}
         injectedJavaScript="document.body.offsetHeight"
         onNavigationStateChange={this.onNavigationStateChange.bind(this, 'docHeight')}
         scrollEnabled={false}
