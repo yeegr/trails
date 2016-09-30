@@ -1,0 +1,52 @@
+version: '2'
+
+networks:
+  api-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+
+  web-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16
+
+services:
+  uploads:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - "/Users/Stone/Desktop/trails/uploads:/usr/share/nginx/html:rw"
+    networks:
+      - web-network
+
+  graphics:
+    build:
+      context: .
+      dockerfile: ./.docker/graphics.dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - web-network
+
+
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - "/data/db:/data/db:rw"
+    networks:
+      - api-network
+
+  api:
+    build:
+      context: .
+      dockerfile: ./.docker/api.dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - api-network
