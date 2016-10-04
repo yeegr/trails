@@ -29,6 +29,10 @@ services:
       dockerfile: ./.docker/graphics.dockerfile
     ports:
       - "8000:8000"
+    depends_on:
+      - "uploads"
+    tag:
+      - "shitulv/trails:graphics"
     networks:
       - web-network
 
@@ -48,5 +52,9 @@ services:
       dockerfile: ./.docker/api.dockerfile
     ports:
       - "3000:3000"
+    depends_on:
+      - "mongodb"
+    tag:
+      - "shitulv/trails:api"
     networks:
       - api-network
