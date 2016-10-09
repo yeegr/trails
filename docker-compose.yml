@@ -15,29 +15,35 @@ networks:
 
 services:
   uploads:
+    container_name: uploads
     image: nginx
     ports:
       - "8080:80"
     volumes:
-      - "/Users/Stone/Desktop/trails/uploads:/usr/share/nginx/html:rw"
+      - "./uploads:/usr/share/nginx/html:rw"
+    working_dir: "/usr/share/nginx"
     networks:
       - web-network
 
   graphics:
+    container_name: graphics
     build:
       context: .
-      dockerfile: ./.docker/graphics.dockerfile
+      dockerfile: ./.docker/dockerfiles/graphics.dockerfile
     ports:
       - "8000:8000"
     depends_on:
       - "uploads"
-    tag:
-      - "shitulv/trails:graphics"
+    links:
+      - uploads:uploads
+    env_file:
+      - ./.docker/env/${APP_ENV}/graphics 
     networks:
       - web-network
 
 
   mongodb:
+    container_name: mongodb
     image: mongo
     ports:
       - "27017:27017"
@@ -47,14 +53,13 @@ services:
       - api-network
 
   api:
+    container_name: api
     build:
       context: .
-      dockerfile: ./.docker/api.dockerfile
+      dockerfile: ./.docker/dockerfiles/api.dockerfile
     ports:
       - "3000:3000"
     depends_on:
       - "mongodb"
-    tag:
-      - "shitulv/trails:api"
     networks:
       - api-network
