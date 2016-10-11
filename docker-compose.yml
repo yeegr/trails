@@ -30,12 +30,15 @@ services:
     build:
       context: .
       dockerfile: ./.docker/dockerfiles/graphics.dockerfile
+    image: shitulv/graphics
     ports:
       - "8000:8000"
     depends_on:
       - "uploads"
     links:
       - uploads:uploads
+    volumes:
+      - "./uploads:/usr/app/uploads:rw"
     env_file:
       - ./.docker/env/${APP_ENV}/graphics 
     networks:
@@ -57,6 +60,7 @@ services:
     build:
       context: .
       dockerfile: ./.docker/dockerfiles/api.dockerfile
+    image: shitulv/api
     ports:
       - "3000:3000"
     depends_on:

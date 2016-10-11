@@ -15,6 +15,7 @@ import {
   AsyncStorage,
   Image,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native'
 
@@ -127,7 +128,9 @@ class UserInfo extends Component {
         scrollableViewStyle={{backgroundColor: Graphics.colors.background}}
         header={(
           <View style={styles.user.hero}>
-            <Avatar user={user} size='XL' borderWidth={6} />
+            <TouchableOpacity onPress={() => this.nextPage('edit')}>
+              <Avatar user={user} size='XL' borderWidth={6} />
+            </TouchableOpacity>
             <Text style={styles.user.userHandle}>{user.handle}</Text>
             <TagList tags={user.tags} />
           </View>
