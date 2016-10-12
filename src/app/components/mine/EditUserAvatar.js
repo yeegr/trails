@@ -36,7 +36,7 @@ class EditUserAvatar extends Component {
     this.selectPhoto = this.selectPhoto.bind(this)
 
     this.state = {
-      sourceUri: ImagePath({type: 'avatar', path: 'users/' + this.props.user.avatar}) 
+      sourceUri: ImagePath({type: 'avatar', path: 'users/' + this.props.user._id + '/' + this.props.user.avatar}) 
     }
   }
 

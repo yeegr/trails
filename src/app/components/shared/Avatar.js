@@ -29,7 +29,7 @@ const Avatar = (props) => {
         width: sideLength
       }
     }),
-    url = ImagePath({type: 'avatar', path: 'users/' + props.user.avatar})
+    url = ImagePath({type: 'avatar', path: 'users/' + props.user._id + '/' + props.user.avatar})
 
   return (props.user) ? (
     <Image

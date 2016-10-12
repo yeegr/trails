@@ -158,7 +158,6 @@ export const saveEvent = () => {
     newEvent.creator = getState().login.user._id
 
     if (validateEvent(newEvent)) {
-    console.log(newEvent)
       dispatch(sendEvent(newEvent))
     }
   }
@@ -252,7 +251,7 @@ const uploadEventHero = (id, uri) => {
         return res.json()
       })
       .then((res) => {
-        if (res.id) {
+        if (res._id) {
           dispatch(receiveSaveResponse(res))
         } else {
           dispatch(saveError(res.message))

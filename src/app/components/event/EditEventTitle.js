@@ -36,7 +36,10 @@ class EditEventTitle extends Component {
 
   componentWillUnmount() {
     let title = this.state.title.trim()
-    this.props.newEventActions.setEventTitle(title)
+
+    if (title.length >= AppSettings.minEventTitleLength) {
+      this.props.newEventActions.setEventTitle(title)
+    }
   }
 
   render() {
@@ -57,7 +60,7 @@ class EditEventTitle extends Component {
           <View style={{paddingHorizontal: 15}}>
             <TextView
               class="h5"
-              text={Lang.MaximumTitleLength}
+              text={Lang.MinEventTitleLength}
             />
           </View>
         </ScrollView>

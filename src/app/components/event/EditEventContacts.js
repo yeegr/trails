@@ -52,11 +52,12 @@ class EditEventContacts extends Component {
   }
 
   componentWillUnmount() {
+    console.log(this.state.contacts)
     let tmpArray = this.state.contacts,
       newArray = []
 
     for (let i = 0, j = this._highCount; i < j; i++) {
-      if (tmpArray[i].title.trim().length > 2 && this._rx.test(tmpArray[i].mobileNumber)) {
+      if (tmpArray[i].title.trim().length > 1 && this._rx.test(tmpArray[i].mobileNumber)) {
         newArray.push({
           title: tmpArray[i].title,
           mobileNumber: parseInt(tmpArray[i].mobileNumber)

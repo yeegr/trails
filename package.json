@@ -18,7 +18,7 @@
     "rm": "docker rm -f $(docker ps -a -q)",
     "rmi": "docker rmi -f $(docker images -qf dangling=true)",
     "build": "webpack && docker-compose build",
-    "rebuild": "npm stop && npm run build && npm run rmi && npm start",
+    "rebuild": "npm stop && docker rmi -f shitulv/api && docker rmi -f shitulv/graphics && npm run build && npm start",
     "ios": "react-native run-ios",
     "lint": "esw webpack.config.* src"
   },

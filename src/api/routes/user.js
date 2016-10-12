@@ -125,7 +125,7 @@ module.exports = function(app) {
                 filename: fileName
               }
             },
-            path: 'users/' + fileName
+            path: 'users/' + user._id + '/'
           }
 
           request.post({url: 'http://graphics:8000/up', formData: formData}, (err, response, body) => {

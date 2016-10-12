@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
   CONST = require('../const'),
   User = require('../models/user'),
   Event = require('../models/event'),
+  request = require('request'),
   formidable = require('formidable'),
   fs = require('fs'),
   path = require('path')
@@ -55,11 +56,6 @@ module.exports = function(app) {
     })
     .then(function(data) {
       if (data) {
-        var dir = 'uploads/events/' + data._id
-        if (!fs.existsSync(dir)) {
-          fs.mkdirSync(dir)
-        } 
-
         getOneById(data._id, res, 201)
       }
     })
@@ -134,23 +130,37 @@ module.exports = function(app) {
   })
 
   app.put('/events/:id/hero', function(req, res, next) {
+    console.log('update event')
+    console.log(req.params.id)
+
     Event
     .findById(req.params.id)
     .exec()
     .then(function(event) {
       if (event) {
-        var fileName = CONST.generateRandomString(8),
-            form = new formidable.IncomingForm()
+        var fileName = CONST.generateRandomString(8) + '.jpg',
+          form = new formidable.IncomingForm()
 
         form.parse(req, function(err, fields, files) {
-          fs.rename(files.file.path, path.join('uploads/events/' + req.params.id + '/' + fileName + '.jpg'), (err) => {
+          var formData = {
+            file: {
+              value: fs.createReadStream(files.file.path),
+              options: {
+                filename: fileName
+              }
+            },
+            path: 'events/' + req.params.id + '/'
+          }
+
+          request.post({url: 'http://graphics:8000/up', formData: formData}, (err, response, body) => {
             if (err) {
+              console.log(err)
               throw err
             }
 
             event
             .set({
-              hero: req.params.id + '/' + fileName + '.jpg'
+              hero: fileName
             })
             .save()
             .then(function(data) {

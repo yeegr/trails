@@ -109,12 +109,19 @@ router.post('/up', function(req, res, next) {
       throw err
     }
 
-    var inputStream = fs.createReadStream(files.file.path),
-      outputStream = fs.createWriteStream('uploads/' + fields.path)
+    var dir = 'uploads/' + fields.path
+
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir)
+    }
+
+    var file = files.file,
+      inputStream = fs.createReadStream(file.path),
+      outputStream = fs.createWriteStream(dir + file.name)
 
     inputStream.pipe(outputStream)
     outputStream.on('finish', () => {
-      fs.unlinkSync(files.file.path)
+      fs.unlinkSync(file.path)
       res.status(201).send()
     })
   })
