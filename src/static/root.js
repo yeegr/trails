@@ -2,6 +2,9 @@ var express = require('express'),
 	logger = require('morgan'),
 	errorHandler = require('errorhandler'),
   bodyParser = require('body-parser'),
+  formidable = require('formidable'),
+  fs = require('fs'),
+  path = require('path'),
   cors = require('cors'),
   url = require('url'),
   http = require('http'),
@@ -98,9 +101,24 @@ var scale = function(width, height) {
     .withoutEnlargement()
 }
 
+router.post('/up', function(req, res, next) {
+  var form = new formidable.IncomingForm()
 
+  form.parse(req, function(err, fields, files) {
+    if (err) {
+      throw err
+    }
 
+    var inputStream = fs.createReadStream(files.file.path),
+      outputStream = fs.createWriteStream('uploads/' + fields.path)
 
+    inputStream.pipe(outputStream)
+    outputStream.on('finish', () => {
+      fs.unlinkSync(files.file.path)
+      res.status(201).send()
+    })
+  })
+})
 
 // REGISTER ROUTES
 // =============================================================================

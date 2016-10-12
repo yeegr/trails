@@ -67,3 +67,4 @@ services:
       - "mongodb"
     networks:
       - api-network
+      - web-network

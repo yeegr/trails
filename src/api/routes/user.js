@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
   CONST = require('../const'),
   User = require('../models/user'),
+  request = require('request'),
   formidable = require('formidable'),
   fs = require('fs'),
   path = require('path')
@@ -113,18 +114,28 @@ module.exports = function(app) {
     .exec()
     .then(function(user) {
       if (user) {
-        var fileName = CONST.generateRandomString(8),
-            form = new formidable.IncomingForm()
+        var fileName = CONST.generateRandomString(8) + '.jpg',
+        form = new formidable.IncomingForm()
 
         form.parse(req, function(err, fields, files) {
-          fs.rename(files.file.path, path.join('uploads/users/' + fileName + '.jpg'), (err) => {
+          var formData = {
+            file: {
+              value: fs.createReadStream(files.file.path),
+              options: {
+                filename: fileName
+              }
+            },
+            path: 'users/' + fileName
+          }
+
+          request.post({url: 'http://graphics:8000/up', formData: formData}, (err, response, body) => {
             if (err) {
               throw err
             }
 
             user
             .set({
-              avatar: fileName + '.jpg'
+              avatar: fileName
             })
             .save()
             .then(function(data) {
@@ -135,7 +146,6 @@ module.exports = function(app) {
             .catch(function(err) {
               res.status(500).send({error: err})
             })
-            
           })
         })
       }
