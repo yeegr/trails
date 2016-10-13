@@ -113,7 +113,7 @@ class EventDetail extends Component {
     }
 
     const avatarRadius = 20,
-    eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event.hero}),
+    eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
     eventGroups = (event.groups.length > 1) ? (
       <ListItem icon="calendar"
         label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}

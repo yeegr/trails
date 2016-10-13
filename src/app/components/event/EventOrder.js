@@ -162,7 +162,7 @@ class EventOrder extends Component {
 
   render() {
     const event = this.props.event,
-      eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event.hero}),
+      eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
       selectedGroup = this.props.selectedGroup || 0,
       dates = formatEventGroupLabel(event, selectedGroup)
 

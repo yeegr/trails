@@ -92,7 +92,7 @@ class EventPayment extends Component {
 
   render() {
     const {event} = this.props,
-      eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event.hero}),
+      eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
       selectedGroup = this.props.selectedGroup,
       dates = formatEventGroupLabel(event, selectedGroup)
       //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null

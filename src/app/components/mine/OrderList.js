@@ -56,7 +56,7 @@ const OrderList = (props) => {
       }
     }, 
     names = [],
-    heroUri = ImagePath({type: 'thumb', path: ASSET_FOLDERS.Event + '/' + order.hero})
+    heroUri = ImagePath({type: 'thumb', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero})
 
     order.signUps.map((signUp) => {
       names.push(signUp.name)
