@@ -2,16 +2,16 @@
 # Based on ubuntu:16.04, installs MongoDB following the instructions from:
 # http://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/
 
-FROM       ubuntu:16.04
+FROM       mongo:latest
 MAINTAINER Stone Chen (dev@shitulv.com)
 
 # Installation:
 # Import MongoDB public GPG key AND create a MongoDB list file
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
-RUN echo "deb http://repo.mongodb.org/apt/ubuntu $(cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d= -f2)/mongodb-org/3.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+# RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+# RUN echo "deb http://repo.mongodb.org/apt/ubuntu $(cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d= -f2)/mongodb-org/3.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.2.list
 
 # Update apt-get sources AND install MongoDB
-RUN apt-get update && apt-get install -y mongodb-org
+# RUN apt-get update && apt-get install -y mongodb-org
 
 # Mount the MongoDB data directory
 # RUN mkdir -p /data/db
@@ -25,4 +25,5 @@ EXPOSE 27017
 ENTRYPOINT ["/usr/bin/mongod"]
 
 # docker build -t shitulv/mongo -f docker/mongo.dockerfile .
-# docker run -d --network api --name mongo -v /data/db:/data/db --ip 172.18.0.2 -p 27017:27017 shitulv/mongo --smallfiles
+# docker run -d --network api-network --name mongodb -v /data/db:/data/db -p 27017:27017 shitulv/mongodb --smallfiles
+# docker run -d --net=api-network --name mongodb -v /data/db:/data/db -p 27017:27017 shitulv/mongodb --smallfiles

@@ -23,7 +23,9 @@ ENTRYPOINT ["nodemon"]
 CMD ["server.js"]
 
 
-# docker run -d --network web -p 8080:80 --name uploads -v /Users/Stone/Desktop/trails/uploads:/usr/share/nginx/html:rw nginx
+# docker run -d --network web-network -p 8080:80 --name uploads -v /Users/Stone/Desktop/trails/uploads:/usr/share/nginx/html:rw nginx
+# docker run -d --net=web-network -p 8080:80 --name uploads -v /uploads:/usr/share/nginx/html:rw nginx
 
 # docker build -t shitulv/graphics -f docker/graphics.dockerfile .
-# docker run -d --network web -p 8000:8000 --name content shitulv/graphics
+# docker run -d --network web-network -p 8000:8000 --name graphics shitulv/graphics
+# docker run -d --net=web-network -p 8000:8000 --name graphics shitulv/graphics

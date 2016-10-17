@@ -23,5 +23,5 @@ ENTRYPOINT ["nodemon"]
 CMD ["/usr/app/server.js"]
 
 # docker build -t shitulv/api -f docker/api.dockerfile .
-# docker run -d --network api -p 3000:3000 --name api shitulv/api
-# docker run -d -p 3000:3000 --name api -v /Users/Stone/Desktop/trails/dev:/var/api:ro node:6.4.0
+# docker run -d --network api-network -p 3000:3000 --name api shitulv/api
+# docker run -d --net=api-network -p 3000:3000 --name api shitulv/api

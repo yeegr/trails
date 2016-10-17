@@ -47,7 +47,10 @@ services:
 
   mongodb:
     container_name: mongodb
-    image: mongo
+    build:
+      context: .
+      dockerfile: ./.docker/dockerfiles/mongodb.dockerfile
+    image: shitulv/mongodb
     ports:
       - "27017:27017"
     volumes:
