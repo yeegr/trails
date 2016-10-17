@@ -59,7 +59,7 @@ class PostDetail extends Component {
       />
     ) : null
 
-    const url = ImagePath({type: 'hero', path: ASSET_FOLDERS.Post + '/' + post.id + '/' + post.hero})
+    const url = ImagePath({type: 'hero', path: ASSET_FOLDERS.Post + '/' + post._id + '/' + post.hero})
 
     return (
       <View style={styles.global.wrapper}>
