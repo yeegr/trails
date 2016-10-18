@@ -48,8 +48,6 @@ class Toolbar extends Component {
   }
 
   comment() {
-    console.log(this.props.data)
-
     this.props.navigator.push({
       id: 'Comments',
       title: Lang.Comments,

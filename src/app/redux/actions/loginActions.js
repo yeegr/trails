@@ -180,7 +180,6 @@ export const getUpdatedUser = (user_id) => {
         return res.json()
       })
       .then((res) => {
-        console.log(res)
         if (res.id) {
           AsyncStorage
           .setItem(USER, JSON.stringify(res))

@@ -52,7 +52,6 @@ class EditEventContacts extends Component {
   }
 
   componentWillUnmount() {
-    console.log(this.state.contacts)
     let tmpArray = this.state.contacts,
       newArray = []
 

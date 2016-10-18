@@ -32,7 +32,6 @@ class EventSubmitted extends Component {
   }
 
   render() {
-    console.log(this.props.user._id)
     return (
       <ScrollView style={styles.global.main}>
         <View style={{padding: 15}}>

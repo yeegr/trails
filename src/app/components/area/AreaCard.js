@@ -28,9 +28,6 @@ const AreaCard = (props) => {
           id: props.data.id
         }
       })
-    },
-    showInfoBoard = () => {
-      console.log('occupy this area!')
     }
 
   let tags = []

@@ -53,7 +53,6 @@ class SignUpList extends Component {
   }
 
   renderRow(rowData, sectionId, rowId) {
-    console.log(rowData)
     return (
       <View style={styles.list.row}>
         <SimpleContact 

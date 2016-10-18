@@ -134,4 +134,4 @@ app.use('/', router)
 // START THE SERVER
 // =============================================================================
 app.listen(port)
-console.log('Static server on port ' + port)
+console.log('Graphics server running on port ' + port)

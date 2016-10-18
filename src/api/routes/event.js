@@ -130,9 +130,6 @@ module.exports = function(app) {
   })
 
   app.put('/events/:id/hero', function(req, res, next) {
-    console.log('update event')
-    console.log(req.params.id)
-
     Event
     .findById(req.params.id)
     .exec()
@@ -154,7 +151,6 @@ module.exports = function(app) {
 
           request.post({url: 'http://graphics:8000/up', formData: formData}, (err, response, body) => {
             if (err) {
-              console.log(err)
               throw err
             }
 

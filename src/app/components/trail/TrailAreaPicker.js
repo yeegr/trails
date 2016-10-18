@@ -46,16 +46,12 @@ class TrailAreaPicker extends Component {
       return res.json()
     })
     .then((res) => {
-      if (res.error) {
-        console.log(err)
-      } else {
-        this.setState({
-          areas: res
-        })
-      }
+      this.setState({
+        areas: res
+      })
     })
     .catch((err) => {
-      console.log(err)
+      throw err
     })
   }
 

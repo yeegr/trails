@@ -80,6 +80,12 @@ class EditEventHero extends Component {
         console.log('ImagePicker Error: ', response.error);
       }
       else {
+        // You can display the image using either data...
+        //const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+
+        console.log(response)
+
+        // or a reference to the platform specific asset location
         const source = null
 
         if (Platform.OS === 'ios') {
@@ -87,8 +93,6 @@ class EditEventHero extends Component {
         } else {
           source = {uri: response.uri, isStatic: true};
         }
-
-        console.log(source)
 
         this.setState({
           imageUri: source.uri

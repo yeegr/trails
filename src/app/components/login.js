@@ -43,7 +43,7 @@ class Login extends Component {
     this.getValidation = this.getValidation.bind(this)
     this.onValidationCodeChanged = this.onValidationCodeChanged.bind(this)
     this.onLoginPressed = this.onLoginPressed.bind(this)
-    this.openWXApp = this.openWXApp.bind(this)
+    this._openWXApp = this._openWXApp.bind(this)
     this.toggleWXButton = this.toggleWXButton.bind(this)
 
     this.state = {
@@ -60,27 +60,52 @@ class Login extends Component {
 
   async componentDidMount() {
     try {
-      await WeChat.registerApp(AppSettings.sdks.wechat);
+      console.log(AppSettings.sdks.wechat)
+      await WeChat.registerApp(AppSettings.sdks.wechat)
 
       this.setState({
         apiVersion: await WeChat.getApiVersion(),
         wxAppInstallUrl: await WeChat.getWXAppInstallUrl(),
         isWXAppSupportApi: await WeChat.isWXAppSupportApi(),
         isWXAppInstalled: await WeChat.isWXAppInstalled()
-      });
-      console.log(this.state);
+      })
     } catch (e) {
-      console.error(e);
+      console.error(e)
     }
+
+    console.log(WeChat)
+
+    //WeChat.sendAuthRequest()
+    /*
+    console.log(WeChat);
+    console.log('getApiVersion', typeof WeChat.getApiVersion);
+    console.log('getWXAppInstallUrl', typeof WeChat.getWXAppInstallUrl);
+    console.log('sendRequest', typeof WeChat.sendRequest);
+    console.log('registerApp', typeof WeChat.registerApp);
+    console.log('sendErrorCommonResponse', typeof WeChat.sendErrorCommonResponse);
+    console.log('sendErrorUserCancelResponse', typeof WeChat.sendErrorUserCancelResponse);
+    console.log('sendAuthRequest', typeof WeChat.sendAuthRequest);
+    console.log('getWXAppInstallUrl', typeof WeChat.getWXAppInstallUrl);
+    console.log('openWXApp', typeof WeChat.openWXApp);
+    console.log('registerAppWithDescription', typeof WeChat.registerAppWithDescription);
+    console.log('isWXAppSupportApi', typeof WeChat.isWXAppSupportApi);
+    console.log('isWXAppInstalled', typeof WeChat.isWXAppInstalled);
+    */
   }
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps)
   }
   
-  async openWXApp() {
+  async _openWXApp() {
+    console.log('_openWXApp')
     this.props.loginActions.hideLogin()
     await WeChat.openWXApp()
+
+    //if (this.state.isWXAppInstalled) {
+      var result = await WeChat.sendAuthRequest('snsapi_userinfo', '123456')
+      console.log(result)
+    //}
   }
 
   toggleWXButton(showWXLogin) {
@@ -96,7 +121,7 @@ class Login extends Component {
         <View style={styles.weixinLogin}>
           <TouchableOpacity
             style={[styles.button, styles.buttonEnabled]}
-            onPress={this.openWXApp}>
+            onPress={() => this._openWXApp()}>
             <Text style={styles.buttonText}>{Lang.LoginWithWechat}</Text>
           </TouchableOpacity>
         </View>
