@@ -12,7 +12,7 @@
 
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
-#import "../Libraries/LinkingIOS/RCTLinkingManager.h"
+#import "RCTLinkingManager.h"
 
 @implementation AppDelegate
 
@@ -47,5 +47,14 @@
   return [RCTLinkingManager application:application openURL:url
                       sourceApplication:sourceApplication annotation:annotation];
 }
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity
+ restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
+{
+  return [RCTLinkingManager application:application
+                   continueUserActivity:userActivity
+                     restorationHandler:restorationHandler];
+}
+
 
 @end

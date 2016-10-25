@@ -23,12 +23,12 @@
     "express": "^4.14.0",
     "formidable": "^1.0.17",
     "jquery": "^3.1.0",
-    "jsdom": "^9.4.2",
-    "mongoose": "^4.5.7",
+    "jsdom": "^9.8.0",
+    "mongoose": "^4.6.4",
     "morgan": "^1.7.0",
     "path": "^0.12.7",
     "request": "^2.74.0",
     "semver-compare": "^1.0.0",
-    "sharp": "^0.16.0"
+    "sharp": "^0.16.1"
   }
 }

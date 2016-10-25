@@ -21,11 +21,15 @@ import {
 
 import ParallaxView from 'react-native-parallax-view'
 
+import CallToAction from '../shared/CallToAction'
+import Icon from '../shared/Icon'
+import ImagePath from '../shared/ImagePath'
 import Intro from '../shared/Intro'
 import TextView from '../shared/TextView'
-import Icon from '../shared/Icon'
-import CallToAction from '../shared/CallToAction'
+
+import {ASSET_FOLDERS} from '../../../util/constants'
 import {formatEventGroupLabel} from '../../../util/common'
+
 import styles from '../../styles/main'
 
 class SelectOrderGroup extends Component {
@@ -50,12 +54,13 @@ class SelectOrderGroup extends Component {
   }
 
   render() {
-    const event = this.props.event
+    const event = this.props.event,
+      eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero})
 
     return (
       <View style={styles.global.wrapper}>
         <ParallaxView
-          backgroundSource={{uri: AppSettings.assetUri + event.hero}}
+          backgroundSource={{uri: eventBackgroundUrl}}
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro

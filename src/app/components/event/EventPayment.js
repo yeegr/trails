@@ -27,6 +27,7 @@ import TextView from '../shared/TextView'
 import {AppSettings, Lang, Graphics} from '../../settings'
 import {ASSET_FOLDERS} from '../../../util/constants'
 import {formatEventGroupLabel, calculateInsurance} from '../../../util/common'
+
 import styles from '../../styles/main'
 
 class EventPayment extends Component {

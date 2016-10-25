@@ -1,6 +1,6 @@
 var express = require('express'),
-	logger = require('morgan'),
-	errorHandler = require('errorhandler'),
+  logger = require('morgan'),
+  errorHandler = require('errorhandler'),
   bodyParser = require('body-parser'),
   formidable = require('formidable'),
   fs = require('fs'),
@@ -15,7 +15,7 @@ var express = require('express'),
 
 if (process.env.NODE_ENV === 'development') {
   app.use(logger('dev'))
-	app.use(errorHandler())
+  app.use(errorHandler())
 }
 
 app.use(bodyParser.json())
@@ -28,8 +28,9 @@ router.use(function(req, res, next) {
   next()
 })
 
-var curl = require('./curl')(app),
-wiki = require('./wiki')(app)
+var wechat = require('./wechat')(app),
+avatar = require('./avatar')(app),
+curl = require('./curl')(app)
 
 router.get('/', function(req, res, next) {
   var os = req.query.os,

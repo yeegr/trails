@@ -28,6 +28,7 @@ export const isLoggedIn = () => {
     })
 }
 
+// toggle login page
 export const showLogin = () => {
   return {
     type: ACTIONS.SHOW_LOGIN
@@ -40,6 +41,7 @@ export const hideLogin = () => {
   }
 }
 
+// toggle mobile number verification form
 export const enableVerification = () => {
   return {
     type: ACTIONS.ENABLE_VERIFICATION
@@ -64,34 +66,62 @@ export const hideVerification = () => {
   }
 }
 
-export const getVerification = (mobile) => {
-  let config = Object.assign({}, CONFIG.POST, {
-    body: JSON.stringify({mobile: mobile})
-  })
-  
-  /*
-  return dispatch => {
-    dispatch(requestLogin(creds))
+// send mobile number for verification
+const requestMobileVerification = () => {
+  return {
+    type: ACTIONS.SEND_MOBILE_VERIFICATION_REQUEST
+  }
+}
 
-    return fetch(LOGIN_URL, config)
-      .then((response) => {
-        return responnse.json()
-      })
-      .then((response) => {
-        if (response.token && response.user) {
-          AsyncStorage.multiSet([
-            [ACCESS_TOKEN, response.token],
-            [USER, JSON.stringify(response.user)]
-          ])
-          dispatch(receiveLogin(response.user))
-        } else {
-          dispatch(loginError(response.message))
-          return Promise.reject(response)
-        }
-      })
-      .catch(err => console.log('error: ', err))
+const mobileVerified = (mobile) => {
+  console.log('mobile verified')
+  //loginUser({mobile})
+
+  return (dispatch) => {
+    dispatch(loginUser({mobile}))
+  }
+/*
+  return {
+    type: ACTIONS.MOBILE_VERIFICATION_SUCCESS,
+    mobile
   }
   */
+}
+
+const mobileVerificationFailed = () => {
+  return {
+    type: ACTIONS.MOBILE_VERIFICATION_FAILURE
+  }
+}
+
+export const verifyMobileNumber = (mobile, vcode) => {
+  let config = Object.assign({}, CONFIG.POST, {
+    body: JSON.stringify({
+      mobile,
+      vcode
+    })
+  })
+  
+  return dispatch => {
+    dispatch(requestMobileVerification())
+
+    return dispatch(mobileVerified(mobile))
+
+/*
+    return fetch(MOBILE_VERIFICATION_URL, config)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        if (res.verified) {
+          dispatch(mobileVerified(mobile))
+        } else {
+          dispatch(mobileVerificationFailed(res.message))
+          return Promise.reject(res)
+        }
+      })
+      .catch(err => console.error(err))*/
+  }
 }
 
 export const enableLogin = () => {
@@ -128,6 +158,80 @@ const loginError = (message) => {
   }
 }
 
+const createUser = (wechat, mobile) => {
+  let user = Object.assign({}, wechat)
+
+  user.wechat = user.openid
+  user.mobile = state.mobile
+
+  return {
+    type: ACTIONS.CREATE_USER,
+    creds
+  }
+}
+
+export const sendWechatAuthRequest = () => {
+  return {
+    type: ACTIONS.SEND_WECHAT_AUTH_REQUEST
+  }
+}
+
+export const wechatAuthRequestSend = () => {
+  return {
+    type: ACTIONS.WECHAT_AUTH_REQUEST_SEND
+  }
+}
+
+const receiveWechatUserInfo = (wechat) => {
+  return {
+    type: ACTIONS.WECHAT_USER_INFO_SUCCESS,
+    wechat
+  }
+}
+
+const wechatUserInfoError = (message) => {
+  return {
+    type: ACTIONS.WECHAT_USER_INFO_FAILURE,
+    message
+  }
+}
+
+export const requestWechatUserInfo = (wechat_token) => {
+  return (dispatch) => {
+    return fetch(AppSettings.assetUri + 'wechat/info/' + wechat_token)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        console.log(res)
+        dispatch(receiveWechatUserInfo(res))
+      })
+      .catch((err) => dispatch(wechatUserInfoError(err)))
+  }
+}
+
+export const showMobileLoginForm = () => {
+  return {
+    type: ACTIONS.SHOW_MOBILE_LOGIN_FORM
+  }
+}
+
+const completeSignup = (creds) => {
+  var action = null
+
+  if (creds.mobile) {
+    action = sendWechatAuthRequest()
+  }
+
+  if (creds.wechat) {
+    action = showMobileLoginForm()
+  }
+
+  return (dispatch) => {
+    dispatch(action)
+  }
+}
+
 export const loginUser = (creds) => {
   let config = Object.assign({}, CONFIG.POST, {
     body: JSON.stringify(creds)
@@ -138,7 +242,12 @@ export const loginUser = (creds) => {
 
     return fetch(AppSettings.apiUri + 'login', config)
       .then((res) => {
-        return res.json()
+        console.log(res)
+        if (res.status === 404) {
+          dispatch(completeSignup(creds))
+        } else {
+          return res.json()
+        }
       })
       .then((res) => {
         if (res.token && res.id) {

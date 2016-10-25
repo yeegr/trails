@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
   CONST = require('../const'),
   Log = require('./logging'),
   Util = require('./util'),
+  request = require('request'),
   Roles = ['normal', 'captain', 'staff', 'editor', 'admin', 'super'],
   maxLevel = 4,
   minLevel = 0,
@@ -50,6 +51,19 @@ var mongoose = require('mongoose'),
       type: Number,
       match: CONST.genderRx,
       required: false
+    },
+    language: {
+      type: String,
+      minlength: 2,
+      maxlength: 5
+    },
+    city: {
+      type: String
+    },
+    country: {
+      type: String,
+      minlength: 2,
+      maxlength: 2
     },
     verified: {
       on: {
@@ -240,7 +254,25 @@ userSchema.methods.removeFromList = function(key, id) {
 userSchema.pre('save', function(next) {
   Util.updateModified(this, ['handle', 'avatar', 'gender', 'mobile'])
   this.wasNew = this.isNew
-  next()
+
+  if (this.isNew && this.avatar.substring(0, 4) === 'http') {
+    let fileName = CONST.generateRandomString(8)
+
+    request({
+      url: 'http://graphics:8000/avatar',
+      method: 'POST',
+      json: {
+        id: this.id,
+        filename: fileName,
+        url: this.avatar
+      }
+    }, (error, response, body) => {
+      this.avatar = fileName + '.jpg'
+      next()
+    })
+  } else {
+    next()
+  }
 })
 
 userSchema.post('save', function(doc) {

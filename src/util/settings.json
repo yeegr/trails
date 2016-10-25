@@ -3,6 +3,7 @@
     "version":"0.2.0",
     "platform":"iOS",
     "expiredOn":"2016-11-01",
+    "server":"http://139.129.200.88/",
     "baseUri":"http://139.129.200.88/",
     "apiUri":"http://139.129.200.88:3000/",
     "assetUri":"http://139.129.200.88:8000/",

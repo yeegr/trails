@@ -2,14 +2,23 @@
 
 import {AsyncStorage} from 'react-native'
 import {ACCESS_TOKEN, USER} from '../../../util/constants'
+import * as loginActions from '../actions/loginActions'
 import * as ACTIONS from '../constants/loginConstants'
 
-const loginReducer = (state = {
-  showLogin: false,
+const init = {
   disableVerification: true,
   showVerification: false,
   disableLogin: true,
-  isFetching: false
+  showMobileForm: true,
+  showWechatButton: true,
+  verifyMobile: false,
+  isFetchingWechatAuth: false,
+  isFetching: false,
+  wechat: null,
+  mobile: null
+},
+loginReducer = (state = {
+  showLogin: false
 }, action) => {
   switch (action.type) {
     case ACTIONS.IS_LOGGED_IN:
@@ -27,7 +36,7 @@ const loginReducer = (state = {
       })
 
     case ACTIONS.SHOW_LOGIN:
-      return Object.assign({}, state, {
+      return Object.assign({}, init, {
         showLogin: true
       })
 
@@ -127,6 +136,49 @@ const loginReducer = (state = {
       return Object.assign({}, state, {
         isFetching: false,
         message: action.message
+      })
+
+    case ACTIONS.SHOW_MOBILE_LOGIN_FORM:
+      return Object.assign({}, state, {
+        showMobileForm: true
+      })
+
+    case ACTIONS.SEND_WECHAT_AUTH_REQUEST:
+      return Object.assign({}, state, {
+        isFetchingWechatAuth: true
+      })
+
+    case ACTIONS.WECHAT_AUTH_REQUEST_SEND:
+      return Object.assign({}, state, {
+        isFetchingWechatAuth: false
+      })
+
+    case ACTIONS.WECHAT_USER_INFO_SUCCESS:
+      loginActions.loginUser({
+        wechat: action.wechat.openid
+      })
+
+      return Object.assign({}, state, {
+        wechat: action.wechat
+      })
+
+    case ACTIONS.WECHAT_USER_INFO_FAILURE:
+      return Object.assign({}, state, {
+        wechat: null
+      })
+
+    case ACTIONS.MOBILE_AUTH_SUCCESS:
+      loginActions.loginUser({
+        mobile: action.mobile
+      })
+
+      return Object.assign({}, state, {
+        mobile: action.mobile
+      })
+
+    case ACTIONS.MOBILE_AUTH_FAILURE:
+      return Object.assign({}, state, {
+        mobile: null
       })
 
     default:
