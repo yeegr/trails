@@ -3,11 +3,11 @@ var request = require('request'),
 
 module.exports = function(app) {
   app.get('/curl', function(req, res, next) {
-    getTrailInfo(res, req.query.id, req.query.area)
+    getTrailInfo(res, req.query.id, req.query.user, req.query.area)
   })
 }
 
-function getTrailInfo(res, id, area) {
+function getTrailInfo(res, id, creator, area) {
   var url = 'http://www.foooooot.com/trip/' + id
 
   request({
@@ -104,6 +104,7 @@ function getTrailInfo(res, id, area) {
       }
 
       getTrailPoints(res, {
+        creator,
         url,
         id,
         area,
@@ -128,7 +129,7 @@ function getTrailPoints(res, info) {
       points = JSON.parse(tmp),
       data = calculateTrailData(points),
       trail = {
-        creator: '57b91b676df29171025b9e14',
+        creator: info.creator,
         areas: [info.area],
         title: info.title,
         description: info.desc,

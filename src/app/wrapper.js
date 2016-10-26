@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import {Provider} from 'react-redux'
 import configureStore from './redux/store/configureStore'
-//import CodePush from 'react-native-code-push'
+import CodePush from 'react-native-code-push'
 import App from './components/app'
 
 let store = configureStore()
@@ -24,5 +24,4 @@ class Wrapper extends Component {
 
 store.subscribe(() => {store.getState()})
 
-export default Wrapper
-//export default CodePush(Wrapper)
+export default CodePush(Wrapper)

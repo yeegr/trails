@@ -23,7 +23,8 @@
     "api": "npm stop && docker rmi -f shitulv/api && webpack && docker-compose build api && npm start",
     "push": "docker push shitulv/mongodb && docker push shitulv/api && docker push shitulv/graphics",
     "ios": "react-native run-ios",
-    "lint": "esw webpack.config.* src"
+    "lint": "esw webpack.config.* src",
+    "codepush": "code-push release-react trails ios"
   },
   "devDependencies": {
     "browser-sync": "^2.17.3",
