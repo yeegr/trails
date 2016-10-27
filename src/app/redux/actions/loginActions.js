@@ -74,8 +74,7 @@ const requestMobileVerification = () => {
 }
 
 const mobileVerified = (mobile) => {
-  console.log('mobile verified')
-  //loginUser({mobile})
+  loginUser({mobile})
 
   return (dispatch) => {
     dispatch(loginUser({mobile}))
