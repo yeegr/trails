@@ -345,6 +345,13 @@ const userUpdateError = (message) => {
   }
 }
 
+export const updateAvatarUri = (uri) => {
+  return {
+    type: ACTIONS.UPDATE_AVATAR_URI,
+    uri
+  }
+}
+
 export const updateUserAvatar = (user_id, uri) => {
   let formData = new FormData()
 

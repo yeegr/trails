@@ -20,18 +20,18 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as postsActions from '../../redux/actions/postsActions'
-import {ACTION_TARGETS} from '../../../util/constants'
 
-import Loading from '../shared/Loading'
-import ParallaxView from 'react-native-parallax-view'
 import ImagePath from '../shared/ImagePath'
 import Intro from '../shared/Intro'
-import Toolbar from '../shared/Toolbar'
 import Header from '../shared/Header'
+import Loading from '../shared/Loading'
+import ParallaxView from 'react-native-parallax-view'
+import Toolbar from '../shared/Toolbar'
 import UserLink from '../user/UserLink'
 import WebViewWrapper from '../shared/WebViewWrapper'
+
 import {CommentsPreview} from '../shared/Comments'
-import {ASSET_FOLDERS} from '../../../util/constants'
+import {ACTION_TARGETS, ASSET_FOLDERS} from '../../../util/constants'
 import styles from '../../styles/main'
 
 class PostDetail extends Component {

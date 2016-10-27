@@ -73,6 +73,12 @@ module.exports = function(app) {
       query.areas.$in = [req.query.area]
     }
 
+    if (req.query.hasOwnProperty('in') && req.query.in !== '') {
+      var tmp = (req.query.in).substring(1, (req.query.in).length - 1)
+      query._id = {}
+      query._id.$in = tmp.split(',')
+    }
+
     if (req.query.hasOwnProperty('keywords') && req.query.keywords !== '') {
       var keywords = new RegExp(req.query.keywords.trim().replace(' ', '|'))
       query.$or = []

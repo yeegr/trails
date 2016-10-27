@@ -30,16 +30,18 @@ export const listTrails = (params) => {
   return (dispatch) => {
     dispatch(requestTrails(params))
 
+    console.log(AppSettings.apiUri + 'trails/?' + params)
+
     return fetch(AppSettings.apiUri + 'trails/?' + params)
-      .then((response) => {
-        return response.json()
+      .then((res) => {
+        return res.json()
       })
-      .then((response) => {
-        if (response.error) {
-          dispatch(listTrailsError(response.error))
-          return Promise.reject(response)
+      .then((res) => {
+        if (res.error) {
+          dispatch(listTrailsError(res.error))
+          return Promise.reject(res)
         } else {
-         dispatch(receiveTrails(response))
+         dispatch(receiveTrails(res))
         }
       })
       .catch((err) => {

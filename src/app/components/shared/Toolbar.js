@@ -21,10 +21,11 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as loginActions from '../../redux/actions/loginActions'
 import * as toolbarActions from '../../redux/actions/toolbarActions'
-import {USER_ACTIONS, TOOLBAR_TYPE_KEYS} from '../../../util/constants'
 
 import Icon from './Icon'
 import TextView from './TextView'
+
+import {USER_ACTIONS, TOOLBAR_TYPE_KEYS} from '../../../util/constants'
 
 class Toolbar extends Component {
   constructor(props) {
@@ -179,28 +180,27 @@ class Toolbar extends Component {
 
     if (user) {
       const likesArray = user.likes[TOOLBAR_TYPE_KEYS[type]],
-      savesArray = user.saves[TOOLBAR_TYPE_KEYS[type]],
-      sharesArray = user.shares[TOOLBAR_TYPE_KEYS[type]]
+        savesArray = user.saves[TOOLBAR_TYPE_KEYS[type]],
+        sharesArray = user.shares[TOOLBAR_TYPE_KEYS[type]]
 
       likeFillColor = (likesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor,
       saveFillColor = (savesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor,
       shareFillColor = (sharesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor
 
-      if (likesArray.indexOf(id) < 0) {
-        likeView = (
-          <TouchableOpacity onPress={() => this.act(USER_ACTIONS.LIKE)}>
-            {likeIcon}
-          </TouchableOpacity>
-        )
-      }
+      const likeAction = (likesArray.indexOf(id) < 0) ? USER_ACTIONS.LIKE : USER_ACTIONS.UNLIKE,
+        saveAction = (savesArray.indexOf(id) < 0) ? USER_ACTIONS.SAVE : USER_ACTIONS.UNSAVE
 
-      if (savesArray.indexOf(id) < 0) {
-        saveView = (
-          <TouchableOpacity onPress={() => this.act(USER_ACTIONS.SAVE)}>
-            {saveIcon}
-          </TouchableOpacity>
-        )
-      }
+      likeView = (
+        <TouchableOpacity onPress={() => this.act(likeAction)}>
+          {likeIcon}
+        </TouchableOpacity>
+      )
+
+      saveView = (
+        <TouchableOpacity onPress={() => this.act(saveAction)}>
+          {saveIcon}
+        </TouchableOpacity>
+      )
 
       shareView = (
         <TouchableOpacity onPress={() => this.act(USER_ACTIONS.SHARE)}>
@@ -214,8 +214,6 @@ class Toolbar extends Component {
         </TouchableOpacity>
       )
     }
-
-
 
     return (
       <View style={styles.wrapper}>

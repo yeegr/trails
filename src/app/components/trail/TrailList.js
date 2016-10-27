@@ -70,7 +70,7 @@ class TrailList extends Component {
 
   render() {
     const trails = (this.props.trails) ? this.props.trails : this.props.remoteTrails,
-    {navigator} = this.props
+      {navigator} = this.props
 
     if (!trails) {
       return <Loading />

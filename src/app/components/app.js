@@ -28,12 +28,10 @@ import * as newEventActions from '../redux/actions/newEventActions'
 import * as navbarActions from '../redux/actions/navbarActions'
 import {
   HOME_TABS,
-  ACTION_TARGETS
+  ACTION_TARGETS,
+  ACCOUNT_ACTIONS
 } from '../../util/constants'
 
-import Loading from './shared/Loading'
-import {NavbarIconButton, NavbarTextButton} from './shared/NavbarButtons'
-import Intro from './intro'
 import Home from './home'
 import Login from './login'
 import AreaDetail from './area/AreaDetail'
@@ -84,10 +82,15 @@ import SignUpList from './mine/SignUpList'
 import OrderList from './mine/OrderList'
 import OrderDetail from './mine/OrderDetail'
 import UserDetail from './user/UserDetail'
+
 import Comments from './shared/Comments'
 import Gallery from './shared/Gallery'
+import Intro from './intro'
+import Loading from './shared/Loading'
 import TextView from './shared/TextView'
+
 import styles from '../styles/main'
+import {NavbarIconButton, NavbarTextButton} from './shared/NavbarButtons'
 
 const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
   LeftButton: function(route, navigator, index, navState) {
@@ -207,6 +210,13 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
           label={Lang.Save}
         />
       break
+
+      case 'EditUserAvatar':
+        rightTitleBar = <NavbarTextButton
+          onPress={() => this.save(ACCOUNT_ACTIONS.SAVE_AVATAR)}
+          label={Lang.Save}
+        />
+      break
     }
 
     return rightTitleBar
@@ -294,6 +304,8 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
 
   save: function(type) {
     if (login.user) {
+      let navigator = arguments[1] || null 
+
       switch (type) {
         case ACTION_TARGETS.TRAIL:
           dispatch(newTrailActions.saveTrail())
@@ -305,6 +317,10 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
 
         case ACTION_TARGETS.AGENDA:
           dispatch(navbarActions.saveAgenda())
+        break
+
+        case ACCOUNT_ACTIONS.SAVE_AVATAR:
+          dispatch(loginActions.updateUserAvatar(login.user._id, login.tmpAvatarUri))
         break
       }
     } else {

@@ -52,49 +52,49 @@ class UserInfo extends Component {
       case 'orders':
         id = 'OrderList',
         title = Lang.MyOrders,
-        query = "?creator=" + user.id
+        query = "creator=" + user.id
       break;
 
       case 'manage':
         id = 'EventManager',
         title = Lang.ManageEvents,
-        query = "?creator=" + user.id
+        query = "creator=" + user.id
       break;
 
       case 'trails':
         id = 'TrailList',
         title = Lang.MyTrails,
-        query = "?creator=" + user.id
+        query = "creator=" + user.id
       break;
 
       case 'events':
         id = 'EventManager',
         title = Lang.MyEvents,
-        query = "?creator=" + user.id
+        query = "creator=" + user.id
       break;
 
       case 'posts':
         id = 'PostList',
         title = Lang.MyPosts,
-        query = "?creator=" + user.id
+        query = "creator=" + user.id
       break;
 
       case 'savedTrails':
         id = 'TrailList',
         title = Lang.SavedTrails,
-        query = "?in=" + JSON.stringify(user.saves.trails).replace(/\"/g, '')
+        query = "in=" + JSON.stringify(user.saves.trails).replace(/\"/g, '')
       break;
 
       case 'savedEvents':
         id = 'EventList',
         title = Lang.SavedEvents,
-        query = "?in=" + JSON.stringify(user.saves.events).replace(/\"/g, '')
+        query = "in=" + JSON.stringify(user.saves.events).replace(/\"/g, '')
       break;
 
       case 'savedPosts':
         id = 'PostList',
         title = Lang.SavedPosts,
-        query = "?in=" + JSON.stringify(user.saves.posts).replace(/\"/g, '')
+        query = "in=" + JSON.stringify(user.saves.posts).replace(/\"/g, '')
       break;
 
       case 'edit':

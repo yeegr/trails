@@ -29,9 +29,9 @@ router.use(function(req, res, next) {
   next()
 })
 
-var wechat = require('./wechat/info')(app),
-avatar = require('./avatar')(app),
-f6ot = require('./f6ot/curl')(app)
+var avatar = require('./avatar')(app),
+  wechat = require('./sdks/wechat/info')(app),
+  f6ot = require('./sdks/f6ot/curl')(app)
 
 router.get('/', function(req, res, next) {
   var os = req.query.os,

@@ -16,6 +16,7 @@ import {
   Dimensions,
   Image,
   Modal,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -190,13 +191,17 @@ class Login extends Component {
     return (
       <Modal animationType={"slide"} transparent={false} visible={this.props.showLogin}>
         <Image source={{uri: loginBackgroundUrl}} style={styles.backgroundImage}>
+          <View style={{flexDirection: 'column'}}>
+            <View style={{flexDirection: 'column'}}>
+              {login.mobile === null ? mobileLoginForm : null}
+              {login.isFetching ? loginProgress : null}
+              <KeyboardSpacer />
+            </View>
+            {login.wechat === null ? wechatAuthButton : null}
+          </View>
           <TouchableOpacity onPress={this.hideLogin} style={styles.closeButton}>
             <Icon backgroundColor={Graphics.colors.transparent} fillColor="rgba(255, 255, 255, 0.8)" type="close" />
           </TouchableOpacity>
-          {login.mobile === null ? mobileLoginForm : null}
-          {login.wechat === null ? wechatAuthButton : null}
-          {login.isFetching ? loginProgress : null}
-          <KeyboardSpacer />
         </Image>
       </Modal>
     )
@@ -295,6 +300,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
+    padding: 50,
     resizeMode: 'cover'
   },
   closeButton: {
@@ -305,18 +311,9 @@ const styles = StyleSheet.create({
     width: Graphics.icon.sideLength
   },
   loginForm: {
-    backgroundColor: 'transparent',
-    marginTop: 150,
-    paddingBottom: 20,
-    paddingHorizontal: 50,
+    backgroundColor: 'blue',
   },
   weixinLogin: {
-    bottom: 100,
-    flex: 1,
-    left: 0,
-    paddingHorizontal: 50,
-    position: 'absolute',
-    right: 0
   },
   loginInput: {
     color: Graphics.colors.foreground,

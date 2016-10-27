@@ -30,6 +30,11 @@ export const USER_ACTIONS = {
   SHARE: 'SHARE'
 }
 
+export const ACCOUNT_ACTIONS = {
+  SAVE_HANDLE: 'SAVE_HANDLE',
+  SAVE_AVATAR: 'SAVE_AVATAR'
+}
+
 export const TOOLBAR_TYPE_KEYS = {
   Area: 'areas',
   Trail: 'trails',

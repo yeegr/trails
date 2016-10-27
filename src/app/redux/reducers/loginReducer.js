@@ -15,7 +15,8 @@ const init = {
   isFetchingWechatAuth: false,
   isFetching: false,
   wechat: null,
-  mobile: null
+  mobile: null,
+  tmpAvatarUri: null
 },
 loginReducer = (state = {
   showLogin: false
@@ -121,6 +122,11 @@ loginReducer = (state = {
         message: action.message
       })
 
+    case ACTIONS.UPDATE_AVATAR_URI:
+      return Object.assign({}, state, {
+        tmpAvatarUri: action.uri
+      })
+
     case ACTIONS.REQUEST_USER_UPDATE:
       return Object.assign({}, state, {
         isFetching: true
@@ -129,13 +135,15 @@ loginReducer = (state = {
     case ACTIONS.USER_UPDATE_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        user: action.user
+        user: action.user,
+        tmpAvatarUri: null
       })
 
     case ACTIONS.USER_UPDATE_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        message: action.message
+        message: action.message,
+        tmpAvatarUri: null
       })
 
     case ACTIONS.SHOW_MOBILE_LOGIN_FORM:

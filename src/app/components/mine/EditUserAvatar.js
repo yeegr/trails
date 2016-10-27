@@ -29,19 +29,23 @@ import {bindActionCreators} from 'redux'
 import * as loginActions from '../../redux/actions/loginActions'
 
 import ImagePath from '../shared/ImagePath'
+import Loading from '../shared/Loading'
 
 class EditUserAvatar extends Component {
   constructor(props) {
     super(props)
     this.selectPhoto = this.selectPhoto.bind(this)
+    this.user = this.props.login.user
 
     this.state = {
-      sourceUri: ImagePath({type: 'avatar', path: 'users/' + this.props.user._id + '/' + this.props.user.avatar}) 
+      sourceUri: ImagePath({type: 'avatar', path: 'users/' + this.user._id + '/' + this.user.avatar}) 
     }
   }
 
-  componentWillUnmount() {
-    this.props.loginActions.updateUserAvatar(this.props.user.id, this.state.sourceUri)
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.login.tmpAvatarUri === null) {
+      this.props.navigator.pop()
+    }
   }
 
   selectPhoto() {
@@ -61,12 +65,6 @@ class EditUserAvatar extends Component {
         console.log('ImagePicker Error: ', response.error);
       }
       else {
-        // You can display the image using either data...
-        //const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-
-        console.log(response)
-
-        // or a reference to the platform specific asset location
         const source = null
 
         if (Platform.OS === 'ios') {
@@ -74,6 +72,8 @@ class EditUserAvatar extends Component {
         } else {
           source = {uri: response.uri, isStatic: true};
         }
+
+        this.props.loginActions.updateAvatarUri(source.uri)
 
         this.setState({
           sourceUri: source.uri
@@ -83,10 +83,21 @@ class EditUserAvatar extends Component {
   }
 
   render() {
+    const loader = (this.props.login.isFetching) ? (
+      <Loading />
+    ) : null
+
+    var test = (
+      <Loading />
+    )
+
     return (
       <View style={styles.wrapper}>
         <TouchableOpacity onPress={() => this.selectPhoto()}>
-          <Image style={styles.image} source={{uri: this.state.sourceUri}} />
+          <View style={[styles.image, {position: 'absolute'}]}>
+            <Image style={styles.image} source={{uri: this.state.sourceUri}} />
+            {test}
+          </View>
         </TouchableOpacity>
       </View>
     )
@@ -104,7 +115,6 @@ const {height, width} = Dimensions.get('window'),
       justifyContent: 'center'
     },
     image: {
-      alignSelf: 'center',
       height: sideLength,
       width: sideLength,
     }
@@ -112,7 +122,7 @@ const {height, width} = Dimensions.get('window'),
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.login.user
+    login: state.login
   }
 }
 
