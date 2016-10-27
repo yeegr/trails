@@ -2,7 +2,7 @@ var request = require('request'),
     $ = require('jquery')(require("jsdom").jsdom().defaultView)
 
 module.exports = function(app) {
-  app.get('/curl', function(req, res, next) {
+  app.get('/f6ot/curl', function(req, res, next) {
     getTrailInfo(res, req.query.id, req.query.user, req.query.area)
   })
 }

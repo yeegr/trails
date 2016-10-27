@@ -9,6 +9,7 @@ var express = require('express'),
   url = require('url'),
   http = require('http'),
   sharp = require('sharp'),
+  TopClient = require('./sdks/taobao/topClient'),
   port = 8000,
   app = express(),
   router = express.Router()
@@ -28,9 +29,9 @@ router.use(function(req, res, next) {
   next()
 })
 
-var wechat = require('./wechat')(app),
+var wechat = require('./wechat/info')(app),
 avatar = require('./avatar')(app),
-curl = require('./curl')(app)
+f6ot = require('./f6ot/curl')(app)
 
 router.get('/', function(req, res, next) {
   var os = req.query.os,
