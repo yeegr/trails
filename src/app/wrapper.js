@@ -13,6 +13,10 @@ class Wrapper extends Component {
     super(props)
   }
 
+  componentWillMount() {
+    CodePush.sync()
+  }
+
   render() {
     return (
       <Provider store={store}>

@@ -47,6 +47,10 @@ router.get('/', function(req, res, next) {
     margin = 0
 
   switch (screenWidth) {
+    case 640:
+      margin = 12
+    break
+
     case 720:
       margin = 16
     break
@@ -68,7 +72,7 @@ router.get('/', function(req, res, next) {
 
     case 'hero':
       width = screenWidth
-      height = width * 2 / 3
+      height = Math.floor(width * 2 / 3)
     break
 
     case 'gear':

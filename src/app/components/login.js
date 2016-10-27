@@ -191,7 +191,7 @@ class Login extends Component {
     return (
       <Modal animationType={"slide"} transparent={false} visible={this.props.showLogin}>
         <Image source={{uri: loginBackgroundUrl}} style={styles.backgroundImage}>
-          <View style={{flexDirection: 'column'}}>
+          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <View style={{flexDirection: 'column'}}>
               {login.mobile === null ? mobileLoginForm : null}
               {login.isFetching ? loginProgress : null}
@@ -311,9 +311,13 @@ const styles = StyleSheet.create({
     width: Graphics.icon.sideLength
   },
   loginForm: {
-    backgroundColor: 'blue',
+    backgroundColor: 'transparent'
   },
   weixinLogin: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0
   },
   loginInput: {
     color: Graphics.colors.foreground,
@@ -326,7 +330,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   inputGroup: {
-    marginBottom: 5
+    marginTop: 20
   },
   button: {
     height: 50,

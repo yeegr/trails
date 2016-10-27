@@ -242,7 +242,6 @@ export const loginUser = (creds) => {
 
     return fetch(AppSettings.apiUri + 'login', config)
       .then((res) => {
-        console.log(res)
         if (res.status === 404) {
           dispatch(completeSignup(creds))
         } else {
