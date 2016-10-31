@@ -22,6 +22,7 @@
     "exif": "^0.6.0",
     "express": "^4.14.0",
     "formidable": "^1.0.17",
+    "http-cache": "^0.3.1",
     "jquery": "^3.1.0",
     "jsdom": "^9.8.0",
     "mongoose": "^4.6.4",

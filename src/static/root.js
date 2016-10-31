@@ -8,6 +8,7 @@ var express = require('express'),
   cors = require('cors'),
   url = require('url'),
   http = require('http'),
+  HttpCache = require('http-cache')
   sharp = require('sharp'),
   TopClient = require('./sdks/taobao/topClient').TopClient,
   port = 8000,
@@ -24,6 +25,10 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }))
 app.use(cors())
+app.use(new HttpCache({}))
+app.use(function(req, res) {
+  res.end("Cache this response! Time=" + new Date().getTime());
+})
 
 router.use(function(req, res, next) {
   next()
