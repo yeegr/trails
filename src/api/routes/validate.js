@@ -30,9 +30,7 @@ module.exports = function(app) {
       .catch(function(err) {
         res.status(500).send({error: err})
       })
-      console.log(response)
     })
-
   })
 
   /* Update */
