@@ -280,15 +280,10 @@ class Login extends Component {
   }
 
   onLoginPressed() {
-    let that = this
-
     this.props.loginActions.verifyMobileNumber(
       this.state.mobileNumber,
       this.state.validationCode
     )
-/*    .then(() => {
-      this.resetState()
-    })*/
   }
 }
 

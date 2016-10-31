@@ -30,8 +30,10 @@ module.exports = {
   genderRx: /0|1/,
   levelRx: /[0-4]{1}/,
   mobileRx: /1\d{10}/,
+  validatorRx: /\d{4}/,
   pidRx: /\d{18}/,
   currentcyRx: /\d{0,5}.\d{0,2}/,
+  ipRx: /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/,
 
   generateRandomString: function(length) {
     var charList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
@@ -42,5 +44,19 @@ module.exports = {
     }
 
     return txt
+  },
+
+  generateRandomNumericString: function(length) {
+    var num = Math.floor(Math.random() * Math.pow(10, length)),
+      str = num.toString(),
+      len = length - str.length,
+      i = 0,
+      padding = ''
+
+    for (i; i < len; i++) {
+      padding += '0'
+    }
+
+    return padding + str
   }
 }

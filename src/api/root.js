@@ -30,8 +30,9 @@ var log = require('./routes/log')(app),
 	trail = require('./routes/trail')(app),
 	event = require('./routes/event')(app)
 	post = require('./routes/post')(app),
-	order = require('./routes/order')(app)
-	comment = require('./routes/comment')(app)
+	order = require('./routes/order')(app),
+	comment = require('./routes/comment')(app),
+	validate = require('./routes/validate')(app)
 
 router.use(function(req, res, next) {
   next()

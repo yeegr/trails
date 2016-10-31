@@ -9,7 +9,7 @@ var express = require('express'),
   url = require('url'),
   http = require('http'),
   sharp = require('sharp'),
-  TopClient = require('./sdks/taobao/topClient'),
+  TopClient = require('./sdks/taobao/topClient').TopClient,
   port = 8000,
   app = express(),
   router = express.Router()
@@ -130,6 +130,47 @@ router.post('/up', function(req, res, next) {
       fs.unlinkSync(file.path)
       res.status(201).send()
     })
+  })
+})
+
+// 阿里大于 SMS verification
+// =============================================================================
+var smsClient = new TopClient({
+    'appkey'   : '23493240',
+    'appsecret': 'fcab6c93a5ce6cb54bd16892e804da8a',
+    'REST_URL' : 'http://gw.api.taobao.com/router/rest'
+  }),
+  smsUri = 'alibaba.aliqin.fc.sms.num.send'
+
+router.post('/validate', function(req, res, next) {
+  var body = req.body,
+    template = 'SMS_22520124'
+
+  switch (body.action) {
+    // 登录或注册
+    case 'login':
+      template = 'SMS_22520124'
+    break
+
+    // 活动确认
+    case 'signup':
+      template = 'SMS_22520121'
+    break
+  }
+
+  smsClient.execute(smsUri, {
+     'extend'             :'' ,
+     'sms_type'           : 'normal',
+     'sms_free_sign_name' : '识途驴',
+     'sms_param'          : '{"code":"' + body.code + '","product":"识途驴"}',
+     'rec_num'            : body.mobile.toString(),
+     'sms_template_code'  : template
+  }, function(error, response) {
+    if (error) {
+      throw error
+    }
+
+    res.status(200).send()
   })
 })
 
