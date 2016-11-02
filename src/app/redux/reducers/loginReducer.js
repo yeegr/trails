@@ -6,9 +6,9 @@ import * as loginActions from '../actions/loginActions'
 import * as ACTIONS from '../constants/loginConstants'
 
 const init = {
-  disableVerification: true,
-  showVerification: false,
-  disableLogin: true,
+  disableValidation: true,
+  showValidation: false,
+  loginDisabled: true,
   showMobileForm: true,
   showWechatButton: true,
   verifyMobile: false,
@@ -48,46 +48,46 @@ loginReducer = (state = {
 
     case ACTIONS.ENABLE_VERIFICATION:
       return Object.assign({}, state, {
-        disableVerification: false
+        disableValidation: false
       })
 
     case ACTIONS.DISABLE_VERIFICATION:
       return Object.assign({}, state, {
-        disableVerification: true
+        disableValidation: true
       })
 
     case ACTIONS.SHOW_VERIFICATION:
       return Object.assign({}, state, {
-        showVerification: true
+        showValidation: true
       })
 
     case ACTIONS.HIDE_VERIFICATION:
       return Object.assign({}, state, {
-        showVerification: false
+        showValidation: false
       })
 
     case ACTIONS.ENABLE_LOGIN:
       return Object.assign({}, state, {
-        disableLogin: false
+        loginDisabled: false
       })
 
     case ACTIONS.DISABLE_LOGIN:
       return Object.assign({}, state, {
-        disableLogin: true
+        loginDisabled: true
       })
 
    case ACTIONS.REQUEST_LOGIN:
       return Object.assign({}, state, {
         isFetching: true,
-        disableVerification: true,
-        disableLogin: true
+        disableValidation: true,
+        loginDisabled: true
       })
 
     case ACTIONS.LOGIN_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         showLogin: false,
-        showVerification: false,
+        showValidation: false,
         message: null,
         token: action.token,
         user: action.user
@@ -151,6 +151,39 @@ loginReducer = (state = {
         showMobileForm: true
       })
 
+// send mobile number for validation
+    case ACTIONS.SEND_MOBILE_NUMBER_FOR_VALIDATION:
+      return Object.assign({}, state, {
+        isFetching: true
+      })
+
+    case ACTIONS.MOBILE_NUMBER_SAVED:
+      return Object.assign({}, state, {
+        isFetching: false
+      })
+
+    case ACTIONS.MOBILE_NUMBER_VALIDATION_FAILED:
+      return Object.assign({}, state, {
+        isFetching: false
+      })
+
+// verify mobile number against validation code
+    case ACTIONS.REQUEST_MOBILE_VERIFICATION:
+      return Object.assign({}, state, {
+        isFetching: true
+      })
+
+    case ACTIONS.MOBILE_VERIFICATION_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false
+      })
+
+    case ACTIONS.MOBILE_VERIFICATION_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false
+      })
+
+// open-auth with wechat
     case ACTIONS.SEND_WECHAT_AUTH_REQUEST:
       return Object.assign({}, state, {
         isFetchingWechatAuth: true
@@ -173,20 +206,6 @@ loginReducer = (state = {
     case ACTIONS.WECHAT_USER_INFO_FAILURE:
       return Object.assign({}, state, {
         wechat: null
-      })
-
-    case ACTIONS.MOBILE_AUTH_SUCCESS:
-      loginActions.loginUser({
-        mobile: action.mobile
-      })
-
-      return Object.assign({}, state, {
-        mobile: action.mobile
-      })
-
-    case ACTIONS.MOBILE_AUTH_FAILURE:
-      return Object.assign({}, state, {
-        mobile: null
       })
 
     default:

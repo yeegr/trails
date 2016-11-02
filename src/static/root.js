@@ -8,7 +8,6 @@ var express = require('express'),
   cors = require('cors'),
   url = require('url'),
   http = require('http'),
-  HttpCache = require('http-cache')
   sharp = require('sharp'),
   TopClient = require('./sdks/taobao/topClient').TopClient,
   port = 8000,
@@ -25,10 +24,6 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }))
 app.use(cors())
-app.use(new HttpCache({}))
-app.use(function(req, res) {
-  res.end("Cache this response! Time=" + new Date().getTime());
-})
 
 router.use(function(req, res, next) {
   next()
@@ -100,7 +95,7 @@ router.get('/', function(req, res, next) {
 
   http.get(url, function(result) {
     if (result.statusCode === 200) {
-      res.type(result.headers['content-type']).status(result.statusCode)
+      res.type(result.headers['content-type']).set({'Cache-Control': 'public, max-age=31557600'}).status(result.statusCode)
       result.pipe(transformer).pipe(res)
     }
   })
@@ -138,7 +133,7 @@ router.post('/up', function(req, res, next) {
   })
 })
 
-// 阿里大于 SMS verification
+// 阿里大于 SMS validation
 // =============================================================================
 var smsClient = new TopClient({
     'appkey'   : '23493240',
@@ -148,6 +143,9 @@ var smsClient = new TopClient({
   smsUri = 'alibaba.aliqin.fc.sms.num.send'
 
 router.post('/validate', function(req, res, next) {
+  console.log('graphics - validate: pre')
+  console.log(req.body)
+
   var body = req.body,
     template = 'SMS_22520124'
 
@@ -173,6 +171,10 @@ router.post('/validate', function(req, res, next) {
   }, function(error, response) {
     if (error) {
       throw error
+    } 
+    
+    if (response.result.err_code !== '0') {
+      console.error(response.result.err_message)
     }
 
     res.status(200).send()

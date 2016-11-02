@@ -16,7 +16,7 @@ var mongoose = require('mongoose'),
       required: true,
       match: CONST.mobileRx
     },
-    code: {
+    vcode: {
       type: String,
       required: true,
       trim: true,

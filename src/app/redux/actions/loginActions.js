@@ -41,32 +41,74 @@ export const hideLogin = () => {
   }
 }
 
-// toggle mobile number verification form
-export const enableVerification = () => {
+// toggle mobile number validation form
+export const enableValidation = () => {
   return {
     type: ACTIONS.ENABLE_VERIFICATION
   }
 }
 
-export const disableVerification = () => {
+export const disableValidation = () => {
   return {
     type: ACTIONS.DISABLE_VERIFICATION
   }
 }
 
-export const showVerification = () => {
+export const showValidation = () => {
   return {
     type: ACTIONS.SHOW_VERIFICATION
   }
 }
 
-export const hideVerification = () => {
+export const hideValidation = () => {
   return {
     type: ACTIONS.HIDE_VERIFICATION
   }
 }
 
-// send mobile number for verification
+// send mobile number for validation
+const requestMobileValidation = () => {
+  return {
+    type: ACTIONS.SEND_MOBILE_NUMBER_FOR_VALIDATION
+  }
+}
+
+const mobileNumberSaved = () => {
+  return {
+    type: ACTIONS.MOBILE_NUMBER_SAVED
+  }
+}
+
+const mobileValidationFailed = () => {
+  return {
+    type: ACTIONS.MOBILE_NUMBER_VALIDATION_FAILED
+  }
+}
+
+export const validateMobileNumber = (mobile, action) => {
+  let config = Object.assign({}, CONFIG.POST, {
+    body: JSON.stringify({
+      mobile,
+      action
+    })
+  })
+
+  return dispatch => {
+    dispatch(requestMobileValidation())
+
+    return fetch(AppSettings.apiUri + 'validate', config)
+      .then((res) => {
+        if (res.status === 201) {
+          dispatch(mobileNumberSaved())
+        } else {
+          dispatch(mobileValidationFailed(res.message))
+          return Promise.reject(res)
+        }
+      })
+      .catch(err => console.error(err))
+  }
+}
+
 const requestMobileVerification = () => {
   return {
     type: ACTIONS.SEND_MOBILE_VERIFICATION_REQUEST
@@ -94,7 +136,7 @@ const mobileVerificationFailed = () => {
 }
 
 export const verifyMobileNumber = (mobile, vcode) => {
-  let config = Object.assign({}, CONFIG.POST, {
+  let config = Object.assign({}, CONFIG.PUT, {
     body: JSON.stringify({
       mobile,
       vcode
@@ -104,10 +146,7 @@ export const verifyMobileNumber = (mobile, vcode) => {
   return dispatch => {
     dispatch(requestMobileVerification())
 
-    return dispatch(mobileVerified(mobile))
-
-/*
-    return fetch(MOBILE_VERIFICATION_URL, config)
+    return fetch(AppSettings.apiUri + 'validate', config)
       .then((res) => {
         return res.json()
       })
@@ -119,7 +158,7 @@ export const verifyMobileNumber = (mobile, vcode) => {
           return Promise.reject(res)
         }
       })
-      .catch(err => console.error(err))*/
+      .catch((err) => console.log(err))
   }
 }
 

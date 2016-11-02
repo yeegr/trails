@@ -13,33 +13,34 @@ module.exports = function(app) {
       remoteAddress = req.connection.remoteAddress,
       ip = remoteAddress.substring(remoteAddress.lastIndexOf(':') + 1)
 
-    tmp.code = CONST.generateRandomNumericString(4)
+    tmp.vcode = CONST.generateRandomNumericString(4)
 
+/*
     request.post({url: 'http://graphics:8000/validate', json: tmp}, (err, response, body) => {
       if (err) {
         throw err
       }
-
+*/
       tmp.ip = ip
 
       tmp
       .save()
       .then(function(data) {
-        res.status(201).json(data)
+        res.status(201).send()
       })
       .catch(function(err) {
         res.status(500).send({error: err})
       })
-    })
+//    })
   })
 
   /* Update */
   app.put('/validate', function(req, res, next) {
     var query = req.body
 
+    query.mobile = parseInt(query.mobile)
     query.expiredAt = {}
     query.expiredAt.$gte = moment()
-
     query.used = false
 
     Validate
@@ -51,13 +52,19 @@ module.exports = function(app) {
         .set({used: true})
         .save()
         .then(function(updated) {
-          res.status(200).send()
+          res.status(200).json({
+            verified: true
+          })
         })
         .catch(function(err) {
-          res.status(500).send({error: err})
+          res.status(500).json({
+            error: err
+          })
         })
       } else {
-        res.status(404).send()
+        res.status(404).json({
+          error: 'no match'
+        })
       }
     })
     .catch(function(err) {

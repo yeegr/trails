@@ -95,10 +95,10 @@ class Login extends Component {
   render() {
     let login = this.props.login,
       labelStyles = {fontWeight: '400', paddingHorizontal: 4},
-      verificationButtonStyle = (login.disableVerification) ? styles.buttonDisabled : styles.buttonEnabled,
-      loginButtonStyle = (login.disableLogin) ? styles.buttonDisabled : styles.buttonEnabled,
+      validationButtonStyle = (login.disableValidation) ? styles.buttonDisabled : styles.buttonEnabled,
+      loginButtonStyle = (login.loginDisabled) ? styles.buttonDisabled : styles.buttonEnabled,
 
-      verificationView = (
+      validationView = (
         <View style={styles.inputGroup}>
           <TextView
             style={labelStyles}
@@ -143,13 +143,13 @@ class Login extends Component {
               placeholder={Lang.MobileNumberSample}
               placeholderTextColor={Graphics.colors.placeholder}
               style={styles.loginInput}
-              disabled={!login.disableVerification}
+              disabled={!login.disableValidation}
               onChangeText={this.onMobileNumberChanged}
               value={this.state.mobileNumber}
             />
             <TouchableOpacity
-              disabled={login.disableVerification}
-              style={[styles.button, verificationButtonStyle]}
+              disabled={login.disableValidation}
+              style={[styles.button, validationButtonStyle]}
               onPress={this.getValidation}
             >
               <TextView
@@ -159,7 +159,7 @@ class Login extends Component {
               />
             </TouchableOpacity>
           </View>
-          {login.showVerification ? verificationView : null}
+          {login.showValidation ? validationView : null}
         </View>
       ),
 
@@ -229,10 +229,10 @@ class Login extends Component {
     })
 
     if (AppSettings.mobileNumberPattern.test(mobile)) {
-      this.props.loginActions.enableVerification()
+      this.props.loginActions.enableValidation()
     } else {
-      this.props.loginActions.disableVerification()
-      this.props.loginActions.hideVerification()
+      this.props.loginActions.disableValidation()
+      this.props.loginActions.hideValidation()
       this.setState({
         validationCode: ''
       })
@@ -240,8 +240,9 @@ class Login extends Component {
   }
 
   getValidation() {
-    this.props.loginActions.disableVerification()
-    this.props.loginActions.showVerification()
+    this.props.loginActions.disableValidation()
+    this.props.loginActions.showValidation()
+    this.props.loginActions.validateMobileNumber(this.state.mobileNumber, 'login')
 
     this.setState({
       validationCode: ''
@@ -257,7 +258,7 @@ class Login extends Component {
           counter--
         } else {
           clearInterval(interval)
-          that.props.loginActions.enableVerification()
+          that.props.loginActions.enableValidation()
           that.setState({
             getValidationButtonText: Lang.GetValidationCode
           })
@@ -266,9 +267,11 @@ class Login extends Component {
   }
 
   onValidationCodeChanged(val) {
-    let code = parseInt(val.trim());
+    let code = val.trim(),
+      pattern = '\\d{' + AppSettings.validationCodeLength + '}',
+      rx = new RegExp(pattern, 'g')
 
-    if (/\d{6}/.test(code)) {
+    if (rx.test(code)) {
       this.props.loginActions.enableLogin()
     } else {
       this.props.loginActions.disableLogin()
@@ -280,10 +283,12 @@ class Login extends Component {
   }
 
   onLoginPressed() {
-    this.props.loginActions.verifyMobileNumber(
-      this.state.mobileNumber,
-      this.state.validationCode
-    )
+    if (!this.props.login.loginDisabled) {
+      this.props.loginActions.verifyMobileNumber(
+        this.state.mobileNumber,
+        this.state.validationCode
+      )
+    }
   }
 }
 
