@@ -41,7 +41,7 @@ export const hideLogin = () => {
   }
 }
 
-// toggle mobile number validation form
+// toggle mobile number input for validation
 export const enableValidation = () => {
   return {
     type: ACTIONS.ENABLE_VERIFICATION
@@ -51,18 +51,6 @@ export const enableValidation = () => {
 export const disableValidation = () => {
   return {
     type: ACTIONS.DISABLE_VERIFICATION
-  }
-}
-
-export const showValidation = () => {
-  return {
-    type: ACTIONS.SHOW_VERIFICATION
-  }
-}
-
-export const hideValidation = () => {
-  return {
-    type: ACTIONS.HIDE_VERIFICATION
   }
 }
 
@@ -109,6 +97,20 @@ export const validateMobileNumber = (mobile, action) => {
   }
 }
 
+// toggle mobile number input for verification
+export const showVerification = () => {
+  return {
+    type: ACTIONS.SHOW_VERIFICATION
+  }
+}
+
+export const hideVerification = () => {
+  return {
+    type: ACTIONS.HIDE_VERIFICATION
+  }
+}
+
+// send mobile number for verification
 const requestMobileVerification = () => {
   return {
     type: ACTIONS.SEND_MOBILE_VERIFICATION_REQUEST
@@ -116,17 +118,10 @@ const requestMobileVerification = () => {
 }
 
 const mobileVerified = (mobile) => {
-  loginUser({mobile})
-
-  return (dispatch) => {
-    dispatch(loginUser({mobile}))
-  }
-/*
   return {
     type: ACTIONS.MOBILE_VERIFICATION_SUCCESS,
     mobile
   }
-  */
 }
 
 const mobileVerificationFailed = () => {
@@ -162,6 +157,7 @@ export const verifyMobileNumber = (mobile, vcode) => {
   }
 }
 
+// toggle login button for mobile number verification
 export const enableLogin = () => {
   return {
     type: ACTIONS.ENABLE_LOGIN
@@ -174,41 +170,8 @@ export const disableLogin = () => {
   }
 }
 
-const requestLogin = (creds) => {
-  return {
-    type: ACTIONS.REQUEST_LOGIN,
-    creds
-  }
-}
-
-const receiveLogin = (user) => {
-  return {
-    type: ACTIONS.LOGIN_SUCCESS,
-    token: user.token,
-    user
-  }
-}
-
-const loginError = (message) => {
-  return {
-    type: ACTIONS.LOGIN_FAILURE,
-    message
-  }
-}
-
-const createUser = (wechat, mobile) => {
-  let user = Object.assign({}, wechat)
-
-  user.wechat = user.openid
-  user.mobile = state.mobile
-
-  return {
-    type: ACTIONS.CREATE_USER,
-    creds
-  }
-}
-
-export const sendWechatAuthRequest = () => {
+// get WeChat authorization
+const sendWechatAuthRequest = () => {
   return {
     type: ACTIONS.SEND_WECHAT_AUTH_REQUEST
   }
@@ -240,13 +203,41 @@ export const requestWechatUserInfo = (wechat_token) => {
       .then((res) => {
         return res.json()
       })
-      .then((res) => {
-        console.log(res)
-        dispatch(receiveWechatUserInfo(res))
+      .then((wechat) => {
+        dispatch(receiveWechatUserInfo(wechat))
       })
       .catch((err) => dispatch(wechatUserInfoError(err)))
   }
 }
+
+
+
+
+
+
+const requestLogin = (creds) => {
+  return {
+    type: ACTIONS.REQUEST_LOGIN,
+    creds
+  }
+}
+
+const receiveLogin = (user) => {
+  return {
+    type: ACTIONS.LOGIN_SUCCESS,
+    token: user.token,
+    user
+  }
+}
+
+const loginError = (message) => {
+  return {
+    type: ACTIONS.LOGIN_FAILURE,
+    message
+  }
+}
+
+
 
 export const showMobileLoginForm = () => {
   return {

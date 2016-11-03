@@ -80,15 +80,26 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.login.isFetchingWechatAuth) {
+    if (nextProps.login.isAuthorizingWechat) {
       this.WXAuth()
+    }
+
+    if (!nextProps.showLogin) {
+      this.resetState()
+    }
+
+    let oldCreds = this.props.login.creds,
+      newCreds = nextProps.login.creds
+
+    if (newCreds.mobile !== oldCreds.mobile || newCreds.wechat !== oldCreds.wechat) {
+      this.props.loginActions.loginUser(nextProps.login.creds)
     }
   }
   
   WXAuth() {
     if (this.state.isWXAppInstalled) {
-      this.props.loginActions.wechatAuthRequestSend()
       WeChat.sendAuthRequest('snsapi_userinfo', 'shitulv_login')
+      this.props.loginActions.wechatAuthRequestSend()
     }
   }
 
@@ -193,11 +204,11 @@ class Login extends Component {
         <Image source={{uri: loginBackgroundUrl}} style={styles.backgroundImage}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <View style={{flexDirection: 'column'}}>
-              {login.mobile === null ? mobileLoginForm : null}
+              {login.creds.mobile === null ? mobileLoginForm : null}
               {login.isFetching ? loginProgress : null}
               <KeyboardSpacer />
             </View>
-            {login.wechat === null ? wechatAuthButton : null}
+            {login.creds.wechat === null ? wechatAuthButton : null}
           </View>
           <TouchableOpacity onPress={this.hideLogin} style={styles.closeButton}>
             <Icon backgroundColor={Graphics.colors.transparent} fillColor="rgba(255, 255, 255, 0.8)" type="close" />
@@ -232,7 +243,7 @@ class Login extends Component {
       this.props.loginActions.enableValidation()
     } else {
       this.props.loginActions.disableValidation()
-      this.props.loginActions.hideValidation()
+      this.props.loginActions.hideVerification()
       this.setState({
         validationCode: ''
       })
@@ -241,7 +252,7 @@ class Login extends Component {
 
   getValidation() {
     this.props.loginActions.disableValidation()
-    this.props.loginActions.showValidation()
+    this.props.loginActions.showVerification()
     this.props.loginActions.validateMobileNumber(this.state.mobileNumber, 'login')
 
     this.setState({

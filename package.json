@@ -68,6 +68,7 @@
     "react-native-code-push": "^1.15.0-beta",
     "react-native-communications": "^2.0.0",
     "react-native-device-info": "^0.9.6",
+    "react-native-fs": "^2.0.1-rc.2",
     "react-native-image-picker": "^0.22.10",
     "react-native-keyboard-spacer": "^0.3.0",
     "react-native-location": "^0.27.0",

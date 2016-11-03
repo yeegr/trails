@@ -38,7 +38,7 @@ function getUserInfo(res, token, openid) {
         json = JSON.parse(body)
 
       user.handle = json.nickname,
-      user.openid = json.openid,
+      user.wechat = json.openid,
       user.gender = (json.sex === 1) ? 1 : 0,
       user.language = json.language,
       user.city = json.city,

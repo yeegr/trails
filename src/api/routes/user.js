@@ -26,9 +26,8 @@ module.exports = function(app) {
     })
   }
 
-  /* Create */
-  app.post('/users', function(req, res, next) {
-    var tmp = new User(req.body)
+  function createUser(info, res) {
+    var tmp = new User(info)
 
     tmp
     .save()
@@ -38,6 +37,11 @@ module.exports = function(app) {
     .catch(function(err) {
       res.status(500).send({error: err})
     })
+  }
+
+  /* Create */
+  app.post('/users', function(req, res, next) {
+    createUser(req.body, res)
   })
 
   /* List */
@@ -62,13 +66,25 @@ module.exports = function(app) {
 
   /* Login */
   app.post('/login', function(req, res, next) {
+    var body = req.body, 
+      query = {}
+
+    if (body.mobile !== null) {
+      query.mobile = parseInt(body.mobile)
+    }
+
+    if (body.wechat !== null) {
+      query.wechat = body.wechat
+    } 
+
     User
-    .findOne(req.body)
+    .findOne(query)
     .exec()
     .then(function(data) {
       if (data) {
-        data.token = data._id
         res.status(200).json(data)
+      } else if (body.mobile !== null && body.wechat !== null) {
+        createUser(body, res)
       } else {
         res.status(404).send()
       }

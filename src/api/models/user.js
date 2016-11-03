@@ -6,6 +6,8 @@ var mongoose = require('mongoose'),
   Log = require('./logging'),
   Util = require('./util'),
   request = require('request'),
+  Moment = require('moment'),
+  now = Moment(),
   Roles = ['normal', 'captain', 'staff', 'editor', 'admin', 'super'],
   maxLevel = 4,
   minLevel = 0,
@@ -23,6 +25,14 @@ var mongoose = require('mongoose'),
     },
     token: {
       type: String
+    },
+    expiredAt: {
+      type: Number
+    },
+    lastLogin: {
+      type: Number,
+      required: true,
+      default: now.valueOf()
     },
     wechat: {
       type: String,
@@ -254,6 +264,9 @@ userSchema.methods.removeFromList = function(key, id) {
 userSchema.pre('save', function(next) {
   Util.updateModified(this, ['handle', 'avatar', 'gender', 'mobile'])
   this.wasNew = this.isNew
+
+  this.token = CONST.generateRandomString(24)
+  this.expiredAt = Moment().add(1, 'month').valueOf()
 
   if (this.isNew && this.avatar.substring(0, 4) === 'http') {
     let fileName = CONST.generateRandomString(8)

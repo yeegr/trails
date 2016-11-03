@@ -73,25 +73,35 @@ module.exports = function(app) {
   })
 
   /* List */
-  app.get('/validate', function(req, res, next) {
-    var query = {}
-
-    if (req.query.hasOwnProperty('mobile') && req.query.mobile.length === 11) {
-      query.mobile = req.query.mobile
-    }
-
+  function list(response, query) {
     Validate
     .find(query)
+    .sort({_id: -1})
+    .limit(5)
     .exec()
     .then(function(data) {
       if (data) {
-        res.status(200).json(data)
+        response.status(200).json(data)
       } else {
-        res.status(404).send()
+        response.status(404).send()
       }
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      response.status(500).send({error: err})
     })
+  }
+
+  app.get('/validate', function(req, res, next) {
+    list(res, {})
+  })
+
+  app.get('/validate/:mobile', function(req, res, next) {
+    var query = {}
+
+    if (req.params.mobile && req.params.mobile.length === 11) {
+      query.mobile = parseInt(req.params.mobile)
+    }
+
+    list(res, query)
   })
 }

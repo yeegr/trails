@@ -2,25 +2,32 @@
 
 import {AsyncStorage} from 'react-native'
 import {ACCESS_TOKEN, USER} from '../../../util/constants'
-import * as loginActions from '../actions/loginActions'
 import * as ACTIONS from '../constants/loginConstants'
 
-const init = {
+const wechat = {
+  wechat: null,
+  handle: null,
+  gender: null,
+  language: null,
+  city: null,
+  province: null,
+  country: null,
+  avatar: null
+},
+init = {
+  showLogin: false,
   disableValidation: true,
   showValidation: false,
-  loginDisabled: true,
-  showMobileForm: true,
-  showWechatButton: true,
   verifyMobile: false,
-  isFetchingWechatAuth: false,
+  loginDisabled: true,
+  isAuthorizingWechat: false,
   isFetching: false,
-  wechat: null,
-  mobile: null,
-  tmpAvatarUri: null
+  tmpAvatarUri: null,
+  creds: Object.assign({
+    mobile: null
+  }, wechat)
 },
-loginReducer = (state = {
-  showLogin: false
-}, action) => {
+loginReducer = (state = init, action) => {
   switch (action.type) {
     case ACTIONS.IS_LOGGED_IN:
       return Object.assign({}, state, {
@@ -31,18 +38,18 @@ loginReducer = (state = {
     case ACTIONS.IS_LOGGED_OUT:
       AsyncStorage.multiRemove([ACCESS_TOKEN, USER])
 
-      return Object.assign({}, state, {
+      return Object.assign({}, init, {
         toke: null,
         user: null
       })
 
     case ACTIONS.SHOW_LOGIN:
-      return Object.assign({}, init, {
+      return Object.assign({}, state, {
         showLogin: true
       })
 
     case ACTIONS.HIDE_LOGIN:
-      return Object.assign({}, state, {
+      return Object.assign({}, init, {
         showLogin: false
       })
 
@@ -84,11 +91,7 @@ loginReducer = (state = {
       })
 
     case ACTIONS.LOGIN_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        showLogin: false,
-        showValidation: false,
-        message: null,
+      return Object.assign({}, init, {
         token: action.token,
         user: action.user
       })
@@ -170,42 +173,47 @@ loginReducer = (state = {
 // verify mobile number against validation code
     case ACTIONS.REQUEST_MOBILE_VERIFICATION:
       return Object.assign({}, state, {
-        isFetching: true
+        isFetching: true,
+        creds: Object.assign({}, state.creds, {
+          mobile: null
+        })
       })
 
     case ACTIONS.MOBILE_VERIFICATION_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: false
+        isFetching: false,
+        creds: Object.assign({}, state.creds, {
+          mobile: action.mobile
+        })
       })
 
     case ACTIONS.MOBILE_VERIFICATION_FAILURE:
       return Object.assign({}, state, {
-        isFetching: false
+        isFetching: false,
+        creds: Object.assign({}, state.creds, {
+          mobile: null
+        })
       })
 
 // open-auth with wechat
     case ACTIONS.SEND_WECHAT_AUTH_REQUEST:
       return Object.assign({}, state, {
-        isFetchingWechatAuth: true
+        isAuthorizingWechat: true
       })
 
     case ACTIONS.WECHAT_AUTH_REQUEST_SEND:
       return Object.assign({}, state, {
-        isFetchingWechatAuth: false
+        isAuthorizingWechat: false
       })
 
     case ACTIONS.WECHAT_USER_INFO_SUCCESS:
-      loginActions.loginUser({
-        wechat: action.wechat.openid
-      })
-
       return Object.assign({}, state, {
-        wechat: action.wechat
+        creds: Object.assign({}, state.creds, action.wechat)
       })
 
     case ACTIONS.WECHAT_USER_INFO_FAILURE:
       return Object.assign({}, state, {
-        wechat: null
+        creds: Object.assign({}, state.creds, wechat)
       })
 
     default:
