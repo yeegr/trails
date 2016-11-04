@@ -134,6 +134,12 @@ class Login extends Component {
               text={Lang.LoginOrRegister}
             />
           </TouchableOpacity>
+          <TextView
+            fontSize={'L'}
+            style={{flex: 1, marginTop: 10, textAlign: 'center'}}
+            textColor={Graphics.colors.warning}
+            text={login.loginError}
+          />
         </View>
       ),
 
@@ -239,6 +245,8 @@ class Login extends Component {
       mobileNumber: tmp
     })
 
+    this.props.loginActions.resetVerificationError()
+
     if (AppSettings.mobileNumberPattern.test(mobile)) {
       this.props.loginActions.enableValidation()
     } else {
@@ -281,6 +289,8 @@ class Login extends Component {
     let code = val.trim(),
       pattern = '\\d{' + AppSettings.validationCodeLength + '}',
       rx = new RegExp(pattern, 'g')
+
+    this.props.loginActions.resetVerificationError()
 
     if (rx.test(code)) {
       this.props.loginActions.enableLogin()

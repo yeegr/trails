@@ -63,7 +63,7 @@ module.exports = function(app) {
         })
       } else {
         res.status(404).json({
-          error: 'no match'
+          error: 'ValidationCodeUnmatched'
         })
       }
     })

@@ -66,6 +66,7 @@
     "MobileNumber":"手机号码",
     "MobileNumbers":"手机号码",
     "Logout":"退出登录",
+    "ValidationCodeUnmatched":"手机号码和短信验证码不匹配",
 
     "Skip":"跳过",
     "Done":"完成",

@@ -1,7 +1,7 @@
 'use strict'
 
 import {AsyncStorage} from 'react-native'
-import {AppSettings} from '../../settings'
+import {AppSettings, Lang} from '../../settings'
 import {CONFIG, ACCESS_TOKEN, USER} from '../../../util/constants'
 import * as ACTIONS from '../constants/loginConstants'
 
@@ -110,6 +110,12 @@ export const hideVerification = () => {
   }
 }
 
+export const resetVerificationError = () => {
+  return {
+    type: ACTIONS.RESET_VERIFICATION_ERROR
+  }
+}
+
 // send mobile number for verification
 const requestMobileVerification = () => {
   return {
@@ -124,9 +130,10 @@ const mobileVerified = (mobile) => {
   }
 }
 
-const mobileVerificationFailed = () => {
+const mobileVerificationFailed = (key) => {
   return {
-    type: ACTIONS.MOBILE_VERIFICATION_FAILURE
+    type: ACTIONS.MOBILE_VERIFICATION_FAILURE,
+    error: Lang[key]
   }
 }
 
@@ -149,11 +156,10 @@ export const verifyMobileNumber = (mobile, vcode) => {
         if (res.verified) {
           dispatch(mobileVerified(mobile))
         } else {
-          dispatch(mobileVerificationFailed(res.message))
-          return Promise.reject(res)
+          dispatch(mobileVerificationFailed(res.error))
+          //return Promise.reject(res)
         }
       })
-      .catch((err) => console.log(err))
   }
 }
 

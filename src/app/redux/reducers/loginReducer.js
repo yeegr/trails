@@ -23,6 +23,7 @@ init = {
   isAuthorizingWechat: false,
   isFetching: false,
   tmpAvatarUri: null,
+  loginError: '',
   creds: Object.assign({
     mobile: null
   }, wechat)
@@ -98,8 +99,7 @@ loginReducer = (state = init, action) => {
 
     case ACTIONS.LOGIN_FAILURE:
       return Object.assign({}, state, {
-        isFetching: false,
-        message: action.message
+        isFetching: false
       })
 
     case ACTIONS.LOGOUT_REQUEST:
@@ -167,7 +167,8 @@ loginReducer = (state = init, action) => {
 
     case ACTIONS.MOBILE_NUMBER_VALIDATION_FAILED:
       return Object.assign({}, state, {
-        isFetching: false
+        isFetching: false,
+        message: action.message
       })
 
 // verify mobile number against validation code
@@ -192,7 +193,13 @@ loginReducer = (state = init, action) => {
         isFetching: false,
         creds: Object.assign({}, state.creds, {
           mobile: null
-        })
+        }),
+        loginError: action.error
+      })
+
+    case ACTIONS.RESET_VERIFICATION_ERROR: 
+      return Object.assign({}, state, {
+        loginError: ''
       })
 
 // open-auth with wechat
