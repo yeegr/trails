@@ -143,9 +143,6 @@ var smsClient = new TopClient({
   smsUri = 'alibaba.aliqin.fc.sms.num.send'
 
 router.post('/validate', function(req, res, next) {
-  console.log('graphics - validate: pre')
-  console.log(req.body)
-
   var body = req.body,
     template = 'SMS_22520124'
 
@@ -165,7 +162,7 @@ router.post('/validate', function(req, res, next) {
      'extend'             :'' ,
      'sms_type'           : 'normal',
      'sms_free_sign_name' : '识途驴',
-     'sms_param'          : '{"code":"' + body.code + '","product":"识途驴"}',
+     'sms_param'          : '{"code":"' + body.vcode + '","product":"识途驴"}',
      'rec_num'            : body.mobile.toString(),
      'sms_template_code'  : template
   }, function(error, response) {

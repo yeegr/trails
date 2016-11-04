@@ -84,19 +84,17 @@ class EditUserAvatar extends Component {
 
   render() {
     const loader = (this.props.login.isFetching) ? (
-      <Loading />
+      <View style={styles.image}>
+        <Loading />
+      </View>
     ) : null
-
-    var test = (
-      <Loading />
-    )
 
     return (
       <View style={styles.wrapper}>
         <TouchableOpacity onPress={() => this.selectPhoto()}>
-          <View style={[styles.image, {position: 'absolute'}]}>
+          <View style={styles.box}>
             <Image style={styles.image} source={{uri: this.state.sourceUri}} />
-            {test}
+            {loader}
           </View>
         </TouchableOpacity>
       </View>
@@ -114,7 +112,12 @@ const {height, width} = Dimensions.get('window'),
       flexDirection: 'column',
       justifyContent: 'center'
     },
+    box: {
+      height: sideLength,
+      width: sideLength,
+    },
     image: {
+      position: 'absolute',
       height: sideLength,
       width: sideLength,
     }
