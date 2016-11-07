@@ -38,12 +38,16 @@ import TextView from '../components/shared/TextView'
 class Login extends Component {
   constructor(props) {
     super(props)
+    let vcodePattern = '\\d{' + AppSettings.verificationCodeLength + '}'
+
+    this.mobileRx = new RegExp(/^1\d{10}$/)
+    this.vcodeRx = new RegExp(vcodePattern, 'g')
 
     this.hideLogin = this.hideLogin.bind(this)
     this.resetState = this.resetState.bind(this)
     this.onMobileNumberChanged = this.onMobileNumberChanged.bind(this)
     this.getValidation = this.getValidation.bind(this)
-    this.onValidationCodeChanged = this.onValidationCodeChanged.bind(this)
+    this.onVerificationCodeChanged = this.onVerificationCodeChanged.bind(this)
     this.onLoginPressed = this.onLoginPressed.bind(this)
 
     this.WXAuth = this.WXAuth.bind(this)
@@ -54,7 +58,7 @@ class Login extends Component {
       isWXAppSupportApi: 'waiting...',
       isWXAppInstalled: 'waiting...',
       mobileNumber: '',
-      validationCode: '',
+      verificationCode: '',
       getValidationButtonText: Lang.GetValidationCode
     }
   }
@@ -119,13 +123,13 @@ class Login extends Component {
           <TextInput
             autoCorrect={false}
             keyboardType={"numeric"}
-            maxLength={AppSettings.validationCodeLength}
+            maxLength={AppSettings.verificationCodeLength}
             style={styles.loginInput}
             placeholder={Lang.ValidationCode}
             placeholderTextColor={Graphics.colors.placeholder}
-            onFocus={() => {this.setState({validationCode: ''})}}
-            onChangeText={this.onValidationCodeChanged}
-            value={this.state.validationCode}
+            onFocus={() => {this.setState({verificationCode: ''})}}
+            onChangeText={this.onVerificationCodeChanged}
+            value={this.state.verificationCode}
           />
           <TouchableOpacity style={[styles.button, loginButtonStyle]} onPress={this.onLoginPressed}>
             <TextView
@@ -232,14 +236,13 @@ class Login extends Component {
   resetState() {
     this.setState({
       mobileNumber: '',
-      validationCode: '',
+      verificationCode: '',
       getValidationButtonText: Lang.GetValidationCode
     })
   }
 
   onMobileNumberChanged(val) {
-    let tmp = val.trim(), 
-      mobile = parseInt(tmp);
+    let tmp = val.trim()
 
     this.setState({
       mobileNumber: tmp
@@ -247,13 +250,13 @@ class Login extends Component {
 
     this.props.loginActions.resetVerificationError()
 
-    if (AppSettings.mobileNumberPattern.test(mobile)) {
+    if (AppSettings.mobileNumberPattern.test(tmp)) {
       this.props.loginActions.enableValidation()
     } else {
       this.props.loginActions.disableValidation()
       this.props.loginActions.hideVerification()
       this.setState({
-        validationCode: ''
+        verificationCode: ''
       })
     }
   }
@@ -264,7 +267,7 @@ class Login extends Component {
     this.props.loginActions.validateMobileNumber(this.state.mobileNumber, 'login')
 
     this.setState({
-      validationCode: ''
+      verificationCode: ''
     })
 
     let that = this,
@@ -285,21 +288,19 @@ class Login extends Component {
     }, 1000)
   }
 
-  onValidationCodeChanged(val) {
-    let code = val.trim(),
-      pattern = '\\d{' + AppSettings.validationCodeLength + '}',
-      rx = new RegExp(pattern, 'g')
+  onVerificationCodeChanged(val) {
+    let code = val.trim()
 
     this.props.loginActions.resetVerificationError()
 
-    if (rx.test(code)) {
+    if (this.vcodeRx.test(code)) {
       this.props.loginActions.enableLogin()
     } else {
       this.props.loginActions.disableLogin()
     }
 
     this.setState({
-      validationCode: code.toString()
+      verificationCode: code
     })
   }
 
@@ -307,7 +308,7 @@ class Login extends Component {
     if (!this.props.login.loginDisabled) {
       this.props.loginActions.verifyMobileNumber(
         this.state.mobileNumber,
-        this.state.validationCode
+        this.state.verificationCode
       )
     }
   }

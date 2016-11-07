@@ -1,14 +1,7 @@
 'use strict'
 
-import {
-  AppSettings,
-  Graphics
-} from '../../settings'
 
-import React, {
-  Component,
-  PropTypes
-} from 'react'
+import React, {PropTypes} from 'react'
 
 import {
   StyleSheet,
@@ -17,11 +10,11 @@ import {
   View
 } from 'react-native'
 
+import {Graphics} from '../../settings'
+import TextView from './TextView'
+
 const TextButton = (props) => {
-  let buttonStyle = styles.button,
-    buttonTextStyle = styles.buttonText, 
-    buttonDisabledStyle = null,
-    buttonTextDisabledStyle = null
+  let buttonStyle = styles.button
 
   if (props.styles && props.styles.button) {
     buttonStyle = Object.assign({}, styles.button, props.styles.button)
@@ -31,26 +24,20 @@ const TextButton = (props) => {
     buttonStyle = Object.assign({}, styles.buttonText, props.styles.buttonText)
   }
 
-  if (props.disabled) {
-    buttonDisabledStyle = styles.buttonDisabled,
-    buttonTextDisabledStyle = styles.buttonTextDisabled
-  }
-
-  if (props.styles && props.styles.buttonDisabled) {
-    buttonDisabledStyle = Object.assign({}, styles.buttonDisabled, props.styles.buttonDisabled)
-  }  
-
-  if (props.styles && props.styles.buttonTextDisabled) {
-    buttonTextDisabledStyle = Object.assign({}, styles.buttonTextDisabled, props.styles.buttonTextDisabled)
-  }  
-
   return (
     <TouchableOpacity
       disabled={props.disabled}
       onPress={props.onPress}
     >
-      <View style={[buttonStyle, buttonDisabledStyle]}>
-        <Text style={[buttonTextStyle, buttonTextDisabledStyle]}>{props.text}</Text>
+      <View style={[buttonStyle, {
+        backgroundColor: props.disabled ? Graphics.colors.midGray : (Graphics.colors.primary || props.backgroundColor)
+      }]}>
+        <TextView
+          style={{textAlign: 'center'}}
+          fontWeight={'400'}
+          textColor={props.disabled ? Graphics.textColors.disabled : (Graphics.textColors.overlay || props.textColor)}
+          text={props.text}
+        />
       </View>
     </TouchableOpacity>
   )
@@ -58,32 +45,21 @@ const TextButton = (props) => {
 styles = StyleSheet.create({
   button: {
     alignItems: 'center',
-    borderColor: Graphics.colors.primary,
     borderRadius: 20,
-    borderWidth: 1,
     flexDirection: 'row',
     height: 40,
     justifyContent: 'center',
-    marginVertical: 20,
+    marginVertical: 10,
     width: 200,
-  },
-  buttonDisabled: {
-    backgroundColor: Graphics.colors.midGray, 
-    borderColor: Graphics.colors.midGray,
-  },
-  buttonText: {
-    color: Graphics.colors.primary,
-    textAlign: 'center'
-  },
-  buttonTextDisabled: {
-    color: '#eeeeee'
-  },
+  }
 })
 
 TextButton.propTypes = {
   disabled: PropTypes.bool.isRequired,
   onPress: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string,
+  textColor: PropTypes.string,
   style: PropTypes.object
 }
 

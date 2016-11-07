@@ -24,6 +24,7 @@ init = {
   isFetching: false,
   tmpAvatarUri: null,
   loginError: '',
+  updateError: '',
   creds: Object.assign({
     mobile: null
   }, wechat)
@@ -145,8 +146,13 @@ loginReducer = (state = init, action) => {
     case ACTIONS.USER_UPDATE_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        message: action.message,
+        updateError: action.updateError,
         tmpAvatarUri: null
+      })
+
+    case ACTIONS.CLEAR_UPDATE_ERROR:
+      return Object.assign({}, state, {
+        updateError: ''
       })
 
     case ACTIONS.SHOW_MOBILE_LOGIN_FORM:
@@ -172,7 +178,7 @@ loginReducer = (state = init, action) => {
       })
 
 // verify mobile number against validation code
-    case ACTIONS.REQUEST_MOBILE_VERIFICATION:
+    case ACTIONS.SEND_MOBILE_VERIFICATION_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
         creds: Object.assign({}, state.creds, {

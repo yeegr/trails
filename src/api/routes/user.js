@@ -2,8 +2,10 @@ const mongoose = require('mongoose'),
   request = require('request'),
   formidable = require('formidable'),
   fs = require('fs'),
+  moment = require('moment'),
   CONST = require('../const'),
-  User = require('../models/user')
+  User = require('../models/user'),
+  Validate = require('../models/validate')
 
 mongoose.Promise = global.Promise
 
@@ -129,11 +131,11 @@ module.exports = function(app) {
     .exec()
     .then(function(user) {
       if (user) {
-        var fileName = CONST.generateRandomString(8) + '.jpg',
+        let fileName = CONST.generateRandomString(8) + '.jpg',
         form = new formidable.IncomingForm()
 
         form.parse(req, function(err, fields, files) {
-          var formData = {
+          let formData = {
             file: {
               value: fs.createReadStream(files.file.path),
               options: {
@@ -162,6 +164,58 @@ module.exports = function(app) {
               res.status(500).send({error: err})
             })
           })
+        })
+      }
+    })
+    .catch(function(err) {
+      res.status(500).send({error: err})
+    })
+  })
+
+
+  app.put('/users/:id/mobile', function(req, res, next) {
+    User
+    .findById(req.params.id)
+    .exec()
+    .then(function(user) {
+      if (user) {
+        let query = {}
+
+        query.mobile = parseInt(req.body.mobile)
+        query.vcode = req.body.vcode
+        query.expiredAt = {}
+        query.expiredAt.$gte = moment()
+        query.used = false
+
+        Validate
+        .findOne(query)
+        .exec()
+        .then(function(validation) {
+          if (validation) {
+            user
+            .set({mobile: query.mobile})
+            .save()
+            .then(function(updated) {
+              validation
+              .set({used: true})
+              .save()
+
+              res.status(200).json(updated)
+            })
+            .catch(function(err) {
+              res.status(500).send({
+                error: err
+              })
+            })
+          } else {
+            res.status(401).send({
+              error: 'ValidationCodeUnmatched'
+            })
+          }
+        })
+      } else {
+        res.status(404).send({
+          error: 'UserNotFound'
         })
       }
     })

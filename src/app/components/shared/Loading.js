@@ -1,7 +1,7 @@
 'use strict'
 
 import React, {
-  Component
+  PropTypes
 } from 'react'
 
 import {
@@ -13,7 +13,7 @@ import {
 const Loading = (props) => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" animating={true} />
+      <ActivityIndicator size={props.size || 'large'} animating={true} />
     </View>
   )
 },
@@ -25,5 +25,9 @@ styles = StyleSheet.create({
     padding: 20
   }
 })
+
+Loading.propTypes = {
+  size: PropTypes.string
+}
 
 export default Loading

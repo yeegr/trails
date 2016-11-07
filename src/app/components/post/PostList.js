@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -22,7 +16,6 @@ import * as postsActions from '../../redux/actions/postsActions'
 
 import Loading from '../shared/Loading'
 import PostCard from './PostCard'
-import styles from '../../styles/main'
 
 class PostList extends Component {
   constructor(props) {
@@ -35,15 +28,15 @@ class PostList extends Component {
     })
   }
 
+  componentWillMount() {
+    this.fetchData()
+  }
+
   fetchData() {
     this.props.postsActions.listPosts(this.props.query)
   }
 
   onRefresh() {
-    this.fetchData()
-  }
-
-  componentWillMount() {
     this.fetchData()
   }
 
@@ -80,6 +73,13 @@ class PostList extends Component {
       />
     )
   }
+}
+
+PostList.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  postsActions: PropTypes.object.isRequired,
+  posts: PropTypes.object,
+  query: PropTypes.string
 }
 
 function mapStateToProps(state, ownProps) {

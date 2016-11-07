@@ -1,15 +1,7 @@
 'use strict'
 
-import React, {
-  Component,
-  PropTypes
-} from 'react'
-
-import {
-  StyleSheet,
-  Text
-} from 'react-native'
-
+import React, {PropTypes} from 'react'
+import {StyleSheet, Text} from 'react-native'
 import {Graphics} from '../../settings'
 
 const TextView = (props) => {
@@ -18,10 +10,10 @@ const TextView = (props) => {
     fontWeight = (props.fontWeight) ? {fontWeight: props.fontWeight} : null,
     fontSize = {fontSize: Graphics.fontSizes[props.fontSize || 'default']},
     textColor = {color: (props.textColor || Graphics.textColors.default)},
-    baseStyles = Object.assign({}, props.style, fontFamily, fontSize, textColor),
+    baseStyles = Object.assign({}, props.style, fontFamily, fontSize, fontWeight, textColor),
     styles = StyleSheet.create({
       text: baseStyles,
-      title: Object.assign({}, baseStyles, {
+      title: Object.assign({}, baseStyles, fontWeight, {
         fontSize: Graphics.fontSizes.L
       }),
       h1: Object.assign({}, baseStyles, {
@@ -61,7 +53,7 @@ const TextView = (props) => {
       })
     }),
     ellipsizeMode = props.ellipsizeMode || 'tail',
-    numberOfLines = props.numberOfLines || 0
+    numberOfLines = props.numberOfLines || 1
 
   return (
     <Text
@@ -76,10 +68,14 @@ const TextView = (props) => {
 
 TextView.propTypes = {
   text: PropTypes.string.isRequired,
-  style: PropTypes.object,
+  class: PropTypes.string,
+  ellipsizeMode: PropTypes.string,
   fontFamily: PropTypes.string,
   fontSize: PropTypes.string,
+  fontWeight: PropTypes.string,
+  numberOfLines: PropTypes.number,
   textColor: PropTypes.string,
+  style: PropTypes.object
 }
 
 export default TextView

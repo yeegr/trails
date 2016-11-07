@@ -1,6 +1,5 @@
 'use strict'
 
-import {CONFIG} from '../../../util/constants'
 import {AppSettings} from '../../settings'
 import * as ACTIONS from '../constants/postsConstants'
 
@@ -49,7 +48,7 @@ export const listPosts = (params) => {
 }
 
 // get one post
-const requestPost = (id) => {
+const requestPost = () => {
   return {
     type: ACTIONS.REQUEST_POST
   }
@@ -71,7 +70,7 @@ const getPostError = (message) => {
 
 export const getPost = (id) => {
   return (dispatch) => {
-    dispatch(requestPost(id))
+    dispatch(requestPost())
 
     return fetch(AppSettings.apiUri + 'posts/' + id)
       .then((response) => {

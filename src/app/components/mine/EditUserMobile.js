@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -13,145 +7,170 @@ import React, {
 
 import {
   ScrollView,
-  Text,
   TextInput,
-  TouchableOpacity,
   View
 } from 'react-native'
+
+import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as loginActions from '../../redux/actions/loginActions'
 
 import TextButton from '../shared/TextButton'
+import TextView from '../shared/TextView'
+
+import {AppSettings, Lang, Graphics} from '../../settings'
 import styles from '../../styles/main'
 
 class EditUserMobile extends Component {
   constructor(props) {
     super(props)
-    this.rx = new RegExp(/^1+\d{0,10}$/)
+    let vcodePattern = '\\d{' + AppSettings.verificationCodeLength + '}'
+
+    this.mobileRx = new RegExp(/^1\d{10}$/)
+    this.vcodeRx = new RegExp(vcodePattern, 'g')
+
     this.onMobileNumberChanged = this.onMobileNumberChanged.bind(this)
     this.getValidation = this.getValidation.bind(this)
-    //this.onValidationCodeChanged = this.onValidationCodeChanged.bind(this)
+    this.onVerificationCodeChanged = this.onVerificationCodeChanged.bind(this)
+    this.sendValidationCode = this.sendValidationCode.bind(this)
 
     this.state = {
-      mobile: '',
-      validationCode: '',
-      mobileInputDisabled: false,
-      validationInputDisabled: false,
-      getValidationButtonDisabled: true,
+      mobileNumber: '',
+      verificationCode: '',
+      disableMobileNumberInput: false,
+      disableValidationButton: true,
       getValidationButtonText: Lang.GetValidationCode,
-      sendValidationDisabled: true,
-      showValidationInputs: false
+      hideVerification: true,
+      disableVerificationInput: false,
+      disableVerificationButton: true
     }
   }
 
-  componentWillUnmount() {
-    let tmp = this.state.mobile.trim()
-
-    if (tmp.length === 11 && Number.isInteger(parseInt(tmp))) {
-      this.props.loginActions.updateUser(this.props.user.id, {
-        mobile: parseInt(tmp)
-      })
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.login.user.mobile === parseInt(this.state.mobileNumber)) {
+      this.props.navigator.pop()
     }
   }
 
   onMobileNumberChanged(val) {
-    if (this.rx.test(val)) {
-      this.setState({mobile: val})
-    }
+    let mobile = val.trim(),
+      test = this.mobileRx.test(mobile)
 
     this.setState({
-      getValidationButtonDisabled: (val.length < AppSettings.mobileNumberLength),
-      validationCode: '',
-      showValidationInputs: (val.length === AppSettings.mobileNumberLength)
+      mobileNumber: mobile,
+      verificationCode: '',
+
+      disableValidationButton: !test,
+      hideVerification: true,
+      disableVerification: true
     })
+
+    this.props.loginActions.clearUpdateError()
   }
 
   getValidation() {
-    this.setState({
-      validationCode: '',
-      showValidationInputs: true
-    })
+    if (parseInt(this.state.mobileNumber) !== this.props.login.user.mobile) {
+      this.props.loginActions.validateMobileNumber(this.state.mobileNumber, 'UPDATE_MOBILE')
 
-    let that = this,
-      counter = AppSettings.getValidationTimer,
-      interval = setInterval(function() {
-        if (counter > 0) {
-          that.setState({
-            getValidationButtonText: counter + Lang.ResendValidationCode,
-            getValidationButtonDisabled: true
-          })
-          counter--
-        } else {
-          clearInterval(interval)
-          that.setState({
-            getValidationButtonText: Lang.GetValidationCode,
-            getValidationButtonDisabled: false
-          })
-      }
-    }, 1000)
+      this.setState({
+        verificationCode: '',
+        hideVerification: false
+      })
+
+      let that = this,
+        counter = AppSettings.getValidationTimer,
+        interval = setInterval(function() {
+          if (counter > 0) {
+            that.setState({
+              getValidationButtonText: counter + Lang.ResendValidationCode,
+              disableValidationButton: true
+            })
+            counter--
+          } else {
+            clearInterval(interval)
+            that.setState({
+              getValidationButtonText: Lang.GetValidationCode,
+              disableValidationButton: false
+            })
+        }
+      }, 1000)
+    }
   }
 
-  onValidationCodeChanged(val) {
-    if (/\d/.test(val)) {
-      this.setState({
-        validationCode: val
-      })
-    }
+  onVerificationCodeChanged(val) {
+    let code = val.trim()
 
-    if (val.length === 6) {
-      this.setState({
-        sendValidationDisabled: false
-      })
-    }
+    this.setState({
+      verificationCode: code,
+      disableVerificationButton: !this.vcodeRx.test(code)
+    })
+
+    this.props.loginActions.clearUpdateError()
+  }
+
+  sendValidationCode() {
+    this.props.loginActions.updateUserMobile(
+      this.props.login.user._id,
+      this.state.mobileNumber,
+      this.state.verificationCode
+    )
   }
 
   render() {
-    const validationCode = this.state.showValidationInputs ? (
-      <TextInput
-        autoFocus={false}
-        autoCorrect={false}
-        disabled={this.state.validationInputDisabled}
-        keyboardType="numeric"
-        maxLength={AppSettings.validationCodeLength}
-        placeholder={Lang.ValidationCode}
-        style={[styles.editor.textInput, {textAlign: 'center'}]}
-        onFocus={() => {this.setState({validationCode: ''})}}
-        onChangeText={(value) => this.onValidationCodeChanged(value)}
-        value={this.state.validationCode}
-      />
-    ) : null,
-    submitButton = this.state.showValidationInputs ? (
-      <TextButton
-        disabled={this.state.sendValidationDisabled}
-        onPress={() => this.sendValidationCode}
-        text={Lang.SubmitValidation}
-      />
-    ) : null
+    const verificationForm = this.state.hideVerification ? null: (
+      <View>
+        <TextInput
+          autoFocus={false}
+          autoCorrect={false}
+          disabled={this.state.disableVerificationInput}
+          keyboardType="numeric"
+          maxLength={AppSettings.verificationCodeLength}
+          placeholder={Lang.ValidationCode}
+          style={[styles.editor.textInput, {fontSize: 24, textAlign: 'center'}]}
+          onFocus={() => {this.setState({verificationCode: ''})}}
+          onChangeText={(value) => this.onVerificationCodeChanged(value)}
+          value={this.state.verificationCode}
+        />
+        <TextButton
+          disabled={this.state.disableVerificationButton}
+          onPress={() => !this.state.disableVerificationButton && this.sendValidationCode()}
+          text={Lang.SubmitValidation}
+        />
+        <TextView
+          fontSize={'L'}
+          style={{flex: 1, marginTop: 10, textAlign: 'center'}}
+          textColor={Graphics.colors.warning}
+          text={this.props.login.updateError}
+        />
+      </View>
+    )
 
     return (
       <View style={styles.global.wrapper}>
         <ScrollView style={styles.editor.scroll}>
           <View style={{alignItems: 'center', flexDirection: 'column', justifyContent: 'center'}}>
-            <TextInput
-              autoFocus={true}
-              autoCorrect={false}
-              disabled={this.state.mobileInputDisabled}
-              keyboardType="phone-pad"
-              maxLength={AppSettings.mobileNumberLength}
-              placeholder={Lang.MobileNumberSample}
-              style={[styles.editor.textInput, {textAlign: 'center'}]}
-              onChangeText={(mobile) => this.onMobileNumberChanged(mobile)}
-              value={this.state.mobile}
-            />
-            <TextButton
-              disabled={this.state.getValidationButtonDisabled}
-              onPress={this.getValidation}
-              text={this.state.getValidationButtonText}
-            />
-            {validationCode}
-            {submitButton}
+            <View style={{marginVertical: 20}}>
+              <TextInput
+                autoFocus={true}
+                autoCorrect={false}
+                disabled={this.state.disableMobileNumberInput}
+                keyboardType="phone-pad"
+                maxLength={AppSettings.mobileNumberLength}
+                placeholder={Lang.MobileNumberSample}
+                style={[styles.editor.textInput, {fontSize: 24, textAlign: 'center'}]}
+                onChangeText={(mobile) => this.onMobileNumberChanged(mobile)}
+                value={this.state.mobileNumber}
+              />
+              <TextButton
+                disabled={this.state.disableValidationButton}
+                onPress={this.getValidation}
+                text={this.state.getValidationButtonText}
+              />
+            </View>
+            {verificationForm}
+            <KeyboardSpacer />
           </View>
         </ScrollView>
       </View>
@@ -160,12 +179,14 @@ class EditUserMobile extends Component {
 }
 
 EditUserMobile.propTypes = {
-  user: PropTypes.object.isRequired
+  loginActions: PropTypes.object.isRequired,
+  navigator: PropTypes.object.isRequired,
+  login: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.login.user
+    login: state.login
   }
 }
 

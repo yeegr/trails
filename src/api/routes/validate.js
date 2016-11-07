@@ -26,7 +26,6 @@ module.exports = function(app) {
       tmp
       .save()
       .then(function(data) {
-        console.log(data)
         res.status(201).send()
       })
       .catch(function(err) {
@@ -37,7 +36,7 @@ module.exports = function(app) {
 
   /* Update */
   app.put('/validate', function(req, res, next) {
-    var query = req.body
+    let query = req.body
 
     query.mobile = parseInt(query.mobile)
     query.expiredAt = {}

@@ -15,6 +15,7 @@
     "getValidationTimer":5,
     "mobileNumberLength":11,
     "validationCodeLength":4,
+    "verificationCodeLength":4,
     "heroImageHeight":240,
     "userBackground":"ui/fall.jpg",
     "loginBackground":"ui/path.jpg",

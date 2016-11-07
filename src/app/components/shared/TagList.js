@@ -1,12 +1,7 @@
 'use strict'
 
+import React, {PropTypes} from 'react'
 import {Graphics} from '../../settings'
-
-import React, {
-  Component,
-  PropTypes
-} from 'react'
-
 import TextView from './TextView'
 
 export const TagList = (props) => {
@@ -25,7 +20,8 @@ export const TagList = (props) => {
 }
 
 TagList.propTypes = {
-  tags: PropTypes.array
+  tags: PropTypes.array,
+  textColor: PropTypes.string
 }
 
 export default TagList

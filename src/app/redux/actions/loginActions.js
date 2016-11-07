@@ -252,7 +252,7 @@ export const showMobileLoginForm = () => {
 }
 
 const completeSignup = (creds) => {
-  var action = null
+  let action = null
 
   if (creds.mobile) {
     action = sendWechatAuthRequest()
@@ -284,7 +284,7 @@ export const loginUser = (creds) => {
         }
       })
       .then((res) => {
-        if (res.token && res.id) {
+        if (res.token && res._id) {
           AsyncStorage.multiSet([
             [ACCESS_TOKEN, res.token],
             [USER, JSON.stringify(res)]
@@ -372,10 +372,10 @@ const receiveUpdatedUser = (user) => {
   }
 }
 
-const userUpdateError = (message) => {
+const userUpdateError = (key) => {
   return {
     type: ACTIONS.USER_UPDATE_FAILURE,
-    message
+    updateError: Lang[key]
   }
 }
 
@@ -441,5 +441,41 @@ export const updateUser = (user_id, data) => {
         })
       })
       .catch((err) => dispatch(userUpdateError(err)))
+  }
+}
+
+export const updateUserMobile = (user_id, mobile, vcode) => {
+  let config = Object.assign({}, CONFIG.PUT, {
+    body: JSON.stringify({
+      mobile,
+      vcode
+    })
+  })
+
+  return (dispatch) => {
+    dispatch(requestUserUpdate())
+
+    return fetch(AppSettings.apiUri + 'users/' + user_id + '/mobile', config)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        if (res.error) {
+          return Promise.reject(res)
+        } else {
+          AsyncStorage
+          .setItem(USER, JSON.stringify(res))
+          .then(() => {
+            dispatch(receiveUpdatedUser(res))
+          })
+        }
+      })
+      .catch((err) => dispatch(userUpdateError(err.error)))
+  }
+}
+
+export const clearUpdateError = () => {
+  return {
+    type: ACTIONS.CLEAR_UPDATE_ERROR
   }
 }
