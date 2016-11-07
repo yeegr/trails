@@ -1,6 +1,6 @@
 'use strict'
 
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   CONST = require('../const'),
   Log = require('./logging'),
@@ -48,7 +48,7 @@ commentSchema.post('save', function(doc) {
     }
   })
 
-  var Target = null
+  let Target = null
 
   switch(doc.target) {
     case 'Area':
@@ -89,7 +89,7 @@ commentSchema.post('remove', function(doc) {
     }
   })
 
-  var Target = null
+  let Target = null
 
   switch(doc.target) {
     case 'Area':

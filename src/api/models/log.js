@@ -1,6 +1,6 @@
 'use strict'
 
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   CONST = require('../const'),
   logSchema = new Schema({

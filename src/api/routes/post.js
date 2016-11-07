@@ -1,4 +1,4 @@
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   CONST = require('../const'),
   User = require('../models/user'),
   Post = require('../models/post')
@@ -38,7 +38,7 @@ module.exports = function(app) {
 
   /* Create */
   app.post('/posts', function(req, res, next) {
-    var tmp = new Post(req.body)
+    let tmp = new Post(req.body)
 
     User
     .findById(tmp.creator)
@@ -62,10 +62,10 @@ module.exports = function(app) {
 
   /* List */
   app.get('/posts', function(req, res, next) {
-    var query = {}
+    let query = {}
 
     if (req.query.hasOwnProperty('in') && req.query.in !== '') {
-      var tmp = (req.query.in).substring(1, (req.query.in).length - 1)
+      let tmp = (req.query.in).substring(1, (req.query.in).length - 1)
       query._id = {}
       query._id.$in = tmp.split(',')
     }

@@ -1,10 +1,10 @@
-var SemVerCompare = require('semver-compare'),
+const SemVerCompare = require('semver-compare'),
   Settings = require('../models/settings.js')
 
 module.exports = function(app) {
   /* Create */
   app.post('/settings', function(req, res, next) {
-    var tmp = new Settings(req.body)
+    let tmp = new Settings(req.body)
     tmp
     .save()
     .then(function(data) {
@@ -110,7 +110,7 @@ module.exports = function(app) {
 
   /* Read */
   app.get('/settings/:param', function(req, res, next) {
-    var param = req.params.param
+    let param = req.params.param
 
     switch(param) {
       case 'all':

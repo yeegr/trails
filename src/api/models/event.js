@@ -1,6 +1,6 @@
 'use strict'
 
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   CONST = require('../const'),
   Log = require('./logging'),
@@ -9,7 +9,6 @@ var mongoose = require('mongoose'),
   Point = require('./point'),
   Photo = require('./photo'),
   User = require('./user'),
-  Now = (new Date()).getTime(),
   eventSchema = new Schema({
     creator: {
       type: Schema.ObjectId,
@@ -233,7 +232,7 @@ eventSchema.methods.removeFromList = function(type, id) {
 }
 
 eventSchema.methods.addSignUps = function(groupIndex, signUps) {
-  var signUpList = this.groups[groupIndex].signUps,
+  let signUpList = this.groups[groupIndex].signUps,
     date = new Date(),
     time = date.getMilliseconds()
 
@@ -256,7 +255,7 @@ eventSchema.methods.addOrder = function(subtotal, groupIndex, signUps) {
 }
 
 eventSchema.methods.removeSignUps = function(groupIndex, signUps) {
-  var signUpList = this.groups[groupIndex].signUps
+  let signUpList = this.groups[groupIndex].signUps
 
   signUps.map(function(signUp) {
     signUpList.map(function(each, index) {

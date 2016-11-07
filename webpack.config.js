@@ -3,7 +3,7 @@ const webpack = require('webpack'),
   fs = require('fs'),
   sourcemap = require('source-map-support')
 
-var nodeModules = {}
+let nodeModules = {}
 
 fs.readdirSync('node_modules')
   .filter(function(x) {

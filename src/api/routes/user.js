@@ -1,10 +1,9 @@
-var mongoose = require('mongoose'),
-  CONST = require('../const'),
-  User = require('../models/user'),
+const mongoose = require('mongoose'),
   request = require('request'),
   formidable = require('formidable'),
   fs = require('fs'),
-  path = require('path')
+  CONST = require('../const'),
+  User = require('../models/user')
 
 mongoose.Promise = global.Promise
 
@@ -27,7 +26,7 @@ module.exports = function(app) {
   }
 
   function createUser(info, res) {
-    var tmp = new User(info)
+    let tmp = new User(info)
 
     tmp
     .save()
@@ -46,7 +45,7 @@ module.exports = function(app) {
 
   /* List */
   app.get('/users', function(req, res, next) {
-    var query = {}
+    let query = {}
 
     User
     .find(query)
@@ -66,7 +65,7 @@ module.exports = function(app) {
 
   /* Login */
   app.post('/login', function(req, res, next) {
-    var body = req.body, 
+    let body = req.body, 
       query = {}
 
     if (body.mobile !== null) {

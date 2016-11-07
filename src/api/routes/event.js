@@ -1,11 +1,10 @@
-var mongoose = require('mongoose'),
-  CONST = require('../const'),
-  User = require('../models/user'),
-  Event = require('../models/event'),
+const mongoose = require('mongoose'),
   request = require('request'),
   formidable = require('formidable'),
   fs = require('fs'),
-  path = require('path')
+  CONST = require('../const'),
+  User = require('../models/user'),
+  Event = require('../models/event')
 
 mongoose.Promise = global.Promise
 
@@ -42,7 +41,7 @@ module.exports = function(app) {
 
   /* Create */
   app.post('/events', function(req, res) {
-    var tmp = new Event(req.body)
+    let tmp = new Event(req.body)
 
     User
     .findById(tmp.creator)
@@ -66,7 +65,7 @@ module.exports = function(app) {
 
   /* List */
   app.get('/events', function(req, res) {
-    var query = {}
+    let query = {}
 
     if (req.query.hasOwnProperty('isPublic')) {
       query.isPublic = req.query.isPublic
@@ -81,7 +80,7 @@ module.exports = function(app) {
     }
 
     if (req.query.hasOwnProperty('in') && req.query.in !== '') {
-      var tmp = (req.query.in).substring(1, (req.query.in).length - 1)
+      let tmp = (req.query.in).substring(1, (req.query.in).length - 1)
       query._id = {}
       query._id.$in = tmp.split(',')
     }
@@ -135,11 +134,11 @@ module.exports = function(app) {
     .exec()
     .then(function(event) {
       if (event) {
-        var fileName = CONST.generateRandomString(8) + '.jpg',
+        let fileName = CONST.generateRandomString(8) + '.jpg',
           form = new formidable.IncomingForm()
 
         form.parse(req, function(err, fields, files) {
-          var formData = {
+          let formData = {
             file: {
               value: fs.createReadStream(files.file.path),
               options: {

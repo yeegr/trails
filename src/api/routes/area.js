@@ -1,4 +1,4 @@
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   CONST = require('../const'),
   User = require('../models/user'),
   Area = require('../models/area')
@@ -53,7 +53,7 @@ module.exports = function(app) {
 
   /* Create */
   app.post('/areas', function(req, res, next) {
-    var tmp = new Area(req.body)
+    let tmp = new Area(req.body)
 
     User
     .findById(tmp.creator)
@@ -77,8 +77,8 @@ module.exports = function(app) {
 
   /* List */
   app.get('/areas', function(req, res, next) {
-    var query = {},
-    options = {}
+    let query = {},
+      options = {}
 
     options.select = ''
 

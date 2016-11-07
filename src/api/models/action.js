@@ -1,6 +1,6 @@
 'use strict'
 
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   CONST = require('../const'),
   Log = require('./logging'),
@@ -35,7 +35,7 @@ var mongoose = require('mongoose'),
 actionSchema.post('save', function(doc) {
   Log(doc)
 
-  var key = '',
+  let key = '',
     Target = null
 
   switch(doc.target) {

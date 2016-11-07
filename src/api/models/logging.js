@@ -1,8 +1,8 @@
 'use strict'
 
-var Log = require('./log')
+const Log = require('./log')
 
 module.exports = function(obj) {
-  var log = new Log(obj)
+  let log = new Log(obj)
   log.save()
 }

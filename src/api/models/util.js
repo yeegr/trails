@@ -4,7 +4,7 @@ module.exports = {
   },
 
   getTimestamp: function() {
-    var d = new Date()
+    let d = new Date()
     return d.valueOf()
   },
 
@@ -14,14 +14,14 @@ module.exports = {
         arr.push(id)
       }
     } else if (typeof(id) === 'object') {
-      var match = false,
+      let match = false,
         comp = JSON.parse(JSON.stringify(id))
 
       if (arr) {
         arr.map(function(item) {
-          var tmp = JSON.parse(JSON.stringify(item))
+          let tmp = JSON.parse(JSON.stringify(item))
 
-          for (var prop in comp) {
+          for (let prop in comp) {
             match = (tmp[prop] === comp[prop]) ? true : match
           }
         })
@@ -41,14 +41,13 @@ module.exports = {
         arr.splice(arr.indexOf(id), 1)
       }
     } else if (typeof(id) === 'object') {
-      var match = false,
-        comp = JSON.parse(JSON.stringify(id))
+      let comp = JSON.parse(JSON.stringify(id))
 
       if (arr) {
         arr.map(function(item, index) {
-          var tmp = JSON.parse(JSON.stringify(item))
+          let tmp = JSON.parse(JSON.stringify(item))
 
-          for (var prop in comp) {
+          for (let prop in comp) {
             if (tmp[prop] === comp[prop]) {
               arr.splice(index, 1)
             }
@@ -61,7 +60,7 @@ module.exports = {
   },
 
   addComment: function(obj, id, rating) {
-    var arr = obj.comments
+    let arr = obj.comments
 
     if (arr && arr.indexOf(id) < 0) {
       arr.push(id)
@@ -71,7 +70,7 @@ module.exports = {
   },
 
   removeComment: function(obj, id, rating) {
-    var arr = obj.comments
+    let arr = obj.comments
 
     if (arr && arr.indexOf(id) > -1) {
       arr.splice(arr.indexOf(id), 1)
@@ -81,7 +80,7 @@ module.exports = {
   },
 
   updateModified: function(obj, fields) {
-    var modified = false
+    let modified = false
 
     fields.map(function(key) {
       modified = (obj.isModified(key)) ? true : modified

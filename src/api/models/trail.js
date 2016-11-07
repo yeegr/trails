@@ -1,6 +1,6 @@
 'use strict'
 
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   CONST = require('../const'),
   Log = require('./logging'),
@@ -152,7 +152,7 @@ trailSchema.pre('save', function(next) {
   this.totalDistance = Math.round(points[points.length - 1][5] * 10) / 10
   this.totalDuration = (points[points.length - 1][0] - points[0][0])
 
-  var altitues = []
+  let altitues = []
   this.points.map(function(p) {
     altitues.push(p[3])
   })

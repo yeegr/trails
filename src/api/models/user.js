@@ -1,6 +1,6 @@
 'use strict'
 
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   CONST = require('../const'),
   Log = require('./logging'),
@@ -99,7 +99,7 @@ var mongoose = require('mongoose'),
       default: minLevel,
       match: CONST.levelRx,
       set: function(value) {
-        var tmp = Math.floor(value)
+        let tmp = Math.floor(value)
         if (tmp > maxLevel) tmp = maxLevel
         if (tmp < minLevel) tmp = minLevel
         return tmp
@@ -252,12 +252,12 @@ userSchema.methods.removeOrder = function(id) {
 }
 
 userSchema.methods.addToList = function(key, id) {
-  var list = (arguments[2]) ? this[arguments[2]][key] : this[key]
+  let list = (arguments[2]) ? this[arguments[2]][key] : this[key]
   Util.addToList(this, list, id)
 }
 
 userSchema.methods.removeFromList = function(key, id) {
-  var list = (arguments[2]) ? this[arguments[2]][key] : this[key]
+  let list = (arguments[2]) ? this[arguments[2]][key] : this[key]
   Util.removeFromList(this, list, id)
 }
 

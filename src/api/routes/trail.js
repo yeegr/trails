@@ -1,4 +1,4 @@
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   CONST = require('../const'),
   User = require('../models/user'),
   Trail = require('../models/trail')
@@ -66,7 +66,7 @@ module.exports = function(app) {
 
   /* List */
   app.get('/trails', function(req, res, next) {
-    var query = {}
+    let query = {}
 
     if (req.query.hasOwnProperty('area') && req.query.area !== '') {
       query.areas = {}
@@ -74,13 +74,13 @@ module.exports = function(app) {
     }
 
     if (req.query.hasOwnProperty('in') && req.query.in !== '') {
-      var tmp = (req.query.in).substring(1, (req.query.in).length - 1)
+      let tmp = (req.query.in).substring(1, (req.query.in).length - 1)
       query._id = {}
       query._id.$in = tmp.split(',')
     }
 
     if (req.query.hasOwnProperty('keywords') && req.query.keywords !== '') {
-      var keywords = new RegExp(req.query.keywords.trim().replace(' ', '|'))
+      let keywords = new RegExp(req.query.keywords.trim().replace(' ', '|'))
       query.$or = []
       query.$or.push({'title': keywords})
       query.$or.push({'description': keywords})

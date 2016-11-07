@@ -1,4 +1,4 @@
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   request = require('request'),
   moment = require('moment'),
   CONST = require('../const'),
@@ -9,29 +9,30 @@ mongoose.Promise = global.Promise
 module.exports = function(app) {
   /* Create */
   app.post('/validate', function(req, res, next) {
-    var tmp = new Validate(req.body),
+    let tmp = new Validate(req.body),
       remoteAddress = req.connection.remoteAddress,
       ip = remoteAddress.substring(remoteAddress.lastIndexOf(':') + 1)
 
     tmp.vcode = CONST.generateRandomNumericString(4)
 
 
-    request.post({url: 'http://graphics:8000/validate', json: tmp}, (err, response, body) => {
+    /*request.post({url: 'http://graphics:8000/validate', json: tmp}, (err, response, body) => {
       if (err) {
         throw err
-      }
+      }*/
 
       tmp.ip = ip
 
       tmp
       .save()
       .then(function(data) {
+        console.log(data)
         res.status(201).send()
       })
       .catch(function(err) {
         res.status(500).send({error: err})
       })
-    })
+    //})
   })
 
   /* Update */

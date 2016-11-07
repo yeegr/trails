@@ -1,4 +1,4 @@
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   User = require('../models/user'),
   Action = require('../models/action'),
   Area = require('../models/area'),
@@ -11,7 +11,7 @@ mongoose.Promise = global.Promise
 module.exports = function(app) {
   /* Create */
   app.post('/logs', function(req, res, next) {
-    var tmp = new Action(req.body)
+    let tmp = new Action(req.body)
 
     User
     .findById(tmp.creator)
@@ -25,7 +25,7 @@ module.exports = function(app) {
     })
     .then(function(data) {
       if (data) {
-        var Target, counter
+        let Target, counter
 
         switch (data.target) {
           case 'Area':
@@ -76,7 +76,7 @@ module.exports = function(app) {
             })
             .exec()
             .then((result) => {
-              var obj = {
+              let obj = {
                 action: tmp.action,
                 target: tmp.target,
                 ref: tmp.ref,

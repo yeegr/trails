@@ -1,4 +1,4 @@
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   Log = require('../models/log')
 
 mongoose.Promise = global.Promise

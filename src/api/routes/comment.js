@@ -1,4 +1,4 @@
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   CONST = require('../const'),
   Area = require('../models/area'),
   Trail = require('../models/trail'),
@@ -12,7 +12,7 @@ mongoose.Promise = global.Promise
 module.exports = function(app) {
   /* List */
   app.get('/comments', function(req, res) {
-    var Target = null
+    let Target = null
 
     switch (req.query.type) {
       case 'Area':
@@ -50,7 +50,7 @@ module.exports = function(app) {
     .exec()
     .then(function(data) {
       if (data) {
-        var tmp = {
+        let tmp = {
           _id: data._id,
           title: data.title,
           comments: data.comments,
@@ -69,7 +69,7 @@ module.exports = function(app) {
 
   /* Create */
   app.post('/comments', function(req, res, next) {
-    var tmp = new Comment(req.body)
+    let tmp = new Comment(req.body)
 
     User
     .findById(tmp.creator)

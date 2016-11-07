@@ -2,9 +2,11 @@
 
 import {Dimensions} from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import {env} from './config'
 
 const settings = require('../util/settings.json'),
-  {height, width} = Dimensions.get('window')
+  {height, width} = Dimensions.get('window'),
+  servers = env['development']
 
 export const device = {
   uniqueId: DeviceInfo.getUniqueID(),
@@ -35,6 +37,10 @@ export let AppSettings = settings.app
 AppSettings.mobileNumberPattern = new RegExp(/1+\d{10}/)
 AppSettings.trailTypes = [0,1,2,3,4,5,6,7,8,9]
 AppSettings.paymentMethods = Lang.payments
+
+AppSettings.baseUri = servers.WEB_SERVER
+AppSettings.apiUri = servers.API_SERVER
+AppSettings.assetUri = servers.ASSET_SERVER
 
 export let Graphics = settings.graphics
 Graphics.page = {}

@@ -1,4 +1,4 @@
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
   CONST = require('../const'),
   User = require('../models/user'),
   Order = require('../models/order')
@@ -25,7 +25,7 @@ module.exports = function(app) {
 
   /* Create */
   app.post('/orders', function(req, res, next) {
-    var tmp = new Order(req.body)
+    let tmp = new Order(req.body)
 
     User
     .findById(tmp.creator)
@@ -49,25 +49,12 @@ module.exports = function(app) {
 
   /* Read */
   app.get('/orders/:id', function(req, res, next) {
-    Order
-    .findById(id)
-    .populate('event')
-    .exec()
-    .then(function(data) {
-      if (data) {
-        res.status(statusCode).json(data)
-      } else {
-        res.status(404).send()
-      }
-    })
-    .catch(function(err) {
-      res.status(500).send({error: err})
-    })
+    getOneById(req.params.id, res, 200)
   })
 
   /* List */
   app.get('/orders', function(req, res) {
-    var query = {}
+    let query = {}
 
     if (req.query.creator) {
       query.creator = req.query.creator
