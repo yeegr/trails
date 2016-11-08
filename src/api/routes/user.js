@@ -23,7 +23,7 @@ module.exports = function(app) {
       }
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   }
 
@@ -36,7 +36,7 @@ module.exports = function(app) {
       res.status(201).json(data)
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   }
 
@@ -61,7 +61,7 @@ module.exports = function(app) {
       }
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   })
 
@@ -91,7 +91,7 @@ module.exports = function(app) {
       }
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   })
 
@@ -116,12 +116,12 @@ module.exports = function(app) {
           }
         })
         .catch(function(err) {
-          res.status(500).send({error: err})
+          res.status(500).json({error: err})
         })
       }
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   })
 
@@ -161,14 +161,14 @@ module.exports = function(app) {
               }
             })
             .catch(function(err) {
-              res.status(500).send({error: err})
+              res.status(500).json({error: err})
             })
           })
         })
       }
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   })
 
@@ -203,24 +203,24 @@ module.exports = function(app) {
               res.status(200).json(updated)
             })
             .catch(function(err) {
-              res.status(500).send({
+              res.status(500).json({
                 error: err
               })
             })
           } else {
-            res.status(401).send({
+            res.status(401).json({
               error: 'ValidationCodeUnmatched'
             })
           }
         })
       } else {
-        res.status(404).send({
+        res.status(404).json({
           error: 'UserNotFound'
         })
       }
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   })
 
@@ -239,7 +239,7 @@ module.exports = function(app) {
           }
         })
         .catch(function(err) {
-          res.status(500).send({error: err})
+          res.status(500).json({error: err})
         })
       }
     })

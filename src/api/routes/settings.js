@@ -14,7 +14,7 @@ module.exports = function(app) {
     })
     .catch(function(err) {
       if (err) {
-        res.status(500).send({error: err})
+        res.status(500).json({error: err})
       }
     })
   })
@@ -32,7 +32,7 @@ module.exports = function(app) {
     })
     .catch(function(err) {
       if (err) {
-        res.status(500).send({error: err})
+        res.status(500).json({error: err})
       }
     })
   }
@@ -51,14 +51,14 @@ module.exports = function(app) {
     })
     .catch(function(err) {
       if (err) {
-        res.status(500).send({error: err})
+        res.status(500).json({error: err})
       }
     })
 
     /*
     Settings.findOne({}, {}, {sort: {'_id' : -1}}, function(err, data) {
       if (err) {
-        res.status(500).send({error: err})
+        res.status(500).json({error: err})
       }
 
       if (data) {
@@ -83,7 +83,7 @@ module.exports = function(app) {
       }
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   }
 
@@ -102,7 +102,7 @@ module.exports = function(app) {
       })
       .catch(function(err) {
         if (err) {
-          res.status(500).send({error: err})
+          res.status(500).json({error: err})
         }
       })
     }
@@ -142,7 +142,7 @@ module.exports = function(app) {
         }
       })
       .catch(function(err) {
-        res.status(500).send({error: err})
+        res.status(500).json({error: err})
       })
     })
   })
@@ -162,7 +162,7 @@ module.exports = function(app) {
           }
         })
         .catch(function(err) {
-          res.status(500).send({error: err})
+          res.status(500).json({error: err})
         })
       } else {
         res.status(404).send()

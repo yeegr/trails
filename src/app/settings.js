@@ -6,7 +6,7 @@ import {env} from './config'
 
 const settings = require('../util/settings.json'),
   {height, width} = Dimensions.get('window'),
-  servers = env['development']
+  servers = env['staging']
 
 export const device = {
   uniqueId: DeviceInfo.getUniqueID(),

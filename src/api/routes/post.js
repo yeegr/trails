@@ -32,7 +32,7 @@ module.exports = function(app) {
       }
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   }
 
@@ -56,7 +56,7 @@ module.exports = function(app) {
       }
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   })
 
@@ -84,7 +84,7 @@ module.exports = function(app) {
       }
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   })
 
@@ -108,7 +108,7 @@ module.exports = function(app) {
         }
       })
       .catch(function(err) {
-        res.status(500).send({error: err})
+        res.status(500).json({error: err})
       })
     })
   })
@@ -128,7 +128,7 @@ module.exports = function(app) {
           }
         })
         .catch(function(err) {
-          res.status(500).send({error: err})
+          res.status(500).json({error: err})
         })
       } else {
         res.status(404).send()

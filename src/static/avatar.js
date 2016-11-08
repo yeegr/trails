@@ -13,7 +13,7 @@ module.exports = function(app) {
     request(req.body.url).pipe(file)
 
     file.on('error', (err) => {
-      res.status(500).send(err)
+      res.status(500).json({error: err})
     })
 
     file.on('finish', () => {

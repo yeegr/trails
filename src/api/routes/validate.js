@@ -16,10 +16,10 @@ module.exports = function(app) {
     tmp.vcode = CONST.generateRandomNumericString(4)
 
 
-    /*request.post({url: 'http://graphics:8000/validate', json: tmp}, (err, response, body) => {
+    request.post({url: 'http://graphics:8000/validate', json: tmp}, (err, response, body) => {
       if (err) {
         throw err
-      }*/
+      }
 
       tmp.ip = ip
 
@@ -29,9 +29,9 @@ module.exports = function(app) {
         res.status(201).send()
       })
       .catch(function(err) {
-        res.status(500).send({error: err})
+        res.status(500).json({error: err})
       })
-    //})
+    })
   })
 
   /* Update */
@@ -57,9 +57,7 @@ module.exports = function(app) {
           })
         })
         .catch(function(err) {
-          res.status(500).json({
-            error: err
-          })
+          res.status(500).json({error: err})
         })
       } else {
         res.status(404).json({
@@ -68,12 +66,12 @@ module.exports = function(app) {
       }
     })
     .catch(function(err) {
-      res.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   })
 
   /* List */
-  function list(response, query) {
+  function list(res, query) {
     Validate
     .find(query)
     .sort({_id: -1})
@@ -81,13 +79,13 @@ module.exports = function(app) {
     .exec()
     .then(function(data) {
       if (data) {
-        response.status(200).json(data)
+        res.status(200).json(data)
       } else {
-        response.status(404).send()
+        res.status(404).send()
       }
     })
     .catch(function(err) {
-      response.status(500).send({error: err})
+      res.status(500).json({error: err})
     })
   }
 
@@ -96,7 +94,7 @@ module.exports = function(app) {
   })
 
   app.get('/validate/:mobile', function(req, res, next) {
-    var query = {}
+    let query = {}
 
     if (req.params.mobile && req.params.mobile.length === 11) {
       query.mobile = parseInt(req.params.mobile)

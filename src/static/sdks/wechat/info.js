@@ -1,8 +1,8 @@
-var request = require('request')
+const request = require('request')
 
 module.exports = function(app) {
   app.get('/wechat/info/:code', function(req, res, next) {
-    var type = 'authorization_code',
+    let type = 'authorization_code',
       appId = 'wx6e8a3e1b87c11294',
       appSecret = 'ddef514562b549b5833fb210ecadefab',
       url = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=' + type + '&appid=' + appId + '&secret=' + appSecret + '&code=' + req.params.code
@@ -12,10 +12,10 @@ module.exports = function(app) {
       url: url
     }, function (error, response, body) {
       if (!error) {
-        var json = JSON.parse(body)
+        let json = JSON.parse(body)
 
         if (json.errcode) {
-          res.status(500).send({message: json.errmsg})
+          res.status(500).json({error: json.errmsg})
         } else if (json.access_token && json.openid) {
           getUserInfo(res, json.access_token, json.openid)
         } else {
@@ -27,14 +27,14 @@ module.exports = function(app) {
 }
 
 function getUserInfo(res, token, openid) {
-  var url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid
+  let url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid
 
   request({
     followAllRedirects: true,
     url: url
   }, function (error, response, body) {
     if (!error) {
-      var user = {},
+      let user = {},
         json = JSON.parse(body)
 
       user.handle = json.nickname,
