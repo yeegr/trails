@@ -1,4 +1,4 @@
-var express = require('express'),
+const express = require('express'),
 	logger = require('morgan'),
 	errorHandler = require('errorhandler'),
   bodyParser = require('body-parser'),
@@ -22,7 +22,7 @@ app.use(cors())
 
 mongoose.connect(db)
 
-var log = require('./routes/log')(app),
+const log = require('./routes/log')(app),
 	action = require('./routes/action')(app),
 	settings = require('./routes/settings')(app),
 	user = require('./routes/user')(app),
@@ -39,7 +39,7 @@ router.use(function(req, res, next) {
 })
 
 router.post('/drop', function(req, res, next) {
-	var tables = ['logs', 'users', 'areas', 'trails', 'posts']
+	let tables = ['logs', 'users', 'areas', 'trails', 'posts']
 
 	tables.map(function(name) {
 		mongoose.connection.collections[name].drop(function (err) {

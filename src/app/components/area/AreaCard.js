@@ -1,21 +1,22 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
-import {View} from 'react-native'
+import {
+  View
+} from 'react-native'
 
 import {
-  Lang,
-  Graphics
+  CONSTANTS,
+  Lang
 } from '../../settings'
 
+import AvatarList from '../shared/AvatarList'
 import Hero from '../shared/Hero'
 import TinyStatus from '../shared/TinyStatus'
-import {AvatarList} from '../shared/Avatar'
-import {ASSET_FOLDERS} from '../../../util/constants'
+
 import global from '../../styles/global'
 
 const AreaCard = (props) => {
@@ -41,7 +42,7 @@ const AreaCard = (props) => {
   return (
     <View>
       <Hero
-        imageUri={ASSET_FOLDERS.Area + '/' + data._id + '/' + data.hero} 
+        imageUri={CONSTANTS.ASSET_FOLDERS.Area + '/' + data._id + '/' + data.hero} 
         title={Lang.cities[data.city] + ' ' + data.name} 
         excerpt={data.excerpt}
         tags={tags}
@@ -62,8 +63,8 @@ const AreaCard = (props) => {
 }
 
 AreaCard.propTypes = {
+  navigator: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired
 }
 
 export default AreaCard

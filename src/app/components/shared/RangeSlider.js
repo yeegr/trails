@@ -12,9 +12,11 @@ import {
 
 import NMSlider from 'react-native-nmrangeslider-ios'
 
-import {Graphics} from '../../settings'
-
 import TextView from './TextView'
+
+import {
+  Graphics
+} from '../../settings'
 
 class RangeSlider extends Component {
   constructor(props) {

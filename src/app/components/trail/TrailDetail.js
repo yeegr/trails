@@ -1,31 +1,14 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
 } from 'react'
 
 import {
-  Image,
   ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
   View,
 } from 'react-native'
-
-import Svg, {
-  Path
-} from 'react-native-svg'
-
-import ParallaxView from 'react-native-parallax-view'
-import Chart from 'react-native-chart'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
@@ -33,17 +16,22 @@ import * as trailsActions from '../../redux/actions/trailsActions'
 import {ACTION_TARGETS} from '../../../util/constants'
 
 import Loading from '../shared/Loading'
+import Header from '../shared/Header'
+import TextView from '../shared/TextView'
 import Toolbar from '../shared/Toolbar'
 import TrailInfo from './TrailInfo'
 import TrailData from './TrailData'
 import TrailMap from './TrailMap'
 import TrailChart from './TrailChart'
-import Header from '../shared/Header'
-import TextView from '../shared/TextView'
 import UserLink from '../user/UserLink'
-import {GalleryPreview} from '../shared/Gallery'
-import {CommentsPreview} from '../shared/Comments'
+import GalleryPreview from '../shared/GalleryPreview'
+import CommentPreview from '../shared/CommentPreview'
+
 import styles from '../../styles/main'
+
+import {
+  Lang
+} from '../../settings'
 
 class TrailDetail extends Component {
   constructor(props) {
@@ -51,14 +39,13 @@ class TrailDetail extends Component {
   }
 
   componentWillMount() {
-    if (!this.props.preview) {
+    if (!this.props.isPreview) {
       this.props.trailsActions.getTrail(this.props.id)
     }
   }
 
   render() {
-    const trail = (this.props.preview) ? this.props.newTrail : this.props.trail,
-    {navigator} = this.props
+    const trail = (this.props.isPreview) ? this.props.newTrail : this.props.trail
 
     if (!trail) {
       return <Loading />
@@ -67,7 +54,7 @@ class TrailDetail extends Component {
     let creator = this.props.user,
       toolbar = null
 
-    if (!this.props.preview) {
+    if (!this.props.isPreview) {
       creator = trail.creator,
       toolbar = (
         <View style={styles.detail.toolbar}>
@@ -88,7 +75,7 @@ class TrailDetail extends Component {
       />
     ) : null,
     commentsPreview = (trail.comments.length > 0) ? (
-      <CommentsPreview 
+      <CommentPreview 
         navigator={navigator}
         type={ACTION_TARGETS.TRAIL}
         data={trail}
@@ -101,7 +88,6 @@ class TrailDetail extends Component {
           <View style={styles.detail.article}>
             <View style={styles.detail.section}>
               <TrailInfo type={trail.type} title={trail.title} date={trail.date}/>
-              {toolbar}
               <TrailData
                 difficultyLevel={trail.difficultyLevel}
                 totalDuration={trail.totalDuration}
@@ -126,17 +112,20 @@ class TrailDetail extends Component {
             {commentsPreview}
           </View>
         </ScrollView>
+        {toolbar}
       </View>
     )
   }
 }
 
 TrailDetail.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  trailsActions: PropTypes.object.isRequired,
   id: PropTypes.string,
   trail: PropTypes.object,
   newTrail: PropTypes.object,
-  user: PropTypes.object.isRequired,
-  preview: PropTypes.bool
+  user: PropTypes.object,
+  isPreview: PropTypes.bool
 }
 
 function mapStateToProps(state, ownProps) {

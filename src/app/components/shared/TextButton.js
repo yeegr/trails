@@ -1,17 +1,20 @@
 'use strict'
 
-
-import React, {PropTypes} from 'react'
+import React, {
+  PropTypes
+} from 'react'
 
 import {
   StyleSheet,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native'
 
-import {Graphics} from '../../settings'
 import TextView from './TextView'
+
+import {
+  Graphics
+} from '../../settings'
 
 const TextButton = (props) => {
   let buttonStyle = styles.button
@@ -60,7 +63,7 @@ TextButton.propTypes = {
   text: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string,
   textColor: PropTypes.string,
-  style: PropTypes.object
+  styles: PropTypes.object
 }
 
 export default TextButton

@@ -42,7 +42,7 @@ import Intro from '../shared/Intro'
 import ImagePath from '../shared/ImagePath'
 import TextView from '../shared/TextView'
 
-import {ASSET_FOLDERS} from '../../../util/constants'
+
 import {formatEventGroupLabel} from '../../../util/common'
 
 import styles from '../../styles/main'
@@ -112,8 +112,8 @@ class EventOrder extends Component {
 
   validateData(data) {
     const validateName = data.name.trim().length > 1,
-      validateMobileNumber = AppSettings.mobileNumberPattern.test(data.mobile),
-      validatePersonalId = /\d{18}/.test(data.pid.trim()),
+      validateMobileNumber = AppSettings.mobileRx.test(data.mobile),
+      validatePersonalId = AppSettings.pidRx.test(data.pid.trim()),
       validateGender = (data.gender === 0 || data.gender === 1),
       validateUserLevel = (data.level > -1 && data.level < 5)
 
@@ -162,7 +162,7 @@ class EventOrder extends Component {
 
   render() {
     const event = this.props.event,
-      eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
+      eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
       selectedGroup = this.props.selectedGroup || 0,
       dates = formatEventGroupLabel(event, selectedGroup)
 
@@ -183,7 +183,7 @@ class EventOrder extends Component {
           )}>
           <View ref="scrollContent" style={{backgroundColor: Graphics.colors.background}}>
             <View style={styles.detail.section}>
-              <TextView class='h2' text={Lang.EventInfo} />
+              <TextView class={'h2'} text={Lang.EventInfo} />
               <InfoItem label={Lang.EventDates} value={dates} />
               <InfoItem label={Lang.PerHead} value={event.expenses.perHead.toString() + Lang.Yuan} />
             </View>
@@ -267,7 +267,7 @@ class MiniForm extends Component {
                 onChangeText={(name) => this.updateState({name})}
               />
             }
-            inputStyle='underline'
+            inputStyle={'underline'}
           />
           <InputItem
             label={Lang.MobileNumber}
@@ -280,7 +280,7 @@ class MiniForm extends Component {
                 onChangeText={(mobile) => this.updateState({mobile: mobile.trim()})}
               />
             }
-            inputStyle='underline'
+            inputStyle={'underline'}
           />
           <InputItem
             label={Lang.PersonalId}
@@ -293,7 +293,7 @@ class MiniForm extends Component {
                 onChangeText={(pid) => this.updateState({pid: pid.trim()})}
               />
             }
-            inputStyle='underline'
+            inputStyle={'underline'}
           />
           <InputItem
             label={Lang.Gender}

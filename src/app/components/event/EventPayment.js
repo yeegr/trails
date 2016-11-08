@@ -25,7 +25,7 @@ import Intro from '../shared/Intro'
 import TextView from '../shared/TextView'
 
 import {AppSettings, Lang, Graphics} from '../../settings'
-import {ASSET_FOLDERS} from '../../../util/constants'
+
 import {formatEventGroupLabel, calculateInsurance} from '../../../util/common'
 
 import styles from '../../styles/main'
@@ -93,14 +93,14 @@ class EventPayment extends Component {
 
   render() {
     const {event} = this.props,
-      eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
+      eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
       selectedGroup = this.props.selectedGroup,
       dates = formatEventGroupLabel(event, selectedGroup)
       //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
 
     const paymentMethodSelector = (event.expenses.perHead > 0) ? (
       <View style={styles.detail.section}>
-        <TextView class='h2' text={Lang.PaymentMethod} />
+        <TextView class={'h2'} text={Lang.PaymentMethod} />
         <View style={styles.editor.group}>
         {
           AppSettings.paymentMethods.map((method, index) => {
@@ -149,14 +149,14 @@ class EventPayment extends Component {
           )}>
           <View style={{backgroundColor: Graphics.colors.background}}>
             <View style={styles.detail.section}>
-              <TextView class='h2' text={Lang.EventInfo} />
+              <TextView class={'h2'} text={Lang.EventInfo} />
               <View style={styles.detail.group}>
                 <InfoItem label={Lang.EventDates} value={dates} />
                 <InfoItem label={Lang.PerHead} value={event.expenses.perHead.toString() + Lang.Yuan} />
               </View>
             </View>
             <View style={styles.detail.section}>
-              <TextView class='h2' text={Lang.SignUps} />
+              <TextView class={'h2'} text={Lang.SignUps} />
               <View style={[styles.detail.group, {marginBottom: 0}]}>
                 {
                   this.state.signUps.map((signUp, index) => {

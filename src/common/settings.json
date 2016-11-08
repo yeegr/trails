@@ -1,0 +1,36 @@
+{
+  "version":"0.6.12",
+  "platform":"iOS",
+  "expiredOn":"2016-11-01",
+  "defaultEventHeroUri":"default/hero-006.jpg",
+  "maxLeadersPerArea":3,
+  "maxTrailPreviewsPerArea":3,
+  "maxPhotoPreviewsPerGallery":4,
+  "maxPhotosPerGallery":16,
+  "maxCommentPreviewsPerTrail":3,
+  "maxCommentPreviews":3,
+  "minTrailTitleLength":6,
+  "minEventTitleLength":6,
+  "getValidationTimer":5,
+  "mobileNumberLength":11,
+  "validationCodeLength":4,
+  "verificationCodeLength":4,
+  "heroImageHeight":240,
+  "userBackground":"ui/fall.jpg",
+  "loginBackground":"ui/path.jpg",
+  "gearList":[0,1,2,3,10,11,12,13,14,15,18,30,31,40,50,51,52,60,70,71,72,80,81,82,83,84],
+  "minEventAttendees":40,
+  "maxEventAttendees":50,
+  "defaultPaymentMethod":"Alipay",
+  "defaultCity":"010",
+  "maxEventScheduleDays":20,
+
+  "home":{
+    "events":"?isPublic=true&status=public&city="
+  },
+
+  "sdks":{
+    "amap":"cc81643ef299be79cc3b6aad2a1ac212",
+    "wechat":"wx6e8a3e1b87c11294"
+  }
+}

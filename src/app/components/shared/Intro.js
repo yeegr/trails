@@ -1,24 +1,20 @@
 'use strict'
 
-import {
-  AppSettings,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View
 } from 'react-native'
 
 import TextView from '../shared/TextView'
 import TagList from '../shared/TagList'
+
+import {
+  Graphics
+} from '../../settings'
 
 const Intro = (props) => {
   let align = (props.align === 'bottom') ? {paddingTop: Graphics.titlebar.height, paddingBottom: 5} : null, 

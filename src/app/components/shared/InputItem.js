@@ -1,7 +1,6 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -11,6 +10,7 @@ import {
 } from 'react-native'
 
 import TextView from './TextView'
+
 import {
   Lang,
   Graphics
@@ -55,7 +55,10 @@ styles = StyleSheet.create({
 
 InputItem.propTypes = {
   label: PropTypes.string.isRequired,
-  input: PropTypes.object.isRequired
+  input: PropTypes.object.isRequired,
+  required: PropTypes.bool,
+  styles: PropTypes.object,
+  inputStyle: PropTypes.object
 }
 
 export default InputItem

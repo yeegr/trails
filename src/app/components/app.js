@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../settings'
-
 import React, {
   Component,
   PropTypes
@@ -15,22 +9,15 @@ import {
   Alert,
   Navigator,
   ScrollView,
-  TouchableOpacity,
   View,
 } from 'react-native'
 
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
 
 import * as loginActions from '../redux/actions/loginActions'
 import * as newTrailActions from '../redux/actions/newTrailActions'
 import * as newEventActions from '../redux/actions/newEventActions'
 import * as navbarActions from '../redux/actions/navbarActions'
-import {
-  HOME_TABS,
-  ACTION_TARGETS,
-  ACCOUNT_ACTIONS
-} from '../../util/constants'
 
 import Home from './home'
 import Login from './login'
@@ -87,10 +74,17 @@ import Comments from './shared/Comments'
 import Gallery from './shared/Gallery'
 import Intro from './intro'
 import Loading from './shared/Loading'
+import NavbarButton from './shared/NavbarButton'
 import TextView from './shared/TextView'
 
+import {
+  CONSTANTS,
+  AppSettings,
+  Lang,
+  Graphics
+} from '../settings'
+
 import styles from '../styles/main'
-import {NavbarIconButton, NavbarTextButton} from './shared/NavbarButtons'
 
 const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
   LeftButton: function(route, navigator, index, navState) {
@@ -101,7 +95,7 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
     let previousRoute = navState.routeStack[index - 1]
 
     return (
-      <NavbarIconButton
+      <NavbarButton
         onPress={() => this.back(navigator, route.id)}
         icon={Graphics.titlebar.prev}
         label={previousRoute.title}
@@ -116,18 +110,18 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
     switch (route.id) {
       case 'Home':
         switch (tabId) {
-          case HOME_TABS.MINE:
+          case CONSTANTS.HOME_TABS.MINE:
             rightTitleBar = (
               <View style={styles.navbar.toolbar}>
               </View>
             )
           break
 
-          case HOME_TABS.POSTS:
+          case CONSTANTS.HOME_TABS.POSTS:
             rightTitleBar = (
               <View style={styles.navbar.toolbar}>
-                <NavbarIconButton
-                  onPress={() => navigator.push(search(tabId))}
+                <NavbarButton
+                  onPress={() => navigator.push(this.search(tabId))}
                   icon={Graphics.titlebar.search}
                   label={Lang.Search}
                   showLabel={false}
@@ -139,13 +133,13 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
           default:
             rightTitleBar = (
               <View style={styles.navbar.toolbar}>
-                <NavbarIconButton
+                <NavbarButton
                   onPress={() => navigator.push(this.search(tabId))}
                   icon={Graphics.titlebar.search}
                   label={Lang.Search}
                   showLabel={false}
                 />
-                <NavbarIconButton
+                <NavbarButton
                   onPress={() => this.add(navigator, tabId)}
                   icon={Graphics.titlebar.add}
                   label={Lang.Add}
@@ -158,23 +152,27 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
       break
 
       case 'Search':
-        rightTitleBar = <NavbarTextButton
-          onPress={null}
-          label={Lang.Search}
-        />
+        rightTitleBar = (
+          <NavbarButton
+            onPress={null}
+            label={Lang.Search}
+          />
+        )
       break
 
       case 'EventOrder':
-        rightTitleBar = <NavbarIconButton
-          onPress={() => dispatch(navbarActions.addEventSignUp())}
-          icon={Graphics.titlebar.add}
-          label={Lang.Add}
-          showLabel={false}
-        />
+        rightTitleBar = (
+          <NavbarButton
+            onPress={() => dispatch(navbarActions.addEventSignUp())}
+            icon={Graphics.titlebar.add}
+            label={Lang.Add}
+            showLabel={false}
+          />
+        )
       break
 
       case 'AgendaList':
-        rightTitleBar = <NavbarIconButton
+        rightTitleBar = <NavbarButton
           onPress={() => {
             navigator.push({
               id: 'EditAgenda',
@@ -191,31 +189,39 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
       break
 
       case 'EditAgenda':
-        rightTitleBar = <NavbarTextButton
-          onPress={() => this.save(ACTION_TARGETS.AGENDA)}
-          label={Lang.Save}
-        />
+        rightTitleBar = (
+          <NavbarButton
+            onPress={() => this.save(CONSTANTS.ACTION_TARGETS.AGENDA)}
+            label={Lang.Save}
+          />
+        )
       break
 
       case 'EditTrail':
-        rightTitleBar = <NavbarTextButton
-          onPress={() => this.save(ACTION_TARGETS.TRAIL)}
-          label={Lang.Save}
-        />
+        rightTitleBar = (
+          <NavbarButton
+            onPress={() => this.save(CONSTANTS.ACTION_TARGETS.TRAIL)}
+            label={Lang.Save}
+          />
+        )
       break
 
       case 'EditEvent':
-        rightTitleBar = <NavbarTextButton
-          onPress={() => this.save(ACTION_TARGETS.EVENT)}
-          label={Lang.Save}
-        />
+        rightTitleBar = (
+          <NavbarButton
+            onPress={() => this.save(CONSTANTS.ACTION_TARGETS.EVENT)}
+            label={Lang.Save}
+          />
+        )
       break
 
       case 'EditUserAvatar':
-        rightTitleBar = <NavbarTextButton
-          onPress={() => this.save(ACCOUNT_ACTIONS.SAVE_AVATAR)}
-          label={Lang.Save}
-        />
+        rightTitleBar = (
+          <NavbarButton
+            onPress={() => this.save(CONSTANTS.ACCOUNT_ACTIONS.SAVE_AVATAR)}
+            label={Lang.Save}
+          />
+        )
       break
     }
 
@@ -223,7 +229,7 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
   },
 
   Title: function(route, navigator, index, navState) {
-    var title = (index === 0) ? Lang[((tabId === HOME_TABS.AREAS) ? HOME_TABS.TRAILS : tabId)] : route.title
+    var title = (index === 0) ? Lang[((tabId === CONSTANTS.HOME_TABS.AREAS) ? CONSTANTS.HOME_TABS.TRAILS : tabId)] : route.title
 
     return (
       <TextView style={{marginVertical: 5, fontWeight: '400'}} fontSize='XXL' textColor={Graphics.textColors.overlay} text={title} />
@@ -234,19 +240,19 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
     let id = '', title = ''
 
     switch (type) {
-      case HOME_TABS.AREAS:
+      case CONSTANTS.HOME_TABS.AREAS:
         id = 'SearchTrails'
-        title = Lang[HOME_TABS.TRAILS]
+        title = Lang[CONSTANTS.HOME_TABS.TRAILS]
       break
 
-      case HOME_TABS.EVENTS:
+      case CONSTANTS.HOME_TABS.EVENTS:
         id = 'SearchEvents'
-        title = Lang[HOME_TABS.EVENTS]
+        title = Lang[CONSTANTS.HOME_TABS.EVENTS]
       break
 
-      case HOME_TABS.POSTS:
+      case CONSTANTS.HOME_TABS.POSTS:
         id = 'SearchPosts'
-        title = Lang[HOME_TABS.POSTS]
+        title = Lang[CONSTANTS.HOME_TABS.POSTS]
       break
     }
 
@@ -281,13 +287,13 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
         title = ''
 
       switch (type) {
-        case HOME_TABS.AREAS:
-        case HOME_TABS.TRAILS:
+        case CONSTANTS.HOME_TABS.AREAS:
+        case CONSTANTS.HOME_TABS.TRAILS:
           id = 'RecordTrail',
           title = Lang.AddTrail
         break
 
-        case HOME_TABS.EVENTS:
+        case CONSTANTS.HOME_TABS.EVENTS:
           id = 'EditEvent',
           title = Lang.AddEvent
         break
@@ -304,22 +310,20 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
 
   save: function(type) {
     if (login.user) {
-      let navigator = arguments[1] || null 
-
       switch (type) {
-        case ACTION_TARGETS.TRAIL:
+        case CONSTANTS.ACTION_TARGETS.TRAIL:
           dispatch(newTrailActions.saveTrail())
         break
 
-        case ACTION_TARGETS.EVENT:
+        case CONSTANTS.ACTION_TARGETS.EVENT:
           dispatch(newEventActions.saveEvent())
         break
 
-        case ACTION_TARGETS.AGENDA:
+        case CONSTANTS.ACTION_TARGETS.AGENDA:
           dispatch(navbarActions.saveAgenda())
         break
 
-        case ACCOUNT_ACTIONS.SAVE_AVATAR:
+        case CONSTANTS.ACCOUNT_ACTIONS.SAVE_AVATAR:
           dispatch(loginActions.updateUserAvatar(login.user._id, login.tmpAvatarUri))
         break
       }
@@ -334,6 +338,12 @@ class App extends Component {
     super(props)
   }
 
+  componentDidMount() {
+    this.props.dispatch(loginActions.isLoggedIn())
+    //this.fetchSettings()
+    //this.fetchUser(token)
+  }
+
   fetchSettings() {
     fetch(AppSettings.apiUri + 'settings/latest')
     .then((res) => res.json())
@@ -343,12 +353,6 @@ class App extends Component {
     .catch((error) => {
       console.warn(error)
     })
-  }
-
-  componentDidMount() {
-    this.props.dispatch(loginActions.isLoggedIn())
-    //this.fetchSettings()
-    //this.fetchUser(token)
   }
 
   render() {
@@ -701,14 +705,6 @@ class App extends Component {
               case 'EditUserMobile':
                 return (
                   <EditUserMobile
-                    navigator={navigator}
-                    route={route} {...route.passProps}
-                  />
-                )
-
-              case 'EditUserPersonalId':
-                return (
-                  <EditUserPersonalId
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />

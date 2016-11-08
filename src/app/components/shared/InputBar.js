@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -13,19 +7,20 @@ import React, {
 
 import {
   StyleSheet,
-  Text,
   TextInput,
-  TouchableHighlight,
   TouchableOpacity,
   View
 } from 'react-native'
 
 import {connect} from 'react-redux'
 
-import Rating from './Rating'
 import Avatar from './Avatar'
 import Icon from './Icon'
-import TextView from './TextView'
+import Rating from './Rating'
+
+import {
+  Graphics
+} from '../../settings'
 
 class InputBar extends Component {
   constructor(props) {
@@ -40,6 +35,15 @@ class InputBar extends Component {
       rating: this.props.rating || 0,
       showRater: this.props.showRater || false
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      text: nextProps.text,
+      index: nextProps.index
+    })
+
+    this.refs.textInput.focus()
   }
 
   create() {
@@ -84,18 +88,9 @@ class InputBar extends Component {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      text: nextProps.text,
-      index: nextProps.index
-    })
-
-    this.refs.textInput.focus()
-  }
-
   resize(evt) {
-    var height = evt.nativeEvent.contentSize.height,
-      height = (height > Graphics.textInput.maxHeight) ? Graphics.textInput.maxHeight : Math.max(Graphics.textInput.minHeight, height)
+    let height = evt.nativeEvent.contentSize.height
+    height = (height > Graphics.textInput.maxHeight) ? Graphics.textInput.maxHeight : Math.max(Graphics.textInput.minHeight, height)
 
     this.setState({
       height
@@ -231,10 +226,14 @@ const styles = StyleSheet.create({
 })
 
 InputBar.propTypes = {
+  user: PropTypes.object,
   type: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   text: PropTypes.string,
-  index: PropTypes.number
+  placeholder: PropTypes.string,
+  index: PropTypes.number,
+  rating: PropTypes.number,
+  showRater: PropTypes.bool
 }
 
 function mapStateToProps(state, ownProps) {

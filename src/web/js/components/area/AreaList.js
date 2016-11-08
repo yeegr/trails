@@ -99,7 +99,7 @@ export class AreaCard extends Component {
                         }
                         </tier>
                         <end>
-                            <Toolbar type="area" data={area} />
+                            <Toolbar type={'area'} data={area} />
                         </end>
                     </row>
                 </foot>

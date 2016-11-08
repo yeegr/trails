@@ -1,21 +1,12 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
-  View,
-  TouchableOpacity,
-  Text,
-  StyleSheet
+  StyleSheet,
+  View
 } from 'react-native'
 
 import TextView from './TextView'
@@ -26,7 +17,7 @@ const Header = (props) => {
 
   return (
     <View style={styles.wrapper}>
-      <TextView class='h1' text={props.text} />
+      <TextView class={'h1'} text={props.text} />
       <View style={styles.misc}>
         {props.misc}
       </View>

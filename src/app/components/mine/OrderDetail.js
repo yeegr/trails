@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -13,7 +7,6 @@ import React, {
 
 import {
   ScrollView,
-  StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native'
@@ -22,11 +15,16 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../redux/actions/eventsActions'
 
-import TextView from '../shared/TextView'
 import InfoItem from '../shared/InfoItem'
-import SimpleContact from '../shared/SimpleContact'
-import {formatEventGroupLabel, getTimeFromId} from '../../../util/common'
+import TextView from '../shared/TextView'
+
 import styles from '../../styles/main'
+
+import {
+  UTIL,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class OrderDetail extends Component {
   constructor(props) {
@@ -47,14 +45,14 @@ class OrderDetail extends Component {
   render() {
     const event = this.props.event,
     order = this.props.order,
-    dates = formatEventGroupLabel(event, order.group)
+    dates = UTIL.formatEventGroupLabel(event, order.group)
 
     return (
       <View style={styles.global.wrapper}>
         <ScrollView style={{flex: 1, paddingTop: 64}}>
           <View style={styles.detail.article}>
             <View style={styles.detail.section}>
-              <TextView class='h2' text={Lang.EventInfo} />
+              <TextView class={'h2'} text={Lang.EventInfo} />
               <View style={styles.detail.group}>
                 <InfoItem label={Lang.EventTitle} value={
                   <TouchableOpacity onPress={this.navToEvent}>
@@ -68,14 +66,14 @@ class OrderDetail extends Component {
               </View>
             </View>
             <View style={styles.detail.section}>
-              <TextView class='h2' text={Lang.SignUpInfo} />
+              <TextView class={'h2'} text={Lang.SignUpInfo} />
               <View style={styles.detail.group}>
                 {
                   order.signUps.map((signUp, index) => {
                     return (
                       <InfoItem
                         key={index}
-                        align='right'
+                        align={'right'}
                         noColon={true}
                         label={signUp.name}
                         value={signUp.payment.toString() + Lang.Yuan}
@@ -86,10 +84,10 @@ class OrderDetail extends Component {
               </View>
             </View>
             <View style={styles.detail.section}>
-              <TextView class='h2' text={Lang.OrderInfo} />
+              <TextView class={'h2'} text={Lang.OrderInfo} />
               <View style={styles.detail.group}>
                 <InfoItem label={Lang.OrderId} value={order._id} />
-                <InfoItem label={Lang.PayTime} value={getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
+                <InfoItem label={Lang.PayTime} value={UTIL.getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
                 <InfoItem label={Lang.Total} value={order.total + Lang.Yuan} />
               </View>
             </View>
@@ -98,6 +96,12 @@ class OrderDetail extends Component {
       </View>
     )
   }
+}
+
+OrderDetail.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  event: PropTypes.object.isRequired,
+  order: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

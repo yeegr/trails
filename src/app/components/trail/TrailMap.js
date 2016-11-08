@@ -1,20 +1,20 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
-import {View} from 'react-native'
 import MapView from 'react-native-maps'
 
-import {formatTrailPoints, getMapCenter} from '../../../util/common'
-import {Graphics} from '../../settings'
+import {
+  UTIL,
+  Graphics
+} from '../../settings'
 
 const TrailMap = (props) => {
-  var points = props.points,
-    path = formatTrailPoints(points),
-    region = getMapCenter(points),
+  let points = props.points,
+    path = UTIL.formatTrailPoints(points),
+    region = UTIL.getMapCenter(points),
     startMarker = {
       coord: {
         latitude: points[0][1],

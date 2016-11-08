@@ -1,13 +1,6 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -18,7 +11,12 @@ import {
 
 import Icon from '../shared/Icon'
 import TextView from '../shared/TextView'
-import {formatTime} from '../../../util/common'
+
+import {
+  UTIL,
+  Lang,
+  Graphics
+} from '../../settings'
 
 const TrailInfo = (props) => {
   return (
@@ -28,7 +26,7 @@ const TrailInfo = (props) => {
       </View>
       <View style={styles.content}>
         <TextView fontSize="L" text={(props.title.length < 1) ? Lang.Unnamed : props.title} />
-        <TextView class="h5" text={formatTime(props.date)} />
+        <TextView class={'h5'} text={UTIL.formatTime(props.date)} />
       </View>
     </View>
   )

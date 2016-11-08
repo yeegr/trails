@@ -1,22 +1,13 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
-  AsyncStorage,
   ScrollView,
   Switch,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native'
 
@@ -24,10 +15,16 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as newTrailActions from '../../redux/actions/newTrailActions'
 
-import {ACTION_TARGETS} from '../../../util/constants'
-import {showTrailDifficulty} from '../../../util/common'
 import EditLink from '../shared/EditLink'
+import TextView from '../shared/TextView'
+
 import styles from '../../styles/main'
+
+import {
+  UTIL,
+  AppSettings,
+  Lang
+} from '../../settings'
 
 const EditTrail = (props) => {
   const trail = props.newTrail,
@@ -77,25 +74,24 @@ const EditTrail = (props) => {
       id,
       title,
       passProps: {
-        city: AppSettings.defaultcity,
-        preview: (type === 'preview')
+        city: AppSettings.defaultCity,
+        isPreview: (type === 'preview')
       }
     })
   },
 
-  resetNavigation = () => {
-    props.navigator.resetTo({
-      id: 'Home',
-      title: ''
-    })
-  },
-
   status = (trail.isPublic) ? (
-      <View style={[styles.editor.link, {paddingVertical: 15}]}>
+    <View style={[styles.editor.link, {paddingVertical: 15}]}>
       <View style={styles.editor.label}>
-        <Text>{Lang.status}</Text>
+        <TextView
+          text={Lang.status}
+        />
       </View>
       <View style={styles.editor.value}>
+        <TextView
+          style={{textAlign: 'right', width: 120}}
+          text={Lang[trail.status]}
+        />
         <Text style={[styles.editor.valueText, {marginRight: 10}]}>
           {Lang[trail.status]}
         </Text>
@@ -109,7 +105,9 @@ const EditTrail = (props) => {
         <View style={styles.editor.group}>
           <View style={styles.editor.link}>
             <View style={styles.editor.label}>
-              <Text>{Lang.PrivacySetting}</Text>
+              <TextView
+                text={Lang.PrivacySetting}
+              />
             </View>
             <View style={styles.editor.value}>
               <Text style={[styles.editor.valueText, {marginRight: 10}]}>
@@ -126,7 +124,7 @@ const EditTrail = (props) => {
         <View style={styles.editor.group}>
           <EditLink onPress={() => nextPage('title')} value={(trail.title.length >= AppSettings.minTrailTitleLength) ? trail.title : Lang.Unnamed} required={true} validated={(trail.title.length >= AppSettings.minTrailTitleLength)} label={Lang.TrailTitle} />
           <EditLink onPress={() => nextPage('type')} value={Lang.tagArray[trail.type]} required={true} validated={(trail.type > -1)} label={Lang.TrailType} />
-          <EditLink onPress={() => nextPage('difficulty')} value={showTrailDifficulty(trail.difficultyLevel)} required={true} validated={(trail.difficultyLevel > -1)} label={Lang.DifficultyLevel} />
+          <EditLink onPress={() => nextPage('difficulty')} value={UTIL.showTrailDifficulty(trail.difficultyLevel)} required={true} validated={(trail.difficultyLevel > -1)} label={Lang.DifficultyLevel} />
           <EditLink onPress={() => nextPage('area')} value={trail.areasText.join(',')} required={true} validated={(trail.areas.length > 0)} label={Lang.SelectAreas} />
           <EditLink onPress={() => nextPage('desc')} value={trail.description} label={Lang.Description} />
           <EditLink onPress={() => nextPage('photos')} value={trail.photos.length} label={Lang.Photos} />
@@ -137,6 +135,10 @@ const EditTrail = (props) => {
       </ScrollView>
     </View>
   )
+}
+
+EditTrail.propTypes = {
+  newTrail: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

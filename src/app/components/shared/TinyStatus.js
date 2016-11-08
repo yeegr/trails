@@ -1,27 +1,19 @@
 'use strict'
 
-import {
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View
 } from 'react-native'
 
-import Svg, {
-  Path
-} from 'react-native-svg'
+import Stat from './Stat'
 
-import Icon from './Icon'
+import {
+  Graphics
+} from '../../settings'
 
 const TinyStatus = (props) => {
   const data = props.data,
@@ -58,49 +50,16 @@ const TinyStatus = (props) => {
     </View>
   )
 },
-Stat = (props) => {
-  const icon = Graphics.tinyStatus.icon
-
-  return (
-    <View style={styles.stat}>
-      <Icon
-        backgroundColor={Graphics.colors.transparent}
-        fillColor={icon.fillColor}
-        scale={icon.scale}
-        sideLength={icon.sideLength}
-        stack="horizontal"
-        valueColor={icon.textColor}
-        viewBox={icon.viewBox}
-        path={props.path}
-        value={props.value.toString()}
-      />
-    </View>
-  )
-},
 styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     height: 30,
     justifyContent: 'flex-end'
-  },
-  stat: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: Graphics.toolbar.icon.sideLength,
-    marginLeft: 10
-  },
-  value: {
-    marginLeft: 2
-  },
+  }
 })
 
 TinyStatus.propTypes = {
   data: PropTypes.object.isRequired
-}
-
-Stat.propTypes = {
-  path: PropTypes.string.isRequired,
-  value: PropTypes.number
 }
 
 export default TinyStatus

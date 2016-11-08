@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -23,6 +17,10 @@ import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
 import styles from '../../styles/main'
+
+import {
+  Lang
+} from '../../settings'
 
 class EditAttendeeLimits extends Component {
   constructor(props) {
@@ -89,6 +87,8 @@ class EditAttendeeLimits extends Component {
 }
 
 EditAttendeeLimits.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired,
   minValue: PropTypes.number.isRequired,
   maxValue: PropTypes.number.isRequired
 }

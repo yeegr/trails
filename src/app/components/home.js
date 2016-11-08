@@ -6,26 +6,27 @@ import React, {
 } from 'react'
 
 import {
-  ScrollView,
   TabBarIOS,
-  View,
-  StyleSheet
+  View
 } from 'react-native'
 
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import * as homeActions from '../redux/actions/homeActions'
 
-import {changeTab} from '../redux/actions/homeActions'
 import {showLogin} from '../redux/actions/loginActions'
-import {HOME_TABS} from '../../util/constants'
+import {changeTab} from '../redux/actions/homeActions'
 
 import AreaList from './area/AreaList'
 import EventList from './event/EventList'
 import PostList from './post/PostList'
 import UserInfo from './mine/UserInfo'
-import {AppSettings, Lang, Graphics} from '../settings'
 import styles from '../styles/main'
+
+import {
+  CONSTANTS,
+  AppSettings,
+  Lang,
+  Graphics
+} from '../settings'
 
 class Home extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class Home extends Component {
   }
 
   onTabPressed(tabId) {
-    if (tabId === HOME_TABS.MINE && !this.props.user) {
+    if (tabId === CONSTANTS.HOME_TABS.MINE && !this.props.user) {
       this.props.showLogin()
       return false
     }
@@ -52,12 +53,12 @@ class Home extends Component {
         <TabBarIOS.Item
           title={Lang.Trails}
           icon={{uri: Graphics.tabbar.trail, scale: 3}}
-          selected={selectedTab === HOME_TABS.AREAS}
-          onPress={() => this.onTabPressed(HOME_TABS.AREAS)}
+          selected={selectedTab === CONSTANTS.HOME_TABS.AREAS}
+          onPress={() => this.onTabPressed(CONSTANTS.HOME_TABS.AREAS)}
         >
           <View style={styles.global.home}>
             <AreaList
-              key={"area-list"}
+              key={'area-list'}
               navigator={navigator}
               query=""
             />
@@ -66,12 +67,12 @@ class Home extends Component {
         <TabBarIOS.Item
           title={Lang.Events}
           icon={{uri: Graphics.tabbar.event, scale: 3}}
-          selected={selectedTab === HOME_TABS.EVENTS}
-          onPress={() => this.onTabPressed(HOME_TABS.EVENTS)}
+          selected={selectedTab === CONSTANTS.HOME_TABS.EVENTS}
+          onPress={() => this.onTabPressed(CONSTANTS.HOME_TABS.EVENTS)}
         >
           <View style={styles.global.home}>
             <EventList
-              key={"event-list"}
+              key={'event-list'}
               navigator={navigator} 
               query={AppSettings.home.events + this.props.selectedCity}
             />
@@ -80,12 +81,12 @@ class Home extends Component {
         <TabBarIOS.Item
           title={Lang.Posts}
           icon={{uri: Graphics.tabbar.post, scale: 3}}
-          selected={selectedTab === HOME_TABS.POSTS}
-          onPress={() => this.onTabPressed(HOME_TABS.POSTS)}
+          selected={selectedTab === CONSTANTS.HOME_TABS.POSTS}
+          onPress={() => this.onTabPressed(CONSTANTS.HOME_TABS.POSTS)}
         >
           <View style={styles.global.home}>
             <PostList
-              key={"post-list"}
+              key={'post-list'}
               navigator={navigator}
               query=""
             />
@@ -94,17 +95,23 @@ class Home extends Component {
         <TabBarIOS.Item
           title={Lang.Mine}
           icon={{uri: Graphics.tabbar.mine, scale: 3}}
-          selected={selectedTab === HOME_TABS.MINE}
-          onPress={() => this.onTabPressed(HOME_TABS.MINE)}
+          selected={selectedTab === CONSTANTS.HOME_TABS.MINE}
+          onPress={() => this.onTabPressed(CONSTANTS.HOME_TABS.MINE)}
         >
           <UserInfo
-            key={"user-info"}
+            key={'user-info'}
             navigator={navigator}
           />
         </TabBarIOS.Item>
       </TabBarIOS>
     )
   }
+}
+
+Home.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  showLogin: PropTypes.func.isRequired,
+  changeTab: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

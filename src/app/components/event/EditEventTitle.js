@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -24,6 +18,11 @@ import * as newEventActions from '../../redux/actions/newEventActions'
 import TextView from '../shared/TextView'
 
 import styles from '../../styles/main'
+
+import {
+  AppSettings,
+  Lang,
+} from '../../settings'
 
 class EditEventTitle extends Component {
   constructor(props) {
@@ -59,7 +58,7 @@ class EditEventTitle extends Component {
           </View>
           <View style={{paddingHorizontal: 15}}>
             <TextView
-              class="h5"
+              class={'h5'}
               text={Lang.MinEventTitleLength}
             />
           </View>
@@ -70,7 +69,8 @@ class EditEventTitle extends Component {
 }
 
 EditEventTitle.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  newEventActions: PropTypes.string.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

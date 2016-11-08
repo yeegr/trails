@@ -1,10 +1,16 @@
 'use strict'
 
-import React, {PropTypes} from 'react'
-import {Graphics} from '../../settings'
+import React, {
+  PropTypes
+} from 'react'
+
 import TextView from './TextView'
 
-export const TagList = (props) => {
+import {
+  Graphics
+} from '../../settings'
+
+const TagList = (props) => {
   if (props.tags.length > 0) {
     let txt = '# ',
       textColor = props.textColor || Graphics.textColors.overlay

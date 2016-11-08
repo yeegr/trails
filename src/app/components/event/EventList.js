@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -22,7 +16,10 @@ import * as eventsActions from '../../redux/actions/eventsActions'
 
 import Loading from '../shared/Loading'
 import EventCard from './EventCard'
-import styles from '../../styles/main'
+
+import {
+  AppSettings
+} from '../../settings'
 
 class EventList extends Component {
   constructor(props) {
@@ -35,20 +32,20 @@ class EventList extends Component {
     })
   }
 
+  componentWillMount() {
+    this.fetchData()
+  }
+
+  componentWillUnmount() {
+    this.props.eventsActions.listEvents(AppSettings.home.events + this.props.selectedCity)
+  }
+
   fetchData() {
     this.props.eventsActions.listEvents(this.props.query)
   }
 
   onRefresh() {
     this.fetchData()
-  }
-
-  componentDidMount() {
-    this.fetchData()
-  }
-
-  componentWillUnmount() {
-    this.props.eventsActions.listEvents(AppSettings.home.events + this.props.selectedCity)
   }
 
   renderRow(rowData, sectionId, rowId) {
@@ -58,7 +55,7 @@ class EventList extends Component {
   }
 
   render() {
-    const {events, navigator} = this.props
+    const {events} = this.props
 
     if (!events.list) {
       return <Loading />
@@ -80,6 +77,13 @@ class EventList extends Component {
       />
     )
   }
+}
+
+EventList.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  eventsActions: PropTypes.object.isRequired,
+  query: PropTypes.string,
+  events: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {

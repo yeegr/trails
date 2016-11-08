@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -15,9 +9,7 @@ import {
   Dimensions,
   Image,
   Platform,
-  ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -30,6 +22,10 @@ import * as loginActions from '../../redux/actions/loginActions'
 
 import ImagePath from '../shared/ImagePath'
 import Loading from '../shared/Loading'
+
+import {
+  Lang
+} from '../../settings'
 
 class EditUserAvatar extends Component {
   constructor(props) {
@@ -65,7 +61,7 @@ class EditUserAvatar extends Component {
         console.log('ImagePicker Error: ', response.error);
       }
       else {
-        const source = null
+        let source = null
 
         if (Platform.OS === 'ios') {
           source = {uri: response.uri.replace('file://', ''), isStatic: true};
@@ -100,6 +96,12 @@ class EditUserAvatar extends Component {
       </View>
     )
   }
+}
+
+EditUserAvatar.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  login: PropTypes.object.isRequired,
+  loginActions: PropTypes.object.isRequired
 }
 
 const {height, width} = Dimensions.get('window'),

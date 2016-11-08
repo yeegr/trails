@@ -34,6 +34,10 @@ export default class UserDetail extends Component {
     }
   }
 
+  componentDidMount() {
+    this.fetchData(this.props.id)
+  }
+
   fetchData(id) {
     fetch(AppSettings.apiUri + 'users/' + id)
     .then((response) => response.json())
@@ -48,17 +52,12 @@ export default class UserDetail extends Component {
     })
   }
 
-  componentDidMount() {
-    this.fetchData(this.props.id)
-  }
-
   render() {
     if (this.state.loading) {
       return <Loading />
     }
 
     const user = this.state.data,
-      navigator = this.props.navigator,
       userBackgroundUrl = ImagePath({type: 'background', path: AppSettings.userBackground})
 
     return (
@@ -78,4 +77,9 @@ export default class UserDetail extends Component {
       </ParallaxView>
     )
   }
+}
+
+UserDetail.propTypes = {
+  id: PropTypes.string.isRequired,
+  navigator: PropTypes.object.isRequired
 }

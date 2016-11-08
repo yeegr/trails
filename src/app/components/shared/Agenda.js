@@ -1,7 +1,6 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -15,12 +14,13 @@ import Svg, {
   Path
 } from 'react-native-svg'
 
-import Moment from 'moment'
-
 import Icon from './Icon'
 import TextView from './TextView'
-import {formatMinutes,formatDuration} from '../../../util/common'
-import {Graphics} from '../../settings'
+
+import {
+  UTIL,
+  Graphics
+} from '../../settings'
 
 const Agenda = (props) => {
   const agenda = props.agenda,
@@ -33,17 +33,35 @@ const Agenda = (props) => {
       <View style={styles.content}>
         <View style={styles.split}>
           <View style={{flex: 1}}>
-            <TextView class='h5' text={formatMinutes(agenda.startTime)} />
-            <TextView fontSize='L' text={agenda.startPoi.name} />
+            <TextView
+              class={'h5'}
+              text={UTIL.formatMinutes(agenda.startTime)}
+            />
+            <TextView
+              fontSize={'L'}
+              text={agenda.startPoi.name}
+            />
           </View>
           <View style={{flex: 0, marginVertical: 16, marginHorizontal: 10}}>
             <Svg width={16} height={16}>
-              <Path scale={0.33333} fill={Graphics.colors.primary} d={Graphics.glyphs.next} />
+              <Path
+                scale={0.33333}
+                fill={Graphics.colors.primary}
+                d={Graphics.glyphs.next}
+              />
             </Svg>
           </View>
           <View style={{flex: 1}}>
-            <TextView class='h5' style={{textAlign: 'right'}} text={formatMinutes(agenda.endTime)} />
-            <TextView fontSize='L' style={{textAlign: 'right'}} text={agenda.endPoi.name} />
+            <TextView
+              class={'h5'}
+              style={{textAlign: 'right'}}
+              text={UTIL.formatMinutes(agenda.endTime)}
+            />
+            <TextView
+              fontSize={'L'}
+              style={{textAlign: 'right'}}
+              text={agenda.endPoi.name}
+            />
           </View>
         </View>
       </View>
@@ -54,14 +72,21 @@ const Agenda = (props) => {
         <View>
           <View style={styles.split}>
             <View style={{flex: 1}}>
-              <TextView class='h5' text={formatMinutes(agenda.startTime)} />
+              <TextView
+                class={'h5'}
+                text={UTIL.formatMinutes(agenda.startTime)}
+              />
             </View>
             <View style={{flex: 1}}>
-              <TextView class='h5' style={{textAlign: 'right'}} text={formatDuration(agenda.duration * 60)} />
+              <TextView 
+                class={'h5'}
+                style={{textAlign: 'right'}}
+                text={UTIL.formatDuration(agenda.duration * 60)}
+              />
             </View>
           </View>
         </View>
-        <TextView fontSize='L' text={agenda.startPoi.name} />
+        <TextView fontSize={'L'} text={agenda.startPoi.name} />
       </View>
     )
   }
@@ -102,7 +127,8 @@ styles = StyleSheet.create({
 })
 
 Agenda.propTypes = {
-  agenda: PropTypes.object.isRequired
+  agenda: PropTypes.object.isRequired,
+  onPress: PropTypes.func.isRequired
 }
 
 export default Agenda

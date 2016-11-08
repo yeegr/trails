@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -20,7 +14,9 @@ import {
   View
 } from 'react-native'
 
-const Item = Picker.Item
+import {
+  Graphics
+} from '../../settings'
 
 class DurationPicker extends Component {
   constructor(props) {
@@ -34,6 +30,13 @@ class DurationPicker extends Component {
     }
   }
 
+  componentWillMount() {
+    this.setState({
+      selectedHour: Math.floor(this.state.duration / 60),
+      selectedMinute: this.state.duration % 60
+    })
+  }
+
   onCancel() {
     this.props.onCancel()
   }
@@ -41,13 +44,6 @@ class DurationPicker extends Component {
   onConfirm() {
     this.props.onConfirm(this.state.selectedHour * 60 + this.state.selectedMinute)
     this.onCancel()
-  }
-
-  componentDidMount() {
-    this.setState({
-      selectedHour: Math.floor(this.state.duration / 60),
-      selectedMinute: this.state.duration % 60
-    })
   }
 
   render() {
@@ -69,7 +65,7 @@ class DurationPicker extends Component {
     }
 
     return (
-      <Modal animationType={"fade"} transparent={true}>
+      <Modal animationType={'fade'} transparent={true}>
         <View style={styles.wrapper}>
           <View style={styles.actionSheet}>
             <View style={styles.toolbar}>
@@ -121,13 +117,15 @@ class DurationPicker extends Component {
 }
 
 DurationPicker.propTypes = {
+  title: PropTypes.string,
   duration: PropTypes.number.isRequired,
   showPicker: PropTypes.bool.isRequired,
   cancelText: PropTypes.string.isRequired, 
   confirmText: PropTypes.string.isRequired,
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
-  customStyles: PropTypes.object
+  customStyles: PropTypes.object,
+  interval: PropTypes.number
 }
 
 const styles = StyleSheet.create({

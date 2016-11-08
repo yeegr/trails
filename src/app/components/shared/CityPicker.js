@@ -1,37 +1,36 @@
 'use strict'
 
-import {
-  Graphics,
-  Lang
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
   Modal,
-  ListView,
   TouchableOpacity,
   View
 } from 'react-native'
 
-import TextView from './TextView'
 import Icon from './Icon'
 import JumpListView from './JumpListView'
+import TextView from './TextView'
+
 import styles from '../../styles/main'
+
+import {
+  Graphics,
+  Lang
+} from '../../settings'
 
 const CityPicker = (props) => {
   const data = Lang.citiesByPinyin
 
   return (
-    <Modal animationType={"slide"} transparent={false} visible={props.visible}>
+    <Modal animationType={'slide'} transparent={false} visible={props.visible}>
       <View style={styles.modal.wrapper}>
         <View style={[styles.modal.main, {paddingRight: 0}]}>
           <TextView
             style={{marginVertical: 20, textAlign: 'center'}}
-            fontSize='XL'
+            fontSize={'XL'}
             text={props.title || Lang.SelectCity}
           />
           <JumpListView
@@ -77,6 +76,7 @@ const CityPicker = (props) => {
 }
 
 CityPicker.propTypes = {
+  title: PropTypes.string,
   visible: PropTypes.bool.isRequired,
   selectedIndex: PropTypes.string,
   onPress: PropTypes.func.isRequired,

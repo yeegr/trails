@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -23,7 +17,13 @@ import * as loginActions from '../../redux/actions/loginActions'
 
 import Icon from '../shared/Icon'
 import TextView from '../shared/TextView'
+
 import styles from '../../styles/main'
+
+import {
+  Lang,
+  Graphics
+} from '../../settings'
 
 class EditUserLevel extends Component {
   constructor(props) {
@@ -81,7 +81,8 @@ class EditUserLevel extends Component {
 }
 
 EditUserLevel.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  loginActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

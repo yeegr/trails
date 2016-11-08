@@ -1,13 +1,6 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -20,9 +13,14 @@ import {
 import TrailInfo from './TrailInfo'
 import TrailData from './TrailData'
 import TrailMap from './TrailMap'
-import Toolbar from '../shared/Toolbar'
 import UserLink from '../user/UserLink'
+
 import global from '../../styles/global'
+
+import {
+  Lang,
+  Graphics
+} from '../../settings'
 
 const TrailCard = (props) => {
   const {trail, navigator} = props,
@@ -75,8 +73,8 @@ styles = StyleSheet.create({
 })
 
 TrailCard.propTypes = {
-  trail: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired
+  navigator: PropTypes.object.isRequired,
+  trail: PropTypes.object.isRequired
 }
 
 export default TrailCard

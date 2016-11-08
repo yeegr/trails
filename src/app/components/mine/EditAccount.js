@@ -1,32 +1,28 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
-  AsyncStorage,
   ScrollView,
-  TouchableOpacity,
-  Text,
   View
 } from 'react-native'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as loginActions from '../../redux/actions/loginActions'
-import {changeTab} from '../../redux/actions/homeActions'
+import {
+  changeTab
+} from '../../redux/actions/homeActions'
 
 import EditLink from '../shared/EditLink'
 import CallToAction from '../shared/CallToAction'
 import styles from '../../styles/main'
+
+import {
+  Lang
+} from '../../settings'
 
 const EditAccount = (props) => {
   const nextPage = (type) => {
@@ -113,6 +109,12 @@ const EditAccount = (props) => {
   } else {
     return null
   }
+}
+
+EditAccount.propTypes = {
+  user: PropTypes.object.isRequired,
+  loginActions: PropTypes.object.isRequired,
+  changeTab: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

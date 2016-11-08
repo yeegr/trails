@@ -38,11 +38,6 @@ import TextView from '../components/shared/TextView'
 class Login extends Component {
   constructor(props) {
     super(props)
-    let vcodePattern = '\\d{' + AppSettings.verificationCodeLength + '}'
-
-    this.mobileRx = new RegExp(/^1\d{10}$/)
-    this.vcodeRx = new RegExp(vcodePattern, 'g')
-
     this.hideLogin = this.hideLogin.bind(this)
     this.resetState = this.resetState.bind(this)
     this.onMobileNumberChanged = this.onMobileNumberChanged.bind(this)
@@ -122,7 +117,7 @@ class Login extends Component {
           />
           <TextInput
             autoCorrect={false}
-            keyboardType={"numeric"}
+            keyboardType="numeric"
             maxLength={AppSettings.verificationCodeLength}
             style={styles.loginInput}
             placeholder={Lang.ValidationCode}
@@ -210,7 +205,7 @@ class Login extends Component {
     const loginBackgroundUrl = ImagePath({type: 'background', path: AppSettings.loginBackground})
 
     return (
-      <Modal animationType={"slide"} transparent={false} visible={this.props.showLogin}>
+      <Modal animationType={'slide'} transparent={false} visible={this.props.showLogin}>
         <Image source={{uri: loginBackgroundUrl}} style={styles.backgroundImage}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <View style={{flexDirection: 'column'}}>
@@ -250,7 +245,7 @@ class Login extends Component {
 
     this.props.loginActions.resetVerificationError()
 
-    if (AppSettings.mobileNumberPattern.test(tmp)) {
+    if (AppSettings.mobileRx.test(tmp)) {
       this.props.loginActions.enableValidation()
     } else {
       this.props.loginActions.disableValidation()
@@ -293,7 +288,7 @@ class Login extends Component {
 
     this.props.loginActions.resetVerificationError()
 
-    if (this.vcodeRx.test(code)) {
+    if (AppSettings.vcodeRx.test(code)) {
       this.props.loginActions.enableLogin()
     } else {
       this.props.loginActions.disableLogin()

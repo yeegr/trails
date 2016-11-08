@@ -1,8 +1,17 @@
 'use strict'
 
-import React, {PropTypes} from 'react'
-import {StyleSheet, Text} from 'react-native'
-import {Graphics} from '../../settings'
+import React, {
+  PropTypes
+} from 'react'
+
+import {
+  StyleSheet,
+  Text
+} from 'react-native'
+
+import {
+  Graphics
+} from '../../settings'
 
 const TextView = (props) => {
   const type = (props.class) || 'text',

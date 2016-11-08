@@ -1,13 +1,6 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -22,7 +15,14 @@ import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../redux/actions/newTrailActions'
 
 import Icon from '../shared/Icon'
+
 import styles from '../../styles/main'
+
+import {
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
 
 const EditTrailType = (props) => {
   return (

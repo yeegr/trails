@@ -23,12 +23,12 @@ import styles from '../../styles/main'
 
 const TypePicker = (props) => {
   return (
-    <Modal animationType={"slide"} transparent={false} visible={props.visible}>
+    <Modal animationType={'slide'} transparent={false} visible={props.visible}>
       <ScrollView style={styles.modal.wrapper}>
         <View style={styles.modal.main}>
           <TextView
             style={{marginVertical: 20, textAlign: 'center'}}
-            fontSize='XL'
+            fontSize={'XL'}
             text={props.title || Lang.SelectAgendaType}
           />
           <IconGrid list={[93,92,90,91,94]} selectedIndex={props.selectedIndex} onPress={(value) => props.onPress(value)} />

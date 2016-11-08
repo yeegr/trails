@@ -1,20 +1,12 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
   Image,
   ListView,
-  ScrollView,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -23,12 +15,16 @@ import {connect} from 'react-redux'
 
 import ImagePath from '../shared/ImagePath'
 import InfoItem from '../shared/InfoItem'
-import Loading from '../shared/Loading'
 import TextView from '../shared/TextView'
 
-import {ASSET_FOLDERS} from '../../../util/constants'
-import {formatEventGroupLabel, formatDateSpan, getTimeFromId} from '../../../util/common'
 import styles from '../../styles/main'
+
+import {
+  CONSTANTS,
+  UTIL,
+  Lang,
+  Graphics
+} from '../../settings'
 
 const OrderList = (props) => {
   const dataSource = new ListView.DataSource({
@@ -48,7 +44,7 @@ const OrderList = (props) => {
 
   renderRow = (order, sectionId, rowId) => {
     const {event} = order,
-    dates = formatDateSpan(order.startDate, order.daySpan),
+    dates = UTIL.formatDateSpan(order.startDate, order.daySpan),
     infoStyles = {
       wrapper: {
         paddingLeft: 0,
@@ -56,7 +52,7 @@ const OrderList = (props) => {
       }
     }, 
     names = [],
-    heroUri = ImagePath({type: 'thumb', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero})
+    heroUri = ImagePath({type: 'thumb', path: CONSTANTS.ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero})
 
     order.signUps.map((signUp) => {
       names.push(signUp.name)
@@ -73,7 +69,7 @@ const OrderList = (props) => {
             <View style={styles.list.title}>
               <TextView
                 style={{fontWeight: '400', marginBottom: 2}}
-                fontSize='L'
+                fontSize={'L'}
                 text={order.title} 
               />
               <TextView
@@ -84,7 +80,7 @@ const OrderList = (props) => {
             <View>
               <InfoItem styles={infoStyles} labelWidth={75} label={Lang.SignUps} value={names.join('，')} />
               <InfoItem styles={infoStyles} labelWidth={75} label={Lang.Total} value={order.total + Lang.Yuan} />
-              <InfoItem styles={infoStyles} labelWidth={75} label={Lang.PayTime} value={getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
+              <InfoItem styles={infoStyles} labelWidth={75} label={Lang.PayTime} value={UTIL.getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
             </View>
           </View>
         </View>
@@ -102,6 +98,11 @@ const OrderList = (props) => {
       renderRow={renderRow}
     />
   )
+}
+
+OrderList.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

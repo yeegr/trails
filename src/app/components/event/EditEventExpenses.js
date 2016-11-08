@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -15,7 +9,6 @@ import {
   SegmentedControlIOS,
   Switch,
   TextInput,
-  TouchableOpacity,
   Text,
   View
 } from 'react-native'
@@ -25,7 +18,12 @@ import {connect} from 'react-redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
 import ListEditor from '../shared/ListEditor'
+
 import styles from '../../styles/main'
+
+import {
+  Lang
+} from '../../settings'
 
 class EditEventExpenses extends Component {
   constructor(props) {
@@ -54,7 +52,7 @@ class EditEventExpenses extends Component {
   }
 
   render() {
-    var mainView = null
+    let mainView = null
 
     switch (this.state.selectedIndex) {
       case 0:
@@ -152,6 +150,8 @@ class EditEventExpenses extends Component {
 }
 
 EditEventExpenses.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired,
   perHead: PropTypes.number.isRequired,
   deposit: PropTypes.number,
   insurance: PropTypes.bool.isRequired,

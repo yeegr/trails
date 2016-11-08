@@ -15,7 +15,6 @@ import {
   Dimensions,
   ListView,
   Modal,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -27,11 +26,11 @@ import MapView from 'react-native-maps'
 import CallToAction from './CallToAction'
 import {setRegion, hex2rgb} from '../../../util/common'
 
-import {NavbarIconButton} from './NavbarButtons'
 import Icon from './Icon'
 import Loading from './Loading'
+import NavbarButton from './NavbarButton'
 
-export default class SearchPoi extends Component {
+class SearchPoi extends Component {
   constructor(props) {
     super(props)
     this.submit = this.submit.bind(this)
@@ -164,10 +163,10 @@ export default class SearchPoi extends Component {
     }
 
     return (
-      <Modal animationType={"slide"} transparent={false} visible={this.props.showPicker}>
+      <Modal animationType={'slide'} transparent={false} visible={this.props.showPicker}>
         <View style={styles.wrapper}>
           <View style={styles.titleBar}>
-            <NavbarIconButton
+            <NavbarButton
               onPress={this.onCancel}
               icon={Graphics.titlebar.prev}
               label={Lang.Cancel}
@@ -191,7 +190,7 @@ export default class SearchPoi extends Component {
                   backgroundColor={Graphics.colors.transparent}
                   fillColor={Graphics.colors.lightGray}
                   sideLength={24}
-                  type={"cancel"}
+                  type={'cancel'}
                 />
               </TouchableOpacity>
             </View>
@@ -220,6 +219,12 @@ export default class SearchPoi extends Component {
       </Modal>
     )
   }
+}
+
+SearchPoi.propTypes = {
+  showPicker: PropTypes.bool,
+  onConfirm: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired
 }
 
 const {height, width} = Dimensions.get('window'),
@@ -291,3 +296,5 @@ styles = StyleSheet.create({
     marginTop: 4
   },
 })
+
+export default SearchPoi

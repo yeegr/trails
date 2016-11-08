@@ -1,13 +1,6 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -16,15 +9,18 @@ import {
   StyleSheet
 } from 'react-native'
 
-import {showTrailDifficulty, formatDuration} from '../../../util/common'
-
 import Icon from '../shared/Icon'
 
-const TrailData = (props) => {
-  const trail = props.trail,
-  stack = 'vertical'
+import {
+  UTIL,
+  Lang,
+  Graphics
+} from '../../settings'
 
-  let difficultyLevel = showTrailDifficulty(props.difficultyLevel), 
+const TrailData = (props) => {
+  const stack = 'vertical'
+
+  let difficultyLevel = UTIL.showTrailDifficulty(props.difficultyLevel), 
     difficultyLevelIcon = (difficultyLevel) ? (
       <Icon
         backgroundColor={Graphics.colors.transparent}
@@ -50,7 +46,7 @@ const TrailData = (props) => {
         stack={stack}
         textColr={Graphics.icon.valueColor}
         label={Lang.TotalDuration}
-        value={formatDuration(props.totalDuration)}
+        value={UTIL.formatDuration(props.totalDuration)}
       />
       <Icon
         backgroundColor={Graphics.colors.transparent}

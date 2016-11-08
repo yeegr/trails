@@ -9,7 +9,10 @@ export default StyleSheet.create({
     flex: 1
   },
   toolbar: {
-    marginBottom: 5,
+    backgroundColor: Graphics.colors.white,
+    borderTopColor: Graphics.colors.lightGray,
+    borderTopWidth: 0.5,
+    paddingHorizontal: 20,
     paddingVertical: 15
   },
   section: {

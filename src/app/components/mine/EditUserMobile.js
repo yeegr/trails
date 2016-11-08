@@ -20,17 +20,17 @@ import * as loginActions from '../../redux/actions/loginActions'
 import TextButton from '../shared/TextButton'
 import TextView from '../shared/TextView'
 
-import {AppSettings, Lang, Graphics} from '../../settings'
 import styles from '../../styles/main'
+
+import {
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class EditUserMobile extends Component {
   constructor(props) {
     super(props)
-    let vcodePattern = '\\d{' + AppSettings.verificationCodeLength + '}'
-
-    this.mobileRx = new RegExp(/^1\d{10}$/)
-    this.vcodeRx = new RegExp(vcodePattern, 'g')
-
     this.onMobileNumberChanged = this.onMobileNumberChanged.bind(this)
     this.getValidation = this.getValidation.bind(this)
     this.onVerificationCodeChanged = this.onVerificationCodeChanged.bind(this)
@@ -56,7 +56,7 @@ class EditUserMobile extends Component {
 
   onMobileNumberChanged(val) {
     let mobile = val.trim(),
-      test = this.mobileRx.test(mobile)
+      test = AppSettings.mobileRx.test(mobile)
 
     this.setState({
       mobileNumber: mobile,
@@ -104,7 +104,7 @@ class EditUserMobile extends Component {
 
     this.setState({
       verificationCode: code,
-      disableVerificationButton: !this.vcodeRx.test(code)
+      disableVerificationButton: !AppSettings.vcodeRx.test(code)
     })
 
     this.props.loginActions.clearUpdateError()
@@ -179,9 +179,9 @@ class EditUserMobile extends Component {
 }
 
 EditUserMobile.propTypes = {
-  loginActions: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
-  login: PropTypes.object.isRequired
+  login: PropTypes.object.isRequired,
+  loginActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

@@ -14,9 +14,9 @@ import rootReducer from '../reducers/rootReducer'
 const loggerMiddleware = createLogger(),
   createStoreWithMiddleware = applyMiddleware(
     thunkMiddleware,
-    promiseMiddleware,
-    //loggerMiddleware
-  )(createStore);
+    promiseMiddleware/*,
+    loggerMiddleware*/
+  )(createStore)
 
 export default function configureStore(initialState) {
   return createStoreWithMiddleware(

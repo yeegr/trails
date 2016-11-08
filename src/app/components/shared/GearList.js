@@ -1,7 +1,6 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -35,7 +34,8 @@ styles = StyleSheet.create({
 })
 
 GearList.propTypes = {
-  list: PropTypes.array.isRequired
+  list: PropTypes.array.isRequired,
+  onPress: PropTypes.func.isRequired
 }
 
 export default GearList

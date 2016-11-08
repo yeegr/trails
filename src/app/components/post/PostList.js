@@ -51,7 +51,7 @@ class PostList extends Component {
   }
 
   render() {
-    const {posts, navigator} = this.props
+    const {posts} = this.props
 
     if (!posts.list) {
       return <Loading />
@@ -78,8 +78,8 @@ class PostList extends Component {
 PostList.propTypes = {
   navigator: PropTypes.object.isRequired,
   postsActions: PropTypes.object.isRequired,
-  posts: PropTypes.object,
-  query: PropTypes.string
+  query: PropTypes.string,
+  posts: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {

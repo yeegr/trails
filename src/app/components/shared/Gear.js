@@ -1,12 +1,10 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
-  Dimensions,
   Image,
   StyleSheet,
   View,
@@ -14,9 +12,9 @@ import {
 
 import ImagePath from './ImagePath'
 import TextView from './TextView'
-import {hex2rgb} from '../../../util/common'
+
 import {
-  AppSettings,
+  UTIL,
   Lang,
   Graphics
 } from '../../settings'
@@ -28,7 +26,11 @@ const Gear = (props) => {
   return (
     <Image style={styles.wrapper} source={{uri: url}}>
       <View style={[styles.caption, selected]}>
-        <TextView fontSize='XXS' textColor={Graphics.textColors.overlay} text={Lang.gearArray[props.number]} />
+        <TextView
+          fontSize={'XXS'}
+          textColor={Graphics.textColors.overlay}
+          text={Lang.gearArray[props.number]}
+        />
       </View>
     </Image>
   )
@@ -49,12 +51,13 @@ styles = StyleSheet.create({
     paddingVertical: 5,
   },
   selected: {
-    backgroundColor: hex2rgb(Graphics.colors.primary, .5)
+    backgroundColor: UTIL.hex2rgb(Graphics.colors.primary, .5)
   }
 })
 
 Gear.propTypes = {
-  number: PropTypes.number.isRequired
+  number: PropTypes.number.isRequired,
+  selected: PropTypes.bool
 }
 
 export default Gear

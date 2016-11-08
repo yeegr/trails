@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -14,7 +8,6 @@ import React, {
 import {
   StyleSheet,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native'
 
@@ -24,6 +17,12 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../redux/actions/newTrailActions'
 
+import {
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
+
 class EditTrailGallery extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +31,13 @@ class EditTrailGallery extends Component {
     this.state = {
       imageCount: this.props.photos.length,
       selected: this.props.photos,
-    };
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.state.selected.length > 0) {
+      this.props.newTrailActions.setTrailPhotos(this.state.selected)
+    }
   }
 
   getSelectedImages(images, current) {
@@ -42,30 +47,22 @@ class EditTrailGallery extends Component {
     })
   }
 
-  componentWillUnmount() {
-    if (this.state.selected.length > 0) {
-      this.props.newTrailActions.setTrailPhotos(this.state.selected)
-    }
-  }
-
   render() {
     return (
       <View style={styles.wrapper}>
         <View style={styles.gallery}>
           <CameraRollPicker
-            groupTypes='All'
+            groupTypes={'All'}
             batchSize={5}
             maximum={AppSettings.maxPhotosPerGallery}
             selected={this.state.selected}
-            assetType='Photos'
+            assetType={'Photos'}
             imagesPerRow={4}
             imageMargin={5}
             callback={this.getSelectedImages}
           />
         </View>
         <View style={styles.statusBar}>
-          <View style={styles.block}>
-          </View>
           <View style={styles.block}>
             <Text style={styles.indicator}>
               {Lang.PhotosSelectedPrefix}
@@ -124,6 +121,11 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   }
 })
+
+EditTrailGallery.propTypes = {
+  photos: PropTypes.array.isRequired,
+  newTrailActions: PropTypes.object.isRequired
+}
 
 function mapStateToProps(state, ownProps) {
   return {

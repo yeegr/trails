@@ -1,13 +1,6 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -22,8 +15,11 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../redux/actions/newTrailActions'
 
-import {showTrailDifficulty} from '../../../util/common'
 import styles from '../../styles/main'
+
+import {
+  UTIL
+} from '../../settings'
 
 const EditTrailDifficulty = (props) => {
   return (
@@ -39,7 +35,7 @@ const EditTrailDifficulty = (props) => {
               onValueChange={(value) => props.newTrailActions.setDifficultyLevel(value)}
               value={props.difficultyLevel}
             />
-            <Text style={{marginLeft: 10}}>{showTrailDifficulty(props.difficultyLevel)}</Text>
+            <Text style={{marginLeft: 10}}>{UTIL.showTrailDifficulty(props.difficultyLevel)}</Text>
           </View>
         </View>
       </ScrollView>
@@ -48,7 +44,8 @@ const EditTrailDifficulty = (props) => {
 }
 
 EditTrailDifficulty.propTypes = {
-  difficultyLevel: PropTypes.number.isRequired
+  difficultyLevel: PropTypes.number.isRequired,
+  newTrailActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

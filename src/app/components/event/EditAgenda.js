@@ -1,10 +1,5 @@
 'use strict'
 
-import {
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -27,10 +22,15 @@ import DateTimePicker from '../shared/DateTimePicker'
 import DurationPicker from '../shared/DurationPicker'
 import SearchPoi from '../shared/SearchPoi'
 import TrailPicker from './TrailPicker'
-import Icon from '../shared/Icon'
 import CallToAction from '../shared/CallToAction'
-import {formatMinutes, formatDuration} from '../../../util/common'
+
 import styles from '../../styles/main'
+
+import {
+  UTIL,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class EditAgenda extends Component {
   constructor(props) {
@@ -163,7 +163,7 @@ class EditAgenda extends Component {
           <EditLink
             label={Lang.EndTime}  
             onPress={() => this.setState({showEndTimePicker: true})}
-            value={(agenda.endTime) ? formatMinutes(agenda.endTime) : ''}
+            value={(agenda.endTime) ? UTIL.formatMinutes(agenda.endTime) : ''}
           />
           <EditLink
             label={Lang.EndLocation}
@@ -178,7 +178,7 @@ class EditAgenda extends Component {
           <EditLink
             label={Lang.ApproxDuration} 
             onPress={() => this.setState({showDurationPicker: true})}
-            value={formatDuration(agenda.duration * 60)}
+            value={UTIL.formatDuration(agenda.duration * 60)}
           />
         </View>
       )
@@ -221,7 +221,7 @@ class EditAgenda extends Component {
               label={Lang.StartTime} 
               validated={(agenda.startTime !== null)}
               onPress={() => this.setState({showStartTimePicker: true})}
-              value={(agenda.startTime) ? formatMinutes(agenda.startTime) : ''}
+              value={(agenda.startTime) ? UTIL.formatMinutes(agenda.startTime) : ''}
             />
             <EditLink 
               required={true}
@@ -297,11 +297,17 @@ class EditAgenda extends Component {
           showPicker={this.state.showTrailPicker}
           onPress={(value) => this.setKey('trail', value)}
           onCancel={() => this.setState({showTrailPicker: false})}
-          trail={(agenda.trail) ? agenda.trail : null}
+          selected={(agenda.trail) ? agenda.trail : null}
         />
       </View>
     )
   }
+}
+
+EditAgenda.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired,
+  navbarActions: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state, ownProps) {

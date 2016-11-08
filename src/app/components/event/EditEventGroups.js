@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -25,7 +19,13 @@ import * as newEventActions from '../../redux/actions/newEventActions'
 import EditLink from '../shared/EditLink'
 import DateTimePicker from '../shared/DateTimePicker'
 import CallToAction from '../shared/CallToAction'
+
 import styles from '../../styles/main'
+
+import {
+  Lang,
+  Graphics
+} from '../../settings'
 
 class EditEventGroups extends Component {
   constructor(props) {
@@ -117,7 +117,9 @@ class EditEventGroups extends Component {
 }
 
 EditEventGroups.propTypes = {
-  groups: PropTypes.array.isRequired
+  navigator: PropTypes.array.isRequired,
+  groups: PropTypes.array.isRequired,
+  newEventActions: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

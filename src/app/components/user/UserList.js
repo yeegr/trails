@@ -1,24 +1,15 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component
+  Component,
+  PropTypes
 } from 'react'
 
 import {
   ListView,
-  TouchableHighlight, TouchableOpacity,
-  View,
-  Image,
-  Text,
-  StyleSheet} from 'react-native'
+  StyleSheet
+} from 'react-native'
 
-import styles from '../../styles/main'
 import Loading from '../shared/Loading'
 import UserLink from './UserLink'
 
@@ -36,6 +27,17 @@ export default class UserList extends Component {
     }
   }
 
+  componentWillMount() {
+    if (this.props.data) {
+      this.setState({
+        loading: false,
+        dataSource: this.state.dataSource.cloneWithRows(this.props.data)
+      })
+    } else {
+      this.fetchData()
+    }
+  }
+
   fetchData() {
     fetch(this.props.api)
     .then((response) => response.json())
@@ -48,17 +50,6 @@ export default class UserList extends Component {
     .catch((error) => {
       console.warn(error)
     })
-  }
-
-  componentDidMount() {
-    if (this.props.data) {
-      this.setState({
-        loading: false,
-        dataSource: this.state.dataSource.cloneWithRows(this.props.data)
-      })
-    } else {
-      this.fetchData()
-    }
   }
 
   renderRow(rowData, sectionId, rowId) {

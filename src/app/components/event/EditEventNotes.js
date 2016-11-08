@@ -1,23 +1,20 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
 } from 'react'
 
-import {View} from 'react-native'
+import {
+  View
+} from 'react-native'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
 import ListEditor from '../shared/ListEditor'
+
 import styles from '../../styles/main'
 
 class EditEventNotes extends Component {
@@ -42,7 +39,8 @@ class EditEventNotes extends Component {
 }
 
 EditEventNotes.propTypes = {
-  notes: PropTypes.array.isRequired
+  notes: PropTypes.array.isRequired,
+  newEventActions: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

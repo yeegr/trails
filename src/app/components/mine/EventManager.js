@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -21,11 +15,17 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../redux/actions/eventsActions'
 
+import EditLink from '../shared/EditLink'
 import Loading from '../shared/Loading'
 import TextView from '../shared/TextView'
-import EditLink from '../shared/EditLink'
-import {formatEventGroupLabel} from '../../../util/common'
+
 import styles from '../../styles/main'
+
+import {
+  UTIL,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class EventManager extends Component {
   constructor(props) {
@@ -35,6 +35,10 @@ class EventManager extends Component {
     })
     this.renderRow = this.renderRow.bind(this)
     this.signupList = this.signupList.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.eventsActions.listEvents("?creator=" + this.props.user._id)
   }
 
   eventPage(id) {
@@ -58,10 +62,6 @@ class EventManager extends Component {
     })
   }
 
-  componentDidMount() {
-    this.props.eventsActions.listEvents("?creator=" + this.props.user._id)
-  }
-
   renderRow(event, sectionId, rowId) {
     return (
       <View style={styles.detail.section}>
@@ -69,21 +69,21 @@ class EventManager extends Component {
           <TouchableOpacity onPress={() => this.eventPage(event._id)}>
             <TextView
               style={{flex: 1, fontWeight: '400', marginBottom: 5, paddingHorizontal: 15}}
-              fontSize="XL"
+              fontSize={'XL'}
               textColor={Graphics.textColors.link}
               text={event.title}
             />
           </TouchableOpacity>
           <TextView
             style={{flex: 1, marginBottom: 5, paddingHorizontal: 15, textAlign: 'right'}}
-            fontSize="XL"
+            fontSize={'XL'}
             text={event.total + Lang.Yuan}
           />
         </View>
         <View style={styles.editor.group}>
         {
           event.groups.map((group, index) => {
-            const dates = formatEventGroupLabel(event, index)
+            const dates = UTIL.formatEventGroupLabel(event, index)
             return (
               <EditLink
                 key={index}
@@ -100,7 +100,7 @@ class EventManager extends Component {
   }
 
   render() {
-    const {events, navigator} = this.props
+    const {events} = this.props
 
     if (!events) {
       return <Loading />
@@ -115,6 +115,13 @@ class EventManager extends Component {
       />
     )
   }
+}
+
+EventManager.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  eventsActions: PropTypes.object.isRequired,
+  events: PropTypes.array
 }
 
 function mapStateToProps(state, ownProps) {

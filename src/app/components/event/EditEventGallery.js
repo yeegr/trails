@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -14,7 +8,6 @@ import React, {
 import {
   StyleSheet,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native'
 
@@ -24,6 +17,12 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
+import {
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
+
 class EditEventGallery extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +31,13 @@ class EditEventGallery extends Component {
     this.state = {
       imageCount: this.props.photos.length,
       selected: this.props.photos,
-    };
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.state.selected.length > 0) {
+      this.props.newEventActions.setEventPhotos(this.state.selected)
+    }
   }
 
   getSelectedImages(images, current) {
@@ -40,12 +45,6 @@ class EditEventGallery extends Component {
       imageCount: images.length,
       selected: images,
     })
-  }
-
-  componentWillUnmount() {
-    if (this.state.selected.length > 0) {
-      this.props.newEventActions.setEventPhotos(this.state.selected)
-    }
   }
 
   render() {
@@ -57,7 +56,7 @@ class EditEventGallery extends Component {
             batchSize={5}
             maximum={AppSettings.maxPhotosPerGallery}
             selected={this.state.selected}
-            assetType='Photos'
+            assetType={'Photos'}
             imagesPerRow={4}
             imageMargin={5}
             callback={this.getSelectedImages}
@@ -86,6 +85,12 @@ class EditEventGallery extends Component {
           </TouchableOpacity>
         </View>
 */
+
+EditEventGallery.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired,
+  photos: PropTypes.array.isRequired
+}
 
 const styles = StyleSheet.create({
   wrapper: {

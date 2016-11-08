@@ -1,18 +1,18 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
   Image,
-  StyleSheet,
-  View
+  StyleSheet
 } from 'react-native'
 
 import ImagePath from './ImagePath'
-import {Graphics} from '../../settings'
+import {
+  Graphics
+} from '../../settings'
 
 const Avatar = (props) => {
   const sideLength = (props.size) ? Graphics.avatar[props.size] : Graphics.avatar.default,
@@ -40,51 +40,13 @@ const Avatar = (props) => {
 }
 
 Avatar.propTypes = {
+  user: PropTypes.object,
   backgroundColor: PropTypes.string,
+  borderColor: PropTypes.string,
+  borderWidth: PropTypes.number, 
   height: PropTypes.number,
   width: PropTypes.number,
-  user: PropTypes.object
+  size: PropTypes.string
 }
-
-export const AvatarList = (props) => {
-  let margin = 10
-
-  if (props.size) {
-    switch (props.size) {
-      case 'SML':
-        margin = 5
-      break
-
-      case 'L':
-        margin = 10
-      break
-
-      case 'XL':
-        margin = 15
-      break
-    }
-  }
-
-  const styles = StyleSheet.create({
-      avatar: {
-        marginRight: margin
-      }
-    })
-
-  return (props.users) ? (
-    <View style={{flexDirection: 'row'}}>
-      {
-        props.users.map((user, index) => {
-          return (
-            <View key={index} style={styles.avatar}>
-              <Avatar size={props.size} user={user} />
-            </View>
-          )
-        })
-      }
-    </View>
-  ) : null
-}
-
 
 export default Avatar

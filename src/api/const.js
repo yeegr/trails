@@ -36,10 +36,10 @@ module.exports = {
   ipRx: /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/,
 
   generateRandomString: function(length) {
-    var charList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+    let charList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
     txt = ''
 
-    for (var i = 0; i < length; i++) {
+    for (let i = 0; i < length; i++) {
       txt += charList.charAt(Math.floor(Math.random() * charList.length))
     }
 
@@ -47,7 +47,7 @@ module.exports = {
   },
 
   generateRandomNumericString: function(length) {
-    var num = Math.floor(Math.random() * Math.pow(10, length)),
+    let num = Math.floor(Math.random() * Math.pow(10, length)),
       str = num.toString(),
       len = length - str.length,
       i = 0,

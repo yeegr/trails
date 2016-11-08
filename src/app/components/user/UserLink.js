@@ -1,13 +1,11 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
   StyleSheet,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -16,7 +14,6 @@ import Avatar from '../shared/Avatar'
 import TextView from '../shared/TextView'
 
 import {
-  Graphics,
   Lang
 } from '../../settings'
 
@@ -36,8 +33,8 @@ const UserLink = (props) => {
       <View style={styles.wrapper}>
         <Avatar user={props.user} />
         <View style={styles.content}>
-          <TextView class='h4' text={Lang.userLevelArray[parseInt(props.user.level)]} />
-          <TextView fontSize='L' text={props.user.handle} />
+          <TextView class={'h4'} text={Lang.userLevelArray[parseInt(props.user.level)]} />
+          <TextView fontSize={'L'} text={props.user.handle} />
         </View>
       </View>
     </TouchableOpacity>

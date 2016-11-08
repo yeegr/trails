@@ -7,7 +7,7 @@ import Icon from '../shared/Icon';
 import Map from '../shared/Map';
 import { TagList } from '../shared/Tag';
 import { GalleryPreview } from '../shared/Gallery';
-import { CommentsPreview } from '../shared/Comments';
+import CommentPreview from '../shared/CommentPreview';
 import { createMarkup } from '../shared/Transformers';
 import { TrailInfo, TrailData } from './TrailUtil';
 import { UserListItem } from '../user/UserList';
@@ -64,7 +64,7 @@ export default class PostDetail extends Component {
                             </post>
                         </section>
                         <GalleryPreview path={`/trails/trail/${trail.id}`} photos={trail.photos} />
-                        <CommentsPreview path={`/trails/trail/${trail.id}`} comments={trail.comments} />
+                        <CommentPreview path={`/trails/trail/${trail.id}`} comments={trail.comments} />
                     </main>
                 </detail>
             )

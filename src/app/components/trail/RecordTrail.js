@@ -7,9 +7,7 @@ import React, {
 
 import {
   Alert,
-  Dimensions,
   DeviceEventEmitter,
-  TouchableOpacity,
   View
 } from 'react-native'
 
@@ -22,11 +20,13 @@ import * as newTrailActions from '../../redux/actions/newTrailActions'
 
 import { RNLocation as Location } from 'NativeModules'
 
-import TextView from '../shared/TextView'
 import CallToAction from '../shared/CallToAction'
-import {AppSettings, Lang, Graphics} from '../../settings'
-import {calculatPointDistance, setRegion, formatTrailPoints, getTimestamp} from '../../../util/common'
-import styles from '../../styles/main'
+
+import {
+  UTIL,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class RecordTrail extends Component {
   constructor(props) {
@@ -50,6 +50,55 @@ class RecordTrail extends Component {
       errors: [],
       log: ''
     }
+  }
+
+  componentWillMount() {
+    this.props.newTrailActions.createTrail(this.props.user)
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.refs.map.measure((fx, fy, width, height, px, py) => {
+        this.setState({
+          ASPECT_RATIO: width / height
+        })
+      })
+    }, 0)
+
+    Location.requestAlwaysAuthorization()
+    Location.getAuthorizationStatus((authorization) => {
+      if (authorization === 'authorizedAlways') {
+        Location.setDesiredAccuracy(10)
+        Location.setDistanceFilter(5.0)
+        Location.setAllowsBackgroundLocationUpdates(true)
+        Location.startUpdatingLocation()
+        this.LocationListener = DeviceEventEmitter.addListener('locationUpdated', (location) => {
+          let path = this.state.path,
+          currentPosition = this._formatCoords(location.coords)
+
+          if (path.length > 0) {
+            let lastCoords = path[path.length - 1]
+            currentPosition.distance = parseFloat((lastCoords.distance + UTIL.calculatPointDistance(lastCoords, currentPosition)).toFixed(4))
+          }
+
+          if (this.props.newTrail.isRecording) {
+            this.setState({
+              currentPosition,
+              path: path.concat([currentPosition]),
+              //log: JSON.stringify(this._finalizePath())
+            })
+          } else {
+            this.setState({
+              currentPosition
+            })
+          }
+        })
+      }
+    })
+  }
+
+  componentWillUnmount() {
+    this._stopTracking()
   }
 
   _toggleRecording() {
@@ -109,7 +158,7 @@ class RecordTrail extends Component {
     const gcj = CoordTransform.wgs84togcj02(coords.longitude, coords.latitude)
 
     return {
-      timestamp: coords.timestamp || getTimestamp(),
+      timestamp: coords.timestamp || UTIL.getTimestamp(),
       latitude: parseFloat((gcj[1]).toFixed(7)),
       longitude: parseFloat((gcj[0]).toFixed(6)),
       altitude: parseFloat(coords.altitude.toFixed(1)),
@@ -119,59 +168,9 @@ class RecordTrail extends Component {
       accuracy: coords.accuracy
     }
   }
-
-  componentWillMount() {
-    this.props.newTrailActions.createTrail(this.props.user)
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.refs.map.measure((fx, fy, width, height, px, py) => {
-        this.setState({
-          ASPECT_RATIO: width / height
-        })
-      })
-    }, 0)
-
-    Location.requestAlwaysAuthorization()
-    Location.getAuthorizationStatus((authorization) => {
-      if (authorization === 'authorizedAlways') {
-        Location.setDesiredAccuracy(10)
-        Location.setDistanceFilter(5.0)
-        Location.setAllowsBackgroundLocationUpdates(true)
-        Location.startUpdatingLocation()
-        this.LocationListener = DeviceEventEmitter.addListener('locationUpdated', (location) => {
-          let path = this.state.path,
-          currentPosition = this._formatCoords(location.coords)
-
-          if (path.length > 0) {
-            let lastCoords = path[path.length - 1]
-            currentPosition.distance = parseFloat((lastCoords.distance + calculatPointDistance(lastCoords, currentPosition)).toFixed(4))
-          }
-
-          if (this.props.newTrail.isRecording) {
-            this.setState({
-              currentPosition,
-              path: path.concat([currentPosition]),
-              //log: JSON.stringify(this._finalizePath())
-            })
-          } else {
-            this.setState({
-              currentPosition
-            })
-          }
-        })
-      }
-    })
-  }
-
   _stopTracking() {
     Location.stopUpdatingLocation()
     this.LocationListener.remove()
-  }
-
-  componentWillUnmount() {
-    this._stopTracking()
   }
 
   render() {
@@ -193,7 +192,7 @@ class RecordTrail extends Component {
             zoomEnabled={true}
             showsUserLocation={true}
             followUserLocation={true}
-            region={setRegion(this.state.currentPosition, this.state.ASPECT_RATIO, 0.2)}
+            region={UTIL.setRegion(this.state.currentPosition, this.state.ASPECT_RATIO, 0.2)}
           >
             <MapView.Polyline
               coordinates={this.state.path}
@@ -213,6 +212,8 @@ class RecordTrail extends Component {
 }
 
 RecordTrail.propTypes = {
+  user: PropTypes.object.isRequired,
+  newTrail: PropTypes.object.isRequired,
   newTrailActions: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired
 }

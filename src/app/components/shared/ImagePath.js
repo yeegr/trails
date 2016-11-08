@@ -5,7 +5,9 @@ import {
   PixelRatio
 } from 'react-native'
 
-import {AppSettings} from '../../settings'
+import {
+  AppSettings
+} from '../../settings'
 
 const ImagePath = (props) => {
   const {width, height} = Dimensions.get('window'),

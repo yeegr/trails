@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -19,6 +13,12 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
+
+import {
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class ActionPicker extends Component {
   constructor(props) {
@@ -56,7 +56,7 @@ class ActionPicker extends Component {
       title = (this.props.title) ? <Text style={mixStyles.titleText}>{this.props.title}</Text> : null
     
     return (
-      <Modal animationType={"fade"} transparent={true}>
+      <Modal animationType={'fade'} transparent={true}>
         <View style={styles.wrapper}>
           <View style={styles.actionSheet}>
             <View style={styles.toolbar}>
@@ -91,8 +91,14 @@ class ActionPicker extends Component {
 
 ActionPicker.propTypes = {
   title: PropTypes.string,
-  labels: PropTypes.array.isRequired,
   values: PropTypes.array,
+  labels: PropTypes.array.isRequired,
+  cancelText: PropTypes.string.isRequired,
+  confirmText: PropTypes.string.isRequired,
+  onCancel: PropTypes.func,
+  onConfirm: PropTypes.func,
+  customStyles: PropTypes.object,
+  showPicker: PropTypes.bool.isRequired
 }
 
 const styles = StyleSheet.create({

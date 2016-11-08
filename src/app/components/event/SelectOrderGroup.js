@@ -1,36 +1,29 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
 } from 'react'
 
-import Moment from 'moment'
-
 import {
-  Text,
-  TouchableOpacity,
   View
 } from 'react-native'
 
 import ParallaxView from 'react-native-parallax-view'
 
 import CallToAction from '../shared/CallToAction'
-import Icon from '../shared/Icon'
 import ImagePath from '../shared/ImagePath'
 import Intro from '../shared/Intro'
-import TextView from '../shared/TextView'
-
-import {ASSET_FOLDERS} from '../../../util/constants'
-import {formatEventGroupLabel} from '../../../util/common'
+import EventGroup from './EventGroup'
 
 import styles from '../../styles/main'
+
+import {
+  CONSTANTS,
+  UTIL,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class SelectOrderGroup extends Component {
   constructor(props) {
@@ -54,8 +47,8 @@ class SelectOrderGroup extends Component {
   }
 
   render() {
-    const event = this.props.event,
-      eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero})
+    const {event} = this.props,
+      eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero})
 
     return (
       <View style={styles.global.wrapper}>
@@ -79,7 +72,7 @@ class SelectOrderGroup extends Component {
                       index={index}
                       selected={this.state.selectedGroup}
                       deadline={group.deadline}
-                      label={formatEventGroupLabel(event, index)}
+                      label={UTIL.formatEventGroupLabel(event, index)}
                       signUps={'已有' + group.signUps.length + '人报名'}
                       onPress={(selectedGroup) => this.setState({selectedGroup})}
                     />
@@ -99,45 +92,8 @@ class SelectOrderGroup extends Component {
   }
 }
 
-const EventGroup = (props) => {
-  const now = (new Date()).getTime(),
-  icon = (props.index === props.selected) ? (
-    <Icon 
-      backgroundColor={Graphics.colors.transparent} 
-      fillColor={Graphics.colors.primary} 
-      sideLength='36'
-      type='checkmark'
-    />
-  ) : null,
-  status = (props.deadline < now) ? (
-    <TextView textColor='red' text={Lang.DeadlinePassed} />
-  ) : null,
-  view = (
-    <View style={[styles.editor.link, {}]}>
-      <View style={styles.editor.label}>
-        <TextView fontSize='SML' textColor={Graphics.textColors.h2} text={Lang.GroupCountPrefix + Lang.dayArray[props.index] + Lang.GroupCountPostfix} />
-        <TextView text={props.label} />
-        <TextView fontSize='XS' textColor={Graphics.textColors.endnote} text={props.signUps} />
-      </View>
-      <View style={styles.editor.value}>
-        {icon}
-        {status}
-      </View>
-    </View>
-  )
-
-  if (props.deadline < now) {
-    return view
-  }
-
-  return (
-    <TouchableOpacity onPress={() => props.onPress(props.index)}>
-      {view}
-    </TouchableOpacity>
-  )
-}
-
 SelectOrderGroup.propTypes = {
+  navigator: PropTypes.object.isRequired,
   event: PropTypes.object.isRequired
 }
 

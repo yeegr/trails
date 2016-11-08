@@ -1,22 +1,13 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
 } from 'react'
 
 import {
-  Image,
   SegmentedControlIOS,
-  ScrollView,
   TouchableOpacity,
-  Text,
   View
 } from 'react-native'
 
@@ -26,7 +17,13 @@ import * as newEventActions from '../../redux/actions/newEventActions'
 
 import ListEditor from '../shared/ListEditor'
 import Gear from '../shared/Gear'
+
 import styles from '../../styles/main'
+
+import {
+  AppSettings,
+  Lang
+} from '../../settings'
 
 class EditEventGears extends Component {
   constructor(props) {
@@ -39,6 +36,14 @@ class EditEventGears extends Component {
       tags: this.props.tags,
       notes: this.props.notes
     }
+  }
+
+  componentWillUnmount() {
+    this.props.newEventActions.setEventGears({
+      images: this.state.images,
+      tags: this.state.tags,
+      notes: this.state.notes
+    })
   }
 
   selectGear(value) {
@@ -55,17 +60,8 @@ class EditEventGears extends Component {
     })
   }
 
-  componentWillUnmount() {
-    this.props.newEventActions.setEventGears({
-      images: this.state.images,
-      tags: this.state.tags,
-      notes: this.state.notes
-    })
-  }
-
   render() {
-    var mainView = null,
-    props = this.props,
+    let mainView = null,
     selectGear = this.selectGear,
     stateImages = this.state.images
 
@@ -88,13 +84,13 @@ class EditEventGears extends Component {
 
       case 1:
         mainView = (
-          <ListEditor key='gearTags' list={this.state.tags} />
+          <ListEditor key={'gearTags'} list={this.state.tags} />
         )
       break
 
       case 2:
         mainView = (
-          <ListEditor key='gearNotes' list={this.state.notes} />
+          <ListEditor key={'gearNotes'} list={this.state.notes} />
         )
       break
     }
@@ -120,6 +116,7 @@ class EditEventGears extends Component {
 }
 
 EditEventGears.propTypes = {
+  newEventActions: PropTypes.array.isRequired,
   images: PropTypes.array.isRequired,
   tags: PropTypes.array,
   notes: PropTypes.array

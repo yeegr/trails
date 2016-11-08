@@ -1,13 +1,6 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -18,10 +11,14 @@ import {
 } from 'react-native'
 
 import Chart from 'react-native-chart'
-import {formatTrailChartData} from '../../../util/common'
+
+import {
+  UTIL,
+  Graphics
+} from '../../settings'
 
 const TrailChart = (props) => {
-  const data = formatTrailChartData(props.points)
+  const data = UTIL.formatTrailChartData(props.points)
 
   return (
     <View style={styles.wrapper}>
@@ -43,7 +40,7 @@ const TrailChart = (props) => {
     </View>
   )
 },
-{height, width} = Dimensions.get('window'),
+{width} = Dimensions.get('window'),
 margin = 15,
 styles = StyleSheet.create({
   wrapper: {

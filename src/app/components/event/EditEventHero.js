@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -15,9 +9,7 @@ import {
   Dimensions,
   Image,
   Platform,
-  ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -29,7 +21,11 @@ import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
 import ImagePath from '../shared/ImagePath'
-import {ASSET_FOLDERS} from '../../../util/constants'
+
+import {
+  CONSTANTS,
+  Lang
+} from '../../settings'
 
 class EditEventHero extends Component {
   constructor(props) {
@@ -37,12 +33,12 @@ class EditEventHero extends Component {
     this.selectPhoto = this.selectPhoto.bind(this)
 
     this.state = {
-      imageUri: (this.props.heroUri.substring(0, 1) === '/') ? this.props.heroUri : ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + this.props.heroUri})
+      imageUri: (this.props.heroUri.substring(0, 1) === '/') ? this.props.heroUri : ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.Event + '/' + this.props.heroUri})
     }
   }
 
   componentWillUnmount() {
-    var path
+    let path
 
     if (this.state.imageUri.substring(0, 4) === 'http') {
       let arr = this.state.imageUri.split('&')
@@ -56,7 +52,7 @@ class EditEventHero extends Component {
       path = this.state.imageUri
     }
 
-    path = path.replace((ASSET_FOLDERS.Event + '/'), '')
+    path = path.replace((CONSTANTS.ASSET_FOLDERS.Event + '/'), '')
 
     if (path !== this.props.heroUri) {
       this.props.newEventActions.setEventHero(path)
@@ -64,7 +60,7 @@ class EditEventHero extends Component {
   }
 
   selectPhoto() {
-    var options = {
+    let options = {
       title: Lang.SelectPhoto,
       storageOptions: { 
         skipBackup: true, 
@@ -86,7 +82,7 @@ class EditEventHero extends Component {
         console.log(response)
 
         // or a reference to the platform specific asset location
-        const source = null
+        let source = null
 
         if (Platform.OS === 'ios') {
           source = {uri: response.uri.replace('file://', ''), isStatic: true};
@@ -112,7 +108,13 @@ class EditEventHero extends Component {
   }
 }
 
-const {height, width} = Dimensions.get('window'),
+EditEventHero.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  heroUri: PropTypes.string.isRequired,
+  newEventActions: PropTypes.object.isRequired
+}
+
+const {width} = Dimensions.get('window'),
 styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',

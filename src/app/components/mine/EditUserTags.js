@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -55,7 +49,8 @@ class EditUserTags extends Component {
 }
 
 EditUserTags.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  loginActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

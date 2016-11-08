@@ -1,19 +1,20 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
   StyleSheet,
-  TouchableOpacity,
   View
 } from 'react-native'
 
 import Agenda from './Agenda'
 import TextView from './TextView'
-import {Lang} from '../../settings'
+
+import {
+  Lang
+} from '../../settings'
 
 const DayList = (props) => {
   return (
@@ -22,7 +23,7 @@ const DayList = (props) => {
         props.schedule.map(function(day, d) {
           return (
             <View key={d} style={styles.day}>
-              <TextView class='h3' style={{marginLeft: 2, marginBottom: 10}} text={Lang.DayCountPrefix + Lang.dayArray[d] + Lang.DayCountPostfix} />
+              <TextView class={'h3'} style={{marginLeft: 2, marginBottom: 10}} text={Lang.DayCountPrefix + Lang.dayArray[d] + Lang.DayCountPostfix} />
               {
                 day.map(function(agenda, i) {
                   return (
@@ -48,5 +49,9 @@ styles = StyleSheet.create({
     marginBottom: 10
   }
 })
+
+DayList.propTypes = {
+  schedule: PropTypes.array.isRequired
+}
 
 export default DayList

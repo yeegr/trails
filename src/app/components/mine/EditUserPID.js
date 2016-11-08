@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -23,6 +17,10 @@ import * as loginActions from '../../redux/actions/loginActions'
 
 import styles from '../../styles/main'
 
+import {
+  AppSettings
+} from '../../settings'
+
 class EditUserPID extends Component {
   constructor(props) {
     super(props)
@@ -36,7 +34,7 @@ class EditUserPID extends Component {
     let tmp = this.state.pid.trim(),
       data = null
 
-    if (/\d{18}/.test(tmp)) {
+    if (AppSettings.pidRx.test(tmp)) {
       data = {pid: tmp}
     } else if (tmp === '') {
       data = {pid: ''}
@@ -69,7 +67,8 @@ class EditUserPID extends Component {
 }
 
 EditUserPID.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  loginActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

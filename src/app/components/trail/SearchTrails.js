@@ -1,28 +1,28 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
 } from 'react'
 
 import {
-  Slider,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native'
 
+import CallToAction from '../shared/CallToAction'
 import Icon from '../shared/Icon'
 import RangeSlider from '../shared/RangeSlider'
-import CallToAction from '../shared/CallToAction'
+import TextView from '../shared/TextView'
+
 import styles from '../../styles/main'
+
+import {
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class SearchTrails extends Component {
   constructor(props) {
@@ -84,7 +84,9 @@ class SearchTrails extends Component {
       <View style={styles.search.wrapper}>
         <View style={styles.search.scroll}>
           <View style={styles.search.section}>
-            <Text style={styles.search.label}>{Lang.Keywords}</Text>
+            <TextView
+              text={Lang.Keywords}
+            />
             <TextInput
               autoCorrect={false}
               autoFocus={true}
@@ -95,7 +97,9 @@ class SearchTrails extends Component {
             />
           </View>
           <View style={[styles.search.section, styles.search.expand]}>
-            <Text style={styles.search.label}>{Lang.TrailTypes}</Text>
+            <TextView
+              text={Lang.TrailTypes}
+            />
             <View style={styles.search.grid}>
             {
               AppSettings.trailTypes.map((i) => {
@@ -119,7 +123,9 @@ class SearchTrails extends Component {
             </View>
           </View>
           <View style={styles.search.section}>
-            <Text style={styles.search.label}>{Lang.DifficultyLevel}</Text>
+            <TextView
+              text={Lang.DifficultyLevel}
+            />
             <View style={styles.search.row}>
               <RangeSlider
                 ref="difficultyRange"
@@ -132,7 +138,9 @@ class SearchTrails extends Component {
             </View>
           </View>
           <View style={styles.search.section}>
-            <Text style={styles.search.label}>{Lang.TotalDistance}</Text>
+            <TextView
+              text={Lang.TotalDistance}
+            />
             <View style={styles.search.row}>
               <RangeSlider
                 ref="distanceRange"
@@ -149,6 +157,10 @@ class SearchTrails extends Component {
       </View>
     )
   }
+}
+
+SearchTrails.propTypes = {
+  navigator: PropTypes.object.isRequired
 }
 
 export default SearchTrails

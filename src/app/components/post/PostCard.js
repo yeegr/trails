@@ -1,13 +1,6 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -18,8 +11,13 @@ import {
 import Hero from '../shared/Hero'
 import TinyStatus from '../shared/TinyStatus'
 import TinyUser from '../user/TinyUser'
-import {ASSET_FOLDERS} from '../../../util/constants'
+
 import global from '../../styles/global'
+
+import {
+  CONSTANTS,
+  Lang
+} from '../../settings'
 
 const PostCard = (props) => {
   const data = props.data,
@@ -36,7 +34,7 @@ const PostCard = (props) => {
   return (
     <View>
       <Hero 
-        imageUri={ASSET_FOLDERS.Post + '/' + data._id + '/' + data.hero} 
+        imageUri={CONSTANTS.ASSET_FOLDERS.Post + '/' + data._id + '/' + data.hero} 
         title={data.title} 
         tags={data.tags}
         topLeft={
@@ -56,8 +54,8 @@ const PostCard = (props) => {
 }
 
 PostCard.propTypes = {
-  data: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 }
 
 export default PostCard

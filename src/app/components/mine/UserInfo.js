@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -30,6 +24,12 @@ import Loading from '../shared/Loading'
 import TagList from '../shared/TagList'
 
 import styles from '../../styles/main'
+
+import {
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class UserInfo extends Component {
   constructor(props) {

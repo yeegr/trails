@@ -1,16 +1,13 @@
 'use strict'
 
-import {
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
 } from 'react'
 
-import {View} from 'react-native'
+import {
+  View
+} from 'react-native'
 
 import ParallaxView from 'react-native-parallax-view'
 
@@ -19,16 +16,22 @@ import {bindActionCreators} from 'redux'
 import * as areasActions from '../../redux/actions/areasActions'
 
 import Loading from '../shared/Loading'
-import ImagePath from '../shared/ImagePath'
 import Header from '../shared/Header'
-import Intro from '../shared/Intro'
 import Icon from '../shared/Icon'
+import ImagePath from '../shared/ImagePath'
+import Intro from '../shared/Intro'
 import UserList from '../user/UserList'
 import TrailPreview from '../trail/TrailPreview'
-import {GalleryPreview} from '../shared/Gallery'
-import {CommentPreview} from '../shared/Comments'
-import {ASSET_FOLDERS} from '../../../util/constants'
+import GalleryPreview from '../shared/GalleryPreview'
+import CommentPreview from '../shared/CommentPreview'
+
 import styles from '../../styles/main'
+
+import {
+  CONSTANTS,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class AreaDetail extends Component {
   constructor(props) {
@@ -58,11 +61,7 @@ class AreaDetail extends Component {
       })
     }
 
-    const url = ImagePath({type: 'hero', path: ASSET_FOLDERS.Area + '/' + area.id + '/' + area.hero})
-
-    setTimeout(() => {
-      let paraContent = this.refs.paraContent
-    }, 1000)
+    const url = ImagePath({type: 'hero', path: CONSTANTS.ASSET_FOLDERS.Area + '/' + area.id + '/' + area.hero})
 
     return (
       <View style={styles.global.wrapper}>
@@ -76,7 +75,7 @@ class AreaDetail extends Component {
               excerpt={area.excerpt}
             />
           )}>
-          <View ref="paraContent" style={[styles.detail.article]}>
+          <View style={[styles.detail.article]}>
             <View style={styles.detail.section}>
               <Header text={Lang.Tags} />
               <View style={styles.detail.grid}>
@@ -99,7 +98,7 @@ class AreaDetail extends Component {
             </View>
             <GalleryPreview
               navigator={navigator}
-              type={ASSET_FOLDERS.Area}
+              type={CONSTANTS.ASSET_FOLDERS.Area}
               id={area._id}
               photos={area.photos}
             />
@@ -109,7 +108,12 @@ class AreaDetail extends Component {
                 <UserList navigator={navigator} data={area.leaders} />
               </View>
             </View>
-            <TrailPreview navigator={navigator} trails={area.trails} query={`area=` + area.id} title={area.name + Lang.Trails} />
+            <TrailPreview
+              navigator={navigator}
+              trails={area.trails}
+              query={`area=` + area.id}
+              title={area.name + Lang.Trails}
+            />
           </View>
         </ParallaxView>
       </View>
@@ -118,13 +122,17 @@ class AreaDetail extends Component {
 }
 
 AreaDetail.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  areasActions: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
   area: PropTypes.object,
-  navigator: PropTypes.object.isRequired
+  user: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    area: state.areas.area
+    area: state.areas.area,
+    user: state.login.user
   }
 }
 

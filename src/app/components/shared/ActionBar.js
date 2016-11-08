@@ -1,15 +1,11 @@
 'use strict'
-import {Graphics} from '../../settings'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View
 } from 'react-native'
 
@@ -18,6 +14,10 @@ import {connect} from 'react-redux'
 
 import Toolbar from '../shared/Toolbar'
 import CallToAction from '../shared/CallToAction'
+
+import {
+  Graphics
+} from '../../settings'
 
 const ActionBar = (props) => {
   return (

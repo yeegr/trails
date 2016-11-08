@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -25,10 +19,15 @@ import * as newEventActions from '../../redux/actions/newEventActions'
 
 import styles from '../../styles/main'
 
+import {
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
+
 class EditEventContacts extends Component {
   constructor(props) {
     super(props)
-    this._rx = AppSettings.mobileNumberPattern
     this._highCount = 5
 
     let tmpArray = []
@@ -56,7 +55,7 @@ class EditEventContacts extends Component {
       newArray = []
 
     for (let i = 0, j = this._highCount; i < j; i++) {
-      if (tmpArray[i].title.trim().length > 1 && this._rx.test(tmpArray[i].mobileNumber)) {
+      if (tmpArray[i].title.trim().length > 1 && AppSettings.mobileRx.test(tmpArray[i].mobileNumber)) {
         newArray.push({
           title: tmpArray[i].title,
           mobileNumber: parseInt(tmpArray[i].mobileNumber)
@@ -129,6 +128,13 @@ class EditEventContacts extends Component {
   }
 }
 
+EditEventContacts.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired,
+  contacts: PropTypes.array.isRequired,
+  user: PropTypes.object
+}
+
 const localStyles = StyleSheet.create({
   cell: {
     flex: 1,
@@ -149,10 +155,6 @@ const localStyles = StyleSheet.create({
     paddingBottom: 2,
   }
 })
-
-EditEventContacts.propTypes = {
-  contacts: PropTypes.array.isRequired
-}
 
 function mapStateToProps(state, ownProps) {
   return {

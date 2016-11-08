@@ -1,13 +1,6 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -17,6 +10,10 @@ import {
 } from 'react-native'
 
 import TextView from './TextView'
+
+import {
+  Lang
+} from '../../settings'
 
 const InfoItem = (props) => {
   let align = (props.align) ? {textAlign: props.align} : null,
@@ -55,5 +52,14 @@ styles = StyleSheet.create({
     flex: 1
   }
 })
+
+InfoItem.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.any,
+  align: PropTypes.string,
+  noColon: PropTypes.string,
+  labelWidth: PropTypes.width,
+  styles: PropTypes.object
+}
 
 export default InfoItem

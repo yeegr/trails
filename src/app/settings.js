@@ -2,11 +2,8 @@
 
 import {Dimensions} from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import {env} from './config'
 
-const settings = require('../util/settings.json'),
-  {height, width} = Dimensions.get('window'),
-  servers = env['staging']
+const {height, width} = Dimensions.get('window')
 
 export const device = {
   uniqueId: DeviceInfo.getUniqueID(),
@@ -27,24 +24,14 @@ export const device = {
   width
 }
 
-export let Lang = settings.lang
-Lang.dayArray = Lang.dayCount.split(',')
-Lang.tagArray = Lang.tagList.split(',')
-Lang.gearArray = Lang.gearList.split(',')
-Lang.userLevelArray = Lang.userLevels.split(',')
+const common = require('../common/__.js')
 
-export let AppSettings = settings.app
-AppSettings.mobileNumberPattern = new RegExp(/1+\d{10}/)
-AppSettings.trailTypes = [0,1,2,3,4,5,6,7,8,9]
-AppSettings.paymentMethods = Lang.payments
+export const CONSTANTS = common.CONSTANTS
+export const UTIL = common.UTIL
+export const FETCH = common.FETCH
 
-AppSettings.baseUri = servers.WEB_SERVER
-AppSettings.apiUri = servers.API_SERVER
-AppSettings.assetUri = servers.ASSET_SERVER
-
-export let Graphics = settings.graphics
-Graphics.page = {}
-Graphics.page.marginTop = Graphics.statusbar.height + Graphics.titlebar.height
+export const Lang = common.Lang
+export const AppSettings = common.AppSettings
+export const Graphics = common.Graphics
+export const Defaults = common.Defaults
 export const WebViewCSS = '<style>img {max-width: 100%} p {text-indent: 2em}</style>'
-
-export let Defaults = settings.defaults 

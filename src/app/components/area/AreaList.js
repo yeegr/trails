@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -22,7 +16,6 @@ import * as areasActions from '../../redux/actions/areasActions'
 
 import Loading from '../shared/Loading'
 import AreaCard from './AreaCard'
-import styles from '../../styles/main'
 
 class AreaList extends Component {
   constructor(props) {
@@ -35,15 +28,15 @@ class AreaList extends Component {
     })
   }
 
+  componentWillMount() {
+    this.fetchData()
+  }
+
   fetchData() {
     this.props.areasActions.listAreas(this.props.query)
   }
 
   onRefresh() {
-    this.fetchData()
-  }
-
-  componentWillMount() {
     this.fetchData()
   }
 
@@ -58,7 +51,7 @@ class AreaList extends Component {
   }
 
   render() {
-    const {areas, navigator} = this.props
+    const {areas} = this.props
 
     if (!areas.list) {
       return <Loading />
@@ -80,6 +73,13 @@ class AreaList extends Component {
       />
     )
   }
+}
+
+AreaList.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  areasActions: PropTypes.object.isRequired,
+  query: PropTypes.string,
+  areas: PropTypes.object,
 }
 
 function mapStateToProps(state, ownProps) {

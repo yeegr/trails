@@ -1,22 +1,13 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
 } from 'react'
 
 import {
-  Modal,
   ScrollView,
-  StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -25,13 +16,16 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
-import Loading from '../shared/Loading'
-import Agenda from '../shared/Agenda'
 import TextView from '../shared/TextView'
 import DayList from '../shared/DayList'
-import CallToAction from '../shared/CallToAction'
-import {isNumeric} from '../../../util/common'
+
 import styles from '../../styles/main'
+
+import {
+  UTIL,
+  AppSettings,
+  Lang
+} from '../../settings'
 
 class AgendaList extends Component {
   constructor(props) {
@@ -65,7 +59,7 @@ class AgendaList extends Component {
   }
 
   setDays(str) {
-    let days = isNumeric(parseInt(str)) ? parseInt(str) : 1
+    let days = UTIL.isNumeric(parseInt(str)) ? parseInt(str) : 1
     this.props.newEventActions.setEventScheduleDays(days)
   }
 
@@ -139,6 +133,12 @@ class AgendaList extends Component {
       </View>
     )
   }
+}
+
+AgendaList.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired,
+  newEvent: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state, ownProps) {

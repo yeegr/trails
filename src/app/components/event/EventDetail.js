@@ -1,21 +1,12 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
 } from 'react'
 
 import {
-  ScrollView,
-  TouchableOpacity,
-  View,
-  WebView
+  View
 } from 'react-native'
 
 import ParallaxView from 'react-native-parallax-view'
@@ -26,7 +17,6 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../redux/actions/eventsActions'
 import * as loginActions from '../../redux/actions/loginActions'
-import {ACTION_TARGETS, ASSET_FOLDERS} from '../../../util/constants'
 
 import TextView from '../shared/TextView'
 import Loading from '../shared/Loading'
@@ -36,17 +26,23 @@ import Intro from '../shared/Intro'
 import ListItem from '../shared/ListItem'
 import SimpleContact from '../shared/SimpleContact'
 import DayList from '../shared/DayList'
-import Icon from '../shared/Icon'
 import OrderedList from '../shared/OrderedList'
 import GearList from '../shared/GearList'
 import WebViewWrapper from '../shared/WebViewWrapper'
 import TagList from '../shared/TagList'
 import Toolbar from '../shared/Toolbar'
 import CallToAction from '../shared/CallToAction'
-import {CommentsPreview} from '../shared/Comments'
+import CommentPreview from '../shared/CommentPreview'
 import UserLink from '../user/UserLink'
-import {formatMinutes} from '../../../util/common'
+
 import styles from '../../styles/main'
+
+import {
+  UTIL,
+  CONSTANTS,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class EventDetail extends Component {
   constructor(props) {
@@ -60,7 +56,7 @@ class EventDetail extends Component {
   }
 
   componentWillMount() {
-    if (!this.props.preview) {
+    if (!this.props.isPreview) {
       this.props.eventsActions.getEvent(this.props.id)
     }
   }
@@ -89,7 +85,7 @@ class EventDetail extends Component {
   }
 
   render() {
-    const event = (this.props.preview) ? this.props.newEvent : this.props.event,
+    const event = (this.props.isPreview) ? this.props.newEvent : this.props.event,
     {navigator} = this.props
 
     if (!event) {
@@ -99,31 +95,30 @@ class EventDetail extends Component {
     let creator = this.props.user, 
     toolbar = null
 
-    if (!this.props.preview) {
+    if (!this.props.isPreview) {
       creator = event.creator,
       toolbar = (
         <View style={styles.detail.toolbar}>
           <Toolbar
             navigator={navigator}
-            type={ACTION_TARGETS.EVENT}
+            type={CONSTANTS.ACTION_TARGETS.EVENT}
             data={event}
           />
         </View>
       )
     }
 
-    const avatarRadius = 20,
-    eventBackgroundUrl = ImagePath({type: 'background', path: ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
+    const eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
     eventGroups = (event.groups.length > 1) ? (
       <ListItem icon="calendar"
         label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}
         value={Moment(event.groups[0].startDate).format('LL') + '-' + Moment(event.groups[event.groups.length-1].startDate).format('LL')}
       />
     ) : null,
-    gatherTime = (event.groups.length > 1) ? formatMinutes(event.gatherTime) : Moment(event.groups[0]).format('ll') + formatMinutes(event.gatherTime),
+    gatherTime = (event.groups.length > 1) ? UTIL.formatMinutes(event.gatherTime) : Moment(event.groups[0]).format('ll') + UTIL.formatMinutes(event.gatherTime),
     expensesDetail = (event.expenses.detail && event.expenses.detail.length > 0) ? (
       <View style={styles.detail.section}>
-        <TextView class='h3' text={Lang.ExpensesDetail} />
+        <TextView class={'h3'} text={Lang.ExpensesDetail} />
         <View style={styles.detail.list}>
           <OrderedList content={event.expenses.detail} />
         </View>
@@ -131,7 +126,7 @@ class EventDetail extends Component {
     ) : null,
     expensesInclude = (event.expenses.include && event.expenses.include.length > 0) ? (
       <View style={styles.detail.section}>
-        <TextView class='h3' text={Lang.ExpensesInclude} />
+        <TextView class={'h3'} text={Lang.ExpensesInclude} />
         <View style={styles.detail.list}>
           <OrderedList content={event.expenses.include} />
         </View>
@@ -139,7 +134,7 @@ class EventDetail extends Component {
     ) : null,
     expensesExclude = (event.expenses.exclude && event.expenses.exclude.length > 0) ? (
       <View style={styles.detail.section}>
-        <TextView class='h3' text={Lang.ExpensesExclude} />
+        <TextView class={'h3'} text={Lang.ExpensesExclude} />
         <View style={styles.detail.list}>
           <OrderedList content={event.expenses.exclude} />
         </View>
@@ -147,7 +142,7 @@ class EventDetail extends Component {
     ) : null,
     eventDestination = (event.destination && event.destination.length > 0) ? (
       <View ref="eventDestination" style={styles.detail.section}>
-        <TextView class='h2' text={Lang.Destination} />
+        <TextView class={'h2'} text={Lang.Destination} />
         <WebViewWrapper html={'<div>' + event.destination + '</div>'} />
       </View>
     ) : null,
@@ -162,7 +157,7 @@ class EventDetail extends Component {
     ) : null,
     otherGears = (event.gears.tags && event.gears.tags.length > 0) ? (
       <View style={styles.detail.subsection}>
-        <TextView class='h3' text={Lang.OtherGears} />
+        <TextView class={'h3'} text={Lang.OtherGears} />
         <View style={[styles.detail.content, {paddingLeft: 15}]}>
           <TagList tags={event.gears.tags} />
         </View>
@@ -170,7 +165,7 @@ class EventDetail extends Component {
     ) : null,
     gearNotes = (event.gears.notes && event.gears.notes.length > 0) ? (
       <View style={styles.detail.subsection}>
-        <TextView class='h3' text={Lang.OtherGears} />
+        <TextView class={'h3'} text={Lang.OtherGears} />
         <View style={[styles.detail.content, {paddingLeft: 15}]}>
           <OrderedList content={event.gears.notes} />
         </View>
@@ -183,9 +178,9 @@ class EventDetail extends Component {
       </View>
     ) : null,
     commentsPreview = (event.comments.length > 0) ? (
-      <CommentsPreview 
+      <CommentPreview 
         navigator={navigator}
-        type={ACTION_TARGETS.EVENT}
+        type={CONSTANTS.ACTION_TARGETS.EVENT}
         data={event}
       />
     ) : null
@@ -203,7 +198,6 @@ class EventDetail extends Component {
             />
           )}>
           <View style={styles.detail.article}>
-            {toolbar}
             <View ref="eventInfo" style={styles.detail.section}>
               <Header text={Lang.EventInfo} />
               <View style={styles.detail.list}>
@@ -230,7 +224,7 @@ class EventDetail extends Component {
                       {
                         event.contacts.map((contact, index) => {
                           return (
-                            <SimpleContact key={index} label={contact.title} number={contact.mobileNumber} fontSize='L' />
+                            <SimpleContact key={index} label={contact.title} number={contact.mobileNumber} fontSize={'L'} />
                           )
                         })
                       }
@@ -270,17 +264,21 @@ class EventDetail extends Component {
           label={Lang.SignUpNow}
           onPress={this.signUp}
         />
+        {toolbar}
       </View>
     )
   }
 }
 
 EventDetail.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  eventsActions: PropTypes.object.isRequired,
+  loginActions: PropTypes.object.isRequired,
   id: PropTypes.string,
   event: PropTypes.object,
   newEvent: PropTypes.object,
   user: PropTypes.object,
-  preview: PropTypes.bool
+  isPreview: PropTypes.bool
 }
 
 function mapStateToProps(state, ownProps) {

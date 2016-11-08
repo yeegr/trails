@@ -1,13 +1,6 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -17,7 +10,12 @@ import {
 
 import Header from '../shared/Header'
 import TrailList from './TrailList'
+
 import styles from '../../styles/main'
+
+import {
+  Lang
+} from '../../settings'
 
 const TrailPreview = (props) => {
   const navigator = props.navigator,
@@ -48,8 +46,10 @@ const TrailPreview = (props) => {
 }
 
 TrailPreview.propTypes = {
-  trails: PropTypes.array.isRequired,
-  navigator: PropTypes.object.isRequired
+  navigator: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+  query: PropTypes.string.isRequired,
+  trails: PropTypes.array.isRequired
 }
 
 export default TrailPreview

@@ -1,13 +1,6 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -22,6 +15,12 @@ import {bindActionCreators} from 'redux'
 import * as introActions from '../redux/actions/introActions'
 
 import AppIntro from 'react-native-app-intro'
+
+import {
+  AppSettings,
+  Lang,
+  Graphics
+} from '../settings'
 
 const styles = StyleSheet.create({
   slide: {
@@ -71,6 +70,10 @@ Intro = (props) => {
       </View>
     </AppIntro>
   )
+}
+
+Intro.propTypes = {
+  intro: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

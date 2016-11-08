@@ -1,10 +1,5 @@
 'use strict'
 
-import {
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -12,7 +7,6 @@ import React, {
 
 import {
   StyleSheet,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -23,9 +17,12 @@ import * as loginActions from '../../redux/actions/loginActions'
 import * as toolbarActions from '../../redux/actions/toolbarActions'
 
 import Icon from './Icon'
-import TextView from './TextView'
 
-import {USER_ACTIONS, TOOLBAR_TYPE_KEYS} from '../../../util/constants'
+import {
+  CONSTANTS,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class Toolbar extends Component {
   constructor(props) {
@@ -34,9 +31,24 @@ class Toolbar extends Component {
     this.comment = this.comment.bind(this)
   }
 
+  componentDidMount() {
+    const {data, type} = this.props,
+    {id, likeCount, saveCount, shareCount, commentCount} = data,
+    init = {
+      target: type,
+      ref: id,
+      likeCount,
+      saveCount,
+      shareCount,
+      commentCount
+    }
+
+    this.props.toolbarActions.resetToolbar(init)
+  }
+
   act(type) {
     if (this.props.user) {
-      var requestBody = {
+      let requestBody = {
         action: type,
         target: this.props.type,
         ref: this.props.data.id,
@@ -57,21 +69,6 @@ class Toolbar extends Component {
         data: this.props.data
       }
     })
-  }
-
-  componentDidMount() {
-    const {data, type} = this.props,
-    {id, likeCount, saveCount, shareCount, commentCount} = data,
-    init = {
-      target: type,
-      ref: id,
-      likeCount,
-      saveCount,
-      shareCount,
-      commentCount
-    }
-
-    this.props.toolbarActions.resetToolbar(init)
   }
 
   render() {
@@ -179,16 +176,16 @@ class Toolbar extends Component {
     )
 
     if (user) {
-      const likesArray = user.likes[TOOLBAR_TYPE_KEYS[type]],
-        savesArray = user.saves[TOOLBAR_TYPE_KEYS[type]],
-        sharesArray = user.shares[TOOLBAR_TYPE_KEYS[type]]
+      const likesArray = user.likes[CONSTANTS.TOOLBAR_TYPE_KEYS[type]],
+        savesArray = user.saves[CONSTANTS.TOOLBAR_TYPE_KEYS[type]],
+        sharesArray = user.shares[CONSTANTS.TOOLBAR_TYPE_KEYS[type]]
 
       likeFillColor = (likesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor,
       saveFillColor = (savesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor,
       shareFillColor = (sharesArray.indexOf(id) > -1) ? Graphics.colors.primary : fillColor
 
-      const likeAction = (likesArray.indexOf(id) < 0) ? USER_ACTIONS.LIKE : USER_ACTIONS.UNLIKE,
-        saveAction = (savesArray.indexOf(id) < 0) ? USER_ACTIONS.SAVE : USER_ACTIONS.UNSAVE
+      const likeAction = (likesArray.indexOf(id) < 0) ? CONSTANTS.USER_ACTIONS.LIKE : CONSTANTS.USER_ACTIONS.UNLIKE,
+        saveAction = (savesArray.indexOf(id) < 0) ? CONSTANTS.USER_ACTIONS.SAVE : CONSTANTS.USER_ACTIONS.UNSAVE
 
       likeView = (
         <TouchableOpacity onPress={() => this.act(likeAction)}>
@@ -203,7 +200,7 @@ class Toolbar extends Component {
       )
 
       shareView = (
-        <TouchableOpacity onPress={() => this.act(USER_ACTIONS.SHARE)}>
+        <TouchableOpacity onPress={() => this.act(CONSTANTS.USER_ACTIONS.SHARE)}>
           {shareIcon}
         </TouchableOpacity>
       )
@@ -236,9 +233,17 @@ const styles = StyleSheet.create({
 })
 
 Toolbar.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  toolbarActions: PropTypes.object.isRequired,
+  loginActions: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
-  showLabel: PropTypes.bool
+  toolbar: PropTypes.object.isRequired,
+  user: PropTypes.object,
+  showLabel: PropTypes.bool,
+  stack: PropTypes.string,
+  fillColor: PropTypes.string,
+  textColor: PropTypes.string
 }
 
 function mapStateToProps(state, ownProps) {

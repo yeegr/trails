@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -22,6 +16,10 @@ import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
 import styles from '../../styles/main'
+
+import {
+  Lang
+} from '../../settings'
 
 class EditEventDestination extends Component {
   constructor(props) {
@@ -59,6 +57,8 @@ class EditEventDestination extends Component {
 }
 
 EditEventDestination.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired,
   destination: PropTypes.string.isRequired
 }
 

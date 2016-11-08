@@ -1,7 +1,6 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -14,7 +13,10 @@ import {
 
 import ImagePath from '../shared/ImagePath'
 import Intro from '../shared/Intro'
-import {AppSettings, Graphics} from '../../settings'
+
+import {
+  Graphics
+} from '../../settings'
 
 const Hero = (props) => {
   const url = ImagePath({type: 'hero', path: props.imageUri})

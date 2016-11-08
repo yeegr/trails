@@ -1,0 +1,24 @@
+{
+  "Event":{
+    "Expenses":{
+      "Detail":[],
+      "Includes":[
+        "includes1",
+        "includes2",
+        "includes3",
+        "includes4",
+        "includes5"
+      ],
+      "Excludes":[
+        "excludes1",
+        "excludes2",
+        "excludes3",
+        "excludes4",
+        "excludes5"
+      ]
+    },
+    "Notes":[
+      "A", "B", "C"
+    ]
+  }
+}

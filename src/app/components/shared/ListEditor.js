@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -20,6 +14,10 @@ import {
 
 import TextView from './TextView'
 import InputBar from './InputBar'
+
+import {
+  Graphics
+} from '../../settings'
 
 class ListEditor extends Component {
   constructor(props) {
@@ -91,6 +89,10 @@ class ListEditor extends Component {
       </View>
     )
   }
+}
+
+ListEditor.propTypes = {
+  list: PropTypes.array
 }
 
 const styles = StyleSheet.create({

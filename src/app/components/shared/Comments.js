@@ -1,20 +1,12 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
 } from 'react'
 
 import {
-  ListView,
   ScrollView,
-  StyleSheet,
   View,
 } from 'react-native'
 
@@ -26,13 +18,16 @@ import * as commentsActions from '../../redux/actions/commentsActions'
 import * as loginActions from '../../redux/actions/loginActions'
 
 import Loading from './Loading'
-import Avatar from './Avatar'
-import Header from './Header'
 import InputBar from './InputBar'
-import TextView from './TextView'
-import Rating from './Rating'
-import {getTimeFromId, formatFromNow} from '../../../util/common'
+
+import CommentList from './CommentList'
+
 import styles from '../../styles/main'
+
+import {
+  Lang,
+  Graphics
+} from '../../settings'
 
 class Comments extends Component {
   constructor(props) {
@@ -62,7 +57,7 @@ class Comments extends Component {
   }
 
   render() {
-    const {comments, navigator} = this.props
+    const {comments} = this.props
 
     if (!comments) {
       return <Loading />
@@ -86,105 +81,13 @@ class Comments extends Component {
   }
 }
 
-const CommentList = (props) => {
-  const dataSource = new ListView.DataSource({
-    rowHasChanged: (r1, r2) => r1 != r2
-  }),
-  
-  renderRow = (rowData, sectionId, rowId) => {
-    return (
-      <Comment key={rowId} comment={rowData} />
-    )
-  }
-
-  return (
-    <ListView
-      enableEmptySections={true}
-      scrollEnabled={false}
-      dataSource={dataSource.cloneWithRows(props.comments)}
-      renderRow={renderRow}
-    />
-  )
-},
-
-Comment = (props) => {
-  const comment = props.comment, 
-  user = comment.creator,
-
-  styles = StyleSheet.create({
-    wrapper: {
-      alignItems: 'flex-start',
-      flexDirection: 'row',
-      justifyContent: 'flex-start',
-      marginBottom: 20,
-      paddingHorizontal: 15
-    },
-    content: {
-      flex: 1,
-      marginLeft: 10,
-      marginTop: 5
-    },
-    header: {
-      flexDirection: 'row'
-    }
-  })
-
-  return (
-    <View style={styles.wrapper}>
-      <Avatar user={user} />
-      <View style={styles.content}>
-        <View style={styles.header}>
-          <TextView
-            style={{flex: 1}} 
-            class='h4' 
-            text={user.handle}
-          />
-          <TextView 
-            class='h4'
-            text={getTimeFromId(comment._id).fromNow()}
-          />
-        </View>
-        <Rating type="S" value={comment.rating} />
-        <TextView text={comment.content} />
-      </View>
-    </View>
-  )
-}
-
-const Preview = (props) => {
-  const average = props.data.ratingAverage,
-    comments = props.data.comments,
-    previews = comments.slice(0, AppSettings.maxCommentPreviews),
-    more = {
-      text: Lang.AllComments,
-      onPress: () => {
-        if (props.user) {
-          props.navigator.push({
-            id: 'Comments',
-            title: Lang.Comments,
-            passProps: {
-              type: props.type,
-              data: props.data
-            }
-          })
-        } else {
-          props.loginActions.showLogin()
-        }
-      }
-    }
-
-  return (
-    <View style={styles.detail.section}>
-      <Header 
-        text={Lang.Comments}
-        more={more}
-        misc={
-          <Rating type="default" value={average} />
-        }
-      />
-      <CommentList comments={previews} />
-    </View>
-  )
+Comments.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  comments: PropTypes.object.isRequired,
+  commentsActions: PropTypes.object.isRequired,
+  type: PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired,
+  user: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {
@@ -206,4 +109,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Comments)
-export const CommentsPreview = connect(mapStateToProps, mapDispatchToProps)(Preview)

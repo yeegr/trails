@@ -1,9 +1,16 @@
 'use strict'
 
-import React from 'react'
-import {WebView} from 'react-native'
-import {AppSettings} from '../../settings'
-import styles from '../../styles/main'
+import React, {
+  PropTypes
+} from 'react'
+
+import {
+  WebView
+} from 'react-native'
+
+import {
+  AppSettings
+} from '../../settings'
 
 const AboutUs = (props) => {
   return (
@@ -13,6 +20,10 @@ const AboutUs = (props) => {
       style={{marginTop: 64}}
     />
   )
+}
+
+AboutUs.propTypes = {
+  
 }
 
 export default AboutUs

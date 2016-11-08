@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -22,6 +16,10 @@ import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../redux/actions/newTrailActions'
 
 import styles from '../../styles/main'
+
+import {
+  Lang
+} from '../../settings'
 
 class EditTrailDescription extends Component {
   constructor(props) {
@@ -59,7 +57,8 @@ class EditTrailDescription extends Component {
 }
 
 EditTrailDescription.propTypes = {
-  description: PropTypes.string.isRequired
+  description: PropTypes.string.isRequired,
+  newTrailActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

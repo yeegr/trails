@@ -1,7 +1,6 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -11,9 +10,12 @@ import {
   View,
 } from 'react-native'
 
-import TextView from './TextView'
 import Next from './Next'
-import {Graphics} from '../../settings'
+import TextView from './TextView'
+
+import {
+  Graphics
+} from '../../settings'
 
 const MoreLink = (props) => {
   return (

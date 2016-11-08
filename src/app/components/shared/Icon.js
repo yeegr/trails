@@ -1,7 +1,6 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -16,7 +15,10 @@ import Svg, {
 } from 'react-native-svg'
 
 import TextView from './TextView'
-import {Graphics} from '../../settings'
+
+import {
+  Graphics
+} from '../../settings'
 
 const Icon = (props) => {
   let icon = Graphics.icon,
@@ -30,8 +32,8 @@ const Icon = (props) => {
   margin = sideLength * (1 - (props.scale || icon.scale)) / 2,
   backgroundColor = props.backgroundColor || Graphics.colors.primary,
   fillColor = props.fillColor || icon.overlayColor,
-  background = <Circle cx={radius} cy={radius} r={radius} fill={backgroundColor} />,
-  height = (label || value) ? null : sideLength,
+  //background = <Circle cx={radius} cy={radius} r={radius} fill={backgroundColor} />,
+  //height = (label || value) ? null : sideLength,
 
   buttonStyles = (props.stack === 'vertical') ? styles.buttonVertical : styles.buttonHorizontal,
   labelStyles = (props.stack === 'vertical') ? vertical.label: horizontal.label,
@@ -40,8 +42,8 @@ const Icon = (props) => {
   label = (props.label && props.showLabel) ? (
     <TextView
       style={labelStyles}
-      fontSize='XS'
-      fontWeight='bold'
+      fontSize={'XS'}
+      fontWeight={'bold'}
       textColor={labelColor}
       text={props.label}
     />
@@ -110,5 +112,20 @@ vertical = {
   }
 }
 
+Icon.propTypes = {
+  value: PropTypes.any,
+  label: PropTypes.string,
+  showLabel: PropTypes.bool,
+  sideLength: PropTypes.number,
+  viewBox: PropTypes.number,
+  scale: PropTypes.number,
+  type: PropTypes.string,
+  path: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  fillColor: PropTypes.string,
+  labelColor: PropTypes.string,
+  valueColor: PropTypes.string,
+  stack: PropTypes.string
+}
 
 export default Icon

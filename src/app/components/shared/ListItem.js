@@ -1,24 +1,21 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
   StyleSheet,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native'
 
 import Icon from './Icon'
 import TextView from './TextView'
-import {Graphics} from '../../settings'
 
 const ListItem = (props) => {
   const value = (typeof(props.value) === 'string') ? (
-    <TextView class='title' text={props.value} />
+    <TextView class={'title'} text={props.value} />
   ) : props.value,
 
   view = (
@@ -27,7 +24,7 @@ const ListItem = (props) => {
         <Icon type={props.icon} />
       </View>
       <View style={styles.content}>
-        <TextView class='h4' text={props.label} />
+        <TextView class={'h4'} text={props.label} />
         {value}
       </View>
     </View>
@@ -60,5 +57,12 @@ styles = StyleSheet.create({
     marginBottom: 5
   }
 })
+
+ListItem.propTypes = {
+  icon: PropTypes.string,
+  label: PropTypes.string,
+  value: PropTypes.any,
+  onPress: PropTypes.func
+}
 
 export default ListItem

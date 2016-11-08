@@ -7,18 +7,20 @@ import React, {
 
 import {
   ListView,
-  StyleSheet,
   TouchableOpacity,
   View
 } from 'react-native'
 
-import Loading from '../shared/Loading'
 import SimpleContact from '../shared/SimpleContact'
 import TextView from '../shared/TextView'
 
-import {AppSettings, Lang, Graphics} from '../../settings'
-import {formatEventGroupLabel} from '../../../util/common'
 import styles from '../../styles/main'
+
+import {
+  UTIL,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class SignUpList extends Component {
   constructor(props) {
@@ -40,7 +42,7 @@ class SignUpList extends Component {
     let tmp = {}
 
     groups.map((group, index) => {
-      let sectionId = formatEventGroupLabel(this.props.event, index)
+      let sectionId = UTIL.formatEventGroupLabel(this.props.event, index)
 
       tmp[sectionId] = []
 
@@ -86,15 +88,14 @@ class SignUpList extends Component {
   }
 
   render() {
-    const {event} = this.props,
-    groups = event.groups
+    const {event} = this.props
 
     return (
       <View style={{flex: 1, marginTop: Graphics.page.marginTop}}>
         <TouchableOpacity onPress={() => this.eventPage(event._id)}>
           <TextView
             style={{fontWeight: '400', marginBottom: 5, marginTop: 15, paddingHorizontal: 15}}
-            fontSize="XL"
+            fontSize={'XL'}
             textColor={Graphics.textColors.link}
             text={event.title}
           />
@@ -109,6 +110,11 @@ class SignUpList extends Component {
       </View>
     )
   }
+}
+
+SignUpList.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  event: PropTypes.object.isRequired,
 }
 
 export default SignUpList

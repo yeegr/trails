@@ -1,7 +1,6 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -11,10 +10,13 @@ import {
   View
 } from 'react-native'
 
-import Communications from 'react-native-communications'
+import {phonecall} from 'react-native-communications'
 
 import TextView from '../shared/TextView'
-import {Graphics} from '../../settings'
+
+import {
+  Graphics
+} from '../../settings'
 
 const SimpleContact = (props) => {
   const phoneNumber = props.number.toString(),
@@ -26,7 +28,7 @@ const SimpleContact = (props) => {
         <TextView fontSize={fontSize} text={props.label} />
       </View>
       <View style={styles.value}>
-        <TouchableOpacity onPress={() => Communications.phonecall(phoneNumber, true)}>
+        <TouchableOpacity onPress={() => phonecall(phoneNumber, true)}>
           <TextView fontSize={fontSize} textColor={Graphics.textColors.mobileNumber} text={phoneNumber} />
         </TouchableOpacity>
       </View>
@@ -48,7 +50,8 @@ styles = StyleSheet.create({
 
 SimpleContact.propTypes = {
   label: PropTypes.string.isRequired,
-  number: PropTypes.number.isRequired
+  number: PropTypes.number.isRequired,
+  fontSize: PropTypes.string
 }
 
 export default SimpleContact

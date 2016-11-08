@@ -1,30 +1,26 @@
 'use strict'
 
-import {
-  AppSettings,
-  Graphics,
-  Lang
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
   StyleSheet,
-  Text,
   View
 } from 'react-native'
 
 import Avatar from '../shared/Avatar'
 import TextView from '../shared/TextView'
 
+import {
+  Graphics
+} from '../../settings'
+
 const TinyUser = (props) => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.avatar}>
-        <Avatar user={props.user} size='SML' />
+        <Avatar user={props.user} size={'SML'} />
       </View>
       <View>
         <TextView

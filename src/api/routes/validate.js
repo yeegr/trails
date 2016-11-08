@@ -16,10 +16,10 @@ module.exports = function(app) {
     tmp.vcode = CONST.generateRandomNumericString(4)
 
 
-    request.post({url: 'http://graphics:8000/validate', json: tmp}, (err, response, body) => {
+    /*request.post({url: 'http://graphics:8000/validate', json: tmp}, (err, response, body) => {
       if (err) {
         throw err
-      }
+      }*/
 
       tmp.ip = ip
 
@@ -31,7 +31,7 @@ module.exports = function(app) {
       .catch(function(err) {
         res.status(500).json({error: err})
       })
-    })
+    //})
   })
 
   /* Update */

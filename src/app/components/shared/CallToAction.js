@@ -1,9 +1,6 @@
 'use strict'
 
-import {Graphics} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -14,7 +11,10 @@ import {
 } from 'react-native'
 
 import TextView from './TextView'
-import {hex2rgb} from '../../../util/common'
+
+import {
+  Graphics
+} from '../../settings'
 
 const CallToAction = (props) => {
   let bgColor = props.backgroundColor || Graphics.colors.primary,
@@ -25,7 +25,7 @@ const CallToAction = (props) => {
   let view = (
     <View style={[styles.wrapper, {backgroundColor}]}>
       <TextView
-        fontSize='L'
+        fontSize={'L'}
         textColor={foregroundColor} 
         text={props.label}
       />
@@ -54,7 +54,7 @@ styles = StyleSheet.create({
 CallToAction.propTypes = {
   onPress: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
-  backgrondColor: PropTypes.string,
+  backgroundColor: PropTypes.string,
   textColor: PropTypes.string,
   disabled: PropTypes.bool
 }

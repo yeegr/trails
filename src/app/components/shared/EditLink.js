@@ -1,25 +1,23 @@
 'use strict'
 
-import {
-  AppSettings,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
 import {
-  Text,
   TouchableOpacity,
   View
 } from 'react-native'
 
 import Avatar from './Avatar'
-import TextView from './TextView'
 import Next from './Next'
+import TextView from './TextView'
+
 import styles from '../../styles/main'
+
+import {
+  Graphics
+} from '../../settings'
 
 const EditLink = (props) => {
   let value = null
@@ -60,10 +58,12 @@ const EditLink = (props) => {
 }
 
 EditLink.propTypes = {
+  value: PropTypes.any,
   label: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
   required: PropTypes.bool,
-  hideArrow: PropTypes.bool
+  user: PropTypes.object,
+  validated: PropTypes.bool
 }
 
 export default EditLink

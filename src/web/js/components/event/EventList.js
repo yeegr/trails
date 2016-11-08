@@ -84,7 +84,7 @@ export class EventCard extends Component {
                     <row>
                         <UserCardItem user={user} />
                         <end>
-                            <Toolbar type="event" data={item} />
+                            <Toolbar type={'event'} data={item} />
                         </end>
                     </row>
                 </foot>

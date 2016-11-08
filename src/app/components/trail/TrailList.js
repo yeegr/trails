@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -22,6 +16,7 @@ import * as trailsActions from '../../redux/actions/trailsActions'
 
 import Loading from '../shared/Loading'
 import TrailCard from './TrailCard'
+
 import styles from '../../styles/main'
 
 class TrailList extends Component {
@@ -32,7 +27,7 @@ class TrailList extends Component {
       rowHasChanged: (r1, r2) => r1 != r2
     })
 
-    var ds = new ListView.DataSource({
+    let ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 != r2
     })
 
@@ -43,22 +38,19 @@ class TrailList extends Component {
   }
 
   componentWillMount() {
-    if (!this.props.trails) {
-      this.props.trailsActions.listTrails(this.props.query)
-    }
-  }
-
-  componentDidMount() {
     if (this.props.trails) {
       this.setState({
         loading: false,
         dataSource: this.state.dataSource.cloneWithRows(this.props.trails)
       })
+
     } else {
       this.setState({
         loading: this.props.isFetching,
         dataSource: this.state.dataSource.cloneWithRows(this.props.remoteTrails)
       })
+
+      this.props.trailsActions.listTrails(this.props.query)
     }
   }
 
@@ -69,8 +61,7 @@ class TrailList extends Component {
   }
 
   render() {
-    const trails = (this.props.trails) ? this.props.trails : this.props.remoteTrails,
-      {navigator} = this.props
+    const trails = (this.props.trails) ? this.props.trails : this.props.remoteTrails
 
     if (!trails) {
       return <Loading />
@@ -88,6 +79,14 @@ class TrailList extends Component {
 
     return (this.props.trails) ? list : <View style={{paddingTop: 20}}>{list}</View>
   }
+}
+
+TrailList.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  trailsActions: PropTypes.object.isRequired,
+  query: PropTypes.string,
+  trails: PropTypes.array,
+  isFetching: PropTypes.bool,
 }
 
 function mapStateToProps(state, ownProps) {

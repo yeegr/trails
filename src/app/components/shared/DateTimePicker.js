@@ -15,7 +15,6 @@ import {
 } from 'react-native'
 
 import {
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -57,7 +56,7 @@ class DateTimePicker extends Component {
     const title = (this.props.title) ? <Text style={styles.titleText}>{this.props.title}</Text> : null
 
     return (
-      <Modal animationType={"fade"} transparent={true}>
+      <Modal animationType={'fade'} transparent={true}>
         <View style={styles.wrapper}>
           <View style={styles.actionSheet}>
             <View style={styles.toolbar}>
@@ -122,14 +121,17 @@ const styles = StyleSheet.create({
 })
 
 DateTimePicker.propTypes = {
+  title: PropTypes.string,
   datetime: PropTypes.any,
+  maximumDate: PropTypes.date,
+  minimumDate: PropTypes.date,
+  mode: PropTypes.string,
   showPicker: PropTypes.bool.isRequired,
   cancelText: PropTypes.string.isRequired, 
   confirmText: PropTypes.string.isRequired,
   onCancel: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
   customStyles: PropTypes.object,
-  mode: PropTypes.string,
   interval: PropTypes.number
 }
 

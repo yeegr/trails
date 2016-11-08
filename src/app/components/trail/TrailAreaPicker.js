@@ -21,8 +21,12 @@ import * as newTrailActions from '../../redux/actions/newTrailActions'
 import Loading from '../shared/Loading'
 import ImagePath from '../shared/ImagePath'
 import TextView from '../shared/TextView'
-import {AppSettings, Graphics} from '../../settings'
-import {ASSET_FOLDERS} from '../../../util/constants'
+
+import {
+  CONSTANTS,
+  AppSettings,
+  Graphics
+} from '../../settings'
 
 class TrailAreaPicker extends Component {
   constructor(props) {
@@ -33,6 +37,10 @@ class TrailAreaPicker extends Component {
     this.state = {
       areas: []
     }
+  }
+
+  componentWillMount() {
+    this._listAreas(this.props.city)
   }
 
   _selectArea(id, name) {
@@ -55,10 +63,6 @@ class TrailAreaPicker extends Component {
     })
   }
 
-  componentWillMount() {
-    this._listAreas(this.props.city)
-  }
-
   render() {
     const {areas} = this.state
 
@@ -71,7 +75,7 @@ class TrailAreaPicker extends Component {
         <View style={styles.grid}>
         {
           areas.map((area, index) => {
-            const url = ImagePath({type: 'hero', path: ASSET_FOLDERS.Area + '/' + area.id + '/' + area.hero})
+            const url = ImagePath({type: 'hero', path: CONSTANTS.ASSET_FOLDERS.Area + '/' + area.id + '/' + area.hero})
 
             return (
               <TouchableOpacity key={index} onPress={() => this._selectArea(area._id, area.name)}>
@@ -81,7 +85,7 @@ class TrailAreaPicker extends Component {
                 >
                   <TextView
                     style={{backgroundColor: 'rgba(0,0,0,.5)', flex: 1, lineHeight: imageHeight / 2 + 10, textAlign: 'center'}}
-                    fontSize='L'
+                    fontSize={'L'}
                     textColor={Graphics.textColors.overlay}
                     text={area.name}
                   />
@@ -96,7 +100,7 @@ class TrailAreaPicker extends Component {
   }
 }
 
-const {width, height} = Dimensions.get('window'),
+const {width} = Dimensions.get('window'),
 margin = 15,
 numberPerRow = 2,
 imageWidth = Math.round((width - margin * (numberPerRow + 1)) / numberPerRow),
@@ -124,7 +128,9 @@ styles = StyleSheet.create({
 })
 
 TrailAreaPicker.propTypes = {
-  city: PropTypes.string.isRequired
+  city: PropTypes.string.isRequired,
+  newTrailActions: PropTypes.object.isRequired,
+  navigator: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

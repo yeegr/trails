@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -13,26 +7,26 @@ import React, {
 
 import {
   ScrollView,
-  Switch,
-  TouchableOpacity,
   View
 } from 'react-native'
-
-import Moment from 'moment'
-import Immutable from 'immutable'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
-import TextView from '../shared/TextView'
-import EditLink from '../shared/EditLink'
 import CityPicker from '../shared/CityPicker'
-import TypePicker from '../shared/TypePicker'
 import DateTimePicker from '../shared/DateTimePicker'
+import EditLink from '../shared/EditLink'
 import SearchPoi from '../shared/SearchPoi'
-import {formatMinutes} from '../../../util/common'
+import TypePicker from '../shared/TypePicker'
+
 import styles from '../../styles/main'
+
+import {
+  UTIL,
+  AppSettings,
+  Lang
+} from '../../settings'
 
 class EditEvent extends Component {
   constructor(props) {
@@ -53,6 +47,7 @@ class EditEvent extends Component {
   }
 
   componentWillMount() {
+    // this may be wrong
     if (!this.props.event) {
       this.props.newEventActions.createEvent()
     }
@@ -162,7 +157,7 @@ class EditEvent extends Component {
       break
 
       case 'preview':
-        const event = this.props.newEvent
+        //const event = this.props.newEvent
         //id = 'EventDetail',
         //title = Lang.EventDetail
       break
@@ -173,7 +168,7 @@ class EditEvent extends Component {
         id,
         title,
         passProps: {
-          preview: (type === 'preview')
+          isPreview: (type === 'preview')
         }
       })
     }
@@ -274,7 +269,7 @@ class EditEvent extends Component {
               required={true}
               validated={(event.gatherTime !== null)}
               onPress={() => this.setState({showDateTimePicker: true})}
-              value={(event.gatherTime) ? formatMinutes(event.gatherTime) : ''}
+              value={(event.gatherTime) ? UTIL.formatMinutes(event.gatherTime) : ''}
             />
             <EditLink
               label={Lang.GatherLocation}
@@ -372,6 +367,12 @@ class EditEvent extends Component {
       </View>
     )
   }
+}
+
+EditEvent.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired,
+  newEvent: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {

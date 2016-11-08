@@ -1,7 +1,6 @@
 'use strict'
 
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -15,7 +14,9 @@ import Svg, {
   Path
 } from 'react-native-svg'
 
-import {Graphics} from '../../settings'
+import {
+  Graphics
+} from '../../settings'
 
 const Rating = (props) => {
   const format = (n) => {
@@ -24,9 +25,9 @@ const Rating = (props) => {
   }
 
   let type = props.type || 'default', 
-  graphics = Graphics.ratings[type],
-  fillColor = props.fillColor || graphics.color,
-  value = props.value || 0,
+    graphics = Graphics.ratings[type],
+    fillColor = props.fillColor || graphics.color,
+    value = props.value || 0,
 
   styles = StyleSheet.create({
     wrapper: {
@@ -49,10 +50,6 @@ const Rating = (props) => {
       <Path scale={graphics.scale} fill={fillColor} d={Graphics.ratings[format(value)]} />
     </Svg>
   )
-
-  const valueChange = (value) => {
-    console.log(value)
-  }
 
   if (props.onValueChange && props.disabled != false) {
     return (
@@ -78,6 +75,14 @@ const Rating = (props) => {
   }
 
   return stars
+}
+
+Rating.propTypes = {
+  value: PropTypes.number,
+  type: PropTypes.string,
+  fillColor: PropTypes.string,
+  disabled: PropTypes.bool,
+  onValueChange: PropTypes.func
 }
 
 export default Rating

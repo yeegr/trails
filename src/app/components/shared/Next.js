@@ -1,12 +1,6 @@
 'use strict'
 
-import {
-  AppSettings,
-  Graphics
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -15,6 +9,10 @@ import {View} from 'react-native'
 import Svg, {
   Path
 } from 'react-native-svg'
+
+import {
+  Graphics
+} from '../../settings'
 
 const Next = (props) => {
   let width = 9,
@@ -44,6 +42,7 @@ const Next = (props) => {
 }
 
 Next.propTypes = {
+  path: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
   scale: PropTypes.number,
