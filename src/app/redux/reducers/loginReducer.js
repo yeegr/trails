@@ -1,7 +1,7 @@
 'use strict'
 
 import {AsyncStorage} from 'react-native'
-import {ACCESS_TOKEN, USER} from '../../../util/constants'
+import {CONSTANTS} from '../../settings'
 import * as ACTIONS from '../constants/loginConstants'
 
 const wechat = {
@@ -38,7 +38,7 @@ loginReducer = (state = init, action) => {
       })
 
     case ACTIONS.IS_LOGGED_OUT:
-      AsyncStorage.multiRemove([ACCESS_TOKEN, USER])
+      AsyncStorage.multiRemove([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER])
 
       return Object.assign({}, init, {
         toke: null,

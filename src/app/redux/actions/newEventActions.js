@@ -1,8 +1,10 @@
 'use strict'
 
-import {CONFIG} from '../../../util/constants'
-import {AppSettings} from '../../settings'
 import * as ACTIONS from '../constants/newEventConstants'
+import {
+  FETCH,
+  AppSettings
+} from '../../settings'
 
 export const createEvent = () => {
   return {
@@ -201,7 +203,7 @@ const saveError = (message) => {
 }
 
 const sendEvent = (data) => {
-  let config = Object.assign({}, CONFIG.POST, {
+  let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(data)
   })
 

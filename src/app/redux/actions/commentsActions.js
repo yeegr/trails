@@ -1,14 +1,10 @@
 'use strict'
 
-import {
-  CONFIG,
-  ACCESS_TOKEN,
-  USER
-} from '../../../util/constants'
-
 import * as ACTIONS from '../constants/commentsConstants'
-import * as loginActions from './loginActions'
-import {AppSettings} from '../../settings'
+import {
+  FETCH,
+  AppSettings
+} from '../../settings'
 
 const sendListRequest = () => {
   return {
@@ -68,7 +64,7 @@ const receiveCreateError = (message) => {
 }
 
 export const createComment = (req) => {
-  let config = Object.assign({}, CONFIG.POST, {
+  let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(req)
   })
 

@@ -6,7 +6,6 @@ import React, {
 } from 'react'
 
 import {
-  StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native'
@@ -24,11 +23,15 @@ import InfoItem from '../shared/InfoItem'
 import Intro from '../shared/Intro'
 import TextView from '../shared/TextView'
 
-import {AppSettings, Lang, Graphics} from '../../settings'
-
-import {formatEventGroupLabel, calculateInsurance} from '../../../util/common'
-
 import styles from '../../styles/main'
+
+import {
+  CONSTANTS,
+  UTIL,
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class EventPayment extends Component {
   constructor(props) {
@@ -43,17 +46,19 @@ class EventPayment extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.props.eventsActions.resetOrder()
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.events.order) {
       this.nextStep(nextProps.events.order)
     }
   }
 
+  componentWillUnmount() {
+    this.props.eventsActions.resetOrder()
+  }
+
   nextStep(order) {
+    console.log(order)
+
     let {event, navigator} = this.props,
       stack = navigator.getCurrentRoutes()
 
@@ -92,10 +97,10 @@ class EventPayment extends Component {
   }
 
   render() {
-    const {event} = this.props,
+    const {event, navigator} = this.props,
       eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
       selectedGroup = this.props.selectedGroup,
-      dates = formatEventGroupLabel(event, selectedGroup)
+      dates = UTIL.formatEventGroupLabel(event, selectedGroup)
       //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
 
     const paymentMethodSelector = (event.expenses.perHead > 0) ? (
@@ -108,8 +113,8 @@ class EventPayment extends Component {
               <Icon 
                 backgroundColor={Graphics.colors.transparent} 
                 fillColor={Graphics.colors.primary} 
-                sideLength='36'
-                type='checkmark'
+                sideLength={36}
+                type={'checkmark'}
               />
             ) : null
 
@@ -142,12 +147,12 @@ class EventPayment extends Component {
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
-              align='bottom'
+              align={'bottom'}
               title={event.title}
               excerpt={event.excerpt}
             />
           )}>
-          <View style={{backgroundColor: Graphics.colors.background}}>
+          <View style={styles.detail.article}>
             <View style={styles.detail.section}>
               <TextView class={'h2'} text={Lang.EventInfo} />
               <View style={styles.detail.group}>
@@ -160,18 +165,42 @@ class EventPayment extends Component {
               <View style={[styles.detail.group, {marginBottom: 0}]}>
                 {
                   this.state.signUps.map((signUp, index) => {
-                    let payment = calculateInsurance(event, signUp)
+                    let payment = UTIL.calculateInsurance(event, signUp)
                     signUp.payment = payment
-                    total += payment
+                    total += payment.subTotal
 
                     return (
-                      <InfoItem key={index} label={signUp.name} value={payment + Lang.Yuan} align="right" noColon={true} />
+                      <InfoItem
+                        key={index}
+                        align={'right'}
+                        noColon={true}
+                        label={signUp.name}
+                        value={payment.subTotal.toString() + Lang.Yuan}
+                        more={{
+                          label: Lang.Detail,
+                          onPress: () => {
+                            navigator.push({
+                              id: 'OrderSummary',
+                              title: Lang.OrderSummary,
+                              passProps: {
+                                event,
+                                selectedGroup,
+                                signUp
+                              }
+                            })
+                          }
+                        }}
+                      />
                     )
                   })
                 }
               </View>
               <View style={{marginTop: 5}}>
-                <InfoItem label={Lang.Total} value={total.toString() + Lang.Yuan} align="right" />
+                <InfoItem
+                  align={'right'} 
+                  label={Lang.Total}
+                  value={UTIL.formatCurrency(total).toString() + Lang.Yuan}
+                />
               </View>
             </View>
             {paymentMethodSelector}
@@ -187,10 +216,19 @@ class EventPayment extends Component {
   }
 }
 
+EventPayment.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  eventsActions: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  event: PropTypes.object.isRequired,
+  selectedGroup: PropTypes.number.isRequired,
+  signUps: PropTypes.array.isRequired
+}
+
 function mapStateToProps(state, ownProps) {
   return {
-    events: state.events,
-    user: state.login.user
+    user: state.login.user,
+    events: state.events
   }
 }
 

@@ -6,7 +6,8 @@ import {StyleSheet} from 'react-native'
 export default StyleSheet.create({
   article: {
     backgroundColor: Graphics.colors.background,
-    flex: 1
+    flex: 1,
+    paddingTop: 20
   },
   toolbar: {
     backgroundColor: Graphics.colors.white,
@@ -16,7 +17,7 @@ export default StyleSheet.create({
     paddingVertical: 15
   },
   section: {
-    marginVertical: 15
+    marginBottom: 30
   },
   content: {
     flex: 1,

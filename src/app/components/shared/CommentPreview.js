@@ -51,7 +51,7 @@ const CommentPreview = (props) => {
         text={Lang.Comments}
         more={more}
         misc={
-          <Rating type="default" value={average} />
+          <Rating type={'default'} value={average} />
         }
       />
       <CommentList comments={previews} />

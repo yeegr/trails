@@ -58,7 +58,7 @@ InputItem.propTypes = {
   input: PropTypes.object.isRequired,
   required: PropTypes.bool,
   styles: PropTypes.object,
-  inputStyle: PropTypes.object
+  inputStyle: PropTypes.string
 }
 
 export default InputItem

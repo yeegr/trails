@@ -81,7 +81,7 @@ class ListEditor extends Component {
           renderRow={this.renderRow}
         />
         <InputBar
-          type="list"
+          type={'list'}
           index={this.state.selectedIndex}
           text={this.state.selectedText}
           onSubmit={(text, index) => this.saveText(text, index)}

@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -24,11 +18,17 @@ import {
 
 import MapView from 'react-native-maps'
 import CallToAction from './CallToAction'
-import {setRegion, hex2rgb} from '../../../util/common'
 
 import Icon from './Icon'
 import Loading from './Loading'
 import NavbarButton from './NavbarButton'
+
+import {
+  UTIL,
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class SearchPoi extends Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class SearchPoi extends Component {
     }
 
     this.state = {
-      region: setRegion(initPoi, ASPECT_RATIO),
+      region: UTIL.setRegion(initPoi, ASPECT_RATIO),
       keywords: '',
       isFetching: false,
       poiList: null,
@@ -102,7 +102,7 @@ class SearchPoi extends Component {
       keywords: poi.name,
       selectedPoi: poi,
       selectedIndex: index,
-      region: setRegion(poi, ASPECT_RATIO)
+      region: UTIL.setRegion(poi, ASPECT_RATIO)
     })
   }
 
@@ -276,7 +276,7 @@ styles = StyleSheet.create({
     paddingVertical: 10
   },
   selectedItem: {
-    backgroundColor: hex2rgb(Graphics.colors.primary, .5)
+    backgroundColor: UTIL.hex2rgb(Graphics.colors.primary, .5)
   },
   list: {
     flex: 0,

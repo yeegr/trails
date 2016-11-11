@@ -1,8 +1,9 @@
 'use strict'
 
-import {CONFIG} from '../../../util/constants'
-import {AppSettings} from '../../settings'
 import * as ACTIONS from '../constants/trailsConstants'
+import {
+  AppSettings
+} from '../../settings'
 
 // list trails
 const requestTrails = (params) => {
@@ -30,9 +31,7 @@ export const listTrails = (params) => {
   return (dispatch) => {
     dispatch(requestTrails(params))
 
-    console.log(AppSettings.apiUri + 'trails/?' + params)
-
-    return fetch(AppSettings.apiUri + 'trails/?' + params)
+    return fetch(AppSettings.apiUri + 'trails/' + params)
       .then((res) => {
         return res.json()
       })

@@ -109,6 +109,7 @@
   "GatherLocation":"集合地点",
   "Contacts":"联系方式",
   "SignUps":"报名驴友",
+  "SignUpPerson":"报名驴友",
   "Persons":"人",
   "AttendeeLimits":"组队人数",
   "MinimumAttendees":"最低人数",
@@ -180,6 +181,22 @@
   "RequiredExpense":"“人均费用”和“会员费用”、“非会员费用”两组中至少必填一组",
   "EventPreview":"活动预览",
 
+  "Detail":"详情",
+  "Level":"级",
+  "OrderSummary":"订单摘要",
+  "InsuranceExplicate":"保险解析",
+  "InsuranceFee":"保险费",
+
+  "Insurance": {
+    "BaseRate":"基础费率",
+    "UserLevelCoef":"驴友级别系数",
+    "TrailDifficultyCoef":"路线难度系数",
+    "EventDurationCoef":"活动日期系数",
+    "EventDurations":"1日,2-5日,6-9日,10-12日",
+    "EventGroupSizeCoef":"团队人数系数",
+    "EventGroupSizes":"单人,2-30人,30人及以上",
+    "CombinedCoef":"合计系数"
+  },
 
   "Post":"文章",
   "Posts":"文章",

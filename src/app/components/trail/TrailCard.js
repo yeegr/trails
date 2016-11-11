@@ -39,13 +39,15 @@ const TrailCard = (props) => {
       <TouchableOpacity onPress={() => gotoDetailPage()}>
         <TrailInfo type={trail.type} title={trail.title} date={trail.date}/>
       </TouchableOpacity>
-      <TrailData difficultyLevel={trail.difficultyLevel}
-        totalDuration={trail.totalDuration}
-        totalDistance={trail.totalDistance}
-        totalElevation={trail.totalElevation}
-        maximumAltitude={trail.maximumAltitude}
-        averageSpeed={trail.averageSpeed}
-      />
+      <View style={{marginHorizontal: 5}}>
+        <TrailData difficultyLevel={trail.difficultyLevel}
+          totalDuration={trail.totalDuration}
+          totalDistance={trail.totalDistance}
+          totalElevation={trail.totalElevation}
+          maximumAltitude={trail.maximumAltitude}
+          averageSpeed={trail.averageSpeed}
+        />
+      </View>
       <View style={global.map}>
         <TrailMap points={trail.points} />
       </View>

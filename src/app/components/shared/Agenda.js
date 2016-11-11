@@ -95,7 +95,7 @@ const Agenda = (props) => {
     <TouchableOpacity onPress={() => props.onPress(agenda)}>
       <View style={styles.wrapper}>
         <View style={styles.icon}>
-          <Icon type={type} />
+          <Icon type={type.toString()} />
         </View>
         {view}
       </View>

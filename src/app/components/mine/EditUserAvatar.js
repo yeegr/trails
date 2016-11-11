@@ -45,7 +45,7 @@ class EditUserAvatar extends Component {
   }
 
   selectPhoto() {
-    var options = {
+    let options = {
       title: Lang.SelectPhoto,
       storageOptions: { 
         skipBackup: true, 

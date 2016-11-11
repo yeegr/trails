@@ -67,8 +67,8 @@ const CityPicker = (props) => {
       <TouchableOpacity onPress={props.onCancel} style={styles.modal.close}>
         <Icon 
           backgroundColor={Graphics.colors.transparent}
-          fillColor="rgba(0, 0, 0, 0.5)"
-          type="close"
+          fillColor={'rgba(0, 0, 0, 0.5)'}
+          type={'close'}
         />
       </TouchableOpacity>
     </Modal>

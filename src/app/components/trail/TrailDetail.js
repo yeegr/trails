@@ -13,7 +13,6 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as trailsActions from '../../redux/actions/trailsActions'
-import {ACTION_TARGETS} from '../../../util/constants'
 
 import Loading from '../shared/Loading'
 import Header from '../shared/Header'
@@ -30,6 +29,7 @@ import CommentPreview from '../shared/CommentPreview'
 import styles from '../../styles/main'
 
 import {
+  CONSTANTS,
   Lang
 } from '../../settings'
 
@@ -60,7 +60,7 @@ class TrailDetail extends Component {
         <View style={styles.detail.toolbar}>
           <Toolbar
             navigator={navigator}
-            type={ACTION_TARGETS.TRAIL}
+            type={CONSTANTS.ACTION_TARGETS.TRAIL}
             data={trail}
           />
         </View>
@@ -70,14 +70,14 @@ class TrailDetail extends Component {
     let galleryPreview = (trail.photos.length > 0) ? (
       <GalleryPreview
         navigator={navigator}
-        type="preview"
+        type={'preview'}
         gallery={trail.photos}
       />
     ) : null,
     commentsPreview = (trail.comments.length > 0) ? (
       <CommentPreview 
         navigator={navigator}
-        type={ACTION_TARGETS.TRAIL}
+        type={CONSTANTS.ACTION_TARGETS.TRAIL}
         data={trail}
       />
     ) : null
@@ -88,14 +88,16 @@ class TrailDetail extends Component {
           <View style={styles.detail.article}>
             <View style={styles.detail.section}>
               <TrailInfo type={trail.type} title={trail.title} date={trail.date}/>
-              <TrailData
-                difficultyLevel={trail.difficultyLevel}
-                totalDuration={trail.totalDuration}
-                totalDistance={trail.totalDistance}
-                totalElevation={trail.totalElevation}
-                maximumAltitude={trail.maximumAltitude}
-                averageSpeed={trail.averageSpeed}
-              />
+              <View style={{marginHorizontal: 10}}>
+                <TrailData
+                  difficultyLevel={trail.difficultyLevel}
+                  totalDuration={trail.totalDuration}
+                  totalDistance={trail.totalDistance}
+                  totalElevation={trail.totalElevation}
+                  maximumAltitude={trail.maximumAltitude}
+                  averageSpeed={trail.averageSpeed}
+                />
+              </View>
               <View style={[styles.global.map, {marginHorizontal: 15}]}>
                 <TrailMap points={trail.points} />
               </View>

@@ -36,5 +36,12 @@ export const FETCH = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     }
+  },
+
+  UPLOAD: {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    }
   }
 }

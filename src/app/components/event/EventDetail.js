@@ -16,6 +16,7 @@ import Moment from 'moment'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../redux/actions/eventsActions'
+import * as navbarActions from '../../redux/actions/navbarActions'
 import * as loginActions from '../../redux/actions/loginActions'
 
 import TextView from '../shared/TextView'
@@ -31,7 +32,6 @@ import GearList from '../shared/GearList'
 import WebViewWrapper from '../shared/WebViewWrapper'
 import TagList from '../shared/TagList'
 import Toolbar from '../shared/Toolbar'
-import CallToAction from '../shared/CallToAction'
 import CommentPreview from '../shared/CommentPreview'
 import UserLink from '../user/UserLink'
 
@@ -58,6 +58,18 @@ class EventDetail extends Component {
   componentWillMount() {
     if (!this.props.isPreview) {
       this.props.eventsActions.getEvent(this.props.id)
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.navbar.nav_to_signup === true) {
+      this.signUp()
+    }
+  }
+
+  componentWillUnmount() {
+    if (!this.props.isPreview) {
+      this.props.eventsActions.clearEvent()
     }
   }
 
@@ -93,7 +105,7 @@ class EventDetail extends Component {
     }
 
     let creator = this.props.user, 
-    toolbar = null
+      toolbar = null
 
     if (!this.props.isPreview) {
       creator = event.creator,
@@ -109,81 +121,81 @@ class EventDetail extends Component {
     }
 
     const eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
-    eventGroups = (event.groups.length > 1) ? (
-      <ListItem icon="calendar"
-        label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}
-        value={Moment(event.groups[0].startDate).format('LL') + '-' + Moment(event.groups[event.groups.length-1].startDate).format('LL')}
-      />
-    ) : null,
-    gatherTime = (event.groups.length > 1) ? UTIL.formatMinutes(event.gatherTime) : Moment(event.groups[0]).format('ll') + UTIL.formatMinutes(event.gatherTime),
-    expensesDetail = (event.expenses.detail && event.expenses.detail.length > 0) ? (
-      <View style={styles.detail.section}>
-        <TextView class={'h3'} text={Lang.ExpensesDetail} />
-        <View style={styles.detail.list}>
-          <OrderedList content={event.expenses.detail} />
+      eventGroups = (event.groups.length > 1) ? (
+        <ListItem icon={'calendar'}
+          label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}
+          value={Moment(event.groups[0].startDate).format('LL') + '-' + Moment(event.groups[event.groups.length-1].startDate).format('LL')}
+        />
+      ) : null,
+      gatherTime = (event.groups.length > 1) ? UTIL.formatMinutes(event.gatherTime) : Moment(event.groups[0]).format('ll') + UTIL.formatMinutes(event.gatherTime),
+      expensesDetail = (event.expenses.detail && event.expenses.detail.length > 0) ? (
+        <View style={styles.detail.section}>
+          <TextView class={'h3'} text={Lang.ExpensesDetail} />
+          <View style={styles.detail.list}>
+            <OrderedList content={event.expenses.detail} />
+          </View>
         </View>
-      </View>
-    ) : null,
-    expensesInclude = (event.expenses.include && event.expenses.include.length > 0) ? (
-      <View style={styles.detail.section}>
-        <TextView class={'h3'} text={Lang.ExpensesInclude} />
-        <View style={styles.detail.list}>
-          <OrderedList content={event.expenses.include} />
+      ) : null,
+      expensesInclude = (event.expenses.include && event.expenses.include.length > 0) ? (
+        <View style={styles.detail.section}>
+          <TextView class={'h3'} text={Lang.ExpensesInclude} />
+          <View style={styles.detail.list}>
+            <OrderedList content={event.expenses.include} />
+          </View>
         </View>
-      </View>
-    ) : null,
-    expensesExclude = (event.expenses.exclude && event.expenses.exclude.length > 0) ? (
-      <View style={styles.detail.section}>
-        <TextView class={'h3'} text={Lang.ExpensesExclude} />
-        <View style={styles.detail.list}>
-          <OrderedList content={event.expenses.exclude} />
+      ) : null,
+      expensesExclude = (event.expenses.exclude && event.expenses.exclude.length > 0) ? (
+        <View style={styles.detail.section}>
+          <TextView class={'h3'} text={Lang.ExpensesExclude} />
+          <View style={styles.detail.list}>
+            <OrderedList content={event.expenses.exclude} />
+          </View>
         </View>
-      </View>
-    ) : null,
-    eventDestination = (event.destination && event.destination.length > 0) ? (
-      <View ref="eventDestination" style={styles.detail.section}>
-        <TextView class={'h2'} text={Lang.Destination} />
-        <WebViewWrapper html={'<div>' + event.destination + '</div>'} />
-      </View>
-    ) : null,
-    eventGears = (event.gears.images && event.gears.images.length > 0) ? (
-      <View ref="eventGears" style={styles.detail.section}>
-        <Header text={Lang.GearsToBring} />
-        <View style={[styles.detail.content, {paddingHorizontal: 12}]}>
-          <GearList list={event.gears.images} />
+      ) : null,
+      eventDestination = (event.destination && event.destination.length > 0) ? (
+        <View ref="eventDestination" style={styles.detail.section}>
+          <TextView class={'h2'} text={Lang.Destination} />
+          <WebViewWrapper html={'<div>' + event.destination + '</div>'} />
         </View>
-        {otherGears}
-      </View>
-    ) : null,
-    otherGears = (event.gears.tags && event.gears.tags.length > 0) ? (
-      <View style={styles.detail.subsection}>
-        <TextView class={'h3'} text={Lang.OtherGears} />
-        <View style={[styles.detail.content, {paddingLeft: 15}]}>
-          <TagList tags={event.gears.tags} />
+      ) : null,
+      eventGears = (event.gears.images && event.gears.images.length > 0) ? (
+        <View ref="eventGears" style={styles.detail.section}>
+          <Header text={Lang.GearsToBring} />
+          <View style={[styles.detail.content, {paddingHorizontal: 12}]}>
+            <GearList list={event.gears.images} />
+          </View>
+          {otherGears}
         </View>
-      </View>
-    ) : null,
-    gearNotes = (event.gears.notes && event.gears.notes.length > 0) ? (
-      <View style={styles.detail.subsection}>
-        <TextView class={'h3'} text={Lang.OtherGears} />
-        <View style={[styles.detail.content, {paddingLeft: 15}]}>
-          <OrderedList content={event.gears.notes} />
+      ) : null,
+      otherGears = (event.gears.tags && event.gears.tags.length > 0) ? (
+        <View style={styles.detail.subsection}>
+          <TextView class={'h3'} text={Lang.OtherGears} />
+          <View style={[styles.detail.content, {paddingLeft: 15}]}>
+            <TagList tags={event.gears.tags} />
+          </View>
         </View>
-      </View>
-    ) : null,
-    eventNotes = (event.notes && event.notes.length > 0) ? (
-      <View ref="eventNotes" style={styles.detail.section}>
-        <Header text={Lang.EventNotes} />
-        <WebViewWrapper html={event.notes} />
-      </View>
-    ) : null,
-    commentsPreview = (event.comments.length > 0) ? (
-      <CommentPreview 
-        navigator={navigator}
-        type={CONSTANTS.ACTION_TARGETS.EVENT}
-        data={event}
-      />
-    ) : null
+      ) : null,
+      gearNotes = (event.gears.notes && event.gears.notes.length > 0) ? (
+        <View style={styles.detail.subsection}>
+          <TextView class={'h3'} text={Lang.OtherGears} />
+          <View style={[styles.detail.content, {paddingLeft: 15}]}>
+            <OrderedList content={event.gears.notes} />
+          </View>
+        </View>
+      ) : null,
+      eventNotes = (event.notes && event.notes.length > 0) ? (
+        <View ref="eventNotes" style={styles.detail.section}>
+          <Header text={Lang.EventNotes} />
+          <WebViewWrapper html={event.notes} />
+        </View>
+      ) : null,
+      commentsPreview = (event.comments.length > 0) ? (
+        <CommentPreview 
+          navigator={navigator}
+          type={CONSTANTS.ACTION_TARGETS.EVENT}
+          data={event}
+        />
+      ) : null
 
     return (
       <View style={styles.global.wrapper}>
@@ -192,7 +204,7 @@ class EventDetail extends Component {
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
-              align="bottom"
+              align={'bottom'}
               title={event.title}
               excerpt={event.excerpt}
             />
@@ -201,7 +213,7 @@ class EventDetail extends Component {
             <View ref="eventInfo" style={styles.detail.section}>
               <Header text={Lang.EventInfo} />
               <View style={styles.detail.list}>
-                <ListItem icon={event.type}
+                <ListItem icon={event.type.toString()}
                   label={Lang.EventTitle}
                   value={event.title}
                 />
@@ -210,14 +222,14 @@ class EventDetail extends Component {
                   label={Lang.GatherTime}
                   value={gatherTime}
                 />
-                <ListItem icon="pin"
+                <ListItem icon={'pin'}
                   label={Lang.GatherLocation}
                   value={event.gatherLocation.name}
                 />
                 <View style={{marginBottom: 20}}>
                   <UserLink user={creator} navigator={navigator} />
                 </View>
-                <ListItem icon="phone"
+                <ListItem icon={'phone'}
                   label={Lang.Contacts}
                   value={
                     <View style={{marginTop: 5}}>
@@ -231,7 +243,7 @@ class EventDetail extends Component {
                     </View>
                   }
                 />
-                <ListItem icon="group"
+                <ListItem icon={'group'}
                   label={Lang.AttendeeLimits}
                   value={event.minAttendee + '-' + event.maxAttendee + Lang.Persons}
                 />
@@ -260,10 +272,6 @@ class EventDetail extends Component {
             {commentsPreview}
           </View>
         </ParallaxView>
-        <CallToAction
-          label={Lang.SignUpNow}
-          onPress={this.signUp}
-        />
         {toolbar}
       </View>
     )
@@ -273,6 +281,7 @@ class EventDetail extends Component {
 EventDetail.propTypes = {
   navigator: PropTypes.object.isRequired,
   eventsActions: PropTypes.object.isRequired,
+  navbarActions: PropTypes.object.isRequired,
   loginActions: PropTypes.object.isRequired,
   id: PropTypes.string,
   event: PropTypes.object,
@@ -283,6 +292,7 @@ EventDetail.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
+    navbar: state.navbar,
     event: state.events.event,
     newEvent: state.newEvent,
     user: state.login.user
@@ -292,6 +302,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     eventsActions: bindActionCreators(eventsActions, dispatch),
+    navbarActions: bindActionCreators(navbarActions, dispatch),
     loginActions: bindActionCreators(loginActions, dispatch)
   }
 }

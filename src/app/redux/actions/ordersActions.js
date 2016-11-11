@@ -1,8 +1,9 @@
 'use strict'
 
-import {CONFIG} from '../../../util/constants'
-import {AppSettings} from '../../settings'
 import * as ACTIONS from '../constants/ordersConstants'
+import {
+  AppSettings
+} from '../../settings'
 
 // list orders
 const requestOrders = (params) => {

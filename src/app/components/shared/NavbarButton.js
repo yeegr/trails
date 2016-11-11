@@ -35,7 +35,7 @@ const NavbarButton = (props) => {
     <TouchableOpacity onPress={props.onPress}>
       <View style={styles.button}>
         {icon}
-        {(props.showLabel === true) ? label : null}
+        {(props.icon === undefined || props.showLabel === true) ? label : null}
       </View>
     </TouchableOpacity>
   )

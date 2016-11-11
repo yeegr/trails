@@ -104,7 +104,7 @@ class InputBar extends Component {
     rater = (this.state.showRater) ? (
       <View style={styles.rater}>
         <Rating
-          type="M"
+          type={'M'}
           value={this.state.rating}
           onValueChange={(rating) => this.setState({rating})}
         />
@@ -120,7 +120,7 @@ class InputBar extends Component {
                 backgroundColor={Graphics.colors.transparent}
                 fillColor={Graphics.colors.primary}
                 sideLength={Graphics.avatar.S}
-                type="plus"
+                type={'plus'}
               />
             </View>
           </TouchableOpacity>
@@ -130,7 +130,7 @@ class InputBar extends Component {
       case 'comment':
         left = (
           <View style={styles.button}>
-            <Avatar user={this.props.user} size="S" />
+            <Avatar user={this.props.user} size={'S'} />
           </View>
         ),
         star = (
@@ -140,7 +140,7 @@ class InputBar extends Component {
                 backgroundColor={Graphics.colors.transparent}
                 fillColor={Graphics.colors.primary}
                 sideLength={Graphics.avatar.S}
-                type="star"
+                type={'star'}
               />
             </View>
           </TouchableOpacity>
@@ -158,7 +158,7 @@ class InputBar extends Component {
               backgroundColor={Graphics.colors.transparent}
               fillColor={Graphics.colors.lightGray} 
               sideLength={Graphics.avatar.S}
-              type="edit"
+              type={'edit'}
             />
             <TextInput
               ref='textInput'
@@ -177,7 +177,7 @@ class InputBar extends Component {
                 backgroundColor={Graphics.colors.transparent}
                 fillColor={Graphics.colors.primary} 
                 sideLength={Graphics.avatar.S}
-                type="checkmark"
+                type={'checkmark'}
               />
             </View>
           </TouchableOpacity>

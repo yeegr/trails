@@ -1,16 +1,11 @@
 'use strict'
 
-import {AsyncStorage} from 'react-native'
-
-import {
-  CONFIG,
-  ACCESS_TOKEN,
-  USER
-} from '../../../util/constants'
-
-import {AppSettings} from '../../settings'
 import * as ACTIONS from '../constants/newTrailConstants'
-import {calculateTrailData} from '../../../util/common'
+import {
+  FETCH,
+  UTIL,
+  AppSettings
+} from '../../settings'
 
 export const createTrail = (creator) => {
   return {
@@ -95,7 +90,7 @@ const _getTrailData = (points) => {
       totalElevation,
       maximumAltitude,
       averageSpeed
-    } = calculateTrailData(points)
+    } = UTIL.calculateTrailData(points)
 
   return {
     type: ACTIONS.GET_TRAIL_DATA,
@@ -163,7 +158,7 @@ const uploadError = (message) => {
 }
 
 const uploadTrail = (data) => {
-  let config = Object.assign({}, CONFIG.POST, {
+  let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(data)
   })
 
@@ -178,10 +173,10 @@ const uploadTrail = (data) => {
         if (res.id) {
           dispatch(receiveUploadResponse(res))
         } else {
-          dispatch(saveError(res.message))
+          dispatch(uploadError(res.message))
           return Promise.reject(res)
         }
       })
-      .catch((err) => dispatch(saveError(err)))
+      .catch((err) => dispatch(uploadError(err)))
   }
 }

@@ -24,7 +24,8 @@
     "push": "docker push shitulv/mongodb && docker push shitulv/api && docker push shitulv/graphics",
     "ios": "react-native run-ios",
     "lint": "esw webpack.config.* src",
-    "codepush": "code-push release-react trails ios"
+    "codepush": "code-push release-react trails ios",
+    "dev": "export APP_ENV=development && npm start && npm run ios"
   },
   "devDependencies": {
     "browser-sync": "^2.17.3",

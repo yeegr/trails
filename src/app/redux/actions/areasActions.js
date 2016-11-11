@@ -1,8 +1,7 @@
 'use strict'
 
-import {CONFIG} from '../../../util/constants'
-import {AppSettings} from '../../settings'
 import * as ACTIONS from '../constants/areasConstants'
+import {AppSettings} from '../../settings'
 
 // list areas
 const requestAreas = (params) => {

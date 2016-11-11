@@ -65,13 +65,13 @@ class PostDetail extends Component {
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
-              align="bottom"
+              align={'bottom'}
               title={post.title}
               tags={post.tags}
             />
           )}>
           <View style={styles.detail.article}>
-            <View style={{paddingHorizontal: 15}}>
+            <View style={[styles.detail.section, {paddingHorizontal: 15}]}>
               <UserLink user={post.creator} navigator={navigator} showArrow={true} />
             </View>
             <View style={[styles.detail.section, {paddingHorizontal: 10}]}>

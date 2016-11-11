@@ -21,7 +21,7 @@ const ListItem = (props) => {
   view = (
     <View style={styles.wrapper}>
       <View style={styles.icon}>
-        <Icon type={props.icon} />
+        <Icon type={props.icon.toString()} />
       </View>
       <View style={styles.content}>
         <TextView class={'h4'} text={props.label} />
@@ -59,9 +59,9 @@ styles = StyleSheet.create({
 })
 
 ListItem.propTypes = {
+  value: PropTypes.any,
   icon: PropTypes.string,
   label: PropTypes.string,
-  value: PropTypes.any,
   onPress: PropTypes.func
 }
 

@@ -1,34 +1,31 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
 } from 'react'
 
 import {
-  View,
-  Text,
   TextInput,
-  Slider,
-  Image,
-  TouchableHighlight,
-  TouchableOpacity
+  TouchableOpacity,
+  View,
 } from 'react-native'
 
-import Svg, {
-  Path
-} from 'react-native-svg'
+import CallToAction from '../shared/CallToAction'
+import Icon from '../shared/Icon'
+import RangeSlider from '../shared/RangeSlider'
+import TextView from '../shared/TextView'
 
-import {HOME_TABS} from '../../../util/constants'
 import styles from '../../styles/main'
 
-export default class SearchPosts extends Component {
+import {
+  CONSTANTS,
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
+
+class SearchPosts extends Component {
   constructor(props) {
     super(props)
 
@@ -40,22 +37,33 @@ export default class SearchPosts extends Component {
   render() {
     return (
       <View style={styles.search.wrapper}>
-        <View style={styles.search.section}>
-          <Text style={styles.search.label}
-          >
-            {Lang.Keywords}
-          </Text>
-          <TextInput
-            autoCorrect={false}
-            autoFocus={true}
-            maxLength={50}
-            placeholder={Lang.sampleAreasKeywords}
-            style={styles.search.textInput}
-            onChangeText={(keywords) => this.setState({keywords})}
-          />
+        <View style={styles.search.scroll}>
+          <View style={styles.search.section}>
+            <TextView
+              text={Lang.Keywords}
+            />
+            <TextInput
+              autoCorrect={false}
+              autoFocus={true}
+              maxLength={50}
+              placeholder={Lang.sampleAreasKeywords}
+              style={styles.search.textInput}
+              onChangeText={(keywords) => this.setState({keywords})}
+            />
+          </View>
         </View>
-
+        <CallToAction
+          backgroundColor={Graphics.colors.primary} 
+          label={Lang.Search}
+          onPress={this.search}
+        />
       </View>
     )
   }
 }
+
+SearchPosts.propTypes = {
+  navigator: PropTypes.object.isRequired
+}
+
+export default SearchPosts

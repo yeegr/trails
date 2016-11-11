@@ -70,7 +70,7 @@ class AreaDetail extends Component {
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
-              align="bottom"
+              align={'bottom'}
               title={Lang.cities[area.city] + ' ' + area.name}
               excerpt={area.excerpt}
             />
@@ -85,7 +85,7 @@ class AreaDetail extends Component {
                     <View key={i} style={styles.detail.icon}>
                       <Icon
                         sideLength={40}
-                        stack="vertical" 
+                        stack={'vertical'} 
                         type={i.toString()}
                         valueColor={Graphics.icon.labelColor}
                         value={Lang.tagArray[i]}

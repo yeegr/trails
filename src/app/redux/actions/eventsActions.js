@@ -1,9 +1,11 @@
 'use strict'
 
-import {CONFIG} from '../../../util/constants'
-import {AppSettings} from '../../settings'
 import * as ACTIONS from '../constants/eventsConstants'
 import * as loginActions from './loginActions'
+import {
+  FETCH,
+  AppSettings
+} from '../../settings'
 
 // list events
 const requestEvents = (params) => {
@@ -92,6 +94,13 @@ export const getEvent = (id) => {
   }
 }
 
+export const clearEvent = () => {
+  return {
+    type: ACTIONS.CLEAR_EVENT
+  }
+}
+
+// order & payment
 export const resetOrder = () => {
   return {
     type: ACTIONS.RESET_ORDER
@@ -118,7 +127,7 @@ const payError = () => {
 }
 
 export const pay = (order) => {
-  let config = Object.assign({}, CONFIG.POST, {
+  let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(order)
   })
 

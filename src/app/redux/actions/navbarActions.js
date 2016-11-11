@@ -2,6 +2,18 @@
 
 import * as ACTIONS from '../constants/navbarConstants'
 
+export const nav_to_signup = () => {
+  return {
+    type: ACTIONS.NAV_TO_SIGNUP
+  }
+}
+
+export const got_to_signup = () => {
+  return {
+    type: ACTIONS.GOT_TO_SIGNUP
+  }
+}
+
 export const addEventSignUp = () => {
   return {
     type: ACTIONS.ADD_EVENT_SIGNUP

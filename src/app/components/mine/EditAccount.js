@@ -112,7 +112,7 @@ const EditAccount = (props) => {
 }
 
 EditAccount.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object,
   loginActions: PropTypes.object.isRequired,
   changeTab: PropTypes.func.isRequired
 }

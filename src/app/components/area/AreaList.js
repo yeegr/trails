@@ -67,6 +67,7 @@ class AreaList extends Component {
             onRefresh={() => this.onRefresh()}
           />
         }
+        removeClippedSubviews={false}
         scrollEnabled={true}
         dataSource={this.dataSource.cloneWithRows(areas.list)}
         renderRow={this.renderRow}

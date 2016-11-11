@@ -13,6 +13,8 @@ Lang.dayArray = Lang.dayCount.split(',')
 Lang.tagArray = Lang.tagList.split(',')
 Lang.gearArray = Lang.gearList.split(',')
 Lang.userLevelArray = Lang.userLevels.split(',')
+Lang.eventDurationArray = Lang.Insurance.EventDurations.split(',')
+Lang.eventGroupSizeArray = Lang.Insurance.EventGroupSizes.split(',')
 
 export let AppSettings = require('./settings.json')
 AppSettings.mobileRx = new RegExp(/^1+\d{10}$/)
@@ -22,7 +24,7 @@ AppSettings.trailTypes = [0,1,2,3,4,5,6,7,8,9]
 AppSettings.paymentMethods = Lang.payments
 
 let env = require('./env.json'),
-servers = env['staging']
+servers = env['development']
 
 AppSettings.baseUri = servers.WEB_SERVER
 AppSettings.apiUri = servers.API_SERVER

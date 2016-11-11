@@ -25,7 +25,7 @@ const EventGroup = (props) => {
     <Icon 
       backgroundColor={Graphics.colors.transparent} 
       fillColor={Graphics.colors.primary} 
-      sideLength={'36'}
+      sideLength={36}
       type={'checkmark'}
     />
   ) : null,

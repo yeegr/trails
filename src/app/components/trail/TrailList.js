@@ -71,6 +71,7 @@ class TrailList extends Component {
       <ListView
         style={styles.global.wrapper}
         enableEmptySections={true}
+        removeClippedSubviews={false}
         scrollEnabled={false}
         dataSource={this.dataSource.cloneWithRows(trails)}
         renderRow={this.renderRow.bind(this)}

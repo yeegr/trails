@@ -1,7 +1,7 @@
 'use strict'
 
 import {AsyncStorage} from 'react-native'
-import {ACCESS_TOKEN} from '../../../util/constants'
+import {CONSTANTS} from '../../settings'
 import {
   SHOW_INTRO,
   HIDE_INTRO,
@@ -14,7 +14,7 @@ const introReducer = (state = {
   switch (action.type) {
     case SHOW_INTRO:
       return AsyncStorage
-        .multiGet([ACCESS_TOKEN, INTRO_PLAYED])
+        .multiGet([CONSTANTS.ACCESS_TOKEN, INTRO_PLAYED])
         .then((store) => {
           // not logged in or not played
           return {
@@ -27,7 +27,7 @@ const introReducer = (state = {
 
     case HIDE_INTRO:
       return AsyncStorage
-        .getItem(ACCESS_TOKEN)
+        .getItem(CONSTANTS.ACCESS_TOKEN)
         .then(() => {
           AsyncStorage.setItem(INTRO_PLAYED, true)
         })

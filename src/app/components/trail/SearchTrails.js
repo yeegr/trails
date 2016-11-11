@@ -110,7 +110,7 @@ class SearchTrails extends Component {
                     <View style={{marginBottom: 15, marginRight: 10}}>
                       <Icon
                         backgroundColor={color}
-                        stack="vertical" 
+                        stack={'vertical'} 
                         valueColor={color}
                         type={i.toString()} 
                         value={Lang.tagArray[i]}
@@ -153,7 +153,11 @@ class SearchTrails extends Component {
             </View>
           </View>
         </View>
-        <CallToAction onPress={this.search} label={Lang.Search} backgroundColor={Graphics.colors.primary} />
+        <CallToAction
+          backgroundColor={Graphics.colors.primary} 
+          label={Lang.Search}
+          onPress={this.search}
+        />
       </View>
     )
   }

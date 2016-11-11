@@ -38,6 +38,7 @@ import EventDetail from './event/EventDetail'
 import EventOrder from './event/EventOrder'
 import SelectOrderGroup from './event/SelectOrderGroup'
 import EventPayment from './event/EventPayment'
+import OrderSummary from './event/OrderSummary'
 import SearchEvents from './event/SearchEvents'
 import EditEvent from './event/EditEvent'
 import EditEventHero from './event/EditEventHero'
@@ -86,7 +87,11 @@ import {
 
 import styles from '../styles/main'
 
-const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
+const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
+  login: state.login,
+  user: state.login.user,
+  event: state.events.event,
+
   LeftButton: function(route, navigator, index, navState) {
     if (index === 0) {
       return null
@@ -111,22 +116,17 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
       case 'Home':
         switch (tabId) {
           case CONSTANTS.HOME_TABS.MINE:
-            rightTitleBar = (
-              <View style={styles.navbar.toolbar}>
-              </View>
-            )
+            rightTitleBar = null
           break
 
           case CONSTANTS.HOME_TABS.POSTS:
             rightTitleBar = (
-              <View style={styles.navbar.toolbar}>
-                <NavbarButton
-                  onPress={() => navigator.push(this.search(tabId))}
-                  icon={Graphics.titlebar.search}
-                  label={Lang.Search}
-                  showLabel={false}
-                />
-              </View>
+              <NavbarButton
+                onPress={() => navigator.push(this.search(tabId))}
+                icon={Graphics.titlebar.search}
+                label={Lang.Search}
+                showLabel={false}
+              />
             )
           break
 
@@ -172,20 +172,22 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
       break
 
       case 'AgendaList':
-        rightTitleBar = <NavbarButton
-          onPress={() => {
-            navigator.push({
-              id: 'EditAgenda',
-              title: Lang.Add + Lang.Agenda,
-              passProps: {
-                mode: 'new'
-              }
-            })
-          }}
-          icon={Graphics.titlebar.add}
-          label={Lang.Add}
-          showLabel={false}
-        />
+        rightTitleBar = (
+          <NavbarButton
+            onPress={() => {
+              navigator.push({
+                id: 'EditAgenda',
+                title: Lang.Add + Lang.Agenda,
+                passProps: {
+                  mode: 'new'
+                }
+              })
+            }}
+            icon={Graphics.titlebar.add}
+            label={Lang.Add}
+            showLabel={false}
+          />
+        )
       break
 
       case 'EditAgenda':
@@ -215,6 +217,15 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
         )
       break
 
+      case 'EventDetail':
+        rightTitleBar = (
+          <NavbarButton
+            onPress={() => this.signUp()}
+            label={Lang.SignUpNow}
+          />
+        )
+      break
+
       case 'EditUserAvatar':
         rightTitleBar = (
           <NavbarButton
@@ -229,11 +240,19 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
   },
 
   Title: function(route, navigator, index, navState) {
-    var title = (index === 0) ? Lang[((tabId === CONSTANTS.HOME_TABS.AREAS) ? CONSTANTS.HOME_TABS.TRAILS : tabId)] : route.title
+    let title = (index === 0) ? Lang[((tabId === CONSTANTS.HOME_TABS.AREAS) ? CONSTANTS.HOME_TABS.TRAILS : tabId)] : route.title
 
     return (
       <TextView style={{marginVertical: 5, fontWeight: '400'}} fontSize='XXL' textColor={Graphics.textColors.overlay} text={title} />
     )
+  },
+
+  signUp: function() {
+    if (this.user) {
+      dispatch(navbarActions.nav_to_signup())
+    } else {
+      dispatch(loginActions.showLogin())      
+    }
   },
 
   search: function(type) {
@@ -282,8 +301,8 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
   },
 
   add: function(navigator, type) {
-    if (login.user) {
-      var id = null,
+    if (this.user) {
+      let id = null,
         title = ''
 
       switch (type) {
@@ -309,7 +328,7 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
   },
 
   save: function(type) {
-    if (login.user) {
+    if (state.login.user) {
       switch (type) {
         case CONSTANTS.ACTION_TARGETS.TRAIL:
           dispatch(newTrailActions.saveTrail())
@@ -324,7 +343,7 @@ const NavigationBarRouteMapper = (tabId, login, dispatch) => ({
         break
 
         case CONSTANTS.ACCOUNT_ACTIONS.SAVE_AVATAR:
-          dispatch(loginActions.updateUserAvatar(login.user._id, login.tmpAvatarUri))
+          dispatch(loginActions.updateUserAvatar(this.user._id, this.login.tmpAvatarUri))
         break
       }
     } else {
@@ -356,6 +375,9 @@ class App extends Component {
   }
 
   render() {
+    let {state} = this.props,
+      {login} = state
+
     return (
       <View style={{flex: 1}}>
         <Navigator
@@ -535,6 +557,14 @@ class App extends Component {
               case 'EventPayment':
                 return (
                   <EventPayment
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'OrderSummary':
+                return (
+                  <OrderSummary
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />
@@ -791,22 +821,29 @@ class App extends Component {
           }}
           navigationBar={
             <Navigator.NavigationBar
-              routeMapper={NavigationBarRouteMapper(this.props.selectedTab, this.props.login, this.props.dispatch)}
+              routeMapper={NavigationBarRouteMapper(this.props.selectedTab, state, this.props.dispatch)}
               style={styles.navbar.wrapper}
             />
           }
         />
-        <Login showLogin={this.props.login.showLogin} />
+        <Login showLogin={login.showLogin} />
       </View>
     )
   }
+}
+
+App.propTypes = {
+  selectedTab: PropTypes.string.isRequired,
+  showIntro: PropTypes.bool.isRequired,
+  state: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
     selectedTab: state.home.selectedTab,
     showIntro: state.intro.showIntro,
-    login: state.login
+    state
   }
 }
 

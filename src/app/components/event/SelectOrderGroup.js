@@ -11,6 +11,10 @@ import {
 
 import ParallaxView from 'react-native-parallax-view'
 
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import * as navbarActions from '../../redux/actions/navbarActions'
+
 import CallToAction from '../shared/CallToAction'
 import ImagePath from '../shared/ImagePath'
 import Intro from '../shared/Intro'
@@ -35,6 +39,10 @@ class SelectOrderGroup extends Component {
     }
   }
 
+  componentWillMount() {
+    this.props.navbarActions.got_to_signup()
+  }
+
   nextStep() {
     this.props.navigator.push({
       id: 'EventOrder',
@@ -57,7 +65,7 @@ class SelectOrderGroup extends Component {
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
-              align="bottom"
+              align={'bottom'}
               title={event.title} 
               excerpt={event.excerpt}
             />
@@ -94,7 +102,21 @@ class SelectOrderGroup extends Component {
 
 SelectOrderGroup.propTypes = {
   navigator: PropTypes.object.isRequired,
-  event: PropTypes.object.isRequired
+  navbarActions: PropTypes.object.isRequired,
+  event: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 }
 
-export default SelectOrderGroup
+function mapStateToProps(state, ownProps) {
+  return {
+    user: state.login.user
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    navbarActions: bindActionCreators(navbarActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectOrderGroup)

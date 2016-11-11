@@ -114,12 +114,12 @@ vertical = {
 
 Icon.propTypes = {
   value: PropTypes.any,
+  type: PropTypes.string,
   label: PropTypes.string,
   showLabel: PropTypes.bool,
   sideLength: PropTypes.number,
   viewBox: PropTypes.number,
   scale: PropTypes.number,
-  type: PropTypes.string,
   path: PropTypes.string,
   backgroundColor: PropTypes.string,
   fillColor: PropTypes.string,

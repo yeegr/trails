@@ -49,6 +49,11 @@ const eventsReducer = (state = {
         event: null
       })
 
+    case ACTIONS.CLEAR_EVENT:
+      return Object.assign({}, state, {
+        event: null
+      })
+
     case ACTIONS.RESET_ORDER:
       return Object.assign({}, state, {
         order: null

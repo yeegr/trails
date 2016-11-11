@@ -44,8 +44,8 @@ const TypePicker = (props) => {
       <TouchableOpacity onPress={props.onCancel} style={styles.modal.close}>
         <Icon 
           backgroundColor={Graphics.colors.transparent}
-          fillColor="rgba(0, 0, 0, 0.5)"
-          type="close"
+          fillColor={'rgba(0, 0, 0, 0.5)'}
+          type={'close'}
         />
       </TouchableOpacity>
     </Modal>
@@ -64,7 +64,7 @@ IconGrid = (props) => {
             <View style={styles.modal.button}>
               <Icon
                 backgroundColor={color}
-                stack="vertical"
+                stack={'vertical'}
                 textColor={color} 
                 type={i.toString()} 
                 value={Lang.tagArray[i]}

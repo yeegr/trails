@@ -1,13 +1,17 @@
 'use strict'
 
 import {AsyncStorage} from 'react-native'
-import {AppSettings, Lang} from '../../settings'
-import {CONFIG, ACCESS_TOKEN, USER} from '../../../util/constants'
 import * as ACTIONS from '../constants/loginConstants'
+import {
+  CONSTANTS,
+  FETCH,
+  AppSettings,
+  Lang
+} from '../../settings'
 
 export const isLoggedIn = () => {
   return AsyncStorage
-    .multiGet([ACCESS_TOKEN, USER])
+    .multiGet([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER])
     .then((arr) => {
       if (arr[0][1] && arr[1][1]) {
         return {
@@ -74,7 +78,7 @@ const mobileValidationFailed = () => {
 }
 
 export const validateMobileNumber = (mobile, action) => {
-  let config = Object.assign({}, CONFIG.POST, {
+  let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify({
       mobile,
       action
@@ -138,7 +142,7 @@ const mobileVerificationFailed = (key) => {
 }
 
 export const verifyMobileNumber = (mobile, vcode) => {
-  let config = Object.assign({}, CONFIG.PUT, {
+  let config = Object.assign({}, FETCH.PUT, {
     body: JSON.stringify({
       mobile,
       vcode
@@ -268,7 +272,7 @@ const completeSignup = (creds) => {
 }
 
 export const loginUser = (creds) => {
-  let config = Object.assign({}, CONFIG.POST, {
+  let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(creds)
   })
 
@@ -286,8 +290,8 @@ export const loginUser = (creds) => {
       .then((res) => {
         if (res.token && res._id) {
           AsyncStorage.multiSet([
-            [ACCESS_TOKEN, res.token],
-            [USER, JSON.stringify(res)]
+            [CONSTANTS.ACCESS_TOKEN, res.token],
+            [CONSTANTS.USER, JSON.stringify(res)]
           ]).then(() => {
             dispatch(receiveLogin(res))
           })
@@ -318,14 +322,14 @@ const getUserError = (message) => {
 
 export const getUpdatedUser = (user_id) => {
   return (dispatch) => {
-    return fetch(AppSettings.apiUri + 'users/' + user_id, CONFIG.GET)
+    return fetch(AppSettings.apiUri + 'users/' + user_id, FETCH.GET)
       .then((res) => {
         return res.json()
       })
       .then((res) => {
         if (res.id) {
           AsyncStorage
-          .setItem(USER, JSON.stringify(res))
+          .setItem(CONSTANTS.USER, JSON.stringify(res))
           .then(() => {
             dispatch(receiveUser(res))
           })
@@ -353,7 +357,7 @@ const receiveLogout = () => {
 export const logoutUser = () => {
   return dispatch => {
     dispatch(requestLogout())
-    AsyncStorage.multiRemove([ACCESS_TOKEN, USER], () => {
+    AsyncStorage.multiRemove([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER], () => {
       dispatch(receiveLogout())
     })
   }
@@ -395,13 +399,9 @@ export const updateUserAvatar = (user_id, uri) => {
     uri
   })
 
-  let config = {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+  let config = Object.assign({}, FETCH.UPLOAD, {
     body: formData
-  }
+  })
 
   return (dispatch) => {
     dispatch(requestUserUpdate())
@@ -412,7 +412,7 @@ export const updateUserAvatar = (user_id, uri) => {
       })
       .then((res) => {
         AsyncStorage
-        .setItem(USER, JSON.stringify(res))
+        .setItem(CONSTANTS.USER, JSON.stringify(res))
         .then(() => {
           dispatch(receiveUpdatedUser(res))
         })
@@ -422,7 +422,7 @@ export const updateUserAvatar = (user_id, uri) => {
 }
 
 export const updateUser = (user_id, data) => {
-  let config = Object.assign({}, CONFIG.PUT, {
+  let config = Object.assign({}, FETCH.PUT, {
     body: JSON.stringify(data)
   })
 
@@ -435,7 +435,7 @@ export const updateUser = (user_id, data) => {
       })
       .then((res) => {
         AsyncStorage
-        .setItem(USER, JSON.stringify(res))
+        .setItem(CONSTANTS.USER, JSON.stringify(res))
         .then(() => {
           dispatch(receiveUpdatedUser(res))
         })
@@ -445,7 +445,7 @@ export const updateUser = (user_id, data) => {
 }
 
 export const updateUserMobile = (user_id, mobile, vcode) => {
-  let config = Object.assign({}, CONFIG.PUT, {
+  let config = Object.assign({}, FETCH.PUT, {
     body: JSON.stringify({
       mobile,
       vcode
@@ -464,7 +464,7 @@ export const updateUserMobile = (user_id, mobile, vcode) => {
           return Promise.reject(res)
         } else {
           AsyncStorage
-          .setItem(USER, JSON.stringify(res))
+          .setItem(CONSTANTS.USER, JSON.stringify(res))
           .then(() => {
             dispatch(receiveUpdatedUser(res))
           })

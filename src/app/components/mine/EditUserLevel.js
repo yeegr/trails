@@ -51,8 +51,8 @@ class EditUserLevel extends Component {
                   <Icon
                     backgroundColor={Graphics.colors.transparent}
                     fillColor={Graphics.colors.primary}
-                    sideLength='36'
-                    type='checkmark'
+                    sideLength={36}
+                    type={'checkmark'}
                   />
                 ) : null
 

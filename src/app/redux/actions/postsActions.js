@@ -1,7 +1,9 @@
 'use strict'
 
-import {AppSettings} from '../../settings'
 import * as ACTIONS from '../constants/postsConstants'
+import {
+  AppSettings
+} from '../../settings'
 
 // list posts
 const requestPosts = (params) => {

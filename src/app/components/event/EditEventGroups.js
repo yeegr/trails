@@ -102,7 +102,7 @@ class EditEventGroups extends Component {
           backgroundColor={Graphics.colors.primary}
         />
         <DateTimePicker
-          mode="date"
+          mode={'date'}
           cancelText={Lang.Cancel} 
           confirmText={Lang.Confirm}
           minimumDate={minimumDate}

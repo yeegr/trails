@@ -1,14 +1,11 @@
 'use strict'
 
-import {
-  CONFIG,
-  ACCESS_TOKEN,
-  USER
-} from '../../../util/constants'
-
 import * as ACTIONS from '../constants/toolbarConstants'
 import * as loginActions from './loginActions'
-import {AppSettings} from '../../settings'
+import {
+  FETCH,
+  AppSettings
+} from '../../settings'
 
 export const resetToolbar = (stats) => {
   return {
@@ -39,7 +36,7 @@ const receiveActionError = (message) => {
 }
 
 export const send = (req) => {
-  let config = Object.assign({}, CONFIG.POST, {
+  let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(req)
   })
 

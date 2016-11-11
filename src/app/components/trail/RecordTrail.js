@@ -168,6 +168,7 @@ class RecordTrail extends Component {
       accuracy: coords.accuracy
     }
   }
+
   _stopTracking() {
     Location.stopUpdatingLocation()
     this.LocationListener.remove()

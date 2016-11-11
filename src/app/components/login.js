@@ -182,7 +182,7 @@ class Login extends Component {
       loginProgress = (
         <ActivityIndicator
           animating={true}
-          size="large"
+          size={'large'}
           style={styles.loginProgress}
         />
       ),
@@ -216,7 +216,7 @@ class Login extends Component {
             {login.creds.wechat === null ? wechatAuthButton : null}
           </View>
           <TouchableOpacity onPress={this.hideLogin} style={styles.closeButton}>
-            <Icon backgroundColor={Graphics.colors.transparent} fillColor="rgba(255, 255, 255, 0.8)" type="close" />
+            <Icon backgroundColor={Graphics.colors.transparent} fillColor="rgba(255, 255, 255, 0.8)" type={'close'} />
           </TouchableOpacity>
         </Image>
       </Modal>

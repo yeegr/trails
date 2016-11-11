@@ -71,6 +71,7 @@ class EventList extends Component {
             onRefresh={() => this.onRefresh()}
           />
         }
+        removeClippedSubviews={false}
         scrollEnabled={true}
         dataSource={this.dataSource.cloneWithRows(events.list)}
         renderRow={this.renderRow}

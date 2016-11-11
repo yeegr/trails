@@ -1,51 +1,38 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
 } from 'react'
 
 import {
-  ListView,
-  Slider,
-  StyleSheet,
-  TextInput,
-  Text,
-  TouchableOpacity,
   View,
 } from 'react-native'
 
-import Svg, {
-  Circle
-} from 'react-native-svg'
-
 import ParallaxView from 'react-native-parallax-view'
-import RadioForm from 'react-native-simple-radio-button'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 
-import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as eventsActions from '../../redux/actions/eventsActions'
+import {connect} from 'react-redux'
 import * as navbarActions from '../../redux/actions/navbarActions'
 
 import CallToAction from '../shared/CallToAction'
-import Icon from '../shared/Icon'
 import InfoItem from '../shared/InfoItem'
-import InputItem from '../shared/InputItem'
 import Intro from '../shared/Intro'
 import ImagePath from '../shared/ImagePath'
 import TextView from '../shared/TextView'
 
-
-import {formatEventGroupLabel} from '../../../util/common'
+import EventOrderForm from './EventOrderForm'
 
 import styles from '../../styles/main'
+
+import {
+  UTIL,
+  CONSTANTS,
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class EventOrder extends Component {
   constructor(props) {
@@ -70,8 +57,20 @@ class EventOrder extends Component {
     }
   }
 
+  componentWillMount() {
+    this.props.navbarActions.got_to_signup()
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.refs.scrollContent.measure((fx, fy, width, height, px, py) => {
+        this.setState({initPageHeight: height})
+      })
+    }, 200)
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.navbar.addingEventSignup) {
+    if (nextProps.navbar.addingEventSignup === true) {
       this.addSignUp()
     }
   }
@@ -130,7 +129,7 @@ class EventOrder extends Component {
     let signUps = this.state.signUps,
       tmp = []
 
-    signUps.map((signUp, index) => {
+    signUps.map((signUp) => {
       let validated = this.validateData(signUp)
       if (validated) {
         tmp.push(validated)
@@ -152,46 +151,38 @@ class EventOrder extends Component {
     }
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.refs.scrollContent.measure((fx, fy, width, height, px, py) => {
-        this.setState({initPageHeight: height})
-      })
-    }, 200)
-  }
-
   render() {
-    const event = this.props.event,
+    const {event} = this.props,
       eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
       selectedGroup = this.props.selectedGroup || 0,
-      dates = formatEventGroupLabel(event, selectedGroup)
+      dates = UTIL.formatEventGroupLabel(event, selectedGroup)
 
-      //deposit = (event.expenses.deposit) ? <InfoItem label={Lang.Deposit} value={event.expenses.deposit + Lang.Yuan} /> : null
-      
     return(
       <View style={styles.global.wrapper}>
-        <ParallaxView ref='scrollView'
+        <ParallaxView ref="scrollView"
           style={{flex: 1}}
           backgroundSource={{uri: eventBackgroundUrl}}
           windowHeight={Graphics.heroImage.height}
           header={(
             <Intro
-              align="bottom"
+              align={'bottom'}
               title={event.title} 
               excerpt={event.excerpt}
             />
           )}>
-          <View ref="scrollContent" style={{backgroundColor: Graphics.colors.background}}>
+          <View ref="scrollContent" style={styles.detail.article}>
             <View style={styles.detail.section}>
               <TextView class={'h2'} text={Lang.EventInfo} />
-              <InfoItem label={Lang.EventDates} value={dates} />
-              <InfoItem label={Lang.PerHead} value={event.expenses.perHead.toString() + Lang.Yuan} />
+              <View style={styles.detail.group}>
+                <InfoItem label={Lang.EventDates} value={dates} />
+                <InfoItem label={Lang.PerHead} value={event.expenses.perHead.toString() + Lang.Yuan} />
+              </View>
             </View>
             <View style={styles.detail.section}>
               {
                 this.state.signUps.map((signUp, index) => {
                   return (
-                    <MiniForm 
+                    <EventOrderForm 
                       key={index} 
                       index={index} 
                       signUp={signUp} 
@@ -214,164 +205,24 @@ class EventOrder extends Component {
   }
 }
 
-class MiniForm extends Component {
-  constructor(props) {
-    super(props)
-    this.updateState = this.updateState.bind(this)
-
-    let signUp = this.props.signUp
-
-    this.state = {
-      name: signUp.name,
-      mobile: signUp.mobile,
-      pid: signUp.pid,
-      gender: signUp.gender,
-      level: signUp.level
-    }
-  }
-
-  updateState(kv) {
-    this.setState(kv)
-
-    setTimeout(() => {
-      this.props.updateInfo(this.props.index, this.state)
-    }, 0)
-  }
-
-  render() {
-    const removeButton = (this.props.index > 0) ? (
-      <View style={localStyles.button}>
-        <TouchableOpacity onPress={() => this.props.removeUser(this.props.index)}>
-          <Icon
-            backgroundColor={Graphics.colors.transparent}
-            fillColor="red" 
-            sideLength={32}
-            type="minus"
-          />
-        </TouchableOpacity>
-      </View>
-    ) : null,
-
-    genderArray = [{label: Lang.Female + '    ', value: 0}, {label: Lang.Male, value: 1}]
-
-    return (
-      <View style={[styles.global.form, {paddingTop: 5}]}>
-        <View style={{marginRight: 10}}>
-          <InputItem
-            label={Lang.RealName}
-            input={
-              <TextInput
-                autoFocus={true}
-                style={styles.detail.textInput}
-                value={this.state.name}
-                onChangeText={(name) => this.updateState({name})}
-              />
-            }
-            inputStyle={'underline'}
-          />
-          <InputItem
-            label={Lang.MobileNumber}
-            input={
-              <TextInput
-                maxLength={11}
-                keyboardType='phone-pad'
-                style={styles.detail.textInput}
-                value={this.state.mobile}
-                onChangeText={(mobile) => this.updateState({mobile: mobile.trim()})}
-              />
-            }
-            inputStyle={'underline'}
-          />
-          <InputItem
-            label={Lang.PersonalId}
-            input={
-              <TextInput
-                maxLength={18}
-                keyboardType='numeric'
-                style={styles.detail.textInput}
-                value={this.state.pid}
-                onChangeText={(pid) => this.updateState({pid: pid.trim()})}
-              />
-            }
-            inputStyle={'underline'}
-          />
-          <InputItem
-            label={Lang.Gender}
-            input={
-              <RadioForm
-                radio_props={genderArray}
-                initial={this.state.gender}
-                formHorizontal={true}
-                labelHorizontal={true}
-                buttonColor={Graphics.colors.primary}
-                animation={true}
-                onPress={(value) => {this.updateState({gender: value})}}
-              />
-            }
-          />
-          <InputItem
-            label={Lang.UserLevel}
-            input={
-              <View style={{alignItems: 'center', flexDirection: 'row'}}>
-                <Slider
-                  style={{width: 150}}
-                  maximumValue={4}
-                  minimumValue={0}
-                  step={1}
-                  value={this.state.level}
-                  onValueChange={(level) => this.updateState({level})}
-                />
-                <TextView style={{marginLeft: 15}} text={Lang.userLevelArray[this.state.level]} />
-              </View>
-            }
-            styles={{
-              wrapper: {
-                marginBottom: 10
-              }
-            }}
-          />
-        </View>
-        <View style={localStyles.actionBar}>
-          {removeButton}
-        </View>
-      </View>
-    )
-  }
+EventOrder.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  navbarActions: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  event: PropTypes.object.isRequired,
+  selectedGroup: PropTypes.number
 }
-
-const localStyles = StyleSheet.create({
-  actionBar: {
-    bottom: -16,
-    flex: 1,
-    flexDirection: 'row',
-    height: 36,
-    justifyContent: 'flex-end',
-    position: 'absolute',
-    right: 0,
-    width: 100
-  },
-  button: {
-    backgroundColor: Graphics.colors.background,
-    borderRadius: 16,
-    height: 32,
-    marginRight: 16,
-    width: 32,
-    paddingTop: 4
-  }
-})
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.login.user,
-    navbar: state.navbar
+    navbar: state.navbar,
+    user: state.login.user
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    eventsActions: bindActionCreators(eventsActions, dispatch),
     navbarActions: bindActionCreators(navbarActions, dispatch)
   }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(EventOrder)

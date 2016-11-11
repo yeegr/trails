@@ -69,7 +69,7 @@ class Comments extends Component {
           <CommentList comments={comments} />
         </ScrollView>
         <InputBar
-          type="comment"
+          type={'comment'}
           rating={this.state.rating}
           text={this.state.text}
           placeholder={Lang.CommentPlaceholder}

@@ -64,7 +64,7 @@ class TrailPicker extends Component {
       <Icon
         backgroundColor={Graphics.colors.transparent}
         fillColor={Graphics.colors.primary}
-        sideLength={'36'}
+        sideLength={36}
         type={'checkmark'}
       />
     ) : null
@@ -76,21 +76,21 @@ class TrailPicker extends Component {
             <Icon type={rowData.type.toString()} />
           </View>
           <View style={{flex: 1, marginLeft: 10, marginTop: 5}}>
-            <TextView fontSize="M" text={rowData.title} />
+            <TextView fontSize={'M'} text={rowData.title} />
             <TextView class={'h5'} text={UTIL.formatTime(rowData.date)} />
             <View style={{flexDirection: 'row', marginTop: 5}}>
               <TextView
-                class="h6"
+                class={'h6'}
                 style={{marginRight: 10}}
                 text={Lang.DifficultyLevel.substring(0,2) + ': ' + rowData.difficultyLevel}
               />
               <TextView
-                class="h6"
+                class={'h6'}
                 style={{marginRight: 10}}
                 text={Lang.TotalDuration.substring(0,2) + ': ' + UTIL.formatDuration(rowData.totalDuration)}
               />
               <TextView
-                class="h6"
+                class={'h6'}
                 style={{marginRight: 10}}
                 text={Lang.TotalDistance.substring(2) + ': ' + rowData.totalDistance.toFixed(1) + Lang.Kilometre}
               />
@@ -129,8 +129,8 @@ class TrailPicker extends Component {
           <TouchableOpacity onPress={this.props.onCancel} style={styles.modal.close}>
             <Icon 
               backgroundColor={Graphics.colors.transparent}
-              fillColor="rgba(0, 0, 0, 0.5)"
-              type="close"
+              fillColor={'rgba(0, 0, 0, 0.5)'}
+              type={'close'}
             />
           </TouchableOpacity>
         </View>

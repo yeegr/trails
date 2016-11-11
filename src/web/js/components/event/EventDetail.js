@@ -185,7 +185,7 @@ export default class AreaDetail extends Component {
                                     <Link to={{pathname: `/events/event/${event.id}/map`, query: {poi: JSON.stringify(event.gatherLocation)}}}>
                                         <row>
                                             <start>
-                                                <pictogram shape="circle" data-glyph="pin" />
+                                                <pictogram shape="circle" data-glyph={'pin'} />
                                             </start>
                                             <center className="image-more">
                                                 <pretitle>{lang.gatherLocation}</pretitle>
@@ -196,7 +196,7 @@ export default class AreaDetail extends Component {
                                     <UserListItem user={captain} />
                                     <row>
                                         <start>
-                                            <pictogram shape="circle" data-glyph="phone" />
+                                            <pictogram shape="circle" data-glyph={'phone'} />
                                         </start>
                                         <center>
                                             <pretitle>{lang.mobileNumbers}</pretitle>
@@ -213,7 +213,7 @@ export default class AreaDetail extends Component {
                                     </row>
                                     <row>
                                         <start>
-                                            <pictogram shape="circle" data-glyph="group" />
+                                            <pictogram shape="circle" data-glyph={'group'} />
                                         </start>
                                         <center>
                                             <pretitle>{lang.attendeeLimits}</pretitle>

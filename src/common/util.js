@@ -258,31 +258,32 @@ export function generateRandomString(length) {
 // insurance
 export function calculateInsurance(event, user) {
   const eventDurationArray = [0.001, 0.0018, 0.0021, 0.003],
-    eventAttendeeCountArray = [1, 1.5, 2], 
-    userLevelArray = [3.6, 2.3, 1.6, 1.2, 0.9]
+    eventGroupSizeArray = [1, 1.5, 2], 
+    userLevelArray = [3.6, 2.3, 1.6, 1.2, 0.9],
+    userLevel = user.level
 
-  let eventDurationIndex, 
-    eventAttendeeCountIndex,
-    eventDurationCoefficient,
-    eventDifficultyCoefficient,
-    eventAttendeeCountCoefficient
+  let durationIndex, 
+    durationCoef,
+    groupSizeIndex,
+    groupSizeCoef,
+    difficultyLevel
 
-  let base = event.expenses.perHead, 
+  let baseRate = event.expenses.perHead, 
     difficultyList = [], 
     eventDuration = event.schedule.length, 
-    userLevelCoefficient = userLevelArray[user.level]
+    userLevelCoef = userLevelArray[userLevel]
 
   if (eventDuration < 2) {
-    eventDurationIndex = 0
+    durationIndex = 0
   } else if (eventDuration > 1 && eventDuration < 6) {
-    eventDurationIndex = 1
+    durationIndex = 1
   } else if (eventDuration > 5 && eventDuration < 10) {
-    eventDurationIndex = 2
+    durationIndex = 2
   } else {
-    eventDurationIndex = 3
+    durationIndex = 3
   }
 
-  eventDurationCoefficient = eventDurationArray[eventDurationIndex]
+  durationCoef = eventDurationArray[durationIndex]
 
   event.schedule.map((day) => {
     day.map((agenda) => {
@@ -292,20 +293,35 @@ export function calculateInsurance(event, user) {
     })
   })
 
-  eventDifficultyCoefficient = Math.max(...difficultyList)
-  eventDifficultyCoefficient = isNumeric(eventDifficultyCoefficient) ? eventDifficultyCoefficient : 1
+  difficultyLevel = Math.max(...difficultyList) || 2
 
   if (event.maxAttendee > 29) {
-    eventAttendeeCountIndex = 2
+    groupSizeIndex = 2
   } else if (event.maxAttendee < 2) {
-    eventAttendeeCountIndex = 0
+    groupSizeIndex = 0
   } else {
-    eventAttendeeCountIndex = 1
+    groupSizeIndex = 1
   }
 
-  eventAttendeeCountCoefficient = eventAttendeeCountArray[eventAttendeeCountIndex]
+  groupSizeCoef = eventGroupSizeArray[groupSizeIndex]
 
-  let coef = 1 + (eventDifficultyCoefficient * eventDurationCoefficient * eventAttendeeCountCoefficient * userLevelCoefficient)
+  let coef = (difficultyLevel * durationCoef * groupSizeCoef * userLevelCoef)
 
-  return (Math.round(base * coef * 100) / 100)
+  return {
+    baseRate,
+    difficultyLevel,
+    difficultyIndex: difficultyLevel / 2,
+    durationCoef,
+    durationIndex,
+    groupSizeCoef,
+    groupSizeIndex,
+    userLevelCoef,
+    userLevel,
+    insurance: formatCurrency(baseRate * coef),
+    subTotal: formatCurrency(baseRate * (1 + coef))
+  }
+}
+
+export function formatCurrency(num) {
+  return (Math.round(parseInt(num * 100)) / 100)
 }

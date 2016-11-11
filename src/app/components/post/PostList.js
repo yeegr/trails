@@ -67,6 +67,7 @@ class PostList extends Component {
             onRefresh={() => this.onRefresh()}
           />
         }
+        removeClippedSubviews={false}
         scrollEnabled={true}
         dataSource={this.dataSource.cloneWithRows(posts.list)}
         renderRow={this.renderRow}

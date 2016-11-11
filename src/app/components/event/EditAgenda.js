@@ -255,7 +255,7 @@ class EditAgenda extends Component {
           cancelText={Lang.Cancel} 
           confirmText={Lang.Confirm}
           datetime={agenda.startTime}
-          mode="time"
+          mode={'time'}
           showPicker={this.state.showStartTimePicker}
           title={Lang.StartTime}
           onConfirm={(value) => this.setKey('startTime', value)}
@@ -268,7 +268,7 @@ class EditAgenda extends Component {
           onCancel={() => this.setState({showStartPoiPicker: false})}
         />
         <DateTimePicker
-          mode="time"
+          mode={'time'}
           showPicker={this.state.showEndTimePicker}
           title={Lang.EndTime}
           cancelText={Lang.Cancel} 

@@ -348,7 +348,7 @@ class EditEvent extends Component {
           onCancel={() => this.setState({showTypePicker: false})}
         />
         <DateTimePicker
-          mode="time"
+          mode={'time'}
           datetime={event.gatherTime}
           showPicker={this.state.showDateTimePicker}
           title={Lang.GatherTime}
