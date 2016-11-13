@@ -5,18 +5,19 @@ import * as ACTIONS from '../constants/navbarConstants'
 const navbarReducer = (state = {
   addingEventSignup: false,
   savingEventAgenda: false,
-  nav_to_signup: false,
+  nav_to_edit_trail: false,  
+  nav_to_signup_event: false,
   selectedCity: '010'
 }, action) => {
   switch (action.type) {
     case ACTIONS.NAV_TO_SIGNUP:
       return Object.assign({}, state, {
-        nav_to_signup: true
+        nav_to_signup_event: true
       })
 
     case ACTIONS.GOT_TO_SIGNUP:
       return Object.assign({}, state, {
-        nav_to_signup: false
+        nav_to_signup_event: false
       })
 
     case ACTIONS.ADD_EVENT_SIGNUP:
@@ -27,6 +28,16 @@ const navbarReducer = (state = {
     case ACTIONS.EVENT_SIGNUP_ADDED:
       return Object.assign({}, state, {
         addingEventSignup: false
+      })
+
+    case ACTIONS.RESET_PATH:
+      return Object.assign({}, state, {
+        nav_to_edit_trail: false
+      })
+
+    case ACTIONS.STORE_PATH:
+      return Object.assign({}, state, {
+        nav_to_edit_trail: true
       })
 
     case ACTIONS.SAVE_AGENDA:

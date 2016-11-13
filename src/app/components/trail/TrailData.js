@@ -89,7 +89,7 @@ const TrailData = (props) => {
         stack={stack}
         textColr={Graphics.icon.valueColor}
         label={Lang.AverageSpeed}
-        value={props.averageSpeed.toString() + Lang.KilometrePerHour}
+        value={props.averageSpeed.toString() + Lang.Kilometre}
       />
     </View>
   )

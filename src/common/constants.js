@@ -1,9 +1,8 @@
 'use strict'
 
-export const locale = 'zh-cn'
-
 export const ACTION_TARGETS = {
   AREA: 'Area',
+  PATH: 'Path', 
   TRAIL: 'Trail', 
   EVENT: 'Event',
   AGENDA: 'Agenda',
@@ -51,5 +50,6 @@ export const ASSET_FOLDERS = {
   Post: 'posts'
 }
 
+export const locale = 'zh-cn'
 export const USER = 'user'
 export const ACCESS_TOKEN = 'access_token'

@@ -8,5 +8,10 @@ export const GOT_TO_SIGNUP = 'GOT_TO_SIGNUP'
 export const ADD_EVENT_SIGNUP = 'ADD_EVENT_SIGNUP'
 export const EVENT_SIGNUP_ADDED = 'EVENT_SIGNUP_ADDED'
 
+export const CREATE_TRAIL = 'CREATE_TRAIL'
+
+export const RESET_PATH = 'RESET_PATH'
+export const STORE_PATH = 'STORE_PATH'
+
 export const SAVE_AGENDA = 'SAVE_AGENDA'
 export const AGENDA_SAVED = 'AGENDA_SAVED'

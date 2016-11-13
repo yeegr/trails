@@ -32,6 +32,14 @@ export function formatMinutes(minutes) {
   }
 }
 
+export function formatSeconds(seconds) {
+  if (isNumeric(seconds)) {
+    let m = Math.floor(seconds / 60),
+      s = seconds % 60
+    return (m > 5 ? formatMinutes(m) : zerorize(m)) + ':' + zerorize(s)
+  }
+}
+
 export function convertTime(seconds) {
   return moment(isNumeric(seconds) ? (seconds * 1000) : seconds)
 }

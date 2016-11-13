@@ -199,6 +199,15 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         )
       break
 
+      case 'RecordTrail':
+        rightTitleBar = (
+          <NavbarButton
+            onPress={() => this.save(CONSTANTS.ACTION_TARGETS.PATH)}
+            label={Lang.Save}
+          />
+        )
+      break
+
       case 'EditTrail':
         rightTitleBar = (
           <NavbarButton
@@ -249,7 +258,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
 
   signUp: function() {
     if (this.user) {
-      dispatch(navbarActions.nav_to_signup())
+      dispatch(navbarActions.navToSignUp())
     } else {
       dispatch(loginActions.showLogin())      
     }
@@ -330,6 +339,10 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
   save: function(type) {
     if (state.login.user) {
       switch (type) {
+        case CONSTANTS.ACTION_TARGETS.PATH:
+          dispatch(navbarActions.navToEditTrail())
+        break
+
         case CONSTANTS.ACTION_TARGETS.TRAIL:
           dispatch(newTrailActions.saveTrail())
         break

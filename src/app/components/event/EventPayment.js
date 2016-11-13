@@ -93,6 +93,8 @@ class EventPayment extends Component {
       total 
     }
 
+    console.log(order)
+
     this.props.eventsActions.pay(order)
   }
 
@@ -200,6 +202,7 @@ class EventPayment extends Component {
                   align={'right'} 
                   label={Lang.Total}
                   value={UTIL.formatCurrency(total).toString() + Lang.Yuan}
+                  more={{label: '　　'}}
                 />
               </View>
             </View>

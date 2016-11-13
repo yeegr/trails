@@ -14,6 +14,14 @@ export const createTrail = (creator) => {
   }
 }
 
+export const storePath = (id, path) => {
+  return {
+    type: ACTIONS.STORE_PATH,
+    id,
+    path
+  }
+}
+
 export const startRecording = () => {
   return {
     type: ACTIONS.START_RECORDING_TRAIL

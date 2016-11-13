@@ -1,9 +1,11 @@
 'use strict'
 
 import {AsyncStorage} from 'react-native'
-
-import {AppSettings, Lang} from '../../settings'
 import * as ACTIONS from '../constants/newTrailConstants'
+import {
+  CONSTANTS,
+  AppSettings
+} from '../../settings'
 
 const initState = {
   isRecording: false,
@@ -31,6 +33,17 @@ newTrailReducer = (state = initState, action) => {
         creator: action.creator,
         isValidated: false
       })
+
+    case ACTIONS.STORE_PATH:
+      AsyncStorage
+      .setItem(
+        CONSTANTS.ACTION_TARGETS.PATH,
+        JSON.stringify({
+          id: action.id,
+          path: action.path
+        })
+      )
+      return state
 
     case ACTIONS.EDIT_TRAIL:
       return action.trail

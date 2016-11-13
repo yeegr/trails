@@ -62,7 +62,7 @@ class EventDetail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.navbar.nav_to_signup === true) {
+    if (nextProps.navbar.nav_to_signup_event === true) {
       this.signUp()
     }
   }
