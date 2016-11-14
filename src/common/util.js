@@ -326,7 +326,7 @@ export function calculateInsurance(event, user) {
     userLevelCoef,
     userLevel,
     insurance: formatCurrency(baseRate * coef),
-    subTotal: formatCurrency(baseRate * (1 + coef))
+    cost: formatCurrency(baseRate * (1 + coef))
   }
 }
 

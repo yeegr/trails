@@ -58,7 +58,7 @@ class EventOrder extends Component {
   }
 
   componentWillMount() {
-    this.props.navbarActions.got_to_signup()
+    this.props.navbarActions.gotToSignUp()
   }
 
   componentDidMount() {

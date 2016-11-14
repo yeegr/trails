@@ -100,4 +100,29 @@ module.exports = function(app) {
       }
     })
   })
+
+  /* Update */
+  app.put('/orders/:id/:status', function(req, res, next) {
+    Order
+    .findById(req.params.id)
+    .exec()
+    .then(function(order) {
+      if (order) {
+        order
+        .set({
+          status: req.params.status
+        })
+        .save()
+        .then(function(data) {
+          res.status(200).json(data)
+        })
+        .catch(function(err) {
+          res.status(500).json({error: err})
+        })
+      }
+    })
+    .catch(function(err) {
+      res.status(500).json({error: err})
+    })
+  })
 }

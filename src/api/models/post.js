@@ -124,11 +124,13 @@ postSchema.pre('save', function(next) {
 })
 
 postSchema.post('save', function(doc) {
-  User.findById(doc.creator, function(err, user) {
-    if (user) {
-      user.addToList('posts', doc.id)
-    }
-  })
+  if (doc.isNew) {
+    User.findById(doc.creator, function(err, user) {
+      if (user) {
+        user.addToList('posts', doc.id)
+      }
+    })
+  }
 
   Log({
     creator: doc.creator,

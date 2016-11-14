@@ -5,9 +5,8 @@ const mongoose = require('mongoose'),
   CONST = require('../const'),
   Log = require('./logging'),
   Util = require('./util'),
-  Agenda = require('./agenda'),
-  Point = require('./point'),
   Photo = require('./photo'),
+  Point = require('./point'),
   User = require('./user'),
   eventSchema = new Schema({
     creator: {
@@ -76,11 +75,8 @@ const mongoose = require('mongoose'),
       },
       signUps: [{
         added: {
-          type: Number
-        },
-        user: {
-          type: Schema.Types.ObjectId,
-          ref: 'User'
+          type: Number,
+          required: true
         },
         name: {
           type: String,
@@ -99,7 +95,7 @@ const mongoose = require('mongoose'),
           type: Number,
           match: CONST.levelRx
         },
-        payment: {
+        cost: {
           type: Number,
           match: CONST.currencyRx,
           required: true
@@ -231,26 +227,28 @@ eventSchema.methods.removeFromList = function(type, id) {
   Util.removeFromList(this, this[type], id)
 }
 
-eventSchema.methods.addSignUps = function(groupIndex, signUps) {
-  let signUpList = this.groups[groupIndex].signUps,
-    date = new Date(),
-    time = date.getMilliseconds()
+eventSchema.methods.addSignUps = function(groupIndex, signUps, id, added) {
+  let signUpList = this.groups[groupIndex].signUps
 
-  signUps.map(function(signUp) {
-    signUp.added = time
-    signUpList.push(signUp)
+  signUps.map((each) => {
+    let tmp = JSON.parse(JSON.stringify(each))
+    tmp.order = id
+    tmp.added = added
+    signUpList.push(tmp)
   })
 
   this.save()
 }
 
-eventSchema.methods.addOrder = function(subtotal, groupIndex, signUps) {
-  this.total += subtotal
+eventSchema.methods.addOrder = function(order) {
+  this.total += order.subTotal
 
-  if (subtotal < 0) {
-    this.removeSignUps(groupIndex, signUps)
+  let time = CONST.getTimeFromId(order._id)
+
+  if (order.subTotal < 0) {
+    this.removeSignUps(order.group, order.signUps)
   } else {
-    this.addSignUps(groupIndex, signUps)
+    this.addSignUps(order.group, order.signUps, order.id, time)
   }
 }
 
@@ -284,11 +282,13 @@ eventSchema.pre('save', function(next) {
 })
 
 eventSchema.post('save', function(doc) {
-  User.findById(doc.creator, function(err, user) {
-    if (user) {
-      user.addToList('events', doc.id)
-    }
-  })
+  if (doc.isNew) {
+    User.findById(doc.creator, function(err, user) {
+      if (user) {
+        user.addToList('events', doc.id)
+      }
+    })
+  }
 
   Log({
     creator: doc.creator,

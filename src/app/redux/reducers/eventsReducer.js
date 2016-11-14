@@ -59,6 +59,35 @@ const eventsReducer = (state = {
         order: null
       })
 
+    case ACTIONS.PLACE_ORDER_REQUEST:
+      return Object.assign({}, state, {
+        isPaying: true
+      })
+
+    case ACTIONS.PLACE_ORDER_SUCCESS:
+      return Object.assign({}, state, {
+        order: action.order
+      })
+
+    case ACTIONS.PLACE_ORDER_FAILURE:
+      return Object.assign({}, state, {
+        message: action.message
+      })
+
+    case ACTIONS.UPDATE_ORDER_REQUEST:
+      return Object.assign({}, state, {
+      })
+
+    case ACTIONS.UPDATE_ORDER_SUCCESS:
+      return Object.assign({}, state, {
+        order: action.order
+      })
+
+    case ACTIONS.UPDATE_ORDER_FAILURE:
+      return Object.assign({}, state, {
+        message: action.message
+      })
+
     case ACTIONS.PAY_REQUEST:
       return Object.assign({}, state, {
         isPaying: true

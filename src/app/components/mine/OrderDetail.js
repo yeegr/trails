@@ -76,7 +76,7 @@ class OrderDetail extends Component {
                         align={'right'}
                         noColon={true}
                         label={signUp.name}
-                        value={signUp.payment.toString() + Lang.Yuan}
+                        value={signUp.cost.toString() + Lang.Yuan}
                       />
                     )
                   })
@@ -88,7 +88,7 @@ class OrderDetail extends Component {
               <View style={styles.detail.group}>
                 <InfoItem label={Lang.OrderId} value={order._id} />
                 <InfoItem label={Lang.PayTime} value={UTIL.getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
-                <InfoItem label={Lang.Total} value={order.total + Lang.Yuan} />
+                <InfoItem label={Lang.Total} value={order.subTotal + Lang.Yuan} />
               </View>
             </View>
           </View>

@@ -23,7 +23,7 @@ const AboutUs = (props) => {
 }
 
 AboutUs.propTypes = {
-  
+  uri: PropTypes.string
 }
 
 export default AboutUs

@@ -63,13 +63,13 @@ const mongoose = require('mongoose'),
         type: Number,
         match: CONST.levelRx
       },
-      payment: {
+      cost: {
         type: Number,
         match: CONST.currencyRx
       },
       _id: false
     }],
-    total: {
+    subTotal: {
       type: Number,
       required: true
     },
@@ -77,6 +77,12 @@ const mongoose = require('mongoose'),
       type: String,
       enum: CONST.PAYMENT_MEDHODS,
       default: CONST.PAYMENT_MEDHODS[0],
+      required: true
+    },
+    status: {
+      type: String,
+      enum: CONST.STATUSES.PAYMENT,
+      default: CONST.STATUSES.PAYMENT[1],
       required: true
     }
   })
@@ -93,11 +99,13 @@ orderSchema.post('save', function(doc) {
     }
   })
 
-  Event.findById(doc.event, function(err, data) {
-    if (data) {
-      data.addOrder(doc.total, doc.group, doc.signUps)
-    }
-  })
+  if (!this.isNew && doc.status === CONST.STATUSES.PAYMENT[2]) {
+    Event.findById(doc.event, function(err, data) {
+      if (data) {
+        data.addOrder(doc)
+      }
+    })
+  }
 
   Log({
     creator: doc.creator,

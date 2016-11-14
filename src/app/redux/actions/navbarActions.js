@@ -2,13 +2,13 @@
 
 import * as ACTIONS from '../constants/navbarConstants'
 
-export const nav_to_signup_event = () => {
+export const navToSignUp = () => {
   return {
     type: ACTIONS.NAV_TO_SIGNUP
   }
 }
 
-export const got_to_signup = () => {
+export const gotToSignUp = () => {
   return {
     type: ACTIONS.GOT_TO_SIGNUP
   }

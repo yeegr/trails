@@ -37,7 +37,7 @@ class EventManager extends Component {
     this.signupList = this.signupList.bind(this)
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.eventsActions.listEvents("?creator=" + this.props.user._id)
   }
 
@@ -65,7 +65,7 @@ class EventManager extends Component {
   renderRow(event, sectionId, rowId) {
     return (
       <View style={styles.detail.section}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', paddingTop: 14}}>
           <TouchableOpacity onPress={() => this.eventPage(event._id)}>
             <TextView
               style={{flex: 1, fontWeight: '400', marginBottom: 5, paddingHorizontal: 15}}

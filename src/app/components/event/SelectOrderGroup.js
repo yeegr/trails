@@ -40,7 +40,7 @@ class SelectOrderGroup extends Component {
   }
 
   componentWillMount() {
-    this.props.navbarActions.got_to_signup()
+    this.props.navbarActions.gotToSignUp()
   }
 
   nextStep() {
@@ -49,7 +49,7 @@ class SelectOrderGroup extends Component {
       title: Lang.SignUp,
       passProps: {
         event: this.props.event,
-        group: this.state.selectedGroup
+        selectedGroup: this.state.selectedGroup
       }
     })
   }

@@ -19,7 +19,7 @@ module.exports = {
     EVENT: ["private", "submitting", "pending", "approved", "rejected", "public", "suspended"],
     GROUP: ["accepting", "filled", "due"],
     SIGNUP: ["submitted", "pending", "approved", "rejected"],
-    PAYMENT: ["submitting", "pending", "received", "rejected"],
+    PAYMENT: ["submitting", "pending", "accepted", "rejected"],
     POST: ["draft", "pending", "approved", "published"],
   },
   PAYMENT_MEDHODS: [
@@ -58,5 +58,10 @@ module.exports = {
     }
 
     return padding + str
+  },
+
+  getTimeFromId: function(id) {
+    let timestamp = id.toString().substring(0, 8)
+    return parseInt(timestamp, 16) * 1000
   }
 }

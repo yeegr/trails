@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 
 import ParallaxView from 'react-native-parallax-view'
+import Alipay from 'react-native-yunpeng-alipay'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -48,7 +49,21 @@ class EventPayment extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.events.order) {
-      this.nextStep(nextProps.events.order)
+      let order = nextProps.events.order
+
+      switch (order.status) {
+        case 'pending':
+          if (this.props.events.order === null) {
+            this.props.eventsActions.updateOrder(order, 'accepted')
+          }
+        break
+
+        case 'accepted':
+          if (this.props.events.order !== null) {
+            this.nextStep(nextProps.events.order)
+          }
+        break
+      }
     }
   }
 
@@ -57,8 +72,6 @@ class EventPayment extends Component {
   }
 
   nextStep(order) {
-    console.log(order)
-
     let {event, navigator} = this.props,
       stack = navigator.getCurrentRoutes()
 
@@ -78,24 +91,30 @@ class EventPayment extends Component {
 
   }
 
-  confirm(total) {
+  confirm(subTotal) {
     let {user, event, selectedGroup} = this.props,
       order = {
       creator: user.id,
       event: event.id,
-      selectedGroup,
+      group: selectedGroup,
       title: event.title,
       hero: event.hero,
       startDate: event.groups[selectedGroup].startDate,
       daySpan: event.schedule.length, 
       method: this.state.paymentMethod,
       signUps: this.state.signUps,
-      total 
+      subTotal 
     }
 
-    console.log(order)
-
-    this.props.eventsActions.pay(order)
+/*
+    Alipay
+    .pay("signed pay info string")
+    .then(function(data){
+        console.log(data)
+    }, function (err) {
+        console.log(err)
+    })*/
+    this.props.eventsActions.placeOrder(order)
   }
 
   render() {
@@ -169,7 +188,8 @@ class EventPayment extends Component {
                   this.state.signUps.map((signUp, index) => {
                     let payment = UTIL.calculateInsurance(event, signUp)
                     signUp.payment = payment
-                    total += payment.subTotal
+                    signUp.cost = payment.cost
+                    total += payment.cost
 
                     return (
                       <InfoItem
@@ -177,7 +197,7 @@ class EventPayment extends Component {
                         align={'right'}
                         noColon={true}
                         label={signUp.name}
-                        value={payment.subTotal.toString() + Lang.Yuan}
+                        value={payment.cost.toString() + Lang.Yuan}
                         more={{
                           label: Lang.Detail,
                           onPress: () => {
@@ -224,6 +244,7 @@ EventPayment.propTypes = {
   eventsActions: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   event: PropTypes.object.isRequired,
+  events: PropTypes.object.isRequired,
   selectedGroup: PropTypes.number.isRequired,
   signUps: PropTypes.array.isRequired
 }

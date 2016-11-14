@@ -4,8 +4,7 @@ module.exports = {
   },
 
   getTimestamp: function() {
-    let d = new Date()
-    return d.valueOf()
+    return Date.now()
   },
 
   addToList: function(obj, arr, id) {

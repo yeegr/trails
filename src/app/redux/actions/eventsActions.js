@@ -52,7 +52,7 @@ export const listEvents = (params) => {
 }
 
 // get one event
-const requestEvent = (id) => {
+const requestEvent = () => {
   return {
     type: ACTIONS.REQUEST_EVENT
   }
@@ -67,14 +67,14 @@ const receiveEvent = (event) => {
 
 const getEventError = (message) => {
   return {
-    type: ACTIONS.GET_EVENT_SUCCESS,
+    type: ACTIONS.GET_EVENT_FAILURE,
     message
   }
 }
 
 export const getEvent = (id) => {
   return (dispatch) => {
-    dispatch(requestEvent(id))
+    dispatch(requestEvent())
 
     return fetch(AppSettings.apiUri + 'events/' + id)
       .then((response) => {
@@ -100,39 +100,41 @@ export const clearEvent = () => {
   }
 }
 
-// order & payment
+// orders
 export const resetOrder = () => {
   return {
     type: ACTIONS.RESET_ORDER
   }
 }
 
-const sendPayRequest = () => {
+// place order
+const sendOrderRequest = () => {
   return {
-    type: ACTIONS.PAY_REQUEST
+    type: ACTIONS.PLACE_ORDER_REQUEST
   }
 }
 
-const receivePayResponse = (order) => {
+const receiveOrderResponse = (order) => {
   return {
-    type: ACTIONS.PAY_SUCCESS,
+    type: ACTIONS.PLACE_ORDER_SUCCESS,
     order
   }
 }
 
-const payError = () => {
+const orderError = (message) => {
   return {
-    type: ACTIONS.PAY_FAILURE
+    type: ACTIONS.PLACE_ORDER_FAILURE,
+    message
   }
 }
 
-export const pay = (order) => {
+export const placeOrder = (order) => {
   let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(order)
   })
 
   return (dispatch) => {
-    dispatch(sendPayRequest())
+    dispatch(sendOrderRequest())
 
     return fetch(AppSettings.apiUri + 'orders', config)
       .then((res) => {
@@ -140,13 +142,50 @@ export const pay = (order) => {
       })
       .then((res) => {
         if (res._id) {
-          dispatch(receivePayResponse(res))
+          dispatch(receiveOrderResponse(res))
           dispatch(loginActions.getUpdatedUser(order.creator))
         } else {
-          dispatch(payError(res.message))
+          dispatch(orderError(res.message))
           return Promise.reject(res)
         }
       })
-      .catch((err) => dispatch(payError(err)))
+      .catch((err) => dispatch(orderError(err)))
+  }
+}
+
+// update order
+const sendOrderUpdateRequest = () => {
+  return {
+    type: ACTIONS.UPDATE_ORDER_REQUEST
+  }
+}
+
+const receiveOrderUpdateResponse = (order) => {
+  return {
+    type: ACTIONS.UPDATE_ORDER_SUCCESS,
+    order
+  }
+}
+
+export const updateOrder = (order, status) => {
+  let config = Object.assign({}, FETCH.PUT)
+
+  return (dispatch) => {
+    dispatch(sendOrderUpdateRequest())
+
+    return fetch(AppSettings.apiUri + 'orders/' + order._id + '/' + status, config)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        if (res._id) {
+          dispatch(receiveOrderUpdateResponse(res))
+          //dispatch(loginActions.getUpdatedUser(order.creator))
+        } else {
+          dispatch(orderError(res.message))
+          return Promise.reject(res)
+        }
+      })
+      .catch((err) => dispatch(orderError(err)))
   }
 }
