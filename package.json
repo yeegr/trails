@@ -25,7 +25,7 @@
     "ios": "react-native run-ios --simulator='iPhone 6 Plus'",
     "lint": "esw webpack.config.* src",
     "codepush": "code-push release-react trails ios",
-    "dev": "export APP_ENV=development && npm start && npm run ios"
+    "dev": "npm start && npm run ios"
   },
   "devDependencies": {
     "browser-sync": "^2.17.3",
@@ -79,7 +79,6 @@
     "react-native-simple-radio-button": "^2.1.2",
     "react-native-svg": "^4.3.1",
     "react-native-wechat": "^1.7.0",
-    "react-native-yunpeng-alipay": "^1.1.4",
     "react-redux": "^4.4.5",
     "react-router": "^2.6.0",
     "redux": "^3.5.2",

@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 
 import ParallaxView from 'react-native-parallax-view'
-import Alipay from 'react-native-yunpeng-alipay'
+//import Alipay from 'react-native-alipay'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -38,6 +38,7 @@ class EventPayment extends Component {
   constructor(props) {
     super(props)
     this.confirm = this.confirm.bind(this)
+    this.pay = this.pay.bind(this)
     this.nextStep = this.nextStep.bind(this)
 
     this.state = {
@@ -54,7 +55,8 @@ class EventPayment extends Component {
       switch (order.status) {
         case 'pending':
           if (this.props.events.order === null) {
-            this.props.eventsActions.updateOrder(order, 'accepted')
+            this.pay()
+            //this.props.eventsActions.updateOrder(order, 'accepted')
           }
         break
 
@@ -89,6 +91,33 @@ class EventPayment extends Component {
       })
     }, 0)
 
+  }
+
+  pay() {
+    let info = Object.assign({}, AppSettings.Alipay, {
+      notify_url: 'http://www.baidu.com', 
+      goods_type: 0,
+      out_trade_no: '1231231231231',
+      subject: '测试商品标题',
+      body: '测试产品描述', 
+      total_fee: 1,
+      payment_type: 1,
+      extern_token: '',
+      promo_params: ''
+    })
+
+    console.log('Alipay')
+    console.log(JSON.stringify(info))
+
+    /*
+    Alipay
+    .pay(JSON.stringify(info))
+    .then((data) => {
+      console.log(data)
+    }, (err) => {
+      console.log(err)
+    })
+    */
   }
 
   confirm(subTotal) {
