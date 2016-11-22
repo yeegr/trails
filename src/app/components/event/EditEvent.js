@@ -356,7 +356,6 @@ class EditEvent extends Component {
           confirmText={Lang.Confirm}
           onConfirm={(value) => this.props.newEventActions.setGatherTime(value)}
           onCancel={() => this.setState({showDateTimePicker: false})}
-          minimumDate={new Date()}
         />
         <SearchPoi
           showPicker={this.state.showGatherLocationPicker}

@@ -26,7 +26,7 @@ import {
   Graphics
 } from '../../settings'
 
-class EventOrderForm extends Component {
+class OrderForm extends Component {
   constructor(props) {
     super(props)
     this.updateState = this.updateState.bind(this)
@@ -151,7 +151,7 @@ class EventOrderForm extends Component {
   }
 }
 
-EventOrderForm.propTypes = {
+OrderForm.propTypes = {
   index: PropTypes.number.isRequired,
   signUp: PropTypes.object.isRequired,
   updateInfo: PropTypes.func,
@@ -179,4 +179,4 @@ const localStyles = StyleSheet.create({
   }
 })
 
-export default EventOrderForm
+export default OrderForm

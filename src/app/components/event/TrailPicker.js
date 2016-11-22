@@ -140,7 +140,6 @@ class TrailPicker extends Component {
 }
 
 TrailPicker.propTypes = {
-  navigator: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   trails: PropTypes.array.isRequired,
   selected: PropTypes.object,

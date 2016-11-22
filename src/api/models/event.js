@@ -3,8 +3,8 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   CONST = require('../const'),
+  UTIL = require('../util'),
   Log = require('./logging'),
-  Util = require('./util'),
   Photo = require('./photo'),
   Point = require('./point'),
   User = require('./user'),
@@ -17,7 +17,7 @@ const mongoose = require('mongoose'),
     modified: {
       type: Number,
       required: true,
-      default: Util.getTimestamp()
+      default: UTIL.getTimestamp()
     },
     status: {
       type: String,
@@ -105,7 +105,8 @@ const mongoose = require('mongoose'),
           enum: CONST.STATUSES.SIGNUP,
           default: CONST.STATUSES.SIGNUP[0]
         },
-        _id: false
+        _id: false,
+        default: []
       }],
       _id: false
     }],
@@ -216,15 +217,15 @@ eventSchema.virtual('commentCount').get(function() {
 })
 
 eventSchema.virtual('ratingAverage').get(function() {
-  return Util.getAverageRating(this)
+  return UTIL.getAverageRating(this)
 })
 
 eventSchema.methods.addToList = function(type, id) {
-  Util.addToList(this, this[type], id)
+  UTIL.addToList(this, this[type], id)
 }
 
 eventSchema.methods.removeFromList = function(type, id) {
-  Util.removeFromList(this, this[type], id)
+  UTIL.removeFromList(this, this[type], id)
 }
 
 eventSchema.methods.addSignUps = function(groupIndex, signUps, id, added) {
@@ -243,7 +244,7 @@ eventSchema.methods.addSignUps = function(groupIndex, signUps, id, added) {
 eventSchema.methods.addOrder = function(order) {
   this.total += order.subTotal
 
-  let time = CONST.getTimeFromId(order._id)
+  let time = UTIL.getTimeFromId(order._id)
 
   if (order.subTotal < 0) {
     this.removeSignUps(order.group, order.signUps)
@@ -267,15 +268,15 @@ eventSchema.methods.removeSignUps = function(groupIndex, signUps) {
 }
 
 eventSchema.methods.addComment = function(id, rating) {
-  Util.addComment(this, id, rating)
+  UTIL.addComment(this, id, rating)
 }
 
 eventSchema.methods.removeComment = function(id, rating) {
-  Util.removeComment(this, id, rating)
+  UTIL.removeComment(this, id, rating)
 }
 
 eventSchema.pre('save', function(next) {
-  Util.updateModified(this, ['title', 'content', 'excerpt', 'hero', 'tags'])
+  UTIL.updateModified(this, ['title', 'content', 'excerpt', 'hero', 'tags'])
   this.wasNew = this.isNew
 
   next()

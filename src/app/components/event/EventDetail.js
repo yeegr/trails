@@ -76,7 +76,7 @@ class EventDetail extends Component {
   signUp() {
     if (this.props.user) {
       let event = this.props.event, 
-        id = 'EventOrder',
+        id = 'OrderEvent',
         title = Lang.SignUp
 
       if (event.groups.length > 1) {

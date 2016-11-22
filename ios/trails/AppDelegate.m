@@ -14,6 +14,8 @@
 #import "RCTRootView.h"
 #import "RCTLinkingManager.h"
 
+#import "AlipayModule.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -44,8 +46,13 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-  return [RCTLinkingManager application:application openURL:url
-                      sourceApplication:sourceApplication annotation:annotation];
+/*  if ([[url scheme] isEqualToString:@"wx6e8a3e1b87c11294"]) {
+    return [RCTLinkingManager application:application openURL:url
+                        sourceApplication:sourceApplication annotation:annotation];
+  } else {*/
+    [AlipayModule handleCallback:url];
+    return YES;
+  //}
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity

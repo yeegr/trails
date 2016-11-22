@@ -26,15 +26,23 @@
   "maxEventScheduleDays":20,
 
   "Alipay":{
-    "service": "mobile.securitypay.pay",
-    "partner": "2088021102234564",
-    "seller_id": "pay@shitulv.com",
-    "_input_charset": "UTF-8",
-    "sign_type":"RSA",
-    "sign": "MIICXQIBAAKBgQDehmWzs94Na17sfhTsGxu6BH7gnOlEpmO+E3HN2p+Xp0mvaD18ovqdWzhXlRF1BP3/iaz++fCGP71gCKGhGOzS6P3VpKadDjPcahvauQjX0zSNtBKWpnxeau+Q5BEm1TUAQOVnBqqzFBgqLBCz9LJbW5JudwRr4cKDYqW+OOEf+wIDAQABAoGAAPKDhlNSs63sVodm4WZwJMeWHrCsUY1/yTRd/KlcmpGsv6Fq+ZfcB0V3JPBOhbgCuM7GPMOloXytrWusnffsjggpksO5yxKubcpSSfrHcWo7i5d7Pff6Yu/Q+OgUfUOFFfWQfrM7MKv8AbvIeaRcv9k6bCkCYy+sWeEm/s59SkCQQD8a+A27ue2w9PBjHSWbKh72FAZFDc8FrF/svy8BXHT1bwZ3HSQVJGghrf0bmpYoVLWV9dfKWv85xPj4pazyxSVAkEA4a4EYLESwQzuJy7Digt+dP7Ljgy/Bn4QVAMbI0QPf/ZMfLwKQ/VFl6FOjNInBFkAZ/LxbIV9zMccuI5lJbcuTwJBAOb9vQfoJklc+PoEk2hYdPIoKFxa4JTvW201mQximyC0VdcAo/a0PTO+NLbNGCqVLp4RcniWCkk8GTqQT0Km0+UCQQDIkqZlYTrvxJQs0s0K9WgwhvtWhlGIbaYJZLFLyIOWEMqt2VmuSGDPgJeVZHk0zf0kZbDX6FSEGTqXdEbFHGbVAkA9mXocVYW36E3/8q7yrf8iFMv6tCphknG6Z+CtOAFY2btBfZkjfH4crs9NuzaCsCH/woHtKQ/045iKtcMgrbAg",
-    "it_b_pay": "30m",
-    "app_id": "",
-    "appenv": ""
+    "pubContent": {
+      "app_id": "2016111902979618",
+      "method": "alipay.trade.app.pay",
+      "format": "JSON",
+      "charset": "utf-8",
+      "sign_type": "RSA",
+      "version": "1.0",
+      "notify_url" : "http://baidu.com"
+    },
+    "bizContent": {
+      "timeout_express": "15m",
+      "seller_id": "pay@shitulv.com",
+      "product_code": "QUICK_MSECURITY_PAY",
+      "goods_type": "0",
+      "enable_pay_channels": "balance,coupon,creditCard,debitCardExpress,pcard,promotion",
+      "disable_pay_chanales": ""
+    }
   },
 
   "home":{

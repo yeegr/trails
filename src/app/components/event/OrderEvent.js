@@ -22,7 +22,7 @@ import Intro from '../shared/Intro'
 import ImagePath from '../shared/ImagePath'
 import TextView from '../shared/TextView'
 
-import EventOrderForm from './EventOrderForm'
+import OrderForm from './OrderForm'
 
 import styles from '../../styles/main'
 
@@ -34,7 +34,7 @@ import {
   Graphics
 } from '../../settings'
 
-class EventOrder extends Component {
+class OrderEvent extends Component {
   constructor(props) {
     super(props)
     this.addSignUp = this.addSignUp.bind(this)
@@ -140,8 +140,8 @@ class EventOrder extends Component {
       this.setState({signUps: tmp})
 
       this.props.navigator.push({
-        id: 'EventPayment',
-        title: Lang.EventPayment,
+        id: 'OrderPayment',
+        title: Lang.OrderPayment,
         passProps: {
           event: this.props.event,
           selectedGroup: this.props.selectedGroup || 0,
@@ -182,7 +182,7 @@ class EventOrder extends Component {
               {
                 this.state.signUps.map((signUp, index) => {
                   return (
-                    <EventOrderForm 
+                    <OrderForm 
                       key={index} 
                       index={index} 
                       signUp={signUp} 
@@ -205,18 +205,19 @@ class EventOrder extends Component {
   }
 }
 
-EventOrder.propTypes = {
-  navigator: PropTypes.object.isRequired,
-  navbarActions: PropTypes.object.isRequired,
+OrderEvent.propTypes = {
   user: PropTypes.object.isRequired,
+  navigator: PropTypes.object.isRequired,
   event: PropTypes.object.isRequired,
-  selectedGroup: PropTypes.number
+  selectedGroup: PropTypes.number,
+  navbar: PropTypes.object.isRequired,
+  navbarActions: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    navbar: state.navbar,
-    user: state.login.user
+    user: state.login.user,
+    navbar: state.navbar
   }
 }
 
@@ -225,4 +226,4 @@ function mapDispatchToProps(dispatch) {
     navbarActions: bindActionCreators(navbarActions, dispatch)
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(EventOrder)
+export default connect(mapStateToProps, mapDispatchToProps)(OrderEvent)

@@ -37,8 +37,8 @@ class UserInfo extends Component {
     this.nextPage = this.nextPage.bind(this)
   }
 
-  componentDidMount() {
-    this.props.loginActions.getUpdatedUser(this.props.user.id)
+  componentWillMount() {
+    this.props.loginActions.reloadUser(this.props.user.id)
   }
 
   nextPage(type) {

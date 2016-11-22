@@ -3,8 +3,8 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   CONST = require('../const'),
+  UTIL = require('../util'),
   Log = require('./logging'),
-  Util = require('./util'),
   User = require('./user'),
   Event = require('./event'),
   orderSchema = new Schema({
@@ -26,6 +26,9 @@ const mongoose = require('mongoose'),
     title: {
       type: String,
       required: true
+    },
+    body: {
+      type: String
     },
     hero: {
       type: String
@@ -82,7 +85,7 @@ const mongoose = require('mongoose'),
     status: {
       type: String,
       enum: CONST.STATUSES.PAYMENT,
-      default: CONST.STATUSES.PAYMENT[1],
+      default: CONST.STATUSES.PAYMENT[0],
       required: true
     }
   })
@@ -99,7 +102,7 @@ orderSchema.post('save', function(doc) {
     }
   })
 
-  if (!this.isNew && doc.status === CONST.STATUSES.PAYMENT[2]) {
+  if (!this.isNew && doc.status === CONST.STATUSES.PAYMENT[1]) {
     Event.findById(doc.event, function(err, data) {
       if (data) {
         data.addOrder(doc)

@@ -9,6 +9,7 @@ import {
   Lang
 } from '../../settings'
 
+// check user login status
 export const isLoggedIn = () => {
   return AsyncStorage
     .multiGet([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER])
@@ -45,7 +46,7 @@ export const hideLogin = () => {
   }
 }
 
-// toggle mobile number input for validation
+// toggle mobile number input for verification
 export const enableValidation = () => {
   return {
     type: ACTIONS.ENABLE_VERIFICATION
@@ -58,26 +59,26 @@ export const disableValidation = () => {
   }
 }
 
-// send mobile number for validation
-const requestMobileValidation = () => {
+// upload mobile number for verification
+const uploadMobileRequest = () => {
   return {
-    type: ACTIONS.SEND_MOBILE_NUMBER_FOR_VALIDATION
+    type: ACTIONS.UPLOAD_MOBILE_REQUEST
   }
 }
 
-const mobileNumberSaved = () => {
+const uploadMobileSuccess = () => {
   return {
-    type: ACTIONS.MOBILE_NUMBER_SAVED
+    type: ACTIONS.UPLOAD_MOBILE_SUCCESS
   }
 }
 
-const mobileValidationFailed = () => {
+const uploadMobileFailure = () => {
   return {
-    type: ACTIONS.MOBILE_NUMBER_VALIDATION_FAILED
+    type: ACTIONS.UPLOAD_MOBILE_FAILURE
   }
 }
 
-export const validateMobileNumber = (mobile, action) => {
+export const uploadMobileNumber = (mobile, action) => {
   let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify({
       mobile,
@@ -86,22 +87,22 @@ export const validateMobileNumber = (mobile, action) => {
   })
 
   return dispatch => {
-    dispatch(requestMobileValidation())
+    dispatch(uploadMobileRequest())
 
     return fetch(AppSettings.apiUri + 'validate', config)
       .then((res) => {
         if (res.status === 201) {
-          dispatch(mobileNumberSaved())
+          dispatch(uploadMobileSuccess())
         } else {
-          dispatch(mobileValidationFailed(res.message))
+          dispatch(uploadMobileFailure(res.message))
           return Promise.reject(res)
         }
       })
-      .catch(err => console.error(err))
+      .catch((err) => console.error(err))
   }
 }
 
-// toggle mobile number input for verification
+// toggle verification code input for verification
 export const showVerification = () => {
   return {
     type: ACTIONS.SHOW_VERIFICATION
@@ -120,23 +121,23 @@ export const resetVerificationError = () => {
   }
 }
 
-// send mobile number for verification
-const requestMobileVerification = () => {
+// verify mobile number against sms code
+const verifyMobileRequest = () => {
   return {
-    type: ACTIONS.SEND_MOBILE_VERIFICATION_REQUEST
+    type: ACTIONS.VERIFY_MOBILE_REQUEST
   }
 }
 
-const mobileVerified = (mobile) => {
+const verifyMobileSuccess = (mobile) => {
   return {
-    type: ACTIONS.MOBILE_VERIFICATION_SUCCESS,
+    type: ACTIONS.VERIFY_MOBILE_SUCCESS,
     mobile
   }
 }
 
-const mobileVerificationFailed = (key) => {
+const verifyMobileFailure = (key) => {
   return {
-    type: ACTIONS.MOBILE_VERIFICATION_FAILURE,
+    type: ACTIONS.VERIFY_MOBILE_FAILURE,
     error: Lang[key]
   }
 }
@@ -150,7 +151,7 @@ export const verifyMobileNumber = (mobile, vcode) => {
   })
   
   return dispatch => {
-    dispatch(requestMobileVerification())
+    dispatch(verifyMobileRequest())
 
     return fetch(AppSettings.apiUri + 'validate', config)
       .then((res) => {
@@ -158,9 +159,9 @@ export const verifyMobileNumber = (mobile, vcode) => {
       })
       .then((res) => {
         if (res.verified) {
-          dispatch(mobileVerified(mobile))
+          dispatch(verifyMobileSuccess(mobile))
         } else {
-          dispatch(mobileVerificationFailed(res.error))
+          dispatch(verifyMobileFailure(res.error))
           //return Promise.reject(res)
         }
       })
@@ -193,16 +194,16 @@ export const wechatAuthRequestSend = () => {
   }
 }
 
-const receiveWechatUserInfo = (wechat) => {
+const wechatUserAuthSuccess = (wechat) => {
   return {
-    type: ACTIONS.WECHAT_USER_INFO_SUCCESS,
+    type: ACTIONS.WECHAT_USER_AUTH_SUCCESS,
     wechat
   }
 }
 
-const wechatUserInfoError = (message) => {
+const wechatUserAuthFailure = (message) => {
   return {
-    type: ACTIONS.WECHAT_USER_INFO_FAILURE,
+    type: ACTIONS.WECHAT_USER_AUTH_FAILURE,
     message
   }
 }
@@ -214,41 +215,16 @@ export const requestWechatUserInfo = (wechat_token) => {
         return res.json()
       })
       .then((wechat) => {
-        dispatch(receiveWechatUserInfo(wechat))
+        dispatch(wechatUserAuthSuccess(wechat))
       })
-      .catch((err) => dispatch(wechatUserInfoError(err)))
+      .catch((err) => dispatch(wechatUserAuthFailure(err)))
   }
 }
 
 
 
 
-
-
-const requestLogin = (creds) => {
-  return {
-    type: ACTIONS.REQUEST_LOGIN,
-    creds
-  }
-}
-
-const receiveLogin = (user) => {
-  return {
-    type: ACTIONS.LOGIN_SUCCESS,
-    token: user.token,
-    user
-  }
-}
-
-const loginError = (message) => {
-  return {
-    type: ACTIONS.LOGIN_FAILURE,
-    message
-  }
-}
-
-
-
+// complete sign-up process
 export const showMobileLoginForm = () => {
   return {
     type: ACTIONS.SHOW_MOBILE_LOGIN_FORM
@@ -271,13 +247,36 @@ const completeSignup = (creds) => {
   }
 }
 
+// login user
+const loginRequest = (creds) => {
+  return {
+    type: ACTIONS.LOGIN_REQUEST,
+    creds
+  }
+}
+
+const loginSuccess = (user) => {
+  return {
+    type: ACTIONS.LOGIN_SUCCESS,
+    token: user.token,
+    user
+  }
+}
+
+const loginFailure = (message) => {
+  return {
+    type: ACTIONS.LOGIN_FAILURE,
+    message
+  }
+}
+
 export const loginUser = (creds) => {
   let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(creds)
   })
 
   return (dispatch) => {
-    dispatch(requestLogin(creds))
+    dispatch(loginRequest(creds))
 
     return fetch(AppSettings.apiUri + 'login', config)
       .then((res) => {
@@ -293,34 +292,34 @@ export const loginUser = (creds) => {
             [CONSTANTS.ACCESS_TOKEN, res.token],
             [CONSTANTS.USER, JSON.stringify(res)]
           ]).then(() => {
-            dispatch(receiveLogin(res))
+            dispatch(loginSuccess(res))
           })
         } else {
-          dispatch(loginError(res.message))
+          dispatch(loginFailure(res.message))
           return Promise.reject(res)
         }
       })
-      .catch((err) => dispatch(loginError(err)))
+      .catch((err) => dispatch(loginFailure(err)))
   }
 }
 
-
-const receiveUser = (user) => {
+// get user information
+const getUserSuccess = (user) => {
   return {
-    type: ACTIONS.GET_SUCCESS,
+    type: ACTIONS.GET_USER_SUCCESS,
     token: user.token,
     user
   }
 }
 
-const getUserError = (message) => {
+const getUserFailure = (message) => {
   return {
-    type: ACTIONS.GET_FAILURE,
+    type: ACTIONS.GET_USER_FAILURE,
     message
   }
 }
 
-export const getUpdatedUser = (user_id) => {
+export const reloadUser = (user_id) => {
   return (dispatch) => {
     return fetch(AppSettings.apiUri + 'users/' + user_id, FETCH.GET)
       .then((res) => {
@@ -331,54 +330,34 @@ export const getUpdatedUser = (user_id) => {
           AsyncStorage
           .setItem(CONSTANTS.USER, JSON.stringify(res))
           .then(() => {
-            dispatch(receiveUser(res))
+            dispatch(getUserSuccess(res))
           })
         } else {
-          dispatch(getUserError(res.message))
+          dispatch(getUserFailure(res.message))
           return Promise.reject(res)
         }
       })
-      .catch((err) => dispatch(getUserError(err)))
+      .catch((err) => dispatch(getUserFailure(err)))
   }
 }
 
-const requestLogout = () => {
+// update user
+const updateUserRequest = () => {
   return {
-    type: ACTIONS.LOGOUT_REQUEST
+    type: ACTIONS.UPDATE_USER_REQUEST
   }
 }
 
-const receiveLogout = () => {
+const updateUserSuccess = (user) => {
   return {
-    type: ACTIONS.LOGOUT_SUCCESS
-  }
-}
-
-export const logoutUser = () => {
-  return dispatch => {
-    dispatch(requestLogout())
-    AsyncStorage.multiRemove([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER], () => {
-      dispatch(receiveLogout())
-    })
-  }
-}
-
-const requestUserUpdate = () => {
-  return {
-    type: ACTIONS.REQUEST_USER_UPDATE
-  }
-}
-
-const receiveUpdatedUser = (user) => {
-  return {
-    type: ACTIONS.USER_UPDATE_SUCCESS,
+    type: ACTIONS.UPDATE_USER_SUCCESS,
     user
   }
 }
 
-const userUpdateError = (key) => {
+const updateUserFailure = (key) => {
   return {
-    type: ACTIONS.USER_UPDATE_FAILURE,
+    type: ACTIONS.UPDATE_USER_FAILURE,
     updateError: Lang[key]
   }
 }
@@ -404,7 +383,7 @@ export const updateUserAvatar = (user_id, uri) => {
   })
 
   return (dispatch) => {
-    dispatch(requestUserUpdate())
+    dispatch(updateUserRequest())
 
     return fetch(AppSettings.apiUri + 'users/' + user_id + '/avatar', config)
       .then((res) => {
@@ -414,10 +393,10 @@ export const updateUserAvatar = (user_id, uri) => {
         AsyncStorage
         .setItem(CONSTANTS.USER, JSON.stringify(res))
         .then(() => {
-          dispatch(receiveUpdatedUser(res))
+          dispatch(updateUserSuccess(res))
         })
       })
-      .catch((err) => dispatch(userUpdateError(err)))
+      .catch((err) => dispatch(updateUserFailure(err)))
   }
 }
 
@@ -427,7 +406,7 @@ export const updateUser = (user_id, data) => {
   })
 
   return (dispatch) => {
-    dispatch(requestUserUpdate())
+    dispatch(updateUserRequest())
 
     return fetch(AppSettings.apiUri + 'users/' + user_id, config)
       .then((res) => {
@@ -437,10 +416,10 @@ export const updateUser = (user_id, data) => {
         AsyncStorage
         .setItem(CONSTANTS.USER, JSON.stringify(res))
         .then(() => {
-          dispatch(receiveUpdatedUser(res))
+          dispatch(updateUserSuccess(res))
         })
       })
-      .catch((err) => dispatch(userUpdateError(err)))
+      .catch((err) => dispatch(updateUserFailure(err)))
   }
 }
 
@@ -453,7 +432,7 @@ export const updateUserMobile = (user_id, mobile, vcode) => {
   })
 
   return (dispatch) => {
-    dispatch(requestUserUpdate())
+    dispatch(updateUserRequest())
 
     return fetch(AppSettings.apiUri + 'users/' + user_id + '/mobile', config)
       .then((res) => {
@@ -466,16 +445,38 @@ export const updateUserMobile = (user_id, mobile, vcode) => {
           AsyncStorage
           .setItem(CONSTANTS.USER, JSON.stringify(res))
           .then(() => {
-            dispatch(receiveUpdatedUser(res))
+            dispatch(updateUserSuccess(res))
           })
         }
       })
-      .catch((err) => dispatch(userUpdateError(err.error)))
+      .catch((err) => dispatch(updateUserFailure(err.error)))
   }
 }
 
 export const clearUpdateError = () => {
   return {
     type: ACTIONS.CLEAR_UPDATE_ERROR
+  }
+}
+
+// logout
+const logoutRequest = () => {
+  return {
+    type: ACTIONS.LOGOUT_REQUEST
+  }
+}
+
+const logoutSuccess = () => {
+  return {
+    type: ACTIONS.LOGOUT_SUCCESS
+  }
+}
+
+export const logoutUser = () => {
+  return dispatch => {
+    dispatch(logoutRequest())
+    AsyncStorage.multiRemove([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER], () => {
+      dispatch(logoutSuccess())
+    })
   }
 }

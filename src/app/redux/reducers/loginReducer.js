@@ -85,7 +85,7 @@ loginReducer = (state = init, action) => {
         loginDisabled: true
       })
 
-   case ACTIONS.REQUEST_LOGIN:
+   case ACTIONS.LOGIN_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
         disableValidation: true,
@@ -115,13 +115,13 @@ loginReducer = (state = init, action) => {
         user: null
       })
 
-    case ACTIONS.GET_SUCCESS:
+    case ACTIONS.GET_USER_SUCCESS:
       return Object.assign({}, state, {
         message: null,
         user: action.user
       })
 
-    case ACTIONS.GET_FAILURE:
+    case ACTIONS.GET_USER_FAILURE:
       return Object.assign({}, state, {
         message: action.message
       })
@@ -131,19 +131,19 @@ loginReducer = (state = init, action) => {
         tmpAvatarUri: action.uri
       })
 
-    case ACTIONS.REQUEST_USER_UPDATE:
+    case ACTIONS.UPDATE_USER_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       })
 
-    case ACTIONS.USER_UPDATE_SUCCESS:
+    case ACTIONS.UPDATE_USER_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         user: action.user,
         tmpAvatarUri: null
       })
 
-    case ACTIONS.USER_UPDATE_FAILURE:
+    case ACTIONS.UPDATE_USER_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         updateError: action.updateError,
@@ -161,24 +161,24 @@ loginReducer = (state = init, action) => {
       })
 
 // send mobile number for validation
-    case ACTIONS.SEND_MOBILE_NUMBER_FOR_VALIDATION:
+    case ACTIONS.UPLOAD_MOBILE_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       })
 
-    case ACTIONS.MOBILE_NUMBER_SAVED:
+    case ACTIONS.UPLOAD_MOBILE_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false
       })
 
-    case ACTIONS.MOBILE_NUMBER_VALIDATION_FAILED:
+    case ACTIONS.UPLOAD_MOBILE_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         message: action.message
       })
 
 // verify mobile number against validation code
-    case ACTIONS.SEND_MOBILE_VERIFICATION_REQUEST:
+    case ACTIONS.VERIFY_MOBILE_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
         creds: Object.assign({}, state.creds, {
@@ -186,7 +186,7 @@ loginReducer = (state = init, action) => {
         })
       })
 
-    case ACTIONS.MOBILE_VERIFICATION_SUCCESS:
+    case ACTIONS.VERIFY_MOBILE_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         creds: Object.assign({}, state.creds, {
@@ -194,7 +194,7 @@ loginReducer = (state = init, action) => {
         })
       })
 
-    case ACTIONS.MOBILE_VERIFICATION_FAILURE:
+    case ACTIONS.VERIFY_MOBILE_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         creds: Object.assign({}, state.creds, {
@@ -219,12 +219,12 @@ loginReducer = (state = init, action) => {
         isAuthorizingWechat: false
       })
 
-    case ACTIONS.WECHAT_USER_INFO_SUCCESS:
+    case ACTIONS.WECHAT_USER_AUTH_SUCCESS:
       return Object.assign({}, state, {
         creds: Object.assign({}, state.creds, action.wechat)
       })
 
-    case ACTIONS.WECHAT_USER_INFO_FAILURE:
+    case ACTIONS.WECHAT_USER_AUTH_FAILURE:
       return Object.assign({}, state, {
         creds: Object.assign({}, state.creds, wechat)
       })

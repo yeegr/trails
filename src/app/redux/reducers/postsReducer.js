@@ -9,7 +9,7 @@ const postsReducer = (state = {
   post: null
 }, action) => {
   switch (action.type) {
-   case ACTIONS.REQUEST_POSTS:
+   case ACTIONS.LIST_POSTS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       })
@@ -28,7 +28,7 @@ const postsReducer = (state = {
         list: [],
       })
 
-   case ACTIONS.REQUEST_POST:
+   case ACTIONS.GET_POST_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       })

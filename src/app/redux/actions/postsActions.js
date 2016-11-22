@@ -6,21 +6,21 @@ import {
 } from '../../settings'
 
 // list posts
-const requestPosts = (params) => {
+const listPostsRequest = (params) => {
   return {
-    type: ACTIONS.REQUEST_POSTS,
+    type: ACTIONS.LIST_POSTS_REQUEST,
     params
   }
 }
 
-const receivePosts = (list) => {
+const listPostsSuccess = (list) => {
   return {
     type: ACTIONS.LIST_POSTS_SUCCESS,
     list
   }
 }
 
-const listPostsError = (message) => {
+const listPostsFailure = (message) => {
   return {
     type: ACTIONS.LIST_POSTS_FAILURE,
     message
@@ -29,7 +29,7 @@ const listPostsError = (message) => {
 
 export const listPosts = (params) => {
   return (dispatch) => {
-    dispatch(requestPosts(params))
+    dispatch(listPostsRequest(params))
 
     return fetch(AppSettings.apiUri + 'posts/' + params)
       .then((response) => {
@@ -37,33 +37,33 @@ export const listPosts = (params) => {
       })
       .then((response) => {
         if (response.error) {
-          dispatch(listPostsError(response.error))
+          dispatch(listPostsFailure(response.error))
           return Promise.reject(response)
         } else {
-         dispatch(receivePosts(response))
+         dispatch(listPostsSuccess(response))
         }
       })
       .catch((err) => {
-        dispatch(listPostsError(err))
+        dispatch(listPostsFailure(err))
       })
   }
 }
 
 // get one post
-const requestPost = () => {
+const getPostRequest = () => {
   return {
-    type: ACTIONS.REQUEST_POST
+    type: ACTIONS.GET_POST_REQUEST
   }
 }
 
-const receivePost = (post) => {
+const getPostSuccess = (post) => {
   return {
     type: ACTIONS.GET_POST_SUCCESS,
     post
   }
 }
 
-const getPostError = (message) => {
+const getPostFailure = (message) => {
   return {
     type: ACTIONS.GET_POST_SUCCESS,
     message
@@ -72,7 +72,7 @@ const getPostError = (message) => {
 
 export const getPost = (id) => {
   return (dispatch) => {
-    dispatch(requestPost())
+    dispatch(getPostRequest())
 
     return fetch(AppSettings.apiUri + 'posts/' + id)
       .then((response) => {
@@ -83,7 +83,7 @@ export const getPost = (id) => {
           dispatch(getPostError(response.error))
           return Promise.reject(response)
         } else {
-          dispatch(receivePost(response))
+          dispatch(getPostSuccess(response))
         }
       })
       .catch((err) => {

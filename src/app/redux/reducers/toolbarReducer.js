@@ -23,22 +23,19 @@ const toolbarReducer = (state = {
         commentCount: action.stats.commentCount
       }
 
-    case ACTIONS.REQUEST_TOOLBAR_ACTION:
+    case ACTIONS.TOOLBAR_ACTION_REQUEST:
     	return Object.assign({},
         state, {
           isFetching: true
         })
 
     case ACTIONS.TOOLBAR_ACTION_SUCCESS:
-      return Object.assign({},
-        state, {
+      return Object.assign({}, state, {
           isFetching: false
-        },
-        action.response)
+        }, action.response)
 
     case ACTIONS.TOOLBAR_ACTION_FAILURE:
-      return Object.assign({},
-        state, {
+      return Object.assign({}, state, {
           isFetching: false
         })
 

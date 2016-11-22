@@ -11,11 +11,10 @@ import {
 } from 'react-native'
 
 import ParallaxView from 'react-native-parallax-view'
-//import Alipay from 'react-native-alipay'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as eventsActions from '../../redux/actions/eventsActions'
+import * as ordersActions from '../../redux/actions/ordersActions'
 
 import CallToAction from '../shared/CallToAction'
 import ImagePath from '../shared/ImagePath'
@@ -34,12 +33,10 @@ import {
   Graphics
 } from '../../settings'
 
-class EventPayment extends Component {
+class OrderPayment extends Component {
   constructor(props) {
     super(props)
     this.confirm = this.confirm.bind(this)
-    this.pay = this.pay.bind(this)
-    this.nextStep = this.nextStep.bind(this)
 
     this.state = {
       signUps: this.props.signUps,
@@ -49,75 +46,22 @@ class EventPayment extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.events.order) {
-      let order = nextProps.events.order
+    if (this.props.order === null && nextProps.order !== null && nextProps.order.status === 'pending') {
+      let order = nextProps.order
 
-      switch (order.status) {
-        case 'pending':
-          if (this.props.events.order === null) {
-            this.pay()
-            //this.props.eventsActions.updateOrder(order, 'accepted')
-          }
-        break
-
-        case 'accepted':
-          if (this.props.events.order !== null) {
-            this.nextStep(nextProps.events.order)
-          }
-        break
-      }
+      this.props.navigator.push({
+        id: 'PayCountdown',
+        title: Lang.PayCountdown,
+        passProps: {
+          event: this.props.event,
+          order
+        }
+      })
     }
   }
 
   componentWillUnmount() {
-    this.props.eventsActions.resetOrder()
-  }
-
-  nextStep(order) {
-    let {event, navigator} = this.props,
-      stack = navigator.getCurrentRoutes()
-
-    stack.splice(2, stack.length - 3)
-    navigator.immediatelyResetRouteStack(stack)
-
-    setTimeout(() => {
-      navigator.replace({
-        id: 'OrderDetail',
-        title: Lang.OrderDetail,
-        passProps: {
-          event,
-          order
-        }
-      })
-    }, 0)
-
-  }
-
-  pay() {
-    let info = Object.assign({}, AppSettings.Alipay, {
-      notify_url: 'http://www.baidu.com', 
-      goods_type: 0,
-      out_trade_no: '1231231231231',
-      subject: '测试商品标题',
-      body: '测试产品描述', 
-      total_fee: 1,
-      payment_type: 1,
-      extern_token: '',
-      promo_params: ''
-    })
-
-    console.log('Alipay')
-    console.log(JSON.stringify(info))
-
-    /*
-    Alipay
-    .pay(JSON.stringify(info))
-    .then((data) => {
-      console.log(data)
-    }, (err) => {
-      console.log(err)
-    })
-    */
+    this.props.ordersActions.resetOrder()
   }
 
   confirm(subTotal) {
@@ -127,6 +71,7 @@ class EventPayment extends Component {
       event: event.id,
       group: selectedGroup,
       title: event.title,
+      body: UTIL.formatEventGroupLabel(event, selectedGroup),
       hero: event.hero,
       startDate: event.groups[selectedGroup].startDate,
       daySpan: event.schedule.length, 
@@ -135,15 +80,7 @@ class EventPayment extends Component {
       subTotal 
     }
 
-/*
-    Alipay
-    .pay("signed pay info string")
-    .then(function(data){
-        console.log(data)
-    }, function (err) {
-        console.log(err)
-    })*/
-    this.props.eventsActions.placeOrder(order)
+    this.props.ordersActions.createOrder(order)
   }
 
   render() {
@@ -268,27 +205,27 @@ class EventPayment extends Component {
   }
 }
 
-EventPayment.propTypes = {
-  navigator: PropTypes.object.isRequired,
-  eventsActions: PropTypes.object.isRequired,
+OrderPayment.propTypes = {
   user: PropTypes.object.isRequired,
+  navigator: PropTypes.object.isRequired,
   event: PropTypes.object.isRequired,
-  events: PropTypes.object.isRequired,
   selectedGroup: PropTypes.number.isRequired,
-  signUps: PropTypes.array.isRequired
+  signUps: PropTypes.array.isRequired,
+  order: PropTypes.object,
+  ordersActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
     user: state.login.user,
-    events: state.events
+    order: state.orders.order
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    eventsActions: bindActionCreators(eventsActions, dispatch)
+    ordersActions: bindActionCreators(ordersActions, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventPayment)
+export default connect(mapStateToProps, mapDispatchToProps)(OrderPayment)

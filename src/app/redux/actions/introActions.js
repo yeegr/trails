@@ -1,20 +1,15 @@
 'use strict'
 
-
-import {
-  SHOW_INTRO,
-  HIDE_INTRO,
-  INTRO_PLAYED
-} from '../constants/introConstants'
+import * as ACTIONS from '../constants/introConstants'
 
 export const showIntro = () => {
   return {
-    type: SHOW_INTRO
+    type: ACTIONS.SHOW_INTRO
   }
 }
 
 export const hideIntro = () => {
   return {
-    type: HIDE_INTRO
+    type: ACTIONS.HIDE_INTRO
   }
 }

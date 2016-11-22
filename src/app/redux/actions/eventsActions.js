@@ -1,28 +1,26 @@
 'use strict'
 
 import * as ACTIONS from '../constants/eventsConstants'
-import * as loginActions from './loginActions'
 import {
-  FETCH,
   AppSettings
 } from '../../settings'
 
 // list events
-const requestEvents = (params) => {
+const listEventsRequest = (params) => {
   return {
-    type: ACTIONS.REQUEST_EVENTS,
+    type: ACTIONS.LIST_EVENTS_REQUEST,
     params
   }
 }
 
-const receiveEvents = (list) => {
+const listEventsSuccess = (list) => {
   return {
     type: ACTIONS.LIST_EVENTS_SUCCESS,
     list
   }
 }
 
-const listEventsError = (message) => {
+const listEventsFailure = (message) => {
   return {
     type: ACTIONS.LIST_EVENTS_FAILURE,
     message
@@ -31,7 +29,7 @@ const listEventsError = (message) => {
 
 export const listEvents = (params) => {
   return (dispatch) => {
-    dispatch(requestEvents(params))
+    dispatch(listEventsRequest(params))
 
     return fetch(AppSettings.apiUri + 'events/' + params)
       .then((response) => {
@@ -39,33 +37,33 @@ export const listEvents = (params) => {
       })
       .then((response) => {
         if (response.error) {
-          dispatch(listEventsError(response.error))
+          dispatch(listEventsFailure(response.error))
           return Promise.reject(response)
         } else {
-         dispatch(receiveEvents(response))
+         dispatch(listEventsSuccess(response))
         }
       })
       .catch((err) => {
-        dispatch(listEventsError(err))
+        dispatch(listEventsFailure(err))
       })
   }
 }
 
 // get one event
-const requestEvent = () => {
+const getEventRequest = () => {
   return {
-    type: ACTIONS.REQUEST_EVENT
+    type: ACTIONS.GET_EVENT_REQUEST
   }
 }
 
-const receiveEvent = (event) => {
+const getEventSuccess = (event) => {
   return {
     type: ACTIONS.GET_EVENT_SUCCESS,
     event
   }
 }
 
-const getEventError = (message) => {
+const getEventFailure = (message) => {
   return {
     type: ACTIONS.GET_EVENT_FAILURE,
     message
@@ -74,7 +72,7 @@ const getEventError = (message) => {
 
 export const getEvent = (id) => {
   return (dispatch) => {
-    dispatch(requestEvent())
+    dispatch(getEventRequest())
 
     return fetch(AppSettings.apiUri + 'events/' + id)
       .then((response) => {
@@ -82,14 +80,14 @@ export const getEvent = (id) => {
       })
       .then((response) => {
         if (response.error) {
-          dispatch(getEventError(response.error))
+          dispatch(getEventFailure(response.error))
           return Promise.reject(response)
         } else {
-          dispatch(receiveEvent(response))
+          dispatch(getEventSuccess(response))
         }
       })
       .catch((err) => {
-        dispatch(getEventError(err))
+        dispatch(getEventFailure(err))
       })
   }
 }
@@ -97,95 +95,5 @@ export const getEvent = (id) => {
 export const clearEvent = () => {
   return {
     type: ACTIONS.CLEAR_EVENT
-  }
-}
-
-// orders
-export const resetOrder = () => {
-  return {
-    type: ACTIONS.RESET_ORDER
-  }
-}
-
-// place order
-const sendOrderRequest = () => {
-  return {
-    type: ACTIONS.PLACE_ORDER_REQUEST
-  }
-}
-
-const receiveOrderResponse = (order) => {
-  return {
-    type: ACTIONS.PLACE_ORDER_SUCCESS,
-    order
-  }
-}
-
-const orderError = (message) => {
-  return {
-    type: ACTIONS.PLACE_ORDER_FAILURE,
-    message
-  }
-}
-
-export const placeOrder = (order) => {
-  let config = Object.assign({}, FETCH.POST, {
-    body: JSON.stringify(order)
-  })
-
-  return (dispatch) => {
-    dispatch(sendOrderRequest())
-
-    return fetch(AppSettings.apiUri + 'orders', config)
-      .then((res) => {
-        return res.json()
-      })
-      .then((res) => {
-        if (res._id) {
-          dispatch(receiveOrderResponse(res))
-          dispatch(loginActions.getUpdatedUser(order.creator))
-        } else {
-          dispatch(orderError(res.message))
-          return Promise.reject(res)
-        }
-      })
-      .catch((err) => dispatch(orderError(err)))
-  }
-}
-
-// update order
-const sendOrderUpdateRequest = () => {
-  return {
-    type: ACTIONS.UPDATE_ORDER_REQUEST
-  }
-}
-
-const receiveOrderUpdateResponse = (order) => {
-  return {
-    type: ACTIONS.UPDATE_ORDER_SUCCESS,
-    order
-  }
-}
-
-export const updateOrder = (order, status) => {
-  let config = Object.assign({}, FETCH.PUT)
-
-  return (dispatch) => {
-    dispatch(sendOrderUpdateRequest())
-
-    return fetch(AppSettings.apiUri + 'orders/' + order._id + '/' + status, config)
-      .then((res) => {
-        return res.json()
-      })
-      .then((res) => {
-        if (res._id) {
-          dispatch(receiveOrderUpdateResponse(res))
-          //dispatch(loginActions.getUpdatedUser(order.creator))
-        } else {
-          dispatch(orderError(res.message))
-          return Promise.reject(res)
-        }
-      })
-      .catch((err) => dispatch(orderError(err)))
   }
 }

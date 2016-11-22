@@ -72,7 +72,7 @@ class EditUserMobile extends Component {
 
   getValidation() {
     if (parseInt(this.state.mobileNumber) !== this.props.login.user.mobile) {
-      this.props.loginActions.validateMobileNumber(this.state.mobileNumber, 'UPDATE_MOBILE')
+      this.props.loginActions.uploadMobileNumber(this.state.mobileNumber, 'UPDATE_MOBILE')
 
       this.setState({
         verificationCode: '',

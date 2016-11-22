@@ -19,12 +19,20 @@ module.exports = {
     EVENT: ["private", "submitting", "pending", "approved", "rejected", "public", "suspended"],
     GROUP: ["accepting", "filled", "due"],
     SIGNUP: ["submitted", "pending", "approved", "rejected"],
-    PAYMENT: ["submitting", "pending", "accepted", "rejected"],
+    PAYMENT: ["pending", "paid"],
     POST: ["draft", "pending", "approved", "published"],
   },
   PAYMENT_MEDHODS: [
     "Alipay",
     "Wechat"
+  ],
+  Roles: [
+    'normal',
+    'captain',
+    'staff',
+    'editor',
+    'admin',
+    'super'
   ],
 
   genderRx: /0|1/,
@@ -35,33 +43,23 @@ module.exports = {
   currentcyRx: /\d{0,5}.\d{0,2}/,
   ipRx: /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/,
 
-  generateRandomString: function(length) {
-    let charList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-    txt = ''
-
-    for (let i = 0; i < length; i++) {
-      txt += charList.charAt(Math.floor(Math.random() * charList.length))
+  "Alipay": {
+    "pubContent": {
+      "app_id": "2016111902979618",
+      "method": "alipay.trade.app.pay",
+      "format": "JSON",
+      "charset": "utf-8",
+      "sign_type": "RSA",
+      "version": "1.0",
+      "notify_url" : "http://baidu.com"
+    },
+    "bizContent": {
+      "timeout_express": "15m",
+      "seller_id": "pay@shitulv.com",
+      "product_code": "QUICK_MSECURITY_PAY",
+      "goods_type": "0",
+      "enable_pay_channels": "balance,coupon,creditCard,debitCardExpress,pcard,promotion",
+      "disable_pay_chanales": ""
     }
-
-    return txt
-  },
-
-  generateRandomNumericString: function(length) {
-    let num = Math.floor(Math.random() * Math.pow(10, length)),
-      str = num.toString(),
-      len = length - str.length,
-      i = 0,
-      padding = ''
-
-    for (i; i < len; i++) {
-      padding += '0'
-    }
-
-    return padding + str
-  },
-
-  getTimeFromId: function(id) {
-    let timestamp = id.toString().substring(0, 8)
-    return parseInt(timestamp, 16) * 1000
   }
 }

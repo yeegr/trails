@@ -6,21 +6,21 @@ import {
 } from '../../settings'
 
 // list trails
-const requestTrails = (params) => {
+const listTrailsRequest = (params) => {
   return {
-    type: ACTIONS.REQUEST_TRAILS,
+    type: ACTIONS.LIST_TRAILS_REQUEST,
     params
   }
 }
 
-const receiveTrails = (list) => {
+const listTrailsSuccess = (list) => {
   return {
     type: ACTIONS.LIST_TRAILS_SUCCESS,
     list
   }
 }
 
-const listTrailsError = (message) => {
+const listTrailsFailure = (message) => {
   return {
     type: ACTIONS.LIST_TRAILS_FAILURE,
     message
@@ -29,7 +29,7 @@ const listTrailsError = (message) => {
 
 export const listTrails = (params) => {
   return (dispatch) => {
-    dispatch(requestTrails(params))
+    dispatch(listTrailsRequest(params))
 
     return fetch(AppSettings.apiUri + 'trails/' + params)
       .then((res) => {
@@ -37,34 +37,34 @@ export const listTrails = (params) => {
       })
       .then((res) => {
         if (res.error) {
-          dispatch(listTrailsError(res.error))
+          dispatch(listTrailsFailure(res.error))
           return Promise.reject(res)
         } else {
-         dispatch(receiveTrails(res))
+         dispatch(listTrailsSuccess(res))
         }
       })
       .catch((err) => {
-        dispatch(listTrailsError(err))
+        dispatch(listTrailsFailure(err))
       })
   }
 }
 
 
 // get one trail
-const requestTrail = (id) => {
+const getTrailRequest = (id) => {
   return {
-    type: ACTIONS.REQUEST_TRAIL
+    type: ACTIONS.GET_TRAIL_REQUEST
   }
 }
 
-const receiveTrail = (trail) => {
+const getTrailSuccess = (trail) => {
   return {
     type: ACTIONS.GET_TRAIL_SUCCESS,
     trail
   }
 }
 
-const getTrailError = (message) => {
+const getTrailFailure = (message) => {
   return {
     type: ACTIONS.GET_TRAIL_SUCCESS,
     message
@@ -73,7 +73,7 @@ const getTrailError = (message) => {
 
 export const getTrail = (id) => {
   return (dispatch) => {
-    dispatch(requestTrail(id))
+    dispatch(getTrailRequest(id))
 
     return fetch(AppSettings.apiUri + 'trails/' + id)
       .then((response) => {
@@ -81,14 +81,14 @@ export const getTrail = (id) => {
       })
       .then((response) => {
         if (response.error) {
-          dispatch(getTrailError(response.error))
+          dispatch(getTrailFailure(response.error))
           return Promise.reject(response)
         } else {
-          dispatch(receiveTrail(response))
+          dispatch(getTrailSuccess(response))
         }
       })
       .catch((err) => {
-        dispatch(getTrailError(err))
+        dispatch(getTrailFailure(err))
       })
   }
 }

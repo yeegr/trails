@@ -2,26 +2,25 @@
 
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
-  CONST = require('../const'),
-  Log = require('./logging'),
-  Util = require('./util'),
   request = require('request'),
-  Moment = require('moment'),
-  now = Moment(),
-  Roles = ['normal', 'captain', 'staff', 'editor', 'admin', 'super'],
+  moment = require('moment'),
+  CONST = require('../const'),
+  UTIL = require('../util'),
+  Log = require('./logging'),
+  now = moment(),
   maxLevel = 4,
   minLevel = 0,
   userSchema = new Schema({
     modified: {
       type: Number,
       required: true,
-      default: Util.getTimestamp()
+      default: UTIL.getTimestamp()
     },
     role: {
       type: String,
-      enum: Roles,
+      enum: CONST.Roles,
       required: true,
-      default: Roles[0]
+      default: CONST.Roles[0]
     },
     token: {
       type: String
@@ -78,7 +77,7 @@ const mongoose = require('mongoose'),
     verified: {
       on: {
         type: Number,
-        default: Util.getTimestamp()
+        default: UTIL.getTimestamp()
       },
       by: {
         type: Schema.Types.ObjectId,
@@ -253,23 +252,23 @@ userSchema.methods.removeOrder = function(id) {
 
 userSchema.methods.addToList = function(key, id) {
   let list = (arguments[2]) ? this[arguments[2]][key] : this[key]
-  Util.addToList(this, list, id)
+  UTIL.addToList(this, list, id)
 }
 
 userSchema.methods.removeFromList = function(key, id) {
   let list = (arguments[2]) ? this[arguments[2]][key] : this[key]
-  Util.removeFromList(this, list, id)
+  UTIL.removeFromList(this, list, id)
 }
 
 userSchema.pre('save', function(next) {
-  Util.updateModified(this, ['handle', 'avatar', 'gender', 'mobile'])
+  UTIL.updateModified(this, ['handle', 'avatar', 'gender', 'mobile'])
   this.wasNew = this.isNew
 
-  this.token = CONST.generateRandomString(24)
-  this.expiredAt = Moment().add(1, 'month').valueOf()
+  this.token = UTIL.generateRandomString(24)
+  this.expiredAt = moment().add(1, 'month').valueOf()
 
   if (this.isNew && this.avatar.substring(0, 4) === 'http') {
-    let fileName = CONST.generateRandomString(8)
+    let fileName = UTIL.generateRandomString(8)
 
     request({
       url: 'http://graphics:8000/avatar',

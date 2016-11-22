@@ -30,6 +30,8 @@ AppSettings.baseUri = servers.WEB_SERVER
 AppSettings.apiUri = servers.API_SERVER
 AppSettings.assetUri = servers.ASSET_SERVER
 
+console.log(servers.API_SERVER)
+
 export let Graphics = require('./graphics.json')
 Graphics.page = {}
 Graphics.page.marginTop = Graphics.statusbar.height + Graphics.titlebar.height

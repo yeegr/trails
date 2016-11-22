@@ -3,15 +3,15 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   CONST = require('../const'),
+  UTIL = require('../util'),
   Log = require('./logging'),
-  Util = require('./util'),
   Photo = require('./photo'),
   Point = require('./point'),
   areaSchema = new Schema({
     modified: {
       type: Number,
       required: true,
-      default: Util.getTimestamp()
+      default: UTIL.getTimestamp()
     },
     status: {
       type: String,
@@ -26,7 +26,7 @@ const mongoose = require('mongoose'),
     approved: {
       on: {
         type: Number,
-        default: Util.getTimestamp()
+        default: UTIL.getTimestamp()
       },
       by: {
         type: Schema.Types.ObjectId,
@@ -110,27 +110,27 @@ areaSchema.virtual('commentCount').get(function() {
 })
 
 areaSchema.virtual('ratingAverage').get(function() {
-  return Util.getAverageRating(this)
+  return UTIL.getAverageRating(this)
 })
 
 areaSchema.methods.addToList = function(type, id) {
-  Util.addToList(this, this[type], id)
+  UTIL.addToList(this, this[type], id)
 }
 
 areaSchema.methods.removeFromList = function(type, id) {
-  Util.removeFromList(this, this[type], id)
+  UTIL.removeFromList(this, this[type], id)
 }
 
 areaSchema.methods.addComment = function(id, rating) {
-  Util.addComment(this, id, rating)
+  UTIL.addComment(this, id, rating)
 }
 
 areaSchema.methods.removeComment = function(id, rating) {
-  Util.removeComment(this, id, rating)
+  UTIL.removeComment(this, id, rating)
 }
 
 areaSchema.pre('save', function(next) {
-  Util.updateModified(this, ['name', 'hero', 'description', 'tags', 'photos'])
+  UTIL.updateModified(this, ['name', 'hero', 'description', 'tags', 'photos'])
   this.wasNew = this.isNew
 
   next()

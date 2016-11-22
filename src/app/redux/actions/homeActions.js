@@ -1,13 +1,10 @@
 'use strict'
 
-import {
-  TAB_PRESSED,
-  TAB_CHANGED
-} from '../constants/homeConstants'
+import * as ACTIONS from '../constants/homeConstants'
 
 export const changeTab = (tabId) => {
   return {
-    type: TAB_CHANGED,
+    type: ACTIONS.TAB_CHANGED,
     tabId
   }
 }

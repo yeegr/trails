@@ -10,6 +10,7 @@ RUN npm install -g nodemon
 # ENV NODE_ENV production
 ENV PORT 3000
 
+COPY ./rsa_private_key.pem /usr/app/rsa_private_key.pem
 COPY ./dev/api.js /usr/app/server.js
 COPY ./package.api.json /usr/app/package.json
 WORKDIR /usr/app

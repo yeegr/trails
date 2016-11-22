@@ -2,10 +2,7 @@
 
 import * as ACTIONS from '../constants/toolbarConstants'
 import * as loginActions from './loginActions'
-import {
-  FETCH,
-  AppSettings
-} from '../../settings'
+import {AppSettings} from '../../settings'
 
 export const resetToolbar = (stats) => {
   return {
@@ -14,21 +11,21 @@ export const resetToolbar = (stats) => {
   }
 }
 
-const sendActionRequest = (request) => {
+const toolbarActionRequest = (request) => {
   return {
-    type: ACTIONS.REQUEST_TOOLBAR_ACTION,
+    type: ACTIONS.TOOLBAR_ACTION_REQUEST,
     request
   }
 }
 
-const receiveActionResponse = (response) => {
+const toolbarActionSuccess = (response) => {
   return {
     type: ACTIONS.TOOLBAR_ACTION_SUCCESS,
     response
   }
 }
 
-const receiveActionError = (message) => {
+const toolbarActionFailure = (message) => {
   return {
     type: ACTIONS.TOOLBAR_ACTION_FAILURE,
     message
@@ -41,16 +38,16 @@ export const send = (req) => {
   })
 
   return (dispatch) => {
-    dispatch(sendActionRequest(req))
+    dispatch(toolbarActionRequest(req))
 
     return fetch(AppSettings.apiUri + 'logs', config)
       .then((res) => {
         return res.json()
       })
       .then((res) => {
-        dispatch(receiveActionResponse(res))
-        dispatch(loginActions.getUpdatedUser(req.creator))
+        dispatch(toolbarActionSuccess(res))
+        dispatch(loginActions.reloadUser(req.creator))
       })
-      .catch((err) => dispatch(receiveActionError(err)))
+      .catch((err) => dispatch(toolbarActionFailure(err)))
   }
 }

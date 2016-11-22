@@ -2,17 +2,13 @@
 
 import {AsyncStorage} from 'react-native'
 import {CONSTANTS} from '../../settings'
-import {
-  SHOW_INTRO,
-  HIDE_INTRO,
-  INTRO_PLAYED
-} from '../constants/introConstants'
+import * as ACTIONS from '../constants/introConstants'
 
 const introReducer = (state = {
   showIntro: true
 }, action) => {
   switch (action.type) {
-    case SHOW_INTRO:
+    case ACTIONS.SHOW_INTRO:
       return AsyncStorage
         .multiGet([CONSTANTS.ACCESS_TOKEN, INTRO_PLAYED])
         .then((store) => {
@@ -22,17 +18,17 @@ const introReducer = (state = {
           }
         })
         .catch((err) => {
-          console.log(err)
+          console.error(err)
         })
 
-    case HIDE_INTRO:
+    case ACTIONS.HIDE_INTRO:
       return AsyncStorage
         .getItem(CONSTANTS.ACCESS_TOKEN)
         .then(() => {
           AsyncStorage.setItem(INTRO_PLAYED, true)
         })
         .catch((err) => {
-          console.log(err)
+          console.error(err)
           Object.assign({}, state, {
             showIntro: false
           })

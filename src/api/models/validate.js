@@ -3,9 +3,9 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   CONST = require('../const'),
+  UTIL = require('../util'),
   Log = require('./logging'),
-  Util = require('./util'),
-  Moment = require('moment'),
+  moment = require('moment'),
   validateSchema = new Schema({
     action: {
       type: String,
@@ -43,7 +43,7 @@ const mongoose = require('mongoose'),
 
 validateSchema.pre('validate', function(next) {
   if (this.isNew) {
-    this.expiredAt = Moment().add(5, 'minutes').toDate()
+    this.expiredAt = moment().add(5, 'minutes').toDate()
   }
 
   next()

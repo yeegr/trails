@@ -89,4 +89,34 @@ module.exports = {
       obj.modified = this.getTimestamp()
     }
   },
+
+  generateRandomString: function(length) {
+    let charList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+    txt = ''
+
+    for (let i = 0; i < length; i++) {
+      txt += charList.charAt(Math.floor(Math.random() * charList.length))
+    }
+
+    return txt
+  },
+
+  generateRandomNumericString: function(length) {
+    let num = Math.floor(Math.random() * Math.pow(10, length)),
+      str = num.toString(),
+      len = length - str.length,
+      i = 0,
+      padding = ''
+
+    for (i; i < len; i++) {
+      padding += '0'
+    }
+
+    return padding + str
+  },
+
+  getTimeFromId: function(id) {
+    let timestamp = id.toString().substring(0, 8)
+    return parseInt(timestamp, 16) * 1000
+  },
 }

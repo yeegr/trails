@@ -101,10 +101,10 @@ class SelectOrderGroup extends Component {
 }
 
 SelectOrderGroup.propTypes = {
+  user: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
   navbarActions: PropTypes.object.isRequired,
-  event: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  event: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

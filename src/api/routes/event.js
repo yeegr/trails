@@ -3,6 +3,7 @@ const mongoose = require('mongoose'),
   formidable = require('formidable'),
   fs = require('fs'),
   CONST = require('../const'),
+  UTIL = require('../util'),
   User = require('../models/user'),
   Event = require('../models/event')
 
@@ -134,7 +135,7 @@ module.exports = function(app) {
     .exec()
     .then(function(event) {
       if (event) {
-        let fileName = CONST.generateRandomString(8) + '.jpg',
+        let fileName = UTIL.generateRandomString(8) + '.jpg',
           form = new formidable.IncomingForm()
 
         form.parse(req, function(err, fields, files) {

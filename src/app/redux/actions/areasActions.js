@@ -4,21 +4,21 @@ import * as ACTIONS from '../constants/areasConstants'
 import {AppSettings} from '../../settings'
 
 // list areas
-const requestAreas = (params) => {
+const listAreasRequest = (params) => {
   return {
-    type: ACTIONS.REQUEST_AREAS,
+    type: ACTIONS.LIST_AREAS_REQUEST,
     params
   }
 }
 
-const receiveAreas = (list) => {
+const listAreasSuccess = (list) => {
   return {
     type: ACTIONS.LIST_AREAS_SUCCESS,
     list
   }
 }
 
-const listAreasError = (message) => {
+const listAreasFailure = (message) => {
   return {
     type: ACTIONS.LIST_AREAS_FAILURE,
     message
@@ -27,7 +27,7 @@ const listAreasError = (message) => {
 
 export const listAreas = (params) => {
   return (dispatch) => {
-    dispatch(requestAreas(params))
+    dispatch(listAreasRequest(params))
 
     return fetch(AppSettings.apiUri + 'areas/' + params)
       .then((response) => {
@@ -35,33 +35,33 @@ export const listAreas = (params) => {
       })
       .then((response) => {
         if (response.error) {
-          dispatch(listAreasError(response.error))
+          dispatch(listAreasFailure(response.error))
           return Promise.reject(response)
         } else {
-         dispatch(receiveAreas(response))
+         dispatch(listAreasSuccess(response))
         }
       })
       .catch((err) => {
-        dispatch(listAreasError(err))
+        dispatch(listAreasFailure(err))
       })
   }
 }
 
 // get one area
-const requestArea = (id) => {
+const getAreaRequest = (id) => {
   return {
-    type: ACTIONS.REQUEST_AREA
+    type: ACTIONS.GET_AREA_REQUEST
   }
 }
 
-const receiveArea = (area) => {
+const getAreaSuccess = (area) => {
   return {
     type: ACTIONS.GET_AREA_SUCCESS,
     area
   }
 }
 
-const getAreaError = (message) => {
+const getAreaFailure = (message) => {
   return {
     type: ACTIONS.GET_AREA_SUCCESS,
     message
@@ -70,7 +70,7 @@ const getAreaError = (message) => {
 
 export const getArea = (id) => {
   return (dispatch) => {
-    dispatch(requestArea(id))
+    dispatch(getAreaRequest(id))
 
     return fetch(AppSettings.apiUri + 'areas/' + id)
       .then((response) => {
@@ -78,14 +78,14 @@ export const getArea = (id) => {
       })
       .then((response) => {
         if (response.error) {
-          dispatch(getAreaError(response.error))
+          dispatch(getAreaFailure(response.error))
           return Promise.reject(response)
         } else {
-          dispatch(receiveArea(response))
+          dispatch(getAreaSuccess(response))
         }
       })
       .catch((err) => {
-        dispatch(getAreaError(err))
+        dispatch(getAreaFailure(err))
       })
   }
 }

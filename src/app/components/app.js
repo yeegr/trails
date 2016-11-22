@@ -35,9 +35,10 @@ import EditTrailGallery from './trail/EditTrailGallery'
 import SearchTrails from './trail/SearchTrails'
 import EventList from './event/EventList'
 import EventDetail from './event/EventDetail'
-import EventOrder from './event/EventOrder'
+import OrderEvent from './event/OrderEvent'
 import SelectOrderGroup from './event/SelectOrderGroup'
-import EventPayment from './event/EventPayment'
+import OrderPayment from './event/OrderPayment'
+import PayCountdown from './event/PayCountdown'
 import OrderSummary from './event/OrderSummary'
 import SearchEvents from './event/SearchEvents'
 import EditEvent from './event/EditEvent'
@@ -160,7 +161,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         )
       break
 
-      case 'EventOrder':
+      case 'OrderEvent':
         rightTitleBar = (
           <NavbarButton
             onPress={() => dispatch(navbarActions.addEventSignUp())}
@@ -551,9 +552,9 @@ class App extends Component {
                   />
                 )
 
-              case 'EventOrder':
+              case 'OrderEvent':
                 return (
-                  <EventOrder
+                  <OrderEvent
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />
@@ -567,9 +568,17 @@ class App extends Component {
                   />
                 )
 
-              case 'EventPayment':
+              case 'OrderPayment':
                 return (
-                  <EventPayment
+                  <OrderPayment
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'PayCountdown':
+                return (
+                  <PayCountdown
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />

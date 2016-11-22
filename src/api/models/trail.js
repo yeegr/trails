@@ -3,8 +3,8 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   CONST = require('../const'),
+  UTIL = require('../util'),
   Log = require('./logging'),
-  Util = require('./util'),
   Photo = require('./photo'),
   User = require('./user'),
   Area = require('./area'),
@@ -17,7 +17,7 @@ const mongoose = require('mongoose'),
     modified: {
       type: Number,
       required: true,
-      default: Util.getTimestamp()
+      default: UTIL.getTimestamp()
     },
     status: {
       type: String,
@@ -121,7 +121,7 @@ trailSchema.virtual('commentCount').get(function() {
 })
 
 trailSchema.virtual('ratingAverage').get(function() {
-  return Util.getAverageRating(this)
+  return UTIL.getAverageRating(this)
 })
 
 trailSchema.virtual('date').get(function() {
@@ -129,23 +129,23 @@ trailSchema.virtual('date').get(function() {
 })
 
 trailSchema.methods.addToList = function(type, id) {
-  Util.addToList(this, this[type], id)
+  UTIL.addToList(this, this[type], id)
 }
 
 trailSchema.methods.removeFromList = function(type, id) {
-  Util.removeFromList(this, this[type], id)
+  UTIL.removeFromList(this, this[type], id)
 }
 
 trailSchema.methods.addComment = function(id, rating) {
-  Util.addComment(this, id, rating)
+  UTIL.addComment(this, id, rating)
 }
 
 trailSchema.methods.removeComment = function(id, rating) {
-  Util.removeComment(this, id, rating)
+  UTIL.removeComment(this, id, rating)
 }
 
 trailSchema.pre('save', function(next) {
-  Util.updateModified(this, ['title', 'type', 'description', 'difficultyLevel', 'photos'])
+  UTIL.updateModified(this, ['title', 'type', 'description', 'difficultyLevel', 'photos'])
   this.wasNew = this.isNew
 
   const points = this.points

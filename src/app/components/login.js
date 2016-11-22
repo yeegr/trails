@@ -259,7 +259,7 @@ class Login extends Component {
   getValidation() {
     this.props.loginActions.disableValidation()
     this.props.loginActions.showVerification()
-    this.props.loginActions.validateMobileNumber(this.state.mobileNumber, 'login')
+    this.props.loginActions.uploadMobileNumber(this.state.mobileNumber, 'login')
 
     this.setState({
       verificationCode: ''

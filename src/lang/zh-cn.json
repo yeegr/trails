@@ -156,7 +156,7 @@
   "PaymentMethod":"付款方式",
   "ConfirmOrder":"确认订单",
   "Pay":"支付",
-  "EventPayment":"支付",
+  "OrderPayment":"支付",
   "OrderDetail":"订单详情",
   "SignUpInfo":"报名信息",
   "OrderInfo":"订单信息",
@@ -201,6 +201,8 @@
     "EventGroupSizes":"单人,2-30人,30人及以上",
     "CombinedCoef":"合计系数"
   },
+
+  "PayCountdown":"支付计时",
 
   "Post":"文章",
   "Posts":"文章",

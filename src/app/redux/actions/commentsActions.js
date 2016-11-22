@@ -6,20 +6,21 @@ import {
   AppSettings
 } from '../../settings'
 
-const sendListRequest = () => {
+// list comments
+const listCommentsRequest = () => {
   return {
-    type: ACTIONS.SEND_LIST_REQUEST
+    type: ACTIONS.LIST_COMMENTS_REQUEST
   }
 }
 
-const receiveListResponse = (response) => {
+const listCommentsSuccess = (response) => {
   return {
     type: ACTIONS.LIST_COMMENTS_SUCCESS,
     list: response.comments
   }
 }
 
-const receiveListError = (message) => {
+const listCommentsFailure = (message) => {
   return {
     type: ACTIONS.LIST_COMMENTS_FAILURE,
     message
@@ -28,35 +29,35 @@ const receiveListError = (message) => {
 
 export const listComments = (type, id) => {
   return (dispatch) => {
-    dispatch(sendListRequest())
+    dispatch(listCommentsRequest())
 
     return fetch(AppSettings.apiUri + 'comments?type=' + type + '&id=' + id)
       .then((res) => {
         return res.json()
       })
       .then((res) => {
-        dispatch(receiveListResponse(res))
+        dispatch(listCommentsSuccess(res))
       })
-      .catch((err) => dispatch(receiveListError(err)))
+      .catch((err) => dispatch(listCommentsFailure(err)))
   }
 }
 
 // create comment
-const sendCreateRequest = (request) => {
+const createCommentRequest = (request) => {
   return {
-    type: ACTIONS.SEND_CREATE_REQUEST,
+    type: ACTIONS.CREATE_COMMENT_REQUEST,
     request
   }
 }
 
-const receiveCreateResponse = (response) => {
+const createCommentSuccess = (response) => {
   return {
     type: ACTIONS.CREATE_COMMENT_SUCCESS,
     response
   }
 }
 
-const receiveCreateError = (message) => {
+const createCommentFailure = (message) => {
   return {
     type: ACTIONS.CREATE_COMMENT_FAILURE,
     message
@@ -69,16 +70,16 @@ export const createComment = (req) => {
   })
 
   return (dispatch) => {
-    dispatch(sendCreateRequest(req))
+    dispatch(createCommentRequest(req))
 
     return fetch(AppSettings.apiUri + 'comments', config)
       .then((res) => {
         return res.json()
       })
       .then((res) => {
-        dispatch(receiveCreateResponse(res))
+        dispatch(createCommentSuccess(res))
         dispatch(listComments(req.target, req.ref))
       })
-      .catch((err) => dispatch(receiveCreateError(err)))
+      .catch((err) => dispatch(createCommentFailure(err)))
   }
 }

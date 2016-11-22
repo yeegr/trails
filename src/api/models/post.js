@@ -3,14 +3,14 @@
 const mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   CONST = require('../const'),
+  UTIL = require('../util'),
   Log = require('./logging'),
-  Util = require('./util'),
   User = require('./user'),
   postSchema = new Schema({
     modified: {
       type: Number,
       required: true,
-      default: Util.getTimestamp()
+      default: UTIL.getTimestamp()
     },
     creator: {
       type: Schema.Types.ObjectId,
@@ -97,27 +97,27 @@ postSchema.virtual('commentCount').get(function() {
 })
 
 postSchema.virtual('ratingAverage').get(function() {
-  return Util.getAverageRating(this)
+  return UTIL.getAverageRating(this)
 })
 
 postSchema.methods.addToList = function(type, id) {
-  Util.addToList(this, this[type], id)
+  UTIL.addToList(this, this[type], id)
 }
 
 postSchema.methods.removeFromList = function(type, id) {
-  Util.removeFromList(this, this[type], id)
+  UTIL.removeFromList(this, this[type], id)
 }
 
 postSchema.methods.addComment = function(id, rating) {
-  Util.addComment(this, id, rating)
+  UTIL.addComment(this, id, rating)
 }
 
 postSchema.methods.removeComment = function(id, rating) {
-  Util.removeComment(this, id, rating)
+  UTIL.removeComment(this, id, rating)
 }
 
 postSchema.pre('save', function(next) {
-  Util.updateModified(this, ['title', 'content', 'excerpt', 'hero', 'tags'])
+  UTIL.updateModified(this, ['title', 'content', 'excerpt', 'hero', 'tags'])
   this.wasNew = this.isNew
 
   next()

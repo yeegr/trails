@@ -70,7 +70,7 @@ class EditEventTitle extends Component {
 
 EditEventTitle.propTypes = {
   title: PropTypes.string.isRequired,
-  newEventActions: PropTypes.string.isRequired
+  newEventActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
