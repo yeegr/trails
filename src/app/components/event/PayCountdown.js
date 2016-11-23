@@ -24,16 +24,19 @@ import styles from '../../styles/main'
 
 import {
   UTIL,
-  Lang
+  Lang,
+  AppSettings
 } from '../../settings'
 
 class PayCountdown extends Component {
   constructor(props) {
     super(props)
+    this.startCountdown = this.startCountdown.bind(this)
     this.pay = this.pay.bind(this)
     this.nextStep = this.nextStep.bind(this)
 
     this.state = {
+      timer: AppSettings.payTimeout
     }
   }
 
@@ -41,9 +44,14 @@ class PayCountdown extends Component {
     this.props.loginActions.reloadUser(this.props.order.creator)
   }
 
+  componentDidMount() {
+    this.startCountdown()
+    this.pay(this.props.order)
+  }
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.events.order) {
-      let order = nextProps.events.order
+    if (nextProps.order) {
+      let order = nextProps.order
 
       switch (order.status) {
         case 'accepted':
@@ -53,16 +61,29 @@ class PayCountdown extends Component {
     }
   }
 
+  componentWillUnmount() {
+    clearInterval(this.timerInterval)
+  }
+
+  startCountdown() {
+    let counter = this.state.timer
+
+    this.timerInterval = setInterval(() => {
+      counter--
+      this.setState({timer: counter})
+    }, 1000)
+  }
+
   pay(order) {
-    console.log(order)
-/*
+    console.log(order.alipay)
+
     Alipay
     .pay(order.alipay)
     .then((data) => {
       console.log(data)
     }, (err) => {
       console.log(err)
-    })*/
+    })
   }
 
   nextStep(order) {
@@ -88,12 +109,10 @@ class PayCountdown extends Component {
   render() {
     const {order} = this.props
 
-    console.log(order)
-
     return (
       <View style={styles.global.wrapper}>
         <ScrollView style={styles.editor.scroll}>
-          <TextView text={'blah'} />
+          <TextView text={UTIL.formatSeconds(this.state.timer)} />
         </ScrollView>
       </View>
     )

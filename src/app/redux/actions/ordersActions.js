@@ -6,7 +6,7 @@ import {
   AppSettings
 } from '../../settings'
 
-const resetOrder = () => {
+export const resetOrder = () => {
   return {
     type: ACTIONS.RESET_ORDER
   }

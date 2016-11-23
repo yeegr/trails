@@ -25,6 +25,8 @@
   "defaultCity":"010",
   "maxEventScheduleDays":20,
 
+  "payTimeout":900,
+
   "Alipay":{
     "pubContent": {
       "app_id": "2016111902979618",

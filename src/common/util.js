@@ -36,7 +36,8 @@ export function formatSeconds(seconds) {
   if (isNumeric(seconds)) {
     let m = Math.floor(seconds / 60),
       s = seconds % 60
-    return (m > 5 ? formatMinutes(m) : zerorize(m)) + ':' + zerorize(s)
+
+    return (m > 59 ? formatMinutes(m) : zerorize(m)) + ':' + zerorize(s)
   }
 }
 

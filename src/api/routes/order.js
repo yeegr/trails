@@ -170,7 +170,9 @@ module.exports = function(app) {
 
     sign.update(str)
 
-    return str + '&sign=' + sign.sign(privateKey, 'base64')
+    let signedStr = sign.sign(privateKey, 'base64')
+
+    return str + '&sign=' + encodeURIComponent(signedStr)
   }
 
   /* Alipay Return : return_url */

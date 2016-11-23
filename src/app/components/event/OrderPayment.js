@@ -77,7 +77,7 @@ class OrderPayment extends Component {
       daySpan: event.schedule.length, 
       method: this.state.paymentMethod,
       signUps: this.state.signUps,
-      subTotal 
+      subTotal: 0.02 
     }
 
     this.props.ordersActions.createOrder(order)
