@@ -66,6 +66,9 @@ const mongoose = require('mongoose'),
         type: Number,
         match: CONST.levelRx
       },
+      payment: {
+        type: Object
+      },
       cost: {
         type: Number,
         match: CONST.currencyRx

@@ -57,6 +57,51 @@ export const createOrder = (order) => {
   }
 }
 
+// update order
+const updateOrderRequest = () => {
+  return {
+    type: ACTIONS.UPDATE_ORDER_REQUEST
+  }
+}
+
+const updateOrderSuccess = (order) => {
+  return {
+    type: ACTIONS.UPDATE_ORDER_SUCCESS,
+    order
+  }
+}
+
+const updateOrderFailure = (message) => {
+  return {
+    type: ACTIONS.UPDATE_ORDER_FAILURE,
+    message
+  }
+}
+
+export const updateOrder = (result) => {
+  let config = Object.assign({}, FETCH.PUT, {
+    body: JSON.stringify(result)
+  })
+
+  return (dispatch) => {
+    dispatch(updateOrderRequest())
+
+    return fetch(AppSettings.apiUri + 'orders', config)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        if (res._id) {
+          dispatch(updateOrderSuccess(res))
+        } else {
+          dispatch(updateOrderFailure(res.message))
+          return Promise.reject(res)
+        }
+      })
+      .catch((err) => dispatch(updateOrderFailure(err)))
+  }
+}
+
 // list orders
 const listOrdersRequest = (params) => {
   return {
@@ -72,7 +117,7 @@ const listOrdersSuccess = (list) => {
   }
 }
 
-const listOrderFailure = (message) => {
+const listOrdersFailure = (message) => {
   return {
     type: ACTIONS.LIST_ORDERS_FAILURE,
     message
@@ -81,22 +126,22 @@ const listOrderFailure = (message) => {
 
 export const listOrders = (params) => {
   return (dispatch) => {
-    dispatch(listOrderRequest(params))
+    dispatch(listOrdersRequest(params))
 
-    return fetch(AppSettings.apiUri + 'orders/?' + JSON.stringify(params))
-      .then((response) => {
-        return response.json()
+    return fetch(AppSettings.apiUri + 'orders/' + params)
+      .then((res) => {
+        return res.json()
       })
-      .then((response) => {
-        if (response.error) {
-          dispatch(listOrderFailure(response.error))
-          return Promise.reject(response)
+      .then((res) => {
+        if (res.error) {
+          dispatch(listOrdersFailure(res.error))
+          return Promise.reject(res)
         } else {
-         dispatch(listOrderSuccess(response))
+         dispatch(listOrdersSuccess(res))
         }
       })
       .catch((err) => {
-        dispatch(listOrderFailure(err))
+        dispatch(listOrdersFailure(err))
       })
   }
 }

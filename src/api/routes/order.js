@@ -10,6 +10,62 @@ const mongoose = require('mongoose'),
 
 mongoose.Promise = global.Promise
 
+const Alipay = {
+  assemblePaymentString(order) {
+    bizContent = Object.assign({}, CONST.Alipay.bizContent, {
+      body: order.body,
+      subject: order.title,
+      out_trade_no: order.id,
+      total_amount: order.subTotal.toString(),
+      passback_params: '',
+      promo_params: '',
+      extend_params: '',
+    }),
+    pubContent = Object.assign({}, CONST.Alipay.pubContent, {
+      timestamp: moment(UTIL.getTimeFromId(order._id)).format('YYYY-MM-DD hh:mm:ss'),
+      biz_content: JSON.stringify(bizContent)
+    }),
+    arr = [],
+    str = ''
+
+    for (let key in pubContent) {
+      arr.push({
+        key,
+        value: pubContent[key]
+      })
+    }
+
+    arr.sort((a, b) => {
+      return (a.key > b.key)
+    })
+
+    for (let i = 0, j = arr.length; i < j; i++) {
+      str += '&' + arr[i].key + '=' + arr[i].value
+    }
+
+    return str.substring(1)
+  },
+
+  pay(order) {
+    let sign = crypto.createSign('RSA-SHA1'),
+    str = this.assemblePaymentString(order)
+
+    sign.update(str)
+    let signedStr = sign.sign(privateKey, 'base64')
+
+    return str + '&sign=' + encodeURIComponent(signedStr)
+  },
+
+  verify(order, response) {
+    let idCheck = (order._id.toString() === response.out_trade_no),
+    paymentCheck = (order.subTotal.toString() === response.total_amount),
+    sellerCheck = (CONST.Alipay.bizContent.seller_id === response.seller_id),
+    appCheck = (CONST.Alipay.pubContent.app_id === response.app_id)
+
+    return idCheck && paymentCheck && sellerCheck && appCheck
+  }
+}
+  
 module.exports = function(app) {
   function getOneById(id, res, statusCode) {
     Order
@@ -45,7 +101,7 @@ module.exports = function(app) {
     .then(function(data) {
       if (data) {
         let tmp = JSON.parse(JSON.stringify(data))
-        tmp.alipay = Alipay(data)
+        tmp.alipay = Alipay.pay(data)
         res.status(201).json(tmp)
       }
     })
@@ -69,7 +125,10 @@ module.exports = function(app) {
 
     Order
     .find(query)
-    .populate('event')
+    .populate({
+      path: 'event',
+      select: CONST.EVENT_LIST_FIELDS + CONST.VIRTUAL_FIELDS
+    })
     .limit(CONST.DEFAULT_PAGINATION)
     .sort({_id: -1})
     .exec()
@@ -109,81 +168,62 @@ module.exports = function(app) {
   })
 
   /* Update */
-  app.put('/orders/:id/:status', function(req, res, next) {
-    Order
-    .findById(req.params.id)
-    .exec()
-    .then(function(order) {
-      if (order) {
-        order
-        .set({
-          status: req.params.status
-        })
-        .save()
-        .then(function(data) {
-          res.status(200).json(data)
+  app.put('/orders', function(req, res, next) {
+    let tmp = req.body
+
+    switch (tmp.method) {
+      case 'Alipay':
+        let statusCode = tmp.resultStatus,
+        result = tmp.result,
+        response = result.alipay_trade_app_pay_response,
+        id = response.out_trade_no
+
+        Order
+        .findById(id)
+        .exec()
+        .then(function(order) {
+          if (order && Alipay.verify(order, response)) {
+            let status = CONST.Alipay.statuses[statusCode]
+
+            order
+            .set({
+              status
+            })
+            .save()
+            .then(function(data) {
+              res.status(200).json(data)
+            })
+            .catch(function(err) {
+              res.status(500).json({error: err})
+            })
+          } else {
+            res.status(304).json({error: 'Not Modified'})
+          }
         })
         .catch(function(err) {
           res.status(500).json({error: err})
         })
-      }
-    })
-    .catch(function(err) {
-      res.status(500).json({error: err})
-    })
+      break
+
+      default:
+        res.status(500).send()
+      break
+    }
   })
-
-  function Alipay(order) {
-    let sign = crypto.createSign('RSA-SHA1'),
-    bizContent = Object.assign({}, CONST.Alipay.bizContent, {
-      body: order.body,
-      subject: order.title,
-      out_trade_no: order.id,
-      total_amount: order.subTotal.toString(),
-      passback_params: '',
-      promo_params: '',
-      extend_params: '',
-    }),
-    pubContent = Object.assign({}, CONST.Alipay.pubContent, {
-      timestamp: moment(UTIL.getTimeFromId(order._id)).format('YYYY-MM-DD hh:mm:ss'),
-      biz_content: JSON.stringify(bizContent)
-    }),
-    arr = [],
-    str = ''
-
-    for (let key in pubContent) {
-      arr.push({
-        key,
-        value: pubContent[key]
-      })
-    }
-
-    arr.sort((a, b) => {
-      return (a.key > b.key)
-    })
-
-    for (let i = 0, j = arr.length; i < j; i++) {
-      str += '&' + arr[i].key + '=' + arr[i].value
-    }
-
-    str = str.substring(1)
-
-    sign.update(str)
-
-    let signedStr = sign.sign(privateKey, 'base64')
-
-    return str + '&sign=' + encodeURIComponent(signedStr)
-  }
 
   /* Alipay Return : return_url */
   app.get('/alipay/return', function(req, res, next) {
-    res.status(200).json(data)
+    console.log('alipay return: ', moment())
+    console.log(req)
+    //console.log(req.body)
+    res.status(200).send()
   })
 
   /* Alipay Notify : notify_url */
   app.post('/alipay/notify', function(req, res, next) {
-    console.log('notify')
-    console.log(req.body)
+    console.log('alipay notify: ', moment())
+    //console.log(req)
+    //console.log(req.body)
     res.status(200).send()
   })
 

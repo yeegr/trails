@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'),
   request = require('request'),
   moment = require('moment'),
-  CONST = require('../const'),
+  UTIL = require('../util'),
   Validate = require('../models/validate')
 
 mongoose.Promise = global.Promise
@@ -13,7 +13,7 @@ module.exports = function(app) {
       remoteAddress = req.connection.remoteAddress,
       ip = remoteAddress.substring(remoteAddress.lastIndexOf(':') + 1)
 
-    tmp.vcode = CONST.generateRandomNumericString(4)
+    tmp.vcode = UTIL.generateRandomNumericString(4)
 
     /*request.post({url: 'http://graphics:8000/validate', json: tmp}, (err, response, body) => {
       if (err) {

@@ -27,10 +27,10 @@ import OrderForm from './OrderForm'
 import styles from '../../styles/main'
 
 import {
-  UTIL,
   CONSTANTS,
+  LANG,
+  UTIL,
   AppSettings,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -141,7 +141,7 @@ class OrderEvent extends Component {
 
       this.props.navigator.push({
         id: 'OrderPayment',
-        title: Lang.OrderPayment,
+        title: LANG.t('order'),
         passProps: {
           event: this.props.event,
           selectedGroup: this.props.selectedGroup || 0,
@@ -172,32 +172,32 @@ class OrderEvent extends Component {
           )}>
           <View ref="scrollContent" style={styles.detail.article}>
             <View style={styles.detail.section}>
-              <TextView class={'h2'} text={Lang.EventInfo} />
+              <TextView class={'h2'} text={LANG.t('event.EventInfo')} />
               <View style={styles.detail.group}>
-                <InfoItem label={Lang.EventDates} value={dates} />
-                <InfoItem label={Lang.PerHead} value={event.expenses.perHead.toString() + Lang.Yuan} />
+                <InfoItem label={LANG.t('event.EventDates')} value={dates} />
+                <InfoItem label={LANG.t('event.PerHead')} value={LANG.l('currency', event.expenses.perHead)} />
               </View>
             </View>
             <View style={styles.detail.section}>
-              {
-                this.state.signUps.map((signUp, index) => {
-                  return (
-                    <OrderForm 
-                      key={index} 
-                      index={index} 
-                      signUp={signUp} 
-                      removeUser={() => this.removeUser(index)}
-                      updateInfo={(index, signUp) => this.updateInfo(index, signUp)}
-                    />
-                  )
-                })
-              }
+            {
+              this.state.signUps.map((signUp, index) => {
+                return (
+                  <OrderForm 
+                    key={index} 
+                    index={index} 
+                    signUp={signUp} 
+                    removeUser={() => this.removeUser(index)}
+                    updateInfo={(index, signUp) => this.updateInfo(index, signUp)}
+                  />
+                )
+              })
+            }
             </View>
             <KeyboardSpacer />
           </View>
         </ParallaxView>
         <CallToAction
-          label={(event.expenses.perHead === 0) ? Lang.SignUp : Lang.Pay}
+          label={LANG.t('order.ConfirmSignUps')}
           onPress={this.nextStep}
         />
       </View>

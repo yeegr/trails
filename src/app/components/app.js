@@ -13,7 +13,6 @@ import {
 } from 'react-native'
 
 import {connect} from 'react-redux'
-
 import * as loginActions from '../redux/actions/loginActions'
 import * as newTrailActions from '../redux/actions/newTrailActions'
 import * as newEventActions from '../redux/actions/newEventActions'
@@ -38,8 +37,9 @@ import EventDetail from './event/EventDetail'
 import OrderEvent from './event/OrderEvent'
 import SelectOrderGroup from './event/SelectOrderGroup'
 import OrderPayment from './event/OrderPayment'
-import PayCountdown from './event/PayCountdown'
 import OrderSummary from './event/OrderSummary'
+import OrderSuccess from './event/OrderSuccess'
+
 import SearchEvents from './event/SearchEvents'
 import EditEvent from './event/EditEvent'
 import EditEventHero from './event/EditEventHero'
@@ -68,7 +68,7 @@ import EditUserName from './mine/EditUserName'
 import EditUserPID from './mine/EditUserPID'
 import EventManager from './mine/EventManager'
 import SignUpList from './mine/SignUpList'
-import OrderList from './mine/OrderList'
+import MyOrders from './mine/MyOrders'
 import OrderDetail from './mine/OrderDetail'
 import UserDetail from './user/UserDetail'
 
@@ -81,12 +81,16 @@ import TextView from './shared/TextView'
 
 import {
   CONSTANTS,
+  LANG,
   AppSettings,
   Lang,
   Graphics
 } from '../settings'
 
 import styles from '../styles/main'
+
+//console.log(LANG.t('intro.OrderedPage', {num: 1}))
+//console.log(LANG.t('trail.search.SearchTrail'))
 
 const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
   login: state.login,
@@ -125,7 +129,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
               <NavbarButton
                 onPress={() => navigator.push(this.search(tabId))}
                 icon={Graphics.titlebar.search}
-                label={Lang.Search}
+                label={LANG.t('navbar.Search')}
                 showLabel={false}
               />
             )
@@ -137,13 +141,13 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
                 <NavbarButton
                   onPress={() => navigator.push(this.search(tabId))}
                   icon={Graphics.titlebar.search}
-                  label={Lang.Search}
+                  label={LANG.t('navbar.Search')}
                   showLabel={false}
                 />
                 <NavbarButton
                   onPress={() => this.add(navigator, tabId)}
                   icon={Graphics.titlebar.add}
-                  label={Lang.Add}
+                  label={LANG.t('navbar.Add')}
                   showLabel={false}
                 />
               </View>
@@ -178,14 +182,14 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
             onPress={() => {
               navigator.push({
                 id: 'EditAgenda',
-                title: Lang.Add + Lang.Agenda,
+                title: LANG.t('agenda.Add'),
                 passProps: {
                   mode: 'new'
                 }
               })
             }}
             icon={Graphics.titlebar.add}
-            label={Lang.Add}
+            label={LANG.t('agenda.Add')}
             showLabel={false}
           />
         )
@@ -195,7 +199,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         rightTitleBar = (
           <NavbarButton
             onPress={() => this.save(CONSTANTS.ACTION_TARGETS.AGENDA)}
-            label={Lang.Save}
+            label={LANG.t('agenda.Save')}
           />
         )
       break
@@ -271,23 +275,24 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
     switch (type) {
       case CONSTANTS.HOME_TABS.AREAS:
         id = 'SearchTrails'
-        title = Lang[CONSTANTS.HOME_TABS.TRAILS]
+        title = LANG.t('trail.search.SearchTrail')
       break
 
       case CONSTANTS.HOME_TABS.EVENTS:
         id = 'SearchEvents'
-        title = Lang[CONSTANTS.HOME_TABS.EVENTS]
+        title = LANG.t('event.search.SearchEvent')
       break
 
       case CONSTANTS.HOME_TABS.POSTS:
         id = 'SearchPosts'
-        title = Lang[CONSTANTS.HOME_TABS.POSTS]
+        title = LANG.t('post.search.SearchPost')
       break
     }
 
     return {
       id,
-      title: Lang.Search + title
+      title,
+      type
     }
   },
 
@@ -400,7 +405,7 @@ class App extends Component {
           initialRoute={{
             id: 'Home',
             type: 'Home',
-            title: Lang.Home
+            title: LANG.t('home.Home')
           }}
           renderScene={(route, navigator) => {
             switch (route.id) {
@@ -576,17 +581,17 @@ class App extends Component {
                   />
                 )
 
-              case 'PayCountdown':
+              case 'OrderSummary':
                 return (
-                  <PayCountdown
+                  <OrderSummary
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />
                 )
 
-              case 'OrderSummary':
+              case 'OrderSuccess':
                 return (
-                  <OrderSummary
+                  <OrderSuccess
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />
@@ -804,10 +809,10 @@ class App extends Component {
                   />
                 )
 
-              case 'OrderList':
+              case 'MyOrders':
                 return (
                   <ScrollView style={styles.global.main}>
-                    <OrderList
+                    <MyOrders
                       navigator={navigator}
                       route={route} {...route.passProps}
                     />

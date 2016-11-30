@@ -1,6 +1,8 @@
 rootProject.name = 'trails'
 
 include ':app'
+include ':react-native-i18n'
+project(':react-native-i18n').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-i18n/android')
 include ':react-native-yunpeng-alipay'
 project(':react-native-yunpeng-alipay').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-yunpeng-alipay/android')
 include ':react-native-fs'

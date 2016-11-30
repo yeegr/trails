@@ -12,8 +12,6 @@ import {
 } from 'react-native'
 
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import * as eventsActions from '../../redux/actions/eventsActions'
 
 import InfoItem from '../shared/InfoItem'
 import TextView from '../shared/TextView'
@@ -21,36 +19,21 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
-  LANG,
   UTIL,
+  LANG,
   Lang,
   Graphics
 } from '../../settings'
 
-class OrderDetail extends Component {
+class OrderSuccess extends Component {
   constructor(props) {
     super(props)
-    this.navToEvent = this.navToEvent.bind(this)
-  }
-
-  navToEvent() {
-    this.props.navigator.push({
-      id: 'EventDetail',
-      title: LANG.t('event.EventDetail'),
-      passProps: {
-        id: this.props.event.id
-      }
-    })
   }
 
   render() {
-    const {navigator, event, order} = this.props,
+    const event = this.props.event,
+    order = this.props.order,
     dates = UTIL.formatEventGroupLabel(event, order.group)
-
-    let contacts = []
-    event.contacts.map((person) => {
-      contacts.push(person.title)
-    })
 
     return (
       <View style={styles.global.wrapper}>
@@ -68,39 +51,42 @@ class OrderDetail extends Component {
                   </TouchableOpacity>
                 } />
                 <InfoItem label={LANG.t('event.EventDates')} value={dates} />
-                <InfoItem label={LANG.t('event.EventContacts')} value={contacts.join(', ')} />
               </View>
             </View>
             <View style={styles.detail.section}>
               <TextView class={'h2'} text={LANG.t('order.SignUpInfo')} />
               <View style={styles.detail.group}>
-                {
-                  order.signUps.map((signUp, index) => {
-                    return (
-                      <InfoItem
-                        key={index}
-                        align={'right'}
-                        noColon={true}
-                        label={signUp.name}
-                        value={LANG.l('currency', signUp.cost)}
-                        more={{
-                          label: Lang.Detail,
-                          onPress: () => {
-                            navigator.push({
-                              id: 'OrderSummary',
-                              title: Lang.OrderSummary,
-                              passProps: {
-                                event,
-                                selectedGroup: order.group,
-                                signUp
-                              }
-                            })
-                          }
-                        }}
-                      />
-                    )
-                  })
-                }
+              {
+                order.signUps.map((signUp, index) => {
+                  let payment = UTIL.calculateInsurance(event, signUp)
+                  signUp.payment = payment
+                  signUp.cost = payment.cost
+
+                  return (
+                    <InfoItem
+                      key={index}
+                      align={'right'}
+                      noColon={true}
+                      label={signUp.name}
+                      value={payment.cost.toString() + Lang.Yuan}
+                      more={{
+                        label: Lang.Detail,
+                        onPress: () => {
+                          navigator.push({
+                            id: 'OrderSummary',
+                            title: Lang.OrderSummary,
+                            passProps: {
+                              event,
+                              selectedGroup,
+                              signUp
+                            }
+                          })
+                        }
+                      }}
+                    />
+                  )
+                })
+              }
               </View>
             </View>
             <View style={styles.detail.section}>
@@ -108,7 +94,7 @@ class OrderDetail extends Component {
               <View style={styles.detail.group}>
                 <InfoItem label={LANG.t('order.OrderId')} value={order._id} />
                 <InfoItem label={LANG.t('order.PayTime')} value={UTIL.getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
-                <InfoItem label={LANG.t('order.SubTotal')} value={LANG.l('currency', order.subTotal)} />
+                <InfoItem label={LANG.t('order.TotalCost')} value={order.subTotal + Lang.Yuan} />
               </View>
             </View>
           </View>
@@ -118,7 +104,7 @@ class OrderDetail extends Component {
   }
 }
 
-OrderDetail.propTypes = {
+OrderSuccess.propTypes = {
   navigator: PropTypes.object.isRequired,
   event: PropTypes.object.isRequired,
   order: PropTypes.object.isRequired
@@ -130,10 +116,11 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
+/*
 function mapDispatchToProps(dispatch) {
   return {
-    eventsActions: bindActionCreators(eventsActions, dispatch)
   }
 }
+*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderDetail)
+export default connect(mapStateToProps)(OrderSuccess)

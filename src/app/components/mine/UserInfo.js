@@ -49,7 +49,7 @@ class UserInfo extends Component {
 
     switch (type) {
       case 'orders':
-        id = 'OrderList',
+        id = 'MyOrders',
         title = Lang.MyOrders,
         query = "?creator=" + user.id
       break;

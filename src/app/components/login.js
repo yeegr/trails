@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../settings'
-
 import React, {
   Component,
   PropTypes
@@ -35,6 +29,12 @@ import Icon from '../components/shared/Icon'
 import ImagePath from '../components/shared/ImagePath'
 import TextView from '../components/shared/TextView'
 
+import {
+  LANG,
+  AppSettings,
+  Graphics
+} from '../settings'
+
 class Login extends Component {
   constructor(props) {
     super(props)
@@ -54,7 +54,7 @@ class Login extends Component {
       isWXAppInstalled: 'waiting...',
       mobileNumber: '',
       verificationCode: '',
-      getValidationButtonText: Lang.GetValidationCode
+      getValidationButtonText: LANG.t('login.GetVerificationCode')
     }
   }
 
@@ -113,14 +113,14 @@ class Login extends Component {
           <TextView
             style={labelStyles}
             textColor={Graphics.textColors.overlay} 
-            text={Lang.ValidationCode}
+            text={LANG.t('login.VerificationCode')}
           />
           <TextInput
             autoCorrect={false}
             keyboardType="numeric"
             maxLength={AppSettings.verificationCodeLength}
             style={styles.loginInput}
-            placeholder={Lang.ValidationCode}
+            placeholder={LANG.t('login.VerificationCode')}
             placeholderTextColor={Graphics.colors.placeholder}
             onFocus={() => {this.setState({verificationCode: ''})}}
             onChangeText={this.onVerificationCodeChanged}
@@ -130,7 +130,7 @@ class Login extends Component {
             <TextView
               fontSize={'XXXL'}
               textColor={Graphics.textColors.overlay}
-              text={Lang.LoginOrRegister}
+              text={LANG.t('login.LoginOrRegister')}
             />
           </TouchableOpacity>
           <TextView
@@ -148,7 +148,7 @@ class Login extends Component {
             <TextView
               style={labelStyles}
               textColor={Graphics.textColors.overlay} 
-              text={Lang.MobileNumber}
+              text={LANG.t('login.MobileNumber')}
             />
             <TextInput
               ref="mobileNumber"
@@ -156,7 +156,7 @@ class Login extends Component {
               autoCorrect={false}
               keyboardType="phone-pad"
               maxLength={AppSettings.mobileNumberLength}
-              placeholder={Lang.MobileNumberSample}
+              placeholder={LANG.t('login.MobileNumberPlaceholder')}
               placeholderTextColor={Graphics.colors.placeholder}
               style={styles.loginInput}
               disabled={!login.disableValidation}
@@ -196,7 +196,7 @@ class Login extends Component {
             <TextView
               fontSize={'XXXL'}
               textColor={Graphics.textColors.overlay}
-              text={Lang.LoginWithWechat}
+              text={LANG.t('login.LoginViaWechat')}
             />
           </TouchableOpacity>
         </View>
@@ -232,7 +232,7 @@ class Login extends Component {
     this.setState({
       mobileNumber: '',
       verificationCode: '',
-      getValidationButtonText: Lang.GetValidationCode
+      getValidationButtonText: LANG.t('login.GetVerificationCode')
     })
   }
 
@@ -270,14 +270,14 @@ class Login extends Component {
       interval = setInterval(function() {
         if (counter > 0) {
           that.setState({
-            getValidationButtonText: counter + Lang.ResendValidationCode
+            getValidationButtonText: LANG.t('login.ResendVerificationCodeIn', {count: counter})
           })
           counter--
         } else {
           clearInterval(interval)
           that.props.loginActions.enableValidation()
           that.setState({
-            getValidationButtonText: Lang.GetValidationCode
+            getValidationButtonText: LANG.t('login.GetVerificationCode')
           })
       }
     }, 1000)

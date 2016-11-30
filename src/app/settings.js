@@ -2,8 +2,20 @@
 
 import {Dimensions} from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import i18n from 'react-native-i18n'
+
+let zh = require('../locales/zh-CN.1.json')
+
+i18n.defaultLocale = 'zh-CN'
+i18n.locale = 'zh-CN'
+i18n.fallbacks = true
+i18n.translations = {
+  zh
+}
 
 const {height, width} = Dimensions.get('window')
+
+export const LANG = i18n
 
 export const device = {
   uniqueId: DeviceInfo.getUniqueID(),

@@ -6,9 +6,7 @@ export const UTIL = require('./util')
 
 export const FETCH = require('./fetch').FETCH
 
-export const langPak = '../lang/' + CONSTANTS.locale + '.json'
-
-export let Lang = require('../lang/zh-cn.json')
+export let Lang = require('../locales/zh-CN.json')
 Lang.dayArray = Lang.dayCount.split(',')
 Lang.tagArray = Lang.tagList.split(',')
 Lang.gearArray = Lang.gearList.split(',')
@@ -29,8 +27,6 @@ servers = env['development']
 AppSettings.baseUri = servers.WEB_SERVER
 AppSettings.apiUri = servers.API_SERVER
 AppSettings.assetUri = servers.ASSET_SERVER
-
-console.log(servers.API_SERVER)
 
 export let Graphics = require('./graphics.json')
 Graphics.page = {}

@@ -24,8 +24,8 @@ import styles from '../../styles/main'
 
 import {
   CONSTANTS,
+  LANG,
   UTIL,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -45,8 +45,8 @@ class SelectOrderGroup extends Component {
 
   nextStep() {
     this.props.navigator.push({
-      id: 'EventOrder',
-      title: Lang.SignUp,
+      id: 'OrderEvent',
+      title: LANG.t('order.SignUp'),
       passProps: {
         event: this.props.event,
         selectedGroup: this.state.selectedGroup
@@ -56,7 +56,7 @@ class SelectOrderGroup extends Component {
 
   render() {
     const {event} = this.props,
-      eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero})
+    eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero})
 
     return (
       <View style={styles.global.wrapper}>
@@ -81,7 +81,7 @@ class SelectOrderGroup extends Component {
                       selected={this.state.selectedGroup}
                       deadline={group.deadline}
                       label={UTIL.formatEventGroupLabel(event, index)}
-                      signUps={'已有' + group.signUps.length + '人报名'}
+                      signUps={LANG.t('event.NumberOfPeopleAlreadySignedUp', {count: group.signUps.length})}
                       onPress={(selectedGroup) => this.setState({selectedGroup})}
                     />
                   )
@@ -92,7 +92,7 @@ class SelectOrderGroup extends Component {
         </ParallaxView>
         <CallToAction
           disabled={(this.state.selectedGroup === null)}
-          label={Lang.NextStep}
+          label={LANG.t('glossary.NextStep')}
           onPress={this.nextStep}
         />
       </View>

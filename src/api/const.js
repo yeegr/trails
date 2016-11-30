@@ -1,9 +1,10 @@
 'user strict'
 
 module.exports = {
-  DEFAULT_PAGINATION: 20,
-  VIRTUAL_FIELS: " likes likeCount saves saveCount shares shareCount comments commentCount ratingAverage",
+  DEFAULT_PAGINATION: 5,
+  VIRTUAL_FIELDS: " likes likeCount saves saveCount shares shareCount comments commentCount ratingAverage",
   USER_LIST_FIELDS: "handle avatar xp level trails events posts comments followers",
+  EVENT_LIST_FIELDS: "status title type hero excerpt contacts expenses",
   ACTIONS: {
     COMMON: ["CREATE", "UPDATE", "DELETE"],
     USER: ["FOLLOW", "UNFOLLOW", "APPLY", "RETRACT", "LIKE", "UNLIKE", "SAVE", "UNSAVE", "SHARE"],
@@ -19,7 +20,7 @@ module.exports = {
     EVENT: ["private", "submitting", "pending", "approved", "rejected", "public", "suspended"],
     GROUP: ["accepting", "filled", "due"],
     SIGNUP: ["submitted", "pending", "approved", "rejected"],
-    PAYMENT: ["pending", "paid"],
+    PAYMENT: ["pending", "success", "failed", "canceled", "processing", "duplicated", "network connection error", "unknown"],
     POST: ["draft", "pending", "approved", "published"],
   },
   PAYMENT_MEDHODS: [
@@ -51,15 +52,25 @@ module.exports = {
       "charset": "utf-8",
       "sign_type": "RSA",
       "version": "1.0",
-      "notify_url" : "http://baidu.com"
+      "notify_url": "http://139.129.200.88/alipay/notify"
     },
     "bizContent": {
       "timeout_express": "15m",
-      "seller_id": "pay@shitulv.com",
+      "seller_id": "2088021102234564",
+      "seller_email": "pay@shitulv.com",
       "product_code": "QUICK_MSECURITY_PAY",
       "goods_type": "0",
       "enable_pay_channels": "balance,coupon,creditCard,debitCardExpress,pcard,promotion",
       "disable_pay_chanales": ""
+    },
+    "statuses": {
+      "9000": "success",
+      "8000": "pending",
+      "4000": "failed",
+      "5000": "duplicated",
+      "6001": "canceled",
+      "6002": "network connection error",
+      "6004": "unknown"
     }
   }
 }

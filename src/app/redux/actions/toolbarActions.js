@@ -2,7 +2,10 @@
 
 import * as ACTIONS from '../constants/toolbarConstants'
 import * as loginActions from './loginActions'
-import {AppSettings} from '../../settings'
+import {
+  FETCH,
+  AppSettings
+} from '../../settings'
 
 export const resetToolbar = (stats) => {
   return {

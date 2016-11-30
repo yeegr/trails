@@ -17,8 +17,8 @@ import * as introActions from '../redux/actions/introActions'
 import AppIntro from 'react-native-app-intro'
 
 import {
+  LANG,
   AppSettings,
-  Lang,
   Graphics
 } from '../settings'
 
@@ -43,8 +43,8 @@ Intro = (props) => {
  
   return (
     <AppIntro 
-      skipBtnLabel={Lang.Skip}
-      doneBtnLabel={Lang.Done}
+      skipBtnLabel={LANG.t('intro.Skip')}
+      doneBtnLabel={LANG.t('intro.Done')}
       onSkipBtnClick={() => _exitIntro()}
       onDoneBtnClick={() => _exitIntro()}
     >

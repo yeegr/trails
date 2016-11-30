@@ -1,11 +1,5 @@
 'use strict'
 
-import {
-  AppSettings,
-  Lang,
-  Graphics
-} from '../../settings'
-
 import React, {
   Component,
   PropTypes
@@ -19,12 +13,18 @@ import {
 } from 'react-native'
 
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../redux/actions/newEventActions'
+//import {bindActionCreators} from 'redux'
+//import * as newEventActions from '../../redux/actions/newEventActions'
 
 import TextView from '../shared/TextView'
 
 import styles from '../../styles/main'
+
+import {
+  AppSettings,
+  Lang,
+  Graphics
+} from '../../settings'
 
 class EventSubmitted extends Component {
   constructor(props) {
@@ -54,6 +54,12 @@ class EventSubmitted extends Component {
   }
 }
 
+EventSubmitted.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  newEvent: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
+}
+
 function mapStateToProps(state, ownProps) {
   return {
     newEvent: state.newEvent,
@@ -61,10 +67,12 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
+/*
 function mapDispatchToProps(dispatch) {
   return {
     newEventActions: bindActionCreators(newEventActions, dispatch)
   }
 }
+*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventSubmitted)
+export default connect(mapStateToProps)(EventSubmitted)

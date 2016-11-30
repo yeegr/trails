@@ -11,8 +11,6 @@ import {
   View
 } from 'react-native'
 
-import {connect} from 'react-redux'
-
 import ImagePath from '../shared/ImagePath'
 import InfoItem from '../shared/InfoItem'
 import TextView from '../shared/TextView'
@@ -79,36 +77,29 @@ const OrderList = (props) => {
             </View>
             <View>
               <InfoItem styles={infoStyles} labelWidth={75} label={Lang.SignUps} value={names.join('，')} />
-              <InfoItem styles={infoStyles} labelWidth={75} label={Lang.Total} value={order.total + Lang.Yuan} />
+              <InfoItem styles={infoStyles} labelWidth={75} label={Lang.Total} value={order.subTotal + Lang.Yuan} />
               <InfoItem styles={infoStyles} labelWidth={75} label={Lang.PayTime} value={UTIL.getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
             </View>
           </View>
         </View>
       </TouchableOpacity>
     )
-  },
-
-  {orders} = props.user
+  }
 
   return (
     <ListView
       enableEmptySections={true}
       scrollEnabled={false}
-      dataSource={dataSource.cloneWithRows(orders)}
+      dataSource={dataSource.cloneWithRows(props.orders)}
       renderRow={renderRow}
+      onEndReached={() => console.log('ended')}
     />
   )
 }
 
 OrderList.propTypes = {
   navigator: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  orders: PropTypes.array.isRequired
 }
 
-function mapStateToProps(state, ownProps) {
-  return {
-    user: state.login.user
-  }
-}
-
-export default connect(mapStateToProps)(OrderList)
+export default OrderList

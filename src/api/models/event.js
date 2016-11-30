@@ -150,10 +150,11 @@ const mongoose = require('mongoose'),
         type: Number,
         required: true
       },
-      includeInsurance: {
-        type: Boolean,
-        required: true,
-        default: false
+      insurance: {
+        base: {
+          type: Number,
+          default: 0
+        }
       },
       detail: [String],
       include: [String],

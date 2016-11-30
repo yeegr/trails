@@ -89,7 +89,7 @@ module.exports = function(app) {
     if (req.query.type) {
       switch (req.query.type) {
         case 'compact':
-          options.select = 'name hero' + CONST.VIRTUAL_FIELS
+          options.select = 'name hero' + CONST.VIRTUAL_FIELDS
         break
       }
     }

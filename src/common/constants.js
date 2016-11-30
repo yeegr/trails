@@ -50,6 +50,6 @@ export const ASSET_FOLDERS = {
   Post: 'posts'
 }
 
-export const locale = 'zh-cn'
+export const DEFAULT_LOCALE = 'zh-CN'
 export const USER = 'user'
 export const ACCESS_TOKEN = 'access_token'
