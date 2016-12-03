@@ -171,7 +171,7 @@ class RecordTrail extends Component {
   _saveRecording() {
     this._stopTracking()
     this.props.navbarActions.resetPath()
-    this.props.newTrailActions.calculateData(this._finalizePath())
+    this.props.newTrailActions.calculateTrailData(this._finalizePath())
 
     this.props.navigator.replace({
       id: 'EditTrail',

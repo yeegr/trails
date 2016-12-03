@@ -38,7 +38,10 @@ const TrailPreview = (props) => {
       <View style={styles.detail.section}>
         <Header text={Lang.Trails} more={more} />
         <View style={styles.detail.content}>
-          <TrailList navigator={navigator} trails={props.trails} />
+          <TrailList
+            navigator={navigator}
+            trails={props.trails}
+          />
         </View>
       </View>
     </View>

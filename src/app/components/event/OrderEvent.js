@@ -141,7 +141,7 @@ class OrderEvent extends Component {
 
       this.props.navigator.push({
         id: 'OrderPayment',
-        title: LANG.t('order'),
+        title: LANG.t('order.order'),
         passProps: {
           event: this.props.event,
           selectedGroup: this.props.selectedGroup || 0,

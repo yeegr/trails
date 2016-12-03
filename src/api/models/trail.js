@@ -164,7 +164,7 @@ trailSchema.pre('save', function(next) {
 })
 
 trailSchema.post('save', function(doc) {
-  if (doc.isNew) {
+  if (doc.wasNew) {
     User.findById(doc.creator, function(err, user) {
       if (user) {
         user.addToList('trails', doc.id)

@@ -123,8 +123,9 @@ const styles = StyleSheet.create({
 })
 
 EditTrailGallery.propTypes = {
-  photos: PropTypes.array.isRequired,
-  newTrailActions: PropTypes.object.isRequired
+  navigator: PropTypes.object.isRequired,
+  newTrailActions: PropTypes.object.isRequired,
+  photos: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

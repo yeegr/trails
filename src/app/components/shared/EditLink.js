@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 
 import Avatar from './Avatar'
+import Icon from './Icon'
 import Next from './Next'
 import TextView from './TextView'
 
@@ -24,15 +25,26 @@ const EditLink = (props) => {
 
   if (props.user) {
     value = <Avatar user={props.user} />
-  } else if (props.value) {
-    value = (
-      <TextView
-        numberOfLines={1}
-        ellipsizeMode="tail"
-        style={{textAlign: 'right', width: 120}}
-        text={props.value.toString()}
-      />
-    )
+  } else if (props.value !== undefined) {
+    if (props.value === true) {
+      value = (
+        <Icon 
+          backgroundColor={Graphics.colors.transparent} 
+          fillColor={Graphics.colors.primary} 
+          sideLength={24}
+          type={'checkmark'}
+        />
+      )
+    } else if (props.value !== null) {
+      value = (
+        <TextView
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={{textAlign: 'right', width: 120}}
+          text={props.value.toString()}
+        />
+      )
+    }
   }
 
   const textColor = (props.validated) ? Graphics.colors.primary : (

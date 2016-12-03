@@ -22,40 +22,40 @@ import {
 
 const Icon = (props) => {
   let icon = Graphics.icon,
-  labelColor = props.labelColor || icon.textColor,
-  valueColor = props.valueColor || icon.textColor,
-  path = (props.type || props.type === 0) ? Graphics.glyphs[props.type.toString()] : (props.path || null),
-  sideLength = (props.sideLength) ? parseInt(props.sideLength) : icon.sideLength,
-  viewBox = props.viewBox || icon.viewBox,
-  scale = (props.scale || icon.scale) * (sideLength / viewBox),
-  radius = sideLength / 2,
-  margin = sideLength * (1 - (props.scale || icon.scale)) / 2,
-  backgroundColor = props.backgroundColor || Graphics.colors.primary,
-  fillColor = props.fillColor || icon.overlayColor,
-  //background = <Circle cx={radius} cy={radius} r={radius} fill={backgroundColor} />,
-  //height = (label || value) ? null : sideLength,
+    labelColor = props.labelColor || icon.textColor,
+    valueColor = props.valueColor || icon.textColor,
+    path = (props.type || props.type === 0) ? Graphics.glyphs[props.type.toString()] : (props.path || null),
+    sideLength = (props.sideLength) ? parseInt(props.sideLength) : icon.sideLength,
+    viewBox = props.viewBox || icon.viewBox,
+    scale = (props.scale || icon.scale) * (sideLength / viewBox),
+    radius = sideLength / 2,
+    margin = sideLength * (1 - (props.scale || icon.scale)) / 2,
+    backgroundColor = props.backgroundColor || Graphics.colors.primary,
+    fillColor = props.fillColor || icon.overlayColor,
+    //background = <Circle cx={radius} cy={radius} r={radius} fill={backgroundColor} />,
+    //height = (label || value) ? null : sideLength,
 
-  buttonStyles = (props.stack === 'vertical') ? styles.buttonVertical : styles.buttonHorizontal,
-  labelStyles = (props.stack === 'vertical') ? vertical.label: horizontal.label,
-  valueStyles = (props.stack === 'vertical') ? vertical.value: horizontal.value,
+    buttonStyles = (props.stack === 'vertical') ? styles.buttonVertical : styles.buttonHorizontal,
+    labelStyles = (props.stack === 'vertical') ? vertical.label: horizontal.label,
+    valueStyles = (props.stack === 'vertical') ? vertical.value: horizontal.value,
 
-  label = (props.label && props.showLabel) ? (
-    <TextView
-      style={labelStyles}
-      fontSize={'XS'}
-      fontWeight={'bold'}
-      textColor={labelColor}
-      text={props.label}
-    />
-  ) : null,
-  value = (props.value !== undefined) ? (
-    <TextView
-      style={valueStyles}
-      fontSize={(props.stack === 'vertical') ? 'XS' : 'S'}
-      textColor={valueColor}
-      text={props.value.toString()}
-    />
-  ) : null
+    label = (props.label && props.showLabel) ? (
+      <TextView
+        style={labelStyles}
+        fontSize={'XS'}
+        fontWeight={'bold'}
+        textColor={labelColor}
+        text={props.label}
+      />
+    ) : null,
+    value = (props.value !== undefined) ? (
+      <TextView
+        style={valueStyles}
+        fontSize={(props.stack === 'vertical') ? 'XS' : 'S'}
+        textColor={valueColor}
+        text={props.value.toString()}
+      />
+    ) : null
 
   return (
     <View style={buttonStyles}>

@@ -44,6 +44,9 @@ class OrderDetail extends Component {
   }
 
   render() {
+    console.log(this.props.event)
+    console.log(this.props.order)
+
     const {navigator, event, order} = this.props,
     dates = UTIL.formatEventGroupLabel(event, order.group)
 

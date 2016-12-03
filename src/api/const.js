@@ -4,7 +4,7 @@ module.exports = {
   DEFAULT_PAGINATION: 5,
   VIRTUAL_FIELDS: " likes likeCount saves saveCount shares shareCount comments commentCount ratingAverage",
   USER_LIST_FIELDS: "handle avatar xp level trails events posts comments followers",
-  EVENT_LIST_FIELDS: "status title type hero excerpt contacts expenses",
+  EVENT_LIST_FIELDS: "status title type hero excerpt contacts expenses groups",
   ACTIONS: {
     COMMON: ["CREATE", "UPDATE", "DELETE"],
     USER: ["FOLLOW", "UNFOLLOW", "APPLY", "RETRACT", "LIKE", "UNLIKE", "SAVE", "UNSAVE", "SHARE"],

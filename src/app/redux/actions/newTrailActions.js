@@ -34,53 +34,10 @@ export const stopRecording = () => {
   }
 }
 
-export const saveTrailPoints = (points) => {
+export const setTrailPoints = (points) => {
   return {
     type: ACTIONS.SET_TRAIL_POINTS,
     points
-  }
-}
-
-export const setTrailTitle = (title) => {
-  return {
-    type: ACTIONS.SET_TRAIL_TITLE,
-    title
-  }
-}
-
-export const setTrailAreas = (areas, areasText) => {
-  return {
-    type: ACTIONS.SET_TRAIL_AREAS,
-    areas,
-    areasText
-  }
-}
-
-export const setTrailType = (trailType) => {
-  return {
-    type: ACTIONS.SET_TRAIL_TYPE,
-    trailType
-  }
-}
-
-export const setDifficultyLevel = (difficultyLevel) => {
-  return {
-    type: ACTIONS.SET_TRAIL_DIFFICULTY,
-    difficultyLevel
-  }
-}
-
-export const setTrailDescription = (description) => {
-  return {
-    type: ACTIONS.SET_TRAIL_DESCRIPTION,
-    description
-  }
-}
-
-export const setTrailPhotos = (photos) => {
-  return {
-    type: ACTIONS.SET_TRAIL_PHOTOS,
-    photos
   }
 }
 
@@ -111,27 +68,11 @@ const _getTrailData = (points) => {
   }
 }
 
-export const calculateData = (points) => {
+export const calculateTrailData = (points) => {
   return (dispatch) => {
-    dispatch(saveTrailPoints(points))
+    dispatch(setTrailPoints(points))
     dispatch(_startCalculation())
     return dispatch(_getTrailData(points))
-  }
-}
-
-export const setTrailPrivacy = (value) => {
-  return {
-    type: (value === false) ? ACTIONS.SET_TO_PRIVATE : ACTIONS.SET_TO_PUBLIC
-  }
-}
-
-export const saveTrail = () => {
-  return (dispatch, getState) => {
-    const newTrail = getState().newTrail
-
-    if (validateTrail(newTrail)) {
-      dispatch(uploadTrail(newTrail))
-    }
   }
 }
 
@@ -144,34 +85,92 @@ const validateTrail = (trail) => {
   )
 }
 
-const sendUploadRequest = (trail) => {
+
+// edit trail
+export const editTrail = (trail) => {
   return {
-    type: ACTIONS.SAVE_TRAIL,
+    type: ACTIONS.EDIT_TRAIL,
     trail
   }
 }
 
-const receiveUploadResponse = (trail) => {
+export const setTrailPrivacy = (value) => {
+  return {
+    type: (value === false) ? ACTIONS.SET_TO_PRIVATE : ACTIONS.SET_TO_PUBLIC
+  }
+}
+
+export const setTrailTitle = (title) => {
+  return {
+    type: ACTIONS.SET_TRAIL_TITLE,
+    title
+  }
+}
+
+export const setTrailAreas = (areas) => {
+  return {
+    type: ACTIONS.SET_TRAIL_AREAS,
+    areas
+  }
+}
+
+export const setTrailType = (trailType) => {
+  return {
+    type: ACTIONS.SET_TRAIL_TYPE,
+    trailType
+  }
+}
+
+export const setTrailDifficulty = (difficultyLevel) => {
+  return {
+    type: ACTIONS.SET_TRAIL_DIFFICULTY,
+    difficultyLevel
+  }
+}
+
+export const setTrailDescription = (description) => {
+  return {
+    type: ACTIONS.SET_TRAIL_DESCRIPTION,
+    description
+  }
+}
+
+export const setTrailPhotos = (photos) => {
+  return {
+    type: ACTIONS.SET_TRAIL_PHOTOS,
+    photos
+  }
+}
+
+// save trail
+const saveTrailRequest = (trail) => {
+  return {
+    type: ACTIONS.SAVE_TRAIL_REQUEST,
+    trail
+  }
+}
+
+const saveTrailSuccess = (trail) => {
   return {
     type: ACTIONS.SAVE_TRAIL_SUCCESS,
     trail
   }
 }
 
-const uploadError = (message) => {
+const saveTrailFailure = (message) => {
   return {
     type: ACTIONS.SAVE_TRAIL_FAILURE,
     message
   }
 }
 
-const uploadTrail = (data) => {
+export const saveTrail = (data) => {
   let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(data)
   })
 
   return (dispatch) => {
-    dispatch(sendUploadRequest(data))
+    dispatch(saveTrailRequest(data))
 
     return fetch(AppSettings.apiUri + 'trails', config)
       .then((res) => {
@@ -179,12 +178,58 @@ const uploadTrail = (data) => {
       })
       .then((res) => {
         if (res.id) {
-          dispatch(receiveUploadResponse(res))
+          dispatch(saveTrailSuccess(res))
         } else {
-          dispatch(uploadError(res.message))
+          dispatch(saveTrailFailure(res.message))
           return Promise.reject(res)
         }
       })
-      .catch((err) => dispatch(uploadError(err)))
+      .catch((err) => dispatch(saveTrailFailure(err)))
+  }
+}
+
+// update trail
+const updateTrailRequest = (trail) => {
+  return {
+    type: ACTIONS.UPDATE_TRAIL_REQUEST,
+    trail
+  }
+}
+
+const updateTrailSuccess = (trail) => {
+  return {
+    type: ACTIONS.UPDATE_TRAIL_SUCCESS,
+    trail
+  }
+}
+
+const updateTrailFailure = (message) => {
+  return {
+    type: ACTIONS.UPDATE_TRAIL_FAILURE,
+    message
+  }
+}
+
+export const updateTrail = (data) => {
+  let config = Object.assign({}, FETCH.PUT, {
+    body: JSON.stringify(data)
+  })
+
+  return (dispatch) => {
+    dispatch(updateTrailRequest(data))
+
+    return fetch(AppSettings.apiUri + 'trails', config)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        if (res.id) {
+          dispatch(updateTrailSuccess(res))
+        } else {
+          dispatch(updateTrailFailure(res.message))
+          return Promise.reject(res)
+        }
+      })
+      .catch((err) => dispatch(updateTrailFailure(err)))
   }
 }

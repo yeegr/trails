@@ -32,7 +32,7 @@ const EditTrailDifficulty = (props) => {
               maximumValue={10}
               minimumValue={2}
               step={1}
-              onValueChange={(value) => props.newTrailActions.setDifficultyLevel(value)}
+              onValueChange={(value) => props.newTrailActions.setTrailDifficulty(value)}
               value={props.difficultyLevel}
             />
             <Text style={{marginLeft: 10}}>{UTIL.showTrailDifficulty(props.difficultyLevel)}</Text>
@@ -44,6 +44,7 @@ const EditTrailDifficulty = (props) => {
 }
 
 EditTrailDifficulty.propTypes = {
+  navigator: PropTypes.object.isRequired,
   difficultyLevel: PropTypes.number.isRequired,
   newTrailActions: PropTypes.object.isRequired
 }

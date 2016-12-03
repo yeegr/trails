@@ -98,7 +98,7 @@ class EventDetail extends Component {
 
   render() {
     const event = (this.props.isPreview) ? this.props.newEvent : this.props.event,
-    {navigator} = this.props
+      {navigator} = this.props
 
     if (!event) {
       return <Loading />

@@ -55,7 +55,7 @@ class UserInfo extends Component {
       break;
 
       case 'trails':
-        id = 'TrailList',
+        id = 'MyTrails',
         title = Lang.MyTrails,
         query = "?creator=" + user.id
       break;

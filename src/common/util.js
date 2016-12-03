@@ -4,7 +4,9 @@ import moment from 'moment'
 import 'moment-duration-format'
 import 'moment/locale/zh-cn'
 
-import {locale} from './constants'
+import {DEFAULT_LOCALE} from './constants'
+
+const locale = DEFAULT_LOCALE.toLowerCase()
 
 let hrs = (locale === 'zh-cn') ? '小时' : 'hrs',
     min = (locale === 'zh-cn') ? '分钟' : 'min'

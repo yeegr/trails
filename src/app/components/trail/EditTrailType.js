@@ -28,16 +28,24 @@ const EditTrailType = (props) => {
   return (
     <View style={styles.global.wrapper}>
       <ScrollView style={styles.editor.scroll}>
-        <View style={styles.editor.group}>
+        <View>
           <View style={[styles.search.grid, {paddingHorizontal: 5}]}>
           {
             AppSettings.trailTypes.map(function(i) {
+              const backgroundColor = (i === props.type) ? Graphics.colors.primary : Graphics.colors.midGray,
+                textColor = (i === props.type) ? Graphics.colors.primary : Graphics.textColors.default
+
               return (
                 <TouchableOpacity key={i} onPress={() => props.newTrailActions.setTrailType(i)} style={{marginHorizontal: 2}}>
-                  <Icon backgroundColor={(i === props.type) ? Graphics.colors.primary : Graphics.colors.midGray} 
-                    type={i.toString()} 
-                    label={Lang.tagArray[i]}
-                  />
+                  <View style={{marginBottom: 10, marginHorizontal: 5}}>
+                    <Icon
+                      backgroundColor={backgroundColor}
+                      stack={'vertical'}
+                      textColor={textColor}
+                      type={i.toString()}
+                      value={Lang.tagArray[i]}
+                    />
+                  </View>
                 </TouchableOpacity>
               )
             })
@@ -50,6 +58,8 @@ const EditTrailType = (props) => {
 }
 
 EditTrailType.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  newTrailActions: PropTypes.object.isRequired,
   type: PropTypes.number.isRequired
 }
 

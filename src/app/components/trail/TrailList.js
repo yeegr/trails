@@ -56,14 +56,18 @@ class TrailList extends Component {
 
   renderRow(rowData, sectionId, rowId) {
     return (
-      <TrailCard navigator={this.props.navigator} trail={rowData} key={rowId} />
+      <TrailCard
+        key={rowId} 
+        navigator={this.props.navigator}
+        trail={rowData}
+      />
     )
   }
 
   render() {
     const trails = (this.props.trails) ? this.props.trails : this.props.remoteTrails
 
-    if (!trails) {
+    if (trails.length < 1) {
       return <Loading />
     }
 
@@ -87,7 +91,7 @@ TrailList.propTypes = {
   trailsActions: PropTypes.object.isRequired,
   query: PropTypes.string,
   trails: PropTypes.array,
-  isFetching: PropTypes.bool,
+  isFetching: PropTypes.bool
 }
 
 function mapStateToProps(state, ownProps) {

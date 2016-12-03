@@ -27,7 +27,7 @@ import RecordTrail from './trail/RecordTrail'
 import EditTrail from './trail/EditTrail'
 import EditTrailTitle from './trail/EditTrailTitle'
 import EditTrailType from './trail/EditTrailType'
-import TrailAreaPicker from './trail/TrailAreaPicker'
+import SelectTrailAreas from './trail/SelectTrailAreas'
 import EditTrailDifficulty from './trail/EditTrailDifficulty'
 import EditTrailDescription from './trail/EditTrailDescription'
 import EditTrailGallery from './trail/EditTrailGallery'
@@ -68,6 +68,8 @@ import EditUserName from './mine/EditUserName'
 import EditUserPID from './mine/EditUserPID'
 import EventManager from './mine/EventManager'
 import SignUpList from './mine/SignUpList'
+
+import MyTrails from './mine/MyTrails'
 import MyOrders from './mine/MyOrders'
 import OrderDetail from './mine/OrderDetail'
 import UserDetail from './user/UserDetail'
@@ -163,6 +165,28 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
             label={Lang.Search}
           />
         )
+      break
+
+      case 'TrailDetail':
+        let trail = state.trails.trail
+
+        if (trail && trail.creator._id === state.login.user._id) {
+          rightTitleBar = (
+            <NavbarButton
+              onPress={() => {
+                navigator.push({
+                  id: 'EditTrail',
+                  title: LANG.t('trail.EditTrail'),
+                  passProps: {
+                    trail
+                  }
+                })
+              }}
+              label={LANG.t('glossary.Edit')}
+              showLabel={true}
+            />
+          )
+        }
       break
 
       case 'OrderEvent':
@@ -499,9 +523,9 @@ class App extends Component {
                   />
                 )
 
-              case 'TrailAreaPicker':
+              case 'SelectTrailAreas':
                 return (
-                  <TrailAreaPicker
+                  <SelectTrailAreas
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />
@@ -809,14 +833,22 @@ class App extends Component {
                   />
                 )
 
-              case 'MyOrders':
+              case 'MyTrails':
                 return (
                   <ScrollView style={styles.global.main}>
-                    <MyOrders
+                    <MyTrails
                       navigator={navigator}
                       route={route} {...route.passProps}
                     />
                   </ScrollView>
+                )
+
+              case 'MyOrders':
+                return (
+                  <MyOrders
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
                 )
 
               case 'OrderDetail':

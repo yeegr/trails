@@ -25,7 +25,7 @@ import {
 const TrailCard = (props) => {
   const {trail, navigator} = props,
     gotoDetailPage = () => {
-      props.navigator.push({
+      navigator.push({
         id: 'TrailDetail',
         title: Lang.TrailDetail,
         passProps: {
@@ -37,10 +37,15 @@ const TrailCard = (props) => {
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity onPress={() => gotoDetailPage()}>
-        <TrailInfo type={trail.type} title={trail.title} date={trail.date}/>
+        <TrailInfo
+          type={trail.type}
+          title={trail.title}
+          date={trail.date}
+        />
       </TouchableOpacity>
       <View style={{marginHorizontal: 5}}>
-        <TrailData difficultyLevel={trail.difficultyLevel}
+        <TrailData
+          difficultyLevel={trail.difficultyLevel}
           totalDuration={trail.totalDuration}
           totalDistance={trail.totalDistance}
           totalElevation={trail.totalElevation}

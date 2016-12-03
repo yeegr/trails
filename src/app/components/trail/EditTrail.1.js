@@ -23,7 +23,6 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
-  LANG,
   UTIL,
   AppSettings,
   Lang
@@ -36,7 +35,7 @@ class EditTrail extends Component {
   }
 
   componentWillMount() {
-    this.props.newTrailActions.editTrail(this.props.trail)
+    this.props.navbarActions.resetPath()
   }
 
   nextPage(type) {
@@ -46,37 +45,37 @@ class EditTrail extends Component {
     switch (type) {
       case 'title':
         id = 'EditTrailTitle',
-        title = LANG.t('trail.TrailTitle')
+        title = Lang.TrailTitle
       break;
 
       case 'area':
         id = 'SelectTrailAreas',
-        title = LANG.t('trail.SelectAreas')
+        title = Lang.SelectAreas
       break;
 
       case 'desc':
         id = 'EditTrailDescription',
-        title = LANG.t('trail.Description')
+        title = Lang.Trail + Lang.Description
       break;
 
       case 'type':
         id = 'EditTrailType',
-        title = LANG.t('trail.TrailType')
+        title = Lang.TrailType
       break;
 
       case 'difficulty':
         id = 'EditTrailDifficulty',
-        title = LANG.t('trail.DifficultyLevel')
+        title = Lang.DifficultyLevel
       break;
 
       case 'photos':
         id = 'EditTrailGallery',
-        title = LANG.t('trail.Photos')
+        title = Lang.Photos
       break;
 
       case 'preview':
         id = 'TrailDetail',
-        title = LANG.t('trail.TrailPreview')
+        title = Lang.TrailPreview
       break;
     }
 
@@ -96,10 +95,14 @@ class EditTrail extends Component {
         <View style={[styles.editor.link, {paddingVertical: 15}]}>
           <View style={styles.editor.label}>
             <TextView
-              text={LANG.t('trail.ReviewStatus')}
+              text={Lang.status}
             />
           </View>
           <View style={styles.editor.value}>
+            <TextView
+              style={{textAlign: 'right', width: 120}}
+              text={Lang[trail.status]}
+            />
             <Text style={[styles.editor.valueText, {marginRight: 10}]}>
               {Lang[trail.status]}
             </Text>
@@ -114,12 +117,12 @@ class EditTrail extends Component {
             <View style={styles.editor.link}>
               <View style={styles.editor.label}>
                 <TextView
-                  text={LANG.t('trail.PrivacySetting')}
+                  text={Lang.PrivacySetting}
                 />
               </View>
               <View style={styles.editor.value}>
                 <Text style={[styles.editor.valueText, {marginRight: 10}]}>
-                  {(trail.isPublic) ? LANG.t('trail.Public') : LANG.t('trail.Private')}
+                  {(trail.isPublic) ? Lang.Public : Lang.Private}
                 </Text>
                 <Switch
                   onValueChange={(value) => this.props.newTrailActions.setTrailPrivacy(value)}
@@ -130,50 +133,15 @@ class EditTrail extends Component {
             {status}
           </View>
           <View style={styles.editor.group}>
-            <EditLink
-              label={LANG.t('trail.TrailTitle')}
-              onPress={() => this.nextPage('title')}
-              required={true}
-              validated={(trail.title.length >= AppSettings.minTrailTitleLength)}
-              value={(trail.title.length >= AppSettings.minTrailTitleLength) ? trail.title : LANG.t('trail.Unnamed')}
-            />
-            <EditLink
-              label={LANG.t('trail.TrailType')}
-              onPress={() => this.nextPage('type')}
-              required={true}
-              validated={(trail.type > -1)}
-              value={LANG.t('tags.' + trail.type)}
-            />
-            <EditLink
-              label={LANG.t('trail.SelectAreas')}
-              onPress={() => this.nextPage('area')}
-              required={true}
-              validated={(trail.areas.length > 0)}
-              value={(trail.areas.length > 0)}
-            />
-            <EditLink
-              label={LANG.t('trail.DifficultyLevel')}
-              onPress={() => this.nextPage('difficulty')}
-              required={true}
-              validated={(trail.difficultyLevel > -1)}
-              value={UTIL.showTrailDifficulty(trail.difficultyLevel)}
-            />
-            <EditLink
-              label={LANG.t('trail.Description')}
-              onPress={() => this.nextPage('desc')}
-              value={trail.description}
-            />
-            <EditLink
-              label={LANG.t('trail.Photos')}
-              onPress={() => this.nextPage('photos')}
-              value={trail.photos.length}
-            />
+            <EditLink onPress={() => this.nextPage('title')} value={(trail.title.length >= AppSettings.minTrailTitleLength) ? trail.title : Lang.Unnamed} required={true} validated={(trail.title.length >= AppSettings.minTrailTitleLength)} label={Lang.TrailTitle} />
+            <EditLink onPress={() => this.nextPage('type')} value={Lang.tagArray[trail.type]} required={true} validated={(trail.type > -1)} label={Lang.TrailType} />
+            <EditLink onPress={() => this.nextPage('difficulty')} value={UTIL.showTrailDifficulty(trail.difficultyLevel)} required={true} validated={(trail.difficultyLevel > -1)} label={Lang.DifficultyLevel} />
+            <EditLink onPress={() => this.nextPage('area')} value={trail.areasText.join(',')} required={true} validated={(trail.areas.length > 0)} label={Lang.SelectAreas} />
+            <EditLink onPress={() => this.nextPage('desc')} value={trail.description} label={Lang.Description} />
+            <EditLink onPress={() => this.nextPage('photos')} value={trail.photos.length} label={Lang.Photos} />
           </View>
           <View style={styles.editor.group}>
-            <EditLink
-              label={LANG.t('trail.TrailPreview')}
-              onPress={() => this.nextPage('preview')}
-            />
+            <EditLink onPress={() => this.nextPage('preview')} label={Lang.TrailPreview} />
           </View>
         </ScrollView>
       </View>
@@ -183,18 +151,18 @@ class EditTrail extends Component {
 
 EditTrail.propTypes = {
   navigator: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
-  navbar: PropTypes.object.isRequired,
   navbarActions: PropTypes.object.isRequired,
   newTrailActions: PropTypes.object.isRequired,
-  newTrail: PropTypes.object.isRequired
+  navbar: PropTypes.object.isRequired,
+  newTrail: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.login.user,
     navbar: state.navbar,
-    newTrail: state.newTrail
+    newTrail: state.newTrail,
+    user: state.login.user
   }
 }
 

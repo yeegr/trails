@@ -28,7 +28,7 @@ import {
   Graphics
 } from '../../settings'
 
-class TrailAreaPicker extends Component {
+class SelectTrailAreas extends Component {
   constructor(props) {
     super(props)
     this._listAreas = this._listAreas.bind(this)
@@ -101,36 +101,36 @@ class TrailAreaPicker extends Component {
 }
 
 const {width} = Dimensions.get('window'),
-margin = 15,
-numberPerRow = 2,
-imageWidth = Math.round((width - margin * (numberPerRow + 1)) / numberPerRow),
-imageHeight = Math.round(imageWidth * 2 / 3),
-styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    paddingHorizontal: 15,
-    paddingTop: Graphics.page.marginTop + margin
-  },
-  grid: {
-    alignItems: 'flex-start',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between'
-  },
-  image: {
-    flexDirection: 'column',
-    height: imageHeight,
-    justifyContent: 'flex-end',
-    marginBottom: margin,
-    width: imageWidth
-  }
-})
+  margin = 15,
+  numberPerRow = 2,
+  imageWidth = Math.round((width - margin * (numberPerRow + 1)) / numberPerRow),
+  imageHeight = Math.round(imageWidth * 2 / 3),
+  styles = StyleSheet.create({
+    wrapper: {
+      flex: 1,
+      paddingHorizontal: 15,
+      paddingTop: Graphics.page.marginTop + margin
+    },
+    grid: {
+      alignItems: 'flex-start',
+      flex: 1,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between'
+    },
+    image: {
+      flexDirection: 'column',
+      height: imageHeight,
+      justifyContent: 'flex-end',
+      marginBottom: margin,
+      width: imageWidth
+    }
+  })
 
-TrailAreaPicker.propTypes = {
-  city: PropTypes.string.isRequired,
+SelectTrailAreas.propTypes = {
+  navigator: PropTypes.object.isRequired,
   newTrailActions: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired
+  city: PropTypes.string.isRequired,
 }
 
 function mapStateToProps(state, ownProps) {
@@ -145,4 +145,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TrailAreaPicker)
+export default connect(mapStateToProps, mapDispatchToProps)(SelectTrailAreas)

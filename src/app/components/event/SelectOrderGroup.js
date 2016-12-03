@@ -81,7 +81,7 @@ class SelectOrderGroup extends Component {
                       selected={this.state.selectedGroup}
                       deadline={group.deadline}
                       label={UTIL.formatEventGroupLabel(event, index)}
-                      signUps={LANG.t('event.NumberOfPeopleAlreadySignedUp', {count: group.signUps.length})}
+                      signUps={LANG.t('event.numberOfPeopleAlreadySignedUp', {count: group.signUps.length})}
                       onPress={(selectedGroup) => this.setState({selectedGroup})}
                     />
                   )

@@ -6,10 +6,9 @@ import {
 } from '../../settings'
 
 // list trails
-const listTrailsRequest = (params) => {
+const listTrailsRequest = () => {
   return {
-    type: ACTIONS.LIST_TRAILS_REQUEST,
-    params
+    type: ACTIONS.LIST_TRAILS_REQUEST
   }
 }
 
@@ -27,11 +26,11 @@ const listTrailsFailure = (message) => {
   }
 }
 
-export const listTrails = (params) => {
+export const listTrails = (query) => {
   return (dispatch) => {
-    dispatch(listTrailsRequest(params))
+    dispatch(listTrailsRequest(query))
 
-    return fetch(AppSettings.apiUri + 'trails/' + params)
+    return fetch(AppSettings.apiUri + 'trails/' + query)
       .then((res) => {
         return res.json()
       })

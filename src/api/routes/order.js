@@ -125,10 +125,7 @@ module.exports = function(app) {
 
     Order
     .find(query)
-    .populate({
-      path: 'event',
-      select: CONST.EVENT_LIST_FIELDS + CONST.VIRTUAL_FIELDS
-    })
+    .populate('event')
     .limit(CONST.DEFAULT_PAGINATION)
     .sort({_id: -1})
     .exec()

@@ -57,8 +57,9 @@ class EditTrailTitle extends Component {
 }
 
 EditTrailTitle.propTypes = {
-  title: PropTypes.string.isRequired,
-  newTrailActions: PropTypes.object.isRequired
+  navigator: PropTypes.object.isRequired,
+  newTrailActions: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

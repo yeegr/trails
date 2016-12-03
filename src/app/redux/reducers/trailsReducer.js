@@ -9,6 +9,7 @@ const trailsReducer = (state = {
   message: null,
 }, action) => {
   switch (action.type) {
+// list trails
    case ACTIONS.LIST_TRAILS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -28,6 +29,7 @@ const trailsReducer = (state = {
         list: [],
       })
 
+// get one trail
    case ACTIONS.GET_TRAIL_REQUEST:
       return Object.assign({}, state, {
         isFetching: true

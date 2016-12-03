@@ -37,7 +37,6 @@ export default StyleSheet.create({
   },
   grid: {
     alignItems: 'flex-start',
-    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginTop: 10
