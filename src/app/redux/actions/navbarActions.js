@@ -26,21 +26,27 @@ export const eventSignUpAdded = () => {
   }
 }
 
-export const resetPath = () => {
+export const navToRecordTrail = () => {
   return {
-    type: ACTIONS.RESET_PATH
+    type: ACTIONS.NAV_TO_RECORD_TRAIL
+  }
+}
+
+export const backToRecordTrail = () => {
+  return {
+    type: ACTIONS.BACK_TO_RECORD_TRAIL
   }
 }
 
 export const navToEditTrail = () => {
   return {
-    type: ACTIONS.STORE_PATH
+    type: ACTIONS.NAV_TO_EDIT_TRAIL
   }
 }
 
-export const createTrail = () => {
+export const gotToEditTrail = () => {
   return {
-    type: ACTIONS.CREATE_TRAIL
+    type: ACTIONS.GOT_TO_EDIT_TRAIL
   }
 }
 

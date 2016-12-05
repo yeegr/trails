@@ -18,6 +18,8 @@ import UserLink from '../user/UserLink'
 import global from '../../styles/global'
 
 import {
+  CONSTANTS,
+  UTIL,
   Lang,
   Graphics
 } from '../../settings'
@@ -25,12 +27,22 @@ import {
 const TrailCard = (props) => {
   const {trail, navigator} = props,
     gotoDetailPage = () => {
-      navigator.push({
-        id: 'TrailDetail',
-        title: Lang.TrailDetail,
-        passProps: {
-          id: trail.id
+      let id = 'TrailDetail',
+        title = Lang.TrailDetail,
+        passProps = (trail._id) ? {
+          storeType: CONSTANTS.STORE_TYPES.REMOTE,
+          id: trail._id,
+          creatorId: trail.creator._id
+        } : {
+          storeType: CONSTANTS.STORE_TYPES.LOCAL,
+          storeKey: trail.storeKey,
+          creatorId: trail.creator._id
         }
+
+      navigator.push({
+        id,
+        title,
+        passProps
       })
     }
 

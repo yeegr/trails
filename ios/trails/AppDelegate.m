@@ -46,13 +46,15 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-/*  if ([[url scheme] isEqualToString:@"wx6e8a3e1b87c11294"]) {
+  if ([[url scheme] isEqualToString:@"wx6e8a3e1b87c11294"]) {
     return [RCTLinkingManager application:application openURL:url
                         sourceApplication:sourceApplication annotation:annotation];
-  } else {*/
+  } else if ([[url scheme] isEqualToString:@"alipay2016111902979618"]) {
     [AlipayModule handleCallback:url];
     return YES;
-  //}
+  } else {
+    return YES;
+  }
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity

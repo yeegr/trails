@@ -6,6 +6,7 @@ import React, {
 } from 'react'
 
 import {
+  AsyncStorage,
   ScrollView,
   View,
 } from 'react-native'
@@ -30,29 +31,81 @@ import styles from '../../styles/main'
 
 import {
   CONSTANTS,
+  UTIL,
   Lang
 } from '../../settings'
 
 class TrailDetail extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      trail: null
+    }
   }
 
   componentWillMount() {
-    if (!this.props.isPreview) {
-      this.props.trailsActions.getTrail(this.props.id)
+    if (this.props.isPreview) {
+      this.setState({
+        trail: this.props.newTrail
+      })
+    } else {
+      switch (this.props.storeType) {
+        case CONSTANTS.STORE_TYPES.REMOTE:
+          this.props.trailsActions.getTrail(this.props.id)
+        break
+
+        case CONSTANTS.STORE_TYPES.LOCAL:
+          AsyncStorage
+          .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
+          .then((tmp) => {
+            return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
+          })
+          .then((tmp) => {
+            let key = this.props.storeKey
+
+            if (tmp.hasOwnProperty(key)) {
+              this.setState({
+                trail: tmp[key]
+              })
+            }
+          })
+        break
+      }
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    switch (this.props.storeType) {
+      case CONSTANTS.STORE_TYPES.REMOTE:
+        this.setState({
+          trail: nextProps.trail
+        })
+      break
+    }
+  }
+
+  componentWillUnmount() {
+    switch (this.props.storeType) {
+      case CONSTANTS.STORE_TYPES.REMOTE:
+        this.props.trailsActions.resetTrail()
+      break
     }
   }
 
   render() {
-    const trail = (this.props.isPreview) ? this.props.newTrail : this.props.trail
+    const navigator = this.props.navigator,
+      trail = this.state.trail
 
     if (!trail) {
       return <Loading />
     }
 
-    let creator = this.props.user,
+    let passProps = UTIL.getPassProps(this.props.navigator),
+      creator = this.props.user,
       toolbar = null
+
+    passProps.trail = trail
 
     if (!this.props.isPreview) {
       creator = trail.creator,
@@ -108,7 +161,11 @@ class TrailDetail extends Component {
             </View>
             <View style={styles.detail.section}>
               <Header text={Lang.Description} />
-              <TextView style={{marginHorizontal: 15}} text={(trail.description.length < 1) ? Lang.NoDescription : trail.description} />
+              <TextView
+                multiLine={true}
+                style={{marginHorizontal: 15}}
+                text={(trail.description.length < 1) ? Lang.NoDescription : trail.description}
+              />
             </View>
             {galleryPreview}
             {commentsPreview}
@@ -125,16 +182,14 @@ TrailDetail.propTypes = {
   trailsActions: PropTypes.object.isRequired,
   id: PropTypes.string,
   trail: PropTypes.object,
-  newTrail: PropTypes.object,
   user: PropTypes.object,
   isPreview: PropTypes.bool
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    trail: state.trails.trail,
-    newTrail: state.newTrail,
-    user: state.login.user
+    user: state.login.user,
+    trail: state.trails.trail
   }
 }
 

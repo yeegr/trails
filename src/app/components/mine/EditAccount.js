@@ -16,8 +16,8 @@ import {
   changeTab
 } from '../../redux/actions/homeActions'
 
-import EditLink from '../shared/EditLink'
 import CallToAction from '../shared/CallToAction'
+import EditLink from '../shared/EditLink'
 import styles from '../../styles/main'
 
 import {

@@ -70,13 +70,16 @@ module.exports = function(app) {
     let body = req.body, 
       query = {}
 
-    if (body.mobile !== null) {
+    let hasMobile = UTIL.isNotUndefinedNullEmpty(body.mobile),
+      hasWechat = UTIL.isNotUndefinedNullEmpty(body.wechat)
+
+    if (hasMobile) {
       query.mobile = parseInt(body.mobile)
     }
 
-    if (body.wechat !== null) {
+    if (hasWechat) {
       query.wechat = body.wechat
-    } 
+    }
 
     User
     .findOne(query)
@@ -84,7 +87,7 @@ module.exports = function(app) {
     .then(function(data) {
       if (data) {
         res.status(200).json(data)
-      } else if (body.mobile !== null && body.wechat !== null) {
+      } else if (hasMobile && hasWechat) {
         createUser(body, res)
       } else {
         res.status(404).send()
@@ -235,7 +238,7 @@ module.exports = function(app) {
         .remove()
         .then(function(data) {
           if (data) {
-            res.status(200).send()
+            res.status(410).send()
           }
         })
         .catch(function(err) {

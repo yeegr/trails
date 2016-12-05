@@ -48,7 +48,6 @@ export const listTrails = (query) => {
   }
 }
 
-
 // get one trail
 const getTrailRequest = (id) => {
   return {
@@ -75,19 +74,27 @@ export const getTrail = (id) => {
     dispatch(getTrailRequest(id))
 
     return fetch(AppSettings.apiUri + 'trails/' + id)
-      .then((response) => {
-        return response.json()
+      .then((res) => {
+        return res.json()
       })
-      .then((response) => {
-        if (response.error) {
-          dispatch(getTrailFailure(response.error))
-          return Promise.reject(response)
+      .then((res) => {
+        if (res.error) {
+          dispatch(getTrailFailure(res.error))
+          return Promise.reject(res)
         } else {
-          dispatch(getTrailSuccess(response))
+          dispatch(getTrailSuccess(res))
         }
       })
       .catch((err) => {
         dispatch(getTrailFailure(err))
       })
+  }
+}
+
+// reset trail
+export const resetTrail = (trail) => {
+  return {
+    type: ACTIONS.RESET_TRAIL,
+    trail
   }
 }

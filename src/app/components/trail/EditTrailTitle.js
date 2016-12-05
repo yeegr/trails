@@ -15,10 +15,13 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../redux/actions/newTrailActions'
 
+import TextView from '../shared/TextView'
+
 import styles from '../../styles/main'
 
 import {
-  Lang
+  LANG,
+  AppSettings
 } from '../../settings'
 
 class EditTrailTitle extends Component {
@@ -39,15 +42,21 @@ class EditTrailTitle extends Component {
     return (
       <View style={styles.global.wrapper}>
         <ScrollView style={styles.editor.scroll}>
-          <View style={styles.editor.group}>
+          <View style={[styles.editor.group, styles.editor.input]}>
             <TextInput
               autoFocus={true}
               autoCorrect={false}
               maxLength={50}
               style={styles.editor.textInput}
-              placeholder={Lang.TrailTitle}
+              placeholder={LANG.t('trail.TrailTitle')}
               onChangeText={(value) => this.setState({title: value})}
               value={this.state.title}
+            />
+          </View>
+          <View style={{paddingHorizontal: 15}}>
+            <TextView
+              class={'h5'}
+              text={LANG.t('trail.edit.MinTrailTitleLength', {min: AppSettings.minTrailTitleLength})}
             />
           </View>
         </ScrollView>

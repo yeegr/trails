@@ -145,6 +145,7 @@ module.exports = function(app) {
   })
 
   /* Delete */
+  /*
   app.delete('/areas/:id', function(req, res, next) {
     Area
     .findById(req.params.id)
@@ -155,7 +156,7 @@ module.exports = function(app) {
         .remove()
         .then(function(data) {
           if (data) {
-            res.status(200).send()
+            res.status(410).send()
           }
         })
         .catch(function(err) {
@@ -166,4 +167,5 @@ module.exports = function(app) {
       }
     })
   })
+  */
 }

@@ -49,7 +49,7 @@ class EditEvent extends Component {
   componentWillMount() {
     // this may be wrong
     if (!this.props.event) {
-      this.props.newEventActions.createEvent()
+      this.props.newEventActions.newEvent()
     }
   }
 

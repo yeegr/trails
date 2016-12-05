@@ -49,6 +49,12 @@ const trailsReducer = (state = {
         trail: null
       })
 
+// reset trail
+   case ACTIONS.RESET_TRAIL:
+      return Object.assign({}, state, {
+        trail: action.trail
+      })
+
     default:
       return state
   }

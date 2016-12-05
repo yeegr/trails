@@ -6,6 +6,7 @@ import React, {
 } from 'react'
 
 import {
+  AsyncStorage,
   Text,
   TouchableOpacity,
   View
@@ -26,6 +27,8 @@ import TagList from '../shared/TagList'
 import styles from '../../styles/main'
 
 import {
+  CONSTANTS,
+  UTIL,
   AppSettings,
   Lang,
   Graphics
@@ -34,14 +37,40 @@ import {
 class UserInfo extends Component {
   constructor(props) {
     super(props)
-    this.nextPage = this.nextPage.bind(this)
+    this._nextPage = this._nextPage.bind(this)
+
+    this.state = {
+      localTrailCount: 0
+    }
   }
 
   componentWillMount() {
     this.props.loginActions.reloadUser(this.props.user.id)
+
+    AsyncStorage
+    .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
+    .then((tmp) => {
+      return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
+    })
+    .then((tmp) => {
+      let count = 0
+      for (let key in tmp) {
+        if (tmp.hasOwnProperty(key)) {
+          count++
+        }
+      }
+
+      this.setState({
+        localTrailCount: count
+      })
+    })
   }
 
-  nextPage(type) {
+  componentWillReceiveProps(nextProps) {
+    //console.log(nextProps.user)
+  }
+
+  _nextPage(type) {
     let {user} = this.props, 
       id = null,
       title = null,
@@ -104,7 +133,7 @@ class UserInfo extends Component {
       id,
       title,
       passProps: {
-        query: query
+        query
       }
     })
   }
@@ -117,6 +146,8 @@ class UserInfo extends Component {
       return <Loading />
     }
 
+    const totalUserTrails = user.trails.length + this.state.localTrailCount
+
     return (
       <ParallaxView style={styles.user.wrapper}
         backgroundSource={{uri: userBackgroundUrl}}
@@ -124,7 +155,7 @@ class UserInfo extends Component {
         scrollableViewStyle={{backgroundColor: Graphics.colors.background}}
         header={(
           <View style={styles.user.hero}>
-            <TouchableOpacity onPress={() => this.nextPage('edit')}>
+            <TouchableOpacity onPress={() => this._nextPage('edit')}>
               <Avatar user={user} size={'XL'} borderWidth={6} />
             </TouchableOpacity>
             <Text style={styles.user.userHandle}>{user.handle}</Text>
@@ -132,23 +163,53 @@ class UserInfo extends Component {
           </View>
         )}>
         <View style={styles.editor.group}>
-          <EditLink onPress={() => user.orders && user.orders.length > 0 && this.nextPage('orders')} value={user.orders.length} label={Lang.MyOrders} />
+          <EditLink
+            label={Lang.MyOrders}
+            onPress={() => user.orders && user.orders.length > 0 && this._nextPage('orders')}
+            value={user.orders.length}
+          />
         </View>
         <View style={styles.editor.group}>
-          <EditLink onPress={() => user.trails.length > 0 && this.nextPage('trails')} value={user.trails.length} label={Lang.MyTrails} />
-          <EditLink onPress={() => user.events.length > 0 && this.nextPage('events')} value={user.events.length} label={Lang.MyEvents} />
-          <EditLink onPress={() => user.posts.length > 0 && this.nextPage('posts')} value={user.posts.length} label={Lang.MyPosts} />
+          <EditLink
+            label={Lang.MyTrails}
+            onPress={() => totalUserTrails > 0 && this._nextPage('trails')}
+            value={totalUserTrails}
+          />
+          <EditLink
+            label={Lang.MyEvents}
+            onPress={() => user.events.length > 0 && this._nextPage('events')}
+            value={user.events.length}
+          />
+          <EditLink onPress={() => user.posts.length > 0 && this._nextPage('posts')} value={user.posts.length} label={Lang.MyPosts} />
         </View>
         <View style={styles.editor.group}>
-          <EditLink onPress={() => user.saves.trails.length > 0 && this.nextPage('savedTrails')} value={user.saves.trails.length} label={Lang.SavedTrails} />
-          <EditLink onPress={() => user.saves.events.length > 0 && this.nextPage('savedEvents')} value={user.saves.events.length} label={Lang.SavedEvents} />
-          <EditLink onPress={() => user.saves.posts.length > 0 && this.nextPage('savedPosts')} value={user.saves.posts.length} label={Lang.SavedPosts} />
+          <EditLink
+            label={Lang.SavedTrails}
+            onPress={() => user.saves.trails.length > 0 && this._nextPage('savedTrails')}
+            value={user.saves.trails.length}
+          />
+          <EditLink
+            label={Lang.SavedEvents}
+            onPress={() => user.saves.events.length > 0 && this._nextPage('savedEvents')}
+            value={user.saves.events.length}
+          />
+          <EditLink
+            label={Lang.SavedPosts}
+            onPress={() => user.saves.posts.length > 0 && this._nextPage('savedPosts')}
+            value={user.saves.posts.length}
+          />
         </View>
         <View style={styles.editor.group}>
-          <EditLink onPress={() => this.nextPage('edit')} label={Lang.MyAccount} />
+          <EditLink
+            label={Lang.MyAccount}
+            onPress={() => this._nextPage('edit')}
+          />
         </View>
         <View style={styles.editor.group}>
-          <EditLink onPress={() => this.nextPage('about')} label={Lang.AboutUs} />
+          <EditLink
+            label={Lang.AboutUs}
+            onPress={() => this._nextPage('about')}
+          />
         </View>
       </ParallaxView>
     )

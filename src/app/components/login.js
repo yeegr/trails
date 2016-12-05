@@ -68,14 +68,20 @@ class Login extends Component {
         isWXAppSupportApi: await WeChat.isWXAppSupportApi(),
         isWXAppInstalled: await WeChat.isWXAppInstalled()
       })
+
+      WeChat.addListener('SendAuth.Resp', (res) => {
+        //this.props.loginActions.showLogin()
+        if (res.errCode === 0) {
+          this.props.loginActions.wechatAuthSuccess(res.code)
+        } else {
+          this.props.loginActions.wechatAuthFailure(res)
+          Promise.reject(res)
+        }
+      })
     } catch (e) {
       console.error(e)
     }
 
-    WeChat.addListener('SendAuth.Resp', (response) => {
-      this.props.loginActions.showLogin()
-      this.props.loginActions.requestWechatUserInfo(response.code)
-    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -87,28 +93,26 @@ class Login extends Component {
       this.resetState()
     }
 
-    let oldCreds = this.props.login.creds,
-      newCreds = nextProps.login.creds
-
-    if (newCreds.mobile !== oldCreds.mobile || newCreds.wechat !== oldCreds.wechat) {
-      this.props.loginActions.loginUser(nextProps.login.creds)
+    if (!nextProps.login.showLogin) {
+      clearInterval(this.interval)
     }
   }
   
   WXAuth() {
     if (this.state.isWXAppInstalled) {
+      this.props.loginActions.wechatAuthRequest()
       WeChat.sendAuthRequest('snsapi_userinfo', 'shitulv_login')
-      this.props.loginActions.wechatAuthRequestSend()
+      this.props.loginActions.wechatAuthWaiting()
     }
   }
 
   render() {
     let login = this.props.login,
       labelStyles = {fontWeight: '400', paddingHorizontal: 4},
-      validationButtonStyle = (login.disableValidation) ? styles.buttonDisabled : styles.buttonEnabled,
+      verificationButtonStyle = (login.disableVerification) ? styles.buttonDisabled : styles.buttonEnabled,
       loginButtonStyle = (login.loginDisabled) ? styles.buttonDisabled : styles.buttonEnabled,
 
-      validationView = (
+      verificationView = (
         <View style={styles.inputGroup}>
           <TextView
             style={labelStyles}
@@ -159,13 +163,13 @@ class Login extends Component {
               placeholder={LANG.t('login.MobileNumberPlaceholder')}
               placeholderTextColor={Graphics.colors.placeholder}
               style={styles.loginInput}
-              disabled={!login.disableValidation}
+              disabled={!login.disableVerification}
               onChangeText={this.onMobileNumberChanged}
               value={this.state.mobileNumber}
             />
             <TouchableOpacity
-              disabled={login.disableValidation}
-              style={[styles.button, validationButtonStyle]}
+              disabled={login.disableVerification}
+              style={[styles.button, verificationButtonStyle]}
               onPress={this.getValidation}
             >
               <TextView
@@ -175,7 +179,7 @@ class Login extends Component {
               />
             </TouchableOpacity>
           </View>
-          {login.showValidation ? validationView : null}
+          {login.showValidation ? verificationView : null}
         </View>
       ),
 
@@ -205,15 +209,15 @@ class Login extends Component {
     const loginBackgroundUrl = ImagePath({type: 'background', path: AppSettings.loginBackground})
 
     return (
-      <Modal animationType={'slide'} transparent={false} visible={this.props.showLogin}>
+      <Modal animationType={'slide'} transparent={false} visible={this.props.login.showLogin}>
         <Image source={{uri: loginBackgroundUrl}} style={styles.backgroundImage}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <View style={{flexDirection: 'column'}}>
-              {login.creds.mobile === null ? mobileLoginForm : null}
+              {login.showMobileLogin ? mobileLoginForm : null}
               {login.isFetching ? loginProgress : null}
               <KeyboardSpacer />
             </View>
-            {login.creds.wechat === null ? wechatAuthButton : null}
+            {login.showWechatLogin ? wechatAuthButton : null}
           </View>
           <TouchableOpacity onPress={this.hideLogin} style={styles.closeButton}>
             <Icon backgroundColor={Graphics.colors.transparent} fillColor="rgba(255, 255, 255, 0.8)" type={'close'} />
@@ -248,7 +252,7 @@ class Login extends Component {
     if (AppSettings.mobileRx.test(tmp)) {
       this.props.loginActions.enableValidation()
     } else {
-      this.props.loginActions.disableValidation()
+      this.props.loginActions.disableVerification()
       this.props.loginActions.hideVerification()
       this.setState({
         verificationCode: ''
@@ -257,7 +261,7 @@ class Login extends Component {
   }
 
   getValidation() {
-    this.props.loginActions.disableValidation()
+    this.props.loginActions.disableVerification()
     this.props.loginActions.showVerification()
     this.props.loginActions.uploadMobileNumber(this.state.mobileNumber, 'login')
 
@@ -266,19 +270,20 @@ class Login extends Component {
     })
 
     let that = this,
-      counter = AppSettings.getValidationTimer,
-      interval = setInterval(function() {
-        if (counter > 0) {
-          that.setState({
-            getValidationButtonText: LANG.t('login.ResendVerificationCodeIn', {count: counter})
-          })
-          counter--
-        } else {
-          clearInterval(interval)
-          that.props.loginActions.enableValidation()
-          that.setState({
-            getValidationButtonText: LANG.t('login.GetVerificationCode')
-          })
+      counter = AppSettings.getValidationTimer
+
+    this.interval = setInterval(() => {
+      if (counter > 0) {
+        that.setState({
+          getValidationButtonText: LANG.t('login.ResendVerificationCodeIn', {count: counter})
+        })
+        counter--
+      } else {
+        clearInterval(this.interval)
+        that.props.loginActions.enableValidation()
+        that.setState({
+          getValidationButtonText: LANG.t('login.GetVerificationCode')
+        })
       }
     }, 1000)
   }

@@ -65,7 +65,7 @@ class TrailList extends Component {
   }
 
   render() {
-    const trails = (this.props.trails) ? this.props.trails : this.props.remoteTrails
+    const trails = this.props.trails || this.props.remoteTrails
 
     if (trails.length < 1) {
       return <Loading />
@@ -91,6 +91,7 @@ TrailList.propTypes = {
   trailsActions: PropTypes.object.isRequired,
   query: PropTypes.string,
   trails: PropTypes.array,
+  remoteTrails: PropTypes.array,
   isFetching: PropTypes.bool
 }
 

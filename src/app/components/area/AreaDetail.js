@@ -111,7 +111,7 @@ class AreaDetail extends Component {
             <TrailPreview
               navigator={navigator}
               trails={area.trails}
-              query={`area=` + area.id}
+              query={'?area=' + area.id}
               title={area.name + Lang.Trails}
             />
           </View>

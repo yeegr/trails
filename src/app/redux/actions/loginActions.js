@@ -5,6 +5,7 @@ import * as ACTIONS from '../constants/loginConstants'
 import {
   CONSTANTS,
   FETCH,
+  UTIL,
   AppSettings,
   Lang
 } from '../../settings'
@@ -53,7 +54,7 @@ export const enableValidation = () => {
   }
 }
 
-export const disableValidation = () => {
+export const disableVerification = () => {
   return {
     type: ACTIONS.DISABLE_VERIFICATION
   }
@@ -86,7 +87,7 @@ export const uploadMobileNumber = (mobile, action) => {
     })
   })
 
-  return dispatch => {
+  return (dispatch) => {
     dispatch(uploadMobileRequest())
 
     return fetch(AppSettings.apiUri + 'validate', config)
@@ -150,7 +151,7 @@ export const verifyMobileNumber = (mobile, vcode) => {
     })
   })
   
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(verifyMobileRequest())
 
     return fetch(AppSettings.apiUri + 'validate', config)
@@ -160,6 +161,7 @@ export const verifyMobileNumber = (mobile, vcode) => {
       .then((res) => {
         if (res.verified) {
           dispatch(verifyMobileSuccess(mobile))
+          dispatch(loginUser(getState().login.creds))
         } else {
           dispatch(verifyMobileFailure(res.error))
           //return Promise.reject(res)
@@ -182,64 +184,79 @@ export const disableLogin = () => {
 }
 
 // get WeChat authorization
-const sendWechatAuthRequest = () => {
+export const wechatAuthRequest = () => {
   return {
-    type: ACTIONS.SEND_WECHAT_AUTH_REQUEST
+    type: ACTIONS.WECHAT_AUTH_REQUEST
   }
 }
 
-export const wechatAuthRequestSend = () => {
+export const wechatAuthWaiting = () => {
   return {
-    type: ACTIONS.WECHAT_AUTH_REQUEST_SEND
+    type: ACTIONS.WECHAT_AUTH_WAITING
   }
 }
 
-const wechatUserAuthSuccess = (wechat) => {
-  return {
-    type: ACTIONS.WECHAT_USER_AUTH_SUCCESS,
-    wechat
+export const wechatAuthSuccess = (wechat_token) => {
+  return (dispatch) => {
+    dispatch(getWechatUserInfo(wechat_token))
+
+    return {
+      type: ACTIONS.WECHAT_AUTH_SUCCESS
+    }
   }
 }
 
-const wechatUserAuthFailure = (message) => {
+export const wechatAuthFailure = (error) => {
   return {
-    type: ACTIONS.WECHAT_USER_AUTH_FAILURE,
+    type: ACTIONS.WECHAT_AUTH_FAILURE,
+    error
+  }
+}
+
+const wechatOpenIdSuccess = (wechat_data) => {
+  return {
+    type: ACTIONS.WECHAT_OPENID_SUCCESS,
+    wechat_data
+  }
+}
+
+const wechatOpenIdFailure = (message) => {
+  return {
+    type: ACTIONS.WECHAT_OPENID_FAILURE,
     message
   }
 }
 
-export const requestWechatUserInfo = (wechat_token) => {
-  return (dispatch) => {
-    return fetch(AppSettings.assetUri + 'wechat/info/' + wechat_token)
+const getWechatUserInfo = (token) => {
+  return (dispatch, getState) => {
+    return fetch(AppSettings.assetUri + 'wechat/info/' + token)
       .then((res) => {
         return res.json()
       })
       .then((wechat) => {
-        dispatch(wechatUserAuthSuccess(wechat))
+        dispatch(wechatOpenIdSuccess(wechat))
+        dispatch(loginUser(getState().login.creds))
       })
-      .catch((err) => dispatch(wechatUserAuthFailure(err)))
+      .catch((err) => dispatch(wechatOpenIdFailure(err)))
   }
 }
-
-
-
 
 // complete sign-up process
-export const showMobileLoginForm = () => {
+export const showMobileLogin = () => {
   return {
-    type: ACTIONS.SHOW_MOBILE_LOGIN_FORM
+    type: ACTIONS.SHOW_MOBILE_LOGIN
   }
 }
 
-const completeSignup = (creds) => {
+const _completeSignup = (creds) => {
   let action = null
 
   if (creds.mobile) {
-    action = sendWechatAuthRequest()
+    action = wechatAuthRequest()
   }
 
   if (creds.wechat) {
-    action = showMobileLoginForm()
+    action = showMobileLogin()
   }
 
   return (dispatch) => {
@@ -281,14 +298,15 @@ export const loginUser = (creds) => {
     return fetch(AppSettings.apiUri + 'login', config)
       .then((res) => {
         if (res.status === 404) {
-          dispatch(completeSignup(creds))
+          dispatch(_completeSignup(creds))
         } else {
           return res.json()
         }
       })
       .then((res) => {
         if (res.token && res._id) {
-          AsyncStorage.multiSet([
+          AsyncStorage
+          .multiSet([
             [CONSTANTS.ACCESS_TOKEN, res.token],
             [CONSTANTS.USER, JSON.stringify(res)]
           ]).then(() => {
@@ -475,8 +493,13 @@ const logoutSuccess = () => {
 export const logoutUser = () => {
   return dispatch => {
     dispatch(logoutRequest())
-    AsyncStorage.multiRemove([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER], () => {
-      dispatch(logoutSuccess())
+
+    AsyncStorage
+    .getAllKeys((error, keys) => {
+      AsyncStorage
+      .multiRemove(keys, () => {
+        dispatch(logoutSuccess())
+      })
     })
   }
 }

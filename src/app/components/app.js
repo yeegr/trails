@@ -84,6 +84,7 @@ import TextView from './shared/TextView'
 import {
   CONSTANTS,
   LANG,
+  UTIL,
   AppSettings,
   Lang,
   Graphics
@@ -95,9 +96,7 @@ import styles from '../styles/main'
 //console.log(LANG.t('trail.search.SearchTrail'))
 
 const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
-  login: state.login,
   user: state.login.user,
-  event: state.events.event,
 
   LeftButton: function(route, navigator, index, navState) {
     if (index === 0) {
@@ -168,18 +167,17 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
       break
 
       case 'TrailDetail':
-        let trail = state.trails.trail
+        let passProps = UTIL.getPassProps(navigator),
+          trail = passProps.trail
 
-        if (trail && trail.creator._id === state.login.user._id) {
+        if (trail && !passProps.isPreview && passProps.creatorId === this.user._id) {
           rightTitleBar = (
             <NavbarButton
               onPress={() => {
                 navigator.push({
                   id: 'EditTrail',
                   title: LANG.t('trail.EditTrail'),
-                  passProps: {
-                    trail
-                  }
+                  passProps
                 })
               }}
               label={LANG.t('glossary.Edit')}
@@ -231,7 +229,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
       case 'RecordTrail':
         rightTitleBar = (
           <NavbarButton
-            onPress={() => this.save(CONSTANTS.ACTION_TARGETS.PATH)}
+            onPress={() => this.save(CONSTANTS.ACTION_TARGETS.TEMP)}
             label={Lang.Save}
           />
         )
@@ -322,13 +320,26 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
 
   back: function(navigator, routeId) {
     switch (routeId) {
+      case 'EditTrail':
+        if (state.newTrail.isSaved === false) {
+          Alert.alert(
+            LANG.t('trail.edit.BackAlert.title'),
+            LANG.t('trail.edit.BackAlert.description'),
+            [
+              {text: LANG.t('trail.edit.BackAlert.cancel')},
+              {text: LANG.t('trail.edit.BackAlert.confirm'), onPress: () => navigator.pop()}
+            ]
+          )
+        }
+      break
+      
       case 'EditEvent':
         Alert.alert(
-          Lang.AreYouSure,
-          Lang.ExitAlert,
+          LANG.t('event.edit.BackAlert.title'),
+          LANG.t('event.edit.BackAlert.description'),
           [
-            {text: Lang.Cancel},
-            {text: Lang.Confirm, onPress: () => navigator.pop()}
+            {text: LANG.t('event.edit.BackAlert.cancel')},
+            {text: LANG.t('event.edit.BackAlert.confirm'), onPress: () => navigator.pop()}
           ]
         )
       break
@@ -367,9 +378,9 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
   },
 
   save: function(type) {
-    if (state.login.user) {
+    if (this.user) {
       switch (type) {
-        case CONSTANTS.ACTION_TARGETS.PATH:
+        case CONSTANTS.ACTION_TARGETS.TEMP:
           dispatch(navbarActions.navToEditTrail())
         break
 

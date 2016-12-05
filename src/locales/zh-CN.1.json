@@ -70,6 +70,26 @@
     "ReviewStatus": "审核状态",
     "SelectAreas": "选择地区",
     "TrailPreview": "轨迹预览",
+    "edit": {
+      "MinTrailTitleLength": "轨迹名称不能少于{{min}}个字符",
+      "BackAlert": {
+        "title": "真的吗，亲？",
+        "description": "现在退出，你所有的修改就都复原啦！",
+        "cancel": "继续编辑",
+        "confirm": "确定放弃"
+      },
+      "SaveAlert": {
+        "title": "成功！",
+        "description": "你的轨迹已经保存好啦！",
+        "confirm": "知道啦"
+      },
+      "DeleteAlert": {
+        "title": "真的吗？",
+        "description": "这条轨迹将被永久删除耶",
+        "cancel": "回头再说",
+        "confirm": "确定删除"
+      }
+    },
     "search": {
       "SearchTrail": "搜索轨迹", 
       "SearchTrail_plural": "搜索轨迹",
@@ -88,6 +108,14 @@
     "EventContacts": "联系人",
     "PerHead": "人均费用",
     "numberOfPeopleAlreadySignedUp": "已有{{count}}人报名",
+    "edit": {
+      "BackAlert": {
+        "title": "真的吗，亲？",
+        "description": "现在退出，你所有的修改就都复原啦！",
+        "cancel": "继续编辑",
+        "confirm": "确定放弃"
+      }
+    },
     "search": {
       "SearchEvent": "搜索活动", 
       "SearchEvent_plural": "搜索活动"

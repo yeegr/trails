@@ -25,6 +25,7 @@
 		32BDCBE99CD94B47A6C9B0BD /* libRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7020DF2A10664F759901E479 /* libRNLocation.a */; };
 		3316D41FD8284BF69051DC4C /* slider-default7-trackBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7211CCD85F2D4D0DB774BEA5 /* slider-default7-trackBackground@2x.png */; };
 		3EA49C5208EB42F48D3A211B /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAC7ADD03CF149A6B4BAF257 /* libCodePush.a */; };
+		6629E2051DF5BF47003BCCA7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6629E2041DF5BF47003BCCA7 /* MapKit.framework */; };
 		66DA39D51DDD78550058CA64 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DA39D41DDD78550058CA64 /* CoreMotion.framework */; };
 		7BF78258537C493EAD2DC884 /* slider-default7-track@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E210699092A841EAABDA630E /* slider-default7-track@2x.png */; };
 		7EFE99E4F336498D8B28AE94 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDCB7BAEBD744AC6BEE958E4 /* libRNFS.a */; };
@@ -253,6 +254,8 @@
 		400393871AE74EF5AE82CD35 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		4317EFF9129449FA8B942A4E /* RNNMRangeSlider.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNNMRangeSlider.xcodeproj; path = "../node_modules/react-native-nmrangeslider-ios/RNNMRangeSlider.xcodeproj"; sourceTree = "<group>"; };
 		4D0418A4E1744EAEA9DEAC34 /* slider-default7-handle@2x.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "slider-default7-handle@2x.png"; path = "../node_modules/react-native-nmrangeslider-ios/NMRangeSlider/Slider.xcassets/slider-default7-handle.imageset/slider-default7-handle@2x.png"; sourceTree = "<group>"; };
+		6629E2031DF5BF3F003BCCA7 /* trails.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = trails.entitlements; path = trails/trails.entitlements; sourceTree = "<group>"; };
+		6629E2041DF5BF47003BCCA7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		66DA39D41DDD78550058CA64 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		7020DF2A10664F759901E479 /* libRNLocation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNLocation.a; sourceTree = "<group>"; };
 		7211CCD85F2D4D0DB774BEA5 /* slider-default7-trackBackground@2x.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "slider-default7-trackBackground@2x.png"; path = "../node_modules/react-native-nmrangeslider-ios/NMRangeSlider/Slider.xcassets/slider-default7-trackBackground.imageset/slider-default7-trackBackground@2x.png"; sourceTree = "<group>"; };
@@ -312,6 +315,7 @@
 				1206EE6307EF461C95D2027C /* libRNDeviceInfo.a in Frameworks */,
 				12671B9CFF524523A5BD2246 /* libRNImagePicker.a in Frameworks */,
 				D361FCB16F1D4927B6B499F6 /* libRNSVG.a in Frameworks */,
+				6629E2051DF5BF47003BCCA7 /* MapKit.framework in Frameworks */,
 				BE214934FE4342E4BF1EB538 /* libRNNMRangeSlider.a in Frameworks */,
 				3EA49C5208EB42F48D3A211B /* libCodePush.a in Frameworks */,
 				858BB218DA1C43A4A7DF2AB6 /* libAirMaps.a in Frameworks */,
@@ -401,6 +405,7 @@
 		13B07FAE1A68108700A75B9A /* trails */ = {
 			isa = PBXGroup;
 			children = (
+				6629E2031DF5BF3F003BCCA7 /* trails.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -423,6 +428,7 @@
 		5065983273F94F9A8E298120 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6629E2041DF5BF47003BCCA7 /* MapKit.framework */,
 				66DA39D41DDD78550058CA64 /* CoreMotion.framework */,
 			);
 			name = Frameworks;
@@ -663,6 +669,12 @@
 						DevelopmentTeam = 2K4768P5TL;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -1027,6 +1039,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = trails/trails.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
@@ -1072,6 +1085,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = trails/trails.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2K4768P5TL;
@@ -1288,6 +1302,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = trails/trails.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2K4768P5TL;

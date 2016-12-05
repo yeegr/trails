@@ -1,24 +1,17 @@
 'use strict'
 
 import * as ACTIONS from '../constants/newTrailConstants'
+import * as trailsActions from '../actions/trailsActions'
 import {
   FETCH,
   UTIL,
   AppSettings
 } from '../../settings'
 
-export const createTrail = (creator) => {
+export const newTrail = (creator) => {
   return {
-    type: ACTIONS.CREATE_TRAIL,
+    type: ACTIONS.NEW_TRAIL,
     creator
-  }
-}
-
-export const storePath = (id, path) => {
-  return {
-    type: ACTIONS.STORE_PATH,
-    id,
-    path
   }
 }
 
@@ -34,57 +27,47 @@ export const stopRecording = () => {
   }
 }
 
-export const setTrailPoints = (points) => {
-  return {
-    type: ACTIONS.SET_TRAIL_POINTS,
-    points
-  }
-}
-
-const _startCalculation = () => {
-  return {
-    type: ACTIONS.START_CALCULATION
-  }
-}
-
-const _getTrailData = (points) => {
+const _setTrailData = (points) => {
   const {
-      date,
-      totalDuration,
-      totalDistance,
-      totalElevation,
-      maximumAltitude,
-      averageSpeed
-    } = UTIL.calculateTrailData(points)
-
-  return {
-    type: ACTIONS.GET_TRAIL_DATA,
     date,
     totalDuration,
     totalDistance,
     totalElevation,
     maximumAltitude,
     averageSpeed
+  } = UTIL.calculateTrailData(points)
+
+  if (averageSpeed && averageSpeed > 0) {
+    return {
+      type: ACTIONS.SET_TRAIL_DATA,
+      points, //array of array [[],[],[],...]
+      date,
+      totalDuration,
+      totalDistance,
+      totalElevation,
+      maximumAltitude,
+      averageSpeed
+    }
+  } else {
+    _setTrailData(points)
   }
 }
 
-export const calculateTrailData = (points) => {
+const _storeTrailData = () => {
+  return {
+    type: ACTIONS.STORE_TRAIL_DATA
+  }
+}
+
+export const storeTrailData = (points) => {
   return (dispatch) => {
-    dispatch(setTrailPoints(points))
-    dispatch(_startCalculation())
-    return dispatch(_getTrailData(points))
+    dispatch(_setTrailData(points))
+
+    setTimeout(() => {
+      dispatch(_storeTrailData())
+    }, 50)
   }
 }
-
-const validateTrail = (trail) => {
-  return (
-    (trail.title.length > AppSettings.minTrailTitleLength) && 
-    (trail.type > -1) && 
-    (trail.difficultyLevel > -1) && 
-    (trail.areas.length > 0)
-  )
-}
-
 
 // edit trail
 export const editTrail = (trail) => {
@@ -143,34 +126,59 @@ export const setTrailPhotos = (photos) => {
 }
 
 // save trail
-const saveTrailRequest = (trail) => {
+export const saveTrail = () => {
+  return (dispatch, getState) => {
+    const newTrail = getState().newTrail
+    newTrail.creator = getState().login.user._id
+
+    if (_validateTrail(newTrail)) {
+      if (UTIL.isNullOrUndefined(newTrail._id)) {
+        dispatch(createTrail(newTrail))
+      } else {
+        dispatch(updateTrail(newTrail))
+      }
+    }
+  }
+}
+
+const _validateTrail = (trail) => {
+  return (
+    (trail.title.length > AppSettings.minTrailTitleLength) && 
+    (trail.type > -1) && 
+    (trail.difficultyLevel > -1) && 
+    (trail.areas.length > 0)
+  )
+}
+
+const createTrailRequest = (trail) => {
   return {
-    type: ACTIONS.SAVE_TRAIL_REQUEST,
+    type: ACTIONS.CREATE_TRAIL_REQUEST,
     trail
   }
 }
 
-const saveTrailSuccess = (trail) => {
+const createTrailSuccess = (trail, storeKey) => {
   return {
-    type: ACTIONS.SAVE_TRAIL_SUCCESS,
-    trail
+    type: ACTIONS.CREATE_TRAIL_SUCCESS,
+    trail,
+    storeKey
   }
 }
 
-const saveTrailFailure = (message) => {
+const createTrailFailure = (message) => {
   return {
-    type: ACTIONS.SAVE_TRAIL_FAILURE,
+    type: ACTIONS.CREATE_TRAIL_FAILURE,
     message
   }
 }
 
-export const saveTrail = (data) => {
+export const createTrail = (data) => {
   let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(data)
   })
 
   return (dispatch) => {
-    dispatch(saveTrailRequest(data))
+    dispatch(createTrailRequest(data))
 
     return fetch(AppSettings.apiUri + 'trails', config)
       .then((res) => {
@@ -178,13 +186,13 @@ export const saveTrail = (data) => {
       })
       .then((res) => {
         if (res.id) {
-          dispatch(saveTrailSuccess(res))
+          dispatch(createTrailSuccess(res, data.storeKey))
         } else {
-          dispatch(saveTrailFailure(res.message))
+          dispatch(createTrailFailure(res.message))
           return Promise.reject(res)
         }
       })
-      .catch((err) => dispatch(saveTrailFailure(err)))
+      .catch((err) => dispatch(createTrailFailure(err)))
   }
 }
 
@@ -218,7 +226,7 @@ export const updateTrail = (data) => {
   return (dispatch) => {
     dispatch(updateTrailRequest(data))
 
-    return fetch(AppSettings.apiUri + 'trails', config)
+    return fetch(AppSettings.apiUri + 'trails/' + data._id, config)
       .then((res) => {
         return res.json()
       })
@@ -231,5 +239,53 @@ export const updateTrail = (data) => {
         }
       })
       .catch((err) => dispatch(updateTrailFailure(err)))
+  }
+}
+
+// delete trail
+const deleteTrailRequest = (trail) => {
+  return {
+    type: ACTIONS.DELETE_TRAIL_REQUEST,
+    trail
+  }
+}
+
+const deleteTrailSuccess = () => {
+  return {
+    type: ACTIONS.DELETE_TRAIL_SUCCESS
+  }
+}
+
+const deleteTrailFailure = (message) => {
+  return {
+    type: ACTIONS.DELETE_TRAIL_FAILURE,
+    message
+  }
+}
+
+export const deleteTrail = (data) => {
+  let config = Object.assign({}, FETCH.DELETE)
+
+  return (dispatch) => {
+    dispatch(deleteTrailRequest(data))
+
+    return fetch(AppSettings.apiUri + 'trails/' + data._id, config)
+      .then((res) => {
+        if (res.status === 410) {
+          dispatch(deleteTrailSuccess())
+        } else {
+          dispatch(deleteTrailFailure(res.message))
+          return Promise.reject(res)
+        }
+      })
+      .catch((err) => dispatch(deleteTrailFailure(err)))
+  }
+}
+
+// delete local trail
+export const deleteLocalTrail = (data) => {
+  return {
+    type: ACTIONS.DELETE_LOCAL_TRAIL,
+    storeKey: data.storeKey
   }
 }

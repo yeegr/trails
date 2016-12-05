@@ -4,7 +4,7 @@ import {AsyncStorage} from 'react-native'
 import {CONSTANTS} from '../../settings'
 import * as ACTIONS from '../constants/loginConstants'
 
-const wechat = {
+const initWechat = {
   wechat: null,
   handle: null,
   gender: null,
@@ -16,10 +16,12 @@ const wechat = {
 },
 init = {
   showLogin: false,
-  disableValidation: true,
+  disableVerification: true,
   showValidation: false,
   verifyMobile: false,
   loginDisabled: true,
+  showMobileLogin: true,
+  showWechatLogin: true,
   isAuthorizingWechat: false,
   isFetching: false,
   tmpAvatarUri: null,
@@ -27,7 +29,7 @@ init = {
   updateError: '',
   creds: Object.assign({
     mobile: null
-  }, wechat)
+  }, initWechat)
 },
 loginReducer = (state = init, action) => {
   switch (action.type) {
@@ -38,13 +40,12 @@ loginReducer = (state = init, action) => {
       })
 
     case ACTIONS.IS_LOGGED_OUT:
-      AsyncStorage.multiRemove([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER])
-
       return Object.assign({}, init, {
         toke: null,
         user: null
       })
 
+// toggle login popup
     case ACTIONS.SHOW_LOGIN:
       return Object.assign({}, state, {
         showLogin: true
@@ -55,16 +56,18 @@ loginReducer = (state = init, action) => {
         showLogin: false
       })
 
+// toggle verification input
     case ACTIONS.ENABLE_VERIFICATION:
       return Object.assign({}, state, {
-        disableValidation: false
+        disableVerification: false
       })
 
     case ACTIONS.DISABLE_VERIFICATION:
       return Object.assign({}, state, {
-        disableValidation: true
+        disableVerification: true
       })
 
+// toggle
     case ACTIONS.SHOW_VERIFICATION:
       return Object.assign({}, state, {
         showValidation: true
@@ -75,6 +78,7 @@ loginReducer = (state = init, action) => {
         showValidation: false
       })
 
+// toggle login form
     case ACTIONS.ENABLE_LOGIN:
       return Object.assign({}, state, {
         loginDisabled: false
@@ -85,10 +89,11 @@ loginReducer = (state = init, action) => {
         loginDisabled: true
       })
 
+// login
    case ACTIONS.LOGIN_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
-        disableValidation: true,
+        disableVerification: true,
         loginDisabled: true
       })
 
@@ -103,6 +108,7 @@ loginReducer = (state = init, action) => {
         isFetching: false
       })
 
+// logout
     case ACTIONS.LOGOUT_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -115,6 +121,7 @@ loginReducer = (state = init, action) => {
         user: null
       })
 
+// get user
     case ACTIONS.GET_USER_SUCCESS:
       return Object.assign({}, state, {
         message: null,
@@ -126,6 +133,7 @@ loginReducer = (state = init, action) => {
         message: action.message
       })
 
+// update avatar
     case ACTIONS.UPDATE_AVATAR_URI:
       return Object.assign({}, state, {
         tmpAvatarUri: action.uri
@@ -139,15 +147,15 @@ loginReducer = (state = init, action) => {
     case ACTIONS.UPDATE_USER_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        user: action.user,
-        tmpAvatarUri: null
+        tmpAvatarUri: null,
+        user: action.user
       })
 
     case ACTIONS.UPDATE_USER_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        updateError: action.updateError,
-        tmpAvatarUri: null
+        tmpAvatarUri: null,
+        updateError: action.updateError
       })
 
     case ACTIONS.CLEAR_UPDATE_ERROR:
@@ -155,12 +163,13 @@ loginReducer = (state = init, action) => {
         updateError: ''
       })
 
-    case ACTIONS.SHOW_MOBILE_LOGIN_FORM:
+    case ACTIONS.SHOW_MOBILE_LOGIN:
       return Object.assign({}, state, {
-        showMobileForm: true
+        isFetching: false,
+        showMobileLogin: true
       })
 
-// send mobile number for validation
+// send mobile number for verification
     case ACTIONS.UPLOAD_MOBILE_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -177,30 +186,31 @@ loginReducer = (state = init, action) => {
         message: action.message
       })
 
-// verify mobile number against validation code
+// verify mobile number against verification code
     case ACTIONS.VERIFY_MOBILE_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
-        creds: Object.assign({}, state.creds, {
-          mobile: null
-        })
+        showMobileLogin: false,
+        showWechatLogin: false
       })
 
     case ACTIONS.VERIFY_MOBILE_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: false,
         creds: Object.assign({}, state.creds, {
           mobile: action.mobile
-        })
+        }),
+        isFetching: false
       })
 
     case ACTIONS.VERIFY_MOBILE_FAILURE:
       return Object.assign({}, state, {
-        isFetching: false,
         creds: Object.assign({}, state.creds, {
           mobile: null
         }),
-        loginError: action.error
+        isFetching: false,
+        loginError: action.error,
+        showMobileLogin: true,
+        showWechatLogin: true
       })
 
     case ACTIONS.RESET_VERIFICATION_ERROR: 
@@ -209,25 +219,41 @@ loginReducer = (state = init, action) => {
       })
 
 // open-auth with wechat
-    case ACTIONS.SEND_WECHAT_AUTH_REQUEST:
+    case ACTIONS.WECHAT_AUTH_REQUEST:
       return Object.assign({}, state, {
-        isAuthorizingWechat: true
+        isAuthorizingWechat: true,
+        isFetching: true,
+        showMobileLogin: false,
+        showWechatLogin: false
       })
 
-    case ACTIONS.WECHAT_AUTH_REQUEST_SEND:
+    case ACTIONS.WECHAT_AUTH_WAITING:
       return Object.assign({}, state, {
-        isAuthorizingWechat: false
+        isAuthorizingWechat: false,
       })
 
-    case ACTIONS.WECHAT_USER_AUTH_SUCCESS:
+    case ACTIONS.WECHAT_AUTH_SUCCESS:
       return Object.assign({}, state, {
-        creds: Object.assign({}, state.creds, action.wechat)
+        isFetching: true
       })
 
-    case ACTIONS.WECHAT_USER_AUTH_FAILURE:
+    case ACTIONS.WECHAT_AUTH_FAILURE:
       return Object.assign({}, state, {
-        creds: Object.assign({}, state.creds, wechat)
+        isAuthorizingWechat: false,
+        isFetching: false,
+        showMobileLogin: true,
+        showWechatLogin: true,
+        creds: Object.assign({}, state.creds, initWechat)
       })
+
+    case ACTIONS.WECHAT_OPENID_SUCCESS:
+      return Object.assign({}, state, {
+        creds: Object.assign({}, state.creds, action.wechat_data),
+        isFetching: false
+      })
+
+    case ACTIONS.WECHAT_OPENID_FAILURE:
+      return init
 
     default:
       return state

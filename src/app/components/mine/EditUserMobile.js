@@ -40,7 +40,7 @@ class EditUserMobile extends Component {
       mobileNumber: '',
       verificationCode: '',
       disableMobileNumberInput: false,
-      disableValidationButton: true,
+      disableVerificationButton: true,
       getValidationButtonText: Lang.GetValidationCode,
       hideVerification: true,
       disableVerificationInput: false,
@@ -62,7 +62,7 @@ class EditUserMobile extends Component {
       mobileNumber: mobile,
       verificationCode: '',
 
-      disableValidationButton: !test,
+      disableVerificationButton: !test,
       hideVerification: true,
       disableVerification: true
     })
@@ -85,14 +85,14 @@ class EditUserMobile extends Component {
           if (counter > 0) {
             that.setState({
               getValidationButtonText: counter + Lang.ResendValidationCode,
-              disableValidationButton: true
+              disableVerificationButton: true
             })
             counter--
           } else {
             clearInterval(interval)
             that.setState({
               getValidationButtonText: Lang.GetValidationCode,
-              disableValidationButton: false
+              disableVerificationButton: false
             })
         }
       }, 1000)
@@ -164,7 +164,7 @@ class EditUserMobile extends Component {
                 value={this.state.mobileNumber}
               />
               <TextButton
-                disabled={this.state.disableValidationButton}
+                disabled={this.state.disableVerificationButton}
                 onPress={this.getValidation}
                 text={this.state.getValidationButtonText}
               />

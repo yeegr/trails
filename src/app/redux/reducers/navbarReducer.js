@@ -30,14 +30,24 @@ const navbarReducer = (state = {
         addingEventSignup: false
       })
 
-    case ACTIONS.RESET_PATH:
+    case ACTIONS.NAV_TO_RECORD_TRAIL:
+      return Object.assign({}, state, {
+        nav_to_record_trail: true
+      })
+
+    case ACTIONS.BACK_TO_RECORD_TRAIL:
       return Object.assign({}, state, {
         nav_to_edit_trail: false
       })
 
-    case ACTIONS.STORE_PATH:
+    case ACTIONS.NAV_TO_EDIT_TRAIL:
       return Object.assign({}, state, {
         nav_to_edit_trail: true
+      })
+
+    case ACTIONS.GOT_TO_EDIT_TRAIL:
+      return Object.assign({}, state, {
+        nav_to_edit_trail: false
       })
 
     case ACTIONS.SAVE_AGENDA:

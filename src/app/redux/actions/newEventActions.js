@@ -6,9 +6,9 @@ import {
   AppSettings
 } from '../../settings'
 
-export const createEvent = () => {
+export const newEvent = () => {
   return {
-    type: ACTIONS.CREAT_EVENT
+    type: ACTIONS.NEW_EVENT
   }
 }
 
@@ -154,13 +154,14 @@ export const setEventPhotos = (photos) => {
   }
 }
 
+// save event
 export const saveEvent = () => {
   return (dispatch, getState) => {
     const newEvent = getState().newEvent
     newEvent.creator = getState().login.user._id
 
     if (validateEvent(newEvent)) {
-      dispatch(sendEvent(newEvent))
+      dispatch(createEVent(newEvent))
     }
   }
 }
@@ -182,33 +183,33 @@ const validateEvent = (event) => {
   )
 }
 
-const sendSaveRequest = () => {
+const createEventRequest = () => {
   return {
-    type: ACTIONS.SAVE_EVENT
+    type: ACTIONS.CREATE_EVENT_REQUEST
   }
 }
 
-const receiveSaveResponse = (event) => {
+const createEventSuccess = (event) => {
   return {
-    type: ACTIONS.SAVE_EVENT_SUCCESS,
+    type: ACTIONS.CREATE_EVENT_SUCCESS,
     event
   }
 }
 
-const saveError = (message) => {
+const createEventFailure = (message) => {
   return {
-    type: ACTIONS.SAVE_EVENT_FAILURE,
+    type: ACTIONS.CREATE_EVENT_FAILURE,
     message
   }
 }
 
-const sendEvent = (data) => {
+const createEVent = (data) => {
   let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(data)
   })
 
   return (dispatch) => {
-    dispatch(sendSaveRequest())
+    dispatch(createEventRequest())
 
     return fetch(AppSettings.apiUri + 'events', config)
       .then((res) => {
@@ -219,14 +220,14 @@ const sendEvent = (data) => {
           if (data.hero !== AppSettings.defaultEventHeroUri) {
             dispatch(uploadEventHero(res.id, data.hero))
           } else {
-            dispatch(receiveSaveResponse(res))
+            dispatch(createEventSuccess(res))
           }
         } else {
-          dispatch(saveError(res.message))
+          dispatch(createEventFailure(res.message))
           return Promise.reject(res)
         }
       })
-      .catch((err) => dispatch(saveError(err)))
+      .catch((err) => dispatch(createEventFailure(err)))
   }
 }
 

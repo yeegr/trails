@@ -12,6 +12,10 @@ let hrs = (locale === 'zh-cn') ? '小时' : 'hrs',
     min = (locale === 'zh-cn') ? '分钟' : 'min'
 
 // base functions
+export function isNullOrUndefined(obj) {
+  return obj === null || obj === undefined
+}
+
 export function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n)
 }
@@ -335,4 +339,12 @@ export function calculateInsurance(event, user) {
 
 export function formatCurrency(num) {
   return (Math.round(parseInt(num * 100)) / 100)
+}
+
+
+export function getPassProps(navigator) {
+  let routeStack = navigator.getCurrentRoutes(0),
+    currentPage = routeStack[routeStack.length - 1]
+
+  return currentPage.passProps
 }

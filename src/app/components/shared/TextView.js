@@ -64,7 +64,11 @@ const TextView = (props) => {
     ellipsizeMode = props.ellipsizeMode || 'tail',
     numberOfLines = props.numberOfLines || 1
 
-  return (
+  let view = (props.multiLine === true) ? (
+    <Text style={styles[type]}>
+      {props.text}
+    </Text>
+  ) : (
     <Text
       ellipsizeMode={ellipsizeMode}
       numberOfLines={numberOfLines}
@@ -73,6 +77,8 @@ const TextView = (props) => {
       {props.text}
     </Text>
   )
+
+  return view
 }
 
 TextView.propTypes = {
@@ -83,6 +89,7 @@ TextView.propTypes = {
   fontSize: PropTypes.string,
   fontWeight: PropTypes.string,
   numberOfLines: PropTypes.number,
+  multiLine: PropTypes.bool,
   textColor: PropTypes.string,
   style: PropTypes.object
 }

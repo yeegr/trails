@@ -18,6 +18,10 @@ export default StyleSheet.create({
     borderTopColor: Graphics.colors.border,
     marginBottom: 15,
   },
+  input: {
+    borderBottomWidth: 1,
+    borderBottomColor: Graphics.colors.border,
+  },
   row: {
     alignItems: 'center',
     flexDirection: 'row',

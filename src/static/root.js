@@ -133,7 +133,7 @@ router.post('/up', function(req, res, next) {
   })
 })
 
-// 阿里大于 SMS validation
+// 阿里大于 SMS verification
 // =============================================================================
 var smsClient = new TopClient({
     'appkey'   : '23493240',

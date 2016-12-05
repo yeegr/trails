@@ -64,7 +64,7 @@ const initState = {
 
 newEventReducer = (state = initState, action) => {
   switch (action.type) {
-    case ACTIONS.CREAT_EVENT:
+    case ACTIONS.NEW_EVENT:
       return initState
 
     case ACTIONS.EDIT_EVENT:
@@ -214,19 +214,19 @@ newEventReducer = (state = initState, action) => {
         photos: action.photos
       })
 
-    case ACTIONS.SAVE_EVENT:
+    case ACTIONS.CREATE_EVENT_REQUEST:
       return Object.assign({}, state, {
         isUploading: true
       })
 
-    case ACTIONS.SAVE_EVENT_SUCCESS:
+    case ACTIONS.CREATE_EVENT_SUCCESS:
       return Object.assign({}, state, {
         isUploading: false,
         isSaved: true,
         event: action.event
       })
 
-    case ACTIONS.SAVE_EVENT_FAILURE:
+    case ACTIONS.CREATE_EVENT_FAILURE:
       return Object.assign({}, state, {
         isUploading: false,
         message: action.message

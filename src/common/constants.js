@@ -1,8 +1,13 @@
 'use strict'
 
+export const STORE_TYPES = {
+  REMOTE: 'remote',
+  LOCAL: 'local'
+}
+
 export const ACTION_TARGETS = {
   AREA: 'Area',
-  PATH: 'Path', 
+  TEMP: 'Temp', 
   TRAIL: 'Trail', 
   EVENT: 'Event',
   AGENDA: 'Agenda',

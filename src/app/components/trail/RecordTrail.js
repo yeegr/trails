@@ -30,21 +30,24 @@ import Icon from '../shared/Icon'
 import {
   UTIL,
   Lang,
+  AppSettings,
   Graphics
 } from '../../settings'
 
 class RecordTrail extends Component {
   constructor(props) {
     super(props)
-    this._toggleRecording = this._toggleRecording.bind(this)
-    this._saveRecording = this._saveRecording.bind(this)
-    this._stopTracking = this._stopTracking.bind(this)
-    this._normalizeCoords = this._normalizeCoords.bind(this)
-    this._finalizePath = this._finalizePath.bind(this)
-    this._formatCoords = this._formatCoords.bind(this)
 
+    this._toggleRecording = this._toggleRecording.bind(this)
+    this._closeAlert = this._closeAlert.bind(this)
     this._startCounter = this._startCounter.bind(this)
     this._pauseCounter = this._pauseCounter.bind(this)
+    this._validatePoints = this._validatePoints.bind(this)
+    this._normalizeCoords = this._normalizeCoords.bind(this)
+    this._formatCoords = this._formatCoords.bind(this)
+    this._finalizePath = this._finalizePath.bind(this)
+    this._saveRecording = this._saveRecording.bind(this)
+    this._stopTracking = this._stopTracking.bind(this)
 
     this.state = {
       ASPECT_RATIO: 9 / 16,
@@ -57,15 +60,14 @@ class RecordTrail extends Component {
       },
       counter: 0,
       id: null,
-      path: [],
+      points: [],
       errors: [],
       log: ''
     }
   }
 
   componentWillMount() {
-    this.props.navbarActions.resetPath()
-    this.props.newTrailActions.createTrail(this.props.user)
+    this.props.newTrailActions.newTrail(this.props.user)
   }
 
   componentDidMount() {
@@ -85,8 +87,8 @@ class RecordTrail extends Component {
         Location.setAllowsBackgroundLocationUpdates(true)
         Location.startUpdatingLocation()
         this.LocationListener = DeviceEventEmitter.addListener('locationUpdated', (location) => {
-          let path = this.state.path,
-          currentPosition = this._formatCoords(location.coords)
+          let path = this.state.points.slice(0),
+            currentPosition = this._formatCoords(location.coords)
 
           if (path.length > 0) {
             let lastCoords = path[path.length - 1]
@@ -94,15 +96,21 @@ class RecordTrail extends Component {
           }
 
           if (this.props.newTrail.isRecording) {
+            let tmp = path.concat([currentPosition])
+
+            if (tmp.length % AppSettings.minTrailPathPoints === 0) {
+              //this.props.newTrailActions.setTrailData(this._finalizePath())
+            }
+
             this.setState({
               currentPosition,
-              path: path.concat([currentPosition])
+              points: tmp
               //log: JSON.stringify(this._finalizePath())
             })
 
-            if (this.state.id !== null && (this.state.path.length % 10 === 0)) {
-              this.props.newTrailActions.storePath(this.state.id, this.state.path)
-            }
+/*            console.log('record')
+            console.log(tmp)
+            this.props.newTrailActions.storeTrailPoints(tmp)*/
           } else {
             this.setState({
               currentPosition
@@ -114,16 +122,16 @@ class RecordTrail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.navbar.nav_to_edit_trail) {
-      if (this.state.path.length > 10) {
-        if (this.props.newTrail.isRecording) {
-          this.props.navbarActions.resetPath()
+    if (this.props.navbar.nav_to_edit_trail === false && nextProps.navbar.nav_to_edit_trail === true) {
+      let newTrail = nextProps.newTrail
 
+      if (this._validatePoints() === true) {
+        if (newTrail.isRecording === true) {
           Alert.alert(
             Lang.IsRecording,
             '',
             [
-              {text: Lang.ContinueRecording},
+              {text: Lang.ContinueRecording, onPress: this._closeAlert},
               {text: Lang.SaveTrail, onPress: this._saveRecording}
             ]
           )
@@ -131,12 +139,10 @@ class RecordTrail extends Component {
           this._saveRecording()
         }
       } else {
-        this.props.navbarActions.resetPath()
-
         Alert.alert(
           Lang.PathIsTooShort,
           '',
-          [{text: Lang.Okay}]
+          [{text: Lang.Okay, onPress: this._closeAlert}]
         )
       }
     }
@@ -144,6 +150,14 @@ class RecordTrail extends Component {
 
   componentWillUnmount() {
     this._stopTracking()
+  }
+
+  _closeAlert() {
+    this.props.navbarActions.backToRecordTrail()
+  }
+
+  _validatePoints() {
+    return (this.state.points.length > AppSettings.minTrailPathPoints)
   }
 
   _stopTracking() {
@@ -169,13 +183,14 @@ class RecordTrail extends Component {
   }
   
   _saveRecording() {
-    this._stopTracking()
-    this.props.navbarActions.resetPath()
-    this.props.newTrailActions.calculateTrailData(this._finalizePath())
+    this.props.newTrailActions.storeTrailData(this._finalizePath())
 
     this.props.navigator.replace({
       id: 'EditTrail',
-      title: Lang.EditTrail
+      title: Lang.EditTrail,
+      passProps: {
+        trail: this.props.newTrail
+      }
     })
   }
 
@@ -195,7 +210,7 @@ class RecordTrail extends Component {
   _finalizePath() {
     let points = []
 
-    this.state.path.map((coords) => {
+    this.state.points.map((coords) => {
       points.push(this._normalizeCoords(coords))
     })
 
@@ -302,7 +317,7 @@ class RecordTrail extends Component {
             region={UTIL.setRegion(this.state.currentPosition, this.state.ASPECT_RATIO, 0.2)}
           >
             <MapView.Polyline
-              coordinates={this.state.path}
+              coordinates={this.state.points}
               strokeColor={Graphics.mapping.strokeColor}
               strokeWidth={Graphics.mapping.strokeWeight}
             />

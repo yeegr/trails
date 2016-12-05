@@ -31,11 +31,7 @@ export const FETCH = {
   },
 
   DELETE: {
-    method: 'DELETE',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
+    method: 'DELETE'
   },
 
   UPLOAD: {

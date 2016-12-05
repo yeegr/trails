@@ -119,4 +119,8 @@ module.exports = {
     let timestamp = id.toString().substring(0, 8)
     return parseInt(timestamp, 16) * 1000
   },
+
+  isNotUndefinedNullEmpty: function(input) {
+    return (input !== undefined) && (input !== null) && (input.toString().length > 0) 
+  }
 }

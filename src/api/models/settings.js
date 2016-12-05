@@ -12,8 +12,8 @@ const mongoose = require('mongoose'),
     maxPhotoPreviewsPerGallery: Number,
     maxCommentPreviewsPerTrail: Number,
     getValidationTimer: Number,
-    validationCodeLength: Number,
-    validationCodeType: String,
+    verificationCodeLength: Number,
+    verificationCodeType: String,
 
     colors: {
       primary: String,

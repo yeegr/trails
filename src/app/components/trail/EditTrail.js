@@ -6,6 +6,7 @@ import React, {
 } from 'react'
 
 import {
+  Alert,
   ScrollView,
   Switch,
   Text,
@@ -14,15 +15,18 @@ import {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import * as loginActions from '../../redux/actions/loginActions'
 import * as navbarActions from '../../redux/actions/navbarActions'
 import * as newTrailActions from '../../redux/actions/newTrailActions'
 
+import CallToAction from '../shared/CallToAction'
 import EditLink from '../shared/EditLink'
 import TextView from '../shared/TextView'
 
 import styles from '../../styles/main'
 
 import {
+  CONSTANTS,
   LANG,
   UTIL,
   AppSettings,
@@ -32,14 +36,42 @@ import {
 class EditTrail extends Component {
   constructor(props) {
     super(props)
-    this.nextPage = this.nextPage.bind(this)
+    this._nextPage = this._nextPage.bind(this)
+    this._resetRoutes = this._resetRoutes.bind(this)
+    this._deleteAlert = this._deleteAlert.bind(this)
+    this._deleteTrail = this._deleteTrail.bind(this)
   }
 
   componentWillMount() {
+    this.props.navbarActions.gotToEditTrail()
     this.props.newTrailActions.editTrail(this.props.trail)
   }
 
-  nextPage(type) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.newTrail.isSaved === true) {
+      Alert.alert(
+        LANG.t('trail.edit.SaveAlert.title'),
+        LANG.t('trail.edit.SaveAlert.description'),
+        [
+          {text: LANG.t('trail.edit.SaveAlert.confirm'), onPress: this._resetRoutes}
+        ]
+      )
+    }
+
+    if (nextProps.newTrail.isDeleted === true) {
+      this._resetRoutes()
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.loginActions.reloadUser()
+  }
+
+  _resetRoutes() {
+    this.props.navigator.popToTop(0)
+  }
+
+  _nextPage(type) {
     let id = null,
       title = null
 
@@ -85,9 +117,33 @@ class EditTrail extends Component {
       title,
       passProps: {
         city: AppSettings.defaultCity,
-        isPreview: (type === 'preview')
+        newTrail: this.props.newTrail,
+        isPreview: true
       }
     })
+  }
+
+  _deleteTrail() {
+    let trail = this.props.newTrail
+
+    if (trail.hasOwnProperty('storeKey')) {
+      this.props.newTrailActions.deleteLocalTrail(trail)
+    } else if (trail.hasOwnProperty('_id')) {
+      this.props.newTrailActions.deleteTrail(trail)
+    } else {
+      this._resetRoutes()
+    }
+  }
+
+  _deleteAlert() {
+    Alert.alert(
+      LANG.t('trail.edit.DeleteAlert.title'),
+      LANG.t('trail.edit.DeleteAlert.description'),
+      [
+        {text: LANG.t('trail.edit.DeleteAlert.cancel')},
+        {text: LANG.t('trail.edit.DeleteAlert.confirm'), onPress: this._deleteTrail}
+      ]
+    )
   }
 
   render() {
@@ -132,50 +188,55 @@ class EditTrail extends Component {
           <View style={styles.editor.group}>
             <EditLink
               label={LANG.t('trail.TrailTitle')}
-              onPress={() => this.nextPage('title')}
+              onPress={() => this._nextPage('title')}
               required={true}
               validated={(trail.title.length >= AppSettings.minTrailTitleLength)}
               value={(trail.title.length >= AppSettings.minTrailTitleLength) ? trail.title : LANG.t('trail.Unnamed')}
             />
             <EditLink
               label={LANG.t('trail.TrailType')}
-              onPress={() => this.nextPage('type')}
+              onPress={() => this._nextPage('type')}
               required={true}
               validated={(trail.type > -1)}
               value={LANG.t('tags.' + trail.type)}
             />
             <EditLink
               label={LANG.t('trail.SelectAreas')}
-              onPress={() => this.nextPage('area')}
+              onPress={() => this._nextPage('area')}
               required={true}
               validated={(trail.areas.length > 0)}
               value={(trail.areas.length > 0)}
             />
             <EditLink
               label={LANG.t('trail.DifficultyLevel')}
-              onPress={() => this.nextPage('difficulty')}
+              onPress={() => this._nextPage('difficulty')}
               required={true}
               validated={(trail.difficultyLevel > -1)}
               value={UTIL.showTrailDifficulty(trail.difficultyLevel)}
             />
             <EditLink
               label={LANG.t('trail.Description')}
-              onPress={() => this.nextPage('desc')}
+              onPress={() => this._nextPage('desc')}
               value={trail.description}
             />
             <EditLink
               label={LANG.t('trail.Photos')}
-              onPress={() => this.nextPage('photos')}
+              onPress={() => this._nextPage('photos')}
               value={trail.photos.length}
             />
           </View>
           <View style={styles.editor.group}>
             <EditLink
               label={LANG.t('trail.TrailPreview')}
-              onPress={() => this.nextPage('preview')}
+              onPress={() => this._nextPage('preview')}
             />
           </View>
         </ScrollView>
+        <CallToAction
+          backgroundColor='red' 
+          label={Lang.DeleteTrail} 
+          onPress={this._deleteAlert} 
+        />
       </View>
     )
   }
@@ -184,6 +245,7 @@ class EditTrail extends Component {
 EditTrail.propTypes = {
   navigator: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  loginActions: PropTypes.object.isRequired,
   navbar: PropTypes.object.isRequired,
   navbarActions: PropTypes.object.isRequired,
   newTrailActions: PropTypes.object.isRequired,
@@ -200,6 +262,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    loginActions: bindActionCreators(loginActions, dispatch),
     navbarActions: bindActionCreators(navbarActions, dispatch),
     newTrailActions: bindActionCreators(newTrailActions, dispatch)
   }
