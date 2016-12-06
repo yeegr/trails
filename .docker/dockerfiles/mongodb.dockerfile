@@ -24,6 +24,4 @@ EXPOSE 27017
 # Set /usr/bin/mongod as the dockerized entry-point application
 ENTRYPOINT ["/usr/bin/mongod"]
 
-# docker build -t shitulv/mongo -f docker/mongo.dockerfile .
-# docker run -d --network api-network --name mongodb -v /data/db:/data/db -p 27017:27017 shitulv/mongodb --smallfiles
 # docker run -d --net=api-network --name mongodb -v /data/db:/data/db -p 27017:27017 shitulv/mongodb --smallfiles

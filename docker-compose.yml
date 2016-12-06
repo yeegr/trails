@@ -40,7 +40,9 @@ services:
     volumes:
       - "./uploads:/usr/app/uploads:rw"
     env_file:
-      - ./.docker/env/${APP_ENV}/graphics 
+      - ./.docker/env/${APP_ENV}/graphics
+    environment:
+      - NODE_ENV=${APP_ENV}
     networks:
       - web-network
 
@@ -70,6 +72,8 @@ services:
       - "mongodb"
     env_file:
       - ./.docker/env/${APP_ENV}/api 
+    environment:
+      - NODE_ENV=${APP_ENV}
     networks:
       - api-network
       - web-network
