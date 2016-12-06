@@ -13,10 +13,11 @@
   "scripts": {
     "postinstall": "react-native link",
     "start": "docker-compose up -d",
-    "stop": "docker-compose down",
+    "down": "docker-compose down",
     "logs": "docker-compose logs",
-    "rm": "docker rm -f $(docker ps -a -q)",
+    "stop": "docker rm -f $(docker ps -aq)",
     "clean": "docker rmi -f $(docker images -qf dangling=true)",
+    "remove": "docker rmi -f $(docker images)",
     "build": "webpack && docker-compose build",
     "rebuild": "npm stop && docker rmi -f shitulv/mongodb shitulv/api shitulv/graphics && npm run build && npm start",
     "graphics": "webpack && docker-compose build graphics && npm stop && npm start && npm run clean",
