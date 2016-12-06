@@ -68,6 +68,8 @@ services:
       - "3000:3000"
     depends_on:
       - "mongodb"
+    env_file:
+      - ./.docker/env/${APP_ENV}/api 
     networks:
       - api-network
       - web-network

@@ -7,7 +7,6 @@ MAINTAINER Stone Chen (dev@shitulv.com)
 RUN npm install -g nodemon
 
 # Set environment variables
-# ENV NODE_ENV production
 ENV PORT 3000
 
 COPY ./rsa_private_key.pem /usr/app/rsa_private_key.pem

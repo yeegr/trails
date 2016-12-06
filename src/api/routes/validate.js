@@ -29,21 +29,14 @@ module.exports = function(app) {
 
     tmp.vcode = UTIL.generateRandomNumericString(4)
 
-    console.log('validate')
-    console.log(process.env.NODE_ENV)
-
     if (process.env.NODE_ENV === 'development') {
       save(tmp, ip, res)
     } else {
       request.post({url: 'http://graphics:8000/validate', json: tmp}, (err, response, body) => {
-        if (err) {
-          throw err
-        }
-
+        if (err) throw err
         save(tmp, ip, res)
       })
     }
-    save(tmp, ip, res)
   })
 
   /* Update */
