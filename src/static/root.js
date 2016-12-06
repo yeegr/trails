@@ -1,11 +1,11 @@
-var express = require('express'),
+const express = require('express'),
   logger = require('morgan'),
   errorHandler = require('errorhandler'),
   bodyParser = require('body-parser'),
   formidable = require('formidable'),
   fs = require('fs'),
-  path = require('path'),
   cors = require('cors'),
+  path = require('path'),
   url = require('url'),
   http = require('http'),
   sharp = require('sharp'),
@@ -25,16 +25,16 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(cors())
 
+const avatar = require('./avatar')(app),
+  wechat = require('./sdks/wechat/info')(app),
+  f6ot = require('./sdks/f6ot/curl')(app)
+
 router.use(function(req, res, next) {
   next()
 })
 
-var avatar = require('./avatar')(app),
-  wechat = require('./sdks/wechat/info')(app),
-  f6ot = require('./sdks/f6ot/curl')(app)
-
 router.get('/', function(req, res, next) {
-  var os = req.query.os,
+  let os = req.query.os,
     screen = req.query.res.split('x'),
     type = req.query.type,
     path = req.query.path,
@@ -91,7 +91,7 @@ router.get('/', function(req, res, next) {
     break
   }
 
-  var transformer = scale(width, height)
+  let transformer = scale(width, height)
 
   http.get(url, function(result) {
     if (result.statusCode === 200) {
@@ -101,27 +101,27 @@ router.get('/', function(req, res, next) {
   })
 })
 
-var scale = function(width, height) {
+let scale = function(width, height) {
   return sharp()
     .resize(width, height)
     .withoutEnlargement()
 }
 
 router.post('/up', function(req, res, next) {
-  var form = new formidable.IncomingForm()
+  let form = new formidable.IncomingForm()
 
   form.parse(req, function(err, fields, files) {
     if (err) {
       throw err
     }
 
-    var dir = 'uploads/' + fields.path
+    let dir = 'uploads/' + fields.path
 
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir)
     }
 
-    var file = files.file,
+    let file = files.file,
       inputStream = fs.createReadStream(file.path),
       outputStream = fs.createWriteStream(dir + file.name)
 
@@ -135,7 +135,7 @@ router.post('/up', function(req, res, next) {
 
 // 阿里大于 SMS verification
 // =============================================================================
-var smsClient = new TopClient({
+const smsClient = new TopClient({
     'appkey'   : '23493240',
     'appsecret': 'fcab6c93a5ce6cb54bd16892e804da8a',
     'REST_URL' : 'http://gw.api.taobao.com/router/rest'
@@ -143,7 +143,7 @@ var smsClient = new TopClient({
   smsUri = 'alibaba.aliqin.fc.sms.num.send'
 
 router.post('/validate', function(req, res, next) {
-  var body = req.body,
+  let body = req.body,
     template = 'SMS_22520124'
 
   switch (body.action) {
@@ -185,4 +185,5 @@ app.use('/', router)
 // START THE SERVER
 // =============================================================================
 app.listen(port)
+console.log('Environmental variables: ', process.env)
 console.log('Graphics server running on port ' + port)

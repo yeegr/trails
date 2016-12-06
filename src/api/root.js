@@ -38,6 +38,7 @@ router.use(function(req, res, next) {
   next()
 })
 
+// delete mongodb collection(s)
 router.post('/drop/:table', function(req, res, next) {
 	let table = req.params.table,
 	tables = (table === '' || table === null) ? ['actions', 'areas', 'events', 'logs', 'orders', 'posts', 'users', 'validates'] : [table]
@@ -48,7 +49,6 @@ router.post('/drop/:table', function(req, res, next) {
 		})
 	})
 
-	console.log('response')
 	res.status(200).send()
 })
 
@@ -59,4 +59,5 @@ app.use('/', router)
 // START THE SERVER
 // =============================================================================
 app.listen(port)
-console.log('API server running on port ' + port)
+console.log('Environmental variables: ', process.env)
+console.log('API server running on port: ', port)
