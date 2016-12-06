@@ -1,3 +1,5 @@
+console.log(process.env.NODE_ENV)
+
 const express = require('express'),
 	logger = require('morgan'),
 	errorHandler = require('errorhandler'),
