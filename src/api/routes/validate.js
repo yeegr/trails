@@ -7,6 +7,20 @@ const mongoose = require('mongoose'),
 mongoose.Promise = global.Promise
 
 module.exports = function(app) {
+  /* Save */
+  function save(input, ip, res) {
+    input.ip = ip
+
+    input
+    .save()
+    .then(function(output) {
+      res.status(201).send()
+    })
+    .catch(function(err) {
+      res.status(500).json({error: err})
+    })
+  }
+
   /* Create */
   app.post('/validate', function(req, res, next) {
     let tmp = new Validate(req.body),
@@ -15,22 +29,21 @@ module.exports = function(app) {
 
     tmp.vcode = UTIL.generateRandomNumericString(4)
 
-    /*request.post({url: 'http://graphics:8000/validate', json: tmp}, (err, response, body) => {
-      if (err) {
-        throw err
-      }*/
+    console.log('validate')
+    console.log(process.env.NODE_ENV)
 
-      tmp.ip = ip
+    if (process.env.NODE_ENV === 'development') {
+      save(tmp, ip, res)
+    } else {
+      request.post({url: 'http://graphics:8000/validate', json: tmp}, (err, response, body) => {
+        if (err) {
+          throw err
+        }
 
-      tmp
-      .save()
-      .then(function(data) {
-        res.status(201).send()
+        save(tmp, ip, res)
       })
-      .catch(function(err) {
-        res.status(500).json({error: err})
-      })
-    //})
+    }
+    save(tmp, ip, res)
   })
 
   /* Update */
