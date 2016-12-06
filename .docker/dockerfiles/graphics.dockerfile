@@ -1,5 +1,5 @@
 # Set base image
-FROM node:6.4.0
+FROM node:6.9.1
 
 MAINTAINER Stone Chen (dev@shitulv.com)
 
