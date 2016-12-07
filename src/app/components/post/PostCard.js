@@ -16,7 +16,7 @@ import global from '../../styles/global'
 
 import {
   CONSTANTS,
-  Lang
+  LANG
 } from '../../settings'
 
 const PostCard = (props) => {
@@ -24,7 +24,7 @@ const PostCard = (props) => {
     onPress = () => {
       props.navigator.push({
         id: 'PostDetail',
-        title: Lang.Post,
+        title: LANG.t('post.post'),
         passProps: {
           id: props.data.id
         }

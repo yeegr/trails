@@ -20,7 +20,7 @@ import Icon from './Icon'
 
 import {
   CONSTANTS,
-  Lang,
+  LANG,
   Graphics
 } from '../../settings'
 
@@ -63,7 +63,7 @@ class Toolbar extends Component {
   comment() {
     this.props.navigator.push({
       id: 'Comments',
-      title: Lang.Comments,
+      title: LANG.t('comment.comment_plural'),
       passProps: {
         type: this.props.type,
         data: this.props.data
@@ -101,7 +101,7 @@ class Toolbar extends Component {
         valueColor={textColor}
         viewBox={icon.viewBox}
         path={Graphics.toolbar.like}
-        label={Lang.LIKE}
+        label={LANG.t('action.LIKE')}
         value={toolbar.likeCount}  
       />
     ),
@@ -117,7 +117,7 @@ class Toolbar extends Component {
         valueColor={textColor}
         viewBox={icon.viewBox}
         path={Graphics.toolbar.save}
-        label={Lang.SAVE}
+        label={LANG.t('action.SAVE')}
         value={toolbar.saveCount}  
       />
     ),
@@ -133,7 +133,7 @@ class Toolbar extends Component {
         valueColor={textColor}
         viewBox={icon.viewBox}
         path={Graphics.toolbar.share}
-        label={Lang.SHARE}
+        label={LANG.t('action.SHARE')}
         value={toolbar.shareCount}  
       />
     ),
@@ -149,7 +149,7 @@ class Toolbar extends Component {
         valueColor={textColor}
         viewBox={icon.viewBox}
         path={Graphics.toolbar.comment}
-        label={Lang.Comment}
+        label={LANG.t('action.Comment')}
         value={toolbar.commentCount}  
       />
     ),

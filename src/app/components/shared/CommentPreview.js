@@ -19,8 +19,8 @@ import CommentList from './CommentList'
 import styles from '../../styles/main'
 
 import {
-  AppSettings,
-  Lang
+  LANG,
+  AppSettings
 } from '../../settings'
 
 const CommentPreview = (props) => {
@@ -28,12 +28,12 @@ const CommentPreview = (props) => {
     comments = props.data.comments,
     previews = comments.slice(0, AppSettings.maxCommentPreviews),
     more = {
-      text: Lang.AllComments,
+      text: LANG.t('comment.AllComments'),
       onPress: () => {
         if (props.user) {
           props.navigator.push({
             id: 'Comments',
-            title: Lang.Comments,
+            title: LANG.t('comment.comment_plural'),
             passProps: {
               type: props.type,
               data: props.data
@@ -48,7 +48,7 @@ const CommentPreview = (props) => {
   return (
     <View style={styles.detail.section}>
       <Header 
-        text={Lang.Comments}
+        text={LANG.t('comment.comment_plural')}
         more={more}
         misc={
           <Rating type={'default'} value={average} />

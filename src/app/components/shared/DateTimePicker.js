@@ -74,7 +74,6 @@ class DateTimePicker extends Component {
               mode={this.state.mode}
               maximumDate={this.props.maximumDate}
               minimumDate={this.props.minimumDate}
-              mode={this.state.mode}
               minuteInterval={this.state.interval}
               date={this.state.datetime}
               onDateChange={(value) => this.setState({datetime: value})}

@@ -39,7 +39,7 @@ const OrderSummary = (props) => {
               value={UTIL.formatEventGroupLabel(event, selectedGroup)}
             />
             <InfoItem
-              label={LANG.t('order.SignUpPerson')}
+              label={LANG.t('order.SignUps')}
               value={signUp.name}
             />
           </View>

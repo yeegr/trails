@@ -17,7 +17,7 @@ export default class UserList extends Component {
   constructor(props) {
     super(props)
 
-    var ds = new ListView.DataSource({
+    const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 != r2
     })
 
@@ -40,11 +40,11 @@ export default class UserList extends Component {
 
   fetchData() {
     fetch(this.props.api)
-    .then((response) => response.json())
-    .then((responseData) => {
+    .then((res) => res.json())
+    .then((res) => {
       this.setState({
         loading: false,
-        dataSource: this.state.dataSource.cloneWithRows(responseData)
+        dataSource: this.state.dataSource.cloneWithRows(res)
       })
     })
     .catch((error) => {
@@ -75,6 +75,11 @@ export default class UserList extends Component {
       />
     )
   }
+}
+
+UserList.propTypes = {
+  data: PropTypes.array.isRequired,
+  api: PropTypes.string
 }
 
 const local = StyleSheet.create({

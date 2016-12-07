@@ -23,8 +23,8 @@ import styles from '../styles/main'
 
 import {
   CONSTANTS,
+  LANG,
   AppSettings,
-  Lang,
   Graphics
 } from '../settings'
 
@@ -51,7 +51,7 @@ class Home extends Component {
         tintColor={Graphics.colors.primary}
       >
         <TabBarIOS.Item
-          title={Lang.Trails}
+          title={LANG.t('home.Trails')}
           icon={{uri: Graphics.tabbar.trail, scale: 3}}
           selected={selectedTab === CONSTANTS.HOME_TABS.AREAS}
           onPress={() => this.onTabPressed(CONSTANTS.HOME_TABS.AREAS)}
@@ -65,7 +65,7 @@ class Home extends Component {
           </View>
         </TabBarIOS.Item>
         <TabBarIOS.Item
-          title={Lang.Events}
+          title={LANG.t('home.Events')}
           icon={{uri: Graphics.tabbar.event, scale: 3}}
           selected={selectedTab === CONSTANTS.HOME_TABS.EVENTS}
           onPress={() => this.onTabPressed(CONSTANTS.HOME_TABS.EVENTS)}
@@ -79,7 +79,7 @@ class Home extends Component {
           </View>
         </TabBarIOS.Item>
         <TabBarIOS.Item
-          title={Lang.Posts}
+          title={LANG.t('home.Posts')}
           icon={{uri: Graphics.tabbar.post, scale: 3}}
           selected={selectedTab === CONSTANTS.HOME_TABS.POSTS}
           onPress={() => this.onTabPressed(CONSTANTS.HOME_TABS.POSTS)}
@@ -93,7 +93,7 @@ class Home extends Component {
           </View>
         </TabBarIOS.Item>
         <TabBarIOS.Item
-          title={Lang.Mine}
+          title={LANG.t('home.Mine')}
           icon={{uri: Graphics.tabbar.mine, scale: 3}}
           selected={selectedTab === CONSTANTS.HOME_TABS.MINE}
           onPress={() => this.onTabPressed(CONSTANTS.HOME_TABS.MINE)}

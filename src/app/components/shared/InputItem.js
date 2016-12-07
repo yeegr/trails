@@ -12,7 +12,7 @@ import {
 import TextView from './TextView'
 
 import {
-  Lang,
+  LANG,
   Graphics
 } from '../../settings'
 
@@ -24,7 +24,7 @@ const InputItem = (props) => {
       <View style={styles.label}>
         <TextView
           textColor={(props.required) ? Graphics.textColors.required : Graphics.textColors.foreground}
-          text={props.label + Lang.colon}
+          text={LANG.t('prompt', {label: props.label})}
         />
       </View>
       <View style={[styles.input, inputStyle]}>

@@ -19,8 +19,8 @@ import styles from '../../styles/main'
 
 import {
   CONSTANTS,
+  LANG,
   UTIL,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -32,7 +32,7 @@ const OrderList = (props) => {
   selectOrder = (order) => {
     props.navigator.push({
       id: 'OrderDetail',
-      title: Lang.OrderDetail,
+      title: LANG.t('order.OrderDetail'),
       passProps: {
         event: order.event,
         order
@@ -76,9 +76,9 @@ const OrderList = (props) => {
               />
             </View>
             <View>
-              <InfoItem styles={infoStyles} labelWidth={75} label={Lang.SignUps} value={names.join('，')} />
-              <InfoItem styles={infoStyles} labelWidth={75} label={Lang.Total} value={order.subTotal + Lang.Yuan} />
-              <InfoItem styles={infoStyles} labelWidth={75} label={Lang.PayTime} value={UTIL.getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
+              <InfoItem styles={infoStyles} labelWidth={75} label={LANG.t('order.SignUps')} value={names.join('，')} />
+              <InfoItem styles={infoStyles} labelWidth={75} label={LANG.t('order.Total')} value={LANG.l('currency', order.subTotal)} />
+              <InfoItem styles={infoStyles} labelWidth={75} label={LANG.t('order.PayTime')} value={UTIL.getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
             </View>
           </View>
         </View>

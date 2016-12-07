@@ -17,6 +17,7 @@ import TextView from './TextView'
 import styles from '../../styles/main'
 
 import {
+  LANG,
   Graphics,
   Lang
 } from '../../settings'
@@ -31,7 +32,7 @@ const CityPicker = (props) => {
           <TextView
             style={{marginVertical: 20, textAlign: 'center'}}
             fontSize={'XL'}
-            text={props.title || Lang.SelectCity}
+            text={props.title || LANG.t('cityPicker.SelectCity')}
           />
           <JumpListView
             cellHeight={25}
@@ -55,7 +56,7 @@ const CityPicker = (props) => {
               return (
                 <TextView
                   style={{backgroundColor: Graphics.colors.transparent}}
-                  textColor='#007AFF'
+                  textColor={Graphics.textColors.side}
                   text={text.substring(0,1)}
                 />
               )

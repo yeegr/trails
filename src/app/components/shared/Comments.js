@@ -25,7 +25,7 @@ import CommentList from './CommentList'
 import styles from '../../styles/main'
 
 import {
-  Lang,
+  LANG,
   Graphics
 } from '../../settings'
 
@@ -72,7 +72,7 @@ class Comments extends Component {
           type={'comment'}
           rating={this.state.rating}
           text={this.state.text}
-          placeholder={Lang.CommentPlaceholder}
+          placeholder={LANG.t('t.placeholder')}
           onSubmit={(comment) => this.uploadComment(comment)}
         />
         <KeyboardSpacer />

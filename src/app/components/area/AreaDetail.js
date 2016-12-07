@@ -23,12 +23,13 @@ import Intro from '../shared/Intro'
 import UserList from '../user/UserList'
 import TrailPreview from '../trail/TrailPreview'
 import GalleryPreview from '../shared/GalleryPreview'
-import CommentPreview from '../shared/CommentPreview'
+//import CommentPreview from '../shared/CommentPreview'
 
 import styles from '../../styles/main'
 
 import {
   CONSTANTS,
+  LANG,
   Lang,
   Graphics
 } from '../../settings'
@@ -57,7 +58,7 @@ class AreaDetail extends Component {
 
     if (area.tags.length > 0) {
       area.tags.map(function(n) {
-        tags.push(Lang.tagArray[n])
+        tags.push(LANG.t('tags.' + n))
       })
     }
 
@@ -77,18 +78,18 @@ class AreaDetail extends Component {
           )}>
           <View style={[styles.detail.article]}>
             <View style={styles.detail.section}>
-              <Header text={Lang.Tags} />
+              <Header text={LANG.t('Tags')} />
               <View style={styles.detail.grid}>
               {
-                area.tags.map(function(i) {
+                area.tags.map(function(n) {
                   return (
-                    <View key={i} style={styles.detail.icon}>
+                    <View key={n} style={styles.detail.icon}>
                       <Icon
                         sideLength={40}
                         stack={'vertical'} 
-                        type={i.toString()}
+                        type={n.toString()}
                         valueColor={Graphics.icon.labelColor}
-                        value={Lang.tagArray[i]}
+                        value={LANG.t('tags.' + n)}
                       />
                     </View>
                   )
@@ -103,7 +104,7 @@ class AreaDetail extends Component {
               photos={area.photos}
             />
             <View style={styles.detail.section}>
-              <Header text={Lang.Leaders} />
+              <Header text={LANG.t('area.Leaders')} />
               <View style={styles.detail.content}>
                 <UserList navigator={navigator} data={area.leaders} />
               </View>
@@ -112,7 +113,7 @@ class AreaDetail extends Component {
               navigator={navigator}
               trails={area.trails}
               query={'?area=' + area.id}
-              title={area.name + Lang.Trails}
+              title={area.name + LANG.t('trail.trail_plural')}
             />
           </View>
         </ParallaxView>

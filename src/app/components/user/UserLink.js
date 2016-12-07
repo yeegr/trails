@@ -14,7 +14,7 @@ import Avatar from '../shared/Avatar'
 import TextView from '../shared/TextView'
 
 import {
-  Lang
+  LANG
 } from '../../settings'
 
 const UserLink = (props) => {
@@ -33,7 +33,7 @@ const UserLink = (props) => {
       <View style={styles.wrapper}>
         <Avatar user={props.user} />
         <View style={styles.content}>
-          <TextView class={'h4'} text={Lang.userLevelArray[parseInt(props.user.level)]} />
+          <TextView class={'h4'} text={LANG.t('user.levels.' + parseInt(props.user.level).toString())} />
           <TextView fontSize={'L'} text={props.user.handle} />
         </View>
       </View>

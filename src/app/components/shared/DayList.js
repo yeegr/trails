@@ -13,7 +13,7 @@ import Agenda from './Agenda'
 import TextView from './TextView'
 
 import {
-  Lang
+  LANG
 } from '../../settings'
 
 const DayList = (props) => {
@@ -23,7 +23,11 @@ const DayList = (props) => {
         props.schedule.map(function(day, d) {
           return (
             <View key={d} style={styles.day}>
-              <TextView class={'h3'} style={{marginLeft: 2, marginBottom: 10}} text={Lang.DayCountPrefix + Lang.dayArray[d] + Lang.DayCountPostfix} />
+              <TextView
+                class={'h3'}
+                style={{marginLeft: 2, marginBottom: 10}}
+                text={LANG.t('event.dayCount', {count: LANG.t('alphanumerals.' + d)})}
+              />
               {
                 day.map(function(agenda, i) {
                   return (

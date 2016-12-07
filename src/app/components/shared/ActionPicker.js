@@ -15,8 +15,6 @@ import {
 } from 'react-native'
 
 import {
-  AppSettings,
-  Lang,
   Graphics
 } from '../../settings'
 

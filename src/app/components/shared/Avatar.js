@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 
 import ImagePath from './ImagePath'
+
 import {
   Graphics
 } from '../../settings'

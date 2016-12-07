@@ -14,8 +14,8 @@ import ImagePath from './ImagePath'
 import TextView from './TextView'
 
 import {
+  LANG,
   UTIL,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -29,7 +29,7 @@ const Gear = (props) => {
         <TextView
           fontSize={'XXS'}
           textColor={Graphics.textColors.overlay}
-          text={Lang.gearArray[props.number]}
+          text={LANG.t('gears.' + props.number)}
         />
       </View>
     </Image>

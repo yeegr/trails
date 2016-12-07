@@ -17,8 +17,8 @@ import {
 } from 'react-native'
 
 import MapView from 'react-native-maps'
-import CallToAction from './CallToAction'
 
+import CallToAction from './CallToAction'
 import Icon from './Icon'
 import Loading from './Loading'
 import NavbarButton from './NavbarButton'

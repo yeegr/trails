@@ -5,19 +5,16 @@ import React, {
 } from 'react'
 
 import {
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
   View
 } from 'react-native'
 
-import TextView from '../shared/TextView'
 import Icon from '../shared/Icon'
 
 import {
   LANG,
-  Graphics,
-  Lang
+  Graphics
 } from '../../settings'
 
 const IconGrid = (props) => {
@@ -35,7 +32,7 @@ const IconGrid = (props) => {
                 stack={'vertical'}
                 textColor={color} 
                 type={i.toString()} 
-                value={Lang.tagArray[i]}
+                value={LANG.t('tags.' + i)}
               />
             </View>
           </TouchableOpacity>
@@ -62,8 +59,9 @@ const styles = StyleSheet.create({
 })
 
 IconGrid.propTypes = {
+  list: PropTypes.array.isRequired,
+  onPress: PropTypes.func.isRequired,
   selectedIndex: PropTypes.number,
-  onPress: PropTypes.func.isRequired
 }
 
 export default IconGrid

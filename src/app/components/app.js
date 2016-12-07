@@ -77,7 +77,6 @@ import UserDetail from './user/UserDetail'
 import Comments from './shared/Comments'
 import Gallery from './shared/Gallery'
 import Intro from './intro'
-import Loading from './shared/Loading'
 import NavbarButton from './shared/NavbarButton'
 import TextView from './shared/TextView'
 
@@ -86,14 +85,10 @@ import {
   LANG,
   UTIL,
   AppSettings,
-  Lang,
   Graphics
 } from '../settings'
 
 import styles from '../styles/main'
-
-//console.log(LANG.t('intro.OrderedPage', {num: 1}))
-//console.log(LANG.t('trail.search.SearchTrail'))
 
 const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
   user: state.login.user,
@@ -161,7 +156,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         rightTitleBar = (
           <NavbarButton
             onPress={null}
-            label={Lang.Search}
+            label={LANG.t('glossary.Search')}
           />
         )
       break
@@ -192,7 +187,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
           <NavbarButton
             onPress={() => dispatch(navbarActions.addEventSignUp())}
             icon={Graphics.titlebar.add}
-            label={Lang.Add}
+            label={LANG.t('order.AddSignUp')}
             showLabel={false}
           />
         )
@@ -230,7 +225,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         rightTitleBar = (
           <NavbarButton
             onPress={() => this.save(CONSTANTS.ACTION_TARGETS.TEMP)}
-            label={Lang.Save}
+            label={LANG.t('glossary.Save')}
           />
         )
       break
@@ -239,7 +234,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         rightTitleBar = (
           <NavbarButton
             onPress={() => this.save(CONSTANTS.ACTION_TARGETS.TRAIL)}
-            label={Lang.Save}
+            label={LANG.t('glossary.Save')}
           />
         )
       break
@@ -248,7 +243,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         rightTitleBar = (
           <NavbarButton
             onPress={() => this.save(CONSTANTS.ACTION_TARGETS.EVENT)}
-            label={Lang.Save}
+            label={LANG.t('glossary.Save')}
           />
         )
       break
@@ -257,7 +252,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         rightTitleBar = (
           <NavbarButton
             onPress={() => this.signUp()}
-            label={Lang.SignUpNow}
+            label={LANG.t('order.SignupNow')}
           />
         )
       break
@@ -266,7 +261,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         rightTitleBar = (
           <NavbarButton
             onPress={() => this.save(CONSTANTS.ACCOUNT_ACTIONS.SAVE_AVATAR)}
-            label={Lang.Save}
+            label={LANG.t('glossary.Save')}
           />
         )
       break
@@ -276,7 +271,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
   },
 
   Title: function(route, navigator, index, navState) {
-    let title = (index === 0) ? Lang[((tabId === CONSTANTS.HOME_TABS.AREAS) ? CONSTANTS.HOME_TABS.TRAILS : tabId)] : route.title
+    let title = (index === 0) ? ((tabId === CONSTANTS.HOME_TABS.AREAS) ? LANG.t('home.' + CONSTANTS.HOME_TABS.TRAILS) : LANG.t('home.' + tabId)) : route.title
 
     return (
       <TextView style={{marginVertical: 5, fontWeight: '400'}} fontSize='XXL' textColor={Graphics.textColors.overlay} text={title} />
@@ -359,12 +354,12 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         case CONSTANTS.HOME_TABS.AREAS:
         case CONSTANTS.HOME_TABS.TRAILS:
           id = 'RecordTrail',
-          title = Lang.AddTrail
+          title = LANG.t('add.AddTrail')
         break
 
         case CONSTANTS.HOME_TABS.EVENTS:
           id = 'EditEvent',
-          title = Lang.AddEvent
+          title = LANG.t('add.AddEvent')
         break
       }
 

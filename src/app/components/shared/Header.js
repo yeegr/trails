@@ -9,8 +9,8 @@ import {
   View
 } from 'react-native'
 
-import TextView from './TextView'
 import MoreLink from './MoreLink'
+import TextView from './TextView'
 
 const Header = (props) => {
   let moreLink = (props.more === undefined || props.more === null) ? null : <MoreLink text={props.more.text} onPress={props.more.onPress} />

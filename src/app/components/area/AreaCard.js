@@ -10,6 +10,7 @@ import {
 
 import {
   CONSTANTS,
+  LANG,
   Lang
 } from '../../settings'
 
@@ -35,7 +36,7 @@ const AreaCard = (props) => {
 
   if (data.tags.length > 0) {
     data.tags.map(function(n) {
-      tags.push(Lang.tagArray[n])
+      tags.push(LANG.t('tags.' + n))
     })
   }
 

@@ -1,12 +1,6 @@
 'use strict'
 
-import {
-  Graphics,
-  Lang
-} from '../../settings'
-
 import React, {
-  Component,
   PropTypes
 } from 'react'
 
@@ -20,7 +14,13 @@ import {
 import Icon from '../shared/Icon'
 import IconGrid from '../shared/IconGrid'
 import TextView from '../shared/TextView'
+
 import styles from '../../styles/main'
+
+import {
+  LANG,
+  Graphics
+} from '../../settings'
 
 const TypePicker = (props) => {
   return (
@@ -30,7 +30,7 @@ const TypePicker = (props) => {
           <TextView
             style={{marginVertical: 20, textAlign: 'center'}}
             fontSize={'XL'}
-            text={props.title || Lang.SelectAgendaType}
+            text={props.title || LANG.t('event.SelectAgendaType')}
           />
           <IconGrid
             list={[93,92,90,91,94]}

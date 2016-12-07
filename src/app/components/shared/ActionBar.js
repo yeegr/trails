@@ -9,11 +9,8 @@ import {
   View
 } from 'react-native'
 
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-
-import Toolbar from '../shared/Toolbar'
 import CallToAction from '../shared/CallToAction'
+import Toolbar from '../shared/Toolbar'
 
 import {
   Graphics
@@ -26,7 +23,10 @@ const ActionBar = (props) => {
         <Toolbar type={props.type} data={props.data} />
       </View>
       <View style={{flex:1}}>
-        <CallToAction onPress={props.buttonEvent} label={props.buttonText} />
+        <CallToAction
+          onPress={props.buttonEvent}
+          label={props.buttonText}
+        />
       </View>
     </View>
   )
@@ -43,6 +43,8 @@ styles = StyleSheet.create({
 ActionBar.propTypes = {
   type: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
+  buttonEvent: PropTypes.func.isRequired,
+  buttonText: PropTypes.string.isRequired,
   showLabel: PropTypes.bool.isRequired
 }
 

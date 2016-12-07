@@ -44,7 +44,8 @@
     "h5":"#808080",
     "h6":"#696969",
     "mobileNumber":"#05A2E7",
-    "link":"#05A2E7"
+    "link":"#05A2E7",
+    "side":"#007AFF"
   },
   "chart":{
     "backgroundColor":"transparent",
