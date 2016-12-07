@@ -1,125 +1,221 @@
 'use strict'
 
 import React, {
+  Component,
   PropTypes
 } from 'react'
 
 import {
+  Alert,
   ScrollView,
   View
 } from 'react-native'
 
+import * as WeChat from 'react-native-wechat'
+
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as loginActions from '../../redux/actions/loginActions'
-import {
-  changeTab
-} from '../../redux/actions/homeActions'
+import {changeTab} from '../../redux/actions/homeActions'
 
 import CallToAction from '../shared/CallToAction'
 import EditLink from '../shared/EditLink'
+
 import styles from '../../styles/main'
 
 import {
-  Lang
+  CONSTANTS,
+  LANG,
+  AppSettings,
+  Graphics
 } from '../../settings'
 
-const EditAccount = (props) => {
-  const nextPage = (type) => {
+class EditAccount extends Component {
+  constructor(props) {
+    super(props)
+    this._nextPage = this._nextPage.bind(this)
+    this._onLogoutPressed = this._onLogoutPressed.bind(this)
+    this._toggleWeChat = this._toggleWeChat.bind(this)
+    this._bindWeChat = this._bindWeChat.bind(this)
+    this._unbindWeChat = this._unbindWeChat.bind(this)
+  }
+
+  async componentDidMount() {
+    try {
+      this.setState({
+        apiVersion: await WeChat.getApiVersion(),
+        wxAppInstallUrl: await WeChat.getWXAppInstallUrl(),
+        isWXAppSupportApi: await WeChat.isWXAppSupportApi(),
+        isWXAppInstalled: await WeChat.isWXAppInstalled()
+      })
+
+      WeChat.addListener('SendAuth.Resp', (res) => {
+        if (this.props.login.action === 'bind') {
+          if (res.errCode === 0) {
+            this.props.loginActions.wechatAuthSuccess(res.code)
+          } else {
+            this.props.loginActions.wechatAuthFailure(res)
+            Promise.reject(res)
+          }
+        }
+      })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    console.log('nextprops')
+    if (nextProps.login.action === 'bind') {
+      console.log(nextProps.login)
+    }
+  }
+
+  _nextPage(type) {
     let id = null,
       title = null
 
     switch (type) {
       case 'avatar':
         id = 'EditUserAvatar',
-        title = Lang.EditUserAvatar
+        title = LANG.t('mine.edit.EditUserAvatar')
       break;
 
       case 'handle':
         id = 'EditUserHandle',
-        title = Lang.EditUserHandle
+        title = LANG.t('mine.edit.EditUserHandle')
       break;
 
       case 'mobile':
         id = 'EditUserMobile',
-        title = Lang.ChangeUserMobile
+        title = LANG.t('mine.edit.ChangeUserMobile')
       break;
 
       case 'level':
         id = 'EditUserLevel',
-        title = Lang.UserLevel
+        title = LANG.t('mine.edit.EditUserLevel')
       break;
 
       case 'name':
         id = 'EditUserName',
-        title = Lang.RealName
+        title = LANG.t('mine.edit.RealName')
       break;
 
       case 'pid':
         id = 'EditUserPID',
-        title = Lang.PersonalId
+        title = LANG.t('mine.edit.PersonalId')
       break;
     }
 
-    props.navigator.push({
+    this.props.navigator.push({
       id,
       title,
       passProps: {
-        user: props.user
+        user: this.props.login.user
       }
     })
-  },
+  }
 
-  onLogoutPressed = () => {
-    props.loginActions.logoutUser()
-    resetNavigation()
-  },
-
-  resetNavigation = () => {
-    props.changeTab('Areas')
-    props.navigator.resetTo({
+  _onLogoutPressed() {
+    this.props.loginActions.logoutUser()
+    this.props.changeTab('Areas')
+    this.props.navigator.resetTo({
       id: 'Home',
       title: ''
     })
-  },
+  }
 
-  user = props.user
+  _bindWeChat() {
+    if (this.state.isWXAppInstalled) {
+      this.props.loginActions.wechatAuthRequest('bind')
+      WeChat.sendAuthRequest('snsapi_userinfo', 'shitulv_login')
+    }
+  }
 
-  if (user) {
+  _unbindWeChat() {
+    this.props.loginActions.updateUser(this.props.login.user.id, {
+      wechat: CONSTANTS.WeChatOpenId
+    })
+  }
+
+  _toggleWeChat() {
+    if (this.props.login.user.wechat === CONSTANTS.WeChatOpenId) {
+      this._bindWeChat()
+    } else {
+      this._unbindWeChat()
+    }
+  }
+
+  render() {
+    const {user} = this.props.login
+
+    if (!user) {
+      return null
+    }
+
     return (
       <View style={styles.global.wrapper}>
         <ScrollView style={styles.editor.scroll}>
           <View style={styles.editor.group}>
-            <EditLink onPress={() => nextPage('avatar')} label={Lang.Avatar} user={user} />
-            <EditLink onPress={() => nextPage('handle')} required={true} label={Lang.Handle} value={user.handle} />
-            <EditLink onPress={() => nextPage('mobile')} required={true} label={Lang.MobileNumber} value={user.mobile} />
-            <EditLink onPress={() => nextPage('')} label={Lang.UntieWechat} />
-            <EditLink onPress={() => nextPage('level')} label={Lang.UserLevel} value={Lang.userLevelArray[user.level]} />
-            <EditLink onPress={() => nextPage('name')} label={Lang.RealName} value={user.name} />
-            <EditLink onPress={() => nextPage('pid')} label={Lang.PersonalId} value={user.pid} />
+            <EditLink
+              label={LANG.t('user.Avatar')}
+              onPress={() => this._nextPage('avatar')}
+              user={user}
+            />
+            <EditLink
+              label={LANG.t('user.Handle')}
+              onPress={() => this._nextPage('handle')}
+              required={true}
+              value={user.handle}
+            />
+            <EditLink
+              label={LANG.t('user.MobileNumber')}
+              onPress={() => this._nextPage('mobile')}
+              required={true}
+              value={user.mobile}
+            />
+            <EditLink
+              label={LANG.t((user.wechat === CONSTANTS.WeChatOpenId) ? 'mine.edit.BindWeChat' : 'mine.edit.UnbindWeChat')}
+              onPress={this._toggleWeChat}
+            />
+            <EditLink
+              label={LANG.t('mine.edit.EditUserLevel')}
+              onPress={() => this._nextPage('level')}
+              value={LANG.t('user.levels.' + user.level)}
+            />
+            <EditLink
+              label={LANG.t('mine.edit.RealName')}
+              onPress={() => this._nextPage('name')}
+              value={user.name}
+            />
+            <EditLink
+              label={LANG.t('mine.edit.PersonalId')}
+              onPress={() => this._nextPage('pid')}
+              value={user.pid}
+            />
           </View>
         </ScrollView>
         <CallToAction
-          backgroundColor='red' 
-          label={Lang.Logout} 
-          onPress={onLogoutPressed} 
+          backgroundColor={Graphics.colors.warning} 
+          label={LANG.t('mine.edit.Logout')} 
+          onPress={this._onLogoutPressed} 
         />
       </View>
     )
-  } else {
-    return null
   }
 }
 
 EditAccount.propTypes = {
   user: PropTypes.object,
+  navigator: PropTypes.object.isRequired,
   loginActions: PropTypes.object.isRequired,
   changeTab: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.login.user
+    login: state.login
   }
 }
 

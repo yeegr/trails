@@ -40,6 +40,32 @@ module.exports = function(app) {
     })
   }
 
+  function updateUser(id, info, res) {
+    console.log(id)
+    console.log(info)
+    User
+    .findById(id)
+    .exec()
+    .then(function(user) {
+      if (user) {
+        user
+        .set(info)
+        .save()
+        .then(function(data) {
+          if (data) {
+            getOneById(data._id, res, 200)
+          }
+        })
+        .catch(function(err) {
+          res.status(500).json({error: err})
+        })
+      }
+    })
+    .catch(function(err) {
+      res.status(500).json({error: err})
+    })
+  }
+
   /* Create */
   app.post('/users', function(req, res, next) {
     createUser(req.body, res)
@@ -70,14 +96,14 @@ module.exports = function(app) {
     let body = req.body, 
       query = {}
 
-    let hasMobile = UTIL.isNotUndefinedNullEmpty(body.mobile),
-      hasWechat = UTIL.isNotUndefinedNullEmpty(body.wechat)
+    let hasMobile = UTIL.isNotUndefinedNullEmpty(body.mobile),  
+      hasWeChat = UTIL.isNotUndefinedNullEmpty(body.wechat)
 
     if (hasMobile) {
       query.mobile = parseInt(body.mobile)
     }
 
-    if (hasWechat) {
+    if (hasWeChat) {
       query.wechat = body.wechat
     }
 
@@ -87,7 +113,18 @@ module.exports = function(app) {
     .then(function(data) {
       if (data) {
         res.status(200).json(data)
-      } else if (hasMobile && hasWechat) {
+      } else if (hasMobile && hasWeChat) {
+        User
+        .findOne({mobile: query.mobile})
+        .then(function(user) {
+          if (user) {
+            delete body.mobile
+            updateUser(user._id, body, res)
+          } else {
+            createUser(body, res)
+          }
+        })
+      } else if (hasMobile) {
         createUser(body, res)
       } else {
         res.status(404).send()
@@ -105,29 +142,10 @@ module.exports = function(app) {
 
   /* Update */
   app.put('/users/:id', function(req, res, next) {
-    User
-    .findById(req.params.id)
-    .exec()
-    .then(function(user) {
-      if (user) {
-        user
-        .set(req.body)
-        .save()
-        .then(function(data) {
-          if (data) {
-            getOneById(data._id, res, 200)
-          }
-        })
-        .catch(function(err) {
-          res.status(500).json({error: err})
-        })
-      }
-    })
-    .catch(function(err) {
-      res.status(500).json({error: err})
-    })
+    updateUser(req.params.id, req.body, res)
   })
 
+  /* Update user avatar */
   app.put('/users/:id/avatar', function(req, res, next) {
     User
     .findById(req.params.id)

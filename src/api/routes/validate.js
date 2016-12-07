@@ -57,9 +57,17 @@ module.exports = function(app) {
         .set({used: true})
         .save()
         .then(function(updated) {
-          res.status(200).json({
-            verified: true
-          })
+          switch(updated.action) {
+            case 'login':
+              request.post({url: 'http://api:3000/login', json: {mobile: query.mobile}}, (err, response, body) => {
+                res.status(response.statusCode).json(response.body)
+              })
+            break
+            
+            default:
+              res.status(200).json({verified: true})
+            break
+          }
         })
         .catch(function(err) {
           res.status(500).json({error: err})

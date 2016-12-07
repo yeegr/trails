@@ -22,7 +22,7 @@ class EditUserName extends Component {
     super(props)
 
     this.state = {
-      name: this.props.user.name
+      name: this.props.user.name || ''
     }
   }
 

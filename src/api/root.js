@@ -41,7 +41,7 @@ router.use(function(req, res, next) {
 // delete mongodb collection(s)
 router.post('/drop/:table', function(req, res, next) {
 	let table = req.params.table,
-	tables = (table === '' || table === null) ? ['actions', 'areas', 'events', 'logs', 'orders', 'posts', 'users', 'validates'] : [table]
+	tables = (table === 'all') ? ['actions', 'areas', 'events', 'logs', 'orders', 'posts', 'users', 'validates'] : [table]
 
 	tables.map(function(name) {
 		mongoose.connection.collections[name].drop(function (err) {

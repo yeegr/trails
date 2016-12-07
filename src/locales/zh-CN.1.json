@@ -5,7 +5,8 @@
     "Edit": "编辑",
     "Save": "保存",
     "Detail": "详情",
-    "NextStep": "下一步"
+    "NextStep": "下一步",
+    "Or": "或者"
   },
 
   "number": {
@@ -64,7 +65,8 @@
     "ResendVerificationCodeIn": "{{count}}秒后可重新获取",
     "VerificationCodeUnmatch": "手机号码和短信验证码不匹配",
     "VerificationCodeExpired": "短信验证码已过期，请重新获取",
-    "LoginViaWechat": "通过微信登录"
+    "LoginViaMobileNumber": "通过手机号码登录",
+    "LoginViaWeChat": "通过微信登录"
   },
 
   "area": {
@@ -190,6 +192,9 @@
   },
 
   "user": {
+    "Avatar": "头像",
+    "Handle": "昵称",
+    "MobileNumber": "手机号码",
     "levels": [
       "驴小白",
       "驴小兵",
@@ -197,6 +202,21 @@
       "驴将军",
       "驴大王"
     ]  
+  },
+
+  "mine": {
+    "edit": {
+      "EditAccount": "编辑账户",
+      "EditUserAvatar": "修改头像",
+      "EditUserHandle": "修改昵称",
+      "ChangeUserMobile": "修改手机号码",
+      "EditUserLevel": "用户级别",
+      "RealName": "真实姓名",
+      "PersonalId": "身份证号码",
+      "BindWeChat": "绑定微信",
+      "UnbindWeChat": "解绑微信",
+      "Logout": "退出登录"
+    }
   },
 
   "poi": {
@@ -473,7 +493,7 @@
   "SelectPhoto": "选择图片",
   "EditUserHandle": "修改昵称",
   "ChangeUserMobile": "修改手机号码",
-  "UntieWechat": "解绑微信",
+  "UntieWeChat": "解绑微信",
   "SubmitValidation": "提交验证码",
 
   "AboutUs": "关于我们",

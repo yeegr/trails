@@ -30,7 +30,8 @@ const Avatar = (props) => {
         width: sideLength
       }
     }),
-    url = ImagePath({type: 'avatar', path: 'users/' + props.user._id + '/' + props.user.avatar})
+    path = (props.user.avatar === 'default.jpg') ? 'users/default.jpg' : 'users/' + props.user._id + '/' + props.user.avatar, 
+    url = ImagePath({type: 'avatar', path: path})
 
   return (props.user) ? (
     <Image

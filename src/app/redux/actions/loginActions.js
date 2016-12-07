@@ -184,9 +184,10 @@ export const disableLogin = () => {
 }
 
 // get WeChat authorization
-export const wechatAuthRequest = () => {
+export const wechatAuthRequest = (action) => {
   return {
-    type: ACTIONS.WECHAT_AUTH_REQUEST
+    type: ACTIONS.WECHAT_AUTH_REQUEST,
+    action
   }
 }
 
@@ -198,7 +199,7 @@ export const wechatAuthWaiting = () => {
 
 export const wechatAuthSuccess = (wechat_token) => {
   return (dispatch) => {
-    dispatch(getWechatUserInfo(wechat_token))
+    dispatch(getWeChatUserInfo(wechat_token))
 
     return {
       type: ACTIONS.WECHAT_AUTH_SUCCESS
@@ -227,15 +228,28 @@ const wechatOpenIdFailure = (message) => {
   }
 }
 
-const getWechatUserInfo = (token) => {
+const getWeChatUserInfo = (token) => {
   return (dispatch, getState) => {
     return fetch(AppSettings.assetUri + 'wechat/info/' + token)
       .then((res) => {
         return res.json()
       })
       .then((wechat) => {
+        let state = getState().login
+
+        switch (state.action) {
+          case 'login':
+            dispatch(loginUser(getState().login.creds))
+          break
+          
+          case 'bind':
+            dispatch(updateUser(state.user._id, {
+              wechat: wechat.wechat
+            }))
+          break
+        }
+
         dispatch(wechatOpenIdSuccess(wechat))
-        dispatch(loginUser(getState().login.creds))
       })
       .catch((err) => dispatch(wechatOpenIdFailure(err)))
   }

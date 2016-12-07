@@ -18,7 +18,7 @@
 
   "Login":"登录",
   "LoginOrRegister":"登录或注册",
-  "LoginWithWechat":"通过微信登录",
+  "LoginWithWeChat":"通过微信登录",
   "ResendValidationCode":"秒后可重新发送",
   "GetValidationCode":"获取短信验证码",
   "ValidationCode":"短信验证码",
@@ -239,7 +239,7 @@
   "SelectPhoto":"选择图片",
   "EditUserHandle":"修改昵称",
   "ChangeUserMobile":"修改手机号码",
-  "UntieWechat":"解绑微信",
+  "UntieWeChat":"解绑微信",
   "SubmitValidation":"提交验证码",
 
   "AboutUs":"关于我们",

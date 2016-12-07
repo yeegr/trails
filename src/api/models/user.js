@@ -35,6 +35,7 @@ const mongoose = require('mongoose'),
     },
     wechat: {
       type: String,
+      default: CONST.WeChatOpenId,
       required: true,
       unique: true
     },
@@ -46,6 +47,7 @@ const mongoose = require('mongoose'),
     },
     handle: {
       type: String,
+      default: 'User_' + Date.now().toString(),
       required: true,
       max: 60
     },
@@ -54,6 +56,7 @@ const mongoose = require('mongoose'),
     },
     avatar: {
       type: String,
+      default: 'default.jpg',
       required: true
     },
     gender: {
@@ -267,7 +270,7 @@ userSchema.pre('save', function(next) {
   this.token = UTIL.generateRandomString(24)
   this.expiredAt = moment().add(1, 'month').valueOf()
 
-  if (this.isNew && this.avatar.substring(0, 4) === 'http') {
+  if (this.avatar.substring(0, 4) === 'http') {
     let fileName = UTIL.generateRandomString(8)
 
     request({

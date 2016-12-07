@@ -4,7 +4,7 @@ import {AsyncStorage} from 'react-native'
 import {CONSTANTS} from '../../settings'
 import * as ACTIONS from '../constants/loginConstants'
 
-const initWechat = {
+const initWeChat = {
   wechat: null,
   handle: null,
   gender: null,
@@ -21,15 +21,16 @@ init = {
   verifyMobile: false,
   loginDisabled: true,
   showMobileLogin: true,
-  showWechatLogin: true,
-  isAuthorizingWechat: false,
+  showWeChatLogin: true,
+  isAuthorizingWeChat: false,
   isFetching: false,
   tmpAvatarUri: null,
   loginError: '',
   updateError: '',
+  action: '',
   creds: Object.assign({
     mobile: null
-  }, initWechat)
+  }, initWeChat)
 },
 loginReducer = (state = init, action) => {
   switch (action.type) {
@@ -191,7 +192,7 @@ loginReducer = (state = init, action) => {
       return Object.assign({}, state, {
         isFetching: true,
         showMobileLogin: false,
-        showWechatLogin: false
+        showWeChatLogin: false
       })
 
     case ACTIONS.VERIFY_MOBILE_SUCCESS:
@@ -210,7 +211,7 @@ loginReducer = (state = init, action) => {
         isFetching: false,
         loginError: action.error,
         showMobileLogin: true,
-        showWechatLogin: true
+        showWeChatLogin: true
       })
 
     case ACTIONS.RESET_VERIFICATION_ERROR: 
@@ -220,39 +221,47 @@ loginReducer = (state = init, action) => {
 
 // open-auth with wechat
     case ACTIONS.WECHAT_AUTH_REQUEST:
+      console.log('wechat auth request')
       return Object.assign({}, state, {
-        isAuthorizingWechat: true,
+        action: action.action,
+        isAuthorizingWeChat: true,
         isFetching: true,
         showMobileLogin: false,
-        showWechatLogin: false
+        showWeChatLogin: false
       })
 
     case ACTIONS.WECHAT_AUTH_WAITING:
+      console.log('wechat auth waiting')
       return Object.assign({}, state, {
-        isAuthorizingWechat: false,
+        isAuthorizingWeChat: false,
       })
 
     case ACTIONS.WECHAT_AUTH_SUCCESS:
+      console.log('wechat auth success')
       return Object.assign({}, state, {
         isFetching: true
       })
 
     case ACTIONS.WECHAT_AUTH_FAILURE:
+      console.log('wechat auth failed')
       return Object.assign({}, state, {
-        isAuthorizingWechat: false,
+        action: '',
+        isAuthorizingWeChat: false,
         isFetching: false,
         showMobileLogin: true,
-        showWechatLogin: true,
-        creds: Object.assign({}, state.creds, initWechat)
+        showWeChatLogin: true,
+        creds: Object.assign({}, state.creds, initWeChat)
       })
 
     case ACTIONS.WECHAT_OPENID_SUCCESS:
+      console.log('wechat openid')
       return Object.assign({}, state, {
         creds: Object.assign({}, state.creds, action.wechat_data),
         isFetching: false
       })
 
     case ACTIONS.WECHAT_OPENID_FAILURE:
+      console.log('wechat openid failed')
       return init
 
     default:

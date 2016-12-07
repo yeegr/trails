@@ -70,22 +70,22 @@ class Login extends Component {
       })
 
       WeChat.addListener('SendAuth.Resp', (res) => {
-        //this.props.loginActions.showLogin()
-        if (res.errCode === 0) {
-          this.props.loginActions.wechatAuthSuccess(res.code)
-        } else {
-          this.props.loginActions.wechatAuthFailure(res)
-          Promise.reject(res)
+        if (this.props.login.action === 'login') {
+          if (res.errCode === 0) {
+            this.props.loginActions.wechatAuthSuccess(res.code)
+          } else {
+            this.props.loginActions.wechatAuthFailure(res)
+            Promise.reject(res)
+          }
         }
       })
     } catch (e) {
       console.error(e)
     }
-
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.login.isAuthorizingWechat) {
+    if (nextProps.login.action === 'login' && nextProps.login.isAuthorizingWeChat) {
       this.WXAuth()
     }
 
@@ -100,7 +100,7 @@ class Login extends Component {
   
   WXAuth() {
     if (this.state.isWXAppInstalled) {
-      this.props.loginActions.wechatAuthRequest()
+      this.props.loginActions.wechatAuthRequest('login')
       WeChat.sendAuthRequest('snsapi_userinfo', 'shitulv_login')
       this.props.loginActions.wechatAuthWaiting()
     }
@@ -108,7 +108,7 @@ class Login extends Component {
 
   render() {
     let login = this.props.login,
-      labelStyles = {fontWeight: '400', paddingHorizontal: 4},
+      labelStyles = {backgroundColor: 'transparent', fontWeight: '400', paddingHorizontal: 4},
       verificationButtonStyle = (login.disableVerification) ? styles.buttonDisabled : styles.buttonEnabled,
       loginButtonStyle = (login.loginDisabled) ? styles.buttonDisabled : styles.buttonEnabled,
 
@@ -152,7 +152,7 @@ class Login extends Component {
             <TextView
               style={labelStyles}
               textColor={Graphics.textColors.overlay} 
-              text={LANG.t('login.MobileNumber')}
+              text={LANG.t('login.LoginViaMobileNumber')}
             />
             <TextInput
               ref="mobileNumber"
@@ -193,6 +193,11 @@ class Login extends Component {
 
       wechatAuthButton = (
         <View style={styles.weixinLogin}>
+          <TextView
+            style={labelStyles}
+            textColor={Graphics.textColors.overlay} 
+            text={LANG.t('glossary.Or')}
+          />
           <TouchableOpacity
             style={[styles.button, styles.buttonEnabled]}
             onPress={this.WXAuth}
@@ -200,7 +205,7 @@ class Login extends Component {
             <TextView
               fontSize={'XXXL'}
               textColor={Graphics.textColors.overlay}
-              text={LANG.t('login.LoginViaWechat')}
+              text={LANG.t('login.LoginViaWeChat')}
             />
           </TouchableOpacity>
         </View>
@@ -217,7 +222,7 @@ class Login extends Component {
               {login.isFetching ? loginProgress : null}
               <KeyboardSpacer />
             </View>
-            {login.showWechatLogin ? wechatAuthButton : null}
+            {login.showWeChatLogin ? wechatAuthButton : null}
           </View>
           <TouchableOpacity onPress={this.hideLogin} style={styles.closeButton}>
             <Icon backgroundColor={Graphics.colors.transparent} fillColor="rgba(255, 255, 255, 0.8)" type={'close'} />
@@ -333,13 +338,14 @@ const styles = StyleSheet.create({
     width: Graphics.icon.sideLength
   },
   loginForm: {
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    paddingBottom: 100
   },
   weixinLogin: {
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: 0
+    bottom: 50
   },
   loginInput: {
     color: Graphics.colors.foreground,

@@ -55,6 +55,8 @@ export const ASSET_FOLDERS = {
   Post: 'posts'
 }
 
+export const WeChatOpenId = 'WeChatOpenId'
+
 export const DEFAULT_LOCALE = 'zh-CN'
 export const USER = 'user'
 export const ACCESS_TOKEN = 'access_token'

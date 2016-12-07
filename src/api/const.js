@@ -25,7 +25,7 @@ module.exports = {
   },
   PAYMENT_MEDHODS: [
     "Alipay",
-    "Wechat"
+    "WeChat"
   ],
   Roles: [
     'normal',
@@ -35,6 +35,8 @@ module.exports = {
     'admin',
     'super'
   ],
+
+  WeChatOpenId: 'WeChatOpenId',
 
   genderRx: /0|1/,
   levelRx: /[0-4]{1}/,
