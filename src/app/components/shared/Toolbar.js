@@ -227,7 +227,6 @@ const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
     backgroundColor: 'transparent',
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around'
   }
