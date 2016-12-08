@@ -2,6 +2,7 @@
   "version":"0.6.12",
   "platform":"iOS",
   "expiredOn":"2016-11-01",
+  "defaultUserAvatar":"default.png",
   "defaultEventHeroUri":"default/hero-006.jpg",
   "maxLeadersPerArea":3,
   "maxTrailPreviewsPerArea":3,

@@ -56,7 +56,7 @@ const mongoose = require('mongoose'),
     },
     avatar: {
       type: String,
-      default: 'default.jpg',
+      default: CONST.defaultUserAvatar,
       required: true
     },
     gender: {
@@ -122,6 +122,11 @@ const mongoose = require('mongoose'),
         match: CONST.mobileRx
       }
     }],
+    balance: {
+      type: Number,
+      default: 0,
+      match: CONST.currentcyRx
+    },
     tags: {
       type: [String]
     },

@@ -18,6 +18,7 @@ import {
   View
 } from 'react-native'
 
+import CacheableImage from 'react-native-cacheable-image'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import * as WeChat from 'react-native-wechat'
 
@@ -196,7 +197,7 @@ class Login extends Component {
           <TextView
             style={labelStyles}
             textColor={Graphics.textColors.overlay} 
-            text={LANG.t('glossary.Or')}
+            text={LANG.t('login.OrUseWeChat')}
           />
           <TouchableOpacity
             style={[styles.button, styles.buttonEnabled]}
@@ -215,7 +216,7 @@ class Login extends Component {
 
     return (
       <Modal animationType={'slide'} transparent={false} visible={this.props.login.showLogin}>
-        <Image source={{uri: loginBackgroundUrl}} style={styles.backgroundImage}>
+        <CacheableImage source={{uri: loginBackgroundUrl}} style={styles.backgroundImage}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <View style={{flexDirection: 'column'}}>
               {login.showMobileLogin ? mobileLoginForm : null}
@@ -225,9 +226,13 @@ class Login extends Component {
             {login.showWeChatLogin ? wechatAuthButton : null}
           </View>
           <TouchableOpacity onPress={this.hideLogin} style={styles.closeButton}>
-            <Icon backgroundColor={Graphics.colors.transparent} fillColor="rgba(255, 255, 255, 0.8)" type={'close'} />
+            <Icon
+              backgroundColor={Graphics.colors.transparent}
+              fillColor="rgba(255, 255, 255, 0.8)"
+              type={'close'}
+            />
           </TouchableOpacity>
-        </Image>
+        </CacheableImage>
       </Modal>
     )
   }
@@ -322,7 +327,7 @@ class Login extends Component {
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    backgroundColor: Graphics.colors.background,
+    backgroundColor: Graphics.colors.lightGray,
     position: 'absolute',
     left: 0,
     right: 0,

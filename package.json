@@ -66,6 +66,7 @@
     "react": "^15.4.1",
     "react-native": "^0.38.1",
     "react-native-app-intro": "^1.1.5",
+    "react-native-cacheable-image": "^1.4.3",
     "react-native-camera-roll-picker": "^1.1.6",
     "react-native-chart": "^1.0.8-beta",
     "react-native-code-push": "^1.16.1-beta",

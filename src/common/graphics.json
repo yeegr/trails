@@ -3,12 +3,14 @@
   "colors":{
     "primary":"#00A652",
     "transparent":"rgba(0,0,0,0)",
+    "mask":"#000000",
     "background":"#ebebeb",
     "foreground":"#000000",
     "border":"#d3d3d3",
     "warning":"#ff0000",
     "disabled":"#696969",
 
+    "black":"#000000",
     "white":"#ffffff",
     "darkGray":"#696969",
     "midGray":"#808080",

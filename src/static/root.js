@@ -33,7 +33,7 @@ router.use(function(req, res, next) {
   next()
 })
 
-router.get('/', function(req, res, next) {
+router.get('/:sharp', function(req, res, next) {
   let os = req.query.os,
     screen = req.query.res.split('x'),
     type = req.query.type,
@@ -95,7 +95,12 @@ router.get('/', function(req, res, next) {
 
   http.get(url, function(result) {
     if (result.statusCode === 200) {
-      res.type(result.headers['content-type']).set({'Cache-Control': 'public, max-age=31557600'}).status(result.statusCode)
+      res
+      .type(result.headers['content-type'])
+      .set({'Cache-Control': 'public, max-age=31557600'})
+      .set({'Expires': Date.now() + 2678400})
+      .status(result.statusCode)
+
       result.pipe(transformer).pipe(res)
     }
   })

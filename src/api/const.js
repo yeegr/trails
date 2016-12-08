@@ -36,6 +36,7 @@ module.exports = {
     'super'
   ],
 
+  defaultUserAvatar: 'default.png',
   WeChatOpenId: 'WeChatOpenId',
 
   genderRx: /0|1/,

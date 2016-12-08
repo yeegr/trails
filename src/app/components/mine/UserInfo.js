@@ -28,9 +28,9 @@ import styles from '../../styles/main'
 
 import {
   CONSTANTS,
+  LANG,
   UTIL,
   AppSettings,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -79,53 +79,59 @@ class UserInfo extends Component {
     switch (type) {
       case 'orders':
         id = 'MyOrders',
-        title = Lang.MyOrders,
+        title = LANG.t('mine.MyOrders'),
+        query = "?creator=" + user.id
+      break;
+
+      case 'wallet':
+        id = 'MyWallet',
+        title = LANG.t('mine.MyWallet'),
         query = "?creator=" + user.id
       break;
 
       case 'trails':
         id = 'MyTrails',
-        title = Lang.MyTrails,
+        title = LANG.t('mine.MyTrails'),
         query = "?creator=" + user.id
       break;
 
       case 'events':
         id = 'EventManager',
-        title = Lang.MyEvents
+        title = LANG.t('mine.MyEvents')
       break;
 
       case 'posts':
         id = 'PostList',
-        title = Lang.MyPosts,
+        title = LANG.t('mine.MyPosts'),
         query = "?creator=" + user.id
       break;
 
       case 'savedTrails':
         id = 'TrailList',
-        title = Lang.SavedTrails,
+        title = LANG.t('mine.SavedTrails'),
         query = "?in=" + JSON.stringify(user.saves.trails).replace(/\"/g, '')
       break;
 
       case 'savedEvents':
         id = 'EventList',
-        title = Lang.SavedEvents,
+        title = LANG.t('mine.SavedEvents'),
         query = "?in=" + JSON.stringify(user.saves.events).replace(/\"/g, '')
       break;
 
       case 'savedPosts':
         id = 'PostList',
-        title = Lang.SavedPosts,
+        title = LANG.t('mine.SavedPosts'),
         query = "?in=" + JSON.stringify(user.saves.posts).replace(/\"/g, '')
       break;
 
       case 'edit':
         id = 'EditAccount',
-        title = Lang.EditAccount
+        title = LANG.t('mine.EditAccount')
       break;
 
       case 'about':
         id = 'AboutUs',
-        title = Lang.AboutUs
+        title = LANG.t('mine.AboutUs')
       break;
     }
 
@@ -164,50 +170,55 @@ class UserInfo extends Component {
         )}>
         <View style={styles.editor.group}>
           <EditLink
-            label={Lang.MyOrders}
+            label={LANG.t('mine.MyOrders')}
             onPress={() => user.orders && user.orders.length > 0 && this._nextPage('orders')}
             value={user.orders.length}
+          />
+          <EditLink
+            label={LANG.t('mine.MyWallet')}
+            onPress={() => user.blance > 0 && this._nextPage('wallet')}
+            value={LANG.l('currency', user.balance)}
           />
         </View>
         <View style={styles.editor.group}>
           <EditLink
-            label={Lang.MyTrails}
+            label={LANG.t('mine.MyTrails')}
             onPress={() => totalUserTrails > 0 && this._nextPage('trails')}
             value={totalUserTrails}
           />
           <EditLink
-            label={Lang.MyEvents}
+            label={LANG.t('mine.MyEvents')}
             onPress={() => user.events.length > 0 && this._nextPage('events')}
             value={user.events.length}
           />
-          <EditLink onPress={() => user.posts.length > 0 && this._nextPage('posts')} value={user.posts.length} label={Lang.MyPosts} />
+          <EditLink onPress={() => user.posts.length > 0 && this._nextPage('posts')} value={user.posts.length} label={LANG.t('mine.MyPosts')} />
         </View>
         <View style={styles.editor.group}>
           <EditLink
-            label={Lang.SavedTrails}
+            label={LANG.t('mine.SavedTrails')}
             onPress={() => user.saves.trails.length > 0 && this._nextPage('savedTrails')}
             value={user.saves.trails.length}
           />
           <EditLink
-            label={Lang.SavedEvents}
+            label={LANG.t('mine.SavedEvents')}
             onPress={() => user.saves.events.length > 0 && this._nextPage('savedEvents')}
             value={user.saves.events.length}
           />
           <EditLink
-            label={Lang.SavedPosts}
+            label={LANG.t('mine.SavedPosts')}
             onPress={() => user.saves.posts.length > 0 && this._nextPage('savedPosts')}
             value={user.saves.posts.length}
           />
         </View>
         <View style={styles.editor.group}>
           <EditLink
-            label={Lang.MyAccount}
+            label={LANG.t('mine.EditAccount')}
             onPress={() => this._nextPage('edit')}
           />
         </View>
         <View style={styles.editor.group}>
           <EditLink
-            label={Lang.AboutUs}
+            label={LANG.t('mine.AboutUs')}
             onPress={() => this._nextPage('about')}
           />
         </View>

@@ -12,6 +12,7 @@ import {
 import ImagePath from './ImagePath'
 
 import {
+  AppSettings,
   Graphics
 } from '../../settings'
 
@@ -30,7 +31,7 @@ const Avatar = (props) => {
         width: sideLength
       }
     }),
-    path = (props.user.avatar === 'default.jpg') ? 'users/default.jpg' : 'users/' + props.user._id + '/' + props.user.avatar, 
+    path = (props.user.avatar === AppSettings.defaultUserAvatar) ? 'users/' + AppSettings.defaultUserAvatar : 'users/' + props.user._id + '/' + props.user.avatar, 
     url = ImagePath({type: 'avatar', path: path})
 
   return (props.user) ? (

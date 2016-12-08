@@ -17,7 +17,8 @@ const ImagePath = (props) => {
     res = '&res=' + (width * pixelRatio).toString() + 'x' + (height * pixelRatio).toString(),
     url = AppSettings.assetUri + type + path + res
 
-  return url
+  //return url
+  return AppSettings.imageUri + props.path
 }
 
 export default ImagePath
