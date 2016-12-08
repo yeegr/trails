@@ -17,7 +17,7 @@ import {
   UTIL
 } from '../../settings'
 
-const Comment = (props) => {
+const CommentView = (props) => {
   const comment = props.comment, 
   user = comment.creator,
 
@@ -61,8 +61,8 @@ const Comment = (props) => {
   )
 }
 
-Comment.propTypes = {
+CommentView.propTypes = {
   comment: PropTypes.object.isRequired
 }
 
-export default Comment
+export default CommentView

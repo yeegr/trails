@@ -313,7 +313,8 @@ class Login extends Component {
     if (!this.props.login.loginDisabled) {
       this.props.loginActions.verifyMobileNumber(
         this.state.mobileNumber,
-        this.state.verificationCode
+        this.state.verificationCode,
+        'login'
       )
     }
   }

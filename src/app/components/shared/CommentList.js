@@ -8,7 +8,7 @@ import {
   ListView
 } from 'react-native'
 
-import Comment from './Comment'
+import CommentView from './CommentView'
 
 const CommentList = (props) => {
   const dataSource = new ListView.DataSource({
@@ -17,7 +17,7 @@ const CommentList = (props) => {
   
   renderRow = (rowData, sectionId, rowId) => {
     return (
-      <Comment key={rowId} comment={rowData} />
+      <CommentView key={rowId} comment={rowData} />
     )
   }
 

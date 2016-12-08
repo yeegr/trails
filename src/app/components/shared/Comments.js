@@ -72,7 +72,7 @@ class Comments extends Component {
           type={'comment'}
           rating={this.state.rating}
           text={this.state.text}
-          placeholder={LANG.t('t.placeholder')}
+          placeholder={LANG.t('comment.placeholder')}
           onSubmit={(comment) => this.uploadComment(comment)}
         />
         <KeyboardSpacer />
@@ -83,7 +83,7 @@ class Comments extends Component {
 
 Comments.propTypes = {
   navigator: PropTypes.object.isRequired,
-  comments: PropTypes.object.isRequired,
+  comments: PropTypes.array.isRequired,
   commentsActions: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,

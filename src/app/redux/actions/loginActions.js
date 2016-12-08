@@ -143,11 +143,12 @@ const verifyMobileFailure = (key) => {
   }
 }
 
-export const verifyMobileNumber = (mobile, vcode) => {
+export const verifyMobileNumber = (mobile, vcode, action) => {
   let config = Object.assign({}, FETCH.PUT, {
     body: JSON.stringify({
       mobile,
-      vcode
+      vcode,
+      action
     })
   })
   

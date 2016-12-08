@@ -66,10 +66,6 @@ class EditAccount extends Component {
 
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextprops')
-    if (nextProps.login.action === 'bind') {
-      console.log(nextProps.login)
-    }
   }
 
   _nextPage(type) {

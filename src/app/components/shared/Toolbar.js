@@ -27,8 +27,9 @@ import {
 class Toolbar extends Component {
   constructor(props) {
     super(props)
-    this.act = this.act.bind(this)
-    this.comment = this.comment.bind(this)
+    this._act = this._act.bind(this)
+    this._send = this._send.bind(this)
+    this._comment = this._comment.bind(this)
   }
 
   componentDidMount() {
@@ -46,21 +47,17 @@ class Toolbar extends Component {
     this.props.toolbarActions.resetToolbar(init)
   }
 
-  act(type) {
-    if (this.props.user) {
-      let requestBody = {
-        action: type,
-        target: this.props.type,
-        ref: this.props.data.id,
-        creator: this.props.user.id
-      }
-      this.props.toolbarActions.send(requestBody);
-    } else {
-      this.props.loginActions.showLogin()
+  _send(type) {
+    let requestBody = {
+      action: type,
+      target: this.props.type,
+      ref: this.props.data.id,
+      creator: this.props.user.id
     }
+    this.props.toolbarActions.send(requestBody);
   }
 
-  comment() {
+  _comment() {
     this.props.navigator.push({
       id: 'Comments',
       title: LANG.t('comment.comment_plural'),
@@ -69,6 +66,32 @@ class Toolbar extends Component {
         data: this.props.data
       }
     })
+  }
+
+  _act(type) {
+    if (this.props.user) {
+      let contentCreator = this.props.data.creator._id,
+        currentUser = this.props.user._id
+
+      switch (type) {
+        case CONSTANTS.USER_ACTIONS.LIKE:
+        case CONSTANTS.USER_ACTIONS.SAVE:
+          if (contentCreator !== currentUser) {
+            this._send(type)
+          }
+        break
+
+        case CONSTANTS.USER_ACTIONS.SHARE:
+          this._send(type)
+        break
+
+        case CONSTANTS.USER_ACTIONS.COMMENT:
+          this._comment()
+        break
+      }
+    } else {
+      this.props.loginActions.showLogin()
+    }
   }
 
   render() {
@@ -188,25 +211,25 @@ class Toolbar extends Component {
         saveAction = (savesArray.indexOf(id) < 0) ? CONSTANTS.USER_ACTIONS.SAVE : CONSTANTS.USER_ACTIONS.UNSAVE
 
       likeView = (
-        <TouchableOpacity onPress={() => this.act(likeAction)}>
+        <TouchableOpacity onPress={() => this._act(likeAction)}>
           {likeIcon}
         </TouchableOpacity>
       )
 
       saveView = (
-        <TouchableOpacity onPress={() => this.act(saveAction)}>
+        <TouchableOpacity onPress={() => this._act(saveAction)}>
           {saveIcon}
         </TouchableOpacity>
       )
 
       shareView = (
-        <TouchableOpacity onPress={() => this.act(CONSTANTS.USER_ACTIONS.SHARE)}>
+        <TouchableOpacity onPress={() => this._act(CONSTANTS.USER_ACTIONS.SHARE)}>
           {shareIcon}
         </TouchableOpacity>
       )
 
       commentView = (
-        <TouchableOpacity onPress={this.comment}>
+        <TouchableOpacity onPress={this._comment}>
           {commentIcon}
         </TouchableOpacity>
       )
