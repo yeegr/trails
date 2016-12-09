@@ -5,7 +5,6 @@ import * as ACTIONS from '../constants/loginConstants'
 import {
   CONSTANTS,
   FETCH,
-  UTIL,
   AppSettings,
   Lang
 } from '../../settings'
@@ -44,19 +43,6 @@ export const showLogin = () => {
 export const hideLogin = () => {
   return {
     type: ACTIONS.HIDE_LOGIN
-  }
-}
-
-// toggle mobile number input for verification
-export const enableValidation = () => {
-  return {
-    type: ACTIONS.ENABLE_VERIFICATION
-  }
-}
-
-export const disableVerification = () => {
-  return {
-    type: ACTIONS.DISABLE_VERIFICATION
   }
 }
 
@@ -99,23 +85,11 @@ export const uploadMobileNumber = (mobile, action) => {
           return Promise.reject(res)
         }
       })
-      .catch((err) => console.error(err))
+      .catch((err) => console.log(err))
   }
 }
 
-// toggle verification code input for verification
-export const showVerification = () => {
-  return {
-    type: ACTIONS.SHOW_VERIFICATION
-  }
-}
-
-export const hideVerification = () => {
-  return {
-    type: ACTIONS.HIDE_VERIFICATION
-  }
-}
-
+// reset verification error message
 export const resetVerificationError = () => {
   return {
     type: ACTIONS.RESET_VERIFICATION_ERROR
@@ -168,19 +142,6 @@ export const verifyMobileNumber = (mobile, vcode, action) => {
           //return Promise.reject(res)
         }
       })
-  }
-}
-
-// toggle login button for mobile number verification
-export const enableLogin = () => {
-  return {
-    type: ACTIONS.ENABLE_LOGIN
-  }
-}
-
-export const disableLogin = () => {
-  return {
-    type: ACTIONS.DISABLE_LOGIN
   }
 }
 
@@ -239,11 +200,11 @@ const getWeChatUserInfo = (token) => {
         let state = getState().login
 
         switch (state.action) {
-          case 'login':
-            dispatch(loginUser(getState().login.creds))
+          case CONSTANTS.ACCOUNT_ACTIONS.LOGIN:
+            dispatch(loginUser(wechat))
           break
           
-          case 'bind':
+          case CONSTANTS.ACCOUNT_ACTIONS.BIND:
             dispatch(updateUser(state.user._id, {
               wechat: wechat.wechat
             }))

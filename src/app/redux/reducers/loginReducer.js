@@ -1,7 +1,5 @@
 'use strict'
 
-import {AsyncStorage} from 'react-native'
-import {CONSTANTS} from '../../settings'
 import * as ACTIONS from '../constants/loginConstants'
 
 const initWeChat = {
@@ -16,10 +14,6 @@ const initWeChat = {
 },
 init = {
   showLogin: false,
-  disableVerification: true,
-  showValidation: false,
-  verifyMobile: false,
-  loginDisabled: true,
   showMobileLogin: true,
   showWeChatLogin: true,
   isAuthorizingWeChat: false,
@@ -48,46 +42,13 @@ loginReducer = (state = init, action) => {
 
 // toggle login popup
     case ACTIONS.SHOW_LOGIN:
-      return Object.assign({}, state, {
+      return Object.assign({}, init, {
         showLogin: true
       })
 
     case ACTIONS.HIDE_LOGIN:
       return Object.assign({}, init, {
         showLogin: false
-      })
-
-// toggle verification input
-    case ACTIONS.ENABLE_VERIFICATION:
-      return Object.assign({}, state, {
-        disableVerification: false
-      })
-
-    case ACTIONS.DISABLE_VERIFICATION:
-      return Object.assign({}, state, {
-        disableVerification: true
-      })
-
-// toggle
-    case ACTIONS.SHOW_VERIFICATION:
-      return Object.assign({}, state, {
-        showValidation: true
-      })
-
-    case ACTIONS.HIDE_VERIFICATION:
-      return Object.assign({}, state, {
-        showValidation: false
-      })
-
-// toggle login form
-    case ACTIONS.ENABLE_LOGIN:
-      return Object.assign({}, state, {
-        loginDisabled: false
-      })
-
-    case ACTIONS.DISABLE_LOGIN:
-      return Object.assign({}, state, {
-        loginDisabled: true
       })
 
 // login
@@ -100,12 +61,14 @@ loginReducer = (state = init, action) => {
 
     case ACTIONS.LOGIN_SUCCESS:
       return Object.assign({}, init, {
+        showMobileLogin: false,
         token: action.token,
         user: action.user
       })
 
     case ACTIONS.LOGIN_FAILURE:
       return Object.assign({}, state, {
+        showMobileLogin: true,
         isFetching: false
       })
 
@@ -221,7 +184,6 @@ loginReducer = (state = init, action) => {
 
 // open-auth with wechat
     case ACTIONS.WECHAT_AUTH_REQUEST:
-      console.log('wechat auth request')
       return Object.assign({}, state, {
         action: action.action,
         isAuthorizingWeChat: true,
@@ -231,7 +193,6 @@ loginReducer = (state = init, action) => {
       })
 
     case ACTIONS.WECHAT_AUTH_WAITING:
-      console.log('wechat auth waiting')
       return Object.assign({}, state, {
         isAuthorizingWeChat: false,
       })
@@ -243,7 +204,6 @@ loginReducer = (state = init, action) => {
       })
 
     case ACTIONS.WECHAT_AUTH_FAILURE:
-      console.log('wechat auth failed')
       return Object.assign({}, state, {
         action: '',
         isAuthorizingWeChat: false,
@@ -254,14 +214,12 @@ loginReducer = (state = init, action) => {
       })
 
     case ACTIONS.WECHAT_OPENID_SUCCESS:
-      console.log('wechat openid')
       return Object.assign({}, state, {
         creds: Object.assign({}, state.creds, action.wechat_data),
         isFetching: false
       })
 
     case ACTIONS.WECHAT_OPENID_FAILURE:
-      console.log('wechat openid failed')
       return init
 
     default:

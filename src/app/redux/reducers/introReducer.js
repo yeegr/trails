@@ -18,7 +18,7 @@ const introReducer = (state = {
           }
         })
         .catch((err) => {
-          console.error(err)
+          console.log(err)
         })
 
     case ACTIONS.HIDE_INTRO:
@@ -28,7 +28,7 @@ const introReducer = (state = {
           AsyncStorage.setItem(INTRO_PLAYED, true)
         })
         .catch((err) => {
-          console.error(err)
+          console.log(err)
           Object.assign({}, state, {
             showIntro: false
           })

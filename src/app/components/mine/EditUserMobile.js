@@ -23,6 +23,7 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
+  LANG,
   AppSettings,
   Lang,
   Graphics
@@ -31,20 +32,25 @@ import {
 class EditUserMobile extends Component {
   constructor(props) {
     super(props)
-    this.onMobileNumberChanged = this.onMobileNumberChanged.bind(this)
-    this.getValidation = this.getValidation.bind(this)
-    this.onVerificationCodeChanged = this.onVerificationCodeChanged.bind(this)
-    this.sendValidationCode = this.sendValidationCode.bind(this)
+    this._onMobileNumberChanged = this._onMobileNumberChanged.bind(this)
+    this._getVerification = this._getVerification.bind(this)
+    this._onVerificationCodeChanged = this._onVerificationCodeChanged.bind(this)
+    this._onUpdatePressed = this._onUpdatePressed.bind(this)
+
+    this.counter = AppSettings.getVerificationTimer
+
+    this.getValidationButtonText = LANG.t('login.GetVerificationCode')
 
     this.state = {
       mobileNumber: '',
       verificationCode: '',
+
       disableMobileNumberInput: false,
       disableVerificationButton: true,
-      getValidationButtonText: Lang.GetValidationCode,
-      hideVerification: true,
+      getValidationButtonText: this.getValidationButtonText,
+      showVerification: false,
       disableVerificationInput: false,
-      disableVerificationButton: true
+      disableUpdateButton: true
     }
   }
 
@@ -54,63 +60,77 @@ class EditUserMobile extends Component {
     }
   }
 
-  onMobileNumberChanged(val) {
-    let mobile = val.trim(),
-      test = AppSettings.mobileRx.test(mobile)
-
-    this.setState({
-      mobileNumber: mobile,
-      verificationCode: '',
-
-      disableVerificationButton: !test,
-      hideVerification: true,
-      disableVerification: true
-    })
+  _onMobileNumberChanged(val) {
+    let mobileNumber = val.trim(),
+      test = AppSettings.mobileRx.test(mobileNumber)
 
     this.props.loginActions.clearUpdateError()
+
+    if (test && this.counter === AppSettings.getVerificationTimer) {
+      this.setState({
+        mobileNumber,
+        disableVerificationButton: false
+      })
+    } else {
+      this.setState({
+        mobileNumber,
+        disableVerificationButton: true,
+        showVerificationView: false,
+        verificationCode: '',
+        disableVerificationInput: false
+      })
+    }
+/*
+    this.setState({
+      mobileNumber,
+      verificationCode: '',
+
+      disableVerificationInput: false,
+      disableVerificationButton: !test,
+      showVerification: false
+    })*/
   }
 
-  getValidation() {
+  _getVerification() {
     if (parseInt(this.state.mobileNumber) !== this.props.login.user.mobile) {
       this.props.loginActions.uploadMobileNumber(this.state.mobileNumber, 'UPDATE_MOBILE')
 
       this.setState({
-        verificationCode: '',
-        hideVerification: false
+        disableVerificationButton: true,
+        showVerificationView: true,
+        verificationCode: ''
       })
 
-      let that = this,
-        counter = AppSettings.getValidationTimer,
-        interval = setInterval(function() {
-          if (counter > 0) {
-            that.setState({
-              getValidationButtonText: counter + Lang.ResendValidationCode,
-              disableVerificationButton: true
-            })
-            counter--
-          } else {
-            clearInterval(interval)
-            that.setState({
-              getValidationButtonText: Lang.GetValidationCode,
-              disableVerificationButton: false
-            })
+      this.interval = setInterval(() => {
+        if (this.counter > 0) {
+          this.counter--
+          this.setState({
+            getValidationButtonText: LANG.t('login.ResendVerificationCodeIn', {count: this.counter})
+          })
+        } else {
+          clearInterval(this.interval)
+          this.counter = AppSettings.getVerificationTimer
+          this.setState({
+            getValidationButtonText: this.getValidationButtonText,
+            disableVerificationButton: false
+          })
         }
       }, 1000)
     }
   }
 
-  onVerificationCodeChanged(val) {
-    let code = val.trim()
-
-    this.setState({
-      verificationCode: code,
-      disableVerificationButton: !AppSettings.vcodeRx.test(code)
-    })
+  _onVerificationCodeChanged(val) {
+    let verificationCode = val.trim()
 
     this.props.loginActions.clearUpdateError()
+
+    this.setState({
+      verificationCode,
+      disableVerificationButton: !AppSettings.vcodeRx.test(verificationCode)
+    })
   }
 
-  sendValidationCode() {
+  _onUpdatePressed() {
     this.props.loginActions.updateUserMobile(
       this.props.login.user._id,
       this.state.mobileNumber,
@@ -119,33 +139,43 @@ class EditUserMobile extends Component {
   }
 
   render() {
-    const verificationForm = this.state.hideVerification ? null: (
-      <View>
-        <TextInput
-          autoFocus={false}
-          autoCorrect={false}
-          disabled={this.state.disableVerificationInput}
-          keyboardType="numeric"
-          maxLength={AppSettings.verificationCodeLength}
-          placeholder={Lang.ValidationCode}
-          style={[styles.editor.textInput, {fontSize: 24, textAlign: 'center'}]}
-          onFocus={() => {this.setState({verificationCode: ''})}}
-          onChangeText={(value) => this.onVerificationCodeChanged(value)}
-          value={this.state.verificationCode}
-        />
-        <TextButton
-          disabled={this.state.disableVerificationButton}
-          onPress={() => !this.state.disableVerificationButton && this.sendValidationCode()}
-          text={Lang.SubmitValidation}
-        />
-        <TextView
-          fontSize={'L'}
-          style={{flex: 1, marginTop: 10, textAlign: 'center'}}
-          textColor={Graphics.colors.warning}
-          text={this.props.login.updateError}
-        />
-      </View>
-    )
+    const {
+        mobileNumber,
+        verificationCode,
+        disableMobileNumberInput,
+        disableVerificationButton,
+        getValidationButtonText,
+        showVerificationView,
+        disableVerificationInput,
+        disableUpdateButton
+      } = this.state,
+      verificationView = (
+        <View>
+          <TextInput
+            autoFocus={false}
+            autoCorrect={false}
+            disabled={disableVerificationInput}
+            keyboardType="numeric"
+            maxLength={AppSettings.verificationCodeLength}
+            placeholder={Lang.ValidationCode}
+            style={[styles.editor.textInput, {fontSize: 24, textAlign: 'center'}]}
+            onFocus={() => {this.setState({verificationCode: ''})}}
+            onChangeText={(value) => !disableVerificationInput && this._onVerificationCodeChanged(value)}
+            value={verificationCode}
+          />
+          <TextButton
+            disabled={disableUpdateButton}
+            onPress={() => !disableUpdateButton && this._onUpdatePressed()}
+            text={Lang.SubmitValidation}
+          />
+          <TextView
+            fontSize={'L'}
+            style={{flex: 1, marginTop: 10, textAlign: 'center'}}
+            textColor={Graphics.colors.warning}
+            text={this.props.login.updateError}
+          />
+        </View>
+      )
 
     return (
       <View style={styles.global.wrapper}>
@@ -155,21 +185,21 @@ class EditUserMobile extends Component {
               <TextInput
                 autoFocus={true}
                 autoCorrect={false}
-                disabled={this.state.disableMobileNumberInput}
+                disabled={disableMobileNumberInput}
                 keyboardType="phone-pad"
                 maxLength={AppSettings.mobileNumberLength}
-                placeholder={Lang.MobileNumberSample}
+                onChangeText={this._onMobileNumberChanged}
+                placeholder={LANG.t('login.MobileNumberPlaceholder')}
                 style={[styles.editor.textInput, {fontSize: 24, textAlign: 'center'}]}
-                onChangeText={(mobile) => this.onMobileNumberChanged(mobile)}
-                value={this.state.mobileNumber}
+                value={mobileNumber}
               />
               <TextButton
-                disabled={this.state.disableVerificationButton}
-                onPress={this.getValidation}
-                text={this.state.getValidationButtonText}
+                disabled={disableVerificationButton}
+                onPress={this._getVerification}
+                text={getValidationButtonText}
               />
             </View>
-            {verificationForm}
+            {showVerificationView ? verificationView : null}
             <KeyboardSpacer />
           </View>
         </ScrollView>

@@ -37,6 +37,8 @@ export const USER_ACTIONS = {
 }
 
 export const ACCOUNT_ACTIONS = {
+  LOGIN: 'LOGIN',
+  BIND: 'BIND',
   SAVE_HANDLE: 'SAVE_HANDLE',
   SAVE_AVATAR: 'SAVE_AVATAR'
 }

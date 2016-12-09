@@ -24,6 +24,7 @@ import ImagePath from '../shared/ImagePath'
 import Loading from '../shared/Loading'
 
 import {
+  AppSettings,
   Lang
 } from '../../settings'
 
@@ -33,8 +34,10 @@ class EditUserAvatar extends Component {
     this.selectPhoto = this.selectPhoto.bind(this)
     this.user = this.props.login.user
 
+    let path = (this.user.avatar === AppSettings.defaultUserAvatar) ? AppSettings.defaultUserAvatar  : this.user._id + '/' + this.user.avatar
+
     this.state = {
-      sourceUri: ImagePath({type: 'avatar', path: 'users/' + this.user._id + '/' + this.user.avatar}) 
+      sourceUri: ImagePath({type: 'avatar', path: 'users/' + path}) 
     }
   }
 

@@ -97,7 +97,7 @@ class OrderPayment extends Component {
       result.method = this.props.order.method
       this.props.ordersActions.updateOrder(result)
     }, (err) => {
-      console.error(err)
+      console.log(err)
     })
   }
 

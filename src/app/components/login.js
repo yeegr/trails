@@ -31,6 +31,7 @@ import ImagePath from '../components/shared/ImagePath'
 import TextView from '../components/shared/TextView'
 
 import {
+  CONSTANTS,
   LANG,
   AppSettings,
   Graphics
@@ -39,24 +40,34 @@ import {
 class Login extends Component {
   constructor(props) {
     super(props)
-    this.hideLogin = this.hideLogin.bind(this)
-    this.resetState = this.resetState.bind(this)
-    this.onMobileNumberChanged = this.onMobileNumberChanged.bind(this)
-    this.getValidation = this.getValidation.bind(this)
-    this.onVerificationCodeChanged = this.onVerificationCodeChanged.bind(this)
-    this.onLoginPressed = this.onLoginPressed.bind(this)
-
+    this._hideLogin = this._hideLogin.bind(this)
+    this._resetState = this._resetState.bind(this)
+    this._onMobileNumberChanged = this._onMobileNumberChanged.bind(this)
+    this._getVerification = this._getVerification.bind(this)
+    this._onVerificationCodeChanged = this._onVerificationCodeChanged.bind(this)
+    this._onLoginPressed = this._onLoginPressed.bind(this)
     this.WXAuth = this.WXAuth.bind(this)
 
-    this.state = {
+    this.counter = AppSettings.getVerificationTimer
+
+    this.init = {
+      mobileNumber: '',
+      verificationCode: '',
+
+      disableMobileNumberInput: false,
+      disableVerificationButton: true,
+      getVerificationButtonText: LANG.t('login.GetVerificationCode'),
+      showVerificationView: false,
+      disableVerificationInput: false,
+      disableLoginButton: true
+    }
+
+    this.state = Object.assign({}, this.init, {
       apiVersion: 'waiting...',
       wxAppInstallUrl: 'waiting...',
       isWXAppSupportApi: 'waiting...',
-      isWXAppInstalled: 'waiting...',
-      mobileNumber: '',
-      verificationCode: '',
-      getValidationButtonText: LANG.t('login.GetVerificationCode')
-    }
+      isWXAppInstalled: 'waiting...'
+    })
   }
 
   async componentDidMount() {
@@ -71,47 +82,129 @@ class Login extends Component {
       })
 
       WeChat.addListener('SendAuth.Resp', (res) => {
-        if (this.props.login.action === 'login') {
+        if (this.props.login.action === CONSTANTS.ACCOUNT_ACTIONS.LOGIN) {
           if (res.errCode === 0) {
             this.props.loginActions.wechatAuthSuccess(res.code)
           } else {
             this.props.loginActions.wechatAuthFailure(res)
-            Promise.reject(res)
           }
         }
       })
     } catch (e) {
-      console.error(e)
+      console.log(e)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.login.action === 'login' && nextProps.login.isAuthorizingWeChat) {
-      this.WXAuth()
-    }
-
-    if (!nextProps.showLogin) {
-      this.resetState()
+    if (nextProps.login.action === CONSTANTS.ACCOUNT_ACTIONS.LOGIN) {
+      if (nextProps.login.isAuthorizingWeChat) {
+        this.WXAuth()
+      }
     }
 
     if (!nextProps.login.showLogin) {
-      clearInterval(this.interval)
+      this._resetState()
     }
   }
   
   WXAuth() {
     if (this.state.isWXAppInstalled) {
-      this.props.loginActions.wechatAuthRequest('login')
-      WeChat.sendAuthRequest('snsapi_userinfo', 'shitulv_login')
+      this.props.loginActions.wechatAuthRequest(CONSTANTS.ACCOUNT_ACTIONS.LOGIN)
+      WeChat
+      .sendAuthRequest('snsapi_userinfo', 'shitulv_login')
+      .catch((e) => {
+        console.log(e)
+      })
       this.props.loginActions.wechatAuthWaiting()
     }
   }
 
+  _resetState() {
+    this.setState(this.init)
+  }
+
+  _onMobileNumberChanged(val) {
+    let mobileNumber = val.trim(),
+      test = AppSettings.mobileRx.test(mobileNumber)
+
+    this.props.loginActions.resetVerificationError()
+
+    if (test && this.counter === AppSettings.getVerificationTimer) {
+      this.setState({
+        mobileNumber,
+        disableVerificationButton: false
+      })
+    } else {
+      this.setState({
+        mobileNumber,
+        disableVerificationButton: true,
+        showVerificationView: false,
+        verificationCode: '',
+        disableVerificationInput: false
+      })
+    }
+  }
+
+  _getVerification() {
+    this.props.loginActions.uploadMobileNumber(this.state.mobileNumber, CONSTANTS.ACCOUNT_ACTIONS.LOGIN)
+
+    this.setState({
+      disableVerificationButton: true,
+      showVerificationView: true,
+      verificationCode: ''
+    })
+
+    this.interval = setInterval(() => {
+      if (this.counter > 0) {
+        this.counter--
+        this.setState({
+          getVerificationButtonText: LANG.t('login.ResendVerificationCodeIn', {count: this.counter})
+        })
+      } else {
+        clearInterval(this.interval)
+        this.counter = AppSettings.getVerificationTimer
+        this.setState({
+          getVerificationButtonText: this.init.getVerificationButtonText,
+          disableVerificationButton: false
+        })
+      }
+    }, 1000)
+  }
+
+  _onVerificationCodeChanged(val) {
+    let verificationCode = val.trim()
+
+    this.props.loginActions.resetVerificationError()
+
+    this.setState({
+      verificationCode,
+      disableLoginButton: !AppSettings.vcodeRx.test(verificationCode)
+    })
+  }
+
+  _onLoginPressed() {
+    this.props.loginActions.verifyMobileNumber(
+      this.state.mobileNumber,
+      this.state.verificationCode,
+      CONSTANTS.ACCOUNT_ACTIONS.LOGIN
+    )
+  }
+
   render() {
     let login = this.props.login,
+      {
+        mobileNumber,
+        verificationCode,
+        disableMobileNumberInput, 
+        disableVerificationButton, 
+        showVerificationView,
+        disableVerificationInput,
+        disableLoginButton,
+        getVerificationButtonText
+      } = this.state,
       labelStyles = {backgroundColor: 'transparent', fontWeight: '400', paddingHorizontal: 4},
-      verificationButtonStyle = (login.disableVerification) ? styles.buttonDisabled : styles.buttonEnabled,
-      loginButtonStyle = (login.loginDisabled) ? styles.buttonDisabled : styles.buttonEnabled,
+      verificationButtonStyle = (disableVerificationButton) ? styles.buttonDisabled : styles.buttonEnabled,
+      loginButtonStyle = (disableLoginButton) ? styles.buttonDisabled : styles.buttonEnabled,
 
       verificationView = (
         <View style={styles.inputGroup}>
@@ -122,16 +215,21 @@ class Login extends Component {
           />
           <TextInput
             autoCorrect={false}
+            disabled={disableVerificationInput}
             keyboardType="numeric"
             maxLength={AppSettings.verificationCodeLength}
             style={styles.loginInput}
             placeholder={LANG.t('login.VerificationCode')}
             placeholderTextColor={Graphics.colors.placeholder}
             onFocus={() => {this.setState({verificationCode: ''})}}
-            onChangeText={this.onVerificationCodeChanged}
-            value={this.state.verificationCode}
+            onChangeText={(value) => !disableVerificationInput && this._onVerificationCodeChanged(value)}
+            value={verificationCode}
           />
-          <TouchableOpacity style={[styles.button, loginButtonStyle]} onPress={this.onLoginPressed}>
+          <TouchableOpacity
+            disabled={disableLoginButton}
+            onPress={this._onLoginPressed} 
+            style={[styles.button, loginButtonStyle]}
+          >
             <TextView
               fontSize={'XXXL'}
               textColor={Graphics.textColors.overlay}
@@ -140,7 +238,7 @@ class Login extends Component {
           </TouchableOpacity>
           <TextView
             fontSize={'L'}
-            style={{flex: 1, marginTop: 10, textAlign: 'center'}}
+            style={{marginTop: 10, textAlign: 'center'}}
             textColor={Graphics.colors.warning}
             text={login.loginError}
           />
@@ -156,31 +254,30 @@ class Login extends Component {
               text={LANG.t('login.LoginViaMobileNumber')}
             />
             <TextInput
-              ref="mobileNumber"
               autoFocus={false}
               autoCorrect={false}
+              disabled={disableMobileNumberInput}
               keyboardType="phone-pad"
               maxLength={AppSettings.mobileNumberLength}
+              onChangeText={this._onMobileNumberChanged}
               placeholder={LANG.t('login.MobileNumberPlaceholder')}
               placeholderTextColor={Graphics.colors.placeholder}
               style={styles.loginInput}
-              disabled={!login.disableVerification}
-              onChangeText={this.onMobileNumberChanged}
-              value={this.state.mobileNumber}
+              value={mobileNumber}
             />
             <TouchableOpacity
-              disabled={login.disableVerification}
+              disabled={disableVerificationButton}
               style={[styles.button, verificationButtonStyle]}
-              onPress={this.getValidation}
+              onPress={() => !disableVerificationButton && this._getVerification()}
             >
               <TextView
                 fontSize={'XXXL'}
                 textColor={Graphics.textColors.overlay}
-                text={this.state.getValidationButtonText}
+                text={getVerificationButtonText}
               />
             </TouchableOpacity>
           </View>
-          {login.showValidation ? verificationView : null}
+          {showVerificationView ? verificationView : null}
         </View>
       ),
 
@@ -211,7 +308,7 @@ class Login extends Component {
           </TouchableOpacity>
         </View>
       )
-      
+
     const loginBackgroundUrl = ImagePath({type: 'background', path: AppSettings.loginBackground})
 
     return (
@@ -225,7 +322,7 @@ class Login extends Component {
             </View>
             {login.showWeChatLogin ? wechatAuthButton : null}
           </View>
-          <TouchableOpacity onPress={this.hideLogin} style={styles.closeButton}>
+          <TouchableOpacity onPress={this._hideLogin} style={styles.closeButton}>
             <Icon
               backgroundColor={Graphics.colors.transparent}
               fillColor="rgba(255, 255, 255, 0.8)"
@@ -237,91 +334,8 @@ class Login extends Component {
     )
   }
 
-  hideLogin() {
-    this.resetState()
+  _hideLogin() {
     this.props.loginActions.hideLogin()
-  }
-
-  resetState() {
-    this.setState({
-      mobileNumber: '',
-      verificationCode: '',
-      getValidationButtonText: LANG.t('login.GetVerificationCode')
-    })
-  }
-
-  onMobileNumberChanged(val) {
-    let tmp = val.trim()
-
-    this.setState({
-      mobileNumber: tmp
-    })
-
-    this.props.loginActions.resetVerificationError()
-
-    if (AppSettings.mobileRx.test(tmp)) {
-      this.props.loginActions.enableValidation()
-    } else {
-      this.props.loginActions.disableVerification()
-      this.props.loginActions.hideVerification()
-      this.setState({
-        verificationCode: ''
-      })
-    }
-  }
-
-  getValidation() {
-    this.props.loginActions.disableVerification()
-    this.props.loginActions.showVerification()
-    this.props.loginActions.uploadMobileNumber(this.state.mobileNumber, 'login')
-
-    this.setState({
-      verificationCode: ''
-    })
-
-    let that = this,
-      counter = AppSettings.getValidationTimer
-
-    this.interval = setInterval(() => {
-      if (counter > 0) {
-        that.setState({
-          getValidationButtonText: LANG.t('login.ResendVerificationCodeIn', {count: counter})
-        })
-        counter--
-      } else {
-        clearInterval(this.interval)
-        that.props.loginActions.enableValidation()
-        that.setState({
-          getValidationButtonText: LANG.t('login.GetVerificationCode')
-        })
-      }
-    }, 1000)
-  }
-
-  onVerificationCodeChanged(val) {
-    let code = val.trim()
-
-    this.props.loginActions.resetVerificationError()
-
-    if (AppSettings.vcodeRx.test(code)) {
-      this.props.loginActions.enableLogin()
-    } else {
-      this.props.loginActions.disableLogin()
-    }
-
-    this.setState({
-      verificationCode: code
-    })
-  }
-
-  onLoginPressed() {
-    if (!this.props.login.loginDisabled) {
-      this.props.loginActions.verifyMobileNumber(
-        this.state.mobileNumber,
-        this.state.verificationCode,
-        'login'
-      )
-    }
   }
 }
 

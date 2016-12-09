@@ -50,17 +50,16 @@ class EditAccount extends Component {
       })
 
       WeChat.addListener('SendAuth.Resp', (res) => {
-        if (this.props.login.action === 'bind') {
+        if (this.props.login.action === CONSTANTS.ACCOUNT_ACTIONS.BIND) {
           if (res.errCode === 0) {
             this.props.loginActions.wechatAuthSuccess(res.code)
           } else {
             this.props.loginActions.wechatAuthFailure(res)
-            Promise.reject(res)
           }
         }
       })
     } catch (e) {
-      console.error(e)
+      console.log(e)
     }
   }
 
@@ -124,8 +123,12 @@ class EditAccount extends Component {
 
   _bindWeChat() {
     if (this.state.isWXAppInstalled) {
-      this.props.loginActions.wechatAuthRequest('bind')
-      WeChat.sendAuthRequest('snsapi_userinfo', 'shitulv_login')
+      this.props.loginActions.wechatAuthRequest(CONSTANTS.ACCOUNT_ACTIONS.BIND)
+      WeChat
+      .sendAuthRequest('snsapi_userinfo', 'shitulv_login')
+      .catch((e) => {
+        console.log(e)
+      })
     }
   }
 

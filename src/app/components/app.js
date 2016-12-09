@@ -91,6 +91,7 @@ import {
 import styles from '../styles/main'
 
 const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
+  login: state.login,
   user: state.login.user,
 
   LeftButton: function(route, navigator, index, navState) {

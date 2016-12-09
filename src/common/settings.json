@@ -13,7 +13,7 @@
   "minTrailPathPoints":10,
   "minTrailTitleLength":6,
   "minEventTitleLength":6,
-  "getValidationTimer":90,
+  "getVerificationTimer":90,
   "mobileNumberLength":11,
   "verificationCodeLength":4,
   "heroImageHeight":240,

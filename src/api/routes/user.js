@@ -153,7 +153,7 @@ module.exports = function(app) {
     .then(function(user) {
       if (user) {
         let fileName = UTIL.generateRandomString(8) + '.jpg',
-        form = new formidable.IncomingForm()
+          form = new formidable.IncomingForm()
 
         form.parse(req, function(err, fields, files) {
           let formData = {
@@ -167,9 +167,7 @@ module.exports = function(app) {
           }
 
           request.post({url: 'http://graphics:8000/up', formData: formData}, (err, response, body) => {
-            if (err) {
-              throw err
-            }
+            if (err) throw err
 
             user
             .set({
