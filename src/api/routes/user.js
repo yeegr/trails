@@ -1,7 +1,7 @@
 const mongoose = require('mongoose'),
-  request = require('request'),
   formidable = require('formidable'),
   fs = require('fs'),
+  request = require('request'),
   moment = require('moment'),
   CONST = require('../const'),
   UTIL = require('../util'),
@@ -41,8 +41,6 @@ module.exports = function(app) {
   }
 
   function updateUser(id, info, res) {
-    console.log(id)
-    console.log(info)
     User
     .findById(id)
     .exec()
@@ -166,8 +164,8 @@ module.exports = function(app) {
             path: 'users/' + user._id + '/'
           }
 
-          request.post({url: 'http://graphics:8000/up', formData: formData}, (err, response, body) => {
-            if (err) throw err
+          request.post({url: 'http://graphics:8000/up', formData}, (err, response, body) => {
+            if (err) console.log(err)
 
             user
             .set({

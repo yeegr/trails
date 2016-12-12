@@ -23,6 +23,13 @@ module.exports = {
     PAYMENT: ["pending", "success", "failed", "canceled", "processing", "duplicated", "network connection error", "unknown"],
     POST: ["draft", "pending", "approved", "published"],
   },
+  PATHS: {
+    Area: 'areas',
+    Trail: 'trails',
+    Event: 'events',
+    Post: 'posts',
+    User: 'users',
+  },
   PAYMENT_MEDHODS: [
     "Alipay",
     "WeChat"

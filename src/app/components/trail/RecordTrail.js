@@ -335,6 +335,7 @@ class RecordTrail extends Component {
 
 RecordTrail.propTypes = {
   navigator: PropTypes.object.isRequired,
+  navbar: PropTypes.object.isRequired,
   navbarActions: PropTypes.object.isRequired,
   newTrailActions: PropTypes.object.isRequired,
   newTrail: PropTypes.object.isRequired,

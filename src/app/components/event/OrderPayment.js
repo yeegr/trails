@@ -103,7 +103,7 @@ class OrderPayment extends Component {
 
   render() {
     const {event, navigator} = this.props,
-    eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.Event + '/' + event._id + '/' + event.hero}),
+    eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.CONSTANTS.ASSET_FOLDERS.EVENT + '/' + event._id + '/' + event.hero}),
     selectedGroup = this.props.selectedGroup,
     dates = UTIL.formatEventGroupLabel(event, selectedGroup)
 

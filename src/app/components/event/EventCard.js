@@ -36,7 +36,7 @@ const EventCard = (props) => {
   return (
     <View>
       <Hero
-        imageUri={CONSTANTS.ASSET_FOLDERS.Event + '/' + data._id + '/' + data.hero} 
+        imageUri={CONSTANTS.CONSTANTS.ASSET_FOLDERS.EVENT + '/' + data._id + '/' + data.hero} 
         title={data.title}
         excerpt={data.excerpt}
         tags={data.tags}

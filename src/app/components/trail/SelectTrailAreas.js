@@ -58,9 +58,7 @@ class SelectTrailAreas extends Component {
         areas: res
       })
     })
-    .catch((err) => {
-      throw err
-    })
+    .catch((err) => console.log(err))
   }
 
   render() {
@@ -75,7 +73,7 @@ class SelectTrailAreas extends Component {
         <View style={styles.grid}>
         {
           areas.map((area, index) => {
-            const url = ImagePath({type: 'hero', path: CONSTANTS.ASSET_FOLDERS.Area + '/' + area.id + '/' + area.hero})
+            const url = ImagePath({type: 'hero', path: CONSTANTS.ASSET_FOLDERS.AREA + '/' + area.id + '/' + area.hero})
 
             return (
               <TouchableOpacity key={index} onPress={() => this._selectArea(area._id, area.name)}>

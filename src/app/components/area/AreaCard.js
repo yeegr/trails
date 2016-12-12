@@ -43,7 +43,7 @@ const AreaCard = (props) => {
   return (
     <View>
       <Hero
-        imageUri={CONSTANTS.ASSET_FOLDERS.Area + '/' + data._id + '/' + data.hero} 
+        imageUri={CONSTANTS.ASSET_FOLDERS.AREA + '/' + data._id + '/' + data.hero} 
         title={Lang.cities[data.city] + ' ' + data.name} 
         excerpt={data.excerpt}
         tags={tags}

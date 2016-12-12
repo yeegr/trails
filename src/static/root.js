@@ -119,6 +119,7 @@ router.post('/up', function(req, res, next) {
     if (err) throw err
 
     let dir = 'uploads/' + fields.path
+    console.log('dir: ', dir)
 
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir)

@@ -64,7 +64,7 @@ class AreaDetail extends Component {
       })
     }
 
-    const url = ImagePath({type: 'hero', path: CONSTANTS.ASSET_FOLDERS.Area + '/' + area.id + '/' + area.hero})
+    const url = ImagePath({type: 'hero', path: CONSTANTS.ASSET_FOLDERS.AREA + '/' + area.id + '/' + area.hero})
 
     return (
       <View style={styles.global.wrapper}>
@@ -101,7 +101,7 @@ class AreaDetail extends Component {
             </View>
             <GalleryPreview
               navigator={navigator}
-              type={CONSTANTS.ASSET_FOLDERS.Area}
+              type={CONSTANTS.ASSET_FOLDERS.AREA}
               id={area._id}
               photos={area.photos}
             />

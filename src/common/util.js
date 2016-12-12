@@ -348,3 +348,7 @@ export function getPassProps(navigator) {
 
   return currentPage.passProps
 }
+
+export function getFileExtension(filename) {
+  return filename.substring(filename.lastIndexOf('.') + 1).toLowerCase()
+}

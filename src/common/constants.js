@@ -51,10 +51,11 @@ export const TOOLBAR_TYPE_KEYS = {
 }
 
 export const ASSET_FOLDERS = {
-  Area: 'areas',
-  Trail: 'trails',
-  Event: 'events',
-  Post: 'posts'
+  AREA: 'areas',
+  TRAIL: 'trails',
+  EVENT: 'events',
+  POST: 'posts',
+  USER: 'users'
 }
 
 export const WeChatOpenId = 'WeChatOpenId'

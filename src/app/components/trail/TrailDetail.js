@@ -123,8 +123,9 @@ class TrailDetail extends Component {
     let galleryPreview = (trail.photos.length > 0) ? (
       <GalleryPreview
         navigator={navigator}
-        type={'preview'}
-        gallery={trail.photos}
+        type={CONSTANTS.CONSTANTS.ASSET_FOLDERS.TRAIL}
+        photos={trail.photos}
+        id={trail.id}
       />
     ) : null,
     commentsPreview = (trail.comments.length > 0) ? (
