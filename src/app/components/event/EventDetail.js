@@ -120,7 +120,7 @@ class EventDetail extends Component {
       )
     }
 
-    const eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.CONSTANTS.ASSET_FOLDERS.EVENT + '/' + event._id + '/' + event.hero}),
+    const eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.EVENT + '/' + event._id + '/' + event.hero}),
       eventGroups = (event.groups.length > 1) ? (
         <ListItem icon={'calendar'}
           label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}

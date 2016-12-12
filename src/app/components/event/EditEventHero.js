@@ -33,7 +33,7 @@ class EditEventHero extends Component {
     this.selectPhoto = this.selectPhoto.bind(this)
 
     this.state = {
-      imageUri: (this.props.heroUri.substring(0, 1) === '/') ? this.props.heroUri : ImagePath({type: 'background', path: CONSTANTS.CONSTANTS.ASSET_FOLDERS.EVENT + '/' + this.props.heroUri})
+      imageUri: (this.props.heroUri.substring(0, 1) === '/') ? this.props.heroUri : ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.EVENT + '/' + this.props.heroUri})
     }
   }
 
@@ -52,7 +52,7 @@ class EditEventHero extends Component {
       path = this.state.imageUri
     }
 
-    path = path.replace((CONSTANTS.CONSTANTS.ASSET_FOLDERS.EVENT + '/'), '')
+    path = path.replace((CONSTANTS.ASSET_FOLDERS.EVENT + '/'), '')
 
     if (path !== this.props.heroUri) {
       this.props.newEventActions.setEventHero(path)

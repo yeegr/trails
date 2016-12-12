@@ -34,7 +34,7 @@ const PostCard = (props) => {
   return (
     <View>
       <Hero 
-        imageUri={CONSTANTS.CONSTANTS.ASSET_FOLDERS.POST + '/' + data._id + '/' + data.hero} 
+        imageUri={CONSTANTS.ASSET_FOLDERS.POST + '/' + data._id + '/' + data.hero} 
         title={data.title} 
         tags={data.tags}
         topLeft={

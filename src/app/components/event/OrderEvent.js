@@ -153,7 +153,7 @@ class OrderEvent extends Component {
 
   render() {
     const {event} = this.props,
-      eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.CONSTANTS.ASSET_FOLDERS.EVENT + '/' + event._id + '/' + event.hero}),
+      eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.EVENT + '/' + event._id + '/' + event.hero}),
       selectedGroup = this.props.selectedGroup || 0,
       dates = UTIL.formatEventGroupLabel(event, selectedGroup)
 
