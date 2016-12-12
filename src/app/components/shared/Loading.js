@@ -27,7 +27,8 @@ styles = StyleSheet.create({
 })
 
 Loading.propTypes = {
-  size: PropTypes.string
+  size: PropTypes.string,
+  modal: PropTypes.bool
 }
 
 export default Loading

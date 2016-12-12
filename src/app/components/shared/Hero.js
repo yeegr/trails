@@ -19,13 +19,13 @@ import {
 } from '../../settings'
 
 const Hero = (props) => {
-  const url = ImagePath({type: 'hero', path: props.imageUri})
+  const uri = ImagePath({type: 'hero', path: props.imageUri})
 
   let view = (
       <View style={styles.wrapper}>
         <Image 
+          source={{uri}}
           style={styles.image}
-          source={{uri: url}}
         />
         <Intro 
           title={props.title}

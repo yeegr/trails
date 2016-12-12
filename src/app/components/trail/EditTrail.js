@@ -21,6 +21,7 @@ import * as newTrailActions from '../../redux/actions/newTrailActions'
 
 import CallToAction from '../shared/CallToAction'
 import EditLink from '../shared/EditLink'
+import Loading from '../shared/Loading'
 import TextView from '../shared/TextView'
 
 import styles from '../../styles/main'
@@ -30,7 +31,8 @@ import {
   LANG,
   UTIL,
   AppSettings,
-  Lang
+  Lang,
+  Graphics
 } from '../../settings'
 
 class EditTrail extends Component {
@@ -231,9 +233,10 @@ class EditTrail extends Component {
               onPress={() => this._nextPage('preview')}
             />
           </View>
+          {trail.isUploading ? <Loading /> : null}
         </ScrollView>
         <CallToAction
-          backgroundColor='red' 
+          backgroundColor={Graphics.colors.warning}
           label={Lang.DeleteTrail} 
           onPress={this._deleteAlert} 
         />

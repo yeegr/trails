@@ -6,6 +6,7 @@ import React, {
 } from 'react'
 
 import {
+  CameraRoll,
   StyleSheet,
   Text,
   View
@@ -29,9 +30,37 @@ class EditTrailGallery extends Component {
     this.getSelectedImages = this.getSelectedImages.bind(this)
 
     this.state = {
-      imageCount: this.props.photos.length,
-      selected: this.props.photos,
+      imageCount: 0,
+      selected: []
     }
+  }
+
+  componentWillMount() {
+    CameraRoll
+    .getPhotos({
+      first: 20,
+      assetType: 'Photos',
+      groupTypes: 'All'
+    })
+    .then((data) => {
+      let selected = [],
+        propsArray = this.props.photos,
+        nameArray = []
+
+      propsArray.map((photo) => {
+        nameArray.push(photo.url)
+      })
+
+      data.edges.map((obj) => {
+        let image = obj.node.image
+        if (nameArray.indexOf(image.filename) > -1) {
+          selected.push(image)
+        }
+      })
+
+      this.setState({selected})
+    })
+    .catch((err) => {console.log(err)})
   }
 
   componentWillUnmount() {
@@ -52,14 +81,19 @@ class EditTrailGallery extends Component {
       <View style={styles.wrapper}>
         <View style={styles.gallery}>
           <CameraRollPicker
-            groupTypes={'All'}
-            batchSize={5}
-            maximum={AppSettings.maxPhotosPerGallery}
-            selected={this.state.selected}
             assetType={'Photos'}
+            batchSize={5}
+            groupTypes={'All'}
             imagesPerRow={4}
             imageMargin={5}
+            initialListSize={1}
+            pageSize={3}
+            removeClippedSubviews={false}
+            scrollRenderAheadDistance={500}
+
             callback={this.getSelectedImages}
+            maximum={AppSettings.maxPhotosPerGallery}
+            selected={this.state.selected}
           />
         </View>
         <View style={styles.statusBar}>

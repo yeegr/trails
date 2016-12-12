@@ -309,11 +309,11 @@ class Login extends Component {
         </View>
       )
 
-    const loginBackgroundUrl = ImagePath({type: 'background', path: AppSettings.loginBackground})
+    const uri = ImagePath({type: 'background', path: AppSettings.loginBackground})
 
     return (
       <Modal animationType={'slide'} transparent={false} visible={this.props.login.showLogin}>
-        <CacheableImage source={{uri: loginBackgroundUrl}} style={styles.backgroundImage}>
+        <Image resizeMode={'cover'} source={{uri}} style={styles.backgroundImage}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <View style={{flexDirection: 'column'}}>
               {login.showMobileLogin ? mobileLoginForm : null}
@@ -329,7 +329,7 @@ class Login extends Component {
               type={'close'}
             />
           </TouchableOpacity>
-        </CacheableImage>
+        </Image>
       </Modal>
     )
   }

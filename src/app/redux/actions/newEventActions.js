@@ -2,7 +2,9 @@
 
 import * as ACTIONS from '../constants/newEventConstants'
 import {
+  CONSTANTS,
   FETCH,
+  UTIL,
   AppSettings
 } from '../../settings'
 
@@ -160,13 +162,17 @@ export const saveEvent = () => {
     const newEvent = getState().newEvent
     newEvent.creator = getState().login.user._id
 
-    if (validateEvent(newEvent)) {
-      dispatch(createEVent(newEvent))
+    if (_validateEvent(newEvent)) {
+      if (UTIL.isNullOrUndefined(newEvent._id)) {
+        dispatch(createEvent(newEvent))
+      } else {
+        dispatch(updateEvent(newEvent))
+      }
     }
   }
 }
 
-const validateEvent = (event) => {
+const _validateEvent = (event) => {
   return (
     (event.isPublic !== null && event.isPublic !== undefined) &&
     (event.title.length >= AppSettings.minEventTitleLength) &&
@@ -203,7 +209,7 @@ const createEventFailure = (message) => {
   }
 }
 
-const createEVent = (data) => {
+const createEvent = (data) => {
   let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(data)
   })
@@ -231,6 +237,28 @@ const createEVent = (data) => {
   }
 }
 
+// update trail
+const updateEventRequest = (trail) => {
+  return {
+    type: ACTIONS.UPDATE_EVENT_REQUEST,
+    trail
+  }
+}
+
+const updateEventSuccess = (trail) => {
+  return {
+    type: ACTIONS.UPDATE_EVENT_SUCCESS,
+    trail
+  }
+}
+
+const updateEventFailure = (message) => {
+  return {
+    type: ACTIONS.UPDATE_EVENT_FAILURE,
+    message
+  }
+}
+
 const uploadEventHero = (id, uri) => {
   let body = new FormData()
 
@@ -249,18 +277,102 @@ const uploadEventHero = (id, uri) => {
   }
 
   return (dispatch) => {
+    dispatch(updateEventRequest())
+
     return fetch(AppSettings.apiUri + 'events/' + id + '/hero', config)
       .then((res) => {
         return res.json()
       })
       .then((res) => {
+        dispatch(updateEventSuccess(res))
+      })
+      .catch((err) => dispatch(updateEventFailure(err)))
+  }
+}
+
+const comparePhotoArrays = (saved, selected) => {
+  let added = []
+
+  selected.map((photo) => {
+    let filename = photo.filename, 
+      tmp = filename.split('.'),
+      key = tmp[0],
+      ext = tmp[1]
+
+    if (saved.indexOf(filename) < 0) {
+      added.push({
+        key,
+        type: 'image/' + ext,
+        name: filename,
+        uri: photo.uri
+      })
+    }
+  })
+
+  if (added.length > 0) {
+    return added
+  }
+  
+  return false
+}
+
+const uploadPhotos = (type, id, photos) => {
+  let formData = new FormData()
+  formData.append('type', type)
+  formData.append('id', id)
+  formData.append('path', type + '/' + id + '/')
+
+  photos.map((photo) => {
+    formData.append(photo.key, photo)
+  })
+
+  let config = Object.assign({}, FETCH.UPLOAD, {
+    body: formData
+  })
+
+  return (dispatch) => {
+    dispatch(updateEventRequest())
+
+    return fetch(AppSettings.apiUri + 'photos', config)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        dispatch(updateEventSuccess(res))
+      })
+      .catch((err) => dispatch(updateEventFailure(err)))
+  }
+}
+
+export const updateEvent = (data) => {
+  let selectedPhotos = data.photos
+  data.photos = []
+
+  let config = Object.assign({}, FETCH.PUT, {
+    body: JSON.stringify(data)
+  })
+
+  return (dispatch) => {
+    dispatch(updateEventRequest(data))
+
+    return fetch(AppSettings.apiUri + 'trails/' + data._id, config)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
         if (res._id) {
-          dispatch(receiveSaveResponse(res))
+          let photos = comparePhotoArrays(res.photos, selectedPhotos)
+
+          if (!photos) {
+            dispatch(updateEventSuccess(res, selectedPhotos))
+          } else {
+            dispatch(uploadPhotos(CONSTANTS.ACTION_TARGETS.TRAIL, res._id, photos))
+          }
         } else {
-          dispatch(saveError(res.message))
+          dispatch(updateEventFailure(res.message))
           return Promise.reject(res)
         }
       })
-      .catch((err) => dispatch(saveError(err)))
+      .catch((err) => dispatch(updateEventFailure(err)))
   }
 }

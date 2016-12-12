@@ -95,10 +95,11 @@ router.get('/', function(req, res, next) {
 
   http.get(url, function(result) {
     if (result.statusCode === 200) {
+      console.log(result.headers['content-type'])
       res
       .type(result.headers['content-type'])
       .set({'Cache-Control': 'public, max-age=31557600'})
-      .set({'Expires': Date.now() + 2678400})
+      //.set({'Expires': Date.now() + 2678400})
       .status(result.statusCode)
 
       result.pipe(transformer).pipe(res)

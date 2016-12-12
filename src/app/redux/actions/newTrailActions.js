@@ -204,10 +204,9 @@ export const createTrail = (data) => {
 }
 
 // update trail
-const updateTrailRequest = (trail) => {
+const updateTrailRequest = () => {
   return {
-    type: ACTIONS.UPDATE_TRAIL_REQUEST,
-    trail
+    type: ACTIONS.UPDATE_TRAIL_REQUEST
   }
 }
 
@@ -273,7 +272,6 @@ const uploadPhotos = (type, id, photos) => {
         return res.json()
       })
       .then((res) => {
-        console.log(res)
         dispatch(updateTrailSuccess(res))
       })
       .catch((err) => dispatch(updateTrailFailure(err)))
@@ -281,15 +279,17 @@ const uploadPhotos = (type, id, photos) => {
 }
 
 export const updateTrail = (data) => {
-  let selectedPhotos = data.photos
-  data.photos = []
+  let selectedPhotos = data.photos,
+    input = Object.assign({}, data, {
+      photos: []
+    })
 
   let config = Object.assign({}, FETCH.PUT, {
-    body: JSON.stringify(data)
+    body: JSON.stringify(input)
   })
 
   return (dispatch) => {
-    dispatch(updateTrailRequest(data))
+    dispatch(updateTrailRequest())
 
     return fetch(AppSettings.apiUri + 'trails/' + data._id, config)
       .then((res) => {
@@ -300,7 +300,7 @@ export const updateTrail = (data) => {
           let photos = comparePhotoArrays(res.photos, selectedPhotos)
 
           if (!photos) {
-            dispatch(updateTrailSuccess(res, selectedPhotos))
+            dispatch(updateTrailSuccess(res))
           } else {
             dispatch(uploadPhotos(CONSTANTS.ACTION_TARGETS.TRAIL, res._id, photos))
           }
