@@ -1,16 +1,17 @@
 const request = require('request')
 
-module.exports = function(app) {
-  app.get('/wechat/info/:code', function(req, res, next) {
+module.exports = (app) => {
+  app.get('/wechat/info/:code', (req, res, next) => {
     let type = 'authorization_code',
       appId = 'wx6e8a3e1b87c11294',
       appSecret = 'ddef514562b549b5833fb210ecadefab',
       url = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=' + type + '&appid=' + appId + '&secret=' + appSecret + '&code=' + req.params.code
 
+console.log('get token url: ', url)
     request({
       followAllRedirects: true,
-      url: url
-    }, function (error, response, body) {
+      url
+    }, (error, response, body) => {
       if (!error) {
         let json = JSON.parse(body)
 
@@ -29,9 +30,10 @@ module.exports = function(app) {
 function getUserInfo(res, token, openid) {
   let url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + token + '&openid=' + openid
 
+console.log('user info url: ', url)
   request({
     followAllRedirects: true,
-    url: url
+    url
   }, function (error, response, body) {
     if (!error) {
       let user = {},
@@ -46,6 +48,7 @@ function getUserInfo(res, token, openid) {
       user.country = json.country,
       user.avatar = json.headimgurl
       
+      console.log(user)
       res.status(200).send(user)
     }
   })

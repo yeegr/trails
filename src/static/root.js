@@ -5,8 +5,6 @@ const express = require('express'),
   formidable = require('formidable'),
   fs = require('fs'),
   cors = require('cors'),
-  path = require('path'),
-  url = require('url'),
   http = require('http'),
   sharp = require('sharp'),
   TopClient = require('./sdks/taobao/topClient').TopClient,
@@ -95,7 +93,6 @@ router.get('/', (req, res, next) => {
 
   http.get(url, (result) => {
     if (result.statusCode === 200) {
-      console.log(result.headers['content-type'])
       res
       .type(result.headers['content-type'])
       .set({'Cache-Control': 'public, max-age=31557600'})

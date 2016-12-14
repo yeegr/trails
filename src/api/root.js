@@ -81,7 +81,7 @@ router.put('/photos', (req, res, next) => {
 function uploadFile(type, id, inputs, index, outputs, res) {
 	let file = inputs[index],
 		url = 'http://static:8000/up',
-		path = CONST.PATHS[type] + '/' + id + '/',
+		path = CONST.FILE_PATHS[type] + '/' + id + '/',
 		formData = {
 			file: {
 				value: fs.createReadStream(file.path),
@@ -138,7 +138,6 @@ function saveFiles(type, id, photos, res) {
 		.set({photos})
 		.save()
 		.then((saved) => {
-			console.log(saved)
 			if (saved) {
 				res.status(201).json(saved)
 			}
@@ -161,4 +160,3 @@ app.use('/', router)
 app.listen(port)
 console.log('Environmental variables: ', process.env)
 console.log('API server running on port: ', port)
-console.log('this is test 3')

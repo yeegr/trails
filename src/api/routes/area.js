@@ -145,7 +145,6 @@ module.exports = (app) => {
   })
 
   /* Delete */
-  /*
   app.delete('/areas/:id', (req, res, next) => {
     Area
     .findById(req.params.id)
@@ -167,5 +166,4 @@ module.exports = (app) => {
       }
     })
   })
-  */
 }

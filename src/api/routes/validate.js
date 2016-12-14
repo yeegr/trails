@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'),
   request = require('request'),
   moment = require('moment'),
+  CONST = require('../const'),
   UTIL = require('../util'),
   Validate = require('../models/validate')
 
@@ -58,7 +59,7 @@ module.exports = (app) => {
         .save()
         .then((updated) => {
           switch(updated.action) {
-            case 'login':
+            case CONST.ACCOUNT_ACTIONS.LOGIN:
               request.post({url: 'http://api:3000/login', json: {mobile: query.mobile}}, (err, response, body) => {
                 res.status(response.statusCode).json(response.body)
               })

@@ -1,7 +1,7 @@
 'user strict'
 
 module.exports = {
-  DEFAULT_PAGINATION: 5,
+  DEFAULT_PAGINATION: 10,
   VIRTUAL_FIELDS: " likes likeCount saves saveCount shares shareCount comments commentCount ratingAverage",
   USER_LIST_FIELDS: "handle avatar xp level trails events posts comments followers",
   EVENT_LIST_FIELDS: "status title type hero excerpt contacts expenses groups",
@@ -23,12 +23,16 @@ module.exports = {
     PAYMENT: ["pending", "success", "failed", "canceled", "processing", "duplicated", "network connection error", "unknown"],
     POST: ["draft", "pending", "approved", "published"],
   },
-  PATHS: {
+  FILE_PATHS: {
     Area: 'areas',
     Trail: 'trails',
     Event: 'events',
     Post: 'posts',
     User: 'users',
+  },
+  ACCOUNT_ACTIONS: {
+    LOGIN: "LOGIN",
+    BIND: "BIND"
   },
   PAYMENT_MEDHODS: [
     "Alipay",

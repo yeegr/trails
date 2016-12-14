@@ -126,9 +126,7 @@ class EditAccount extends Component {
       this.props.loginActions.wechatAuthRequest(CONSTANTS.ACCOUNT_ACTIONS.BIND)
       WeChat
       .sendAuthRequest('snsapi_userinfo', 'shitulv_login')
-      .catch((e) => {
-        console.log(e)
-      })
+      .catch((e) => {console.log(e)})
     }
   }
 
