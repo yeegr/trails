@@ -8,22 +8,22 @@ const mongoose = require('mongoose'),
 
 mongoose.Promise = global.Promise
 
-module.exports = function(app) {
+module.exports = (app) => {
   /* Create */
-  app.post('/logs', function(req, res, next) {
+  app.post('/logs', (req, res, next) => {
     let tmp = new Action(req.body)
 
     User
     .findById(tmp.creator)
     .exec()
-    .then(function(user) {
+    .then((user) => {
       if (user) {
         return tmp.save()
       } else {
         res.status(404).send()
       }
     })
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         let Target, counter
 
@@ -87,7 +87,7 @@ module.exports = function(app) {
         }, 100)
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })

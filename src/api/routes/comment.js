@@ -9,9 +9,9 @@ const mongoose = require('mongoose'),
 
 mongoose.Promise = global.Promise
 
-module.exports = function(app) {
+module.exports = (app) => {
   /* List */
-  app.get('/comments', function(req, res) {
+  app.get('/comments', (req, res, next) => {
     let Target = null
 
     switch (req.query.type) {
@@ -48,7 +48,7 @@ module.exports = function(app) {
       }
     })
     .exec()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         let tmp = {
           _id: data._id,
@@ -62,50 +62,50 @@ module.exports = function(app) {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })
 
   /* Create */
-  app.post('/comments', function(req, res, next) {
+  app.post('/comments', (req, res, next) => {
     let tmp = new Comment(req.body)
 
     User
     .findById(tmp.creator)
     .exec()
-    .then(function(user) {
+    .then((user) => {
       if (user) {
         return tmp.save()
       } else {
         res.status(404).send()
       }
     })
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(201).json(data)
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })
 
   /* Delete */
-  app.delete('/comments/:id', function(req, res, next) {
+  app.delete('/comments/:id', (req, res, next) => {
     Comment
     .findById(req.params.id)
     .exec()
-    .then(function(comment) {
+    .then((comment) => {
       if (comment) {
         comment
         .remove()
-        .then(function(data) {
+        .then((data) => {
           if (data) {
             res.status(410).send()
           }
         })
-        .catch(function(err) {
+        .catch((err) => {
           res.status(500).json({error: err})
         })
       } else {

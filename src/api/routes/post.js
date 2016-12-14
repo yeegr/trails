@@ -5,7 +5,7 @@ const mongoose = require('mongoose'),
 
 mongoose.Promise = global.Promise
 
-module.exports = function(app) {
+module.exports = (app) => {
   function getOneById(id, res, statusCode) {
     Post
     .findById(id)
@@ -24,44 +24,44 @@ module.exports = function(app) {
       }
     })
     .exec()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(statusCode).json(data)
       } else {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   }
 
   /* Create */
-  app.post('/posts', function(req, res, next) {
+  app.post('/posts', (req, res, next) => {
     let tmp = new Post(req.body)
 
     User
     .findById(tmp.creator)
     .exec()
-    .then(function(user) {
+    .then((user) => {
       if (user) {
         return tmp.save()
       } else {
         res.status(404).send()
       }
     })
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         getOneById(data._id, res, 201)
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })
 
   /* List */
-  app.get('/posts', function(req, res, next) {
+  app.get('/posts', (req, res, next) => {
     let query = {}
 
     if (req.query.hasOwnProperty('in') && req.query.in !== '') {
@@ -76,58 +76,58 @@ module.exports = function(app) {
     .sort({_id: -1})
     .populate('creator', CONST.USER_LIST_FIELDS)
     .exec()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(200).json(data)
       } else {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })
 
   /* Read */
-  app.get('/posts/:id', function(req, res, next) {
+  app.get('/posts/:id', (req, res, next) => {
     getOneById(req.params.id, res, 200)
   })
 
   /* Update */
-  app.put('/posts/:id', function(req, res, next) {
+  app.put('/posts/:id', (req, res, next) => {
     Post
     .findById(req.params.id)
     .exec()
-    .then(function(post) {
+    .then((post) => {
       post
       .set(req.body)
       .save()
-      .then(function(data) {
+      .then((data) => {
         if (data) {
           getOneById(data._id, res, 200)
         }
       })
-      .catch(function(err) {
+      .catch((err) => {
         res.status(500).json({error: err})
       })
     })
   })
 
   /* Delete */
-  app.delete('/posts/:id', function(req, res, next) {
+  app.delete('/posts/:id', (req, res, next) => {
     Post
     .findById(req.params.id)
     .exec()
-    .then(function(post) {
+    .then((post) => {
       if (post) {
         post
         .remove()
-        .then(function(data) {
+        .then((data) => {
           if (data) {
             res.status(410).send()
           }
         })
-        .catch(function(err) {
+        .catch((err) => {
           res.status(500).json({error: err})
         })
       } else {

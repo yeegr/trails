@@ -279,7 +279,7 @@ userSchema.pre('save', function(next) {
     let fileName = UTIL.generateRandomString(8)
 
     request({
-      url: 'http://graphics:8000/avatar',
+      url: 'http://static:8000/avatar',
       method: 'POST',
       json: {
         id: this.id,

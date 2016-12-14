@@ -1,18 +1,18 @@
 const SemVerCompare = require('semver-compare'),
   Settings = require('../models/settings.js')
 
-module.exports = function(app) {
+module.exports = (app) => {
   /* Create */
-  app.post('/settings', function(req, res, next) {
+  app.post('/settings', (req, res, next) => {
     let tmp = new Settings(req.body)
     tmp
     .save()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(201).json(data)
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       if (err) {
         res.status(500).json({error: err})
       }
@@ -23,14 +23,14 @@ module.exports = function(app) {
   function list(req, res, next) {
     Settings
     .find()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(200).json(data)
       } else {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       if (err) {
         res.status(500).json({error: err})
       }
@@ -42,14 +42,14 @@ module.exports = function(app) {
     Settings
     .findOne()
     .sort({_id: -1})
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(200).json(data)
       } else {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       if (err) {
         res.status(500).json({error: err})
       }
@@ -75,32 +75,32 @@ module.exports = function(app) {
     Settings
     .findById(req.params.query)
     .exec()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(statusCode).json(data)
       } else {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   }
 
   /* Compare */
-  app.get('/settings', function(req, res, next) {
+  app.get('/settings', (req, res, next) => {
     if (req.query.version) {
       Settings
       .findOne()
       .sort({_id: -1})
-      .then(function(data) {
+      .then((data) => {
         if (SemVerCompare(req.query.version, data.version) < 0) {
           res.status(200).json(data)
         } else {
           res.status(204).send()
         }
       })
-      .catch(function(err) {
+      .catch((err) => {
         if (err) {
           res.status(500).json({error: err})
         }
@@ -109,7 +109,7 @@ module.exports = function(app) {
   })
 
   /* Read */
-  app.get('/settings/:param', function(req, res, next) {
+  app.get('/settings/:param', (req, res, next) => {
     let param = req.params.param
 
     switch(param) {
@@ -128,40 +128,40 @@ module.exports = function(app) {
   })
 
   /* Update */
-  app.put('/settings/:id', function(req, res, next) {
+  app.put('/settings/:id', (req, res, next) => {
     Settings
     .findById(req.params.id)
     .exec()
-    .then(function(settings) {
+    .then((settings) => {
       settings
       .set(req.body)
       .save()
-      .then(function(data) {
+      .then((data) => {
         if (data) {
           res.status(200).json(data)
         }
       })
-      .catch(function(err) {
+      .catch((err) => {
         res.status(500).json({error: err})
       })
     })
   })
 
   /* Delete */
-  app.delete('/settings/:id', function(req, res, next) {
+  app.delete('/settings/:id', (req, res, next) => {
     Settings
     .findById(req.params.id)
     .exec()
-    .then(function(settings) {
+    .then((settings) => {
       if (settings) {
         settings
         .remove()
-        .then(function(data) {
+        .then((data) => {
           if (data) {
             res.status(200).send()
           }
         })
-        .catch(function(err) {
+        .catch((err) => {
           res.status(500).json({error: err})
         })
       } else {

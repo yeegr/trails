@@ -80,7 +80,7 @@ router.put('/photos', (req, res, next) => {
 
 function uploadFile(type, id, inputs, index, outputs, res) {
 	let file = inputs[index],
-		url = 'http://graphics:8000/up',
+		url = 'http://static:8000/up',
 		path = CONST.PATHS[type] + '/' + id + '/',
 		formData = {
 			file: {
@@ -161,3 +161,4 @@ app.use('/', router)
 app.listen(port)
 console.log('Environmental variables: ', process.env)
 console.log('API server running on port: ', port)
+console.log('this is test 3')

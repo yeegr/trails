@@ -5,7 +5,7 @@ const mongoose = require('mongoose'),
 
 mongoose.Promise = global.Promise
 
-module.exports = function(app) {
+module.exports = (app) => {
   function getOneById(id, res, statusCode) {
     Area
     .findById(id)
@@ -39,44 +39,44 @@ module.exports = function(app) {
       }
     })
     .exec()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(statusCode).json(data)
       } else {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   }
 
   /* Create */
-  app.post('/areas', function(req, res, next) {
+  app.post('/areas', (req, res, next) => {
     let tmp = new Area(req.body)
 
     User
     .findById(tmp.creator)
     .exec()
-    .then(function(user) {
+    .then((user) => {
       if (user) {
         return tmp.save()
       } else {
         res.status(404).send()
       }
     })
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         getOneById(data._id, res, 201)
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })
 
   /* List */
-  app.get('/areas', function(req, res, next) {
+  app.get('/areas', (req, res, next) => {
     let query = {},
       options = {}
 
@@ -107,38 +107,38 @@ module.exports = function(app) {
       }
     })
     .exec()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(200).json(data)
       } else {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })
 
   /* Read */
-  app.get('/areas/:id', function(req, res, next) {
+  app.get('/areas/:id', (req, res, next) => {
     getOneById(req.params.id, res, 200)
   })
 
   /* Update */
-  app.put('/areas/:id', function(req, res, next) {
+  app.put('/areas/:id', (req, res, next) => {
     Area
     .findById(req.params.id)
     .exec()
-    .then(function(area) {
+    .then((area) => {
       area
       .set(req.body)
       .save()
-      .then(function(data) {
+      .then((data) => {
         if (data) {
           getOneById(data._id, res, 200)
         }
       })
-      .catch(function(err) {
+      .catch((err) => {
         res.status(500).json({error: err})
       })
     })
@@ -146,20 +146,20 @@ module.exports = function(app) {
 
   /* Delete */
   /*
-  app.delete('/areas/:id', function(req, res, next) {
+  app.delete('/areas/:id', (req, res, next) => {
     Area
     .findById(req.params.id)
     .exec()
-    .then(function(area) {
+    .then((area) => {
       if (area) {
         area
         .remove()
-        .then(function(data) {
+        .then((data) => {
           if (data) {
             res.status(410).send()
           }
         })
-        .catch(function(err) {
+        .catch((err) => {
           res.status(500).json({error: err})
         })
       } else {

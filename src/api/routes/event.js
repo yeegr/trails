@@ -9,7 +9,7 @@ const mongoose = require('mongoose'),
 
 mongoose.Promise = global.Promise
 
-module.exports = function(app) {
+module.exports = (app) => {
   function getOneById(id, res, statusCode) {
     Event
     .findById(id)
@@ -28,44 +28,44 @@ module.exports = function(app) {
       }
     })
     .exec()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(statusCode).json(data)
       } else {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   }
 
   /* Create */
-  app.post('/events', function(req, res) {
+  app.post('/events', (req, res, next) => {
     let tmp = new Event(req.body)
 
     User
     .findById(tmp.creator)
     .exec()
-    .then(function(user) {
+    .then((user) => {
       if (user) {
         return tmp.save()
       } else {
         res.status(404).send()
       }
     })
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         getOneById(data._id, res, 201)
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })
 
   /* List */
-  app.get('/events', function(req, res) {
+  app.get('/events', (req, res, next) => {
     let query = {}
 
     if (req.query.hasOwnProperty('isPublic')) {
@@ -92,106 +92,95 @@ module.exports = function(app) {
     .sort({_id: -1})
     .populate('creator', CONST.USER_LIST_FIELDS)
     .exec()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(200).json(data)
       } else {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })
 
   /* Read */
-  app.get('/events/:id', function(req, res) {
+  app.get('/events/:id', (req, res, next) => {
     getOneById(req.params.id, res, 200)
   })
 
+  function saveEvent(event, info, res) {
+    event
+    .set(info)
+    .save()
+    .then((data) => {
+      if (data) {
+        getOneById(data._id, res, 200)
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({error: err})
+    })
+  }
+
   /* Update */
-  app.put('/events/:id', function(req, res, next) {
+  app.put('/events/:id', (req, res, next) => {
     Event
     .findById(req.params.id)
     .exec()
-    .then(function(event) {
-      event
-      .set(req.body)
-      .save()
-      .then(function(data) {
-        if (data) {
-          getOneById(data._id, res, 200)
-        }
-      })
-      .catch(function(err) {
-        res.status(500).json({error: err})
-      })
+    .then((event) => {
+      saveEvent(event, req.body, res)
     })
   })
 
-  app.put('/events/:id/hero', function(req, res, next) {
+  app.put('/events/:id/hero', (req, res, next) => {
     Event
     .findById(req.params.id)
     .exec()
-    .then(function(event) {
+    .then((event) => {
       if (event) {
         let fileName = UTIL.generateRandomString(8) + '.jpg',
           form = new formidable.IncomingForm()
 
-        form.parse(req, function(err, fields, files) {
-          let formData = {
-            file: {
-              value: fs.createReadStream(files.file.path),
-              options: {
-                filename: fileName
-              }
-            },
-            path: 'events/' + req.params.id + '/'
-          }
-
-          request.post({url: 'http://graphics:8000/up', formData: formData}, (err, response, body) => {
-            if (err) {
-              throw err
+        form.parse(req, (err, fields, files) => {
+          let url = 'http://static:8000/up',
+            formData = {
+              file: {
+                value: fs.createReadStream(files.file.path),
+                options: {
+                  filename: fileName
+                }
+              },
+              path: 'events/' + req.params.id + '/'
             }
 
-            event
-            .set({
-              hero: fileName
-            })
-            .save()
-            .then(function(data) {
-              if (data) {
-                getOneById(data._id, res, 200)
-              }
-            })
-            .catch(function(err) {
-              res.status(500).json({error: err})
-            })
-            
+          request.post({url, formData}, (err, response, body) => {
+            if (err) console.log(err)
+            saveEvent(event, {hero: fileName}, res)
           })
         })
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })
 
   /* Delete */
-  app.delete('/events/:id', function(req, res, next) {
+  app.delete('/events/:id', (req, res, next) => {
     Event
     .findById(req.params.id)
     .exec()
-    .then(function(event) {
+    .then((event) => {
       if (event) {
         event
         .remove()
-        .then(function(data) {
+        .then((data) => {
           if (data) {
             res.status(410).send()
           }
         })
-        .catch(function(err) {
+        .catch((err) => {
           res.status(500).json({error: err})
         })
       } else {

@@ -10,23 +10,30 @@
   },
   "author": "Stone Chen",
   "license": "ISC",
+  "config": {
+    "registry": "registry.cn-hangzhou.aliyuncs.com"
+  },
   "scripts": {
     "postinstall": "react-native link",
     "start": "docker-compose up -d",
-    "down": "docker-compose down",
+    "stop": "docker-compose down",
     "logs": "docker-compose logs",
-    "stop": "docker rm -f $(docker ps -aq)",
+    "kill": "docker rm -f $(docker ps -aq)",
     "clean": "docker rmi -f $(docker images -qf dangling=true)",
-    "remove": "docker rmi -f $(docker images)",
+    "empty": "docker rmi -f $(docker images)",
     "build": "webpack && docker-compose build",
-    "rebuild": "npm stop && docker rmi -f shitulv/mongodb shitulv/api shitulv/graphics && npm run build && npm start",
-    "graphics": "webpack && docker-compose build graphics && npm stop && npm start && npm run clean",
-    "api": "webpack && docker-compose build api && npm stop && npm start && npm run clean",
-    "push": "docker push shitulv/mongodb && docker push shitulv/api && docker push shitulv/graphics",
-    "ios": "react-native run-ios --simulator='iPhone 6 Plus'",
+    "static": "webpack && docker restart static",
+    "api": "webpack && docker restart api",
     "lint": "esw webpack.config.* src",
+    "ios": "react-native run-ios --simulator='iPhone 6 Plus'",
+    "dev": "npm start && npm run ios",
+
     "codepush": "code-push release-react trails ios",
-    "dev": "npm start && npm run ios"
+    "pkg:env": "export APP_ENV=staging && export DOCKER_REPO=registry.cn-hangzhou.aliyuncs.com",
+    "pkg:build": "docker-compose -f dc.staging.yml build",
+    "pkg:push": "docker push $npm_package_config_registry/shitulv/mongodb && docker push $npm_package_config_registry/shitulv/static && docker push $npm_package_config_registry/shitulv/api",
+    "pkg:clean": "docker rmi $npm_package_config_registry/shitulv/mongodb $npm_package_config_registry/shitulv/static $npm_package_config_registry/shitulv/api",
+    "package": "npm run pkg:env && npm run pkg:build && npm run pkg:push && npm run pkg:clean"
   },
   "devDependencies": {
     "browser-sync": "^2.18.2",

@@ -66,57 +66,57 @@ const Alipay = {
   }
 }
   
-module.exports = function(app) {
+module.exports = (app) => {
   function getOneById(id, res, statusCode) {
     Order
     .findById(id)
     .populate('event')
     .exec()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(statusCode).json(data)
       } else {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   }
 
   /* Create */
-  app.post('/orders', function(req, res, next) {
+  app.post('/orders', (req, res, next) => {
     let order = new Order(req.body)
 
     User
     .findById(order.creator)
     .exec()
-    .then(function(user) {
+    .then((user) => {
       if (user) {
         return order.save()
       } else {
         res.status(404).send()
       }
     })
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         let tmp = JSON.parse(JSON.stringify(data))
         tmp.alipay = Alipay.pay(data)
         res.status(201).json(tmp)
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })
 
   /* Read */
-  app.get('/orders/:id', function(req, res, next) {
+  app.get('/orders/:id', (req, res, next) => {
     getOneById(req.params.id, res, 200)
   })
 
   /* List */
-  app.get('/orders', function(req, res) {
+  app.get('/orders', (req, res, next) => {
     let query = {}
 
     if (req.query.creator) {
@@ -129,33 +129,33 @@ module.exports = function(app) {
     .limit(CONST.DEFAULT_PAGINATION)
     .sort({_id: -1})
     .exec()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(200).json(data)
       } else {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })
 
   /* Delete */
-  app.delete('/orders/:id', function(req, res, next) {
+  app.delete('/orders/:id', (req, res, next) => {
     Order
     .findById(req.params.id)
     .exec()
-    .then(function(order) {
+    .then((order) => {
       if (order) {
         order
         .remove()
-        .then(function(data) {
+        .then((data) => {
           if (data) {
             res.status(410).send()
           }
         })
-        .catch(function(err) {
+        .catch((err) => {
           res.status(500).json({error: err})
         })
       } else {
@@ -165,7 +165,7 @@ module.exports = function(app) {
   })
 
   /* Update */
-  app.put('/orders', function(req, res, next) {
+  app.put('/orders', (req, res, next) => {
     let tmp = req.body
 
     switch (tmp.method) {
@@ -178,7 +178,7 @@ module.exports = function(app) {
         Order
         .findById(id)
         .exec()
-        .then(function(order) {
+        .then((order) => {
           if (order && Alipay.verify(order, response)) {
             let status = CONST.Alipay.statuses[statusCode]
 
@@ -187,17 +187,17 @@ module.exports = function(app) {
               status
             })
             .save()
-            .then(function(data) {
+            .then((data) => {
               res.status(200).json(data)
             })
-            .catch(function(err) {
+            .catch((err) => {
               res.status(500).json({error: err})
             })
           } else {
             res.status(304).json({error: 'Not Modified'})
           }
         })
-        .catch(function(err) {
+        .catch((err) => {
           res.status(500).json({error: err})
         })
       break
@@ -209,7 +209,7 @@ module.exports = function(app) {
   })
 
   /* Alipay Return : return_url */
-  app.get('/alipay/return', function(req, res, next) {
+  app.get('/alipay/return', (req, res, next) => {
     console.log('alipay return: ', moment())
     console.log(req)
     //console.log(req.body)
@@ -217,7 +217,7 @@ module.exports = function(app) {
   })
 
   /* Alipay Notify : notify_url */
-  app.post('/alipay/notify', function(req, res, next) {
+  app.post('/alipay/notify', (req, res, next) => {
     console.log('alipay notify: ', moment())
     //console.log(req)
     //console.log(req.body)

@@ -289,7 +289,7 @@ class Login extends Component {
         />
       ),
 
-      wechatAuthButton = (
+      wechatAuthButton = (this.state.isWXAppInstalled) ? (
         <View style={styles.weixinLogin}>
           <TextView
             style={labelStyles}
@@ -307,7 +307,7 @@ class Login extends Component {
             />
           </TouchableOpacity>
         </View>
-      )
+      ) : null
 
     const uri = ImagePath({type: 'background', path: AppSettings.loginBackground})
 

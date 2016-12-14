@@ -3,21 +3,21 @@ const mongoose = require('mongoose'),
 
 mongoose.Promise = global.Promise
 
-module.exports = function(app) {
+module.exports = (app) => {
   /* List */
-  app.get('/logs', function(req, res, next) {
+  app.get('/logs', (req, res, next) => {
     Log
     .find()
     .sort({_id: -1})
     .exec()
-    .then(function(data) {
+    .then((data) => {
       if (data) {
         res.status(200).json(data)
       } else {
         res.status(404).send()
       }
     })
-    .catch(function(err) {
+    .catch((err) => {
       res.status(500).json({error: err})
     })
   })

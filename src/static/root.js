@@ -29,11 +29,11 @@ const avatar = require('./avatar')(app),
   wechat = require('./sdks/wechat/info')(app),
   f6ot = require('./sdks/f6ot/curl')(app)
 
-router.use(function(req, res, next) {
+router.use((req, res, next) => {
   next()
 })
 
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
   let os = req.query.os,
     screen = req.query.res.split('x'),
     type = req.query.type,
@@ -93,7 +93,7 @@ router.get('/', function(req, res, next) {
 
   let transformer = scale(width, height)
 
-  http.get(url, function(result) {
+  http.get(url, (result) => {
     if (result.statusCode === 200) {
       console.log(result.headers['content-type'])
       res
@@ -107,24 +107,21 @@ router.get('/', function(req, res, next) {
   })
 })
 
-let scale = function(width, height) {
+let scale = (width, height) => {
   return sharp()
     .resize(width, height)
     .withoutEnlargement()
 }
 
-router.post('/up', function(req, res, next) {
+router.post('/up', (req, res, next) => {
   let form = new formidable.IncomingForm()
 
-  form.parse(req, function(err, fields, files) {
-    if (err) throw err
+  form.parse(req, (err, fields, files) => {
+    if (err) console.log(err)
 
     let dir = 'uploads/' + fields.path
-    console.log('dir: ', dir)
 
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir)
-    }
+    fs.existsSync(dir) || fs.mkdirSync(dir)
 
     let file = files.file,
       inputStream = fs.createReadStream(file.path),
@@ -147,7 +144,7 @@ const smsClient = new TopClient({
   }),
   smsUri = 'alibaba.aliqin.fc.sms.num.send'
 
-router.post('/validate', function(req, res, next) {
+router.post('/validate', (req, res, next) => {
   let body = req.body,
     template = 'SMS_22520124'
 
@@ -170,8 +167,8 @@ router.post('/validate', function(req, res, next) {
      'sms_param'          : '{"code":"' + body.vcode + '","product":"识途驴"}',
      'rec_num'            : body.mobile.toString(),
      'sms_template_code'  : template
-  }, function(error, response) {
-    //if (error) throw error
+  }, (err, response) => {
+    if (err) console.log(err)
     
     let result = response.result
 

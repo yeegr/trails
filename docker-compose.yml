@@ -25,12 +25,12 @@ services:
     networks:
       - web-network
 
-  graphics:
-    container_name: graphics
+  static:
+    container_name: static
     build:
       context: .
-      dockerfile: ./.docker/dockerfiles/graphics.dockerfile
-    image: shitulv/graphics
+      dockerfile: ./.docker/dockerfiles/${APP_ENV}/static.dockerfile
+    image: shitulv/static
     ports:
       - "8000:8000"
     depends_on:
@@ -38,9 +38,10 @@ services:
     links:
       - uploads:uploads
     volumes:
+      - "./dev/static.js:/usr/app/static.js"
       - "./uploads:/usr/app/uploads:rw"
     env_file:
-      - ./.docker/env/${APP_ENV}/graphics
+      - ./.docker/env/${APP_ENV}/static
     environment:
       - NODE_ENV=${APP_ENV}
     networks:
@@ -51,7 +52,7 @@ services:
     container_name: mongodb
     build:
       context: .
-      dockerfile: ./.docker/dockerfiles/mongodb.dockerfile
+      dockerfile: ./.docker/dockerfiles/${APP_ENV}/mongodb.dockerfile
     image: shitulv/mongodb
     ports:
       - "27017:27017"
@@ -64,12 +65,14 @@ services:
     container_name: api
     build:
       context: .
-      dockerfile: ./.docker/dockerfiles/api.dockerfile
+      dockerfile: ./.docker/dockerfiles/${APP_ENV}/api.dockerfile
     image: shitulv/api
     ports:
       - "3000:3000"
     depends_on:
       - "mongodb"
+    volumes:
+      - "./dev/api.js:/usr/app/api.js"
     env_file:
       - ./.docker/env/${APP_ENV}/api 
     environment:

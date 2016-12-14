@@ -80,12 +80,12 @@ class EditTrail extends Component {
     switch (type) {
       case 'title':
         id = 'EditTrailTitle',
-        title = LANG.t('trail.TrailTitle')
+        title = LANG.t('trail.edit.TrailTitle')
       break;
 
       case 'area':
         id = 'SelectTrailAreas',
-        title = LANG.t('trail.SelectAreas')
+        title = LANG.t('trail.edit.SelectAreas')
       break;
 
       case 'desc':
@@ -95,7 +95,7 @@ class EditTrail extends Component {
 
       case 'type':
         id = 'EditTrailType',
-        title = LANG.t('trail.TrailType')
+        title = LANG.t('trail.edit.TrailType')
       break;
 
       case 'difficulty':
@@ -110,7 +110,7 @@ class EditTrail extends Component {
 
       case 'preview':
         id = 'TrailDetail',
-        title = LANG.t('trail.TrailPreview')
+        title = LANG.t('trail.edit.TrailPreview')
       break;
     }
 
@@ -154,7 +154,7 @@ class EditTrail extends Component {
         <View style={[styles.editor.link, {paddingVertical: 15}]}>
           <View style={styles.editor.label}>
             <TextView
-              text={LANG.t('trail.ReviewStatus')}
+              text={LANG.t('trail.edit.ReviewStatus')}
             />
           </View>
           <View style={styles.editor.value}>
@@ -172,12 +172,12 @@ class EditTrail extends Component {
             <View style={styles.editor.link}>
               <View style={styles.editor.label}>
                 <TextView
-                  text={LANG.t('trail.PrivacySetting')}
+                  text={LANG.t('trail.edit.PrivacySetting')}
                 />
               </View>
               <View style={styles.editor.value}>
                 <Text style={[styles.editor.valueText, {marginRight: 10}]}>
-                  {(trail.isPublic) ? LANG.t('trail.Public') : LANG.t('trail.Private')}
+                  {(trail.isPublic) ? LANG.t('trail.edit.Public') : LANG.t('trail.edit.Private')}
                 </Text>
                 <Switch
                   onValueChange={(value) => this.props.newTrailActions.setTrailPrivacy(value)}
@@ -189,21 +189,21 @@ class EditTrail extends Component {
           </View>
           <View style={styles.editor.group}>
             <EditLink
-              label={LANG.t('trail.TrailTitle')}
+              label={LANG.t('trail.edit.TrailTitle')}
               onPress={() => this._nextPage('title')}
               required={true}
               validated={(trail.title.length >= AppSettings.minTrailTitleLength)}
-              value={(trail.title.length >= AppSettings.minTrailTitleLength) ? trail.title : LANG.t('trail.Unnamed')}
+              value={(trail.title.length >= AppSettings.minTrailTitleLength) ? trail.title : LANG.t('trail.edit.Unnamed')}
             />
             <EditLink
-              label={LANG.t('trail.TrailType')}
+              label={LANG.t('trail.edit.TrailType')}
               onPress={() => this._nextPage('type')}
               required={true}
               validated={(trail.type > -1)}
               value={LANG.t('tags.' + trail.type)}
             />
             <EditLink
-              label={LANG.t('trail.SelectAreas')}
+              label={LANG.t('trail.edit.SelectAreas')}
               onPress={() => this._nextPage('area')}
               required={true}
               validated={(trail.areas.length > 0)}
@@ -229,7 +229,7 @@ class EditTrail extends Component {
           </View>
           <View style={styles.editor.group}>
             <EditLink
-              label={LANG.t('trail.TrailPreview')}
+              label={LANG.t('trail.edit.TrailPreview')}
               onPress={() => this._nextPage('preview')}
             />
           </View>

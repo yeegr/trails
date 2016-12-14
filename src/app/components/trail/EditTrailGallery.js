@@ -8,7 +8,6 @@ import React, {
 import {
   CameraRoll,
   StyleSheet,
-  Text,
   View
 } from 'react-native'
 
@@ -18,9 +17,11 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../redux/actions/newTrailActions'
 
+import TextView from '../shared/TextView'
+
 import {
+  LANG,
   AppSettings,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -40,7 +41,7 @@ class EditTrailGallery extends Component {
     .getPhotos({
       first: 20,
       assetType: 'Photos',
-      groupTypes: 'All'
+      groupTypes: 'SavedPhotos'
     })
     .then((data) => {
       let selected = [],
@@ -83,7 +84,8 @@ class EditTrailGallery extends Component {
           <CameraRollPicker
             assetType={'Photos'}
             batchSize={5}
-            groupTypes={'All'}
+            emptyText={LANG.t('gallery.edit.LoadingPhotos')}
+            groupTypes={'SavedPhotos'}
             imagesPerRow={4}
             imageMargin={5}
             initialListSize={1}
@@ -98,25 +100,17 @@ class EditTrailGallery extends Component {
         </View>
         <View style={styles.statusBar}>
           <View style={styles.block}>
-            <Text style={styles.indicator}>
-              {Lang.PhotosSelectedPrefix}
-              <Text style={styles.imageCount}>{this.state.imageCount}</Text>
-              {Lang.PhotosSelectedPostfix}
-            </Text>
+            <TextView
+              style={{justifyContent: 'center', textAlign: 'right'}}
+              fontSize={'L'}
+              text={LANG.t('gallery.edit.NumberOfPhotosSelected', {count: this.state.imageCount})}
+            />
           </View>
         </View>
       </View>
     )
   }
 }
-
-/*
-        <View style={styles.block}>
-          <TouchableOpacity onPress={this.previewPhotos}>
-            <Text style={styles.button}>{Lang.Preview}</Text>
-          </TouchableOpacity>
-        </View>
-*/
 
 const styles = StyleSheet.create({
   wrapper: {

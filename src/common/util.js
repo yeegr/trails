@@ -114,7 +114,7 @@ export function calculateTrailData(points) {
 
   const maximumAltitude = Math.max(...elevationArray),
     minimumAltitude = Math.min(...elevationArray),
-    averageSpeed = Math.round(totalSpeed / points.length) / 10
+    averageSpeed = Math.round(Math.abs(totalSpeed) / points.length) / 10
 
   return {
     date: firstPoint[0],

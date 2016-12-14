@@ -28,6 +28,7 @@ import CallToAction from '../shared/CallToAction'
 import Icon from '../shared/Icon'
 
 import {
+  LANG,
   UTIL,
   Lang,
   AppSettings,
@@ -38,6 +39,7 @@ class RecordTrail extends Component {
   constructor(props) {
     super(props)
 
+    this._unmount = this._unmount.bind(this)
     this._toggleRecording = this._toggleRecording.bind(this)
     this._closeAlert = this._closeAlert.bind(this)
     this._startCounter = this._startCounter.bind(this)
@@ -117,6 +119,15 @@ class RecordTrail extends Component {
             })
           }
         })
+      } else {
+        Alert.alert(
+          LANG.t('trail.record.LocationAlert.PleaseTurnOnLocation'),
+          LANG.t('trail.record.LocationAlert.TurnOnLocationSteps'),
+          [{
+            text: LANG.t('trail.record.LocationAlert.Okay'),
+            onPress: this._unmount
+          }]
+        )
       }
     })
   }
@@ -152,6 +163,10 @@ class RecordTrail extends Component {
     this._stopTracking()
   }
 
+  _unmount() {
+    this.props.navigator.pop(0)
+  }
+
   _closeAlert() {
     this.props.navbarActions.backToRecordTrail()
   }
@@ -162,9 +177,10 @@ class RecordTrail extends Component {
 
   _stopTracking() {
     Location.stopUpdatingLocation()
-    this.LocationListener.remove()
+    if (this.LocationListener) {
+      this.LocationListener.remove()
+    }
     this._pauseCounter()
-    this.props.newTrailActions.stopRecording()
   }
 
   _toggleRecording() {
@@ -225,7 +241,7 @@ class RecordTrail extends Component {
       latitude: parseFloat((gcj[1]).toFixed(7)),
       longitude: parseFloat((gcj[0]).toFixed(6)),
       altitude: parseFloat(coords.altitude.toFixed(1)),
-      speed: parseFloat(coords.speed.toFixed(2)) || 0,
+      speed: parseFloat(Math.abs(coords.speed.toFixed(2))) || 0,
       distance: coords.distance || 0,
       heading: parseFloat(coords.course.toFixed(2)),
       accuracy: coords.accuracy
@@ -242,7 +258,9 @@ class RecordTrail extends Component {
   }
 
   _pauseCounter() {
-    clearInterval(this.counterInterval)
+    if (this.counterInterval) {
+      clearInterval(this.counterInterval)
+    }
     this.props.newTrailActions.stopRecording()
   }
 

@@ -1,15 +1,15 @@
-var request = require('request'),
+const request = require('request'),
   fs = require('fs')
 
-module.exports = function(app) {
-  app.post('/avatar', function(req, res, next) {
-    var dir = 'uploads/users/' + req.body.id
+module.exports = (app) => {
+  app.post('/avatar', (req, res, next) => {
+    let dir = 'uploads/users/' + req.body.id
 
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir)
     }
 
-    var file = fs.createWriteStream(dir + '/' + req.body.filename + '.jpg')
+    let file = fs.createWriteStream(dir + '/' + req.body.filename + '.jpg')
     request(req.body.url).pipe(file)
 
     file.on('error', (err) => {

@@ -1,0 +1,79 @@
+version: '2'
+
+networks:
+  api-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+
+  web-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16
+
+services:
+  uploads:
+    container_name: uploads
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - "./uploads:/usr/share/nginx/html:rw"
+    working_dir: "/usr/share/nginx"
+    networks:
+      - web-network
+
+  static:
+    container_name: static
+    build:
+      context: .
+      dockerfile: ./.docker/dockerfiles/${APP_ENV}/static.dockerfile
+    image: ${DOCKER_REPO}/shitulv/static
+    ports:
+      - "8000:8000"
+    depends_on:
+      - "uploads"
+    links:
+      - uploads:uploads
+    volumes:
+      - "./uploads:/usr/app/uploads:rw"
+    env_file:
+      - ./.docker/env/${APP_ENV}/static
+    environment:
+      - NODE_ENV=${APP_ENV}
+    networks:
+      - web-network
+
+
+  mongodb:
+    container_name: mongodb
+    build:
+      context: .
+      dockerfile: ./.docker/dockerfiles/${APP_ENV}/mongodb.dockerfile
+    image: ${DOCKER_REPO}/shitulv/mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - "/data/db:/data/db:rw"
+    networks:
+      - api-network
+
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: ./.docker/dockerfiles/${APP_ENV}/api.dockerfile
+    image: ${DOCKER_REPO}/shitulv/api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "mongodb"
+    env_file:
+      - ./.docker/env/${APP_ENV}/api 
+    environment:
+      - NODE_ENV=${APP_ENV}
+    networks:
+      - api-network
+      - web-network
