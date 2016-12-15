@@ -12,6 +12,7 @@
   "maxCommentPreviews":3,
   "minTrailPathPoints":10,
   "minTrailTitleLength":6,
+  "maxNumberOfAreasPerTrail":3,
   "minEventTitleLength":6,
   "getVerificationTimer":90,
   "mobileNumberLength":11,

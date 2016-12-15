@@ -49,7 +49,7 @@ export const send = (req) => {
       })
       .then((res) => {
         dispatch(toolbarActionSuccess(res))
-        dispatch(loginActions.reloadUser(req.creator))
+        dispatch(loginActions.reloadUser())
       })
       .catch((err) => dispatch(toolbarActionFailure(err)))
   }

@@ -52,8 +52,8 @@ class EditEventGallery extends Component {
       <View style={styles.wrapper}>
         <View style={styles.gallery}>
           <CameraRollPicker
-            groupTypes='All'
-            batchSize={5}
+            groupTypes={'All'}
+            batchSize={20}
             maximum={AppSettings.maxPhotosPerGallery}
             selected={this.state.selected}
             assetType={'Photos'}
@@ -63,8 +63,6 @@ class EditEventGallery extends Component {
           />
         </View>
         <View style={styles.statusBar}>
-          <View style={styles.block}>
-          </View>
           <View style={styles.block}>
             <Text style={styles.indicator}>
               {Lang.PhotosSelectedPrefix}

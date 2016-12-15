@@ -90,10 +90,11 @@ export const setTrailTitle = (title) => {
   }
 }
 
-export const setTrailAreas = (areas) => {
+export const setTrailAreas = (areas, areaNames) => {
   return {
     type: ACTIONS.SET_TRAIL_AREAS,
-    areas
+    areas,
+    areaNames
   }
 }
 
@@ -173,8 +174,6 @@ const createTrailFailure = (message) => {
 }
 
 export const createTrail = (data) => {
-  console.log('createTrail')
-
   let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(data)
   })
@@ -188,12 +187,7 @@ export const createTrail = (data) => {
       })
       .then((res) => {
         if (res._id) {
-          console.log(getState().newTrail.photos)
-          console.log(res.photos)
-
           dispatch(createTrailSuccess(res, data.storeKey))
-
-
         } else {
           dispatch(createTrailFailure(res.message))
           return Promise.reject(res)

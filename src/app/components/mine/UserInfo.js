@@ -6,7 +6,6 @@ import React, {
 } from 'react'
 
 import {
-  AsyncStorage,
   Text,
   TouchableOpacity,
   View
@@ -27,9 +26,7 @@ import TagList from '../shared/TagList'
 import styles from '../../styles/main'
 
 import {
-  CONSTANTS,
   LANG,
-  UTIL,
   AppSettings,
   Graphics
 } from '../../settings'
@@ -38,36 +35,10 @@ class UserInfo extends Component {
   constructor(props) {
     super(props)
     this._nextPage = this._nextPage.bind(this)
-
-    this.state = {
-      localTrailCount: 0
-    }
   }
 
   componentWillMount() {
-    this.props.loginActions.reloadUser(this.props.user.id)
-
-    AsyncStorage
-    .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
-    .then((tmp) => {
-      return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
-    })
-    .then((tmp) => {
-      let count = 0
-      for (let key in tmp) {
-        if (tmp.hasOwnProperty(key)) {
-          count++
-        }
-      }
-
-      this.setState({
-        localTrailCount: count
-      })
-    })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    //console.log(nextProps.user)
+    this.props.loginActions.reloadUser()
   }
 
   _nextPage(type) {
@@ -152,7 +123,7 @@ class UserInfo extends Component {
       return <Loading />
     }
 
-    const totalUserTrails = user.trails.length + this.state.localTrailCount
+    const totalUserTrails = user.trails.length + user.localTrailCount
 
     return (
       <ParallaxView style={styles.user.wrapper}
@@ -179,12 +150,16 @@ class UserInfo extends Component {
             onPress={() => user.blance > 0 && this._nextPage('wallet')}
             value={LANG.l('currency', user.balance)}
           />
+          <EditLink
+            label={LANG.t('mine.PurchaseOutdoorInsurance')}
+            onPress={() => null}
+          />
         </View>
         <View style={styles.editor.group}>
           <EditLink
             label={LANG.t('mine.MyTrails')}
             onPress={() => totalUserTrails > 0 && this._nextPage('trails')}
-            value={totalUserTrails}
+            value={(totalUserTrails > 0) ? (user.trails.length.toString() + ' | ' + user.localTrailCount) : '0'}
           />
           <EditLink
             label={LANG.t('mine.MyEvents')}

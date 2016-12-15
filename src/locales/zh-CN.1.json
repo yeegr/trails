@@ -215,8 +215,11 @@
   "mine": {
     "MyOrders": "我的订单",
     "MyWallet": "我的钱包",
+    "PurchaseOutdoorInsurance": "购买户外保险",
     "SignUpList": "报名列表",
     "MyTrails": "我记录的轨迹",
+    "MySavedTrails": "{{count}}条已保存",
+    "MyLocalTrails": "{{count}}条未保存",
     "MyEvents": "我管理的活动",
     "MyPosts": "我发布的文章",
     "MySaves": "我的收藏",

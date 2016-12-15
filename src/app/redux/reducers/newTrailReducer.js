@@ -20,6 +20,7 @@ const initState = {
   title: '',
   type: 0,
   areas: [],
+  areaNames: [],
   difficultyLevel: 2,
   description: '',
   points: [], //array of array [[],[],[],...]
@@ -106,7 +107,8 @@ newTrailReducer = (state = initState, action) => {
 
     case ACTIONS.SET_TRAIL_AREAS:
       return Object.assign({}, state, {
-        areas: action.areas
+        areas: action.areas,
+        areaNames: action.areaNames
       })
 
     case ACTIONS.SET_TRAIL_TYPE:

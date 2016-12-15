@@ -39,14 +39,20 @@ class EditTrail extends Component {
   constructor(props) {
     super(props)
     this._nextPage = this._nextPage.bind(this)
+    this._listAreas = this._listAreas.bind(this)
     this._resetRoutes = this._resetRoutes.bind(this)
     this._deleteAlert = this._deleteAlert.bind(this)
     this._deleteTrail = this._deleteTrail.bind(this)
+
+    this.state = {
+      allAreas: []
+    }
   }
 
   componentWillMount() {
     this.props.navbarActions.gotToEditTrail()
     this.props.newTrailActions.editTrail(this.props.trail)
+    this._listAreas(AppSettings.defaultCity)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,13 +75,47 @@ class EditTrail extends Component {
     this.props.loginActions.reloadUser()
   }
 
+  _listAreas(city) {
+    fetch(AppSettings.apiUri + 'areas/?type=compact&city=' + city)
+    .then((res) => {
+      return res.json()
+    })
+    .then((allAreas) => {
+      this.setState({allAreas})
+
+      let selectedAreas = this.props.newTrail.areas,
+        tmpAreaIds = [],
+        tmpAreaNames = []
+
+      if (selectedAreas.length === 0) {
+        allAreas.map((area) => {
+          if (area.isDefault) {
+            tmpAreaIds.push(area._id)
+            tmpAreaNames.push(area.name)
+          }
+        })
+      } else {
+        allAreas.map((area) => {
+          if (selectedAreas.indexOf(area._id) > -1) {
+            tmpAreaIds.push(area._id)
+            tmpAreaNames.push(area.name)
+          }
+        })
+      }
+
+      this.props.newTrailActions.setTrailAreas(tmpAreaIds, tmpAreaNames)
+    })
+    .catch((err) => console.log(err))
+  }
+
   _resetRoutes() {
     this.props.navigator.popToTop(0)
   }
 
   _nextPage(type) {
     let id = null,
-      title = null
+      title = null,
+      passProps = {}
 
     switch (type) {
       case 'title':
@@ -86,6 +126,9 @@ class EditTrail extends Component {
       case 'area':
         id = 'SelectTrailAreas',
         title = LANG.t('trail.edit.SelectAreas')
+        passProps = {
+          allAreas: this.state.allAreas
+        }
       break;
 
       case 'desc':
@@ -111,17 +154,17 @@ class EditTrail extends Component {
       case 'preview':
         id = 'TrailDetail',
         title = LANG.t('trail.edit.TrailPreview')
+        passProps = {
+          newTrail: this.props.newTrail,
+          isPreview: true
+        }
       break;
     }
 
     this.props.navigator.push({
       id,
       title,
-      passProps: {
-        city: AppSettings.defaultCity,
-        newTrail: this.props.newTrail,
-        isPreview: true
-      }
+      passProps
     })
   }
 
@@ -207,7 +250,7 @@ class EditTrail extends Component {
               onPress={() => this._nextPage('area')}
               required={true}
               validated={(trail.areas.length > 0)}
-              value={(trail.areas.length > 0)}
+              value={trail.areaNames.join(',')}
             />
             <EditLink
               label={LANG.t('trail.DifficultyLevel')}

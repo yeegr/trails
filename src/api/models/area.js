@@ -37,6 +37,11 @@ const mongoose = require('mongoose'),
       type: String,
       required: true
     },
+    isDefault: {
+      type: Boolean,
+      default: false,
+      required: true
+    },
     name: {
       type: String,
       required: true

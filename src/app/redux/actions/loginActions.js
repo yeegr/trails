@@ -5,6 +5,7 @@ import * as ACTIONS from '../constants/loginConstants'
 import {
   CONSTANTS,
   FETCH,
+  UTIL,
   AppSettings,
   Lang
 } from '../../settings'
@@ -313,9 +314,11 @@ const getUserFailure = (message) => {
   }
 }
 
-export const reloadUser = (user_id) => {
-  return (dispatch) => {
-    return fetch(AppSettings.apiUri + 'users/' + user_id, FETCH.GET)
+export const reloadUser = () => {
+  return (dispatch, getState) => {
+    let userId = getState().login.user._id
+
+    return fetch(AppSettings.apiUri + 'users/' + userId, FETCH.GET)
       .then((res) => {
         return res.json()
       })
@@ -324,7 +327,24 @@ export const reloadUser = (user_id) => {
           AsyncStorage
           .setItem(CONSTANTS.USER, JSON.stringify(res))
           .then(() => {
-            dispatch(getUserSuccess(res))
+            AsyncStorage
+            .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
+            .then((tmp) => {
+              return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
+            })
+            .then((tmp) => {
+              let count = 0
+              for (let key in tmp) {
+                if (tmp.hasOwnProperty(key)) {
+                  count++
+                }
+              }
+              return count
+            })
+            .then((localTrailCount) => {
+              res.localTrailCount = localTrailCount
+              dispatch(getUserSuccess(res))
+            })
           })
         } else {
           dispatch(getUserFailure(res.message))

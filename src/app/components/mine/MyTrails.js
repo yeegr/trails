@@ -20,8 +20,7 @@ import Loading from '../shared/Loading'
 import TrailList from '../trail/TrailList'
 
 import {
-  CONSTANTS,
-  AppSettings
+  CONSTANTS
 } from '../../settings'
 
 class MyTrails extends Component {
@@ -29,7 +28,9 @@ class MyTrails extends Component {
     super(props)
 
     this.state = {
-      trails: []
+      allTrails: [],
+      savedTrails: this.props.savedTrails,
+      localTrails: []
     }
   }
 
@@ -42,24 +43,22 @@ class MyTrails extends Component {
       return JSON.parse(tmp)
     })
     .then((tmp) => {
-      let arr = []
+      let localTrails = []
 
-      for(var i in tmp) {
+      for(let i in tmp) {
         if (i.length === 16) {
-          arr.push(tmp[i])
+          localTrails.push(tmp[i])
         }
       }
 
-      this.setState({
-        trails: arr
-      })
+      this.setState({localTrails})
     })
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.trails.length > 0) {
-      let arr = this.state.trails
-      arr = arr.concat(nextProps.trails)
+    if (nextProps.savedTrails.length > 0) {
+      let arr = this.state.localTrails
+      arr = arr.concat(nextProps.savedTrails)
 
       arr.sort((a, b) => {
         let x = Moment(a.date),
@@ -68,16 +67,16 @@ class MyTrails extends Component {
       })
 
       this.setState({
-        trails: arr
+        allTrails: arr
       })
     }
   }
 
   render() {
     const {navigator} = this.props,
-      {trails} = this.state
+      {allTrails} = this.state
 
-    if (trails.length < 1) {
+    if (allTrails.length < 1) {
       return <Loading />
     }
 
@@ -85,7 +84,7 @@ class MyTrails extends Component {
       <View style={{paddingTop: 20}}>
         <TrailList
           navigator={navigator}
-          trails={trails}
+          trails={allTrails}
         />
       </View>
     )
@@ -94,13 +93,16 @@ class MyTrails extends Component {
 
 MyTrails.propTypes = {
   navigator: PropTypes.object.isRequired,
-  trailsActions: PropTypes.object.isRequired
+  trailsActions: PropTypes.object.isRequired,
+  query: PropTypes.string.isRequired,
+  savedTrails: PropTypes.array,
+  localTrails: PropTypes.array
 }
 
 function mapStateToProps(state, ownProps) {
   return {
     user: state.login.user,
-    trails: state.trails.list
+    savedTrails: state.trails.list
   }
 }
 

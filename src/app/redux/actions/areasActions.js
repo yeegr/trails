@@ -30,15 +30,15 @@ export const listAreas = (params) => {
     dispatch(listAreasRequest(params))
 
     return fetch(AppSettings.apiUri + 'areas/' + params)
-      .then((response) => {
-        return response.json()
+      .then((res) => {
+        return res.json()
       })
-      .then((response) => {
-        if (response.error) {
-          dispatch(listAreasFailure(response.error))
-          return Promise.reject(response)
+      .then((res) => {
+        if (res.error) {
+          dispatch(listAreasFailure(res.error))
+          return Promise.reject(res)
         } else {
-         dispatch(listAreasSuccess(response))
+         dispatch(listAreasSuccess(res))
         }
       })
       .catch((err) => {
@@ -48,7 +48,7 @@ export const listAreas = (params) => {
 }
 
 // get one area
-const getAreaRequest = (id) => {
+const getAreaRequest = () => {
   return {
     type: ACTIONS.GET_AREA_REQUEST
   }
@@ -70,7 +70,7 @@ const getAreaFailure = (message) => {
 
 export const getArea = (id) => {
   return (dispatch) => {
-    dispatch(getAreaRequest(id))
+    dispatch(getAreaRequest())
 
     return fetch(AppSettings.apiUri + 'areas/' + id)
       .then((response) => {

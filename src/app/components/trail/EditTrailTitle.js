@@ -48,7 +48,7 @@ class EditTrailTitle extends Component {
               autoCorrect={false}
               maxLength={50}
               style={styles.editor.textInput}
-              placeholder={LANG.t('trail.TrailTitle')}
+              placeholder={LANG.t('trail.edit.TrailTitle')}
               onChangeText={(value) => this.setState({title: value})}
               value={this.state.title}
             />
