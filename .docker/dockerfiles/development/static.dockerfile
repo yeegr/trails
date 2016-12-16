@@ -18,8 +18,8 @@ RUN npm install
 # Internal port
 EXPOSE $PORT
 
-# Run app using nodemon
-ENTRYPOINT ["nodemon"]
+# Run app using node/nodemon
+ENTRYPOINT ["node"]
 CMD ["/usr/app/static.js"]
 
 

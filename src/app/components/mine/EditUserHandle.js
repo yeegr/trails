@@ -27,11 +27,11 @@ class EditUserHandle extends Component {
   }
 
   componentWillUnmount() {
-    let tmp = this.state.handle.trim()
+    let handle = this.state.handle.trim()
 
-    if (tmp !== '' && tmp !== this.props.user.handle) {
+    if (handle !== '' && handle !== this.props.user.handle) {
       this.props.loginActions.updateUser(this.props.user.id, {
-        handle: tmp
+        handle
       })
     }
   }

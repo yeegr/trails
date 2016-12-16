@@ -18,9 +18,9 @@ import {
 
 import ParallaxView from 'react-native-parallax-view'
 
-import Loading from '../shared/Loading'
-import ImagePath from '../shared/ImagePath'
 import Avatar from '../shared/Avatar'
+import ImagePath from '../shared/ImagePath'
+import Loading from '../shared/Loading'
 import TagList from '../shared/TagList'
 
 import styles from '../../styles/main'
@@ -31,6 +31,7 @@ export default class UserDetail extends Component {
 
     this.state = {
       loading: true,
+      user: null
     }
   }
 
@@ -40,11 +41,11 @@ export default class UserDetail extends Component {
 
   fetchData(id) {
     fetch(AppSettings.apiUri + 'users/' + id)
-    .then((response) => response.json())
-    .then((responseData) => {
+    .then((res) => res.json())
+    .then((user) => {
       this.setState({
         loading: false,
-        data: responseData
+        user
       })
     })
     .catch((error) => {
@@ -53,11 +54,11 @@ export default class UserDetail extends Component {
   }
 
   render() {
-    if (this.state.loading) {
+    if (!this.state.user) {
       return <Loading />
     }
 
-    const user = this.state.data,
+    const {user} = this.state,
       userBackgroundUrl = ImagePath({type: 'background', path: AppSettings.userBackground})
 
     return (
@@ -67,7 +68,7 @@ export default class UserDetail extends Component {
         scrollableViewStyle={{backgroundColor: Graphics.colors.background}}
         header={(
           <View style={styles.user.hero}>
-            <Avatar user={user} size='XL' borderWidth={6} />
+            <Avatar user={user} size={'XL'} borderWidth={6} />
             <Text style={styles.user.userHandle}>{user.handle}</Text>
             <TagList tags={user.tags} />
           </View>

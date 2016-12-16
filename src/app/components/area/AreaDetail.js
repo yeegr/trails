@@ -6,8 +6,6 @@ import React, {
 } from 'react'
 
 import {
-  Modal,
-  Text,
   View
 } from 'react-native'
 
@@ -32,7 +30,6 @@ import styles from '../../styles/main'
 import {
   CONSTANTS,
   LANG,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -74,7 +71,7 @@ class AreaDetail extends Component {
           header={(
             <Intro
               align={'bottom'}
-              title={Lang.cities[area.city] + ' ' + area.name}
+              title={LANG.t('cities.byCode.' + area.city) + ' ' + area.name}
               excerpt={area.excerpt}
             />
           )}>

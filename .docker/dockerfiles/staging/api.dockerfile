@@ -19,8 +19,8 @@ RUN npm install
 # Internal port
 EXPOSE $PORT
 
-# Run app using nodemon
-ENTRYPOINT ["nodemon"]
+# Run app using node/nodemon
+ENTRYPOINT ["node"]
 CMD ["/usr/app/api.js"]
 
 # docker run -d --net=api-network -p 3000:3000  --name api shitulv/api

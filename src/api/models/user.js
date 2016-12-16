@@ -35,9 +35,7 @@ const mongoose = require('mongoose'),
     },
     wechat: {
       type: String,
-      default: CONST.WeChatOpenId,
-      required: true,
-      unique: true
+      default: CONST.WeChatOpenId
     },
     mobile: {
       type: Number,

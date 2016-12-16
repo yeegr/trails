@@ -33,12 +33,13 @@
     "clean": "docker rmi -f $(docker images -qf dangling=true)",
     "empty": "docker rmi -f $(docker images)",
 
-    "pkg:env": "export APP_ENV=staging && export DOCKER_REPO=registry.cn-hangzhou.aliyuncs.com",
+    "pkg:env": "export APP_ENV=staging",
+    "pkg:repo": "export DOCKER_REPO='registry.cn-hangzhou.aliyuncs.com'",
     "pkg:build": "docker-compose -f dc.staging.yml build",
     "pkg:up": "docker-compose -f dc.staging.yml up -d",
     "pkg:push": "docker push $npm_package_config_registry/shitulv/mongodb && docker push $npm_package_config_registry/shitulv/static && docker push $npm_package_config_registry/shitulv/api",
     "pkg:clean": "docker rmi $npm_package_config_registry/shitulv/mongodb $npm_package_config_registry/shitulv/static $npm_package_config_registry/shitulv/api",
-    "staging": "npm run pkg:env && npm run pkg:build && npm run pkg:push && npm run pkg:clean"
+    "staging": "npm run pkg:env && npm run pkg:repo && npm run pkg:build && npm run pkg:push && npm run pkg:clean"
   },
   "devDependencies": {
     "browser-sync": "^2.18.5",

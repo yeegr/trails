@@ -10,8 +10,7 @@ import {
 
 import {
   CONSTANTS,
-  LANG,
-  Lang
+  LANG
 } from '../../settings'
 
 import AvatarList from '../shared/AvatarList'
@@ -44,7 +43,7 @@ const AreaCard = (props) => {
     <View>
       <Hero
         imageUri={CONSTANTS.ASSET_FOLDERS.AREA + '/' + data._id + '/' + data.hero} 
-        title={Lang.cities[data.city] + ' ' + data.name} 
+        title={LANG.t('cities.byCode.' + data.city) + ' ' + data.name} 
         excerpt={data.excerpt}
         tags={tags}
         topRight={

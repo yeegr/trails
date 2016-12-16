@@ -43,7 +43,8 @@ class MyOrders extends Component {
 
 MyOrders.propTypes = {
   navigator: PropTypes.object.isRequired,
-  ordersActions: PropTypes.object.isRequired
+  ordersActions: PropTypes.object.isRequired,
+  orders: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

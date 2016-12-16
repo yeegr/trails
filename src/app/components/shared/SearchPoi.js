@@ -24,6 +24,7 @@ import Loading from './Loading'
 import NavbarButton from './NavbarButton'
 
 import {
+  LANG,
   UTIL,
   AppSettings,
   Lang,
@@ -33,7 +34,7 @@ import {
 class SearchPoi extends Component {
   constructor(props) {
     super(props)
-    this.submit = this.submit.bind(this)
+    this._submit = this._submit.bind(this)
     this.selectPoi = this.selectPoi.bind(this)
     this.onConfirm = this.onConfirm.bind(this)
     this.onCancel = this.onCancel.bind(this)
@@ -66,7 +67,7 @@ class SearchPoi extends Component {
     this.props.onCancel()
   }
 
-  submit() {
+  _submit() {
     this.setState({
       isFetching: true,
       poiList: null,
@@ -76,14 +77,14 @@ class SearchPoi extends Component {
     const url = 'http://restapi.amap.com/v3/place/text?key=' + AppSettings.sdks.amap + '&city=010&offset=10&page=1&extensions=all&keywords=' + this.state.keywords
 
     fetch(url)
-    .then((response) => response.json())
-    .then((response) => {
+    .then((res) => res.json())
+    .then((res) => {
       this.setState({
-        poiList: response.pois
+        poiList: res.pois
       })
     })
-    .catch((error) => {
-      console.warn(error)
+    .catch((err) => {
+      console.warn(err)
     })
   }
 
@@ -183,7 +184,7 @@ class SearchPoi extends Component {
                 style={styles.searchInput}
                 value={this.state.keywords}
                 onChangeText={(keywords) => this.setState({keywords})}
-                onSubmitEditing={(event) => this.submit()}
+                onSubmitEditing={this._submit}
               />
               <TouchableOpacity onPress={() => this.setState({keywords: ''})}>
                 <Icon

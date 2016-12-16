@@ -19,25 +19,25 @@ import {
 
 const CommentView = (props) => {
   const comment = props.comment, 
-  user = comment.creator,
+    user = comment.creator,
 
-  styles = StyleSheet.create({
-    wrapper: {
-      alignItems: 'flex-start',
-      flexDirection: 'row',
-      justifyContent: 'flex-start',
-      marginBottom: 20,
-      paddingHorizontal: 15
-    },
-    content: {
-      flex: 1,
-      marginLeft: 10,
-      marginTop: 5
-    },
-    header: {
-      flexDirection: 'row'
-    }
-  })
+    styles = StyleSheet.create({
+      wrapper: {
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        marginBottom: 20,
+        paddingHorizontal: 15
+      },
+      content: {
+        flex: 1,
+        marginLeft: 10,
+        marginTop: 5
+      },
+      header: {
+        flexDirection: 'row'
+      }
+    })
 
   return (
     <View style={styles.wrapper}>

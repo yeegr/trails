@@ -13,7 +13,6 @@ import {
 
 import CallToAction from '../shared/CallToAction'
 import Icon from '../shared/Icon'
-import RangeSlider from '../shared/RangeSlider'
 import TextView from '../shared/TextView'
 
 import styles from '../../styles/main'
@@ -29,9 +28,15 @@ class SearchPosts extends Component {
   constructor(props) {
     super(props)
 
+    this._search = this._search.bind(this)
+
     this.state = {
       keywords: '',
     }
+  }
+
+  _search() {
+
   }
 
   render() {
@@ -55,7 +60,7 @@ class SearchPosts extends Component {
         <CallToAction
           backgroundColor={Graphics.colors.primary} 
           label={Lang.Search}
-          onPress={this.search}
+          onPress={this._search}
         />
       </View>
     )

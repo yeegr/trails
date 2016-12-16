@@ -11,7 +11,7 @@
   "author": "Stone Chen",
   "license": "ISC",
   "scripts": {
-    "start": "nodemon /usr/app/api.js"
+    "start": "node /usr/app/api.js"
   },
   "dependencies": {
     "body-parser": "^1.15.2",

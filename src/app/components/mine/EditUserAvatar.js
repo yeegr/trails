@@ -24,17 +24,17 @@ import ImagePath from '../shared/ImagePath'
 import Loading from '../shared/Loading'
 
 import {
-  AppSettings,
-  Lang
+  LANG,
+  AppSettings
 } from '../../settings'
 
 class EditUserAvatar extends Component {
   constructor(props) {
     super(props)
-    this.selectPhoto = this.selectPhoto.bind(this)
-    this.user = this.props.login.user
+    this._selectPhoto = this._selectPhoto.bind(this)
 
-    let path = (this.user.avatar === AppSettings.defaultUserAvatar) ? AppSettings.defaultUserAvatar  : this.user._id + '/' + this.user.avatar
+    let {user} = this.props.login,
+      path = AppSettings.defaultUserAvatar || (user._id + '/' + user.avatar)
 
     this.state = {
       sourceUri: ImagePath({type: 'avatar', path: 'users/' + path}) 
@@ -42,34 +42,34 @@ class EditUserAvatar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.login.tmpAvatarUri === null) {
-      this.props.navigator.pop()
+    if (!nextProps.login.tmpAvatarUri) {
+      this.props.navigator.pop(0)
     }
   }
 
-  selectPhoto() {
+  _selectPhoto() {
     let options = {
-      title: Lang.SelectPhoto,
+      title: LANG.t('mine.edit.SelectPhoto'),
       storageOptions: { 
         skipBackup: true, 
         path: 'images'
       }
     }
 
-    ImagePicker.showImagePicker(options, (response) => {
-      if (response.didCancel) {
+    ImagePicker.showImagePicker(options, (res) => {
+      if (res.didCancel) {
         console.log('User cancelled image picker');
       }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
+      else if (res.error) {
+        console.log('ImagePicker Error: ', res.error);
       }
       else {
         let source = null
 
         if (Platform.OS === 'ios') {
-          source = {uri: response.uri.replace('file://', ''), isStatic: true};
+          source = {uri: res.uri.replace('file://', ''), isStatic: true};
         } else {
-          source = {uri: response.uri, isStatic: true};
+          source = {uri: res.uri, isStatic: true};
         }
 
         this.props.loginActions.updateAvatarUri(source.uri)
@@ -90,10 +90,10 @@ class EditUserAvatar extends Component {
 
     return (
       <View style={styles.wrapper}>
-        <TouchableOpacity onPress={() => this.selectPhoto()}>
+        <TouchableOpacity onPress={this._selectPhoto}>
           <View style={styles.box}>
             <Image style={styles.image} source={{uri: this.state.sourceUri}} />
-            {loader}
+              {loader}
           </View>
         </TouchableOpacity>
       </View>

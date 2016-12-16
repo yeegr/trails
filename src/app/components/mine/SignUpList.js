@@ -17,8 +17,8 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
+  LANG,
   UTIL,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -80,7 +80,7 @@ class SignUpList extends Component {
   eventPage(id) {
     this.props.navigator.push({
       id: 'EventDetail',
-      title: Lang.EventDetail,
+      title: LANG.t('event.EventDetail'),
       passProps: {
         id
       }

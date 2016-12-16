@@ -25,7 +25,6 @@ import styles from '../../styles/main'
 import {
   LANG,
   AppSettings,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -157,7 +156,7 @@ class EditUserMobile extends Component {
             disabled={disableVerificationInput}
             keyboardType="numeric"
             maxLength={AppSettings.verificationCodeLength}
-            placeholder={Lang.ValidationCode}
+            placeholder={LANG.t('mine.edit.VerificationCode')}
             style={[styles.editor.textInput, {fontSize: 24, textAlign: 'center'}]}
             onFocus={() => {this.setState({verificationCode: ''})}}
             onChangeText={(value) => !disableVerificationInput && this._onVerificationCodeChanged(value)}
@@ -166,7 +165,7 @@ class EditUserMobile extends Component {
           <TextButton
             disabled={disableUpdateButton}
             onPress={() => !disableUpdateButton && this._onUpdatePressed()}
-            text={Lang.SubmitValidation}
+            text={LANG.t('mine.edit.SubmitVerification')}
           />
           <TextView
             fontSize={'L'}

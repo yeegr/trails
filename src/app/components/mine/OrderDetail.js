@@ -23,7 +23,6 @@ import styles from '../../styles/main'
 import {
   LANG,
   UTIL,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -44,11 +43,8 @@ class OrderDetail extends Component {
   }
 
   render() {
-    console.log(this.props.event)
-    console.log(this.props.order)
-
     const {navigator, event, order} = this.props,
-    dates = UTIL.formatEventGroupLabel(event, order.group)
+      dates = UTIL.formatEventGroupLabel(event, order.group)
 
     let contacts = []
     event.contacts.map((person) => {
@@ -87,11 +83,11 @@ class OrderDetail extends Component {
                         label={signUp.name}
                         value={LANG.l('currency', signUp.cost)}
                         more={{
-                          label: Lang.Detail,
+                          label: LANG.t('glossary.Detail'),
                           onPress: () => {
                             navigator.push({
                               id: 'OrderSummary',
-                              title: Lang.OrderSummary,
+                              title: LANG.t('order.OrderSummary'),
                               passProps: {
                                 event,
                                 selectedGroup: order.group,

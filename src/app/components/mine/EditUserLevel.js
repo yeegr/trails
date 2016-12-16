@@ -21,7 +21,7 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
-  Lang,
+  LANG,
   Graphics
 } from '../../settings'
 
@@ -63,7 +63,7 @@ class EditUserLevel extends Component {
                   >
                     <View style={[styles.editor.link, {}]}>
                       <View style={styles.editor.label}>
-                        <TextView text={Lang.userLevelArray[level]} />
+                        <TextView text={LANG.t('user.levels.' + level)} />
                       </View>
                       <View style={styles.editor.value}>
                         {icon}

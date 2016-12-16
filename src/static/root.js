@@ -165,102 +165,102 @@ router.post('/validate', (req, res, next) => {
      'rec_num'            : body.mobile.toString(),
      'sms_template_code'  : template
   }, (err, response) => {
-    if (err) console.log(err)
-    
-    let result = response.result
+    if (err) {
+      let error = JSON.parse(err.data).error_response
 
-    if (result.err_code !== '0') {
-      let message='',
-        solution=''
+      if (error.code !== '0') {
+        let message='',
+          solution=''
 
-      switch (result.sub_code) {
-        case 'isv.OUT_OF_SERVICE':
-          message='业务停机'
-          solution='登陆www.alidayu.com充值'
-        break
+        switch (error.sub_code) {
+          case 'isv.OUT_OF_SERVICE':
+            message='业务停机'
+            solution='登陆www.alidayu.com充值'
+          break
 
-        case 'isv.PRODUCT_UNSUBSCRIBE':
-          message='产品服务未开通'
-          solution='登陆www.alidayu.com开通相应的产品服务'
-        break
+          case 'isv.PRODUCT_UNSUBSCRIBE':
+            message='产品服务未开通'
+            solution='登陆www.alidayu.com开通相应的产品服务'
+          break
 
-        case 'isv.ACCOUNT_NOT_EXISTS':
-          message='账户信息不存在'
-          solution='登陆www.alidayu.com完成入驻'
-        break
+          case 'isv.ACCOUNT_NOT_EXISTS':
+            message='账户信息不存在'
+            solution='登陆www.alidayu.com完成入驻'
+          break
 
-        case 'isv.ACCOUNT_ABNORMAL':
-          message='账户信息异常'
-          solution='联系技术支持'
-        break
+          case 'isv.ACCOUNT_ABNORMAL':
+            message='账户信息异常'
+            solution='联系技术支持'
+          break
 
-        case 'isv.SMS_TEMPLATE_ILLEGAL':
-          message='模板不合法'
-          solution='登陆www.alidayu.com查询审核通过短信模板使用'
-        break
+          case 'isv.SMS_TEMPLATE_ILLEGAL':
+            message='模板不合法'
+            solution='登陆www.alidayu.com查询审核通过短信模板使用'
+          break
 
-        case 'isv.SMS_SIGNATURE_ILLEGAL':
-          message='签名不合法'
-          solution='登陆www.alidayu.com查询审核通过的签名使用'
-        break
+          case 'isv.SMS_SIGNATURE_ILLEGAL':
+            message='签名不合法'
+            solution='登陆www.alidayu.com查询审核通过的签名使用'
+          break
 
-        case 'isv.MOBILE_NUMBER_ILLEGAL':
-          message='手机号码格式错误'
-          solution='使用合法的手机号码'
-        break
+          case 'isv.MOBILE_NUMBER_ILLEGAL':
+            message='手机号码格式错误'
+            solution='使用合法的手机号码'
+          break
 
-        case 'isv.MOBILE_COUNT_OVER_LIMIT':
-          message='手机号码数量超过限制'
-          solution='批量发送，手机号码以英文逗号分隔，不超过200个号码'
-        break
+          case 'isv.MOBILE_COUNT_OVER_LIMIT':
+            message='手机号码数量超过限制'
+            solution='批量发送，手机号码以英文逗号分隔，不超过200个号码'
+          break
 
-        case 'isv.TEMPLATE_MISSING_PARAMETERS':
-          message='短信模板变量缺少参数'
-          solution='确认短信模板中变量个数，变量名，检查传参是否遗漏'
-        break
+          case 'isv.TEMPLATE_MISSING_PARAMETERS':
+            message='短信模板变量缺少参数'
+            solution='确认短信模板中变量个数，变量名，检查传参是否遗漏'
+          break
 
-        case 'isv.INVALID_PARAMETERS':
-          message='参数异常'
-          solution='检查参数是否合法'
-        break
+          case 'isv.INVALID_PARAMETERS':
+            message='参数异常'
+            solution='检查参数是否合法'
+          break
 
-        case 'isv.BUSINESS_LIMIT_CONTROL':
-          message='触发业务流控限制'
-          solution='短信验证码，使用同一个签名，对同一个手机号码发送短信验证码，允许每分钟1条，累计每小时7条。 短信通知，使用同一签名、同一模板，对同一手机号发送短信通知，允许每天50条（自然日）。'
-        break
+          case 'isv.BUSINESS_LIMIT_CONTROL':
+            message='触发业务流控限制'
+            solution='短信验证码，使用同一个签名，对同一个手机号码发送短信验证码，允许每分钟1条，累计每小时7条。 短信通知，使用同一签名、同一模板，对同一手机号发送短信通知，允许每天50条（自然日）。'
+          break
 
-        case 'isv.INVALID_JSON_PARAM':
-          message='JSON参数不合法'
-          solution='JSON参数接受字符串值。例如{"code":"123456"}，不接收{"code":123456}'
-        break
+          case 'isv.INVALID_JSON_PARAM':
+            message='JSON参数不合法'
+            solution='JSON参数接受字符串值。例如{"code":"123456"}，不接收{"code":123456}'
+          break
 
-        case 'isp.SYSTEM_ERROR':
-        break
+          case 'isp.SYSTEM_ERROR':
+          break
 
-        case 'isv.BLACK_KEY_CONTROL_LIMIT':
-          message='模板变量中存在黑名单关键字。如：阿里大鱼'
-          solution='黑名单关键字禁止在模板变量中使用，若业务确实需要使用，建议将关键字放到模板中，进行审核。'
-        break
+          case 'isv.BLACK_KEY_CONTROL_LIMIT':
+            message='模板变量中存在黑名单关键字。如：阿里大鱼'
+            solution='黑名单关键字禁止在模板变量中使用，若业务确实需要使用，建议将关键字放到模板中，进行审核。'
+          break
 
-        case 'isv.PARAM_NOT_SUPPORT_URL':
-          message='不支持url为变量'
-          solution='域名和ip请固化到模板申请中'
-        break
+          case 'isv.PARAM_NOT_SUPPORT_URL':
+            message='不支持url为变量'
+            solution='域名和ip请固化到模板申请中'
+          break
 
-        case 'isv.PARAM_LENGTH_LIMIT':
-          message='变量长度受限'
-          solution='变量长度受限 请尽量固化变量中固定部分'
-        break
+          case 'isv.PARAM_LENGTH_LIMIT':
+            message='变量长度受限'
+            solution='变量长度受限 请尽量固化变量中固定部分'
+          break
 
-        case 'isv.AMOUNT_NOT_ENOUGH':
-          message='余额不足'
-          solution='因余额不足未能发送成功，请登录管理中心充值后重新发送'
-        break
+          case 'isv.AMOUNT_NOT_ENOUGH':
+            message='余额不足'
+            solution='因余额不足未能发送成功，请登录管理中心充值后重新发送'
+          break
+        }
+
+        error.solution = solution
       }
 
-      console.logs(Date.now(), result.code, result.sub_code, result.sub_msg, solution)
-
-      res.status(500).send()
+      res.status(500).json(error)
     }
 
     res.status(200).send()

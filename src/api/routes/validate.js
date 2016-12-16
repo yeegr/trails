@@ -34,8 +34,12 @@ module.exports = (app) => {
       saveValidation(tmp, ip, res)
     } else {
       request.post({url: 'http://static:8000/validate', json: tmp}, (err, response, body) => {
-        if (err) throw err
-        saveValidation(tmp, ip, res)
+        if (err) {
+          console.log(err)
+          res.status(500).json({error: err})
+        } else {
+          saveValidation(tmp, ip, res)
+        }
       })
     }
   })

@@ -22,8 +22,8 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
+  LANG,
   UTIL,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -44,7 +44,7 @@ class EventManager extends Component {
   eventPage(id) {
     this.props.navigator.push({
       id: 'EventDetail',
-      title: Lang.EventDetail,
+      title: LANG.t('event.EventDetail'),
       passProps: {
         id
       }
@@ -54,7 +54,7 @@ class EventManager extends Component {
   signupList(event, groupIndex) {
     this.props.navigator.push({
       id: 'SignUpList',
-      title: Lang.SignUpList,
+      title: LANG.t('mine.SignUpList'),
       passProps: {
         event,
         groupIndex
@@ -77,7 +77,7 @@ class EventManager extends Component {
           <TextView
             style={{flex: 1, marginBottom: 5, paddingHorizontal: 15, textAlign: 'right'}}
             fontSize={'XL'}
-            text={event.total + Lang.Yuan}
+            text={LANG.l('currencty', event.total)}
           />
         </View>
         <View style={styles.editor.group}>
