@@ -32,14 +32,18 @@ router.use((req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
+  console.log(req.query)
+})
+
+router.get('/image', (req, res, next) => {
   let os = req.query.os,
-    screen = req.query.res.split('x'),
+    resolution = req.query.res.split('x'),
+    screenWidth = parseInt(resolution[0]),
+    screenHeight = parseInt(resolution[1]),
     type = req.query.type,
     path = req.query.path,
     server = 'http://uploads:80/',
     url = server + path,
-    screenWidth = parseInt(screen[0]),
-    screenHeight = parseInt(screen[1]),
     width = 100,
     height = 100,
     margin = 0
