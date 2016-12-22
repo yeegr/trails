@@ -21,11 +21,11 @@
     "ios": "react-native run-ios --simulator='iPhone 6 Plus'",
     "codepush": "code-push release-react trails ios",
 
-    "start": "docker-compose up -d",
+    "start": "APP_ENV=development docker-compose up -d",
     "stop": "docker-compose down",
     "restart": "docker-compose restart",
     "build": "webpack && docker-compose build",
-    "logs": "docker-compose logs",
+    "logs": "APP_ENV=development docker-compose logs",
     "static": "webpack && docker-compose restart static",
     "api": "webpack && docker-compose restart api",
 
@@ -33,13 +33,12 @@
     "clean": "docker rmi -f $(docker images -qf dangling=true)",
     "empty": "docker rmi -f $(docker images)",
 
-    "pkg:env": "export APP_ENV=staging",
-    "pkg:repo": "export DOCKER_REPO='registry.cn-hangzhou.aliyuncs.com'",
-    "pkg:build": "docker-compose -f dc.staging.yml build",
-    "pkg:up": "docker-compose -f dc.staging.yml up -d",
-    "pkg:push": "docker push $npm_package_config_registry/shitulv/mongodb && docker push $npm_package_config_registry/shitulv/static && docker push $npm_package_config_registry/shitulv/api",
-    "pkg:clean": "docker rmi $npm_package_config_registry/shitulv/mongodb $npm_package_config_registry/shitulv/static $npm_package_config_registry/shitulv/api",
-    "staging": "npm run pkg:env && npm run pkg:repo && npm run pkg:build && npm run pkg:push && npm run pkg:clean"
+    "create": "docker-compose -f dc.staging.yml build",
+    "up": "docker-compose -f dc.staging.yml up -d",
+    "push": "docker push $npm_package_config_registry/shitulv/mongodb && docker push $npm_package_config_registry/shitulv/static && docker push $npm_package_config_registry/shitulv/api",
+    "remove": "docker rmi $npm_package_config_registry/shitulv/mongodb $npm_package_config_registry/shitulv/static $npm_package_config_registry/shitulv/api",
+    "upload": "npm run create && npm run push && npm run remove",
+    "staging": "APP_ENV=staging DOCKER_REPO='registry.cn-hangzhou.aliyuncs.com' npm run upload"
   },
   "devDependencies": {
     "browser-sync": "^2.18.5",

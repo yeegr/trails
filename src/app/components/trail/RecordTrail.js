@@ -51,6 +51,10 @@ class RecordTrail extends Component {
     this._saveRecording = this._saveRecording.bind(this)
     this._stopTracking = this._stopTracking.bind(this)
 
+    this.trailTime = 0
+    this.pauseTime = 0
+    this.points = []
+
     this.state = {
       ASPECT_RATIO: 9 / 16,
       currentPosition: {
@@ -62,7 +66,7 @@ class RecordTrail extends Component {
       },
       counter: 0,
       id: null,
-      points: [],
+      coords: [],
       errors: [],
       log: ''
     }
@@ -89,7 +93,7 @@ class RecordTrail extends Component {
         Location.setAllowsBackgroundLocationUpdates(true)
         Location.startUpdatingLocation()
         this.LocationListener = DeviceEventEmitter.addListener('locationUpdated', (location) => {
-          let path = this.state.points.slice(0),
+          let path = this.state.coords.slice(0),
             currentPosition = this._formatCoords(location.coords)
 
           if (path.length > 0) {
@@ -98,18 +102,19 @@ class RecordTrail extends Component {
           }
 
           if (this.props.newTrail.isRecording) {
-            let tmp = path.concat([currentPosition])
+            let coords = path.concat([currentPosition])
 
-            if (tmp.length % AppSettings.minTrailPathPoints === 0) {
+            if (coords.length % AppSettings.minTrailPathPoints === 0) {
               //this.props.newTrailActions.setTrailData(this._finalizePath())
             }
 
             this.setState({
               currentPosition,
-              points: tmp
+              coords
               //log: JSON.stringify(this._finalizePath())
             })
 
+            this.points.push(this._normalizeCoords(currentPosition))
 /*            console.log('record')
             console.log(tmp)
             this.props.newTrailActions.storeTrailPoints(tmp)*/
@@ -143,11 +148,11 @@ class RecordTrail extends Component {
             '',
             [
               {text: Lang.ContinueRecording, onPress: this._closeAlert},
-              {text: Lang.SaveTrail, onPress: this._saveRecording}
+              {text: Lang.SaveTrail, onPress: () => this._saveRecording(true)}
             ]
           )
         } else {
-          this._saveRecording()
+          this._saveRecording(true)
         }
       } else {
         Alert.alert(
@@ -156,6 +161,16 @@ class RecordTrail extends Component {
           [{text: Lang.Okay, onPress: this._closeAlert}]
         )
       }
+    }
+
+    if (this.props.newTrail.navToEdit === false && nextProps.newTrail.navToEdit === true) {
+      this.props.navigator.replace({
+        id: 'EditTrail',
+        title: LANG.t('trail.EditTrail'),
+        passProps: {
+          trail: this.props.newTrail
+        }
+      })
     }
   }
 
@@ -172,7 +187,7 @@ class RecordTrail extends Component {
   }
 
   _validatePoints() {
-    return (this.state.points.length > AppSettings.minTrailPathPoints)
+    return (this.state.coords.length > AppSettings.minTrailPathPoints)
   }
 
   _stopTracking() {
@@ -180,34 +195,11 @@ class RecordTrail extends Component {
     if (this.LocationListener) {
       this.LocationListener.remove()
     }
+
     this._pauseCounter()
-  }
-
-  _toggleRecording() {
-    if (this.props.newTrail.isRecording) {
-      this._pauseCounter()
-    } else {
-      if (this.state.id === null) {
-        this.setState({
-          id: UTIL.generateRandomString(16)
-        })
-      }
-
-      this.props.newTrailActions.startRecording()
-      this._startCounter()
+    if (this.counterInterval) {
+      clearInterval(this.counterInterval)
     }
-  }
-  
-  _saveRecording() {
-    this.props.newTrailActions.storeTrailData(this._finalizePath())
-
-    this.props.navigator.replace({
-      id: 'EditTrail',
-      title: Lang.EditTrail,
-      passProps: {
-        trail: this.props.newTrail
-      }
-    })
   }
 
   _normalizeCoords(coords) {
@@ -221,16 +213,6 @@ class RecordTrail extends Component {
       coords.heading,
       coords.accuracy
     ]
-  }
-
-  _finalizePath() {
-    let points = []
-
-    this.state.points.map((coords) => {
-      points.push(this._normalizeCoords(coords))
-    })
-
-    return points
   }
 
   _formatCoords(coords) {
@@ -247,21 +229,79 @@ class RecordTrail extends Component {
       accuracy: coords.accuracy
     }
   }
+  
+  _finalizePath() {
+    if (this._validatePoints()) {
+      let {
+        date,
+        totalDuration,
+        totalDistance,
+        totalElevation,
+        maximumAltitude,
+        averageSpeed
+      } = UTIL.calculateTrailData(this.points)
+
+    console.log('date: ', date)
+    console.log('totalDuration: ', this.trailTime)
+    console.log('totalDistance: ', totalDistance)
+    console.log('totalElevation: ', totalElevation)
+    console.log('maximumAltitude: ', maximumAltitude)
+    console.log('averageSpeed: ', averageSpeed)
+    console.log('points: ', this.points)
+
+      return {
+        date,
+        totalDuration: this.trailTime,
+        totalDistance,
+        totalElevation,
+        maximumAltitude,
+        averageSpeed,
+        points: this.points
+      }
+    }
+  }
+
+  _saveRecording() {
+    this.props.newTrailActions.storeTrailData(this._finalizePath(), arguments[0])
+  }
 
   _startCounter() {
-    let that = this
+    if (!this.startTime) {
+      this.startTime = Date.now()
+    }
 
-    this.counterInterval = setInterval(() => {
-      let counter = that.state.counter + 1
-      that.setState({counter})
-    }, 1000)
+    this.props.newTrailActions.startRecording()
   }
 
   _pauseCounter() {
-    if (this.counterInterval) {
-      clearInterval(this.counterInterval)
-    }
+    this.stopTime = Date.now()
     this.props.newTrailActions.stopRecording()
+  }
+
+  _toggleRecording() {
+    if (this.props.newTrail.isRecording) {
+      this._pauseCounter()
+    } else {
+      this._startCounter()
+    }
+
+    if (this.state.id === null) {
+      this.setState({
+        id: UTIL.generateRandomString(16)
+      })
+    }
+
+    this.counterInterval = setInterval(() => {
+      let current = Date.now()
+
+      if (this.props.newTrail.isRecording) {
+        this.trailTime = current - this.startTime - this.pauseTime
+        this.setState({counter: Math.round(this.trailTime / 1000)})
+      } else {
+        this.pauseTime += current - this.stopTime
+        this.stopTime = current
+      }
+    }, 1000)
   }
 
   render() {
@@ -335,7 +375,7 @@ class RecordTrail extends Component {
             region={UTIL.setRegion(this.state.currentPosition, this.state.ASPECT_RATIO, 0.2)}
           >
             <MapView.Polyline
-              coordinates={this.state.points}
+              coordinates={this.state.coords}
               strokeColor={Graphics.mapping.strokeColor}
               strokeWidth={Graphics.mapping.strokeWeight}
             />

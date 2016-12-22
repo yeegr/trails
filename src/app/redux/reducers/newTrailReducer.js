@@ -8,13 +8,7 @@ import {
   AppSettings
 } from '../../settings'
 
-const initState = {
-  isRecording: false,
-  isCalculating: false,
-  isUploading: false,
-  isSaved: false,
-  isDeleted: false,
-
+const initTrail = {
   status: 'submitting',
   isPublic: false,
   title: '',
@@ -27,6 +21,19 @@ const initState = {
   photos: [],
   comments: []
 },
+initStatus = {
+  isRecording: false,
+  isCalculating: false,
+  isStored: false,
+  isUploading: false,
+  isSaved: false,
+  isDeleted: false,
+  navToEdit: false
+},
+initState = Object.assign({}, 
+  initTrail, 
+  initStatus
+),
 
 newTrailReducer = (state = initState, action) => {
   switch (action.type) {
@@ -34,6 +41,11 @@ newTrailReducer = (state = initState, action) => {
       return Object.assign({}, initState, {
         creator: action.creator,
         storeKey: UTIL.generateRandomString(16)
+      })
+
+    case ACTIONS.SET_TRAIL_DATE:
+      return Object.assign({}, state, {
+        date: action.date
       })
 
     case ACTIONS.START_RECORDING_TRAIL:
@@ -44,6 +56,13 @@ newTrailReducer = (state = initState, action) => {
     case ACTIONS.STOP_RECORDING_TRAIL:
       return Object.assign({}, state, {
         isRecording: false
+      })
+
+    case ACTIONS.STORE_TRAIL_SUCCESS:
+    console.log(action.data)
+      return Object.assign({}, state, action.data, {
+        isStored: true,
+        navToEdit: action.navToEdit
       })
 
     case ACTIONS.STORE_TRAIL_DATA:

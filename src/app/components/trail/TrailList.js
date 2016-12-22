@@ -67,9 +67,15 @@ class TrailList extends Component {
   render() {
     const trails = this.props.trails || this.props.remoteTrails
 
-    if (trails.length < 1) {
+    if (!trails) {
       return <Loading />
     }
+
+    trails.map((trail) => {
+      console.log('title: ', trail.title)
+      console.log('date: ', trail.points[0][0])
+      console.log('storekey: ', trail.storekey)
+    })
 
     const list = (
       <ListView

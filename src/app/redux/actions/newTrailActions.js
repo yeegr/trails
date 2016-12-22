@@ -1,5 +1,6 @@
 'use strict'
 
+import {AsyncStorage} from 'react-native'
 import * as ACTIONS from '../constants/newTrailConstants'
 import {
   CONSTANTS,
@@ -38,15 +39,19 @@ const _setTrailData = (points) => {
   } = UTIL.calculateTrailData(points)
 
   if (averageSpeed && averageSpeed > 0) {
-    return {
-      type: ACTIONS.SET_TRAIL_DATA,
-      points, //array of array [[],[],[],...]
-      date,
-      totalDuration,
-      totalDistance,
-      totalElevation,
-      maximumAltitude,
-      averageSpeed
+    return (dispatch) => {
+      dispatch(_storeTrailData())
+
+      return {
+        type: ACTIONS.SET_TRAIL_DATA,
+        points, //array of array [[],[],[],...]
+        date,
+        totalDuration,
+        totalDistance,
+        totalElevation,
+        maximumAltitude,
+        averageSpeed
+      }
     }
   } else {
     _setTrailData(points)
@@ -54,19 +59,50 @@ const _setTrailData = (points) => {
 }
 
 const _storeTrailData = () => {
+  console.log('_storeTrailData')
   return {
     type: ACTIONS.STORE_TRAIL_DATA
   }
 }
 
-export const storeTrailData = (points) => {
-  return (dispatch) => {
-    dispatch(_setTrailData(points))
+const _storeTrailSuccess = (data, navToEdit) => {
+  return {
+    type: ACTIONS.STORE_TRAIL_SUCCESS,
+    data,
+    navToEdit
+  }
+}
 
+export const storeTrailData = (data, navToEdit) => {
+  return (dispatch, getState) => {
+    let state = getState().newTrail
+
+    AsyncStorage
+    .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
+    .then((tmp) => {
+      return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
+    })
+    .then((tmp) => {
+      tmp[state.storeKey] = Object.assign({}, state, data)
+
+      AsyncStorage
+      .setItem(
+        CONSTANTS.ACTION_TARGETS.TEMP,
+        JSON.stringify(tmp)
+      )
+      .then(() => {
+        dispatch(_storeTrailSuccess(data, navToEdit))
+      })
+    })
+  }
+
+//  return (dispatch) => {
+//    dispatch(_setTrailData(points))
+/*
     setTimeout(() => {
       dispatch(_storeTrailData())
-    }, 50)
-  }
+    }, 50)*/
+//  }
 }
 
 // edit trail
