@@ -2,6 +2,7 @@
 
 import {AsyncStorage} from 'react-native'
 import * as ACTIONS from '../constants/newTrailConstants'
+import * as loginActions from './loginActions'
 import {
   CONSTANTS,
   FETCH,
@@ -66,6 +67,8 @@ const _storeTrailData = () => {
 }
 
 const _storeTrailSuccess = (data, navToEdit) => {
+  loginActions.reloadUser()
+
   return {
     type: ACTIONS.STORE_TRAIL_SUCCESS,
     data,
@@ -75,7 +78,7 @@ const _storeTrailSuccess = (data, navToEdit) => {
 
 export const storeTrailData = (data, navToEdit) => {
   return (dispatch, getState) => {
-    let state = getState().newTrail
+    let newTrail = Object.assign({}, getState().newTrail, data)
 
     AsyncStorage
     .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
@@ -83,7 +86,7 @@ export const storeTrailData = (data, navToEdit) => {
       return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
     })
     .then((tmp) => {
-      tmp[state.storeKey] = Object.assign({}, state, data)
+      tmp[newTrail.storeKey] = newTrail
 
       AsyncStorage
       .setItem(
@@ -187,14 +190,15 @@ const _validateTrail = (trail) => {
   )
 }
 
-const createTrailRequest = (trail) => {
+const createTrailRequest = () => {
   return {
-    type: ACTIONS.CREATE_TRAIL_REQUEST,
-    trail
+    type: ACTIONS.CREATE_TRAIL_REQUEST
   }
 }
 
 const createTrailSuccess = (trail, storeKey) => {
+  loginActions.reloadUser()
+
   return {
     type: ACTIONS.CREATE_TRAIL_SUCCESS,
     trail,
@@ -215,7 +219,7 @@ export const createTrail = (data) => {
   })
 
   return (dispatch, getState) => {
-    dispatch(createTrailRequest(data))
+    dispatch(createTrailRequest())
 
     return fetch(AppSettings.apiUri + 'trails', config)
       .then((res) => {
@@ -241,6 +245,8 @@ const updateTrailRequest = () => {
 }
 
 const updateTrailSuccess = (trail) => {
+  loginActions.reloadUser()
+
   return {
     type: ACTIONS.UPDATE_TRAIL_SUCCESS,
     trail
@@ -352,6 +358,8 @@ const deleteTrailRequest = (trail) => {
 }
 
 const deleteTrailSuccess = () => {
+  loginActions.reloadUser()
+
   return {
     type: ACTIONS.DELETE_TRAIL_SUCCESS
   }

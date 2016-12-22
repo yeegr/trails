@@ -148,19 +148,32 @@ trailSchema.pre('save', function(next) {
   UTIL.updateModified(this, ['title', 'type', 'description', 'difficultyLevel', 'photos'])
   this.wasNew = this.isNew
 
-  /*
   const points = this.points
-  this.totalDistance = Math.round(points[points.length - 1][5] * 10) / 10
-  this.totalDuration = (points[points.length - 1][0] - points[0][0])
 
   let altitues = []
   this.points.map(function(p) {
     altitues.push(p[3])
   })
-  this.maximumAltitude = Math.max(...altitues)
-  this.totalElevation = this.maximumAltitude - Math.min(...altitues)
-  this.averageSpeed = Math.round((points[points.length - 1][5] / this.totalDuration) * 3600 * 100) / 100
-  */
+
+  if (!this.totalDistance) {
+    this.totalDistance = Math.round(points[points.length - 1][5] * 10) / 10
+  }
+
+  if (!this.totalDuration) {
+    this.totalDuration = (points[points.length - 1][0] - points[0][0])
+  }
+
+  if (!this.maximumAltitude) {
+    this.maximumAltitude = Math.max(...altitues)
+  }
+
+  if (!this.totalElevation) {
+    this.totalElevation = this.maximumAltitude - Math.min(...altitues)
+  }
+
+  if (!this.averageSpeed) {
+    this.averageSpeed = Math.round((points[points.length - 1][5] / this.totalDuration) * 3600 * 100) / 100
+  }
 
   next()
 })

@@ -123,7 +123,7 @@ class UserInfo extends Component {
       return <Loading />
     }
 
-    const totalUserTrails = user.trails.length + user.localTrailCount
+    const totalUserTrails = user.trails.length + user.localTrails.length
 
     return (
       <ParallaxView style={styles.user.wrapper}
@@ -159,7 +159,7 @@ class UserInfo extends Component {
           <EditLink
             label={LANG.t('mine.MyTrails')}
             onPress={() => totalUserTrails > 0 && this._nextPage('trails')}
-            value={(totalUserTrails > 0) ? (user.trails.length.toString() + ' | ' + user.localTrailCount) : '0'}
+            value={(totalUserTrails > 0) ? (user.trails.length.toString() + ' | ' + user.localTrails.length.toString()) : '0'}
           />
           <EditLink
             label={LANG.t('mine.MyEvents')}

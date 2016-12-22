@@ -71,12 +71,6 @@ class TrailList extends Component {
       return <Loading />
     }
 
-    trails.map((trail) => {
-      console.log('title: ', trail.title)
-      console.log('date: ', trail.points[0][0])
-      console.log('storekey: ', trail.storekey)
-    })
-
     const list = (
       <ListView
         style={styles.global.wrapper}

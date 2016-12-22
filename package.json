@@ -21,11 +21,12 @@
     "ios": "react-native run-ios --simulator='iPhone 6 Plus'",
     "codepush": "code-push release-react trails ios",
 
-    "start": "APP_ENV=development docker-compose up -d",
+    "init": "APP_ENV=development",
+    "start": "docker-compose up -d",
     "stop": "docker-compose down",
     "restart": "docker-compose restart",
     "build": "webpack && docker-compose build",
-    "logs": "APP_ENV=development docker-compose logs",
+    "logs": "docker-compose logs",
     "static": "webpack && docker-compose restart static",
     "api": "webpack && docker-compose restart api",
 

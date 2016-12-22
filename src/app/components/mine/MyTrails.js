@@ -51,7 +51,10 @@ class MyTrails extends Component {
         }
       }
 
-      this.setState({localTrails})
+      this.setState({
+        localTrails,
+        allTrails: localTrails
+      })
     })
   }
 

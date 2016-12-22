@@ -13,13 +13,26 @@ import {
 // check user login status
 export const isLoggedIn = () => {
   return AsyncStorage
-    .multiGet([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER])
+    .multiGet([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER, CONSTANTS.ACTION_TARGETS.TEMP])
     .then((arr) => {
       if (arr[0][1] && arr[1][1]) {
+        let token = arr[0][1],
+          user = JSON.parse(arr[1][1]),
+          tmp = JSON.parse(arr[2][1]),
+          trails = []
+
+        for (let key in tmp) {
+          if (tmp.hasOwnProperty(key)) {
+            trails.push(tmp[key])
+          }
+        }
+
+        user.localTrails = trails
+
         return {
           type: ACTIONS.IS_LOGGED_IN,
-          token: arr[0][1],
-          user: JSON.parse(arr[1][1])
+          token,
+          user
         }
       }
 
@@ -287,6 +300,7 @@ export const loginUser = (creds) => {
             [CONSTANTS.ACCESS_TOKEN, res.token],
             [CONSTANTS.USER, JSON.stringify(res)]
           ]).then(() => {
+            res.localTrails = []
             dispatch(loginSuccess(res))
           })
         } else {
@@ -333,16 +347,18 @@ export const reloadUser = () => {
               return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
             })
             .then((tmp) => {
-              let count = 0
+              let trails = []
+
               for (let key in tmp) {
                 if (tmp.hasOwnProperty(key)) {
-                  count++
+                  trails.push(tmp[key])
                 }
               }
-              return count
+
+              return trails
             })
-            .then((localTrailCount) => {
-              res.localTrailCount = localTrailCount
+            .then((trails) => {
+              res.localTrails = trails
               dispatch(getUserSuccess(res))
             })
           })

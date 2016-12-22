@@ -12,8 +12,10 @@ import {
   View
 } from 'react-native'
 
-import TextView from './TextView'
+import KeyboardSpacer from 'react-native-keyboard-spacer'
+
 import InputBar from './InputBar'
+import TextView from './TextView'
 
 import {
   Graphics
@@ -86,6 +88,7 @@ class ListEditor extends Component {
           text={this.state.selectedText}
           onSubmit={(text, index) => this.saveText(text, index)}
         />
+        <KeyboardSpacer />
       </View>
     )
   }

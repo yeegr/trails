@@ -28,11 +28,12 @@ import {
 class EditEventExpenses extends Component {
   constructor(props) {
     super(props)
+    this._ifZero = this._ifZero.bind(this)
 
     this.state = {
       selectedIndex: 0,
-      perHead: this.props.perHead.toString(),
-      deposit: this.props.deposit.toString(),
+      perHead: this._ifZero(this.props.perHead),
+      deposit: this._ifZero(this.props.deposit),
       insurance: this.props.insurance,
       detail: this.props.detail,
       include: this.props.include,
@@ -42,13 +43,17 @@ class EditEventExpenses extends Component {
 
   componentWillUnmount() {
     this.props.newEventActions.setEventExpenses({
-      perHead: parseInt(this.state.perHead),
-      deposit: parseInt(this.state.deposit),
+      perHead: parseInt(this.state.perHead) || 0,
+      deposit: parseInt(this.state.deposit) || 0,
       insurance: this.state.insurance,
       detail: this.state.detail,
       include: this.state.include,
       exclude: this.state.exclude
     })
+  }
+
+  _ifZero(num) {
+    return (num === 0) ? '' : num.toString()
   }
 
   render() {
@@ -72,23 +77,6 @@ class EditEventExpenses extends Component {
                     style={styles.editor.numberInput}
                     value={this.state.perHead}
                     onChangeText={(value) => this.setState({perHead: value})}
-                  />
-                  <Text style={styles.editor.currencyPostfix}>{Lang.Yuan}</Text>
-                </View>
-              </View>
-              <View style={styles.editor.link}>
-                <View style={styles.editor.label}>
-                  <Text>{Lang.Deposit}</Text>
-                </View>
-                <View style={styles.editor.value}>
-                  <Text style={styles.editor.currencyPrefix}></Text>
-                  <TextInput
-                    keyboardType="numeric"
-                    maxLength={6}
-                    placeholder={(0).toString()}
-                    style={styles.editor.numberInput}
-                    value={this.state.deposit}
-                    onChangeText={(value) => this.setState({deposit: value})}
                   />
                   <Text style={styles.editor.currencyPostfix}>{Lang.Yuan}</Text>
                 </View>

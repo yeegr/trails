@@ -59,7 +59,6 @@ newTrailReducer = (state = initState, action) => {
       })
 
     case ACTIONS.STORE_TRAIL_SUCCESS:
-    console.log(action.data)
       return Object.assign({}, state, action.data, {
         isStored: true,
         navToEdit: action.navToEdit

@@ -53,7 +53,6 @@ class RecordTrail extends Component {
 
     this.trailTime = 0
     this.pauseTime = 0
-    this.points = []
 
     this.state = {
       ASPECT_RATIO: 9 / 16,
@@ -67,6 +66,7 @@ class RecordTrail extends Component {
       counter: 0,
       id: null,
       coords: [],
+      points: [],
       errors: [],
       log: ''
     }
@@ -94,6 +94,7 @@ class RecordTrail extends Component {
         Location.startUpdatingLocation()
         this.LocationListener = DeviceEventEmitter.addListener('locationUpdated', (location) => {
           let path = this.state.coords.slice(0),
+            points = this.state.points.slice(0),
             currentPosition = this._formatCoords(location.coords)
 
           if (path.length > 0) {
@@ -103,6 +104,7 @@ class RecordTrail extends Component {
 
           if (this.props.newTrail.isRecording) {
             let coords = path.concat([currentPosition])
+            points.push(this._normalizeCoords(currentPosition))
 
             if (coords.length % AppSettings.minTrailPathPoints === 0) {
               //this.props.newTrailActions.setTrailData(this._finalizePath())
@@ -110,11 +112,11 @@ class RecordTrail extends Component {
 
             this.setState({
               currentPosition,
-              coords
+              coords,
+              points
               //log: JSON.stringify(this._finalizePath())
             })
 
-            this.points.push(this._normalizeCoords(currentPosition))
 /*            console.log('record')
             console.log(tmp)
             this.props.newTrailActions.storeTrailPoints(tmp)*/
@@ -168,7 +170,7 @@ class RecordTrail extends Component {
         id: 'EditTrail',
         title: LANG.t('trail.EditTrail'),
         passProps: {
-          trail: this.props.newTrail
+          trail: nextProps.newTrail
         }
       })
     }
@@ -239,24 +241,16 @@ class RecordTrail extends Component {
         totalElevation,
         maximumAltitude,
         averageSpeed
-      } = UTIL.calculateTrailData(this.points)
-
-    console.log('date: ', date)
-    console.log('totalDuration: ', this.trailTime)
-    console.log('totalDistance: ', totalDistance)
-    console.log('totalElevation: ', totalElevation)
-    console.log('maximumAltitude: ', maximumAltitude)
-    console.log('averageSpeed: ', averageSpeed)
-    console.log('points: ', this.points)
+      } = UTIL.calculateTrailData(this.state.points)
 
       return {
         date,
-        totalDuration: this.trailTime,
+        totalDuration: Math.round(this.trailTime / 1000),
         totalDistance,
         totalElevation,
         maximumAltitude,
         averageSpeed,
-        points: this.points
+        points: this.state.points
       }
     }
   }

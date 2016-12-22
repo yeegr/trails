@@ -9,8 +9,8 @@ import {
   View,
 } from 'react-native'
 
-import ParallaxView from 'react-native-parallax-view'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
+import ParallaxView from 'react-native-parallax-view'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
