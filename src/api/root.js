@@ -1,12 +1,12 @@
 const express = require('express'),
-	logger = require('morgan'),
-	errorHandler = require('errorhandler'),
+  fs = require('fs'),
   bodyParser = require('body-parser'),
+	errorHandler = require('errorhandler'),
   cors = require('cors'),
 	formidable = require('formidable'),
-  fs = require('fs'),
-  request = require('request'),
+	logger = require('morgan'),
 	mongoose = require('mongoose'),
+  request = require('request'),
 	db = 'mongodb://mongodb:27017/trails',
   port = process.env.PORT || 3000,
   app = express(),
@@ -25,6 +25,7 @@ app.use(cors())
 
 mongoose.connect(db)
 
+//routes
 const log = require('./routes/log')(app),
 	action = require('./routes/action')(app),
 	settings = require('./routes/settings')(app),
@@ -37,7 +38,7 @@ const log = require('./routes/log')(app),
 	comment = require('./routes/comment')(app),
 	validate = require('./routes/validate')(app)
 
-
+//data models
 const CONST = require('./const'),
 	Area = require('./models/area'),
 	Trail = require('./models/trail'),
@@ -78,6 +79,7 @@ router.put('/photos', (req, res, next) => {
 	})
 })
 
+//upload file via static server
 function uploadFile(type, id, inputs, index, outputs, res) {
 	let file = inputs[index],
 		url = 'http://static:8000/up',
@@ -105,6 +107,7 @@ function uploadFile(type, id, inputs, index, outputs, res) {
 	})
 }
 
+//save file path (or name) array to database
 function saveFiles(type, id, photos, res) {
 	let model
 

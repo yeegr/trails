@@ -39,7 +39,7 @@
     "push": "docker push $npm_package_config_registry/shitulv/mongodb && docker push $npm_package_config_registry/shitulv/static && docker push $npm_package_config_registry/shitulv/api",
     "remove": "docker rmi $npm_package_config_registry/shitulv/mongodb $npm_package_config_registry/shitulv/static $npm_package_config_registry/shitulv/api",
     "upload": "npm run create && npm run push && npm run remove",
-    "staging": "APP_ENV=staging DOCKER_REPO='registry.cn-hangzhou.aliyuncs.com' npm run upload"
+    "staging": "APP_ENV=staging DOCKER_REPO=$npm_package_config_registry npm run upload"
   },
   "devDependencies": {
     "browser-sync": "^2.18.5",
