@@ -23,7 +23,7 @@ module.exports = (app) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({error: err})
+      res.status(500).json({ error: err })
     })
   }
 
@@ -36,7 +36,7 @@ module.exports = (app) => {
       res.status(201).json(data)
     })
     .catch((err) => {
-      res.status(500).json({error: err})
+      res.status(500).json({ error: err })
     })
   }
 
@@ -55,12 +55,12 @@ module.exports = (app) => {
           }
         })
         .catch((err) => {
-          res.status(500).json({error: err})
+          res.status(500).json({ error: err })
         })
       }
     })
     .catch((err) => {
-      res.status(500).json({error: err})
+      res.status(500).json({ error: err })
     })
   }
 
@@ -85,16 +85,16 @@ module.exports = (app) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({error: err})
+      res.status(500).json({ error: err })
     })
   })
 
   /* Login */
   app.post('/login', (req, res, next) => {
-    let body = req.body, 
+    let body = req.body,
       query = {}
 
-    let hasMobile = UTIL.isNotUndefinedNullEmpty(body.mobile),  
+    let hasMobile = UTIL.isNotUndefinedNullEmpty(body.mobile),
       hasWeChat = UTIL.isNotUndefinedNullEmpty(body.wechat)
 
     if (hasMobile) {
@@ -113,7 +113,7 @@ module.exports = (app) => {
         res.status(200).json(data)
       } else if (hasMobile && hasWeChat) {
         User
-        .findOne({mobile: query.mobile})
+        .findOne({ mobile: query.mobile })
         .then((user) => {
           if (user) {
             delete body.mobile
@@ -129,7 +129,7 @@ module.exports = (app) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({error: err})
+      res.status(500).json({ error: err })
     })
   })
 
@@ -164,7 +164,7 @@ module.exports = (app) => {
             path: 'users/' + user._id + '/'
           }
 
-          request.post({url: 'http://static:8000/up', formData}, (err, response, body) => {
+          request.post({ url: 'http://static:8000/up', formData }, (err, response, body) => {
             if (err) console.log(err)
 
             user
@@ -178,14 +178,14 @@ module.exports = (app) => {
               }
             })
             .catch((err) => {
-              res.status(500).json({error: err})
+              res.status(500).json({ error: err })
             })
           })
         })
       }
     })
     .catch((err) => {
-      res.status(500).json({error: err})
+      res.status(500).json({ error: err })
     })
   })
 
@@ -210,20 +210,20 @@ module.exports = (app) => {
         .then((validation) => {
           if (validation) {
             user
-            .set({mobile: query.mobile})
-            .save()
-            .then((updated) => {
-              validation
-              .set({used: true})
+              .set({ mobile: query.mobile })
               .save()
+              .then((updated) => {
+                validation
+                  .set({ used: true })
+                  .save()
 
-              res.status(200).json(updated)
-            })
-            .catch((err) => {
-              res.status(500).json({
-                error: err
+                res.status(200).json(updated)
               })
-            })
+              .catch((err) => {
+                res.status(500).json({
+                  error: err
+                })
+              })
           } else {
             res.status(401).json({
               error: 'ValidationCodeUnmatched'
@@ -237,7 +237,7 @@ module.exports = (app) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({error: err})
+      res.status(500).json({ error: err })
     })
   })
 
@@ -256,7 +256,7 @@ module.exports = (app) => {
           }
         })
         .catch((err) => {
-          res.status(500).json({error: err})
+          res.status(500).json({ error: err })
         })
       }
     })

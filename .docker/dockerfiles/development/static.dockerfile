@@ -1,6 +1,7 @@
-# Set base image
-FROM node:6.9.1
+# Set node base image
+FROM node:6.9.2
 
+# File author / maintainer
 MAINTAINER Stone Chen (dev@shitulv.com)
 
 # Install nodemon
@@ -25,4 +26,3 @@ CMD ["/usr/app/static.js"]
 
 # docker run -d --net=web-network -p 8080:80 --name uploads -v /uploads:/usr/share/nginx/html:rw nginx
 # docker run -d --net=web-network -p 8000:8000 --name static -v /uploads:/usr/app/uploads:rw shitulv/static
-

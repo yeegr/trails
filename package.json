@@ -31,7 +31,7 @@
     "api": "webpack && docker-compose restart api",
 
     "kill": "docker rm -f $(docker ps -aq)",
-    "clean": "docker rmi -f $(docker images -qf dangling=true)",
+    "clean": "docker rmi -f $(docker images -qf since=shitulv/mongodb)",
     "empty": "docker rmi -f $(docker images)",
 
     "create": "docker-compose -f dc.staging.yml build",
@@ -44,17 +44,17 @@
   "devDependencies": {
     "browser-sync": "^2.18.5",
     "chai": "^3.5.0",
-    "debug": "^2.4.3",
+    "debug": "^2.6.0",
     "eslint": "^3.12.2",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-react": "^6.8.0",
     "eslint-watch": "^2.1.14",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
-    "source-map-support": "^0.4.6",
+    "source-map-support": "^0.4.8",
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.8.4",
-    "webpack-hot-middleware": "^2.13.2"
+    "webpack-hot-middleware": "^2.14.0"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
@@ -72,7 +72,7 @@
     "jsdom": "^9.8.3",
     "moment": "^2.17.1",
     "moment-duration-format": "^1.3.0",
-    "mongoose": "^4.7.2",
+    "mongoose": "^4.7.5",
     "morgan": "^1.7.0",
     "numeral": "^2.0.1",
     "path": "^0.12.7",

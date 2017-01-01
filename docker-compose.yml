@@ -61,16 +61,16 @@ services:
     networks:
       - api-network
 
-  api:
-    container_name: api
+  api1:
+    container_name: api1
     build:
       context: .
       dockerfile: ./.docker/dockerfiles/${APP_ENV}/api.dockerfile
     image: shitulv/api
-    ports:
-      - "3000:3000"
     depends_on:
       - "mongodb"
+    ports:
+      - "3001:3000"
     volumes:
       - "./dev/api.js:/usr/app/api.js"
     env_file:
@@ -80,3 +80,63 @@ services:
     networks:
       - api-network
       - web-network
+
+  api2:
+    container_name: api2
+    build:
+      context: .
+      dockerfile: ./.docker/dockerfiles/${APP_ENV}/api.dockerfile
+    image: shitulv/api
+    depends_on:
+      - "mongodb"
+    ports:
+      - "3002:3000"
+    volumes:
+      - "./dev/api.js:/usr/app/api.js"
+    env_file:
+      - ./.docker/env/${APP_ENV}/api 
+    environment:
+      - NODE_ENV=${APP_ENV}
+    networks:
+      - api-network
+      - web-network
+
+  api3:
+    container_name: api3
+    build:
+      context: .
+      dockerfile: ./.docker/dockerfiles/${APP_ENV}/api.dockerfile
+    image: shitulv/api
+    depends_on:
+      - "mongodb"
+    ports:
+      - "3003:3000"
+    volumes:
+      - "./dev/api.js:/usr/app/api.js"
+    env_file:
+      - ./.docker/env/${APP_ENV}/api 
+    environment:
+      - NODE_ENV=${APP_ENV}
+    networks:
+      - api-network
+      - web-network
+
+  gateway:
+    container_name: gateway
+    build:
+      context: .
+      dockerfile: ./.docker/dockerfiles/${APP_ENV}/gateway.dockerfile
+    image: shitulv/gateway
+    depends_on:
+      - "api1"
+      - "api2"
+      - "api3"
+    ports:
+      - "80:80"
+    working_dir: "/etc/nginx"
+    volumes:
+      - "./.docker/config/gateway.conf:/etc/nginx/nginx.conf"
+    networks:
+      - api-network
+      - web-network
+

@@ -1,6 +1,7 @@
-# Set base image
-FROM node:6.9.1
+# Set node base image
+FROM node:6.9.2
 
+# File author / maintainer
 MAINTAINER Stone Chen (dev@shitulv.com)
 
 # Install nodemon

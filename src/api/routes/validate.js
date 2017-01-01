@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'),
   request = require('request'),
   moment = require('moment'),
+  os = require('os'),
   CONST = require('../const'),
   UTIL = require('../util'),
   Validate = require('../models/validate')
@@ -35,7 +36,6 @@ module.exports = (app) => {
     } else {
       request.post({url: 'http://static:8000/validate', json: tmp}, (err, response, body) => {
         if (err) {
-          console.log(err)
           res.status(500).json({error: err})
         } else {
           saveValidation(tmp, ip, res)
@@ -46,7 +46,8 @@ module.exports = (app) => {
 
   /* Update */
   app.put('/validate', (req, res, next) => {
-    let query = req.body
+    let query = req.body,
+      url = 'http://' + os.hostname() + ':3000/login'
 
     query.mobile = parseInt(query.mobile)
     query.expiredAt = {}
@@ -64,7 +65,7 @@ module.exports = (app) => {
         .then((updated) => {
           switch(updated.action) {
             case CONST.ACCOUNT_ACTIONS.LOGIN:
-              request.post({url: 'http://api:3000/login', json: {mobile: query.mobile}}, (err, response, body) => {
+              request.post({url, json: {mobile: query.mobile}}, (err, response, body) => {
                 res.status(response.statusCode).json(response.body)
               })
             break

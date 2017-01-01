@@ -11,6 +11,5 @@
   "editor.fontSize": 16,
   "editor.mouseWheelZoom": true,
   "editor.renderIndentGuides": false,
-  "editor.tabSize": 2,
-  "stylelint.enable": true
+  "editor.tabSize": 2
 }
