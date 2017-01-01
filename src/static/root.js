@@ -115,9 +115,13 @@ let scale = (width, height) => {
 }
 
 router.post('/up', (req, res, next) => {
+  console.log('static: uploading images')
+  console.log(req)
   let form = new formidable.IncomingForm()
 
   form.parse(req, (err, fields, files) => {
+  console.log(fields.path)
+
     if (err) console.log(err)
 
     let dir = 'uploads/' + fields.path
@@ -280,3 +284,4 @@ app.use('/', router)
 app.listen(port)
 console.log('Environmental variables: ', process.env)
 console.log('Graphics server running on port ' + port)
+console.log('====================================')

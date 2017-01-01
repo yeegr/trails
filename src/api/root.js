@@ -65,8 +65,18 @@ router.post('/drop/:table', function(req, res, next) {
 })
 
 // upload photos to properties
+router.put('/api/photos', (req, res, next) => {
+	console.log('/api/photos')
+})
+
+router.put('./photos', (req, res, next) => {
+	console.log('./photos')
+})
+
 router.put('/photos', (req, res, next) => {
-	let form = new formidable.IncomingForm()
+	console.log('uploading photos')
+	console.log(req)
+	/*let form = new formidable.IncomingForm()
 
 	form.parse(req, (err, fields, files) => {
 		let arr = []
@@ -76,11 +86,12 @@ router.put('/photos', (req, res, next) => {
 		}
 
 		uploadFile(fields.type, fields.id, arr, 0, [], res)
-	})
+	})*/
 })
 
 //upload file via static server
 function uploadFile(type, id, inputs, index, outputs, res) {
+	console.log('api: uploading files')
 	let file = inputs[index],
 		url = 'http://static:8000/up',
 		path = CONST.FILE_PATHS[type] + '/' + id + '/',
@@ -163,3 +174,4 @@ app.use('/', router)
 app.listen(port)
 console.log('Environmental variables: ', process.env)
 console.log('API server running on port: ', port)
+console.log('====================================')

@@ -328,6 +328,27 @@ const getUserFailure = (message) => {
   }
 }
 
+const resetUser = (user) => {
+  return (dispatch) => {
+    AsyncStorage
+    .setItem(CONSTANTS.USER, JSON.stringify(user))
+    .then(() => {
+      AsyncStorage
+      .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
+      .then((str) => {
+        return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
+      })
+      .then((obj) => {
+        return UTIL.obj2arr(obj)
+      })
+      .then((trails) => {
+        user.localTrails = trails
+        dispatch(getUserSuccess(user))
+      })
+    })
+  }
+}
+
 export const reloadUser = () => {
   return (dispatch, getState) => {
     let userId = getState().login.user._id
@@ -343,19 +364,11 @@ export const reloadUser = () => {
           .then(() => {
             AsyncStorage
             .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
-            .then((tmp) => {
-              return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
+            .then((str) => {
+              return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
             })
-            .then((tmp) => {
-              let trails = []
-
-              for (let key in tmp) {
-                if (tmp.hasOwnProperty(key)) {
-                  trails.push(tmp[key])
-                }
-              }
-
-              return trails
+            .then((obj) => {
+              return UTIL.obj2arr(obj)
             })
             .then((trails) => {
               res.localTrails = trails
@@ -379,9 +392,12 @@ const updateUserRequest = () => {
 }
 
 const updateUserSuccess = (user) => {
-  return {
-    type: ACTIONS.UPDATE_USER_SUCCESS,
-    user
+  return (dispatch) => {
+    dispatch(resetUser(user))
+
+    return {
+      type: ACTIONS.UPDATE_USER_SUCCESS
+    }
   }
 }
 

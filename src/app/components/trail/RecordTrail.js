@@ -225,7 +225,7 @@ class RecordTrail extends Component {
       latitude: parseFloat((gcj[1]).toFixed(7)),
       longitude: parseFloat((gcj[0]).toFixed(6)),
       altitude: parseFloat(coords.altitude.toFixed(1)),
-      speed: parseFloat(Math.abs(coords.speed.toFixed(2))) || 0,
+      speed: parseFloat(Math.abs((coords.speed * 3.6).toFixed(2))) || 0,
       distance: coords.distance || 0,
       heading: parseFloat(coords.course.toFixed(2)),
       accuracy: coords.accuracy

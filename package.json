@@ -28,7 +28,7 @@
     "build": "webpack && docker-compose build",
     "logs": "docker-compose logs",
     "static": "webpack && docker-compose restart static",
-    "api": "webpack && docker-compose restart api",
+    "api": "webpack && docker-compose restart api1",
 
     "kill": "docker rm -f $(docker ps -aq)",
     "clean": "docker rmi -f $(docker images -qf since=shitulv/mongodb)",

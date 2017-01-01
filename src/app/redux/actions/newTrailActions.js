@@ -183,7 +183,7 @@ export const saveTrail = () => {
 
 const _validateTrail = (trail) => {
   return (
-    (trail.title.length > AppSettings.minTrailTitleLength) && 
+    (trail.title.length >= AppSettings.minTrailTitleLength) && 
     (trail.type > -1) && 
     (trail.difficultyLevel > -1) && 
     (trail.areas.length > 0)
@@ -254,6 +254,7 @@ const updateTrailSuccess = (trail) => {
 }
 
 const updateTrailFailure = (message) => {
+  console.log(message)
   return {
     type: ACTIONS.UPDATE_TRAIL_FAILURE,
     message

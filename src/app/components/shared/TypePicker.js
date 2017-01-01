@@ -30,7 +30,7 @@ const TypePicker = (props) => {
           <TextView
             style={{marginVertical: 20, textAlign: 'center'}}
             fontSize={'XL'}
-            text={props.title || LANG.t('event.SelectAgendaType')}
+            text={props.title || LANG.t('event.edit.SelectAgendaType')}
           />
           <IconGrid
             list={[93,92,90,91,94]}

@@ -295,7 +295,7 @@ userSchema.pre('save', function(next) {
 
 userSchema.post('save', function(doc) {
   Log({
-    creator: doc.creator,
+    creator: doc._id,
     action: (doc.isNew) ? 'CREATE' : 'UPDATE',
     target: 'User',
     ref: doc._id
@@ -304,7 +304,7 @@ userSchema.post('save', function(doc) {
 
 userSchema.post('remove', function(doc) {
   Log({
-    creator: doc.creator,
+    creator: doc._id,
     action: 'DELETE',
     target: 'User',
     ref: doc._id

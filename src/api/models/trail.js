@@ -172,7 +172,7 @@ trailSchema.pre('save', function(next) {
   }
 
   if (!this.averageSpeed) {
-    this.averageSpeed = Math.round((points[points.length - 1][5] / this.totalDuration) * 3600 * 100) / 100
+    this.averageSpeed = Math.round(this.totalDistance / this.totalDuration * 3600 * 100) / 100
   }
 
   next()

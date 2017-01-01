@@ -24,6 +24,18 @@ export function zerorize(n) {
   return (n < 10) ? '0' + n.toString() : n.toString()
 }
 
+export function obj2arr(obj) {
+  let arr = []
+
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      arr.push(obj[key])
+    }
+  }
+
+  return arr
+}
+
 // format time
 export function getTimeFromId(id) {
   let timestamp = id.toString().substring(0, 8)
