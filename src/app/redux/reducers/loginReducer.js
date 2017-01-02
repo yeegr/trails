@@ -86,9 +86,11 @@ loginReducer = (state = init, action) => {
       })
 
 // get user
-    case ACTIONS.GET_USER_SUCCESS:
+    case ACTIONS.SET_USER_SUCCESS:
       return Object.assign({}, state, {
+        isFetching: false,
         message: null,
+        tmpAvatarUri: null,
         user: action.user
       })
 

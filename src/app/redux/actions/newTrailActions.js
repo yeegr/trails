@@ -214,11 +214,16 @@ const createTrailFailure = (message) => {
 }
 
 export const createTrail = (data) => {
+  let selectedPhotos = data.photos,
+    input = Object.assign({}, data, {
+      photos: []
+    })
+
   let config = Object.assign({}, FETCH.POST, {
-    body: JSON.stringify(data)
+    body: JSON.stringify(input)
   })
 
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(createTrailRequest())
 
     return fetch(AppSettings.apiUri + 'trails', config)
@@ -227,7 +232,13 @@ export const createTrail = (data) => {
       })
       .then((res) => {
         if (res._id) {
-          dispatch(createTrailSuccess(res, data.storeKey))
+          let photos = comparePhotoArrays(res.photos, selectedPhotos)
+
+          if (!photos) {
+            dispatch(createTrailSuccess(res))
+          } else {
+            dispatch(uploadPhotos(CONSTANTS.ACTION_TARGETS.TRAIL, res._id, photos))
+          }
         } else {
           dispatch(createTrailFailure(res.message))
           return Promise.reject(res)
@@ -254,7 +265,6 @@ const updateTrailSuccess = (trail) => {
 }
 
 const updateTrailFailure = (message) => {
-  console.log(message)
   return {
     type: ACTIONS.UPDATE_TRAIL_FAILURE,
     message

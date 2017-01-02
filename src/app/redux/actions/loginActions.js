@@ -313,15 +313,15 @@ export const loginUser = (creds) => {
 }
 
 // get user information
-const getUserSuccess = (user) => {
+const setUserSuccess = (user) => {
   return {
-    type: ACTIONS.GET_USER_SUCCESS,
+    type: ACTIONS.SET_USER_SUCCESS,
     token: user.token,
     user
   }
 }
 
-const getUserFailure = (message) => {
+const setUserFailure = (message) => {
   return {
     type: ACTIONS.GET_USER_FAILURE,
     message
@@ -343,7 +343,7 @@ const resetUser = (user) => {
       })
       .then((trails) => {
         user.localTrails = trails
-        dispatch(getUserSuccess(user))
+        dispatch(setUserSuccess(user))
       })
     })
   }
@@ -372,15 +372,15 @@ export const reloadUser = () => {
             })
             .then((trails) => {
               res.localTrails = trails
-              dispatch(getUserSuccess(res))
+              dispatch(setUserSuccess(res))
             })
           })
         } else {
-          dispatch(getUserFailure(res.message))
+          dispatch(setUserFailure(res.message))
           return Promise.reject(res)
         }
       })
-      .catch((err) => dispatch(getUserFailure(err)))
+      .catch((err) => dispatch(setUserFailure(err)))
   }
 }
 
@@ -394,10 +394,6 @@ const updateUserRequest = () => {
 const updateUserSuccess = (user) => {
   return (dispatch) => {
     dispatch(resetUser(user))
-
-    return {
-      type: ACTIONS.UPDATE_USER_SUCCESS
-    }
   }
 }
 

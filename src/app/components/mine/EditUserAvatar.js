@@ -34,7 +34,7 @@ class EditUserAvatar extends Component {
     this._selectPhoto = this._selectPhoto.bind(this)
 
     let {user} = this.props.login,
-      path = AppSettings.defaultUserAvatar || (user._id + '/' + user.avatar)
+      path = (user.avatar === AppSettings.defaultUserAvatar) ? AppSettings.defaultUserAvatar : (user._id + '/' + user.avatar)
 
     this.state = {
       sourceUri: ImagePath({type: 'avatar', path: 'users/' + path}) 

@@ -145,8 +145,6 @@ module.exports = (app) => {
 
   /* Update user avatar */
   app.put('/users/:id/avatar', (req, res, next) => {
-    console.log('updating user avatar')
-
     User
     .findById(req.params.id)
     .exec()
@@ -166,10 +164,7 @@ module.exports = (app) => {
             path: 'users/' + user._id + '/'
           }
 
-          console.log(formData)
-
           request.post({ url: 'http://static:8000/up', formData }, (err, response, body) => {
-            console.log(response)
             if (err) console.log(err)
 
             user

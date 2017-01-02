@@ -20,7 +20,7 @@ export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 
 // retrieve user information
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS'
+export const SET_USER_SUCCESS = 'SET_USER_SUCCESS'
 export const GET_USER_FAILURE = 'GET_USER_FAILURE'
 
 // account constants
