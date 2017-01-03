@@ -1,10 +1,13 @@
 # node.js
 #
-!node_modules/
-node_modules/*
-
 !uploads/users/
 uploads/users/default.png
+
+!uploads/events/
+!uploads/trails/
+
+!node_modules/
+node_modules/*
 
 !node_modules/react-native-nmrangeslider-ios/
 node_modules/react-native-nmrangeslider-ios/*
@@ -15,6 +18,12 @@ node_modules/react-native-parallax-view/*
 !node_modules/react-native-parallax-view/lib/
 node_modules/react-native-parallax-view/lib/*
 !node_modules/react-native-parallax-view/lib/ParallaxView.js
+
+!node_modules/react-native-simple-radio-button/
+node_modules/react-native-simple-radio-button/*
+!node_modules/react-native-simple-radio-button/lib/
+node_modules/react-native-simple-radio-button/lib/*
+!node_modules/react-native-simple-radio-button/lib/Style.js
 
 npm-debug.log
 typings

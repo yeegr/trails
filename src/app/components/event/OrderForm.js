@@ -22,6 +22,7 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
+  LANG,
   Lang,
   Graphics
 } from '../../settings'
@@ -64,7 +65,7 @@ class OrderForm extends Component {
       </View>
     ) : null,
 
-    genderArray = [{label: Lang.Female + '    ', value: 0}, {label: Lang.Male, value: 1}]
+    genderArray = [{label: LANG.t('genders.Female') + '    ', value: 0}, {label: LANG.t('genders.Male'), value: 1}]
 
     return (
       <View style={[styles.global.form, {paddingTop: 5}]}>
@@ -99,7 +100,7 @@ class OrderForm extends Component {
             input={
               <TextInput
                 maxLength={18}
-                keyboardType='numeric'
+                keyboardType={'numeric'}
                 style={styles.detail.textInput}
                 value={this.state.pid}
                 onChangeText={(pid) => this.updateState({pid: pid.trim()})}

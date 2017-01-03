@@ -31,12 +31,13 @@ const EventCard = (props) => {
           id: props.data.id
         }
       })
-    }
+    },
+    imagePath = (data.hero.indexOf('default') > -1) ? '' : data._id
 
   return (
     <View>
       <Hero
-        imageUri={CONSTANTS.ASSET_FOLDERS.EVENT + '/' + data._id + '/' + data.hero} 
+        imageUri={CONSTANTS.ASSET_FOLDERS.EVENT + '/' + imagePath + '/' + data.hero} 
         title={data.title}
         excerpt={data.excerpt}
         tags={data.tags}

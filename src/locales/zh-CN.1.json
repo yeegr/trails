@@ -9,6 +9,11 @@
     "Or": "或者"
   },
 
+  "genders": {
+    "Male": "男",
+    "Female": "女"
+  },
+
   "number": {
     "currency": {
       "format": {

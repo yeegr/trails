@@ -238,17 +238,16 @@ const createEvent = (data) => {
 }
 
 // update trail
-const updateEventRequest = (trail) => {
+const updateEventRequest = () => {
   return {
-    type: ACTIONS.UPDATE_EVENT_REQUEST,
-    trail
+    type: ACTIONS.UPDATE_EVENT_REQUEST
   }
 }
 
-const updateEventSuccess = (trail) => {
+const updateEventSuccess = (event) => {
   return {
     type: ACTIONS.UPDATE_EVENT_SUCCESS,
-    trail
+    event
   }
 }
 
@@ -259,27 +258,23 @@ const updateEventFailure = (message) => {
   }
 }
 
-const uploadEventHero = (id, uri) => {
-  let body = new FormData()
+const uploadEventHero = (event_id, uri) => {
+  let formData = new FormData()
 
-  body.append('file', {
+  formData.append('file', {
     type: 'image/jpg',
     name: 'hero.jpg',
     uri
   })
 
-  let config = {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-    body
-  }
+  let config = Object.assign({}, FETCH.UPLOAD, {
+    body: formData
+  })
 
   return (dispatch) => {
     dispatch(updateEventRequest())
 
-    return fetch(AppSettings.apiUri + 'events/' + id + '/hero', config)
+    return fetch(AppSettings.apiUri + 'events/' + event_id + '/hero', config)
       .then((res) => {
         return res.json()
       })

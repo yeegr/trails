@@ -61,7 +61,6 @@ const InfoItem = (props) => {
 styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
-    flex: 1,
     flexDirection: 'row',
     paddingHorizontal: 15,
     paddingVertical: 5,
@@ -70,7 +69,8 @@ styles = StyleSheet.create({
     width: 98
   },
   value: {
-    flex: 1
+    flex: 1,
+    height: 30
   },
   more: {
     marginLeft: 20

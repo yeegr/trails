@@ -79,7 +79,7 @@ class DurationPicker extends Component {
                 <Text style={mixStyles.buttonText}>{this.props.confirmText}</Text>
               </TouchableOpacity>
             </View>
-            <View style={{flex: 1, flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row'}}>
               <Picker
                 loop={true}
                 style={{flex: 1}}
@@ -130,13 +130,13 @@ DurationPicker.propTypes = {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: 'rgba(0, 0, 0, .8)',
+    backgroundColor: Graphics.actionSheet.maskColor,
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end'
   },
   actionSheet: {
-    backgroundColor: '#fff'
+    backgroundColor: Graphics.actionSheet.backgroundColor
   },
   toolbar: {
     flexDirection: 'row',

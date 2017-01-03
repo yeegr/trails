@@ -20,6 +20,8 @@ const createOrderRequest = () => {
 }
 
 const createOrderSuccess = (order) => {
+  console.log('order created')
+  console.log(order)
   return {
     type: ACTIONS.CREATE_ORDER_SUCCESS,
     order

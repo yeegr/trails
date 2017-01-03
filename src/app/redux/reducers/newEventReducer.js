@@ -2,7 +2,6 @@
 
 import {
   AppSettings,
-  Lang,
   Defaults
 } from '../../settings'
 import * as ACTIONS from '../constants/newEventConstants'
@@ -63,6 +62,12 @@ const initState = {
 },
 
 newEventReducer = (state = initState, action) => {
+  let schedule = state.schedule,
+    days = action.days,
+    day = schedule[action.day],
+    agenda = action.agenda,
+    index = action.index
+
   switch (action.type) {
     case ACTIONS.NEW_EVENT:
       return initState
@@ -122,9 +127,6 @@ newEventReducer = (state = initState, action) => {
       })
 
     case ACTIONS.SET_EVENT_SCHEDULE_DAYS:
-      let days = action.days,
-        schedule = state.schedule
-
       if (days > schedule.length) {
         for (let i = schedule.length; i < days; i++) {
           schedule.push([])
@@ -143,11 +145,6 @@ newEventReducer = (state = initState, action) => {
       })
 
     case ACTIONS.SET_EVENT_AGENDA:
-      var schedule = state.schedule,
-        agenda = action.agenda,
-        day = schedule[action.day],
-        index = action.index
-
       if (index > -1) {
         day.splice(index, 1)
       }
@@ -171,10 +168,6 @@ newEventReducer = (state = initState, action) => {
       })
 
     case ACTIONS.DELETE_EVENT_AGENDA:
-      var schedule = state.schedule,
-        day = schedule[action.day],
-        index = action.index
-
       if (index > -1) {
         day.splice(index, 1)
       }
@@ -182,11 +175,6 @@ newEventReducer = (state = initState, action) => {
       return Object.assign({}, state, {
         isEditing: false,
         schedule
-      })
-
-    case ACTIONS.SET_EVENT_DEPOSIT:
-      return Object.assign({}, state, {
-        expenses: expensesReducer(state.expenses, action)
       })
 
     case ACTIONS.SET_EVENT_EXPENSES:
@@ -214,6 +202,7 @@ newEventReducer = (state = initState, action) => {
         photos: action.photos
       })
 
+// create event
     case ACTIONS.CREATE_EVENT_REQUEST:
       return Object.assign({}, state, {
         isUploading: true
@@ -231,6 +220,27 @@ newEventReducer = (state = initState, action) => {
         isUploading: false,
         message: action.message
       })
+
+// update event
+    case ACTIONS.UPDATE_EVENT_REQUEST:
+      return Object.assign({}, state, {
+        isUploading: true
+      })
+
+    case ACTIONS.UPDATE_EVENT_SUCCESS:
+      return Object.assign({}, state, {
+        isUploading: false,
+        isSaved: true,
+        event: action.event
+      })
+
+    case ACTIONS.UPDATE_EVENT_FAILURE:
+      return Object.assign({}, state, {
+        isUploading: false,
+        message: action.message
+      })
+
+// delete local event
 
     default:
       return state

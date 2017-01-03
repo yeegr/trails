@@ -258,7 +258,7 @@ class EditEvent extends Component {
               value={Lang.tagArray[event.type]}
             />
             <EditLink
-              label={Lang.EventGroups}
+              label={Lang.EventDates}
               required={true}
               validated={(event.groups.length > 0)}
               onPress={() => this.nextPage('groups')}
@@ -322,11 +322,6 @@ class EditEvent extends Component {
               label={Lang.EventNotes}
               onPress={() => this.nextPage('notes')}
             />
-            <EditLink
-              label={Lang.Photos}
-              onPress={() => this.nextPage('photos')}
-              value={event.photos.length}
-            />
           </View>
           <View style={styles.editor.group}>
             <EditLink
@@ -388,3 +383,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEvent)
+
+/*
+            <EditLink
+              label={Lang.Photos}
+              onPress={() => this.nextPage('photos')}
+              value={event.photos.length}
+            />
+*/

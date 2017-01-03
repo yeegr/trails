@@ -117,9 +117,9 @@ class EditEventGroups extends Component {
 }
 
 EditEventGroups.propTypes = {
-  navigator: PropTypes.array.isRequired,
+  navigator: PropTypes.object.isRequired,
   groups: PropTypes.array.isRequired,
-  newEventActions: PropTypes.array.isRequired
+  newEventActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

@@ -79,8 +79,6 @@ class EditEventHero extends Component {
         // You can display the image using either data...
         //const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
 
-        console.log(response)
-
         // or a reference to the platform specific asset location
         let source = null
 

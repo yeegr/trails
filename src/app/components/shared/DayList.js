@@ -17,6 +17,10 @@ import {
 } from '../../settings'
 
 const DayList = (props) => {
+  const nav = (day, index, agenda) => {
+    console.log(JSON.stringify(agenda))
+  }
+
   return (
     <View>
       {
@@ -36,7 +40,7 @@ const DayList = (props) => {
                       day={d}
                       index={i}
                       agenda={agenda}
-                      onPress={(agenda) => props.itemPressed(d, i, agenda)}
+                      onPress={(agenda) => nav(d, i, agenda)}
                     />
                   )
                 })

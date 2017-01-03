@@ -122,8 +122,8 @@ const styles = StyleSheet.create({
 DateTimePicker.propTypes = {
   title: PropTypes.string,
   datetime: PropTypes.any,
-  maximumDate: PropTypes.func,
-  minimumDate: PropTypes.func,
+  maximumDate: PropTypes.any,
+  minimumDate: PropTypes.any,
   mode: PropTypes.string,
   showPicker: PropTypes.bool.isRequired,
   cancelText: PropTypes.string.isRequired, 

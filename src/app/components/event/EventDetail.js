@@ -249,15 +249,13 @@ class EventDetail extends Component {
                 />
               </View>
             </View>
-            <View ref="eventSignUps" style={styles.detail.section}>
-              <Header text={Lang.SignUps} />
-              <View style={styles.detail.content}>
-              </View>
-            </View>
             <View ref="eventSchedule" style={styles.detail.section}>
               <Header text={Lang.DetailSchedule} />
               <View style={styles.detail.list}>
-                <DayList schedule={event.schedule} />
+                <DayList
+                  navigator={navigator}
+                  schedule={event.schedule}
+                />
               </View>
             </View>
             <View ref="eventExpenses" style={styles.detail.section}>

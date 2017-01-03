@@ -48,9 +48,9 @@ class OrderPayment extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let order = nextProps.order
+    let {order} = nextProps
 
-    if (this.props.order === null && order !== null && order.status === 'pending') {
+    if (this.props.order === null && order !== null && order.subTotal > 0 && order.status === 'pending') {
       this.pay(order)
     } else if (order !== null && order.status === 'success') {
       this.props.navigator.push({
@@ -69,25 +69,30 @@ class OrderPayment extends Component {
   }
 
   confirm(subTotal) {
+    subTotal = (subTotal > 0) ? 0.02 : subTotal
+
     let {user, event, selectedGroup} = this.props,
-    order = {
-      creator: user.id,
-      event: event.id,
-      group: selectedGroup,
-      title: event.title,
-      body: UTIL.formatEventGroupLabel(event, selectedGroup),
-      hero: event.hero,
-      startDate: event.groups[selectedGroup].startDate,
-      daySpan: event.schedule.length, 
-      method: this.state.paymentMethod,
-      signUps: this.state.signUps,
-      subTotal: 0.02//subTotal 
-    }
+      order = {
+        creator: user.id,
+        event: event.id,
+        group: selectedGroup,
+        title: event.title,
+        body: UTIL.formatEventGroupLabel(event, selectedGroup),
+        hero: event.hero,
+        startDate: event.groups[selectedGroup].startDate,
+        daySpan: event.schedule.length, 
+        method: this.state.paymentMethod,
+        signUps: this.state.signUps,
+        subTotal,
+        status: (subTotal === 0) ? 'success' : 'pending'
+      }
 
     this.props.ordersActions.createOrder(order)
   }
 
   pay(order) {
+    console.log('paying')
+
     Alipay
     .pay(order.alipay)
     .then((data) => {
