@@ -11,6 +11,8 @@ const locale = DEFAULT_LOCALE.toLowerCase()
 let hrs = (locale === 'zh-cn') ? '小时' : 'hrs',
     min = (locale === 'zh-cn') ? '分钟' : 'min'
 
+
+
 // base functions
 export function isNullOrUndefined(obj) {
   return obj === null || obj === undefined
@@ -24,6 +26,7 @@ export function zerorize(n) {
   return (n < 10) ? '0' + n.toString() : n.toString()
 }
 
+// convert kv object to array
 export function obj2arr(obj) {
   let arr = []
 
@@ -34,6 +37,11 @@ export function obj2arr(obj) {
   }
 
   return arr
+}
+
+export function getEventHeroPath(data) {
+  let path = (data.hero.indexOf('default') > -1) ? '' : data._id + '/'
+  return 'events/' + path + data.hero
 }
 
 // format time

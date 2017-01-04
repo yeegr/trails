@@ -124,7 +124,7 @@ postSchema.pre('save', function(next) {
 })
 
 postSchema.post('save', function(doc) {
-  if (doc.isNew) {
+  if (doc.wasNew) {
     User.findById(doc.creator, function(err, user) {
       if (user) {
         user.addToList('posts', doc.id)

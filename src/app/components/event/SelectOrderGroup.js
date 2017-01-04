@@ -56,7 +56,7 @@ class SelectOrderGroup extends Component {
 
   render() {
     const {event} = this.props,
-    eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.EVENT + '/' + event._id + '/' + event.hero})
+      eventBackgroundUrl = ImagePath({type: 'background', path: UTIL.getEventHeroPath(event)})
 
     return (
       <View style={styles.global.wrapper}>

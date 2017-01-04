@@ -14,7 +14,7 @@
   "minTrailTitleLength":1,
   "maxNumberOfAreasPerTrail":3,
   "minEventTitleLength":6,
-  "getVerificationTimer":5,
+  "getVerificationTimer":90,
   "mobileNumberLength":11,
   "verificationCodeLength":4,
   "heroImageHeight":240,

@@ -27,7 +27,6 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
-  CONSTANTS,
   LANG,
   UTIL,
   AppSettings,
@@ -91,8 +90,6 @@ class OrderPayment extends Component {
   }
 
   pay(order) {
-    console.log('paying')
-
     Alipay
     .pay(order.alipay)
     .then((data) => {
@@ -108,9 +105,9 @@ class OrderPayment extends Component {
 
   render() {
     const {event, navigator} = this.props,
-    eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.EVENT + '/' + event._id + '/' + event.hero}),
-    selectedGroup = this.props.selectedGroup,
-    dates = UTIL.formatEventGroupLabel(event, selectedGroup)
+      eventBackgroundUrl = ImagePath({type: 'background', path: UTIL.getEventHeroPath(event)}),
+      selectedGroup = this.props.selectedGroup,
+      dates = UTIL.formatEventGroupLabel(event, selectedGroup)
 
     const paymentMethodSelector = (event.expenses.perHead > 0) ? (
       <View style={styles.detail.section}>

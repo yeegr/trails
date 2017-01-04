@@ -16,7 +16,7 @@ import TinyUser from '../user/TinyUser'
 import global from '../../styles/global'
 
 import {
-  CONSTANTS,
+  UTIL,
   Lang,
   Graphics
 } from '../../settings'
@@ -31,13 +31,12 @@ const EventCard = (props) => {
           id: props.data.id
         }
       })
-    },
-    imagePath = (data.hero.indexOf('default') > -1) ? '' : data._id
+    }
 
   return (
     <View>
       <Hero
-        imageUri={CONSTANTS.ASSET_FOLDERS.EVENT + '/' + imagePath + '/' + data.hero} 
+        imageUri={UTIL.getEventHeroPath(data)} 
         title={data.title}
         excerpt={data.excerpt}
         tags={data.tags}

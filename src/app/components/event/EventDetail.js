@@ -38,8 +38,8 @@ import UserLink from '../user/UserLink'
 import styles from '../../styles/main'
 
 import {
-  UTIL,
   CONSTANTS,
+  UTIL,
   Lang,
   Graphics
 } from '../../settings'
@@ -120,7 +120,7 @@ class EventDetail extends Component {
       )
     }
 
-    const eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.EVENT + '/' + event._id + '/' + event.hero}),
+    const eventBackgroundUrl = ImagePath({type: 'background', path: UTIL.getEventHeroPath(event)}),
       eventGroups = (event.groups.length > 1) ? (
         <ListItem icon={'calendar'}
           label={Lang.EventGroups + ' 共' + event.groups.length + Lang.Groups}

@@ -27,7 +27,6 @@ import OrderForm from './OrderForm'
 import styles from '../../styles/main'
 
 import {
-  CONSTANTS,
   LANG,
   UTIL,
   AppSettings,
@@ -37,11 +36,11 @@ import {
 class OrderEvent extends Component {
   constructor(props) {
     super(props)
-    this.addSignUp = this.addSignUp.bind(this)
-    this.removeUser = this.removeUser.bind(this)
-    this.updateInfo = this.updateInfo.bind(this)
-    this.validateData = this.validateData.bind(this)
-    this.nextStep = this.nextStep.bind(this)
+    this._addSignUp = this._addSignUp.bind(this)
+    this._removeSignUp = this._removeSignUp.bind(this)
+    this._updateInfo = this._updateInfo.bind(this)
+    this._validateData = this._validateData.bind(this)
+    this._nextStep = this._nextStep.bind(this)
 
     let user = this.props.user
 
@@ -71,11 +70,11 @@ class OrderEvent extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.navbar.addingEventSignup === true) {
-      this.addSignUp()
+      this._addSignUp()
     }
   }
 
-  addSignUp() {
+  _addSignUp() {
     let signUps = this.state.signUps
     signUps.push({
       name: '',
@@ -93,14 +92,14 @@ class OrderEvent extends Component {
     }, 100)
   }
 
-  removeUser(index) {
+  _removeSignUp(index) {
     let signUps = this.state.signUps
     signUps.splice(index, 1)
     this.setState({signUps})
   }
 
-  updateInfo(index, signUp) {
-    let validated = this.validateData(signUp)
+  _updateInfo(index, signUp) {
+    let validated = this._validateData(signUp)
 
     if (validated) {
       let signUps = this.state.signUps
@@ -109,7 +108,7 @@ class OrderEvent extends Component {
     }
   }
 
-  validateData(data) {
+  _validateData(data) {
     const validateName = data.name.trim().length > 1,
       validateMobileNumber = AppSettings.mobileRx.test(data.mobile),
       validatePersonalId = AppSettings.pidRx.test(data.pid.trim()),
@@ -125,12 +124,12 @@ class OrderEvent extends Component {
     } : false
   }
 
-  nextStep() {
+  _nextStep() {
     let signUps = this.state.signUps,
       tmp = []
 
     signUps.map((signUp) => {
-      let validated = this.validateData(signUp)
+      let validated = this._validateData(signUp)
       if (validated) {
         tmp.push(validated)
       }
@@ -153,7 +152,7 @@ class OrderEvent extends Component {
 
   render() {
     const {event} = this.props,
-      eventBackgroundUrl = ImagePath({type: 'background', path: CONSTANTS.ASSET_FOLDERS.EVENT + '/' + event._id + '/' + event.hero}),
+      eventBackgroundUrl = ImagePath({type: 'background', path: UTIL.getEventHeroPath(event)}),
       selectedGroup = this.props.selectedGroup || 0,
       dates = UTIL.formatEventGroupLabel(event, selectedGroup)
 
@@ -186,8 +185,8 @@ class OrderEvent extends Component {
                     key={index} 
                     index={index} 
                     signUp={signUp} 
-                    removeUser={() => this.removeUser(index)}
-                    updateInfo={(index, signUp) => this.updateInfo(index, signUp)}
+                    removeSignUp={() => this._removeSignUp(index)}
+                    updateInfo={(index, signUp) => this._updateInfo(index, signUp)}
                   />
                 )
               })
@@ -198,7 +197,7 @@ class OrderEvent extends Component {
         </ParallaxView>
         <CallToAction
           label={LANG.t('order.ConfirmSignUps')}
-          onPress={this.nextStep}
+          onPress={this._nextStep}
         />
       </View>
     )

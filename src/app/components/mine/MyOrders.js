@@ -5,6 +5,10 @@ import React, {
   PropTypes
 } from 'react'
 
+import {
+  View
+} from 'react-native'
+
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as ordersActions from '../../redux/actions/ordersActions'
@@ -33,10 +37,12 @@ class MyOrders extends Component {
     }
 
     return (
-      <OrderList
-        navigator={this.props.navigator}
-        orders={orders}
-      />
+      <View style={{paddingTop: 80}}>
+        <OrderList
+          navigator={this.props.navigator}
+          orders={orders}
+        />
+      </View>
     )
   }
 }
