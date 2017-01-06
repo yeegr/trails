@@ -54,7 +54,7 @@ class OrderForm extends Component {
   render() {
     const removeButton = (this.props.index > 0) ? (
       <View style={localStyles.button}>
-        <TouchableOpacity onPress={() => this.props.removeUser(this.props.index)}>
+        <TouchableOpacity onPress={() => this.props.removeSignUp(this.props.index)}>
           <Icon
             backgroundColor={Graphics.colors.transparent}
             fillColor={'red'} 
@@ -156,7 +156,7 @@ OrderForm.propTypes = {
   index: PropTypes.number.isRequired,
   signUp: PropTypes.object.isRequired,
   updateInfo: PropTypes.func,
-  removeUser: PropTypes.func
+  removeSignUp: PropTypes.func
 }
 
 const localStyles = StyleSheet.create({

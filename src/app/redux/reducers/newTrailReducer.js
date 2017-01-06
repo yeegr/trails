@@ -13,8 +13,8 @@ const initTrail = {
   isPublic: false,
   title: '',
   type: 0,
-  areas: [],
-  areaNames: [],
+  areas: ['58512ea92019980015376e77'],
+  areaNames: ['其他'],
   difficultyLevel: 2,
   description: '',
   points: [], //array of array [[],[],[],...]
@@ -41,11 +41,6 @@ newTrailReducer = (state = initState, action) => {
       return Object.assign({}, initState, {
         creator: action.creator,
         storeKey: UTIL.generateRandomString(16)
-      })
-
-    case ACTIONS.SET_TRAIL_DATE:
-      return Object.assign({}, state, {
-        date: action.date
       })
 
     case ACTIONS.START_RECORDING_TRAIL:

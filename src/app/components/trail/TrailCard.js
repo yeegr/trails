@@ -66,7 +66,10 @@ const TrailCard = (props) => {
         />
       </View>
       <View style={global.map}>
-        <TrailMap points={trail.points} />
+        <TrailMap
+          navigator={navigator}
+          points={trail.points}
+        />
       </View>
       <View style={styles.footer}>
         <UserLink user={trail.creator} navigator={navigator} />

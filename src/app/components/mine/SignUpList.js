@@ -102,6 +102,7 @@ class SignUpList extends Component {
         </TouchableOpacity>
         <ListView
           enableEmptySections={true}
+          removeClippedSubviews={false}
           scrollEnabled={true}
           dataSource={this.dataSource.cloneWithRowsAndSections(this.state.data)}
           renderRow={this.renderRow}

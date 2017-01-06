@@ -23,6 +23,7 @@ import Login from './login'
 import AreaDetail from './area/AreaDetail'
 import TrailList from './trail/TrailList'
 import TrailDetail from './trail/TrailDetail'
+import TrailMapFull from './trail/TrailMapFull'
 import RecordTrail from './trail/RecordTrail'
 import EditTrail from './trail/EditTrail'
 import EditTrailTitle from './trail/EditTrailTitle'
@@ -501,6 +502,14 @@ class App extends Component {
               case 'TrailDetail':
                 return (
                   <TrailDetail
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'TrailMapFull':
+                return (
+                  <TrailMapFull
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />

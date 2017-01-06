@@ -153,7 +153,10 @@ class TrailDetail extends Component {
                 />
               </View>
               <View style={[styles.global.map, {marginHorizontal: 15}]}>
-                <TrailMap points={trail.points} />
+                <TrailMap
+                  navigator={navigator}
+                  points={trail.points}
+                />
               </View>
               <TrailChart points={trail.points} />
             </View>
@@ -201,4 +204,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrailDetail)
-

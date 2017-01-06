@@ -5,7 +5,6 @@ import React, {
 } from 'react'
 
 import {
-  TouchableOpacity,
   View
 } from 'react-native'
 
@@ -16,7 +15,7 @@ import {
   Graphics
 } from '../../settings'
 
-const TrailMap = (props) => {
+const TrailMapFull = (props) => {
   let points = props.points,
     path = UTIL.formatTrailPoints(points),
     region = UTIL.getMapCenter(points),
@@ -33,32 +32,23 @@ const TrailMap = (props) => {
         longitude: points[points.length - 1][2]
       },
       color: 'red'
-    },
-    onPress = () => {
-      props.navigator.push({
-        id: 'TrailMapFull',
-        title: 'Full Map',
-        passProps: {
-          points: props.points
-        }
-      })
     }
 
   return (
-    <TouchableOpacity onPress={onPress} style={{flex:1}}>
+    <View style={{flex: 1, marginTop: Graphics.page.marginTop}}>
       <MapView
         style={{flex: 1}}
         mapType="satellite"
         showsPointsOfInterest={false}
-        showsCompass={false}
-        showsScale={false}
+        showsCompass={true}
+        showsScale={true}
         showsBuildings={false}
         showsTraffic={false}
         showsIndoors={false}
-        zoomEnabled={false}
-        rotateEnabled={false}
-        pitchEnabled={false}
-        scrollEnabled={false}
+        zoomEnabled={true}
+        rotateEnabled={true}
+        pitchEnabled={true}
+        scrollEnabled={true}
         region={region}
       >
         <MapView.Polyline
@@ -75,13 +65,12 @@ const TrailMap = (props) => {
           pinColor={finishMarker.color}
         />
       </MapView>
-    </TouchableOpacity>
+    </View>
   )
 }
 
-TrailMap.propTypes = {
-  navigator: PropTypes.object.isRequired,
+TrailMapFull.propTypes = {
   points: PropTypes.array.isRequired
 }
 
-export default TrailMap
+export default TrailMapFull
