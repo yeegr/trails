@@ -29,7 +29,7 @@ services:
     container_name: static
     build:
       context: .
-      dockerfile: ./.docker/dockerfiles/${APP_ENV}/static.dockerfile
+      dockerfile: ./docker/dockerfiles/${APP_ENV}/static.dockerfile
     image: ${DOCKER_REPO}/shitulv/static
     ports:
       - "8000:8000"
@@ -40,7 +40,7 @@ services:
     volumes:
       - "./uploads:/usr/app/uploads:rw"
     env_file:
-      - ./.docker/env/${APP_ENV}/static
+      - ./docker/env/${APP_ENV}/static
     environment:
       - NODE_ENV=${APP_ENV}
     networks:
@@ -51,7 +51,7 @@ services:
     container_name: mongodb
     build:
       context: .
-      dockerfile: ./.docker/dockerfiles/${APP_ENV}/mongodb.dockerfile
+      dockerfile: ./docker/dockerfiles/${APP_ENV}/mongodb.dockerfile
     image: ${DOCKER_REPO}/shitulv/mongodb
     ports:
       - "27017:27017"
@@ -64,14 +64,14 @@ services:
     container_name: api
     build:
       context: .
-      dockerfile: ./.docker/dockerfiles/${APP_ENV}/api.dockerfile
+      dockerfile: ./docker/dockerfiles/${APP_ENV}/api.dockerfile
     image: ${DOCKER_REPO}/shitulv/api
     ports:
       - "3000:3000"
     depends_on:
       - "mongodb"
     env_file:
-      - ./.docker/env/${APP_ENV}/api 
+      - ./docker/env/${APP_ENV}/api 
     environment:
       - NODE_ENV=${APP_ENV}
     networks:
@@ -83,7 +83,7 @@ services:
     container_name: gateway
     build:
       context: .
-      dockerfile: ./.docker/dockerfiles/${APP_ENV}/gateway.dockerfile
+      dockerfile: ./docker/dockerfiles/${APP_ENV}/gateway.dockerfile
     image: shitulv/gateway
     depends_on:
       - "api1"
@@ -93,7 +93,7 @@ services:
       - "80:80"
     working_dir: "/etc/nginx"
     volumes:
-      - "./.docker/config/gateway.conf:/etc/nginx/nginx.conf"
+      - "./docker/config/gateway.conf:/etc/nginx/nginx.conf"
       - "./assets/Aliyun/local.pem:/etc/nginx/ssl/213982961830029.pem"
       - "./assets/Aliyun/local.key:/etc/nginx/ssl/213982961830029.key"
     networks:

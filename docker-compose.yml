@@ -21,7 +21,7 @@ services:
       - "8080:80"
     volumes:
       - "./uploads:/usr/share/nginx/html:rw"
-    working_dir: "/usr/share/nginx"
+    working_dir: "/usr/share/nginx/html"
     networks:
       - web-network
 
@@ -29,7 +29,7 @@ services:
     container_name: static
     build:
       context: .
-      dockerfile: ./.docker/dockerfiles/${APP_ENV}/static.dockerfile
+      dockerfile: ./docker/dockerfiles/${APP_ENV}/static.dockerfile
     image: shitulv/static
     ports:
       - "8000:8000"
@@ -38,10 +38,10 @@ services:
     links:
       - uploads:uploads
     volumes:
-      - "./dev/static.js:/usr/app/static.js"
+      - "./dev/static/root.js:/usr/app/root.js"
       - "./uploads:/usr/app/uploads:rw"
     env_file:
-      - ./.docker/env/${APP_ENV}/static
+      - ./docker/env/${APP_ENV}/static
     environment:
       - NODE_ENV=${APP_ENV}
     networks:
@@ -52,7 +52,7 @@ services:
     container_name: mongodb
     build:
       context: .
-      dockerfile: ./.docker/dockerfiles/${APP_ENV}/mongodb.dockerfile
+      dockerfile: ./docker/dockerfiles/${APP_ENV}/mongodb.dockerfile
     image: shitulv/mongodb
     ports:
       - "27017:27017"
@@ -65,21 +65,30 @@ services:
     container_name: api1
     build:
       context: .
-      dockerfile: ./.docker/dockerfiles/${APP_ENV}/api.dockerfile
+      dockerfile: ./docker/dockerfiles/${APP_ENV}/api.dockerfile
     image: shitulv/api
     depends_on:
       - "mongodb"
     ports:
       - "3001:3000"
     volumes:
-      - "./dev/api.js:/usr/app/api.js"
+      - "./dev/api/root.js:/usr/app/root.js"
     env_file:
-      - ./.docker/env/${APP_ENV}/api 
+      - ./docker/env/${APP_ENV}/api 
     environment:
       - NODE_ENV=${APP_ENV}
     networks:
       - api-network
       - web-network
 
-
-
+  web1:
+    container_name: web1
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - "./dev/web:/usr/share/nginx/html"
+    working_dir: "/usr/share/nginx/html"
+    networks:
+      - api-network
+      - web-network
