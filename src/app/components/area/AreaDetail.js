@@ -15,11 +15,11 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as areasActions from '../../redux/actions/areasActions'
 
+import Card from '../shared/Card'
 import Loading from '../shared/Loading'
 import Header from '../shared/Header'
 import Icon from '../shared/Icon'
 import ImagePath from '../shared/ImagePath'
-import Intro from '../shared/Intro'
 import UserList from '../user/UserList'
 import TrailPreview from '../trail/TrailPreview'
 import GalleryPreview from '../shared/GalleryPreview'
@@ -69,7 +69,7 @@ class AreaDetail extends Component {
           backgroundSource={{uri: url}}
           windowHeight={Graphics.heroImage.height}
           header={(
-            <Intro
+            <Card
               align={'bottom'}
               title={LANG.t('cities.byCode.' + area.city) + ' ' + area.name}
               excerpt={area.excerpt}
@@ -111,7 +111,7 @@ class AreaDetail extends Component {
             <TrailPreview
               navigator={navigator}
               trails={area.trails}
-              query={'?area=' + area.id}
+              query={'?isPublic=true&area=' + area.id}
               title={area.name + LANG.t('trail.trail_plural')}
             />
           </View>

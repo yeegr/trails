@@ -7,6 +7,7 @@ const express = require('express'),
 	logger = require('morgan'),
 	mongoose = require('mongoose'),
   request = require('request'),
+  moment = require('moment'),
 	db = 'mongodb://mongodb:27017/trails',
   port = process.env.PORT || 3000,
   app = express(),
@@ -46,18 +47,20 @@ const CONST = require('./const'),
 	Post = require('./models/post'),
 	User = require('./models/user')
 
-router.use(function(req, res, next) {
+router.use((req, res, next) => {
   next()
 })
 
 // delete mongodb collection(s)
-router.post('/drop/:table', function(req, res, next) {
+router.post('/drop/:table', (req, res, next) => {
 	let table = req.params.table,
-	tables = (table === 'all') ? ['actions', 'areas', 'events', 'logs', 'orders', 'posts', 'users', 'trails', 'validates'] : [table]
+		tables = (table === 'all') ? ['actions', 'areas', 'events', 'logs', 'orders', 'posts', 'users', 'trails', 'validates'] : [table],
+		remoteAddress = req.connection.remoteAddress,
+		ip = remoteAddress.substring(remoteAddress.lastIndexOf(':') + 1)
 
-	tables.map(function(name) {
-		mongoose.connection.collections[name].drop(function (err) {
-			console.log('collection [' + name + '] is dropped!')
+	tables.map((name) => {
+		mongoose.connection.collections[name].drop((err) => {
+			console.log(moment().format('YYYY-MM-DDTHH:mm:ssZ') + ' | ' + ip + ' | [' + name + '] is dropped!')
 		})
 	})
 

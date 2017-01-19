@@ -7,6 +7,8 @@ import React, {
 
 import {
   AsyncStorage,
+  SegmentedControlIOS,
+  ScrollView,
   View
 } from 'react-native'
 
@@ -14,13 +16,13 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as trailsActions from '../../redux/actions/trailsActions'
 
-import Moment from 'moment'
-
-import Loading from '../shared/Loading'
 import TrailList from '../trail/TrailList'
 
+import styles from '../../styles/main'
+
 import {
-  CONSTANTS
+  CONSTANTS,
+  LANG
 } from '../../settings'
 
 class MyTrails extends Component {
@@ -28,8 +30,8 @@ class MyTrails extends Component {
     super(props)
 
     this.state = {
-      allTrails: [],
-      savedTrails: this.props.savedTrails,
+      selectedIndex: 0,
+      cloudTrails: [],
       localTrails: []
     }
   }
@@ -52,43 +54,34 @@ class MyTrails extends Component {
       }
 
       this.setState({
-        localTrails,
-        allTrails: localTrails
+        localTrails
       })
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.savedTrails.length > 0) {
-      let arr = this.state.localTrails
-      arr = arr.concat(nextProps.savedTrails)
-
-      arr.sort((a, b) => {
-        let x = Moment(a.date),
-          y = Moment(b.date)
-        return (y.diff(x))
-      })
-
-      this.setState({
-        allTrails: arr
-      })
-    }
-  }
-
   render() {
-    const {navigator} = this.props,
-      {allTrails} = this.state
-
-    if (allTrails.length < 1) {
-      return <Loading />
-    }
+    const {navigator, cloudTrails} = this.props,
+      {selectedIndex, localTrails} = this.state,
+      trailList = (selectedIndex === 0) ? cloudTrails : localTrails
 
     return (
-      <View style={{paddingTop: 20}}>
-        <TrailList
-          navigator={navigator}
-          trails={allTrails}
-        />
+      <View style={styles.global.main}>
+        <View style={{paddingHorizontal: 20, paddingTop: 20}}>
+          <SegmentedControlIOS
+            values={[LANG.t('mine.CloudTrails'), LANG.t('mine.LocalTrails')]}
+            selectedIndex={this.state.selectedIndex}
+            onChange={(event) => {
+              this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex})
+            }}
+            style={{marginHorizontal: 15, marginBottom: 15}}
+          />
+        </View>
+        <ScrollView style={{}}>
+          <TrailList
+            navigator={navigator}
+            trails={trailList}
+          />
+        </ScrollView>
       </View>
     )
   }
@@ -98,14 +91,14 @@ MyTrails.propTypes = {
   navigator: PropTypes.object.isRequired,
   trailsActions: PropTypes.object.isRequired,
   query: PropTypes.string.isRequired,
-  savedTrails: PropTypes.array,
+  cloudTrails: PropTypes.array,
   localTrails: PropTypes.array
 }
 
 function mapStateToProps(state, ownProps) {
   return {
     user: state.login.user,
-    savedTrails: state.trails.list
+    cloudTrails: state.trails.list
   }
 }
 

@@ -41,6 +41,7 @@ const TrailPreview = (props) => {
           <TrailList
             navigator={navigator}
             trails={props.trails}
+            query={props.query}
           />
         </View>
       </View>

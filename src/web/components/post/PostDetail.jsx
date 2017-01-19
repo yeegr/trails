@@ -1,69 +1,80 @@
 'use strict'
 
 import React, {
-  Component
+  Component,
+  PropTypes
 } from 'react'
 
 import $ from 'jquery'
 
 import {
+  CONSTANTS,
   UTIL,
   AppSettings
 } from '../../settings'
 
-import {
-  Hero
-} from '../shared/Hero.jsx'
+import Card from '../shared/Card'
+import Hero from '../shared/Hero'
+import UserLink from '../user/UserLink'
 
 class PostDetail extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
-      detail: {},
       loading: true
     }
   }
 
-  componentDidMount() {
-    console.log(AppSettings.apiUri + 'posts/' + this.props.routeParams.id)
-    $.get(AppSettings.apiUri + 'posts/' + this.props.routeParams.id, function(data) {
-      console.log(data)
+  componentWillMount() {
+    $.get(AppSettings.apiUri + 'posts/' + this.props.routeParams.id, (post) => {
       this.setState({
-        detail: data,
+        post,
         loading: false
       })
-    }.bind(this))
+    })
   }
 
   render() {
     if (this.state.loading === true) {
       return (
-        <detail data-loading></detail>
-      )
-    } else {
-      const post = this.state.detail,
-        //hero = setBackgroundImage(post.hero),
-        creator = post.creator
-
-      return (
-        <detail>
-          <Hero
-            imageUri={post.hero}
-            title={post.title}
-          />
-          <main>
-            <section>
-            </section>
-            <section>
-              <post>
-                <div className="html-content" dangerouslySetInnerHTML={UTIL.createMarkup(post.content)} />
-              </post>
-            </section>
-          </main>
-        </detail>
+        <detail data-loading />
       )
     }
+
+    const {post} = this.state,
+      imageUri = CONSTANTS.ASSET_FOLDERS.POST + '/' + post._id + '/' + post.hero
+
+    return (
+      <detail>
+        <Hero
+          imageUri={imageUri}
+          card={
+            <Card
+              title={post.title}
+              excerpt={post.excerpt}
+              tags={post.tags}
+            />
+          }
+        />
+        <main>
+          <section>
+            <UserLink user={post.creator} />
+          </section>
+          <section>
+            <post>
+              <div className="html-content" dangerouslySetInnerHTML={UTIL.createMarkup(post.content)} />
+            </post>
+          </section>
+        </main>
+      </detail>
+    )
+
   }
+}
+
+PostDetail.propTypes = {
+  id: PropTypes.string
 }
 
 export default PostDetail

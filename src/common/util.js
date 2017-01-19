@@ -169,6 +169,26 @@ export function formatTrailChartData(points) {
   return arr
 }
 
+export function formatTrailChartDataWeb(points) {
+  let step = Math.floor(points.length / 10),
+  arr = {
+    x: [],
+    y: []
+  },
+  startTime = points[0][0]
+
+  step = (step < 1) ? 1 : step
+
+  points.map((point, index) => {
+    if (index % step === 0) {
+      arr.x.push(formatDuration((point[0] - startTime), 'h:mm'))
+      arr.y.push(point[3])
+    }
+  })
+
+  return arr
+}
+
 export function formatTrailPoints(points) {
   if (points.length > 0) {
     let path = points.map(function(arr) {

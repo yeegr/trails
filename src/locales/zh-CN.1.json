@@ -19,6 +19,13 @@
       "format": {
         "unit": "¥"
       }
+    },
+    "length": {
+      "km": "{{length}}公里",
+      "m": "{{length}}米"
+    },
+    "speed": {
+      "kmph": "{{speed}}公里/小时"
     }
   },
 
@@ -88,6 +95,12 @@
     "numberOfTrail_plural": "{{count}}条轨迹",
     "EditTrail": "编辑轨迹",
     "DifficultyLevel": "难度系数",
+    "TotalDuration":"全程历时",
+    "TotalDistance":"全程距离",
+    "TotalElevation":"累积上升",
+    "CurrentAltitude":"当前海拔",
+    "MaximumAltitude":"最高海拔",
+    "AverageSpeed":"平均时速",
     "Description": "描述",
     "Photos": "图片",
     "record": {
@@ -146,13 +159,17 @@
     "dayCount": "第{{count}}天",
     "numberOfPeopleAlreadySignedUp": "已有{{count}}人报名",
     "edit": {
+      "HeroImage":"互动封面",
+      "MinEventTitleLength": "活动名称不能少于{{min}}个字符",
       "SelectAgendaType": "选择日程类型",
       "BackAlert": {
         "title": "真的吗，亲？",
         "description": "现在退出，你所有的修改就都复原啦！",
         "cancel": "继续编辑",
         "confirm": "确定放弃"
-      }
+      },
+      "SelectedGears":"已选择装备",
+      "UnselectedGears":"未选择装备"
     },
     "search": {
       "SearchEvent": "搜索活动", 
@@ -223,8 +240,8 @@
     "PurchaseOutdoorInsurance": "购买户外保险",
     "SignUpList": "报名列表",
     "MyTrails": "我记录的轨迹",
-    "MySavedTrails": "{{count}}条已保存",
-    "MyLocalTrails": "{{count}}条未保存",
+    "CloudTrails": "云端轨迹",
+    "LocalTrails": "本地轨迹",
     "MyEvents": "我管理的活动",
     "MyPosts": "我发布的文章",
     "MySaves": "我的收藏",

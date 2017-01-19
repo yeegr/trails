@@ -1,5 +1,20 @@
 'use strict'
 
+import i18n from 'i18next'
+
+let zh = require('../locales/zh-CN.1.json')
+
+i18n.init({
+  lng: 'zh',
+  resources: {
+    zh: {
+      translation: zh
+    }
+  }
+})
+
+export const LANG = i18n
+
 const common = require('../common/__.js')
 
 export const CONSTANTS = common.CONSTANTS

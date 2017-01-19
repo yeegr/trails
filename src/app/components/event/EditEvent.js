@@ -13,6 +13,7 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
+import {validateEvent} from  '../../redux/actions/newEventActions'
 
 import CityPicker from '../shared/CityPicker'
 import DateTimePicker from '../shared/DateTimePicker'
@@ -88,7 +89,8 @@ class EditEvent extends Component {
 
   nextPage(type) {
     let id = null,
-      title = null
+      title = null,
+      props = {}
 
     switch (type) {
       case 'hero':
@@ -157,9 +159,10 @@ class EditEvent extends Component {
       break
 
       case 'preview':
-        //const event = this.props.newEvent
-        //id = 'EventDetail',
-        //title = Lang.EventDetail
+        if (validateEvent(this.props.newEvent)) {
+          id = 'EventDetail',
+          title = Lang.EventDetail
+        }
       break
     }
 
@@ -167,9 +170,9 @@ class EditEvent extends Component {
       this.props.navigator.push({
         id,
         title,
-        passProps: {
+        passProps: Object.assign({}, props, {
           isPreview: (type === 'preview')
-        }
+        }) 
       })
     }
   }

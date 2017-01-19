@@ -19,11 +19,10 @@ import * as eventsActions from '../../redux/actions/eventsActions'
 import * as navbarActions from '../../redux/actions/navbarActions'
 import * as loginActions from '../../redux/actions/loginActions'
 
-import TextView from '../shared/TextView'
+import Card from '../shared/Card'
 import Loading from '../shared/Loading'
 import Header from '../shared/Header'
 import ImagePath from '../shared/ImagePath'
-import Intro from '../shared/Intro'
 import ListItem from '../shared/ListItem'
 import SimpleContact from '../shared/SimpleContact'
 import DayList from '../shared/DayList'
@@ -31,6 +30,7 @@ import OrderedList from '../shared/OrderedList'
 import GearList from '../shared/GearList'
 import WebViewWrapper from '../shared/WebViewWrapper'
 import TagList from '../shared/TagList'
+import TextView from '../shared/TextView'
 import Toolbar from '../shared/Toolbar'
 import CommentPreview from '../shared/CommentPreview'
 import UserLink from '../user/UserLink'
@@ -152,6 +152,14 @@ class EventDetail extends Component {
           </View>
         </View>
       ) : null,
+      eventExpenses = (event.expenses.perHead > 0) ? (
+        <View ref="eventExpenses" style={styles.detail.section}>
+          <Header text={Lang.EventExpenses} />
+          {expensesDetail}
+          {expensesInclude}
+          {expensesExclude}
+        </View>
+      ) : null,
       eventDestination = (event.destination && event.destination.length > 0) ? (
         <View ref="eventDestination" style={styles.detail.section}>
           <TextView class={'h2'} text={Lang.Destination} />
@@ -184,9 +192,11 @@ class EventDetail extends Component {
         </View>
       ) : null,
       eventNotes = (event.notes && event.notes.length > 0) ? (
-        <View ref="eventNotes" style={styles.detail.section}>
+        <View style={styles.detail.section}>
           <Header text={Lang.EventNotes} />
-          <WebViewWrapper html={event.notes} />
+          <View style={[styles.detail.content, {paddingLeft: 15}]}>
+            <OrderedList content={event.notes} />
+          </View>
         </View>
       ) : null,
       commentsPreview = (event.comments.length > 0) ? (
@@ -203,7 +213,7 @@ class EventDetail extends Component {
           backgroundSource={{uri: eventBackgroundUrl}}
           windowHeight={Graphics.heroImage.height}
           header={(
-            <Intro
+            <Card
               align={'bottom'}
               title={event.title}
               excerpt={event.excerpt}
@@ -258,12 +268,7 @@ class EventDetail extends Component {
                 />
               </View>
             </View>
-            <View ref="eventExpenses" style={styles.detail.section}>
-              <Header text={Lang.EventExpenses} />
-              {expensesDetail}
-              {expensesInclude}
-              {expensesExclude}
-            </View>
+            {eventExpenses}
             {eventDestination}
             {eventGears}
             {eventNotes}

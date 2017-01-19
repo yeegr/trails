@@ -100,19 +100,28 @@ class EditEventExpenses extends Component {
 
       case 1:
         mainView = (
-          <ListEditor key='expDetail' list={this.state.detail} />
+          <ListEditor
+            key={'expDetail'}
+            list={this.state.detail}
+          />
         )
       break
 
       case 2:
         mainView = (
-          <ListEditor key='expInclude' list={this.state.include} />
+          <ListEditor
+            key={'expInclude'}
+            list={this.state.include}
+          />
         )
       break
 
       case 3:
         mainView = (
-          <ListEditor key='expExclude' list={this.state.exclude} />
+          <ListEditor
+            key={'expExclude'}
+            list={this.state.exclude}
+          />
         )
       break
     }

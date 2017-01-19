@@ -17,8 +17,8 @@ import {connect} from 'react-redux'
 import * as navbarActions from '../../redux/actions/navbarActions'
 
 import CallToAction from '../shared/CallToAction'
+import Card from '../shared/Card'
 import InfoItem from '../shared/InfoItem'
-import Intro from '../shared/Intro'
 import ImagePath from '../shared/ImagePath'
 import TextView from '../shared/TextView'
 
@@ -163,7 +163,7 @@ class OrderEvent extends Component {
           backgroundSource={{uri: eventBackgroundUrl}}
           windowHeight={Graphics.heroImage.height}
           header={(
-            <Intro
+            <Card
               align={'bottom'}
               title={event.title} 
               excerpt={event.excerpt}

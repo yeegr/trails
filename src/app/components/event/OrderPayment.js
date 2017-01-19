@@ -18,10 +18,10 @@ import {connect} from 'react-redux'
 import * as ordersActions from '../../redux/actions/ordersActions'
 
 import CallToAction from '../shared/CallToAction'
+import Card from '../shared/Card'
 import ImagePath from '../shared/ImagePath'
 import Icon from '../shared/Icon'
 import InfoItem from '../shared/InfoItem'
-import Intro from '../shared/Intro'
 import TextView from '../shared/TextView'
 
 import styles from '../../styles/main'
@@ -152,7 +152,7 @@ class OrderPayment extends Component {
           backgroundSource={{uri: eventBackgroundUrl}}
           windowHeight={Graphics.heroImage.height}
           header={(
-            <Intro
+            <Card
               align={'bottom'}
               title={event.title}
               excerpt={event.excerpt}

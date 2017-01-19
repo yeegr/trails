@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 
 import ImagePath from '../shared/ImagePath'
-import Intro from '../shared/Intro'
+import Card from '../shared/Card'
 
 import {
   Graphics
@@ -27,15 +27,7 @@ const Hero = (props) => {
           source={{uri}}
           style={styles.image}
         />
-        <Intro 
-          title={props.title}
-          excerpt={props.excerpt}
-          tags={props.tags}
-          bottomLeft={props.bottomLeft}
-          bottomRight={props.bottomRight}
-          topLeft={props.topLeft}
-          topRight={props.topRight}
-        />
+        {props.card}
       </View>
     ),
     wrapper = (props.onPress) ? (<TouchableOpacity onPress={props.onPress}>{view}</TouchableOpacity>) : view
@@ -61,9 +53,7 @@ styles = StyleSheet.create({
 
 Hero.propTypes = {
   imageUri: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  excerpt: PropTypes.string,
-  tags: PropTypes.array,
+  card: PropTypes.object,
   onPress: PropTypes.func
 }
 

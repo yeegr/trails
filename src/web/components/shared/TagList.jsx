@@ -8,21 +8,21 @@ import {
   Graphics
 } from '../../settings'
 
-import TextView from './TextView'
-
 const TagList = (props) => {
   if (props.tags.length < 1) {
     return null
   }
 
   let txt = '# ',
-    textColor = props.textColor || Graphics.textColors.overlay
+    style = {
+      color: props.textColor || Graphics.textColors.overlay
+    }
 
   props.tags.map((tag) => {
     txt += tag + ' '
   })
 
-  return <TextView textColor={textColor} text={txt} />
+  return <p style={style}>{txt}</p>
 }
 
 TagList.propTypes = {

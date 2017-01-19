@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 
 import Hero from '../shared/Hero'
+import Card from '../shared/Card'
 import TinyStatus from '../shared/TinyStatus'
 import TinyUser from '../user/TinyUser'
 
@@ -35,19 +36,24 @@ const PostCard = (props) => {
     <View>
       <Hero 
         imageUri={CONSTANTS.ASSET_FOLDERS.POST + '/' + data._id + '/' + data.hero} 
-        title={data.title} 
-        tags={data.tags}
-        topLeft={
-          <View style={global.corner}>
-            <TinyUser user={data.creator} />
-          </View>
-        } 
-        topRight={
-          <View style={global.corner}>
-            <TinyStatus data={data} />
-          </View>
-        } 
         onPress={onPress}
+        card={
+          <Card
+            title={data.title}
+            excerpt={data.excerpt}
+            tags={data.tags}
+            topLeft={
+              <View style={global.corner}>
+                <TinyUser user={data.creator} />
+              </View>
+            } 
+            topRight={
+              <View style={global.corner}>
+                <TinyStatus data={data} />
+              </View>
+            } 
+          />
+        }
       />
     </View>
   )

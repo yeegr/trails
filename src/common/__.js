@@ -24,7 +24,7 @@ AppSettings.paymentMethods = Lang.payments
 let env = require('./env.json'),
   servers = env['development']
 
-AppSettings.baseUri = servers.WEB_SERVER
+AppSettings.baseUri = servers.WEB_SERVER + '#/'
 AppSettings.apiUri = servers.API_SERVER
 AppSettings.assetUri = servers.ASSET_SERVER
 AppSettings.imageUri = servers.IMAGE_SERVER

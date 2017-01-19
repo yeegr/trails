@@ -16,8 +16,8 @@ import {bindActionCreators} from 'redux'
 import * as navbarActions from '../../redux/actions/navbarActions'
 
 import CallToAction from '../shared/CallToAction'
+import Card from '../shared/Card'
 import ImagePath from '../shared/ImagePath'
-import Intro from '../shared/Intro'
 import EventGroup from './EventGroup'
 
 import styles from '../../styles/main'
@@ -64,7 +64,7 @@ class SelectOrderGroup extends Component {
           backgroundSource={{uri: eventBackgroundUrl}}
           windowHeight={Graphics.heroImage.height}
           header={(
-            <Intro
+            <Card
               align={'bottom'}
               title={event.title} 
               excerpt={event.excerpt}

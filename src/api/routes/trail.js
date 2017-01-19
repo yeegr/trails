@@ -68,6 +68,15 @@ module.exports = (app) => {
   app.get('/trails', (req, res, next) => {
     let query = {}
 
+    if (req.query.hasOwnProperty('isPublic') && req.query.isPublic === 'true') {
+      query.isPublic = true
+      query.status = CONST.STATUSES.TRAIL[3]
+    }
+
+    if (req.query.hasOwnProperty('status') && req.query.status !== '') {
+      query.status = req.query.status
+    }
+
     if (req.query.hasOwnProperty('area') && req.query.area !== '') {
       query.areas = {}
       query.areas.$in = [req.query.area]

@@ -12,8 +12,8 @@ import {
 import Icon from '../shared/Icon'
 
 import {
+  LANG,
   UTIL,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -21,7 +21,7 @@ const TrailData = (props) => {
   const stack = 'vertical'
 
   let difficultyLevel = UTIL.showTrailDifficulty(props.difficultyLevel), 
-    difficultyLevelIcon = (difficultyLevel) ? (
+    difficultyLevelTile = (difficultyLevel) ? (
       <Icon
         backgroundColor={Graphics.colors.transparent}
         fillColor={Graphics.colors.primary}
@@ -30,13 +30,13 @@ const TrailData = (props) => {
         showLabel={true}
         stack={stack}
         textColr={Graphics.icon.valueColor}
-        label={Lang.DifficultyLevel}
-        value={difficultyLevel}
+        label={LANG.t('trail.DifficultyLevel')}
+        value={props.difficultyLevel.toFixed(1)}
       />) : null
 
   return (
     <View style={styles.data}>
-      {difficultyLevelIcon}
+      {difficultyLevelTile}
       <Icon
         backgroundColor={Graphics.colors.transparent}
         fillColor={Graphics.colors.primary}
@@ -45,7 +45,7 @@ const TrailData = (props) => {
         showLabel={true}
         stack={stack}
         textColr={Graphics.icon.valueColor}
-        label={Lang.TotalDuration}
+        label={LANG.t('trail.TotalDuration')}
         value={UTIL.formatDuration(props.totalDuration)}
       />
       <Icon
@@ -56,8 +56,8 @@ const TrailData = (props) => {
         showLabel={true}
         stack={stack}
         textColr={Graphics.icon.valueColor}
-        label={Lang.TotalDistance}
-        value={props.totalDistance.toFixed(1) + Lang.Kilometre}
+        label={LANG.t('trail.TotalDistance')}
+        value={LANG.t('number.length.km', {'length': props.totalDistance.toFixed(1)})}
       />
       <Icon
         backgroundColor={Graphics.colors.transparent}
@@ -67,8 +67,8 @@ const TrailData = (props) => {
         showLabel={true}
         stack={stack}
         textColr={Graphics.icon.valueColor}
-        label={Lang.TotalElevation}
-        value={props.totalElevation.toFixed(0) + Lang.Metre}
+        label={LANG.t('trail.TotalElevation')}
+        value={LANG.t('number.length.m', {'length': props.totalElevation.toFixed(0)})}
       />
       <Icon
         backgroundColor={Graphics.colors.transparent}
@@ -77,8 +77,8 @@ const TrailData = (props) => {
         path={Graphics.pictograms.goingUp}
         showLabel={true}
         stack={stack}
-        label={Lang.MaximumAltitude}
-        value={props.maximumAltitude.toFixed(0) + Lang.Metre}
+        label={LANG.t('trail.MaximumAltitude')}
+        value={LANG.t('number.length.m', {'length': props.maximumAltitude.toFixed(0)})}
       />
       <Icon
         backgroundColor={Graphics.colors.transparent}
@@ -88,8 +88,8 @@ const TrailData = (props) => {
         showLabel={true}
         stack={stack}
         textColr={Graphics.icon.valueColor}
-        label={Lang.AverageSpeed}
-        value={props.averageSpeed.toString() + Lang.Kilometre}
+        label={LANG.t('trail.AverageSpeed')}
+        value={LANG.t('number.speed.kmph', {'speed': props.averageSpeed.toString()})}
       />
     </View>
   )

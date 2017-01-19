@@ -4,7 +4,7 @@ import React from 'react'
 import {render} from 'react-dom'
 import {hashHistory, Router} from 'react-router'
 
-import routes from './routes.jsx'
+import routes from './routes'
 
 import './styles/android/index.less'
 import './index.html'

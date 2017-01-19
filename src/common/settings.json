@@ -13,7 +13,7 @@
   "minTrailPathPoints":3,
   "minTrailTitleLength":1,
   "maxNumberOfAreasPerTrail":3,
-  "minEventTitleLength":6,
+  "minEventTitleLength":2,
   "getVerificationTimer":90,
   "mobileNumberLength":11,
   "verificationCodeLength":4,

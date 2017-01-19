@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 
 import Hero from '../shared/Hero'
+import Card from '../shared/Card'
 import TinyStatus from '../shared/TinyStatus'
 import TextView from '../shared/TextView'
 import TinyUser from '../user/TinyUser'
@@ -37,29 +38,33 @@ const EventCard = (props) => {
     <View>
       <Hero
         imageUri={UTIL.getEventHeroPath(data)} 
-        title={data.title}
-        excerpt={data.excerpt}
-        tags={data.tags}
-        topLeft={
-          <View style={global.corner}>
-            <TinyUser user={data.creator} />
-          </View>
-        } 
-        topRight={
-          <View style={global.corner}>
-            <TinyStatus data={data} />
-          </View>
-        } 
-        bottomRight={
-          <View style={global.corner}>
-            <TextView
-              fontSize={'XL'}
-              textColor={Graphics.textColors.overlay}
-              text={'人均' + data.expenses.perHead + Lang.Yuan}
-            />
-          </View>
-        }
         onPress={onPress}
+        card={
+          <Card
+            title={data.title}
+            excerpt={data.excerpt}
+            tags={data.tags}
+            topLeft={
+              <View style={global.corner}>
+                <TinyUser user={data.creator} />
+              </View>
+            } 
+            topRight={
+              <View style={global.corner}>
+                <TinyStatus data={data} />
+              </View>
+            } 
+            bottomRight={
+              <View style={global.corner}>
+                <TextView
+                  fontSize={'XL'}
+                  textColor={Graphics.textColors.overlay}
+                  text={'人均' + data.expenses.perHead + Lang.Yuan}
+                />
+              </View>
+            }
+          />
+        }
       />
     </View>
   )

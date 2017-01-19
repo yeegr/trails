@@ -17,6 +17,10 @@ module.exports = (app) => {
     })
     .populate({
       path: 'trails',
+      match: {
+        isPublic: true,
+        status: CONST.STATUSES.TRAIL[3]
+      },
       options: {
         limit: 3,
         sort: ({'_id': -1})

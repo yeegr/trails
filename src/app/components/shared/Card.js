@@ -16,7 +16,7 @@ import {
   Graphics
 } from '../../settings'
 
-const Intro = (props) => {
+const Card = (props) => {
   let align = (props.align === 'bottom') ? {paddingTop: Graphics.titlebar.height, paddingBottom: 5} : null, 
     excerpt = (props.excerpt) ? (
       <View style={styles.section}>
@@ -51,29 +51,28 @@ const Intro = (props) => {
       <View style={[styles.corner, styles.cornerTopRight]}>
         {props.topRight}
       </View>
-    ) : null,
-    view = (
-      <View style={styles.wrapper}>
-        <View style={[styles.content, align]}>
-          <View style={styles.section}>
-            <TextView
-              fontSize='XXXL'
-              style={{textAlign: 'center'}}
-              textColor={Graphics.textColors.overlay}
-              text={props.title}
-            />
-          </View>
-          {excerpt}
-          {tags}
-        </View>
-        {bottomLeft}
-        {bottomRight}
-        {topLeft}
-        {topRight}
-      </View>
-    )
+    ) : null
 
-  return view
+  return (
+    <View style={styles.wrapper}>
+      <View style={[styles.content, align]}>
+        <View style={styles.section}>
+          <TextView
+            fontSize='XXXL'
+            style={{textAlign: 'center'}}
+            textColor={Graphics.textColors.overlay}
+            text={props.title}
+          />
+        </View>
+        {excerpt}
+        {tags}
+      </View>
+      {bottomLeft}
+      {bottomRight}
+      {topLeft}
+      {topRight}
+    </View>
+  )
 },
 styles = StyleSheet.create({
   wrapper: {
@@ -82,7 +81,7 @@ styles = StyleSheet.create({
     height: Graphics.heroImageHeight,
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   content: {
     alignItems: 'center',
@@ -112,9 +111,13 @@ styles = StyleSheet.create({
   }
 })
 
-Intro.propTypes = {
+Card.propTypes = {
   title: PropTypes.string.isRequired,
   excerpt: PropTypes.string,
-  tags: PropTypes.array
+  tags: PropTypes.array,
+  topLeft: PropTypes.object,
+  topRight: PropTypes.object,
+  bottomLeft: PropTypes.object,
+  bottomRight: PropTypes.object
 }
-export default Intro
+export default Card

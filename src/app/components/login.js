@@ -110,9 +110,11 @@ class Login extends Component {
   WXAuth() {
     if (this.state.isWXAppInstalled) {
       this.props.loginActions.wechatAuthRequest(CONSTANTS.ACCOUNT_ACTIONS.LOGIN)
+      
       WeChat
       .sendAuthRequest('snsapi_userinfo', 'shitulv_login')
       .catch((e) => {console.log(e)})
+      
       this.props.loginActions.wechatAuthWaiting()
     }
   }

@@ -15,6 +15,7 @@ import {
 
 import AvatarList from '../shared/AvatarList'
 import Hero from '../shared/Hero'
+import Card from '../shared/Card'
 import TinyStatus from '../shared/TinyStatus'
 
 import global from '../../styles/global'
@@ -43,20 +44,24 @@ const AreaCard = (props) => {
     <View>
       <Hero
         imageUri={CONSTANTS.ASSET_FOLDERS.AREA + '/' + data._id + '/' + data.hero} 
-        title={LANG.t('cities.byCode.' + data.city) + ' ' + data.name} 
-        excerpt={data.excerpt}
-        tags={tags}
-        topRight={
-          <View style={global.corner}>
-            <TinyStatus data={data} />
-          </View>
-        } 
-        bottomLeft={
-          <View style={global.corner}>
-            <AvatarList users={data.leaders} />
-          </View>
-        } 
         onPress={onPress}
+        card={
+          <Card
+            title={LANG.t('cities.byCode.' + data.city) + ' ' + data.name}
+            excerpt={data.excerpt}
+            tags={tags}
+            topRight={
+              <View style={global.corner}>
+                <TinyStatus data={data} />
+              </View>
+            } 
+            bottomLeft={
+              <View style={global.corner}>
+                <AvatarList users={data.leaders} />
+              </View>
+            }
+          />
+        }
       />
     </View>
   )

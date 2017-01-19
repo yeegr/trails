@@ -1,8 +1,8 @@
 const webpack = require('webpack'),
-  ExtractTextPlugin = require('extract-text-webpack-plugin'),
-  path = require('path'),
   fs = require('fs'),
-  sourcemap = require('source-map-support')
+  path = require('path'),
+  sourcemap = require('source-map-support'),
+  ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 let nodeModules = {}
 
@@ -61,7 +61,7 @@ const commonConfig = {
           exclude: /node_modules/,
           query: {
             cacheDirectory: true,
-            presets: ['react', 'es2016']
+            presets: ['react', 'es2015']
           }
         },
         {

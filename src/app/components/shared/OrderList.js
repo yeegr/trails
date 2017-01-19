@@ -18,7 +18,6 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
-  CONSTANTS,
   LANG,
   UTIL,
   Graphics
@@ -42,19 +41,19 @@ const OrderList = (props) => {
 
   renderRow = (order, sectionId, rowId) => {
     const {event} = order,
-    dates = UTIL.formatDateSpan(order.startDate, order.daySpan),
-    infoStyles = {
-      wrapper: {
-        paddingLeft: 0,
-        paddingVertical: 0
-      }
-    }, 
-    names = [],
-    heroUri = ImagePath({type: 'thumb', path: CONSTANTS.ASSET_FOLDERS.EVENT + '/' + event._id + '/' + event.hero})
+      dates = UTIL.formatDateSpan(order.startDate, order.daySpan),
+      infoStyles = {
+        wrapper: {
+          paddingLeft: 0,
+          paddingVertical: 0
+        }
+      }, 
+      names = [],
+      heroUri = ImagePath({type: 'thumb', path: UTIL.getEventHeroPath(event)})
 
-    order.signUps.map((signUp) => {
-      names.push(signUp.name)
-    })
+      order.signUps.map((signUp) => {
+        names.push(signUp.name)
+      })
 
     return (
       <TouchableOpacity key={rowId} onPress={() => selectOrder(order)}>
@@ -76,9 +75,24 @@ const OrderList = (props) => {
               />
             </View>
             <View>
-              <InfoItem styles={infoStyles} labelWidth={75} label={LANG.t('order.SignUps')} value={names.join('，')} />
-              <InfoItem styles={infoStyles} labelWidth={75} label={LANG.t('order.Total')} value={LANG.l('currency', order.subTotal)} />
-              <InfoItem styles={infoStyles} labelWidth={75} label={LANG.t('order.PayTime')} value={UTIL.getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
+              <InfoItem
+                labelWidth={75}
+                styles={infoStyles}
+                label={LANG.t('order.SignUps')}
+                value={names.join('，')}
+              />
+              <InfoItem
+                labelWidth={75}
+                styles={infoStyles}
+                label={LANG.t('order.Total')}
+                value={LANG.l('currency', order.subTotal)}
+              />
+              <InfoItem
+                labelWidth={75}
+                styles={infoStyles}
+                label={LANG.t('order.PayTime')}
+                value={UTIL.getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')}
+              />
             </View>
           </View>
         </View>
@@ -89,7 +103,7 @@ const OrderList = (props) => {
   return (
     <ListView
       enableEmptySections={true}
-      scrollEnabled={false}
+      scrollEnabled={true}
       dataSource={dataSource.cloneWithRows(props.orders)}
       renderRow={renderRow}
       onEndReached={() => console.log('ended')}

@@ -163,7 +163,7 @@ export const saveEvent = () => {
     const newEvent = getState().newEvent
     newEvent.creator = getState().login.user._id
 
-    if (_validateEvent(newEvent)) {
+    if (validateEvent(newEvent)) {
       if (UTIL.isNullOrUndefined(newEvent._id)) {
         dispatch(createEvent(newEvent))
       } else {
@@ -173,7 +173,7 @@ export const saveEvent = () => {
   }
 }
 
-const _validateEvent = (event) => {
+export const validateEvent = (event) => {
   return (
     (event.isPublic !== null && event.isPublic !== undefined) &&
     (event.title.length >= AppSettings.minEventTitleLength) &&

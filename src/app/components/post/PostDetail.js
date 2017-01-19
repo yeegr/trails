@@ -13,9 +13,9 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as postsActions from '../../redux/actions/postsActions'
 
+import Card from '../shared/Card'
 import Loading from '../shared/Loading'
 import ImagePath from '../shared/ImagePath'
-import Intro from '../shared/Intro'
 import ParallaxView from 'react-native-parallax-view'
 import Toolbar from '../shared/Toolbar'
 import UserLink from '../user/UserLink'
@@ -64,7 +64,7 @@ class PostDetail extends Component {
           backgroundSource={{uri: url}}
           windowHeight={Graphics.heroImage.height}
           header={(
-            <Intro
+            <Card
               align={'bottom'}
               title={post.title}
               tags={post.tags}

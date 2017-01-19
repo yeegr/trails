@@ -29,7 +29,7 @@ class WebViewWrapper extends Component {
 
   render() {
     const {html, url} = this.props,
-    CSS = '<style>' + Graphics.CSS + '</style>'
+      CSS = '<style>' + Graphics.CSS + '</style>'
 
     return (
       <WebView
@@ -38,7 +38,8 @@ class WebViewWrapper extends Component {
         onNavigationStateChange={this.onNavigationStateChange.bind(this, 'docHeight')}
         scrollEnabled={false}
         automaticallyAdjustContentInsets={true}
-        style={[styles.webview, {height: this.state.docHeight + 20}]} />
+        style={[styles.webview, {height: this.state.docHeight + 20}]}
+      />
     )
   }  
 }

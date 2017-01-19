@@ -113,7 +113,8 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
   },
 
   RightButton: function(route, navigator, index, navState) {
-    let rightTitleBar = null
+    let rightTitleBar = null,
+      passProps = UTIL.getPassProps(navigator)
 
     switch (route.id) {
       case 'Home':
@@ -164,8 +165,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
       break
 
       case 'TrailDetail':
-        let passProps = UTIL.getPassProps(navigator),
-          trail = passProps.trail
+        let trail = passProps.trail
 
         if (trail && !passProps.isPreview && passProps.creatorId === this.user._id) {
           rightTitleBar = (
@@ -251,12 +251,14 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
       break
 
       case 'EventDetail':
-        rightTitleBar = (
-          <NavbarButton
-            onPress={() => this.signUp()}
-            label={LANG.t('order.SignupNow')}
-          />
-        )
+        if (!passProps.isPreview) {
+          rightTitleBar = (
+            <NavbarButton
+              onPress={() => this.signUp()}
+              label={LANG.t('order.SignupNow')}
+            />
+          )
+        }
       break
 
       case 'EditUserAvatar':
@@ -851,12 +853,10 @@ class App extends Component {
 
               case 'MyTrails':
                 return (
-                  <ScrollView style={styles.global.main}>
-                    <MyTrails
-                      navigator={navigator}
-                      route={route} {...route.passProps}
-                    />
-                  </ScrollView>
+                  <MyTrails
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
                 )
 
               case 'MyOrders':

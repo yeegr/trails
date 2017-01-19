@@ -70,7 +70,8 @@ styles = StyleSheet.create({
   },
   value: {
     flex: 1,
-    height: 30
+    height: 30,
+    justifyContent: 'center'
   },
   more: {
     marginLeft: 20

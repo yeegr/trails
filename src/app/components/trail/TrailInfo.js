@@ -13,19 +13,21 @@ import Icon from '../shared/Icon'
 import TextView from '../shared/TextView'
 
 import {
+  LANG,
   UTIL,
-  Lang,
   Graphics
 } from '../../settings'
 
 const TrailInfo = (props) => {
+  const title = (props.title.length < 1) ? LANG.t('trail.edit.Unnamed') : props.title
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.icon}>
         <Icon type={props.type.toString()} />
       </View>
       <View style={styles.content}>
-        <TextView fontSize={'L'} text={(props.title.length < 1) ? Lang.Unnamed : props.title} />
+        <TextView fontSize={'L'} text={title} />
         <TextView class={'h5'} text={UTIL.formatTime(props.date)} />
       </View>
     </View>

@@ -11,10 +11,10 @@ RUN npm install -g nodemon
 ENV PORT 3000
 
 # COPY ./dev/api/root.js /usr/app/root.js
-COPY ./assets/Alipay/rsa_private_key.pem /usr/app/rsa_private_key.pem
 COPY ./docker/config/api.package.json /usr/app/package.json
+COPY ./assets/Alipay/rsa_private_key.pem /usr/app/rsa_private_key.pem
 WORKDIR /usr/app
-RUN npm config set registry https://registry.npm.taobao.org
+#RUN npm config set registry https://registry.npm.taobao.org
 RUN npm install
 
 # Internal port
@@ -24,5 +24,5 @@ EXPOSE $PORT
 ENTRYPOINT ["node"]
 CMD ["root.js"]
 
-# docker run -d --net=api-network -p 3000:3000  --name api shitulv/api
+# docker run -d --net=api-network -p 3001:3000 --name api1 shitulv/api1
 # docker network connect web-network api

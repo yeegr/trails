@@ -31,9 +31,8 @@ class OrderSuccess extends Component {
   }
 
   render() {
-    const event = this.props.event,
-    order = this.props.order,
-    dates = UTIL.formatEventGroupLabel(event, order.group)
+    const {event, order, navigator} = this.props,
+      dates = UTIL.formatEventGroupLabel(event, order.group)
 
     return (
       <View style={styles.global.wrapper}>
@@ -77,7 +76,7 @@ class OrderSuccess extends Component {
                             title: Lang.OrderSummary,
                             passProps: {
                               event,
-                              selectedGroup,
+                              selectedGroup: order.group,
                               signUp
                             }
                           })

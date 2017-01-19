@@ -20,8 +20,8 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
-  AppSettings,
-  Lang,
+  LANG,
+  AppSettings
 } from '../../settings'
 
 class EditEventTitle extends Component {
@@ -51,7 +51,7 @@ class EditEventTitle extends Component {
               autoCorrect={false}
               maxLength={50}
               style={styles.editor.textInput}
-              placeholder={Lang.EventTitle}
+              placeholder={LANG.t('event.EventTitle')}
               onChangeText={(value) => this.setState({title: value})}
               value={this.state.title}
             />
@@ -59,7 +59,7 @@ class EditEventTitle extends Component {
           <View style={{paddingHorizontal: 15}}>
             <TextView
               class={'h5'}
-              text={Lang.MinEventTitleLength}
+              text={LANG.t('event.edit.MinEventTitleLength', {min: AppSettings.minEventTitleLength})}
             />
           </View>
         </ScrollView>

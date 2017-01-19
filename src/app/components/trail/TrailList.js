@@ -43,7 +43,6 @@ class TrailList extends Component {
         loading: false,
         dataSource: this.state.dataSource.cloneWithRows(this.props.trails)
       })
-
     } else {
       this.setState({
         loading: this.props.isFetching,
@@ -76,7 +75,7 @@ class TrailList extends Component {
         style={styles.global.wrapper}
         enableEmptySections={true}
         removeClippedSubviews={false}
-        scrollEnabled={false}
+        scrollEnabled={this.props.scrollEnabled || false}
         dataSource={this.dataSource.cloneWithRows(trails)}
         renderRow={this.renderRow.bind(this)}
       />
