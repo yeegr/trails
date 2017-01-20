@@ -36,7 +36,8 @@
     "push": "docker push $npm_package_config_registry/shitulv/mongodb && docker push $npm_package_config_registry/shitulv/static && docker push $npm_package_config_registry/shitulv/api && docker push $npm_package_config_registry/shitulv/web",
     "remove": "docker rmi $npm_package_config_registry/shitulv/mongodb $npm_package_config_registry/shitulv/static $npm_package_config_registry/shitulv/api $npm_package_config_registry/shitulv/web",
     "upload": "npm run create && npm run push && npm run remove",
-    "staging": "APP_ENV=staging DOCKER_REPO=$npm_package_config_registry npm run upload"
+    "staging": "APP_ENV=staging DOCKER_REPO=$npm_package_config_registry npm run upload",
+    "web1": "APP_ENV=staging DOCKER_REPO=$npm_package_config_registry docker-compose -f dc.staging.yml build web1 && docker push $npm_package_config_registry/shitulv/web && docker rmi $npm_package_config_registry/shitulv/web"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",

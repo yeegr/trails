@@ -1,17 +1,17 @@
 @import 'variables'; 
 
 ._appearance {
-    -webkit-appearance: none;
-    -moz-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 ._user-select (@string: none) when (@string = none) {
-    -webkit-user-select: @string;
-    -moz-user-select: @string;
+  -webkit-user-select: @string;
+  -moz-user-select: @string;
 }
 
 ._box-shadow {
-    box-shadow: 0 @unitLength * 2 @halfLength rgba(0, 0, 0, .5);
+  box-shadow: 0 @unitLength * 2 @halfLength rgba(0, 0, 0, .5);
 }
 
 /************/
@@ -24,18 +24,18 @@
  * @string: flex | inline-flex
  */
 ._flex-display (@string: flex) when (@string = flex) {
-    display: -webkit-box;
-    display: -moz-box;
-    display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: flex;
 }
 
 /*
  * @string: flex | inline-flex
  */
 ._flex-display (@string) when (@string = inline-flex) {
-    display: -webkit-inline-box;
-    display: -moz-inline-box;
-    display: inline-flex;
+  display: -webkit-inline-box;
+  display: -moz-inline-box;
+  display: inline-flex;
 }
 
 /*
@@ -43,31 +43,31 @@
  * box:  @string: horizontal | vertical | inline-axis | block-axis | inherit
  */
 ._flex-direction (@string: row) when (@string = row) {
-	-webkit-box-orient: horizontal;
-	-moz-box-orient: horizontal;
-    flex-direction: @string;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  flex-direction: @string;
 }
 
 ._flex-direction (@string) when (@string = row-reverse) {
-	-webkit-box-orient: horizontal;
-    -webkit-box-direction: reverse;
-	-moz-box-orient: horizontal;
-    -moz-box-direction: reverse;
-    flex-direction: @string;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -moz-box-orient: horizontal;
+  -moz-box-direction: reverse;
+  flex-direction: @string;
 }
 
 ._flex-direction (@string) when (@string = column) {
-	-webkit-box-orient: horizontal;
-	-moz-box-orient: horizontal;
-    flex-direction: @string;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  flex-direction: @string;
 }
 
 ._flex-direction (@string) when (@string = column-reverse) {
-	-webkit-box-orient: horizontal;
-    -webkit-box-direction: reverse;
-	-moz-box-orient: horizontal;
-    -moz-box-direction: reverse;
-    flex-direction: @string;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -moz-box-orient: horizontal;
+  -moz-box-direction: reverse;
+  flex-direction: @string;
 }
 
 
@@ -75,15 +75,15 @@
  * @string: nowrap | wrap | wrap-reverse
  */
 ._flex-wrap (@string: wrap) when (@string = wrap) {
-    -webkit-box-lines: multiple;
-    -moz-box-lines: multiple;
-    flex-wrap: @string;
+  -webkit-box-lines: multiple;
+  -moz-box-lines: multiple;
+  flex-wrap: @string;
 }
 
 ._flex-wrap (@string) when (@string = nowrap) {
-    -webkit-box-lines: single;
-    -moz-box-lines: single;
-    flex-wrap: @string;
+  -webkit-box-lines: single;
+  -moz-box-lines: single;
+  flex-wrap: @string;
 }
 
 /*
@@ -91,27 +91,27 @@
  * box:  @string: start | center | end | justify
  */
 ._justify-content (@string: flex-start) when (@string = flex-start) {
-    -webkit-box-pack: start;
-    -moz-box-pack: start;
-    justify-content: @string;
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  justify-content: @string;
 }
 
 ._justify-content (@string) when (@string = flex-end) {
-    -webkit-box-pack: end;
-    -moz-box-pack: end;
-    justify-content: @string;
+  -webkit-box-pack: end;
+  -moz-box-pack: end;
+  justify-content: @string;
 }
 
 ._justify-content (@string) when (@string = space-between) {
-    -webkit-box-pack: justify;
-    -moz-box-pack: justify;
-    justify-content: @string;
+  -webkit-box-pack: justify;
+  -moz-box-pack: justify;
+  justify-content: @string;
 }
 
 ._justify-content (@string) {
-    -webkit-box-pack: @string;
-    -moz-box-pack: @string;
-    justify-content: @string;
+  -webkit-box-pack: @string;
+  -moz-box-pack: @string;
+  justify-content: @string;
 }
 
 /*
@@ -119,21 +119,21 @@
  * box:  @string: start | center | end | baseline | stretch
  */
 ._align-items (@string: flex-start) when (@string = flex-start) {
-    -webkit-box-align: start;
-    -moz-box-align: start;
-    align-items: @string;
+  -webkit-box-align: start;
+  -moz-box-align: start;
+  align-items: @string;
 }
 
 ._align-items (@string) when (@string = flex-end) {
-    -webkit-box-align: end;
-    -moz-box-align: end;
-    align-items: @string;
+  -webkit-box-align: end;
+  -moz-box-align: end;
+  align-items: @string;
 }
 
 ._align-items (@string) {
-    -webkit-box-align: @string;
-    -moz-box-align: @string;
-    align-items: @string;
+  -webkit-box-align: @string;
+  -moz-box-align: @string;
+  align-items: @string;
 }
 
 /*
@@ -141,24 +141,24 @@
  * @string: flex-start | flex-end | center | space-between | space-around | stretch
  */
 ._align-content (@string: flex-start) {
-    align-content: @string;
+  align-content: @string;
 }
 
 /* 
- * @display:    flex | inline-flex
+ * @display:  flex | inline-flex
  * @direction:  row | row-reverse | column | column-reverse
- * @wrap:       nowrap | wrap | wrap-reverse
- * @justify:    flex-start | flex-end | center | space-between | space-around
- * @align:      flex-start | flex-end | center | baseline | stretch
- * @content:    flex-start | flex-end | center | space-between | space-around | stretch
+ * @wrap:     nowrap | wrap | wrap-reverse
+ * @justify:  flex-start | flex-end | center | space-between | space-around
+ * @align:    flex-start | flex-end | center | baseline | stretch
+ * @content:  flex-start | flex-end | center | space-between | space-around | stretch
  */
 ._flex-box (@display: flex; @direction: row; @wrap: nowrap; @justify: flex-start; @align: stretch; @content: stretch) {
-    ._flex-display(@display);
-    ._flex-direction(@direction);
-    ._flex-wrap(@wrap);
-    ._justify-content(@justify);
-    ._align-items(@align);
-    ._align-content(@content);
+  ._flex-display(@display);
+  ._flex-direction(@direction);
+  ._flex-wrap(@wrap);
+  ._justify-content(@justify);
+  ._align-items(@align);
+  ._align-content(@content);
 }
 
 /* item */
@@ -167,57 +167,57 @@
  * @number
  */
 ._order (@number) {
-    -webkit-box-ordinal-group: @number;
-    -moz-box-ordinal-group: @number;
-    order: @number;
+  -webkit-box-ordinal-group: @number;
+  -moz-box-ordinal-group: @number;
+  order: @number;
 }
 
 /* 
- * @grow:    number
+ * @grow:  number
  * @shrink:  number
  * @basis:   length | auto
  * @string: @grow @shrink @basis
  */
 ._flex (@string: none) when (@string = none) {
-    -webkit-box-flex: 0;
-    -moz-box-flex: 0;
-    flex: @string;
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  flex: @string;
 }
 
 ._flex (@num) when (@num > 0) {
-    -webkit-box-flex: @num;
-    -moz-box-flex: @num;
-    flex: @num 1 auto;
+  -webkit-box-flex: @num;
+  -moz-box-flex: @num;
+  flex: @num 1 auto;
 }
 
 /* 
  * @grow: number
  */
 ._flex-grow (@num: 0) {
-    -webkit-box-flex: @num;
-    -moz-box-flex: @num;
-    flex-grow: @num;
+  -webkit-box-flex: @num;
+  -moz-box-flex: @num;
+  flex-grow: @num;
 }
 
 /* 
  * @shink: number
  */
 ._flex-shrink (@num: 1) {
-    flex-shrink: @num;
+  flex-shrink: @num;
 }
 
 /* 
  * @basis: number | auto
  */
 ._flex-basis (@string: auto) {
-    flex-basis: @string;
+  flex-basis: @string;
 }
 
 /*
  * @string: auto | flex-start | flex-end | center | baseline | stretch
  */
 ._align-self (@string: auto) {
-    align-self: @string;
+  align-self: @string;
 }
 
 

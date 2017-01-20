@@ -30,7 +30,7 @@ class TrailMap extends Component {
   }
 
   _mapTrail(mapId, points) {
-    var mapping = Graphics.mapping,
+    let mapping = Graphics.mapping,
       path = this._remapTrailPoints(points),
       map = new AMap.Map(mapId, {
         dragEnable: false,

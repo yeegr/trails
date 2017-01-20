@@ -6,6 +6,7 @@ import {hashHistory, Router} from 'react-router'
 
 import routes from './routes'
 
+import './favicon.ico'
 import './styles/android/index.less'
 import './index.html'
 

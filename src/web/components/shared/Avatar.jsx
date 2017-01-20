@@ -17,12 +17,12 @@ const Avatar = (props) => {
     borderColor = props.borderColor || Graphics.avatar.borderColor,
     borderWidth = props.borderWidth || '0',
     path = (props.user.avatar === AppSettings.defaultUserAvatar) ? 'users/' + AppSettings.defaultUserAvatar : 'users/' + props.user._id + '/' + props.user.avatar, 
-    url = 'url(' + ImagePath({type: 'avatar', path: path}) + ')',
+    backgroundImage = 'url(' + ImagePath({type: 'avatar', path: path}) + ')',
     style = {
       backgroundColor,
       borderColor,
       borderWidth,
-      backgroundImage: url,
+      backgroundImage,
       height: sideLength,
       width: sideLength
     }

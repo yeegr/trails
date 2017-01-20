@@ -13,9 +13,9 @@ const Card = (props) => {
       </p>
     ) : null,
     tags = (props.tags) ? (
-      <p className="tags">
+      <div className="tags">
         <TagList tags={props.tags} />
-      </p>
+      </div>
     ) : null,
     bottomLeft = (props.bottomLeft) ? (
       <corner style="left: 0; bottom: 0;">

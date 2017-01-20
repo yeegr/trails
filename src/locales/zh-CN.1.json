@@ -83,7 +83,8 @@
   },
 
   "area": {
-    "Leaders": "山大王"
+    "Leaders": "山主",
+    "Description": "地区简介"
   },
 
   "trail": {
@@ -101,8 +102,8 @@
     "CurrentAltitude":"当前海拔",
     "MaximumAltitude":"最高海拔",
     "AverageSpeed":"平均时速",
-    "Description": "描述",
-    "Photos": "图片",
+    "Description": "轨迹描述",
+    "Photos": "轨迹图片",
     "record": {
       "LocationAlert": {
         "Okay": "知道了",
@@ -281,6 +282,7 @@
     "comment": "评论",
     "comment_plural": "评论",
     "AllComments": "全部评论",
+    "UserComments": "驴友评论",
     "MoreComments": "更多评论",
     "AverageRating": "驴友评分",
     "AddComment": "添加评论",
@@ -330,6 +332,8 @@
   "prompt": "{{label}}：",
 
   "gallery": {
+    "Photos": "图片",
+    "MorePhotos": "更多图片",
     "edit": {
       "LoadingPhotos": "图片加载中……",
       "NumberOfPhotosSelected": "已选择{{count}}张图片"

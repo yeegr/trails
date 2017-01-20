@@ -167,7 +167,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
       case 'TrailDetail':
         let trail = passProps.trail
 
-        if (trail && !passProps.isPreview && passProps.creatorId === this.user._id) {
+        if (trail && this.user && !passProps.isPreview && passProps.creatorId === this.user._id) {
           rightTitleBar = (
             <NavbarButton
               onPress={() => {

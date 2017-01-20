@@ -16,10 +16,14 @@ import TrailData from './TrailData'
 import TrailMap from './TrailMap'
 import TrailChart from './TrailChart'
 import UserLink from '../user/UserLink'
+import Header from '../shared/Header'
+import GalleryPreview from '../shared/GalleryPreview'
+import CommentPreview from '../shared/CommentPreview'
 
 import {
-  AppSettings,
-  LANG
+  LANG,
+  UTIL,
+  AppSettings
 } from '../../settings'
 
 class TrailDetail extends Component {
@@ -47,7 +51,22 @@ class TrailDetail extends Component {
       )
     }
 
-    const {trail} = this.state
+    const {trail} = this.state,
+      galleryPreview = (trail.photos.length > 0) ? (
+        <GalleryPreview
+          title={LANG.t('trail.Photos')}
+          type={'trails'}
+          id={trail._id}
+          photos={trail.photos}
+        />
+      ) : null,
+      commentPreview = (trail.comments.length > -1) ? (
+        <CommentPreview
+          type={'trails'}
+          id={trail._id}
+          comments={trail.comments}
+        />
+      ) : null
 
     return (
       <detail>
@@ -70,10 +89,12 @@ class TrailDetail extends Component {
             />
           </section>
           <section className="map">
-            <TrailMap
-              id={trail._id}
-              points={trail.points}
-            />
+            <Link>
+              <TrailMap
+                id={trail._id}
+                points={trail.points}
+              />
+            </Link>
           </section>
           <section className="chart">
             <TrailChart
@@ -84,7 +105,14 @@ class TrailDetail extends Component {
             <UserLink user={trail.creator} />
           </section>
           <section>
+            <Header text={LANG.t('trail.Description')} />
+            <div
+              className="html-content"
+              dangerouslySetInnerHTML={UTIL.createMarkup(trail.description)}
+            />
           </section>
+          {galleryPreview}
+          {commentPreview}
         </main>
       </detail>
     )

@@ -79,17 +79,17 @@ Gallery.propTypes = {
 
 
 const {width} = Dimensions.get('window'),
-galleryStyles = StyleSheet.create({
-  grid: {
-    alignItems: 'flex-start',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap'
-  },
-  thumb: {
-    height: width / 3,
-    width: width / 3,
-  },
-})
+  galleryStyles = StyleSheet.create({
+    grid: {
+      alignItems: 'flex-start',
+      flex: 1,
+      flexDirection: 'row',
+      flexWrap: 'wrap'
+    },
+    thumb: {
+      height: width / 3,
+      width: width / 3,
+    },
+  })
 
 export default Gallery

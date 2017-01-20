@@ -46,7 +46,7 @@ const CommentView = (props) => {
         <View style={styles.header}>
           <TextView
             style={{flex: 1}} 
-            class={'h4'} 
+            class={'h4'}
             text={user.handle}
           />
           <TextView 

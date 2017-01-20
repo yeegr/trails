@@ -52,6 +52,10 @@ const commonConfig = {
           loader: 'json-loader'
         },
         {
+          test: /\.ico$/,
+          loader: 'file-loader?name=[name].[ext]'
+        },
+        {
           test: /\.html$/,
           loader: 'file-loader?name=[name].[ext]!extract-loader!html-loader'
         },
