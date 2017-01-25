@@ -67,8 +67,9 @@ class UserInfo extends Component {
       break;
 
       case 'events':
-        id = 'EventManager',
-        title = LANG.t('mine.MyEvents')
+        id = 'MyEvents',
+        title = LANG.t('mine.MyEvents'),
+        query = "?creator=" + user.id
       break;
 
       case 'posts':

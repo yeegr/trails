@@ -68,6 +68,10 @@ module.exports = (app) => {
   app.get('/trails', (req, res, next) => {
     let query = {}
 
+    if (req.query.hasOwnProperty('creator')) {
+      query.creator = req.query.creator
+    }
+
     if (req.query.hasOwnProperty('isPublic') && req.query.isPublic === 'true') {
       query.isPublic = true
       query.status = CONST.STATUSES.TRAIL[3]

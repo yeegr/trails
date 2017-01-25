@@ -68,6 +68,10 @@ module.exports = (app) => {
   app.get('/events', (req, res, next) => {
     let query = {}
 
+    if (req.query.hasOwnProperty('creator')) {
+      query.creator = req.query.creator
+    }
+
     if (req.query.hasOwnProperty('isPublic')) {
       query.isPublic = req.query.isPublic
     }

@@ -67,7 +67,7 @@ import EditUserMobile from './mine/EditUserMobile'
 import EditUserLevel from './mine/EditUserLevel'
 import EditUserName from './mine/EditUserName'
 import EditUserPID from './mine/EditUserPID'
-import EventManager from './mine/EventManager'
+import MyEvents from './mine/MyEvents'
 import SignUpList from './mine/SignUpList'
 
 import MyTrails from './mine/MyTrails'
@@ -833,10 +833,10 @@ class App extends Component {
                   />
                 )
 
-              case 'EventManager':
+              case 'MyEvents':
                 return (
                   <ScrollView style={styles.global.main}>
-                    <EventManager
+                    <MyEvents
                       navigator={navigator}
                       route={route} {...route.passProps}
                     />

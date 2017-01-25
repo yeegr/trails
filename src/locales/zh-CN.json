@@ -167,7 +167,7 @@
   "ExitAlert":"如果您现在退出，新的编辑将消失",
   "EventSubmitted":"提交成功",
   "EventSubmittedDetail":"您的活动已经成功提交，我们将尽快审核，并在24小时内发布。",
-  "JumpToEventManager":"转到《我管理的活动》页查看当前状态。",
+  "JumpToMyEvents":"转到《我管理的活动》页查看当前状态。",
 
   "AddEvent":"添加活动",
   "EditEvent":"编辑活动",

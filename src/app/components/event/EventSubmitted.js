@@ -40,12 +40,12 @@ class EventSubmitted extends Component {
             text={Lang.EventSubmittedDetail}
           />
           <TouchableOpacity onPress={() => this.props.navigator.push({
-            id: 'EventManager',
+            id: 'MyEvents',
             title: Lang.ManageEvents
           })}>
             <TextView
               style={{textAlign: 'center'}}
-              text={Lang.JumpToEventManager}
+              text={Lang.JumpToMyEvents}
             />
           </TouchableOpacity>
         </View>

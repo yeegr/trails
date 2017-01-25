@@ -37,6 +37,8 @@ class EventList extends Component {
   }
 
   componentWillUnmount() {
+    console.log('events unmount')
+    console.log(AppSettings.home.events + this.props.selectedCity)
     this.props.eventsActions.listEvents(AppSettings.home.events + this.props.selectedCity)
   }
 

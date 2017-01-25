@@ -27,7 +27,7 @@ import {
   Graphics
 } from '../../settings'
 
-class EventManager extends Component {
+class MyEvents extends Component {
   constructor(props) {
     super(props)
     this.dataSource = new ListView.DataSource({
@@ -38,7 +38,7 @@ class EventManager extends Component {
   }
 
   componentWillMount() {
-    this.props.eventsActions.listEvents("?creator=" + this.props.user._id)
+    this.props.eventsActions.listEvents(this.props.query)
   }
 
   eventPage(id) {
@@ -117,10 +117,11 @@ class EventManager extends Component {
   }
 }
 
-EventManager.propTypes = {
+MyEvents.propTypes = {
   navigator: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   eventsActions: PropTypes.object.isRequired,
+  query: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
   events: PropTypes.array
 }
 
@@ -137,4 +138,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventManager)
+export default connect(mapStateToProps, mapDispatchToProps)(MyEvents)

@@ -76,7 +76,7 @@ class MyTrails extends Component {
             style={{marginHorizontal: 15, marginBottom: 15}}
           />
         </View>
-        <ScrollView style={{}}>
+        <ScrollView>
           <TrailList
             navigator={navigator}
             trails={trailList}
