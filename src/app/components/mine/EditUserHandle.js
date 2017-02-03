@@ -6,8 +6,6 @@ import React, {
 } from 'react'
 
 import {
-  ScrollView,
-  TextInput,
   View
 } from 'react-native'
 
@@ -15,7 +13,15 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as loginActions from '../../redux/actions/loginActions'
 
+import StringInput from '../shared/StringInput'
+import TextView from '../shared/TextView'
+
 import styles from '../../styles/main'
+
+import {
+  LANG,
+  AppSettings
+} from '../../settings'
 
 class EditUserHandle extends Component {
   constructor(props) {
@@ -29,7 +35,7 @@ class EditUserHandle extends Component {
   componentWillUnmount() {
     let handle = this.state.handle.trim()
 
-    if (handle !== '' && handle !== this.props.user.handle) {
+    if (handle.length >= AppSettings.minUserHandleLength && handle !== this.props.user.handle) {
       this.props.loginActions.updateUser(this.props.user.id, {
         handle
       })
@@ -39,17 +45,23 @@ class EditUserHandle extends Component {
   render() {
     return (
       <View style={styles.global.wrapper}>
-        <ScrollView style={styles.editor.scroll}>
+        <View style={styles.editor.scroll}>
           <View style={styles.editor.group}>
-            <TextInput
-              autoFocus={true}
+            <StringInput
               autoCorrect={false}
-              style={styles.editor.textInput}
-              onChangeText={(handle) => this.setState({handle: handle})}
+              autoFocus={true}
+              placeholder={LANG.t('mine.edit.UserHandle')}
+              onChangeText={(handle) => this.setState({handle})}
               value={this.state.handle}
             />
           </View>
-        </ScrollView>
+          <View style={{paddingHorizontal: 15}}>
+            <TextView
+              class={'h5'}
+              text={LANG.t('mine.edit.MinUserHandleLength', {min: AppSettings.minUserHandleLength})}
+            />
+          </View>
+        </View>
       </View>
     )
   }

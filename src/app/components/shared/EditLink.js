@@ -35,6 +35,15 @@ const EditLink = (props) => {
           type={'checkmark'}
         />
       )
+    } else if (props.value === false) {
+      value = (
+        <Icon 
+          backgroundColor={Graphics.colors.transparent} 
+          fillColor={Graphics.colors.primary} 
+          sideLength={24}
+          type={'close'}
+        />
+      )
     } else if (props.value !== null) {
       value = (
         <TextView

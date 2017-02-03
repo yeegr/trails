@@ -14,8 +14,8 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../redux/actions/eventsActions'
 
-import Loading from '../shared/Loading'
 import EventCard from './EventCard'
+import Loading from '../shared/Loading'
 
 import {
   AppSettings
@@ -37,9 +37,7 @@ class EventList extends Component {
   }
 
   componentWillUnmount() {
-    console.log('events unmount')
-    console.log(AppSettings.home.events + this.props.selectedCity)
-    this.props.eventsActions.listEvents(AppSettings.home.events + this.props.selectedCity)
+    this.props.eventsActions.resetEvents()
   }
 
   fetchData() {
@@ -52,7 +50,11 @@ class EventList extends Component {
 
   renderRow(rowData, sectionId, rowId) {
     return (
-      <EventCard navigator={this.props.navigator} data={rowData} key={rowId} />
+      <EventCard
+        key={rowId}
+        navigator={this.props.navigator}
+        data={rowData}
+      />
     )
   }
 
@@ -91,8 +93,6 @@ EventList.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    selectedCity: state.navbar.selectedCity,
-    selectedTab: state.home.selectedTab,
     events: state.events
   }
 }

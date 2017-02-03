@@ -21,6 +21,7 @@ import {
 class RangeSlider extends Component {
   constructor(props) {
     super(props)
+    this._getRange = this._getRange.bind(this)
 
     this.state = {
       lowerValue: this.props.lowerValue,
@@ -28,7 +29,7 @@ class RangeSlider extends Component {
     }
   }
 
-  getRange() {
+  _getRange() {
     return [
       this.state.lowerValue,
       this.state.upperValue

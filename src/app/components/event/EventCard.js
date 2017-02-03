@@ -17,17 +17,18 @@ import TinyUser from '../user/TinyUser'
 import global from '../../styles/global'
 
 import {
+  LANG,
   UTIL,
-  Lang,
   Graphics
 } from '../../settings'
 
 const EventCard = (props) => {
   const data = props.data,
+    perHead = data.expenses.perHead,
     onPress = () => {
       props.navigator.push({
         id: 'EventDetail',
-        title: Lang.EventDetail,
+        title: LANG.t('event.EventDetail'),
         passProps: {
           id: props.data.id
         }
@@ -59,7 +60,7 @@ const EventCard = (props) => {
                 <TextView
                   fontSize={'XL'}
                   textColor={Graphics.textColors.overlay}
-                  text={'人均' + data.expenses.perHead + Lang.Yuan}
+                  text={(perHead > 0) ? LANG.t('event.PerHead') + LANG.l('currency', perHead) : LANG.t('event.ExpenseFree')}
                 />
               </View>
             }

@@ -12,7 +12,6 @@ import {
 } from 'react-native'
 
 import ImagePath from '../shared/ImagePath'
-import Card from '../shared/Card'
 
 import {
   Graphics
@@ -30,18 +29,22 @@ const Hero = (props) => {
         {props.card}
       </View>
     ),
-    wrapper = (props.onPress) ? (<TouchableOpacity onPress={props.onPress}>{view}</TouchableOpacity>) : view
+    wrapper = (props.onPress) ? (
+      <TouchableOpacity onPress={props.onPress}>
+        {view}
+      </TouchableOpacity>
+    ) : view
 
   return wrapper
 },
 styles = StyleSheet.create({
   wrapper: {
     backgroundColor: Graphics.heroImage.backgroundColor,
-    flex: 1,
     height: Graphics.heroImage.height
   },
   image: {
     bottom: 0,
+    height: Graphics.heroImage.height,
     left: 0,
     opacity: Graphics.heroImage.opacity,
     resizeMode: 'cover',

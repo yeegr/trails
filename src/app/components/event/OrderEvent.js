@@ -12,9 +12,7 @@ import {
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import ParallaxView from 'react-native-parallax-view'
 
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as navbarActions from '../../redux/actions/navbarActions'
 
 import CallToAction from '../shared/CallToAction'
 import Card from '../shared/Card'
@@ -42,7 +40,8 @@ class OrderEvent extends Component {
     this._validateData = this._validateData.bind(this)
     this._nextStep = this._nextStep.bind(this)
 
-    let user = this.props.user
+    let {navigator, user} = this.props
+    navigator.__addSignUp = this._addSignUp.bind(this)
 
     this.state = {
       initPageHeight: 0,
@@ -54,10 +53,6 @@ class OrderEvent extends Component {
         level: user.level || 0
       }]
     }
-  }
-
-  componentWillMount() {
-    this.props.navbarActions.gotToSignUp()
   }
 
   componentDidMount() {
@@ -208,21 +203,20 @@ OrderEvent.propTypes = {
   user: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
   event: PropTypes.object.isRequired,
-  selectedGroup: PropTypes.number,
-  navbar: PropTypes.object.isRequired,
-  navbarActions: PropTypes.object.isRequired,
+  selectedGroup: PropTypes.number
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.login.user,
-    navbar: state.navbar
+    user: state.login.user
   }
 }
 
+/*
 function mapDispatchToProps(dispatch) {
   return {
-    navbarActions: bindActionCreators(navbarActions, dispatch)
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(OrderEvent)
+*/
+
+export default connect(mapStateToProps)(OrderEvent)

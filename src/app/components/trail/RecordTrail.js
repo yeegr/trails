@@ -12,17 +12,16 @@ import {
   View
 } from 'react-native'
 
+import {
+  RNLocation as Location
+} from 'NativeModules'
+
 import MapView from 'react-native-maps'
 import CoordTransform from 'coordtransform'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../redux/actions/newTrailActions'
-import * as navbarActions from '../../redux/actions/navbarActions'
-
-import {
-  RNLocation as Location
-} from 'NativeModules'
 
 import CallToAction from '../shared/CallToAction'
 import Icon from '../shared/Icon'
@@ -41,7 +40,6 @@ class RecordTrail extends Component {
 
     this._unmount = this._unmount.bind(this)
     this._toggleRecording = this._toggleRecording.bind(this)
-    this._closeAlert = this._closeAlert.bind(this)
     this._startCounter = this._startCounter.bind(this)
     this._pauseCounter = this._pauseCounter.bind(this)
     this._validatePoints = this._validatePoints.bind(this)
@@ -50,6 +48,9 @@ class RecordTrail extends Component {
     this._finalizePath = this._finalizePath.bind(this)
     this._saveRecording = this._saveRecording.bind(this)
     this._stopTracking = this._stopTracking.bind(this)
+
+    let {navigator} = this.props
+    navigator.__editTrail = this._editTrail.bind(this)
 
     this.trailTime = 0
     this.pauseTime = 0
@@ -117,9 +118,7 @@ class RecordTrail extends Component {
               //log: JSON.stringify(this._finalizePath())
             })
 
-/*            console.log('record')
-            console.log(tmp)
-            this.props.newTrailActions.storeTrailPoints(tmp)*/
+            //this.props.newTrailActions.storeTrailPoints(tmp)
           } else {
             this.setState({
               currentPosition
@@ -140,32 +139,7 @@ class RecordTrail extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.navbar.nav_to_edit_trail === false && nextProps.navbar.nav_to_edit_trail === true) {
-      let newTrail = nextProps.newTrail
-
-      if (this._validatePoints() === true) {
-        if (newTrail.isRecording === true) {
-          Alert.alert(
-            Lang.IsRecording,
-            '',
-            [
-              {text: Lang.ContinueRecording, onPress: this._closeAlert},
-              {text: Lang.SaveTrail, onPress: () => this._saveRecording(true)}
-            ]
-          )
-        } else {
-          this._saveRecording(true)
-        }
-      } else {
-        Alert.alert(
-          Lang.PathIsTooShort,
-          '',
-          [{text: Lang.Okay, onPress: this._closeAlert}]
-        )
-      }
-    }
-
-    if (this.props.newTrail.navToEdit === false && nextProps.newTrail.navToEdit === true) {
+    if (nextProps.newTrail.isStored) {
       this.props.navigator.replace({
         id: 'EditTrail',
         title: LANG.t('trail.EditTrail'),
@@ -180,12 +154,33 @@ class RecordTrail extends Component {
     this._stopTracking()
   }
 
-  _unmount() {
-    this.props.navigator.pop(0)
+  _editTrail() {
+    let {newTrail} = this.props
+
+    if (this._validatePoints() === true) {
+      if (newTrail.isRecording === true) {
+        Alert.alert(
+          Lang.IsRecording,
+          '',
+          [
+            {text: Lang.ContinueRecording},
+            {text: Lang.SaveTrail, onPress: this._saveRecording}
+          ]
+        )
+      } else {
+        this._saveRecording()
+      }
+    } else {
+      Alert.alert(
+        Lang.PathIsTooShort,
+        '',
+        [{text: Lang.Okay}]
+      )
+    }
   }
 
-  _closeAlert() {
-    this.props.navbarActions.backToRecordTrail()
+  _unmount() {
+    this.props.navigator.popToTop(0)
   }
 
   _validatePoints() {
@@ -387,8 +382,6 @@ class RecordTrail extends Component {
 
 RecordTrail.propTypes = {
   navigator: PropTypes.object.isRequired,
-  navbar: PropTypes.object.isRequired,
-  navbarActions: PropTypes.object.isRequired,
   newTrailActions: PropTypes.object.isRequired,
   newTrail: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
@@ -406,7 +399,6 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, ownProps) {
   return {
-    navbar: state.navbar,
     newTrail: state.newTrail,
     user: state.login.user
   }
@@ -414,7 +406,6 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    navbarActions: bindActionCreators(navbarActions, dispatch),
     newTrailActions: bindActionCreators(newTrailActions, dispatch)
   }
 }

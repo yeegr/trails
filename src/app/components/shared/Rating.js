@@ -20,36 +20,36 @@ import {
 
 const Rating = (props) => {
   const format = (n) => {
-    let m = Math.round(n * 2) / 2 * 10
-    return (m < 10) ? '0' + m.toString() : m.toString()
-  }
+      let m = Math.round(n * 2) / 2 * 10
+      return (m < 10) ? '0' + m.toString() : m.toString()
+    }
 
   let type = props.type || 'default', 
     graphics = Graphics.ratings[type],
     fillColor = props.fillColor || graphics.color,
     value = props.value || 0,
 
-  styles = StyleSheet.create({
-    wrapper: {
-      height: graphics.height,
-      width: graphics.width
-    },
-    layer: {
-      position: 'absolute',
-      height: graphics.height,
-      width: graphics.width
-    },
-    button: {
-      height: graphics.height,
-      width: graphics.height
-    }
-  }),
+    styles = StyleSheet.create({
+      wrapper: {
+        height: graphics.height,
+        width: graphics.width
+      },
+      layer: {
+        position: 'absolute',
+        height: graphics.height,
+        width: graphics.width
+      },
+      button: {
+        height: graphics.height,
+        width: graphics.height
+      }
+    }),
 
-  stars = (
-    <Svg width={graphics.width} height={graphics.height}>
-      <Path scale={graphics.scale} fill={fillColor} d={Graphics.ratings[format(value)]} />
-    </Svg>
-  )
+    stars = (
+      <Svg width={graphics.width} height={graphics.height}>
+        <Path scale={graphics.scale} fill={fillColor} d={Graphics.ratings[format(value)]} />
+      </Svg>
+    )
 
   if (props.onValueChange && props.disabled != false) {
     return (

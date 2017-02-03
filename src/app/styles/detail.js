@@ -6,7 +6,6 @@ import {StyleSheet} from 'react-native'
 export default StyleSheet.create({
   article: {
     backgroundColor: Graphics.colors.background,
-    flex: 1,
     paddingTop: 20
   },
   toolbar: {
@@ -20,23 +19,21 @@ export default StyleSheet.create({
     marginBottom: 30
   },
   content: {
-    flex: 1,
     marginBottom: 15
   },
   grid: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
     paddingLeft: 15,
-    paddingRight: 5
+    paddingRight: 0
   },
   icon: {
     marginBottom: 10,
     marginRight: 10
   },
   list: {
-    flex: 1,
     flexDirection: 'column',
     paddingHorizontal: 15,
   },

@@ -59,6 +59,10 @@ class EditUserMobile extends Component {
     }
   }
 
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
   _onMobileNumberChanged(val) {
     let mobileNumber = val.trim(),
       test = AppSettings.mobileRx.test(mobileNumber)
@@ -178,9 +182,9 @@ class EditUserMobile extends Component {
 
     return (
       <View style={styles.global.wrapper}>
-        <ScrollView style={styles.editor.scroll}>
-          <View style={{alignItems: 'center', flexDirection: 'column', justifyContent: 'center'}}>
-            <View style={{marginVertical: 20}}>
+        <View style={styles.editor.scroll}>
+          <View style={{alignItems: 'center', flexDirection: 'column', justifyContent: 'flex-start'}}>
+            <View style={{marginVertical: 10}}>
               <TextInput
                 autoFocus={true}
                 autoCorrect={false}
@@ -199,9 +203,8 @@ class EditUserMobile extends Component {
               />
             </View>
             {showVerificationView ? verificationView : null}
-            <KeyboardSpacer />
           </View>
-        </ScrollView>
+        </View>
       </View>
     )
   }

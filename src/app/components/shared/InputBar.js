@@ -56,13 +56,13 @@ class InputBar extends Component {
   submit() {
     let tmp = this.state.text.trim()
 
-    if (tmp.length > 0) {
-      switch (this.props.type) {
-        case 'list':
-          this.props.onSubmit(tmp, this.state.index)
-        break
+    switch (this.props.type) {
+      case 'list':
+        this.props.onSubmit(tmp, this.state.index)
+      break
 
-        case 'comment':
+      case 'comment':
+        if (tmp.length > 0) {
           if (this.state.rating < 1) {
             this.setState({showRater: true})
           } else {
@@ -76,8 +76,8 @@ class InputBar extends Component {
               rating: this.state.rating
             })
           }
-        break
-      }
+        }
+      break
     }
   }
 

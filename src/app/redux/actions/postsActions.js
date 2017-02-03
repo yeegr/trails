@@ -49,6 +49,11 @@ export const listPosts = (params) => {
   }
 }
 
+// reset home page post list
+export const resetPosts = () => {
+  listPosts()
+}
+
 // get one post
 const getPostRequest = () => {
   return {

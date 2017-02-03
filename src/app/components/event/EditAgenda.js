@@ -13,7 +13,6 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
-import * as navbarActions from '../../redux/actions/navbarActions'
 
 import EditLink from '../shared/EditLink'
 import ActionPicker from '../shared/ActionPicker'
@@ -21,7 +20,7 @@ import TypePicker from '../shared/TypePicker'
 import DateTimePicker from '../shared/DateTimePicker'
 import DurationPicker from '../shared/DurationPicker'
 import SearchPoi from '../shared/SearchPoi'
-import TrailPicker from './TrailPicker'
+import SelectTrail from './SelectTrail'
 import CallToAction from '../shared/CallToAction'
 
 import styles from '../../styles/main'
@@ -64,7 +63,7 @@ class EditAgenda extends Component {
       showEndTimePicker: false,
       showDurationPicker: false,
       showEndPoiPicker: false,
-      showTrailPicker: false
+      showSelectTrail: false
     }
   }
 
@@ -76,7 +75,7 @@ class EditAgenda extends Component {
       agenda,
       showDayPicker: false,
       showTypePicker: false,
-      showTrailPicker: false
+      showSelectTrail: false
     })
   }
 
@@ -118,7 +117,6 @@ class EditAgenda extends Component {
   }
 
   back() {
-    this.props.navbarActions.agendaSaved()
     this.props.navigator.replacePreviousAndPop({
       id: 'AgendaList',
       title: Lang.DetailSchedule
@@ -150,7 +148,7 @@ class EditAgenda extends Component {
         <View style={styles.editor.group}>
           <EditLink 
             label={Lang.SelectTrail}
-            onPress={() => this.setState({showTrailPicker: true})}
+            onPress={() => this.setState({showSelectTrail: true})}
             value={(agenda.trail && agenda.trail.id) ? agenda.trail.title : ''}
           />
         </View>
@@ -293,10 +291,10 @@ class EditAgenda extends Component {
           interval={15}
           duration={agenda.duration}
         />
-        <TrailPicker
-          showPicker={this.state.showTrailPicker}
+        <SelectTrail
+          showPicker={this.state.showSelectTrail}
           onPress={(value) => this.setKey('trail', value)}
-          onCancel={() => this.setState({showTrailPicker: false})}
+          onCancel={() => this.setState({showSelectTrail: false})}
           selected={(agenda.trail) ? agenda.trail : null}
         />
       </View>
@@ -306,21 +304,18 @@ class EditAgenda extends Component {
 
 EditAgenda.propTypes = {
   navigator: PropTypes.object.isRequired,
-  newEventActions: PropTypes.object.isRequired,
-  navbarActions: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    schedule: state.newEvent.schedule,
-    savingEventAgenda: state.navbar.savingEventAgenda
+    schedule: state.newEvent.schedule
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    newEventActions: bindActionCreators(newEventActions, dispatch),
-    navbarActions: bindActionCreators(navbarActions, dispatch)
+    newEventActions: bindActionCreators(newEventActions, dispatch)
   }
 }
 

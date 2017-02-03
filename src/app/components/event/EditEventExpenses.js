@@ -36,8 +36,8 @@ class EditEventExpenses extends Component {
       deposit: this._ifZero(this.props.deposit),
       insurance: this.props.insurance,
       detail: this.props.detail,
-      include: this.props.include,
-      exclude: this.props.exclude
+      includes: this.props.includes,
+      excludes: this.props.excludes
     }
   }
 
@@ -47,8 +47,8 @@ class EditEventExpenses extends Component {
       deposit: parseInt(this.state.deposit) || 0,
       insurance: this.state.insurance,
       detail: this.state.detail,
-      include: this.state.include,
-      exclude: this.state.exclude
+      includes: this.state.includes,
+      excludes: this.state.excludes
     })
   }
 
@@ -111,7 +111,7 @@ class EditEventExpenses extends Component {
         mainView = (
           <ListEditor
             key={'expInclude'}
-            list={this.state.include}
+            list={this.state.includes}
           />
         )
       break
@@ -120,7 +120,7 @@ class EditEventExpenses extends Component {
         mainView = (
           <ListEditor
             key={'expExclude'}
-            list={this.state.exclude}
+            list={this.state.excludes}
           />
         )
       break
@@ -130,7 +130,7 @@ class EditEventExpenses extends Component {
       <View style={styles.global.wrapper}>
         <View style={styles.editor.scroll}>
           <SegmentedControlIOS
-            values={[Lang.EventExpenses, Lang.ExpensesDetail, Lang.ExpensesInclude, Lang.ExpensesExclude]}
+            values={[Lang.EventExpenses, Lang.ExpensesDetails, Lang.ExpensesInclude, Lang.ExpensesExclude]}
             selectedIndex={this.state.selectedIndex}
             onChange={(event) => {
               this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex})
@@ -153,8 +153,8 @@ EditEventExpenses.propTypes = {
   deposit: PropTypes.number,
   insurance: PropTypes.bool.isRequired,
   detail: PropTypes.array.isRequired,
-  include: PropTypes.array,
-  exclude: PropTypes.array
+  includes: PropTypes.array,
+  excludes: PropTypes.array
 }
 
 function mapStateToProps(state, ownProps) {
@@ -163,8 +163,8 @@ function mapStateToProps(state, ownProps) {
     deposit: state.newEvent.expenses.deposit,
     insurance: state.newEvent.expenses.insurance,
     detail: state.newEvent.expenses.detail,
-    include: state.newEvent.expenses.include,
-    exclude: state.newEvent.expenses.exclude
+    includes: state.newEvent.expenses.includes,
+    excludes: state.newEvent.expenses.excludes
   }
 }
 

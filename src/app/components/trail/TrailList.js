@@ -22,18 +22,16 @@ import styles from '../../styles/main'
 class TrailList extends Component {
   constructor(props) {
     super(props)
+    this._fetch = this._fetch.bind(this)
+
     this.renderRow = this.renderRow.bind(this)
     this.dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 != r2
     })
 
-    let ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 != r2
-    })
-
     this.state = {
       loading: true,
-      dataSource: ds.cloneWithRows([])
+      dataSource: this.dataSource.cloneWithRows([])
     }
   }
 
@@ -49,8 +47,12 @@ class TrailList extends Component {
         dataSource: this.state.dataSource.cloneWithRows(this.props.remoteTrails)
       })
 
-      this.props.trailsActions.listTrails(this.props.query)
+      this._fetch(this.props.query)
     }
+  }
+
+  _fetch(query) {
+    this.props.trailsActions.listTrails(query)
   }
 
   renderRow(rowData, sectionId, rowId) {
@@ -68,6 +70,10 @@ class TrailList extends Component {
 
     if (!trails) {
       return <Loading />
+    }
+
+    if (trails.length === 0) {
+      return null
     }
 
     const list = (
@@ -91,7 +97,8 @@ TrailList.propTypes = {
   query: PropTypes.string,
   trails: PropTypes.array,
   remoteTrails: PropTypes.array,
-  isFetching: PropTypes.bool
+  isFetching: PropTypes.bool,
+  scrollEnabled: PropTypes.bool
 }
 
 function mapStateToProps(state, ownProps) {

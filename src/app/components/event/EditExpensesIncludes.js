@@ -17,35 +17,39 @@ import ListEditor from '../shared/ListEditor'
 
 import styles from '../../styles/main'
 
-class EditEventNotes extends Component {
+class EditExpensesIncludes extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
-      notes: this.props.notes
+      includes: this.props.includes
     }
   }
 
   componentWillUnmount() {
-    this.props.newEventActions.setEventNotes(this.state.notes)
+    this.props.newEventActions.setExpensesIncludes(this.state.includes)
   }
 
   render() {
     return (
-      <View style={styles.editor.scroll}>
-        <ListEditor list={this.state.notes} />
+      <View style={styles.editor.list}>
+        <ListEditor
+          list={this.state.includes}
+        />
       </View>
     )
   }
 }
 
-EditEventNotes.propTypes = {
-  notes: PropTypes.array.isRequired,
-  newEventActions: PropTypes.object.isRequired
+EditExpensesIncludes.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired,
+  includes: PropTypes.array.isRequired,
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    notes: state.newEvent.notes
+    includes: state.newEvent.expenses.includes
   }
 }
 
@@ -55,4 +59,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditEventNotes)
+export default connect(mapStateToProps, mapDispatchToProps)(EditExpensesIncludes)

@@ -25,12 +25,14 @@
   "maxEventAttendees":50,
   "defaultPaymentMethod":"Alipay",
   "defaultCity":"010",
+  "minUserHandleLength":2,
   "maxEventScheduleDays":20,
 
   "payTimeout":900,
 
   "home":{
-    "events":"?isPublic=true&status=public&city="
+    "areas":"?city=",
+    "events":"?isPublic=true&status=editing&city="
   },
 
   "sdks":{

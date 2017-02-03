@@ -6,6 +6,7 @@ const mongoose = require('mongoose'),
   UTIL = require('../util'),
   Log = require('./logging'),
   Photo = require('./photo'),
+  Agenda = require('./agenda'),
   Point = require('./point'),
   User = require('./user'),
   eventSchema = new Schema({
@@ -40,10 +41,6 @@ const mongoose = require('mongoose'),
       required: true,
       trim: true,
       min: 2
-    },
-    type: {
-      type: Number,
-      required: true
     },
     hero: {
       type: String,
@@ -137,10 +134,7 @@ const mongoose = require('mongoose'),
     }],
     maxAttendee: Number,
     minAttendee: Number,
-    schedule: [{
-      type: Schema.Types.Mixed,
-      default: []
-    }],
+    schedule: [Agenda],
     expenses: {
       deposit: {
         type: Number,
@@ -157,8 +151,8 @@ const mongoose = require('mongoose'),
         }
       },
       detail: [String],
-      include: [String],
-      exclude: [String]
+      includes: [String],
+      excludes: [String]
     },
     destination: String,
     gears: {

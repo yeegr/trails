@@ -15,13 +15,14 @@ module.exports = {
     COMMENT: ["Area", "Trail", "Event", "Post"]
   },
   STATUSES: {
-    AREA: ["submitting", "pending", "approved", "rejected", "suspended"],
-    TRAIL: ["private", "submitting", "pending", "approved", "rejected", "suspended"],
-    EVENT: ["private", "submitting", "pending", "approved", "rejected", "public", "suspended"],
+    AREA: ["editing", "pending", "approved", "rejected", "suspended"],
+    TRAIL: ["editing", "pending", "approved", "rejected", "suspended"],
+    EVENT: ["editing", "pending", "approved", "rejected", "updating", "suspended"],
     GROUP: ["accepting", "filled", "due"],
     SIGNUP: ["submitted", "pending", "approved", "rejected"],
     PAYMENT: ["pending", "success", "failed", "canceled", "processing", "duplicated", "network connection error", "unknown"],
-    POST: ["draft", "pending", "approved", "published"],
+    POST: ["editing", "pending", "approved", "published"],
+    PRIVACY: ["private", "public"]
   },
   FILE_PATHS: {
     Area: 'areas',

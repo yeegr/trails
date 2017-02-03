@@ -6,6 +6,7 @@ import React, {
 } from 'react'
 
 import {
+  Alert,
   ScrollView,
   View
 } from 'react-native'
@@ -13,31 +14,26 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
-import {validateEvent} from  '../../redux/actions/newEventActions'
 
-import CityPicker from '../shared/CityPicker'
-import DateTimePicker from '../shared/DateTimePicker'
+import CallToAction from '../shared/CallToAction'
 import EditLink from '../shared/EditLink'
-import SearchPoi from '../shared/SearchPoi'
-import TypePicker from '../shared/TypePicker'
+import Hero from '../shared/Hero'
+import Icon from '../shared/Icon'
 
 import styles from '../../styles/main'
 
 import {
+  LANG,
   UTIL,
   AppSettings,
-  Lang
+  Graphics
 } from '../../settings'
 
 class EditEvent extends Component {
   constructor(props) {
     super(props)
-    this.convertTimeToDatetime = this.convertTimeToDatetime.bind(this)
-    this.showContacts = this.showContacts.bind(this)
-    this.nextPage = this.nextPage.bind(this)
-    this.setCity = this.setCity.bind(this)
-    this.setType = this.setType.bind(this)
-    this.setLocation = this.setLocation.bind(this)
+    this._unmount = this._unmount.bind(this)
+    this._nextPage = this._nextPage.bind(this)
 
     this.state = {
       showCityPicker: false,
@@ -56,113 +52,72 @@ class EditEvent extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.newEvent.isSaved) {
-      this.props.navigator.replace({
-        id: 'EventSubmitted',
-        title: Lang.EventSubmitted,
-        passProps: {
-          event: nextProps.newEvent
-        }
-      })
+      Alert.alert(
+        LANG.t('event.edit.SaveAlert.title'),
+        LANG.t('event.edit.SaveAlert.description'),
+        [{
+          text: LANG.t('event.edit.SaveAlert.confirm'),
+          onPress: this._unmount
+        }]
+      )
     }
   }
 
-  convertTimeToDatetime(minutes) {
-    let today = new Date(),
-      hrs = Math.floor(minutes / 60),
-      min = minutes % 60
-
-    today.setHours(hrs),
-    today.setMinutes(min)
-
-    return today
+  _unmount() {
+    this.props.navigator.popToTop(0)
   }
 
-  showContacts() {
-    let mobileNumbers = []
-
-    this.props.newEvent.contacts.map((contact, index) => {
-      mobileNumbers.push(contact.mobileNumber)
-    })
-
-    return mobileNumbers.join(',')
-  }
-
-  nextPage(type) {
+  _nextPage(type) {
     let id = null,
       title = null,
       props = {}
 
     switch (type) {
+      case 'base':
+        id = 'EditEventBase',
+        title = LANG.t("event.edit.BaseInfo")
+      break
+
       case 'hero':
         id = 'EditEventHero',
-        title = Lang.HeroImage
-      break
-
-      case 'title':
-        id = 'EditEventTitle',
-        title = Lang.EventTitle
-      break
-
-      case 'groups':
-        id = 'EditEventGroups',
-        title = Lang.EventGroups
-      break
-
-      case 'location':
-        id = 'EditEventLocation',
-        title = Lang.GatherLocation
-      break
-
-      case 'contacts':
-        id = 'EditEventContacts',
-        title = Lang.Contacts
-      break
-
-      case 'desc':
-        id = 'EditEventDescription',
-        title = Lang.EventType
-      break
-
-      case 'limits':
-        id = 'EditAttendeeLimits',
-        title = Lang.AttendeeLimits
+        title = LANG.t('event.edit.HeroImage')
       break
 
       case 'agenda':
-        id = 'AgendaList',
-        title = Lang.DetailSchedule
+        id = 'SelectTrail',
+        title = LANG.t('event.edit.SelectTrail')
       break
 
       case 'expenses':
-        id = 'EditEventExpenses',
-        title = Lang.EventExpenses
+        id = 'EditExpenses',
+        title = LANG.t('event.EventExpenses')
       break
 
       case 'gears':
-        id = 'EditEventGears',
-        title = Lang.GearsToBring
+        id = 'EditGears',
+        title = LANG.t('event.GearsToBring')
       break
 
       case 'destination':
         id = 'EditEventDestination',
-        title = Lang.Destination
+        title = LANG.t('event.DestinationDescription')
       break
 
       case 'notes':
         id = 'EditEventNotes',
-        title = Lang.EventNotes
+        title = LANG.t('event.EventNotes')
       break
 
       case 'photos':
         id = 'EditEventGallery',
-        title = Lang.Photos
+        title = LANG.t('event.EventPhotos')
       break
 
       case 'preview':
-        if (validateEvent(this.props.newEvent)) {
+        //if (newEventActions.validateEvent(this.props.newEvent)) {
           id = 'EventDetail',
-          title = Lang.EventDetail
-        }
+          title = LANG.t('event.edit.Preview')
+        //}
       break
     }
 
@@ -184,24 +139,8 @@ class EditEvent extends Component {
     })
   }
 
-  setCity(city) {
-    this.props.newEventActions.setDepartCity(city)
-    this.setState({showCityPicker: false})
-  }
-
-  setType(type) {
-    this.props.newEventActions.setEventType(type)
-    this.setState({showTypePicker: false})
-  }
-
-  setLocation(poi) {
-    this.props.newEventActions.setGatherLocation(poi)
-    this.setState({showGatherLocationPicker: false})
-  }
-
   render() {
     const event = this.props.newEvent
-
 // saved for future
 /*
     const privacy = (
@@ -230,136 +169,67 @@ class EditEvent extends Component {
 
     return (
       <View style={styles.global.wrapper}>
-        <ScrollView style={styles.editor.scroll}>
+        <View style={{height: 240}}>
+          <Hero
+            imageUri={UTIL.getEventHeroPath(event)}
+            onPress={() => this._nextPage('hero')}
+            card={
+              <View style={[styles.editor.ring, {borderColor: Graphics.textColors.overlay, marginTop: 90}]}>
+                <Icon
+                  showLabel={true}
+                  stack="vertical"
+                  path={Graphics.pictograms.ruler}
+                  backgroundColor={Graphics.colors.transparent}
+                  fillColor={Graphics.colors.overlay}
+                  label={LANG.t('event.edit.HeroImage')}
+                  labelColor={Graphics.textColors.overlay}
+                />
+              </View>
+            }
+          />
+        </View>
+        <ScrollView>
           <View style={styles.editor.group}>
             <EditLink
-              label={Lang.EventTitle}
+              label={LANG.t('event.edit.BaseInfo')}
               required={true}
               validated={(event.title.length >= AppSettings.minEventTitleLength)}
-              onPress={() => this.nextPage('title')}
-              value={(event.title.length >= AppSettings.minEventTitleLength) ? event.title : Lang.Unnamed}
+              onPress={() => this._nextPage('base')}
+              value={newEventActions.validateEventBase(event)}
             />
             <EditLink
-              label={Lang.DepartCity}
-              required={true}
-              validated={(event.city !== null)}
-              onPress={() => this.setState({showCityPicker: true})}
-              value={Lang.cities[event.city]}
-            />
-            <EditLink
-              label={Lang.HeroImage}
-              required={true}
-              validated={(event.hero.length > 0 && event.hero !== AppSettings.assetUri)}
-              onPress={() => this.nextPage('hero')}
-              value={(event.hero !== AppSettings.assetUri) ? '' : ''}
-            />
-            <EditLink
-              label={Lang.EventType}
-              required={true}
-              validated={(event.type > -1)}
-              onPress={() => this.setState({showTypePicker: true})}
-              value={Lang.tagArray[event.type]}
-            />
-            <EditLink
-              label={Lang.EventDates}
-              required={true}
-              validated={(event.groups.length > 0)}
-              onPress={() => this.nextPage('groups')}
-              value={event.groups.length.toString()}
-            />
-            <EditLink
-              label={Lang.GatherTime}
-              required={true}
-              validated={(event.gatherTime !== null)}
-              onPress={() => this.setState({showDateTimePicker: true})}
-              value={(event.gatherTime) ? UTIL.formatMinutes(event.gatherTime) : ''}
-            />
-            <EditLink
-              label={Lang.GatherLocation}
-              required={true}
-              validated={(event.gatherLocation.name.length > 0)}
-              onPress={() => this.setState({showGatherLocationPicker: true})}
-              value={event.gatherLocation.name}
-            />
-            <EditLink
-              label={Lang.Contacts}
-              required={true}
-              validated={(event.contacts.length > 0)}
-              onPress={() => this.nextPage('contacts')}
-              value={this.showContacts()}
-            />
-            <EditLink
-              label={Lang.AttendeeLimits}
-              onPress={() => this.nextPage('limits')}
-              value={event.minAttendee.toString() + ' - ' + event.maxAttendee.toString() + Lang.Persons}
-            />
-          </View>
-          <View style={styles.editor.group}>
-            <EditLink
-              label={Lang.DetailSchedule}
-              required={true}
-              validated={(event.schedule.length > 0 && event.schedule[0].length > 0)}
-              onPress={() => this.nextPage('agenda')}
-            />
-          </View>
-          <View style={styles.editor.group}>
-            <EditLink
-              label={Lang.EventExpenses}
+              label={LANG.t('event.EventExpenses')}
               required={true}
               validated={(event.expenses.perHead !== null && event.expenses.perHead > -1)}
-              onPress={() => this.nextPage('expenses')}
-              value={event.expenses.perHead + Lang.Yuan}
-            />
-            <EditLink
-              label={Lang.GearsToBring}
-              onPress={() => this.nextPage('gears')}
-              value={event.gears.images.length.toString()}
+              onPress={() => this._nextPage('expenses')}
+              value={LANG.l('currency', event.expenses.perHead)}
             />
           </View>
           <View style={styles.editor.group}>
             <EditLink
-              label={Lang.Destination}
-              onPress={() => this.nextPage('destination')}
+              label={LANG.t('event.edit.SelectTrail')}
+              onPress={() => this._nextPage('agenda')}
+              value={event.schedule.length || ''}
             />
             <EditLink
-              label={Lang.EventNotes}
-              onPress={() => this.nextPage('notes')}
+              label={LANG.t('event.GearsToBring')}
+              onPress={() => this._nextPage('gears')}
             />
-          </View>
-          <View style={styles.editor.group}>
             <EditLink
-              label={Lang.EventPreview}
-              onPress={() => this.nextPage('preview')}
+              label={LANG.t('event.DestinationDescription')}
+              onPress={() => this._nextPage('destination')}
+            />
+            <EditLink
+              label={LANG.t('event.EventNotes')}
+              onPress={() => this._nextPage('notes')}
             />
           </View>
         </ScrollView>
-        <CityPicker 
-          visible={this.state.showCityPicker}
-          selectedIndex={event.city} 
-          onPress={(value) => this.setCity(value)}
-          onCancel={() => this.setState({showCityPicker: false})}
-        />
-        <TypePicker 
-          visible={this.state.showTypePicker}
-          selectedIndex={event.type} 
-          onPress={(value) => this.setType(value)}
-          onCancel={() => this.setState({showTypePicker: false})}
-        />
-        <DateTimePicker
-          mode={'time'}
-          datetime={event.gatherTime}
-          showPicker={this.state.showDateTimePicker}
-          title={Lang.GatherTime}
-          cancelText={Lang.Cancel} 
-          confirmText={Lang.Confirm}
-          onConfirm={(value) => this.props.newEventActions.setGatherTime(value)}
-          onCancel={() => this.setState({showDateTimePicker: false})}
-        />
-        <SearchPoi
-          showPicker={this.state.showGatherLocationPicker}
-          value={this.state.gatherLocation}
-          onConfirm={(value) => this.setLocation(value)}
-          onCancel={() => this.setState({showGatherLocationPicker: false})}
+        <CallToAction
+          backgroundColor={(newEventActions.validateEvent(this.props.newEvent)) ? Graphics.colors.primary : Graphics.colors.darkGray}
+          //disabled={!newEventActions.validateEvent(this.props.newEvent)}
+          label={LANG.t('event.edit.Preview')}
+          onPress={() => this._nextPage('preview')}
         />
       </View>
     )
@@ -389,8 +259,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(EditEvent)
 
 /*
             <EditLink
-              label={Lang.Photos}
-              onPress={() => this.nextPage('photos')}
+              label={LANG.t('event.EventPhotos')}
+              onPress={() => this._nextPage('photos')}
               value={event.photos.length}
             />
 */

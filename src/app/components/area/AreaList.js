@@ -32,6 +32,10 @@ class AreaList extends Component {
     this.fetchData()
   }
 
+  componentWillUnmount() {
+    this.props.areasActions.resetAreas()
+  }
+
   fetchData() {
     this.props.areasActions.listAreas(this.props.query)
   }

@@ -116,7 +116,7 @@ class EditEventGears extends Component {
 }
 
 EditEventGears.propTypes = {
-  newEventActions: PropTypes.array.isRequired,
+  newEventActions: PropTypes.object.isRequired,
   images: PropTypes.array.isRequired,
   tags: PropTypes.array,
   notes: PropTypes.array

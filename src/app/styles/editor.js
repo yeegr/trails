@@ -1,7 +1,6 @@
 'user strict'
 
 import {
-  AppSettings,
   Graphics
 } from '../settings'
 
@@ -10,7 +9,20 @@ import {StyleSheet} from 'react-native'
 export default StyleSheet.create({
   scroll: {
     flex: 1,
-    paddingTop: 80,
+    paddingTop: Graphics.page.marginTop + 20,
+  },
+  list: {
+    flex: 1,
+    paddingTop: Graphics.page.marginTop,
+  },
+  section: {
+    marginBottom: 20
+  },
+  separator: {
+    backgroundColor: Graphics.colors.midGray,
+    marginBottom: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 5
   },
   group: {
     backgroundColor: '#fff',
@@ -58,16 +70,17 @@ export default StyleSheet.create({
     marginRight: 15,
     alignSelf: 'center',
   },
-  input: {
-    flex: 1
-  },
   textInput: {
     backgroundColor: Graphics.colors.transparent,
     color: Graphics.colors.midGray,
     fontSize: 16,
-    height: 44.5,
+    height: 40,
     paddingHorizontal: 15,
     paddingVertical: 10,
+  },
+  textClear: {
+    paddingHorizontal: 5,
+    paddingVertical: 10
   },
   numberInput: {
     color: Graphics.colors.midGray,
@@ -106,5 +119,15 @@ export default StyleSheet.create({
   numberButtonText: {
     color: Graphics.colors.primary,
     lineHeight: 14
+  },
+
+  ring: {
+    alignSelf: 'center',
+    borderRadius: 50,
+    borderWidth: 3,
+    flexDirection: 'column',
+    height: 100,
+    justifyContent: 'center',
+    width: 100, 
   }
 })

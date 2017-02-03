@@ -67,7 +67,7 @@ class OrderDetail extends Component {
                   </TouchableOpacity>
                 } />
                 <InfoItem label={LANG.t('event.EventDates')} value={dates} />
-                <InfoItem label={LANG.t('event.EventContacts')} value={contacts.join(', ')} />
+                <InfoItem label={LANG.t('event.Contacts')} value={contacts.join(', ')} />
               </View>
             </View>
             <View style={styles.detail.section}>

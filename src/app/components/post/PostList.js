@@ -32,6 +32,10 @@ class PostList extends Component {
     this.fetchData()
   }
 
+  componentWillUnmount() {
+    this.props.postsActions.resetPosts()
+  }
+
   fetchData() {
     this.props.postsActions.listPosts(this.props.query)
   }

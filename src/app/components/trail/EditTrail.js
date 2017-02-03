@@ -16,7 +16,6 @@ import {
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as loginActions from '../../redux/actions/loginActions'
-import * as navbarActions from '../../redux/actions/navbarActions'
 import * as newTrailActions from '../../redux/actions/newTrailActions'
 
 import CallToAction from '../shared/CallToAction'
@@ -27,11 +26,9 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
-  CONSTANTS,
   LANG,
   UTIL,
   AppSettings,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -50,13 +47,18 @@ class EditTrail extends Component {
   }
 
   componentWillMount() {
-    this.props.navbarActions.gotToEditTrail()
     this.props.newTrailActions.editTrail(this.props.trail)
     this._listAreas(AppSettings.defaultCity)
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.newTrail.isSaved === true) {
+      let trail = this.props.newTrail
+
+      if (trail.hasOwnProperty('storeKey')) {
+        this.props.newTrailActions.deleteLocalTrail(trail)
+      }
+
       Alert.alert(
         LANG.t('trail.edit.SaveAlert.title'),
         LANG.t('trail.edit.SaveAlert.description'),
@@ -66,7 +68,7 @@ class EditTrail extends Component {
       )
     }
 
-    if (nextProps.newTrail.isDeleted === true) {
+    if (nextProps.newTrail.isDeleted) {
       this._resetRoutes()
     }
   }
@@ -120,7 +122,7 @@ class EditTrail extends Component {
     switch (type) {
       case 'title':
         id = 'EditTrailTitle',
-        title = LANG.t('trail.edit.TrailTitle')
+        title = LANG.t('trail.TrailTitle')
       break;
 
       case 'area':
@@ -175,8 +177,6 @@ class EditTrail extends Component {
       this.props.newTrailActions.deleteLocalTrail(trail)
     } else if (trail.hasOwnProperty('_id')) {
       this.props.newTrailActions.deleteTrail(trail)
-    } else {
-      this._resetRoutes()
     }
   }
 
@@ -232,7 +232,7 @@ class EditTrail extends Component {
           </View>
           <View style={styles.editor.group}>
             <EditLink
-              label={LANG.t('trail.edit.TrailTitle')}
+              label={LANG.t('trail.TrailTitle')}
               onPress={() => this._nextPage('title')}
               required={true}
               validated={(trail.title.length >= AppSettings.minTrailTitleLength)}
@@ -280,7 +280,7 @@ class EditTrail extends Component {
         </ScrollView>
         <CallToAction
           backgroundColor={Graphics.colors.warning}
-          label={Lang.DeleteTrail} 
+          label={LANG.t('trail.edit.DeleteTrail')} 
           onPress={this._deleteAlert} 
         />
       </View>
@@ -292,8 +292,6 @@ EditTrail.propTypes = {
   navigator: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   loginActions: PropTypes.object.isRequired,
-  navbar: PropTypes.object.isRequired,
-  navbarActions: PropTypes.object.isRequired,
   newTrailActions: PropTypes.object.isRequired,
   newTrail: PropTypes.object.isRequired
 }
@@ -301,7 +299,6 @@ EditTrail.propTypes = {
 function mapStateToProps(state, ownProps) {
   return {
     user: state.login.user,
-    navbar: state.navbar,
     newTrail: state.newTrail
   }
 }
@@ -309,7 +306,6 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     loginActions: bindActionCreators(loginActions, dispatch),
-    navbarActions: bindActionCreators(navbarActions, dispatch),
     newTrailActions: bindActionCreators(newTrailActions, dispatch)
   }
 }

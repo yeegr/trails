@@ -10,7 +10,7 @@ import {
   View
 } from 'react-native'
 
-import Moment from 'moment'
+import moment from 'moment'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
@@ -27,7 +27,7 @@ import {
   Graphics
 } from '../../settings'
 
-class EditEventGroups extends Component {
+class EditEventDates extends Component {
   constructor(props) {
     super(props)
     this.getDate = this.getDate.bind(this)
@@ -76,7 +76,7 @@ class EditEventGroups extends Component {
   }
 
   render() {
-    let minimumDate = Moment(new Date()).add(1, 'days').toDate()
+    let minimumDate = moment(new Date()).add(1, 'days').toDate()
 
     return (
       <View style={styles.global.wrapper}>
@@ -88,7 +88,7 @@ class EditEventGroups extends Component {
                   <EditLink
                     key={index}
                     label={Lang.SelectDate}
-                    value={Moment(group.startDate).format('LL')}
+                    value={moment(group.startDate).format('LL')}
                     onPress={() => this.setState({showDateTimePicker: true, currentGroupIndex: index})}
                   />
                 )
@@ -116,7 +116,7 @@ class EditEventGroups extends Component {
   }
 }
 
-EditEventGroups.propTypes = {
+EditEventDates.propTypes = {
   navigator: PropTypes.object.isRequired,
   groups: PropTypes.array.isRequired,
   newEventActions: PropTypes.object.isRequired
@@ -134,4 +134,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditEventGroups)
+export default connect(mapStateToProps, mapDispatchToProps)(EditEventDates)

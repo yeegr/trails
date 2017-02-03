@@ -7,7 +7,6 @@ import React, {
 
 import {
   ListView,
-  Modal,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -15,6 +14,7 @@ import {
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as trailsActions from '../../redux/actions/trailsActions'
+import * as newEventActions from '../../redux/actions/newEventActions'
 
 import Icon from '../shared/Icon'
 import Loading from '../shared/Loading'
@@ -23,44 +23,78 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
+  LANG,
   UTIL,
-  Graphics,
-  Lang
+  AppSettings,
+  Graphics
 } from '../../settings'
 
-class TrailPicker extends Component {
+class SelectTrail extends Component {
   constructor(props) {
     super(props)
-    this.onPress = this.onPress.bind(this)
+    this._fetch = this._fetch.bind(this)
+    this._select = this._select.bind(this)
+    this._remove = this._remove.bind(this)
+    this._toggle = this._toggle.bind(this)
+
     this.renderRow = this.renderRow.bind(this)
     this.dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 != r2
     })
 
     this.state = {
-      loading: false,
+      selected: this.props.schedule,
+      loading: true,
       dataSource: this.dataSource.cloneWithRows([])
     }
   }
 
   componentWillMount() {
-    this.props.trailsActions.listTrails("?creator=" + this.props.user.id)
+    this._fetch()
   }
 
   componentDidMount() {
     this.setState({
-      loading: true,
+      loading: false,
       dataSource: this.state.dataSource.cloneWithRows(this.props.trails)
     })
   }
 
-  onPress(trail) {
-    this.props.onPress(trail)
-    this.props.onCancel()
+  componentWillUnmount() {
+    this.props.newEventActions.setEventSchedule(this.state.selected)
+  }
+
+  _fetch() {
+    const query = "?isPublic=true&status=approved&city=" + AppSettings.currentCity
+    this.props.trailsActions.listTrails(query)
+  }
+
+  _select(value) {
+    let selected = this.state.selected.splice(0)
+
+    if (selected.indexOf(value) < 0) {
+      selected.push(value)
+    }
+
+    this.setState({selected})
+  }
+
+  _remove(value) {
+    let selected = this.state.selected.splice(0)
+
+    if (selected.indexOf(value) > -1) {
+      selected.splice(selected.indexOf(value), 1)
+    }
+
+    this.setState({selected})
+  }
+
+  _toggle(value) {
+    (this.state.selected.indexOf(value) > -1) ? this._remove(value) : this._select(value)
   }
 
   renderRow(rowData, sectionId, rowId) {
-    let icon = (this.props.selected && this.props.selected._id === rowData.id) ? (
+    const icon = (this.state.selected.indexOf(rowData._id) > -1) ? (
       <Icon
         backgroundColor={Graphics.colors.transparent}
         fillColor={Graphics.colors.primary}
@@ -70,7 +104,7 @@ class TrailPicker extends Component {
     ) : null
 
     return (
-      <TouchableOpacity onPress={() => this.onPress(rowData)}>
+      <TouchableOpacity onPress={() => this._toggle(rowData._id)}>
         <View style={[styles.editor.link, {alignItems: 'flex-start'}]}>
           <View style={{height: Graphics.icon.sideLength, justifyContent: 'center'}}>
             <Icon type={rowData.type.toString()} />
@@ -82,17 +116,17 @@ class TrailPicker extends Component {
               <TextView
                 class={'h6'}
                 style={{marginRight: 10}}
-                text={Lang.DifficultyLevel.substring(0,2) + ': ' + rowData.difficultyLevel}
+                text={LANG.t('trail.DifficultyLevel') + ': ' + rowData.difficultyLevel.toFixed(1)}
               />
               <TextView
                 class={'h6'}
                 style={{marginRight: 10}}
-                text={Lang.TotalDuration.substring(0,2) + ': ' + UTIL.formatDuration(rowData.totalDuration)}
+                text={LANG.t('trail.TotalDuration') + ': ' + UTIL.formatDuration(rowData.totalDuration)}
               />
               <TextView
                 class={'h6'}
                 style={{marginRight: 10}}
-                text={Lang.TotalDistance.substring(2) + ': ' + rowData.totalDistance.toFixed(1) + Lang.Kilometre}
+                text={LANG.t('trail.TotalDistance') + ': ' + LANG.t('number.length.km', {'length': rowData.totalDistance.toFixed(1)})}
               />
             </View>
           </View>
@@ -111,58 +145,47 @@ class TrailPicker extends Component {
       return <Loading />
     }
 
+    if (trails.length === 0) {
+      return null
+    }
+
     return (
-      <Modal animationType={'slide'} transparent={false} visible={this.props.showPicker}>
-        <View style={styles.modal.wrapper}>
-          <TextView
-            style={{marginBottom: 20, marginTop: 30, textAlign: 'center'}}
-            fontSize={'XL'}
-            text={Lang.SelectTrail}
-          />
-          <ListView
-            style={{flex: 1}}
-            enableEmptySections={true}
-            scrollEnabled={true}
-            dataSource={this.dataSource.cloneWithRows(trails)}
-            renderRow={this.renderRow.bind(this)}
-          />
-          <TouchableOpacity onPress={this.props.onCancel} style={styles.modal.close}>
-            <Icon 
-              backgroundColor={Graphics.colors.transparent}
-              fillColor={'rgba(0, 0, 0, 0.5)'}
-              type={'close'}
-            />
-          </TouchableOpacity>
-        </View>
-      </Modal>
+      <View style={styles.global.main}>
+        <ListView
+          style={{flex: 1}}
+          enableEmptySections={true}
+          scrollEnabled={true}
+          dataSource={this.dataSource.cloneWithRows(trails)}
+          renderRow={this.renderRow.bind(this)}
+        />
+      </View>
     )
   }
 }
 
-TrailPicker.propTypes = {
-  user: PropTypes.object.isRequired,
-  trails: PropTypes.array.isRequired,
-  selected: PropTypes.object,
+SelectTrail.propTypes = {
+  navigator: PropTypes.object.isRequired,
   trailsActions: PropTypes.object.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  onPress: PropTypes.func,
-  onCancel: PropTypes.func,
-  showPicker: PropTypes.bool.isRequired
+  newEventActions: PropTypes.object.isRequired,
+  schedule: PropTypes.array.isRequired,
+  user: PropTypes.object.isRequired,
+  trails: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
+    schedule: state.newEvent.schedule,
     user: state.login.user,
     trails: state.trails.list,
-    isFetching: state.trails.isFetching
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    trailsActions: bindActionCreators(trailsActions, dispatch)
+    trailsActions: bindActionCreators(trailsActions, dispatch),
+    newEventActions: bindActionCreators(newEventActions, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TrailPicker)
+export default connect(mapStateToProps, mapDispatchToProps)(SelectTrail)
 

@@ -24,8 +24,9 @@ import {
 class ListEditor extends Component {
   constructor(props) {
     super(props)
-    this.sendToEdit = this.sendToEdit.bind(this)
-    this.saveText = this.saveText.bind(this)
+    this._sendToEdit = this._sendToEdit.bind(this)
+    this._setListItem = this._setListItem.bind(this)
+
     this.renderRow = this.renderRow.bind(this)
     this.dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 != r2
@@ -33,42 +34,51 @@ class ListEditor extends Component {
 
     this.state = {
       list: this.props.list || [],
-      listRenderData: this.dataSource.cloneWithRows(this.props.list || []),
+      dataSource: this.dataSource,
       selectedText: '',
       selectedIndex: -1
     }
   }
 
-  renderRow(rowData, sectionId, rowId, highlightRow) {
-    const rowText = rowData.toString()
+  componentDidMount() {
+    this.setState({
+      dataSource: this.dataSource.cloneWithRows(this.props.list || []),
+    })
+  }
+
+  renderRow(rowData, sectionId, rowId) {
+    const rowText = rowData.toString(),
+      rowIndex = parseInt(rowId)
 
     return (
-      <TouchableOpacity key={rowId} onPress={() => {
-        this.sendToEdit(rowText, rowId)
-        highlightRow(sectionId, rowId)
-      }}>
-        <View style={[styles.row, (rowId === this.state.selectedIndex) ? styles.highlight : null]}>
+      <TouchableOpacity key={rowId} onPress={() => {this._sendToEdit(rowText, rowIndex)}}>
+        <View style={[styles.row, (rowIndex === this.state.selectedIndex) ? styles.highlight : null]}>
           <TextView text={rowText} />
         </View>
       </TouchableOpacity>
     )
   }
   
-  sendToEdit(text, index) {
+  _sendToEdit(selectedText, selectedIndex) {
     this.setState({
-      selectedText: text,
-      selectedIndex: parseInt(index)
+      selectedText,
+      selectedIndex
     })
   }
 
-  saveText(text, index) {
-    (index < 0) ? this.state.list.push(text) : (
-      (text.length > 0) ? this.state.list.splice(index, 1, text) : this.state.list.splice(index, 1)
-    )
+  _setListItem(text, index) {
+    let list = this.state.list
+
+    if (index < 0) {
+      list.push(text)
+      this.refs.list.scrollTo()
+    } else {
+      (text.length > 0) ? list.splice(index, 1, text) : list.splice(index, 1)
+    }
 
     this.setState({
       selectedText: text,
-      listRenderData: this.dataSource.cloneWithRows(this.state.list),
+      dataSource: this.dataSource.cloneWithRows(list)
     })
   }
   
@@ -76,17 +86,19 @@ class ListEditor extends Component {
     return (
       <View style={{flex: 1}}>
         <ListView
+          ref="list"
           enableEmptySections={true}
           scrollEnabled={true}
-          style={{flex: 1}}
-          dataSource={this.state.listRenderData}
+          keyboardDismissMode={'on-drag'}
+          keyboardShouldPersistTaps={true}
+          dataSource={this.state.dataSource}
           renderRow={this.renderRow}
         />
         <InputBar
           type={'list'}
           index={this.state.selectedIndex}
           text={this.state.selectedText}
-          onSubmit={(text, index) => this.saveText(text, index)}
+          onSubmit={(text, index) => this._setListItem(text, index)}
         />
         <KeyboardSpacer />
       </View>
@@ -115,7 +127,7 @@ const styles = StyleSheet.create({
     padding: 15
   },
   highlight: {
-    backgroundColor: '#fcc',
+    backgroundColor: Graphics.colors.highlight,
   }
 })
 

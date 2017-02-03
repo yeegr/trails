@@ -45,13 +45,13 @@ class SearchTrails extends Component {
   search() {
     let keywords = 'keywords=' + this.state.keywords,
       types = '&types=' + this.state.types,
-      difficultyRange = this.refs.difficultyRange.getRange(),
-      distanceRange = this.refs.distanceRange.getRange(),
+      difficultyRange = this.refs.difficultyRange._getRange(),
+      distanceRange = this.refs.distanceRange._getRange(),
       minDifficultyLevel = '&minDifficulty=' + difficultyRange[0].toString(),
       maxDifficultyLevel = '&maxDifficulty=' + difficultyRange[1].toString(),
       minDistance = '&minDistance=' + distanceRange[0].toString(),
       maxDistance = '&maxDistance=' + distanceRange[1].toString(),
-      //ratingRange = this.refs.ratingRange.getRange(),
+      //ratingRange = this.refs.ratingRange._getRange(),
       //minRating = '&minRating=' + ratingRange[0].toString(),
       //maxRating = '&maxRating=' + ratingRange[1].toString(),
       query = '?' + keywords + types + minDifficultyLevel + maxDifficultyLevel + minDistance + maxDistance// + minRating + maxRating

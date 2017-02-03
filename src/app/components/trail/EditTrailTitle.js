@@ -6,8 +6,6 @@ import React, {
 } from 'react'
 
 import {
-  ScrollView,
-  TextInput,
   View
 } from 'react-native'
 
@@ -15,6 +13,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newTrailActions from '../../redux/actions/newTrailActions'
 
+import StringInput from '../shared/StringInput'
 import TextView from '../shared/TextView'
 
 import styles from '../../styles/main'
@@ -34,21 +33,20 @@ class EditTrailTitle extends Component {
   }
 
   componentWillUnmount() {
-    let title = this.state.title.trim() 
-    this.props.newTrailActions.setTrailTitle(title)
+    let title = this.state.title.trim()
+
+    if (title.length >= AppSettings.minTrailTitleLength) {
+      this.props.newTrailActions.setTrailTitle(title)
+    }
   }
 
   render() {
     return (
       <View style={styles.global.wrapper}>
-        <ScrollView style={styles.editor.scroll}>
-          <View style={[styles.editor.group, styles.editor.input]}>
-            <TextInput
-              autoFocus={true}
-              autoCorrect={false}
-              maxLength={50}
-              style={styles.editor.textInput}
-              placeholder={LANG.t('trail.edit.TrailTitle')}
+        <View style={styles.editor.scroll}>
+          <View style={styles.editor.group}>
+            <StringInput
+              placeholder={LANG.t('trail.TrailTitle')}
               onChangeText={(value) => this.setState({title: value})}
               value={this.state.title}
             />
@@ -59,7 +57,7 @@ class EditTrailTitle extends Component {
               text={LANG.t('trail.edit.MinTrailTitleLength', {min: AppSettings.minTrailTitleLength})}
             />
           </View>
-        </ScrollView>
+        </View>
       </View>
     )
   }

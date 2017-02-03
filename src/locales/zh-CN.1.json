@@ -6,7 +6,10 @@
     "Save": "保存",
     "Detail": "详情",
     "NextStep": "下一步",
-    "Or": "或者"
+    "Or": "或者",
+    "Cancel": "取消",
+    "Confirm": "确定",
+    "Okay": "知道啦"
   },
 
   "genders": {
@@ -17,7 +20,8 @@
   "number": {
     "currency": {
       "format": {
-        "unit": "¥"
+        "unit": "¥",
+        "postfix": "元"
       }
     },
     "length": {
@@ -94,6 +98,7 @@
     "trail_plural": "轨迹",
     "numberOfTrail": "{{count}}条轨迹",
     "numberOfTrail_plural": "{{count}}条轨迹",
+    "TrailTitle": "轨迹名称",
     "EditTrail": "编辑轨迹",
     "DifficultyLevel": "难度系数",
     "TotalDuration":"全程历时",
@@ -116,7 +121,6 @@
       "Public": "公开",
       "Private": "不公开",
       "ReviewStatus": "审核状态",
-      "TrailTitle": "轨迹名称",
       "Unnamed": "尚未命名",
       "SelectAreas": "选择地区",
       "TrailType": "轨迹类型",
@@ -153,24 +157,63 @@
     "event_plural": "活动",
     "EventDetail": "活动详情",
     "EventInfo": "活动信息",
-    "EventTitle": "活动名称",
+    "EventTitle": "活动标题",
+    "DepartCity": "出发城市",
+    "Destinations": "目的地",
     "EventDates": "活动日期",
-    "EventContacts": "联系人",
-    "PerHead": "人均费用",
+    "EventGroups": "共{{count}批次",
+    "GatherLocation": "集合地点",
+    "GatherTime": "集合时间",
+    "Contacts": "联系人",
+    "AttendeeLimits": "组队人数",
+    "Attendees": "{{min}}-{{max}}人",
+    "PerHead": "人均",
+    "FeePerHead": "人均费用",
     "dayCount": "第{{count}}天",
+    "EventTrails": "活动轨迹",
+    "EventExpenses": "活动费用",
+    "ExpenseFree": "免费",
+    "ExpensesDetails": "费用说明",
+    "ExpensesIncludes": "费用包含",
+    "ExpensesExcludes": "费用不含",
+    "GearsToBring":"出行装备",
+    "OtherGears":"其他装备",
+    "GearNotes":"装备说明",
+    "EventPhotos": "活动图库",
+    "DestinationDescription": "景点描述",
+    "EventNotes": "活动说明",
     "numberOfPeopleAlreadySignedUp": "已有{{count}}人报名",
     "edit": {
-      "HeroImage":"互动封面",
-      "MinEventTitleLength": "活动名称不能少于{{min}}个字符",
+      "BaseInfo": "基础信息",
+      "Untitled": "尚未命名",
+      "HeroImage":"活动封面",
+      "MinEventTitleLength": "活动标题不能少于{{min}}个字符",
+      "SelectTrail": "选择活动轨迹",
       "SelectAgendaType": "选择日程类型",
+      "PerHead": "人均费用",
+      "IncludeInsurance": "购买保险",
+      "SelectGears": "选择装备",
+      "SelectedGears": "已选择装备",
+      "RemainingGears": "未选择装备",
       "BackAlert": {
         "title": "真的吗，亲？",
         "description": "现在退出，你所有的修改就都复原啦！",
         "cancel": "继续编辑",
         "confirm": "确定放弃"
       },
-      "SelectedGears":"已选择装备",
-      "UnselectedGears":"未选择装备"
+      "SaveAlert": {
+        "title": "保存成功！",
+        "description": "你的活动已成功保存，可随时提交审核",
+        "confirm": "知道了"
+      },
+      "SubmitAlert": {
+        "title": "成功！",
+        "description": "你的活动已成功保存，可随时提交审核",
+        "confirm": "知道了"
+      },
+      "Preview": "活动预览",
+      "Publish": "发布",
+      "SubmitForReview":"提交审核"
     },
     "search": {
       "SearchEvent": "搜索活动", 
@@ -183,6 +226,7 @@
     "order_plural": "订单",
     "SelectGroup": "选择批次",
     "SignupNow": "即刻报名",
+    "SelectOrderGroup": "选择活动批次",
     "SignUp": "报名",
     "AddSignUp": "添加报名",
     "SignUps": "报名人",
@@ -255,6 +299,8 @@
       "EditUserAvatar": "修改头像",
       "SelectPhoto": "选择图片",
       "EditUserHandle": "修改昵称",
+      "UserHandle": "用户昵称",
+      "MinUserHandleLength": "用户昵称不能少于{{min}}个字符",
       "ChangeUserMobile": "修改手机号码",
       "VerificationCode": "短信验证码",
       "SubmitVerification": "提交验证码",

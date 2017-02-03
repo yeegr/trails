@@ -22,10 +22,9 @@ const initState = {
   isSaved: false,
 
   isPublic: true,
-  status: 'public',
+  status: 'editing',
   title: '',
   city: AppSettings.defaultCity,
-  type: 0,
   hero: AppSettings.defaultEventHeroUri,
   description: '',
   excerpt: '',
@@ -41,14 +40,14 @@ const initState = {
   contacts: [],
   minAttendee: AppSettings.minEventAttendees,
   maxAttendee: AppSettings.maxEventAttendees,
-  schedule: [[]],
+  schedule: [],
   expenses: {
     perHead: 0,
     deposit: 0,
     insurance: true,
     detail: Defaults.Event.Expenses.Detail,
-    include: Defaults.Event.Expenses.Includes,
-    exclude: Defaults.Event.Expenses.Excludes
+    includes: Defaults.Event.Expenses.Includes,
+    excludes: Defaults.Event.Expenses.Excludes
   },
   destination: '',
   gears: {
@@ -62,12 +61,6 @@ const initState = {
 },
 
 newEventReducer = (state = initState, action) => {
-  let schedule = state.schedule,
-    days = action.days,
-    day = schedule[action.day],
-    agenda = action.agenda,
-    index = action.index
-
   switch (action.type) {
     case ACTIONS.NEW_EVENT:
       return initState
@@ -93,11 +86,6 @@ newEventReducer = (state = initState, action) => {
     case ACTIONS.SET_DEPART_CITY:
       return Object.assign({}, state, {
         city: action.city
-      })
-
-    case ACTIONS.SET_EVENT_TYPE:
-      return Object.assign({}, state, {
-        type: action.eventType
       })
 
     case ACTIONS.SET_EVENT_GROUPS:
@@ -126,65 +114,72 @@ newEventReducer = (state = initState, action) => {
         maxAttendee: action.maxValue
       })
 
-    case ACTIONS.SET_EVENT_SCHEDULE_DAYS:
-      if (days > schedule.length) {
-        for (let i = schedule.length; i < days; i++) {
-          schedule.push([])
-        }
-      } else if (days < schedule.length) {
-        schedule.splice(days - 1, schedule.length - days)
-      }
-
+    case ACTIONS.SET_EVENT_SCHEDULE:
       return Object.assign({}, state, {
-        schedule
+        schedule: action.schedule
       })
 
-    case ACTIONS.EDIT_EVENT_SCHEDULE:
+    case ACTIONS.SET_EXPENSES_PERHEAD:
       return Object.assign({}, state, {
-        isEditing: true
+        expenses: Object.assign({}, state.expenses, {
+          perHead: action.perHead
+        })
       })
 
-    case ACTIONS.SET_EVENT_AGENDA:
-      if (index > -1) {
-        day.splice(index, 1)
-      }
-
-      if (day.length < 1) {
-        day.push(agenda)
-      } else {
-        for (let i = 0, j = day.length; i < j; i++) {
-          if (agenda.startTime >= day[i].startTime) {
-            index = i + 1
-            break
-          }
-        }
-
-        day.splice(index, 0, agenda)
-      }
-
+    case ACTIONS.SET_EXPENSES_DEPOSIT:
       return Object.assign({}, state, {
-        isEditing: false,
-        schedule
+        expenses: Object.assign({}, state.expenses, {
+          deposit: action.deposit
+        })
       })
 
-    case ACTIONS.DELETE_EVENT_AGENDA:
-      if (index > -1) {
-        day.splice(index, 1)
-      }
-
+    case ACTIONS.SET_EVENT_INSURANCE:
       return Object.assign({}, state, {
-        isEditing: false,
-        schedule
+        expenses: Object.assign({}, state.expenses, {
+          insurance: action.insurance
+        })
       })
 
-    case ACTIONS.SET_EVENT_EXPENSES:
+    case ACTIONS.SET_EXPENSE_DETAIL:
       return Object.assign({}, state, {
-        expenses: action.expenses
+        expenses: Object.assign({}, state.expenses, {
+          detail: action.detail
+        })
       })
 
-    case ACTIONS.SET_EVENT_GEARS:
+    case ACTIONS.SET_EXPENSE_INCLUDES:
       return Object.assign({}, state, {
-        gears: action.gears
+        expenses: Object.assign({}, state.expenses, {
+          includes: action.includes
+        })
+      })
+
+    case ACTIONS.SET_EXPENSE_EXCLUDES:
+      return Object.assign({}, state, {
+        expenses: Object.assign({}, state.expenses, {
+          excludes: action.excludes
+        })
+      })
+
+    case ACTIONS.SET_GEAR_IMAGES:
+      return Object.assign({}, state, {
+        gears: Object.assign({}, state.gears, {
+          images: action.images
+        })
+      })
+
+    case ACTIONS.SET_GEAR_TAGS:
+      return Object.assign({}, state, {
+        gears: Object.assign({}, state.gears, {
+          tags: action.tags
+        })
+      })
+
+    case ACTIONS.SET_GEAR_NOTES:
+      return Object.assign({}, state, {
+        gears: Object.assign({}, state.gears, {
+          notes: action.notes
+        })
       })
 
     case ACTIONS.SET_EVENT_DESTINATION:

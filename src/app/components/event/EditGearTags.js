@@ -17,35 +17,39 @@ import ListEditor from '../shared/ListEditor'
 
 import styles from '../../styles/main'
 
-class EditEventNotes extends Component {
+class EditGearTags extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
-      notes: this.props.notes
+      tags: this.props.tags
     }
   }
 
   componentWillUnmount() {
-    this.props.newEventActions.setEventNotes(this.state.notes)
+    this.props.newEventActions.setGearTags(this.state.tags)
   }
 
   render() {
     return (
-      <View style={styles.editor.scroll}>
-        <ListEditor list={this.state.notes} />
+      <View style={styles.editor.list}>
+        <ListEditor
+          list={this.state.tags}
+        />
       </View>
     )
   }
 }
 
-EditEventNotes.propTypes = {
-  notes: PropTypes.array.isRequired,
-  newEventActions: PropTypes.object.isRequired
+EditGearTags.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired,
+  tags: PropTypes.array.isRequired,
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    notes: state.newEvent.notes
+    tags: state.newEvent.gears.tags
   }
 }
 
@@ -55,4 +59,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditEventNotes)
+export default connect(mapStateToProps, mapDispatchToProps)(EditGearTags)

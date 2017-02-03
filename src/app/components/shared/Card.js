@@ -58,7 +58,7 @@ const Card = (props) => {
       <View style={[styles.content, align]}>
         <View style={styles.section}>
           <TextView
-            fontSize='XXXL'
+            fontSize={'XXXL'}
             style={{textAlign: 'center'}}
             textColor={Graphics.textColors.overlay}
             text={props.title}

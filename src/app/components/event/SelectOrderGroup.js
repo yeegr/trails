@@ -12,8 +12,6 @@ import {
 import ParallaxView from 'react-native-parallax-view'
 
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import * as navbarActions from '../../redux/actions/navbarActions'
 
 import CallToAction from '../shared/CallToAction'
 import Card from '../shared/Card'
@@ -23,7 +21,6 @@ import EventGroup from './EventGroup'
 import styles from '../../styles/main'
 
 import {
-  CONSTANTS,
   LANG,
   UTIL,
   Graphics
@@ -37,10 +34,6 @@ class SelectOrderGroup extends Component {
     this.state = {
       selectedGroup: null
     }
-  }
-
-  componentWillMount() {
-    this.props.navbarActions.gotToSignUp()
   }
 
   nextStep() {
@@ -103,7 +96,6 @@ class SelectOrderGroup extends Component {
 SelectOrderGroup.propTypes = {
   user: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
-  navbarActions: PropTypes.object.isRequired,
   event: PropTypes.object.isRequired
 }
 
@@ -113,10 +105,11 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
+/*
 function mapDispatchToProps(dispatch) {
   return {
-    navbarActions: bindActionCreators(navbarActions, dispatch)
   }
 }
+*/
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectOrderGroup)
+export default connect(mapStateToProps)(SelectOrderGroup)

@@ -6,8 +6,6 @@ import React, {
 } from 'react'
 
 import {
-  ScrollView,
-  TextInput,
   View
 } from 'react-native'
 
@@ -15,6 +13,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../redux/actions/newEventActions'
 
+import StringInput from '../shared/StringInput'
 import TextView from '../shared/TextView'
 
 import styles from '../../styles/main'
@@ -44,15 +43,13 @@ class EditEventTitle extends Component {
   render() {
     return (
       <View style={styles.global.wrapper}>
-        <ScrollView style={styles.editor.scroll}>
+        <View style={styles.editor.scroll}>
           <View style={styles.editor.group}>
-            <TextInput
+            <StringInput
               autoFocus={true}
               autoCorrect={false}
-              maxLength={50}
-              style={styles.editor.textInput}
               placeholder={LANG.t('event.EventTitle')}
-              onChangeText={(value) => this.setState({title: value})}
+              onChangeText={(title) => this.setState({title})}
               value={this.state.title}
             />
           </View>
@@ -62,15 +59,16 @@ class EditEventTitle extends Component {
               text={LANG.t('event.edit.MinEventTitleLength', {min: AppSettings.minEventTitleLength})}
             />
           </View>
-        </ScrollView>
+        </View>
       </View>
     )
   }
 }
 
 EditEventTitle.propTypes = {
-  title: PropTypes.string.isRequired,
-  newEventActions: PropTypes.object.isRequired
+  navigator: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired
 }
 
 function mapStateToProps(state, ownProps) {

@@ -17,7 +17,7 @@ const {height, width} = Dimensions.get('window')
 
 export const LANG = i18n
 
-export const device = {
+export const Device = {
   uniqueId: DeviceInfo.getUniqueID(),
   manufacturer: DeviceInfo.getManufacturer(),
   model: DeviceInfo.getModel(),

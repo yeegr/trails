@@ -11,13 +11,25 @@ import {
 
 import Gear from './Gear'
 
+import {
+  Device
+} from '../../settings'
+
 const GearList = (props) => {
+  const marginRight = 15,
+    sideLength = Math.floor((Device.width - marginRight * 6) / 5)
+
   return (
     <View style={styles.wrapper}>
       {
-        props.list.map(function(n, i) {
+        props.list.map((n, i) => {
           return (
-            <Gear key={i} number={n} onPress={props.onPress} />
+            <Gear
+              key={i}
+              number={n}
+              sideLength={sideLength}
+              marginRight={marginRight}
+            />
           )
         })
       }
@@ -26,16 +38,14 @@ const GearList = (props) => {
 },
 styles = StyleSheet.create({
   wrapper: {
-    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   }
 })
 
 GearList.propTypes = {
-  list: PropTypes.array.isRequired,
-  onPress: PropTypes.func.isRequired
+  list: PropTypes.array.isRequired
 }
 
 export default GearList

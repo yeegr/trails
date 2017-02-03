@@ -9,7 +9,7 @@ import {
 } from '../../settings'
 
 const initTrail = {
-  status: 'submitting',
+  status: 'editing',
   isPublic: false,
   title: '',
   type: 0,
@@ -27,8 +27,7 @@ initStatus = {
   isStored: false,
   isUploading: false,
   isSaved: false,
-  isDeleted: false,
-  navToEdit: false
+  isDeleted: false
 },
 initState = Object.assign({}, 
   initTrail, 
@@ -56,7 +55,6 @@ newTrailReducer = (state = initState, action) => {
     case ACTIONS.STORE_TRAIL_SUCCESS:
       return Object.assign({}, state, action.data, {
         isStored: true,
-        navToEdit: action.navToEdit
       })
 
     case ACTIONS.STORE_TRAIL_DATA:
@@ -110,7 +108,7 @@ newTrailReducer = (state = initState, action) => {
     case ACTIONS.SET_TO_PUBLIC:
       return Object.assign({}, state, {
         isPublic: true,
-        status: 'submitting'
+        status: 'pending'
       })
 
     case ACTIONS.SET_TRAIL_TITLE:

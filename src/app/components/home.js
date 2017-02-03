@@ -60,7 +60,7 @@ class Home extends Component {
             <AreaList
               key={'area-list'}
               navigator={navigator}
-              query=""
+              query={AppSettings.home.areas + AppSettings.currentCity}
             />
           </View>
         </TabBarIOS.Item>
@@ -74,7 +74,7 @@ class Home extends Component {
             <EventList
               key={'event-list'}
               navigator={navigator} 
-              query={AppSettings.home.events + this.props.selectedCity}
+              query={AppSettings.home.events + AppSettings.currentCity}
             />
           </View>
         </TabBarIOS.Item>
@@ -88,7 +88,7 @@ class Home extends Component {
             <PostList
               key={'post-list'}
               navigator={navigator}
-              query=""
+              query={''}
             />
           </View>
         </TabBarIOS.Item>
@@ -116,7 +116,6 @@ Home.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    selectedCity: state.navbar.selectedCity,
     selectedTab: state.home.selectedTab,
     user: state.login.user
   }

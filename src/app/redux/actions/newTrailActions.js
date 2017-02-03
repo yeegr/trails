@@ -60,23 +60,21 @@ const _setTrailData = (points) => {
 }
 
 const _storeTrailData = () => {
-  console.log('_storeTrailData')
   return {
     type: ACTIONS.STORE_TRAIL_DATA
   }
 }
 
-const _storeTrailSuccess = (data, navToEdit) => {
+const _storeTrailSuccess = (data) => {
   loginActions.reloadUser()
 
   return {
     type: ACTIONS.STORE_TRAIL_SUCCESS,
-    data,
-    navToEdit
+    data
   }
 }
 
-export const storeTrailData = (data, navToEdit) => {
+export const storeTrailData = (data) => {
   return (dispatch, getState) => {
     let newTrail = Object.assign({}, getState().newTrail, data)
 
@@ -94,7 +92,7 @@ export const storeTrailData = (data, navToEdit) => {
         JSON.stringify(tmp)
       )
       .then(() => {
-        dispatch(_storeTrailSuccess(data, navToEdit))
+        dispatch(_storeTrailSuccess(data))
       })
     })
   }
@@ -360,7 +358,7 @@ export const updateTrail = (data) => {
   }
 }
 
-// delete trail
+// delete cloud trail
 const deleteTrailRequest = (trail) => {
   return {
     type: ACTIONS.DELETE_TRAIL_REQUEST,

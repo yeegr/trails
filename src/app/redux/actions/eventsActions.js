@@ -49,6 +49,11 @@ export const listEvents = (params) => {
   }
 }
 
+// reset home page event list
+export const resetEvents = () => {
+  listEvents(AppSettings.home.events + AppSettings.currentCity)
+}
+
 // get one event
 const getEventRequest = () => {
   return {

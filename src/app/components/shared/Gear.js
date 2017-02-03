@@ -15,17 +15,17 @@ import TextView from './TextView'
 
 import {
   LANG,
-  UTIL,
   Graphics
 } from '../../settings'
 
 const Gear = (props) => {
-  const url = ImagePath({type: 'gear', path: 'gears/' + props.number + '.jpg'}),
-  selected = (props.selected) ? styles.selected : null
+  const uri = ImagePath({type: 'gear', path: 'gears/' + props.number + '.jpg'}),
+    size = props.sideLength ? {width: props.sideLength, height: props.sideLength} : null,
+    marginRight = props.marginRight
 
   return (
-    <Image style={styles.wrapper} source={{uri: url}}>
-      <View style={[styles.caption, selected]}>
+    <Image style={[styles.wrapper, size, {marginRight}]} source={{uri}}>
+      <View style={styles.caption}>
         <TextView
           fontSize={'XXS'}
           textColor={Graphics.textColors.overlay}
@@ -49,15 +49,13 @@ styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, .5)',
     paddingHorizontal: 10,
     paddingVertical: 5,
-  },
-  selected: {
-    backgroundColor: UTIL.hex2rgb(Graphics.colors.primary, .5)
   }
 })
 
 Gear.propTypes = {
   number: PropTypes.number.isRequired,
-  selected: PropTypes.bool
+  sideLength: PropTypes.number,
+  marginRight: PropTypes.number
 }
 
 export default Gear

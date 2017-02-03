@@ -7,18 +7,14 @@ import React, {
 
 import {
   ActivityIndicator,
-  Dimensions,
   Image,
   Modal,
-  ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View
 } from 'react-native'
 
-import CacheableImage from 'react-native-cacheable-image'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import * as WeChat from 'react-native-wechat'
 
@@ -190,6 +186,10 @@ class Login extends Component {
     )
   }
 
+  _hideLogin() {
+    this.props.loginActions.hideLogin()
+  }
+
   render() {
     let login = this.props.login,
       {
@@ -332,10 +332,6 @@ class Login extends Component {
         </Image>
       </Modal>
     )
-  }
-
-  _hideLogin() {
-    this.props.loginActions.hideLogin()
   }
 }
 

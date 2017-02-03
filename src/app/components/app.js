@@ -16,7 +16,6 @@ import {connect} from 'react-redux'
 import * as loginActions from '../redux/actions/loginActions'
 import * as newTrailActions from '../redux/actions/newTrailActions'
 import * as newEventActions from '../redux/actions/newEventActions'
-import * as navbarActions from '../redux/actions/navbarActions'
 
 import Home from './home'
 import Login from './login'
@@ -43,19 +42,30 @@ import OrderSuccess from './event/OrderSuccess'
 
 import SearchEvents from './event/SearchEvents'
 import EditEvent from './event/EditEvent'
+import EditEventBase from './event/EditEventBase'
 import EditEventHero from './event/EditEventHero'
 import EditEventTitle from './event/EditEventTitle'
-import EditEventGroups from './event/EditEventGroups'
+import EditEventDates from './event/EditEventDates'
 import EditEventContacts from './event/EditEventContacts'
 import EditAttendeeLimits from './event/EditAttendeeLimits'
-import AgendaList from './event/AgendaList'
+
+import SelectTrail from './event/SelectTrail'
 import EditAgenda from './event/EditAgenda'
-import EditEventExpenses from './event/EditEventExpenses'
-import EditEventGears from './event/EditEventGears'
+import EditExpenses from './event/EditExpenses'
+import EditExpensesDetails from './event/EditExpensesDetails'
+import EditExpensesIncludes from './event/EditExpensesIncludes'
+import EditExpensesExcludes from './event/EditExpensesExcludes'
+import EditGears from './event/EditGears'
+import EditGearImages from './event/EditGearImages'
+import EditGearTags from './event/EditGearTags'
+import EditGearNotes from './event/EditGearNotes'
 import EditEventDestination from './event/EditEventDestination'
 import EditEventNotes from './event/EditEventNotes'
 import EditEventGallery from './event/EditEventGallery'
+
+
 import EventSubmitted from './event/EventSubmitted'
+
 import PostList from './post/PostList'
 import PostDetail from './post/PostDetail'
 import SearchPosts from './post/SearchPosts'
@@ -184,31 +194,30 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         }
       break
 
+      case 'EventDetail':
+        if (passProps.isPreview) {
+          rightTitleBar = (
+            <NavbarButton
+              onPress={() => this.save(CONSTANTS.ACTION_TARGETS.EVENT)}
+              label={LANG.t('glossary.Save')}
+            />
+          )
+        } else {
+          rightTitleBar = (
+            <NavbarButton
+              onPress={() => this.signUp(navigator)}
+              label={LANG.t('order.SignupNow')}
+            />
+          )
+        }
+      break
+
       case 'OrderEvent':
         rightTitleBar = (
           <NavbarButton
-            onPress={() => dispatch(navbarActions.addEventSignUp())}
+            onPress={navigator.__addSignUp}
             icon={Graphics.titlebar.add}
             label={LANG.t('order.AddSignUp')}
-            showLabel={false}
-          />
-        )
-      break
-
-      case 'AgendaList':
-        rightTitleBar = (
-          <NavbarButton
-            onPress={() => {
-              navigator.push({
-                id: 'EditAgenda',
-                title: LANG.t('agenda.Add'),
-                passProps: {
-                  mode: 'new'
-                }
-              })
-            }}
-            icon={Graphics.titlebar.add}
-            label={LANG.t('agenda.Add')}
             showLabel={false}
           />
         )
@@ -217,7 +226,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
       case 'EditAgenda':
         rightTitleBar = (
           <NavbarButton
-            onPress={() => this.save(CONSTANTS.ACTION_TARGETS.AGENDA)}
+            onPress={() => this.save(CONSTANTS.ACTION_TARGETS.AGENDA, navigator)}
             label={LANG.t('agenda.Save')}
           />
         )
@@ -226,7 +235,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
       case 'RecordTrail':
         rightTitleBar = (
           <NavbarButton
-            onPress={() => this.save(CONSTANTS.ACTION_TARGETS.TEMP)}
+            onPress={navigator.__editTrail}
             label={LANG.t('glossary.Save')}
           />
         )
@@ -250,17 +259,6 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         )
       break
 
-      case 'EventDetail':
-        if (!passProps.isPreview) {
-          rightTitleBar = (
-            <NavbarButton
-              onPress={() => this.signUp()}
-              label={LANG.t('order.SignupNow')}
-            />
-          )
-        }
-      break
-
       case 'EditUserAvatar':
         rightTitleBar = (
           <NavbarButton
@@ -274,23 +272,43 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
     return rightTitleBar
   },
 
-  Title: function(route, navigator, index, navState) {
+  Title: (route, navigator, index, navState) => {
     let title = (index === 0) ? ((tabId === CONSTANTS.HOME_TABS.AREAS) ? LANG.t('home.' + CONSTANTS.HOME_TABS.TRAILS) : LANG.t('home.' + tabId)) : route.title
 
     return (
-      <TextView style={{marginVertical: 5, fontWeight: '400'}} fontSize='XXL' textColor={Graphics.textColors.overlay} text={title} />
+      <TextView
+        style={{marginVertical: 5, fontWeight: '400'}}
+        fontSize={'XXL'}
+        textColor={Graphics.textColors.overlay}
+        text={title}
+      />
     )
   },
 
-  signUp: function() {
+  signUp: function(navigator) {
     if (this.user) {
-      dispatch(navbarActions.navToSignUp())
+      let {event} = state.events,
+        id = 'OrderEvent',
+        title = LANG.t('order.SignupNow')
+
+      if (event.groups.length > 1) {
+        id = 'SelectOrderGroup',
+        title = LANG.t('order.SelectOrderGroup')
+      } 
+
+      navigator.push({
+        id,
+        title,
+        passProps: {
+          event
+        }
+      })
     } else {
       dispatch(loginActions.showLogin())      
     }
   },
 
-  search: function(type) {
+  search: (type) => {
     let id = '', title = ''
 
     switch (type) {
@@ -317,7 +335,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
     }
   },
 
-  back: function(navigator, routeId) {
+  back: (navigator, routeId) => {
     switch (routeId) {
       case 'EditTrail':
         if (state.newTrail.isSaved === false) {
@@ -379,20 +397,12 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
   save: function(type) {
     if (this.user) {
       switch (type) {
-        case CONSTANTS.ACTION_TARGETS.TEMP:
-          dispatch(navbarActions.navToEditTrail())
-        break
-
         case CONSTANTS.ACTION_TARGETS.TRAIL:
           dispatch(newTrailActions.saveTrail())
         break
 
         case CONSTANTS.ACTION_TARGETS.EVENT:
           dispatch(newEventActions.saveEvent())
-        break
-
-        case CONSTANTS.ACTION_TARGETS.AGENDA:
-          dispatch(navbarActions.saveAgenda())
         break
 
         case CONSTANTS.ACCOUNT_ACTIONS.SAVE_AVATAR:
@@ -408,6 +418,10 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
 class App extends Component {
   constructor(props) {
     super(props)
+  }
+
+  componentWillMount() {
+    AppSettings.currentCity = '010'
   }
 
   componentDidMount() {
@@ -647,6 +661,14 @@ class App extends Component {
                   />
                 )
 
+              case 'EditEventBase':
+                return (
+                  <EditEventBase
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
               case 'EditEventHero':
                 return (
                   <EditEventHero
@@ -663,9 +685,9 @@ class App extends Component {
                   />
                 )
 
-              case 'EditEventGroups':
+              case 'EditEventDates':
                 return (
-                  <EditEventGroups
+                  <EditEventDates
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />
@@ -695,6 +717,14 @@ class App extends Component {
                   />
                 )
 
+              case 'SelectTrail':
+                return (
+                  <SelectTrail
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
               case 'EditAgenda':
                 return (
                   <EditAgenda
@@ -703,17 +733,65 @@ class App extends Component {
                   />
                 )
 
-              case 'EditEventExpenses':
+              case 'EditExpenses':
                 return (
-                  <EditEventExpenses
+                  <EditExpenses
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />
                 )
 
-              case 'EditEventGears':
+              case 'EditExpensesDetails':
                 return (
-                  <EditEventGears
+                  <EditExpensesDetails
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'EditExpensesIncludes':
+                return (
+                  <EditExpensesIncludes
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'EditExpensesExcludes':
+                return (
+                  <EditExpensesExcludes
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'EditGears':
+                return (
+                  <EditGears
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'EditGearImages':
+                return (
+                  <EditGearImages
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'EditGearTags':
+                return (
+                  <EditGearTags
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'EditGearNotes':
+                return (
+                  <EditGearNotes
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />

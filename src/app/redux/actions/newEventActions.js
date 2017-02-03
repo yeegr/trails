@@ -49,13 +49,6 @@ export const setDepartCity = (city) => {
   }
 }
 
-export const setEventType = (eventType) => {
-  return {
-    type: ACTIONS.SET_EVENT_TYPE,
-    eventType
-  }
-}
-
 export const setEventGroups = (groups) => {
   return {
     type: ACTIONS.SET_EVENT_GROUPS,
@@ -92,47 +85,73 @@ export const setAttendeeLimits = (minValue, maxValue) => {
   }
 }
 
-export const setEventScheduleDays = (days) => {
+export const setEventSchedule = (schedule) => {
   return {
-    type: ACTIONS.SET_EVENT_SCHEDULE_DAYS,
-    days
+    type: ACTIONS.SET_EVENT_SCHEDULE,
+    schedule
   }
 }
 
-export const editEventSchedule = () => {
+export const setExpensesPerHead = (perHead) => {
   return {
-    type: ACTIONS.EDIT_EVENT_SCHEDULE
+    type: ACTIONS.SET_EXPENSES_PERHEAD,
+    perHead
   }
 }
 
-export const setEventAgenda = (day, index, agenda) => {
+export const setExpensesDeposit = (deposit) => {
   return {
-    type: ACTIONS.SET_EVENT_AGENDA,
-    day,
-    index,
-    agenda
+    type: ACTIONS.SET_EXPENSES_DEPOSIT,
+    deposit
   }
 }
 
-export const deleteEventAgenda = (day, index) => {
+export const setEventInsurance = (insurance) => {
   return {
-    type: ACTIONS.DELETE_EVENT_AGENDA,
-    day,
-    index
+    type: ACTIONS.SET_EVENT_INSURANCE,
+    insurance
   }
 }
 
-export const setEventExpenses = (expenses) => {
+export const setExpensesDetails = (detail) => {
   return {
-    type: ACTIONS.SET_EVENT_EXPENSES,
-    expenses
+    type: ACTIONS.SET_EXPENSE_DETAIL,
+    detail
   }
 }
 
-export const setEventGears = (gears) => {
+export const setExpensesIncludes = (includes) => {
   return {
-    type: ACTIONS.SET_EVENT_GEARS,
-    gears
+    type: ACTIONS.SET_EXPENSE_INCLUDES,
+    includes
+  }
+}
+
+export const setExpensesExcludes = (excludes) => {
+  return {
+    type: ACTIONS.SET_EXPENSE_EXCLUDES,
+    excludes
+  }
+}
+
+export const setGearImages = (images) => {
+  return {
+    type: ACTIONS.SET_GEAR_IMAGES,
+    images
+  }
+}
+
+export const setGearTags = (tags) => {
+  return {
+    type: ACTIONS.SET_GEAR_TAGS,
+    tags
+  }
+}
+
+export const setGearNotes = (notes) => {
+  return {
+    type: ACTIONS.SET_GEAR_NOTES,
+    notes
   }
 }
 
@@ -173,19 +192,29 @@ export const saveEvent = () => {
   }
 }
 
+export const submitEvent = () => {
+  return (dispatch) => {
+    dispatch(saveEvent())
+  }
+}
+
+export const validateEventBase = (event) => {
+  let init = 0
+
+  if (UTIL.isNullOrUndefined(event.isPublic)) init++
+  if (event.title.length < AppSettings.minEventTitleLength) init++
+  if (event.city.length < 1) init++ 
+  if (event.groups.length < 1) init++
+  if (UTIL.isNullOrUndefined(event.gatherTime)) init++
+  if (event.gatherLocation.name.length < 1) init++
+  if (event.contacts.length < 1) init++
+
+  return (init > 0) ? init : true
+}
+
 export const validateEvent = (event) => {
   return (
-    (event.isPublic !== null && event.isPublic !== undefined) &&
-    (event.title.length >= AppSettings.minEventTitleLength) &&
-    (event.city.length > 2) && 
-    (event.hero.length > 0) && 
-    (event.type > -1) && 
-    (event.groups.length > 0) && 
-    (event.gatherTime !== null) && 
-    (event.gatherLocation.name.length > 0) && 
-    (event.contacts.length > 0) && 
-    (event.schedule.length > 0) && 
-    (event.schedule[0].length > 0) && 
+    validateEventBase(event) && 
     (event.expenses.perHead !== null && event.expenses.perHead > -1)
   )
 }

@@ -72,10 +72,16 @@ class PostDetail extends Component {
           )}>
           <View style={styles.detail.article}>
             <View style={[styles.detail.section, {paddingHorizontal: 15}]}>
-              <UserLink user={post.creator} navigator={navigator} showArrow={true} />
+              <UserLink
+                navigator={navigator}
+                user={post.creator}
+              />
             </View>
             <View style={[styles.detail.section, {paddingHorizontal: 10}]}>
-              <WebViewWrapper html={post.content} url={AppSettings.baseUri + 'posts/post/' + post.id} />
+              <WebViewWrapper
+                html={post.content}
+                uri={AppSettings.baseUri + 'posts/' + post._id}
+              />
             </View>
             {commentsPreview}
           </View>

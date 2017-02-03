@@ -4,10 +4,9 @@ import * as ACTIONS from '../constants/areasConstants'
 import {AppSettings} from '../../settings'
 
 // list areas
-const listAreasRequest = (params) => {
+const listAreasRequest = () => {
   return {
-    type: ACTIONS.LIST_AREAS_REQUEST,
-    params
+    type: ACTIONS.LIST_AREAS_REQUEST
   }
 }
 
@@ -27,9 +26,9 @@ const listAreasFailure = (message) => {
 
 export const listAreas = (params) => {
   return (dispatch) => {
-    dispatch(listAreasRequest(params))
+    dispatch(listAreasRequest())
 
-    return fetch(AppSettings.apiUri + 'areas/' + params)
+    return fetch(AppSettings.apiUri + 'areas' + (params || ''))
       .then((res) => {
         return res.json()
       })
@@ -45,6 +44,11 @@ export const listAreas = (params) => {
         dispatch(listAreasFailure(err))
       })
   }
+}
+
+// reset home page area list
+export const resetAreas = () => {
+  listAreas(AppSettings.home.areas + AppSettings.currentCity)
 }
 
 // get one area

@@ -10,59 +10,60 @@ import {
   WebView
 } from 'react-native'
 
-import {
-  Graphics
-} from '../../settings'
-
 class WebViewWrapper extends Component {
   constructor(props) {
     super(props)
+    this.onNavigationStateChange = this.onNavigationStateChange.bind(this)
 
     this.state = {
-      docHeight: 0,
+      docHeight: 0
     }
   }
 
-  onNavigationStateChange(key, event) {
-    this.setState(calcWebViewHeight(key, event))
+  onNavigationStateChange(evt) {
+    this.setState({
+      docHeight: parseInt(evt.jsEvaluationValue)
+    })
   }
 
   render() {
-    const {html, url} = this.props,
-      CSS = '<style>' + Graphics.CSS + '</style>'
+    const style = `
+        <style>
+          html {font-size:10pt}
+          html, body {margin:0; padding:0}
+          img {max-width:100%}
+          p {text-indent:2em}
+          ol {padding-left:2em}
+          li {margin-bottom:1.4em}
+          figure {margin:0}
+          h1 {font-size:1.5em; font-weight:400}
+          figcaption {display:'block'; font-style:'italic'; text-align:'center'}
+        </style>
+      `,
+      {html, uri} = this.props
 
     return (
       <WebView
-        source={{html: CSS + html, baseUrl: url}}
-        injectedJavaScript="document.body.offsetHeight"
-        onNavigationStateChange={this.onNavigationStateChange.bind(this, 'docHeight')}
+        source={{html: style + '<div>' + html + '</div>', uri}}
+        injectedJavaScript="document.body.firstChild.clientHeight"
+        onNavigationStateChange={this.onNavigationStateChange}
+        automaticallyAdjustContentInsets={false}
         scrollEnabled={false}
-        automaticallyAdjustContentInsets={true}
-        style={[styles.webview, {height: this.state.docHeight + 20}]}
+        style={[styles.webview, {height: this.state.docHeight}]}
       />
     )
   }  
 }
 
-const calcWebViewHeight = (key, evt) =>{
-  let tmp = {}
-
-  if (!isNaN(evt.jsEvaluationValue)) {
-    tmp[key] = parseInt(evt.jsEvaluationValue)
-  }
-
-  return tmp
-},
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
   webview: {
-    backgroundColor: 'transparent',
-    flex: 1
+    backgroundColor: 'transparent'
   }
 })
 
 WebViewWrapper.propTypes = {
   html: PropTypes.string.isRequired,
-  url: PropTypes.string
+  uri: PropTypes.string
 }
 
 export default WebViewWrapper
