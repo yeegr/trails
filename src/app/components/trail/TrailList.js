@@ -61,6 +61,7 @@ class TrailList extends Component {
         key={rowId} 
         navigator={this.props.navigator}
         trail={rowData}
+        user={this.props.user}
       />
     )
   }
@@ -93,6 +94,7 @@ class TrailList extends Component {
 
 TrailList.propTypes = {
   navigator: PropTypes.object.isRequired,
+  user: PropTypes.object,
   trailsActions: PropTypes.object.isRequired,
   query: PropTypes.string,
   trails: PropTypes.array,
@@ -103,6 +105,7 @@ TrailList.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
+    user: state.login.user,
     remoteTrails: state.trails.list,
     isFetching: state.trails.isFetching
   }
@@ -115,4 +118,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrailList)
-

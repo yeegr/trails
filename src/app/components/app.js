@@ -175,19 +175,11 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
       break
 
       case 'TrailDetail':
-        let trail = passProps.trail
-
-        if (trail && this.user && !passProps.isPreview && passProps.creatorId === this.user._id) {
+        if (!passProps.isPreview && !passProps.isReview) {
           rightTitleBar = (
             <NavbarButton
-              onPress={() => {
-                navigator.push({
-                  id: 'EditTrail',
-                  title: LANG.t('trail.EditTrail'),
-                  passProps
-                })
-              }}
-              label={LANG.t('glossary.Edit')}
+              onPress={() => this.trackTrail(navigator)}
+              label={LANG.t('trail.TrackTrail')}
               showLabel={true}
             />
           )
@@ -200,6 +192,13 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
             <NavbarButton
               onPress={() => this.save(CONSTANTS.ACTION_TARGETS.EVENT)}
               label={LANG.t('glossary.Save')}
+            />
+          )
+        } else if (passProps.isReview) {
+          rightTitleBar = (
+            <NavbarButton
+              onPress={() => this.editEvent(navigator)}
+              label={LANG.t('glossary.Edit')}
             />
           )
         } else {
@@ -283,6 +282,22 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         text={title}
       />
     )
+  },
+
+  editEvent: function(navigator) {
+    if (this.user) {
+      navigator.__editEvent
+    } else {
+      dispatch(loginActions.showLogin())      
+    }
+  },
+
+  trackTrail: function(navigator) {
+    if (this.user) {
+      navigator.__trackTrail
+    } else {
+      dispatch(loginActions.showLogin())      
+    }
   },
 
   signUp: function(navigator) {
@@ -709,14 +724,6 @@ class App extends Component {
                   />
                 )
 
-              case 'AgendaList':
-                return (
-                  <AgendaList
-                    navigator={navigator}
-                    route={route} {...route.passProps}
-                  />
-                )
-
               case 'SelectTrail':
                 return (
                   <SelectTrail
@@ -913,12 +920,10 @@ class App extends Component {
 
               case 'MyEvents':
                 return (
-                  <ScrollView style={styles.global.main}>
-                    <MyEvents
-                      navigator={navigator}
-                      route={route} {...route.passProps}
-                    />
-                  </ScrollView>
+                  <MyEvents
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
                 )
 
               case 'SignUpList':

@@ -1,6 +1,7 @@
 'use strict'
 
 import {
+  UTIL,
   AppSettings,
   Defaults
 } from '../../settings'
@@ -16,8 +17,6 @@ let today = new Date(),
   timestamp = e.valueOf()
 
 const initState = {
-  isEditing: false,
-  isFetching: false,
   isUploading: false,
   isSaved: false,
 
@@ -63,7 +62,7 @@ const initState = {
 newEventReducer = (state = initState, action) => {
   switch (action.type) {
     case ACTIONS.NEW_EVENT:
-      return initState
+      return (UTIL.isNullOrUndefined(action.event)) ? initState : UTIL.mergeDeep(initState, action.event)
 
     case ACTIONS.EDIT_EVENT:
       return action.event

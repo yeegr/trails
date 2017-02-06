@@ -74,7 +74,7 @@ module.exports = (app) => {
 
     if (req.query.hasOwnProperty('isPublic') && req.query.isPublic === 'true') {
       query.isPublic = true
-      query.status = CONST.STATUSES.TRAIL[3]
+      query.status = CONST.STATUSES.TRAIL[2]
     }
 
     if (req.query.hasOwnProperty('status') && req.query.status !== '') {

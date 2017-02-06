@@ -34,6 +34,7 @@ class StringInput extends Component {
         <TextInput
           autoCorrect={this.props.autoCorrect || true}
           autoFocus={this.props.autoFocus || false}
+          keyboardType={this.props.keyboardType || 'default'}
           maxLength={this.props.maxLength || 50}
           placeholder={this.props.placeholder || ''}
           style={styles.input}
@@ -76,6 +77,7 @@ StringInput.propTypes = {
   value: PropTypes.string,
   autoCorrect: PropTypes.bool,
   autoFocus: PropTypes.bool,
+  keyboardType: PropTypes.string,
   maxLength: PropTypes.number,
   placeholder: PropTypes.string,
 }

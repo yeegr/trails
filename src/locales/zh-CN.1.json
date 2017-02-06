@@ -100,15 +100,19 @@
     "numberOfTrail_plural": "{{count}}条轨迹",
     "TrailTitle": "轨迹名称",
     "EditTrail": "编辑轨迹",
+    "TrailDetail": "轨迹详情",
     "DifficultyLevel": "难度系数",
-    "TotalDuration":"全程历时",
-    "TotalDistance":"全程距离",
-    "TotalElevation":"累积上升",
-    "CurrentAltitude":"当前海拔",
-    "MaximumAltitude":"最高海拔",
-    "AverageSpeed":"平均时速",
+    "TotalDuration": "全程历时",
+    "TotalDistance": "全程距离",
+    "TotalElevation": "累积上升",
+    "CurrentAltitude": "当前海拔",
+    "MaximumAltitude": "最高海拔",
+    "AverageSpeed": "平均时速",
+    "TrailMap": "轨迹地图",
     "Description": "轨迹描述",
+    "NoDescription": "暂无描述",
     "Photos": "轨迹图片",
+    "TrackTrail": "循迹",
     "record": {
       "LocationAlert": {
         "Okay": "知道了",
@@ -128,15 +132,16 @@
       "MinTrailTitleLength": "轨迹名称不能少于{{min}}个字符",
       "BackAlert": {
         "title": "真的吗，亲？",
-        "description": "现在退出，你所有的修改就都复原啦！",
+        "description": "即便现在退出，你的轨迹也已记录在设备本地，可以随时到\n我的→我的轨迹→本地轨迹\n查看",
         "cancel": "继续编辑",
-        "confirm": "确定放弃"
+        "confirm": "放弃编辑"
       },
       "SaveAlert": {
         "title": "成功！",
         "description": "你的轨迹已经保存好啦！",
         "confirm": "知道啦"
       },
+      "DeleteTrail": "删除轨迹",
       "DeleteAlert": {
         "title": "真的吗？",
         "description": "这条轨迹将被永久删除耶",
@@ -176,17 +181,18 @@
     "ExpensesDetails": "费用说明",
     "ExpensesIncludes": "费用包含",
     "ExpensesExcludes": "费用不含",
-    "GearsToBring":"出行装备",
-    "OtherGears":"其他装备",
-    "GearNotes":"装备说明",
+    "GearsToBring": "出行装备",
+    "OtherGears": "其他装备",
+    "GearNotes": "装备说明",
     "EventPhotos": "活动图库",
     "DestinationDescription": "景点描述",
     "EventNotes": "活动说明",
     "numberOfPeopleAlreadySignedUp": "已有{{count}}人报名",
+    "EditEvent": "编辑活动",
     "edit": {
       "BaseInfo": "基础信息",
       "Untitled": "尚未命名",
-      "HeroImage":"活动封面",
+      "HeroImage": "活动封面",
       "MinEventTitleLength": "活动标题不能少于{{min}}个字符",
       "SelectTrail": "选择活动轨迹",
       "SelectAgendaType": "选择日程类型",
@@ -201,19 +207,25 @@
         "cancel": "继续编辑",
         "confirm": "确定放弃"
       },
+      "ReEditAlert": {
+        "title": "活动已提交",
+        "description": "您的活动已提交，如需重新编辑，请和工作人员联系",
+        "okay": "知道了"
+      },
       "SaveAlert": {
         "title": "保存成功！",
-        "description": "你的活动已成功保存，可随时提交审核",
+        "description": "您的活动已成功保存，可随时提交审核",
         "confirm": "知道了"
       },
       "SubmitAlert": {
-        "title": "成功！",
-        "description": "你的活动已成功保存，可随时提交审核",
-        "confirm": "知道了"
+        "title": "提交活动",
+        "description": "您的活动将被提交到审核中心，通过后将向",
+        "cancel": "继续编辑",
+        "confirm": "马上提交"
       },
       "Preview": "活动预览",
       "Publish": "发布",
-      "SubmitForReview":"提交审核"
+      "SubmitForReview": "提交审核"
     },
     "search": {
       "SearchEvent": "搜索活动", 
@@ -285,8 +297,6 @@
     "PurchaseOutdoorInsurance": "购买户外保险",
     "SignUpList": "报名列表",
     "MyTrails": "我记录的轨迹",
-    "CloudTrails": "云端轨迹",
-    "LocalTrails": "本地轨迹",
     "MyEvents": "我管理的活动",
     "MyPosts": "我发布的文章",
     "MySaves": "我的收藏",
@@ -295,6 +305,14 @@
     "SavedPosts": "我收藏的文章",
     "EditAccount": "编辑账户",
     "AboutUs": "关于我们",
+    "trails": {
+      "CloudTrails": "云端轨迹",
+      "LocalTrails": "本地轨迹"
+    },
+    "events": {
+      "SubmittedEvents": "已提交活动",
+      "UnsubmittedEvents": "未提交活动"
+    },
     "edit": {
       "EditUserAvatar": "修改头像",
       "SelectPhoto": "选择图片",
@@ -306,9 +324,11 @@
       "SubmitVerification": "提交验证码",
       "EditUserLevel": "用户级别",
       "RealName": "真实姓名",
+      "MinRealNameLength": "真实姓名不能少于{{min}}个字符",
       "PersonalId": "身份证号码",
       "BindWeChat": "绑定微信",
       "UnbindWeChat": "解绑微信",
+      "ClearCache": "清除缓存",
       "Logout": "退出登录"
     }
   },
@@ -341,6 +361,14 @@
 
   "measurements": {
     
+  },
+
+  "statuses": {
+    "editing":"编辑中",
+    "pending":"审核中",
+    "approved":"已核准",
+    "rejected":"被拒绝",
+    "suspended":"已暂停"
   },
 
   "Tags": "标签",

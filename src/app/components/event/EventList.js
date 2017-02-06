@@ -37,7 +37,7 @@ class EventList extends Component {
   }
 
   componentWillUnmount() {
-    this.props.eventsActions.resetEvents()
+    eventsActions.resetEvents()
   }
 
   fetchData() {

@@ -21,8 +21,8 @@ import TrailList from '../trail/TrailList'
 import styles from '../../styles/main'
 
 import {
-  CONSTANTS,
-  LANG
+  LANG,
+  UTIL
 } from '../../settings'
 
 class MyTrails extends Component {
@@ -40,18 +40,12 @@ class MyTrails extends Component {
     this.props.trailsActions.listTrails(this.props.query)
 
     AsyncStorage
-    .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
-    .then((tmp) => {
-      return JSON.parse(tmp)
+    .getItem(this.props.user._id)
+    .then((str) => {
+      return UTIL.isNullOrUndefined(str) ? {} : JSON.parse(str)
     })
-    .then((tmp) => {
-      let localTrails = []
-
-      for(let i in tmp) {
-        if (i.length === 16) {
-          localTrails.push(tmp[i])
-        }
-      }
+    .then((obj) => {
+      let localTrails = UTIL.obj2arr(obj)
 
       this.setState({
         localTrails
@@ -68,7 +62,10 @@ class MyTrails extends Component {
       <View style={styles.global.main}>
         <View style={{paddingHorizontal: 20, paddingTop: 20}}>
           <SegmentedControlIOS
-            values={[LANG.t('mine.CloudTrails'), LANG.t('mine.LocalTrails')]}
+            values={[
+              LANG.t('mine.trails.CloudTrails'),
+              LANG.t('mine.trails.LocalTrails')
+            ]}
             selectedIndex={this.state.selectedIndex}
             onChange={(event) => {
               this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex})
@@ -89,6 +86,7 @@ class MyTrails extends Component {
 
 MyTrails.propTypes = {
   navigator: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   trailsActions: PropTypes.object.isRequired,
   query: PropTypes.string.isRequired,
   cloudTrails: PropTypes.array,

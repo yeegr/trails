@@ -19,7 +19,7 @@ module.exports = (app) => {
       path: 'trails',
       match: {
         isPublic: true,
-        status: CONST.STATUSES.TRAIL[3]
+        status: CONST.STATUSES.TRAIL[2]
       },
       options: {
         limit: 3,
@@ -108,6 +108,18 @@ module.exports = (app) => {
       select: CONST.USER_LIST_FILEDS,
       options: {
         limit: 3
+      }
+    })
+    .populate({
+      path: 'trails',
+      modal: 'Trail',
+      match: {
+        isPublic: true,
+        status: CONST.STATUSES.TRAIL[2]
+      },
+      options: {
+        limit: 3,
+        sort: ({'_id': -1})
       }
     })
     .exec()

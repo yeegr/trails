@@ -40,8 +40,8 @@ const _setTrailData = (points) => {
   } = UTIL.calculateTrailData(points)
 
   if (averageSpeed && averageSpeed > 0) {
-    return (dispatch) => {
-      dispatch(_storeTrailData())
+    return (dispatch, getState) => {
+      dispatch(_storeTrailData(getState().user._id))
 
       return {
         type: ACTIONS.SET_TRAIL_DATA,
@@ -59,9 +59,10 @@ const _setTrailData = (points) => {
   }
 }
 
-const _storeTrailData = () => {
+const _storeTrailData = (userId) => {
   return {
-    type: ACTIONS.STORE_TRAIL_DATA
+    type: ACTIONS.STORE_TRAIL_DATA,
+    userId
   }
 }
 
@@ -74,21 +75,21 @@ const _storeTrailSuccess = (data) => {
   }
 }
 
-export const storeTrailData = (data) => {
+export const storeTrailData = (data, userId) => {
   return (dispatch, getState) => {
     let newTrail = Object.assign({}, getState().newTrail, data)
 
     AsyncStorage
-    .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
-    .then((tmp) => {
-      return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
+    .getItem(userId)
+    .then((str) => {
+      return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
     })
     .then((tmp) => {
       tmp[newTrail.storeKey] = newTrail
 
       AsyncStorage
       .setItem(
-        CONSTANTS.ACTION_TARGETS.TEMP,
+        userId,
         JSON.stringify(tmp)
       )
       .then(() => {
@@ -170,10 +171,10 @@ export const saveTrail = () => {
     newTrail.creator = getState().login.user._id
 
     if (_validateTrail(newTrail)) {
-      if (UTIL.isNullOrUndefined(newTrail._id)) {
-        dispatch(createTrail(newTrail))
-      } else {
+      if (newTrail.hasOwnProperty('_id') && !UTIL.isNullOrUndefined(newTrail._id)) {
         dispatch(updateTrail(newTrail))
+      } else {
+        dispatch(createTrail(newTrail))
       }
     }
   }
@@ -213,6 +214,7 @@ const createTrailFailure = (message) => {
 
 export const createTrail = (data) => {
   let selectedPhotos = data.photos,
+    storeKey = data.storeKey,
     input = Object.assign({}, data, {
       photos: []
     })
@@ -233,7 +235,7 @@ export const createTrail = (data) => {
           let photos = comparePhotoArrays(res.photos, selectedPhotos)
 
           if (!photos) {
-            dispatch(createTrailSuccess(res))
+            dispatch(createTrailSuccess(res, storeKey))
           } else {
             dispatch(uploadPhotos(CONSTANTS.ACTION_TARGETS.TRAIL, res._id, photos))
           }
@@ -402,8 +404,25 @@ export const deleteTrail = (data) => {
 
 // delete local trail
 export const deleteLocalTrail = (data) => {
-  return {
-    type: ACTIONS.DELETE_LOCAL_TRAIL,
-    storeKey: data.storeKey
+  let userId = (typeof(data.creator) === 'object') ? data.creator._id : data.creator
+
+  return (dispatch) => {
+    AsyncStorage
+    .getItem(userId)
+    .then((str) => {
+      return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
+    })
+    .then((obj) => {
+      delete obj[data.storeKey]
+
+      AsyncStorage
+      .setItem(
+        userId,
+        JSON.stringify(obj)
+      )
+      .then(() => {
+        dispatch(deleteTrailSuccess())
+      })
+    })
   }
 }

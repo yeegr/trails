@@ -7,6 +7,7 @@ import React, {
 
 import {
   Alert,
+  Modal,
   ScrollView,
   View
 } from 'react-native'
@@ -25,7 +26,6 @@ import styles from '../../styles/main'
 import {
   LANG,
   UTIL,
-  AppSettings,
   Graphics
 } from '../../settings'
 
@@ -44,10 +44,7 @@ class EditEvent extends Component {
   }
 
   componentWillMount() {
-    // this may be wrong
-    if (!this.props.event) {
-      this.props.newEventActions.newEvent()
-    }
+    this.props.newEventActions.newEvent(this.props.event)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -114,10 +111,10 @@ class EditEvent extends Component {
       break
 
       case 'preview':
-        //if (newEventActions.validateEvent(this.props.newEvent)) {
+        if (newEventActions.validateEvent(this.props.newEvent)) {
           id = 'EventDetail',
           title = LANG.t('event.edit.Preview')
-        //}
+        }
       break
     }
 
@@ -141,31 +138,6 @@ class EditEvent extends Component {
 
   render() {
     const event = this.props.newEvent
-// saved for future
-/*
-    const privacy = (
-          <View style={styles.editor.group}>
-            <View style={styles.editor.link}>
-              <View style={styles.editor.label}>
-                <TextView
-                  textColor={Graphics.colors.primary}
-                  text={Lang.PrivacySetting}
-                />
-              </View>
-              <View style={styles.editor.value}>
-                <TextView
-                  style={{marginRight: 10}}
-                  text={(event.isPublic) ? Lang.Public : Lang.Private}
-                />
-                <Switch
-                  onValueChange={(value) => this.props.newEventActions.setEventPrivacy(value)}
-                  value={event.isPublic}
-                />
-              </View>
-            </View>
-          </View>
-    )
-*/
 
     return (
       <View style={styles.global.wrapper}>
@@ -174,11 +146,11 @@ class EditEvent extends Component {
             imageUri={UTIL.getEventHeroPath(event)}
             onPress={() => this._nextPage('hero')}
             card={
-              <View style={[styles.editor.ring, {borderColor: Graphics.textColors.overlay, marginTop: 90}]}>
+              <View style={[styles.editor.ring, {borderColor: Graphics.colors.overlay, marginTop: 90, opacity: .5}]}>
                 <Icon
                   showLabel={true}
                   stack="vertical"
-                  path={Graphics.pictograms.ruler}
+                  path={Graphics.pictograms.camera}
                   backgroundColor={Graphics.colors.transparent}
                   fillColor={Graphics.colors.overlay}
                   label={LANG.t('event.edit.HeroImage')}
@@ -193,7 +165,7 @@ class EditEvent extends Component {
             <EditLink
               label={LANG.t('event.edit.BaseInfo')}
               required={true}
-              validated={(event.title.length >= AppSettings.minEventTitleLength)}
+              validated={newEventActions.validateEventBase(event) === true}
               onPress={() => this._nextPage('base')}
               value={newEventActions.validateEventBase(event)}
             />
@@ -227,7 +199,7 @@ class EditEvent extends Component {
         </ScrollView>
         <CallToAction
           backgroundColor={(newEventActions.validateEvent(this.props.newEvent)) ? Graphics.colors.primary : Graphics.colors.darkGray}
-          //disabled={!newEventActions.validateEvent(this.props.newEvent)}
+          disabled={!newEventActions.validateEvent(this.props.newEvent)}
           label={LANG.t('event.edit.Preview')}
           onPress={() => this._nextPage('preview')}
         />
@@ -239,7 +211,8 @@ class EditEvent extends Component {
 EditEvent.propTypes = {
   navigator: PropTypes.object.isRequired,
   newEventActions: PropTypes.object.isRequired,
-  newEvent: PropTypes.object
+  newEvent: PropTypes.object.isRequired,
+  event: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {
@@ -257,7 +230,30 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEvent)
 
+// saved for future
 /*
+    const privacy = (
+          <View style={styles.editor.group}>
+            <View style={styles.editor.link}>
+              <View style={styles.editor.label}>
+                <TextView
+                  textColor={Graphics.colors.primary}
+                  text={Lang.PrivacySetting}
+                />
+              </View>
+              <View style={styles.editor.value}>
+                <TextView
+                  style={{marginRight: 10}}
+                  text={(event.isPublic) ? Lang.Public : Lang.Private}
+                />
+                <Switch
+                  onValueChange={(value) => this.props.newEventActions.setEventPrivacy(value)}
+                  value={event.isPublic}
+                />
+              </View>
+            </View>
+          </View>
+    )
             <EditLink
               label={LANG.t('event.EventPhotos')}
               onPress={() => this._nextPage('photos')}

@@ -187,13 +187,13 @@ class OrderEvent extends Component {
               })
             }
             </View>
-            <KeyboardSpacer />
           </View>
         </ParallaxView>
         <CallToAction
           label={LANG.t('order.ConfirmSignUps')}
           onPress={this._nextStep}
         />
+        <KeyboardSpacer />
       </View>
     )
   }

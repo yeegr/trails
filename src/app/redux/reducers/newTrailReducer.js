@@ -3,7 +3,6 @@
 import {AsyncStorage} from 'react-native'
 import * as ACTIONS from '../constants/newTrailConstants'
 import {
-  CONSTANTS,
   UTIL,
   AppSettings
 } from '../../settings'
@@ -58,18 +57,19 @@ newTrailReducer = (state = initState, action) => {
       })
 
     case ACTIONS.STORE_TRAIL_DATA:
+      console.log('reducer: store trail data')
       AsyncStorage
-      .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
-      .then((tmp) => {
-        return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
+      .getItem(action.userId)
+      .then((str) => {
+        return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
       })
-      .then((tmp) => {
-        tmp[state.storeKey] = state
+      .then((obj) => {
+        obj[state.storeKey] = state
 
         AsyncStorage
         .setItem(
-          CONSTANTS.ACTION_TARGETS.TEMP,
-          JSON.stringify(tmp)
+          action.userId,
+          JSON.stringify(obj)
         )
       })
 
@@ -157,21 +157,6 @@ newTrailReducer = (state = initState, action) => {
       })
 
     case ACTIONS.CREATE_TRAIL_SUCCESS:
-      AsyncStorage
-      .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
-      .then((tmp) => {
-        return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
-      })
-      .then((tmp) => {
-        delete tmp[action.storeKey]
-
-        AsyncStorage
-        .setItem(
-          CONSTANTS.ACTION_TARGETS.TEMP,
-          JSON.stringify(tmp)
-        )
-      })
-
       return Object.assign({}, state, {
         isUploading: false,
         isSaved: true
@@ -220,21 +205,6 @@ newTrailReducer = (state = initState, action) => {
 
 // delete local trail
     case ACTIONS.DELETE_LOCAL_TRAIL:
-      AsyncStorage
-      .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
-      .then((tmp) => {
-        return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
-      })
-      .then((tmp) => {
-        delete tmp[action.storeKey]
-
-        AsyncStorage
-        .setItem(
-          CONSTANTS.ACTION_TARGETS.TEMP,
-          JSON.stringify(tmp)
-        )
-      })
-
       return Object.assign({}, initState, {
         isDeleted: true
       })

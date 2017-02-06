@@ -63,7 +63,10 @@ class EditTrail extends Component {
         LANG.t('trail.edit.SaveAlert.title'),
         LANG.t('trail.edit.SaveAlert.description'),
         [
-          {text: LANG.t('trail.edit.SaveAlert.confirm'), onPress: this._resetRoutes}
+          {
+            text: LANG.t('trail.edit.SaveAlert.confirm'), 
+            onPress: this._resetRoutes
+          }
         ]
       )
     }
@@ -202,7 +205,7 @@ class EditTrail extends Component {
           </View>
           <View style={styles.editor.value}>
             <Text style={[styles.editor.valueText, {marginRight: 10}]}>
-              {Lang[trail.status]}
+              {LANG.t('statuses.' + trail.status)}
             </Text>
           </View>
         </View>

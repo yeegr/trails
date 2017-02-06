@@ -7,6 +7,8 @@ import React, {
 
 import {
   ListView,
+  SegmentedControlIOS,
+  ScrollView,
   TouchableOpacity,
   View
 } from 'react-native'
@@ -34,11 +36,16 @@ class MyEvents extends Component {
       rowHasChanged: (r1, r2) => r1 != r2
     })
     this.renderRow = this.renderRow.bind(this)
-    this.signupList = this.signupList.bind(this)
+    this._toggleList = this._toggleList.bind(this)
+    this._signUpList = this._signUpList.bind(this)
+
+    this.state = {
+      selectedIndex: 0
+    }
   }
 
   componentWillMount() {
-    this.props.eventsActions.listEvents(this.props.query)
+    this._toggleList(this.state.selectedIndex)
   }
 
   eventPage(id) {
@@ -46,23 +53,45 @@ class MyEvents extends Component {
       id: 'EventDetail',
       title: LANG.t('event.EventDetail'),
       passProps: {
-        id
+        id,
+        isReview: true
       }
     })
   }
 
-  signupList(event, groupIndex) {
+  _signUpList(event, groupIndex, isReview) {
     this.props.navigator.push({
       id: 'SignUpList',
       title: LANG.t('mine.SignUpList'),
       passProps: {
         event,
-        groupIndex
+        groupIndex,
+        isReview
       }
     })
   }
 
+  _toggleList(selectedIndex) {
+    this.setState({selectedIndex})
+
+    let query = ''
+
+    switch (selectedIndex) {
+      case 0:
+        query = "&status!=editing"
+      break
+
+      case 1:
+        query = "&status=editing"
+      break
+    }
+
+    this.props.eventsActions.listEvents(this.props.query + query)
+  }
+
   renderRow(event, sectionId, rowId) {
+    let isReview = (this.state.selectedIndex !== 0)
+
     return (
       <View style={styles.detail.section}>
         <View style={{flexDirection: 'row', paddingTop: 14}}>
@@ -89,7 +118,7 @@ class MyEvents extends Component {
                 key={index}
                 label={dates}
                 value={group.signUps.length} 
-                onPress={() => this.signupList(event, index)}
+                onPress={() => this._signUpList(event, index, isReview)}
               />
             )
           })
@@ -107,12 +136,27 @@ class MyEvents extends Component {
     }
 
     return (
-      <ListView
-        enableEmptySections={true}
-        scrollEnabled={false}
-        dataSource={this.dataSource.cloneWithRows(events)}
-        renderRow={this.renderRow}
-      />
+      <View style={styles.global.main}>
+        <View style={{paddingHorizontal: 20, paddingTop: 20}}>
+          <SegmentedControlIOS
+            values={[
+              LANG.t('mine.events.SubmittedEvents'),
+              LANG.t('mine.events.UnsubmittedEvents')
+            ]}
+            selectedIndex={this.state.selectedIndex}
+            onChange={(event) => this._toggleList(event.nativeEvent.selectedSegmentIndex)}
+            style={{marginHorizontal: 15, marginBottom: 15}}
+          />
+        </View>
+        <ScrollView>
+          <ListView
+            enableEmptySections={true}
+            scrollEnabled={false}
+            dataSource={this.dataSource.cloneWithRows(events)}
+            renderRow={this.renderRow}
+          />
+        </ScrollView>
+      </View>
     )
   }
 }

@@ -144,12 +144,7 @@ const mongoose = require('mongoose'),
         type: Number,
         required: true
       },
-      insurance: {
-        base: {
-          type: Number,
-          default: 0
-        }
-      },
+      insurance: Boolean,
       detail: [String],
       includes: [String],
       excludes: [String]

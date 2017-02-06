@@ -13,6 +13,7 @@
   "minTrailPathPoints":3,
   "minTrailTitleLength":1,
   "maxNumberOfAreasPerTrail":3,
+  "minRealNameLength":2,
   "minEventTitleLength":2,
   "getVerificationTimer":90,
   "mobileNumberLength":11,
@@ -32,7 +33,7 @@
 
   "home":{
     "areas":"?city=",
-    "events":"?isPublic=true&status=editing&city="
+    "events":"?isPublic=true&status=approved&city="
   },
 
   "sdks":{

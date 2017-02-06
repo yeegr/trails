@@ -99,7 +99,10 @@ class EditEventHero extends Component {
     return (
       <View style={styles.wrapper}>
         <TouchableOpacity onPress={() => this.selectPhoto()}>
-          <Image style={styles.image} source={{uri: this.state.imageUri}} />
+          <Image
+            style={styles.image}
+            source={{uri: this.state.imageUri}}
+          />
         </TouchableOpacity>
       </View>
     )

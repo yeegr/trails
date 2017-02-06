@@ -6,8 +6,6 @@ import React, {
 } from 'react'
 
 import {
-  ScrollView,
-  TextInput,
   View
 } from 'react-native'
 
@@ -15,7 +13,15 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as loginActions from '../../redux/actions/loginActions'
 
+import StringInput from '../shared/StringInput'
+import TextView from '../shared/TextView'
+
 import styles from '../../styles/main'
+
+import {
+  LANG,
+  AppSettings
+} from '../../settings'
 
 class EditUserName extends Component {
   constructor(props) {
@@ -27,11 +33,11 @@ class EditUserName extends Component {
   }
 
   componentWillUnmount() {
-    let tmp = this.state.name.trim()
+    let name = this.state.name.trim()
 
-    if (tmp !== '' && tmp !== this.props.user.name) {
+    if (name.length >= AppSettings.minRealNameLength) {
       this.props.loginActions.updateUser(this.props.user.id, {
-        name: tmp
+        name
       })
     }
   }
@@ -39,17 +45,23 @@ class EditUserName extends Component {
   render() {
     return (
       <View style={styles.global.wrapper}>
-        <ScrollView style={styles.editor.scroll}>
+        <View style={styles.editor.scroll}>
           <View style={styles.editor.group}>
-            <TextInput
+            <StringInput
               autoFocus={true}
               autoCorrect={false}
-              style={styles.editor.textInput}
-              onChangeText={(name) => this.setState({name: name})}
+              placeholder={LANG.t('mine.edit.RealName')}
+              onChangeText={(value) => this.setState({name: value})}
               value={this.state.name}
             />
           </View>
-        </ScrollView>
+          <View style={{paddingHorizontal: 15}}>
+            <TextView
+              class={'h5'}
+              text={LANG.t('mine.edit.MinRealNameLength', {min: AppSettings.minRealNameLength})}
+            />
+          </View>
+        </View>
       </View>
     )
   }

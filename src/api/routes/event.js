@@ -80,6 +80,12 @@ module.exports = (app) => {
       query.status = req.query.status
     }
 
+    if (req.query.hasOwnProperty('status!')) {
+      query.status = {
+        $ne: req.query['status!']
+      }
+    }
+
     if (req.query.hasOwnProperty('city')) {
       query.city = req.query.city
     }

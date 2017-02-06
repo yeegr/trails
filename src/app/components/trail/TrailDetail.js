@@ -31,13 +31,14 @@ import styles from '../../styles/main'
 
 import {
   CONSTANTS,
-  UTIL,
-  Lang
+  LANG,
+  UTIL
 } from '../../settings'
 
 class TrailDetail extends Component {
   constructor(props) {
     super(props)
+    this.props.navigator.__trackTrail = this._trackTrail.bind(this)
 
     this.state = {
       trail: null
@@ -57,9 +58,9 @@ class TrailDetail extends Component {
 
         case CONSTANTS.STORE_TYPES.LOCAL:
           AsyncStorage
-          .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
-          .then((tmp) => {
-            return (UTIL.isNullOrUndefined(tmp)) ? {} : JSON.parse(tmp)
+          .getItem(this.props.user._id)
+          .then((str) => {
+            return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
           })
           .then((tmp) => {
             let key = this.props.storeKey
@@ -91,6 +92,22 @@ class TrailDetail extends Component {
         this.props.trailsActions.resetTrail()
       break
     }
+  }
+
+  _trackTrail() {
+    this.props.navigator.immediatelyResetRouteStack([
+      {
+        id: 'Home',
+        title: LANG.t('home.Home')
+      },
+      {
+        id: 'RecordTrail',
+        title: LANG.t('trail.TrackTrail'),
+        passProps: {
+          trail: this.state.trail
+        }
+      }
+    ])
   }
 
   render() {
@@ -170,11 +187,11 @@ class TrailDetail extends Component {
               <UserLink user={creator} navigator={navigator} />
             </View>
             <View style={styles.detail.section}>
-              <Header text={Lang.Description} />
+              <Header text={LANG.t('trail.Description')} />
               <TextView
                 multiLine={true}
                 style={{marginHorizontal: 15}}
-                text={(trail.description.length < 1) ? Lang.NoDescription : trail.description}
+                text={(trail.description.length < 1) ? LANG.t('trail.NoDescription') : trail.description}
               />
             </View>
             {galleryPreview}

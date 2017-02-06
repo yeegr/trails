@@ -10,15 +10,18 @@ import {
 } from '../../settings'
 
 const ImagePath = (props) => {
-  const {width, height} = Dimensions.get('window'),
-    pixelRatio = PixelRatio.get(),
-    type = '?type=' + props.type,
-    path = '&path=' + props.path,
-    res = '&res=' + (width * pixelRatio).toString() + 'x' + (height * pixelRatio).toString(),
-    url = AppSettings.assetUri + 'image' + type + path + res
+  if (props.path.indexOf('/Users/') === 0) {
+    return props.path
+  } else {
+    const {width, height} = Dimensions.get('window'),
+      pixelRatio = PixelRatio.get(),
+      type = '?type=' + props.type,
+      path = '&path=' + props.path,
+      res = '&res=' + (width * pixelRatio).toString() + 'x' + (height * pixelRatio).toString(),
+      url = AppSettings.assetUri + 'image' + type + path + res
 
-  return url
-  //return AppSettings.imageUri + props.path
+    return url
+  }
 }
 
 export default ImagePath

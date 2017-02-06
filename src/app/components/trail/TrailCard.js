@@ -19,26 +19,33 @@ import global from '../../styles/global'
 
 import {
   CONSTANTS,
-  UTIL,
-  Lang,
+  LANG,
   Graphics
 } from '../../settings'
 
 const TrailCard = (props) => {
   const {trail, navigator} = props,
-    gotoDetailPage = () => {
-      let id = 'TrailDetail',
-        title = Lang.TrailDetail,
-        passProps = (trail._id) ? {
+    _nextPage = () => {
+      let id = 'EditTrail',
+        title = LANG.t('trail.EditTrail'),
+        passProps = (trail._id && trail.status !== 'approved' && props.user && trail.creator === props.user.id) ? {
           storeType: CONSTANTS.STORE_TYPES.REMOTE,
-          id: trail._id,
-          creatorId: trail.creator._id
+          trail
         } : {
           storeType: CONSTANTS.STORE_TYPES.LOCAL,
-          storeKey: trail.storeKey,
-          creatorId: trail.creator._id
+          trail
         }
 
+      if (trail._id && trail.status === 'approved') {
+        id = 'TrailDetail',
+        title = LANG.t('trail.TrailDetail'),
+        passProps = {
+          storeType: CONSTANTS.STORE_TYPES.REMOTE,
+          id: trail._id,
+          isPreview: false
+        }
+      }
+ 
       navigator.push({
         id,
         title,
@@ -48,7 +55,7 @@ const TrailCard = (props) => {
 
   return (
     <View style={styles.wrapper}>
-      <TouchableOpacity onPress={() => gotoDetailPage()}>
+      <TouchableOpacity onPress={_nextPage}>
         <TrailInfo
           type={trail.type}
           title={trail.title}
@@ -96,6 +103,7 @@ styles = StyleSheet.create({
 
 TrailCard.propTypes = {
   navigator: PropTypes.object.isRequired,
+  user: PropTypes.object,
   trail: PropTypes.object.isRequired
 }
 

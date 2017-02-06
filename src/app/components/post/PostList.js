@@ -33,7 +33,7 @@ class PostList extends Component {
   }
 
   componentWillUnmount() {
-    this.props.postsActions.resetPosts()
+    postsActions.resetPosts()
   }
 
   fetchData() {

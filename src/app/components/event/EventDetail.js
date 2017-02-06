@@ -49,6 +49,8 @@ import {
 class EventDetail extends Component {
   constructor(props) {
     super(props)
+    this.props.navigator.__editEvent = this._editEvent.bind(this)
+    this._submitEvent = this._submitEvent.bind(this)
 
     this.state = {
       destinationHeight: 0,
@@ -62,27 +64,65 @@ class EventDetail extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.navbar.nav_to_signup_event === true) {
-      this._signUp()
-    }
-  }
-
   componentWillUnmount() {
     if (!this.props.isPreview) {
       this.props.eventsActions.clearEvent()
     }
   }
 
+  _editEvent() {
+    let event = (this.props.isPreview) ? this.props.newEvent : this.props.event
+
+    if (event.status === 'editing') {
+      this.props.navigator.push({
+        id: 'EditEvent',
+        title: LANG.t('event.EditEvent'),
+        passProps: {
+          event: this.props.event
+        }
+      })
+    } else {
+      Alert.alert(
+        LANG.t('event.edit.ReEditAlert.title'),
+        LANG.t('event.edit.ReEditAlert.description'),
+        [
+          {
+            text: LANG.t('event.edit.ReEditAlert.okay')
+          }
+        ]
+      )
+    }
+  }
+
+  _submitEvent() {
+    Alert.alert(
+      LANG.t('event.edit.SubmitAlert.title'),
+      LANG.t('event.edit.SubmitAlert.description'),
+      [
+        {
+          text: LANG.t('event.edit.SubmitAlert.confirm'),
+          onPress: this.props.newEventActions.submitEvent()
+        },
+        {
+          text: LANG.t('event.edit.SubmitAlert.cancel')
+        }
+      ]
+    )
+  }
+
   render() {
-    const event = (this.props.isPreview) ? this.props.newEvent : this.props.event,
-      {navigator, isPreview} = this.props
+    const {navigator, isPreview, isReview} = this.props,
+      event = (isPreview) ? this.props.newEvent : this.props.event
 
     if (!event) {
       return <Loading />
     }
 
-    const creator = (isPreview) ? this.props.user : event.creator,
+    let schedule = event.schedule.map((agenda) => {
+      return agenda.trail
+    })
+
+    const creator = (isPreview || isReview) ? this.props.user : event.creator,
       eventHeroUri = ImagePath({type: 'background', path: UTIL.getEventHeroPath(event)}),
       eventGroups = (event.groups.length > 1) ? (
         <ListItem icon={'calendar'}
@@ -92,7 +132,7 @@ class EventDetail extends Component {
       ) : null,
       gatherTime = UTIL.formatMinutes(event.gatherTime),
       gatherDateTime = (event.groups.length > 1) ? gatherTime : Moment(event.groups[0]).format('ll') + gatherTime,
-      eventTrails = (event.schedule.length > 0) ? (
+      eventTrails = (schedule.length > 0) ? (
         <View ref="eventSchedule" style={styles.detail.section}>
           <Header
             text={LANG.t('event.EventTrails')}
@@ -100,7 +140,7 @@ class EventDetail extends Component {
           <View>
             <TrailList
               navigator={navigator}
-              query={'?in=[' + event.schedule + ']'}
+              query={'?in=[' + schedule + ']'}
             />
           </View>
         </View>
@@ -233,9 +273,9 @@ class EventDetail extends Component {
       ),
       submit = (
         <CallToAction
-          disabled={!newEventActions.validateEvent(this.props.newEvent)}
+          disabled={!newEventActions.validateEvent(event)}
           label={LANG.t('event.edit.SubmitForReview')}
-          onPress={() => this.props.newEventActions.submitEvent()}
+          onPress={this._submitEvent}
         />
       )
 
@@ -315,11 +355,11 @@ class EventDetail extends Component {
             {eventDestination}
             {eventGears}
             {eventNotes}
-            {(!isPreview) ? commentsPreview : null}
+            {(!isPreview && !isReview) ? commentsPreview : null}
           </View>
         </ParallaxView>
-        {(!isPreview) ? toolbar : null}
-        {(isPreview) ? submit : null}
+        {(!isPreview && !isReview) ? toolbar : null}
+        {(isPreview || (isReview && event.status === 'editing')) ? submit : null}
       </View>
     )
   }
@@ -334,7 +374,8 @@ EventDetail.propTypes = {
   event: PropTypes.object,
   newEvent: PropTypes.object,
   user: PropTypes.object,
-  isPreview: PropTypes.bool
+  isPreview: PropTypes.bool,
+  isReview: PropTypes.bool
 }
 
 function mapStateToProps(state, ownProps) {

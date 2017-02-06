@@ -26,6 +26,28 @@ export function zerorize(n) {
   return (n < 10) ? '0' + n.toString() : n.toString()
 }
 
+// deep merge
+function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item) && item !== null);
+}
+
+export function mergeDeep(target, source) {
+  let output = Object.assign({}, target);
+  if (isObject(target) && isObject(source)) {
+    Object.keys(source).forEach(key => {
+      if (isObject(source[key])) {
+        if (!(key in target))
+          Object.assign(output, { [key]: source[key] });
+        else
+          output[key] = mergeDeep(target[key], source[key]);
+      } else {
+        Object.assign(output, { [key]: source[key] });
+      }
+    });
+  }
+  return output;
+}
+
 // convert kv object to array
 export function obj2arr(obj) {
   let arr = []
@@ -40,8 +62,14 @@ export function obj2arr(obj) {
 }
 
 export function getEventHeroPath(data) {
-  let path = (data.hero.indexOf('default') > -1) ? '' : data._id + '/'
-  return 'events/' + path + data.hero
+  let hero = data.hero
+
+  if (hero.indexOf('/Users/') === 0) {
+    return hero
+  } else {
+    let path = (hero.indexOf('default') > -1) ? '' : data._id + '/'
+    return 'events/' + path + hero
+  }
 }
 
 // format time
@@ -340,12 +368,10 @@ export function calculateInsurance(event, user) {
 
   durationCoef = eventDurationArray[durationIndex]
 
-  event.schedule.map((day) => {
-    day.map((agenda) => {
-      if (agenda.type < 20) {
-        difficultyList.push(agenda.difficultyLevel)
-      }
-    })
+  event.schedule.map((agenda) => {
+    if (agenda.type < 20) {
+      difficultyList.push(agenda.difficultyLevel)
+    }
   })
 
   difficultyLevel = Math.max(...difficultyList) || 2

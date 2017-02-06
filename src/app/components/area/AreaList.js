@@ -33,7 +33,7 @@ class AreaList extends Component {
   }
 
   componentWillUnmount() {
-    this.props.areasActions.resetAreas()
+    areasActions.resetAreas()
   }
 
   fetchData() {

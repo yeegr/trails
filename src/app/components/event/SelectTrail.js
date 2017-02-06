@@ -33,6 +33,7 @@ class SelectTrail extends Component {
   constructor(props) {
     super(props)
     this._fetch = this._fetch.bind(this)
+    this._search = this._search.bind(this)
     this._select = this._select.bind(this)
     this._remove = this._remove.bind(this)
     this._toggle = this._toggle.bind(this)
@@ -71,30 +72,38 @@ class SelectTrail extends Component {
 
   _select(value) {
     let selected = this.state.selected.splice(0)
-
-    if (selected.indexOf(value) < 0) {
-      selected.push(value)
-    }
-
+    selected.push({
+      trail:value
+    })
     this.setState({selected})
   }
 
-  _remove(value) {
+  _remove(index) {
     let selected = this.state.selected.splice(0)
-
-    if (selected.indexOf(value) > -1) {
-      selected.splice(selected.indexOf(value), 1)
-    }
-
+    selected.splice(index, 1)
     this.setState({selected})
   }
 
   _toggle(value) {
-    (this.state.selected.indexOf(value) > -1) ? this._remove(value) : this._select(value)
+    let index = this._search(value)
+
+    if (index > -1) {
+      this._remove(index)
+    } else {
+      this._select(value)
+    }
+  }
+
+  _search(value) {
+    let index = -1
+    this.state.selected.filter((agenda, i) => {
+      index = (agenda.trail === value) ? i : index
+    })
+    return index
   }
 
   renderRow(rowData, sectionId, rowId) {
-    const icon = (this.state.selected.indexOf(rowData._id) > -1) ? (
+    const icon = (this._search(rowData._id) > -1) ? (
       <Icon
         backgroundColor={Graphics.colors.transparent}
         fillColor={Graphics.colors.primary}

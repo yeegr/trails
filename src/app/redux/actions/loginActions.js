@@ -13,21 +13,32 @@ import {
 // check user login status
 export const isLoggedIn = () => {
   return AsyncStorage
-    .multiGet([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER, CONSTANTS.ACTION_TARGETS.TEMP])
+    .multiGet([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER])
     .then((arr) => {
       if (arr[0][1] && arr[1][1]) {
         let token = arr[0][1],
-          user = JSON.parse(arr[1][1]),
-          tmp = JSON.parse(arr[2][1]),
-          trails = []
+          user = JSON.parse(arr[1][1])
 
-        for (let key in tmp) {
-          if (tmp.hasOwnProperty(key)) {
-            trails.push(tmp[key])
+        AsyncStorage
+        .getItem(user._id)
+        .then((str) => {
+          return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
+        })
+        .then((obj) => {
+          user.localTrails = UTIL.obj2arr(obj)
+        })
+/*          tmp = JSON.parse(arr[2][1]),
+          trailArray = []
+
+        if (tmp.hasOwnProperty(user._id)) {
+          for (let key in tmp[user._id]) {
+            if (tmp[user._id].hasOwnProperty(key)) {
+              trailArray.push(tmp[key])
+            }
           }
         }
 
-        user.localTrails = trails
+        user.localTrails = trailArray*/
 
         return {
           type: ACTIONS.IS_LOGGED_IN,
@@ -334,9 +345,9 @@ const resetUser = (user) => {
     .setItem(CONSTANTS.USER, JSON.stringify(user))
     .then(() => {
       AsyncStorage
-      .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
+      .getItem(user._id)
       .then((str) => {
-        return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
+        return UTIL.isNullOrUndefined(str) ? {} : JSON.parse(str)
       })
       .then((obj) => {
         return UTIL.obj2arr(obj)
@@ -363,9 +374,9 @@ export const reloadUser = () => {
           .setItem(CONSTANTS.USER, JSON.stringify(res))
           .then(() => {
             AsyncStorage
-            .getItem(CONSTANTS.ACTION_TARGETS.TEMP)
+            .getItem(userId)
             .then((str) => {
-              return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
+              return UTIL.isNullOrUndefined(str) ? {} : JSON.parse(str)
             })
             .then((obj) => {
               return UTIL.obj2arr(obj)
@@ -381,6 +392,18 @@ export const reloadUser = () => {
         }
       })
       .catch((err) => dispatch(setUserFailure(err)))
+  }
+}
+
+// clear local trails
+export const clearCache = () => {
+  return (dispatch, getState) => {
+    let userId = getState().user._id
+
+    AsyncStorage
+    .multiRemove([userId], () => {
+      dispatch(reloadUser())
+    })
   }
 }
 
@@ -515,15 +538,12 @@ const logoutSuccess = () => {
 }
 
 export const logoutUser = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(logoutRequest())
 
     AsyncStorage
-    .getAllKeys((error, keys) => {
-      AsyncStorage
-      .multiRemove(keys, () => {
-        dispatch(logoutSuccess())
-      })
+    .multiRemove(['user', 'access_toklen'], () => {
+      dispatch(logoutSuccess())
     })
   }
 }

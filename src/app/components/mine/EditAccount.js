@@ -63,10 +63,6 @@ class EditAccount extends Component {
     }
   }
 
-
-  componentWillReceiveProps(nextProps) {
-  }
-
   _nextPage(type) {
     let id = null,
       title = null
@@ -190,6 +186,12 @@ class EditAccount extends Component {
               label={LANG.t('mine.edit.PersonalId')}
               onPress={() => this._nextPage('pid')}
               value={user.pid}
+            />
+          </View>
+          <View style={styles.editor.group}>
+            <EditLink
+              label={LANG.t('mine.edit.ClearCache')}
+              onPress={this.props.loginActions.clearCache}
             />
           </View>
         </ScrollView>

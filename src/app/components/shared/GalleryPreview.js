@@ -11,6 +11,7 @@ import {
 
 import {
   AppSettings,
+  Device,
   Lang
 } from '../../settings'
 
@@ -39,7 +40,12 @@ const GalleryPreview = (props) => {
   return (
     <View style={detail.section}>
       <Header text={Lang.Photos} more={more} />
-      <Gallery type={props.type} id={props.id} photos={previews} styles={previewStyles} />
+      <Gallery
+        type={props.type}
+        id={props.id}
+        photos={previews}
+        styles={previewStyles}
+      />
     </View>
   )
 }
@@ -51,19 +57,22 @@ GalleryPreview.propTypes = {
   id: PropTypes.string
 }
 
-const previewStyles = StyleSheet.create({
-  grid: {
-    alignItems: 'flex-start',
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
-  },
-  thumb: {
-    height: 80,
-    width: 80,
-  },
-})
+const {width} = Device,
+  marginRight = 15,
+  sideLength = Math.floor((width - 15 * 5) / 4),
+  previewStyles = StyleSheet.create({
+    grid: {
+      alignItems: 'flex-start',
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+      justifyContent: 'flex-start',
+      paddingLeft: 15,
+    },
+    thumb: {
+      height: sideLength,
+      width: sideLength,
+      marginRight
+    },
+  })
 
 export default GalleryPreview

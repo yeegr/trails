@@ -5,13 +5,13 @@ import React, {
 } from 'react'
 
 import {
-  TouchableOpacity,
-  View
+  TouchableOpacity
 } from 'react-native'
 
 import MapView from 'react-native-maps'
 
 import {
+  LANG,
   UTIL,
   Graphics
 } from '../../settings'
@@ -37,7 +37,7 @@ const TrailMap = (props) => {
     onPress = () => {
       props.navigator.push({
         id: 'TrailMapFull',
-        title: 'Full Map',
+        title: LANG.t('trail.TrailMap'),
         passProps: {
           points: props.points
         }

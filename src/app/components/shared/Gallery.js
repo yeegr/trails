@@ -6,7 +6,6 @@ import React, {
 } from 'react'
 
 import {
-  Dimensions,
   Image,
   StyleSheet,
   TouchableOpacity,
@@ -15,6 +14,10 @@ import {
 
 import ImagePath from './ImagePath'
 import SlideView from './SlideView'
+
+import {
+  Device
+} from '../../settings'
 
 class Gallery extends Component {
   constructor(props) {
@@ -78,7 +81,8 @@ Gallery.propTypes = {
 }
 
 
-const {width} = Dimensions.get('window'),
+const {width} = Device,
+  sideLength = Math.floor(width / 3),
   galleryStyles = StyleSheet.create({
     grid: {
       alignItems: 'flex-start',
@@ -87,8 +91,8 @@ const {width} = Dimensions.get('window'),
       flexWrap: 'wrap'
     },
     thumb: {
-      height: width / 3,
-      width: width / 3,
+      height: sideLength,
+      width: sideLength,
     },
   })
 

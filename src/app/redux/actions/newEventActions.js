@@ -9,9 +9,10 @@ import {
   AppSettings
 } from '../../settings'
 
-export const newEvent = () => {
+export const newEvent = (event) => {
   return {
-    type: ACTIONS.NEW_EVENT
+    type: ACTIONS.NEW_EVENT,
+    event
   }
 }
 
@@ -193,7 +194,9 @@ export const saveEvent = () => {
 }
 
 export const submitEvent = () => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const newEvent = getState().newEvent
+    newEvent.status = 'approved'
     dispatch(saveEvent())
   }
 }
@@ -214,7 +217,7 @@ export const validateEventBase = (event) => {
 
 export const validateEvent = (event) => {
   return (
-    validateEventBase(event) && 
+    (validateEventBase(event) === true) && 
     (event.expenses.perHead !== null && event.expenses.perHead > -1)
   )
 }
@@ -384,7 +387,7 @@ export const updateEvent = (data) => {
   return (dispatch) => {
     dispatch(updateEventRequest(data))
 
-    return fetch(AppSettings.apiUri + 'trails/' + data._id, config)
+    return fetch(AppSettings.apiUri + 'events/' + data._id, config)
       .then((res) => {
         return res.json()
       })
