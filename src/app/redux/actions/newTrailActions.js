@@ -29,43 +29,6 @@ export const stopRecording = () => {
   }
 }
 
-const _setTrailData = (points) => {
-  const {
-    date,
-    totalDuration,
-    totalDistance,
-    totalElevation,
-    maximumAltitude,
-    averageSpeed
-  } = UTIL.calculateTrailData(points)
-
-  if (averageSpeed && averageSpeed > 0) {
-    return (dispatch, getState) => {
-      dispatch(_storeTrailData(getState().user._id))
-
-      return {
-        type: ACTIONS.SET_TRAIL_DATA,
-        points, //array of array [[],[],[],...]
-        date,
-        totalDuration,
-        totalDistance,
-        totalElevation,
-        maximumAltitude,
-        averageSpeed
-      }
-    }
-  } else {
-    _setTrailData(points)
-  }
-}
-
-const _storeTrailData = (userId) => {
-  return {
-    type: ACTIONS.STORE_TRAIL_DATA,
-    userId
-  }
-}
-
 const _storeTrailSuccess = (data) => {
   loginActions.reloadUser()
 
@@ -75,9 +38,10 @@ const _storeTrailSuccess = (data) => {
   }
 }
 
-export const storeTrailData = (data, userId) => {
+export const storeTrailData = (data) => {
   return (dispatch, getState) => {
-    let newTrail = Object.assign({}, getState().newTrail, data)
+    let newTrail = Object.assign({}, getState().newTrail, data),
+      userId = getState().login.user._id
 
     AsyncStorage
     .getItem(userId)
@@ -97,14 +61,6 @@ export const storeTrailData = (data, userId) => {
       })
     })
   }
-
-//  return (dispatch) => {
-//    dispatch(_setTrailData(points))
-/*
-    setTimeout(() => {
-      dispatch(_storeTrailData())
-    }, 50)*/
-//  }
 }
 
 // edit trail

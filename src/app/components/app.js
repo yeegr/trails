@@ -45,6 +45,7 @@ import EditEvent from './event/EditEvent'
 import EditEventBase from './event/EditEventBase'
 import EditEventHero from './event/EditEventHero'
 import EditEventTitle from './event/EditEventTitle'
+import EditEventDifficulty from './event/EditEventDifficulty'
 import EditEventDates from './event/EditEventDates'
 import EditEventContacts from './event/EditEventContacts'
 import EditAttendeeLimits from './event/EditAttendeeLimits'
@@ -286,7 +287,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
 
   editEvent: function(navigator) {
     if (this.user) {
-      navigator.__editEvent
+      navigator.__editEvent()
     } else {
       dispatch(loginActions.showLogin())      
     }
@@ -294,7 +295,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
 
   trackTrail: function(navigator) {
     if (this.user) {
-      navigator.__trackTrail
+      navigator.__trackTrail()
     } else {
       dispatch(loginActions.showLogin())      
     }
@@ -695,6 +696,14 @@ class App extends Component {
               case 'EditEventTitle':
                 return (
                   <EditEventTitle
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'EditEventDifficulty':
+                return (
+                  <EditEventDifficulty
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />

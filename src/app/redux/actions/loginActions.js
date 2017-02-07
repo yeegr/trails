@@ -398,7 +398,7 @@ export const reloadUser = () => {
 // clear local trails
 export const clearCache = () => {
   return (dispatch, getState) => {
-    let userId = getState().user._id
+    let userId = getState().login.user._id
 
     AsyncStorage
     .multiRemove([userId], () => {

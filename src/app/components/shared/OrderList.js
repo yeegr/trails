@@ -20,6 +20,7 @@ import styles from '../../styles/main'
 import {
   LANG,
   UTIL,
+  AppSettings,
   Graphics
 } from '../../settings'
 
@@ -91,7 +92,7 @@ const OrderList = (props) => {
                 labelWidth={75}
                 styles={infoStyles}
                 label={LANG.t('order.PayTime')}
-                value={UTIL.getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')}
+                value={UTIL.getTimeFromId(order._id).format(AppSettings.defaultDateTimeFormat)}
               />
             </View>
           </View>

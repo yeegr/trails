@@ -13,12 +13,14 @@ import {
 
 import SimpleContact from '../shared/SimpleContact'
 import TextView from '../shared/TextView'
+import moment from 'moment'
 
 import styles from '../../styles/main'
 
 import {
   LANG,
   UTIL,
+  AppSettings,
   Graphics
 } from '../../settings'
 
@@ -59,6 +61,7 @@ class SignUpList extends Component {
       <View style={styles.list.row}>
         <SimpleContact 
           label={rowData.name}
+          alt={moment(rowData.added).format(AppSettings.defaultDateTimeFormat)}
           number={rowData.mobile}
         />
       </View>

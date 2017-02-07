@@ -38,6 +38,7 @@ class EditAccount extends Component {
     this._toggleWeChat = this._toggleWeChat.bind(this)
     this._bindWeChat = this._bindWeChat.bind(this)
     this._unbindWeChat = this._unbindWeChat.bind(this)
+    this._clearCache = this._clearCache.bind(this)
   }
 
   async componentDidMount() {
@@ -103,7 +104,7 @@ class EditAccount extends Component {
       id,
       title,
       passProps: {
-        user: this.props.login.user
+        user: this.props.user
       }
     })
   }
@@ -127,21 +128,37 @@ class EditAccount extends Component {
   }
 
   _unbindWeChat() {
-    this.props.loginActions.updateUser(this.props.login.user.id, {
+    this.props.loginActions.updateUser(this.props.user.id, {
       wechat: CONSTANTS.WeChatOpenId
     })
   }
 
   _toggleWeChat() {
-    if (this.props.login.user.wechat === CONSTANTS.WeChatOpenId) {
+    if (this.props.user.wechat === CONSTANTS.WeChatOpenId) {
       this._bindWeChat()
     } else {
       this._unbindWeChat()
     }
   }
 
+  _clearCache() {
+    Alert.alert(
+      LANG.t('mine.edit.ClearCacheAlert.title'),
+      LANG.t('mine.edit.ClearCacheAlert.description'),
+      [
+        {
+          text: LANG.t('mine.edit.ClearCacheAlert.cancel')
+        },
+        {
+          text: LANG.t('mine.edit.ClearCacheAlert.confirm'), 
+          onPress: this.props.loginActions.clearCache
+        }
+      ]
+    )
+  }
+
   render() {
-    const {user} = this.props.login
+    const {user} = this.props
 
     if (!user) {
       return null
@@ -191,7 +208,7 @@ class EditAccount extends Component {
           <View style={styles.editor.group}>
             <EditLink
               label={LANG.t('mine.edit.ClearCache')}
-              onPress={this.props.loginActions.clearCache}
+              onPress={this._clearCache}
             />
           </View>
         </ScrollView>
@@ -206,15 +223,17 @@ class EditAccount extends Component {
 }
 
 EditAccount.propTypes = {
-  user: PropTypes.object,
   navigator: PropTypes.object.isRequired,
+  login: PropTypes.object,
+  user: PropTypes.object,
   loginActions: PropTypes.object.isRequired,
   changeTab: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    login: state.login
+    login: state.login,
+    user: state.login.user
   }
 }
 

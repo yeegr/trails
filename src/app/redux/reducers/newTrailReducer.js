@@ -1,6 +1,5 @@
 'use strict'
 
-import {AsyncStorage} from 'react-native'
 import * as ACTIONS from '../constants/newTrailConstants'
 import {
   UTIL,
@@ -55,25 +54,6 @@ newTrailReducer = (state = initState, action) => {
       return Object.assign({}, state, action.data, {
         isStored: true,
       })
-
-    case ACTIONS.STORE_TRAIL_DATA:
-      console.log('reducer: store trail data')
-      AsyncStorage
-      .getItem(action.userId)
-      .then((str) => {
-        return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
-      })
-      .then((obj) => {
-        obj[state.storeKey] = state
-
-        AsyncStorage
-        .setItem(
-          action.userId,
-          JSON.stringify(obj)
-        )
-      })
-
-      return state
 
     case ACTIONS.SET_TRAIL_DATA:
       return Object.assign({}, state, {

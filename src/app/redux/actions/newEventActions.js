@@ -36,10 +36,25 @@ export const setEventHero = (uri) => {
     uri
   }
 }
-export const setEventTitle = (title) => {
+
+export const setEventDescription = (description) => {
   return {
-    type: ACTIONS.SET_EVENT_TITLE,
-    title
+    type: ACTIONS.SET_EVENT_DESCRIPTION,
+    description
+  }
+}
+
+export const setEventExcerpt = (excerpt) => {
+  return {
+    type: ACTIONS.SET_EVENT_EXCERPT,
+    excerpt
+  }
+}
+
+export const setEventDifficulty = (difficultyLevel) => {
+  return {
+    type: ACTIONS.SET_EVENT_DIFFICULTY_LEVEL,
+    difficultyLevel
   }
 }
 
@@ -183,6 +198,9 @@ export const saveEvent = () => {
     const newEvent = getState().newEvent
     newEvent.creator = getState().login.user._id
 
+    console.log(newEvent)
+    console.log(validateEventBase(newEvent))
+
     if (validateEvent(newEvent)) {
       if (UTIL.isNullOrUndefined(newEvent._id)) {
         dispatch(createEvent(newEvent))
@@ -193,10 +211,12 @@ export const saveEvent = () => {
   }
 }
 
-export const submitEvent = () => {
+export const submitEvent = (event) => {
   return (dispatch, getState) => {
+    dispatch(editEvent(event))
     const newEvent = getState().newEvent
     newEvent.status = 'approved'
+
     dispatch(saveEvent())
   }
 }

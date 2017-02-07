@@ -163,6 +163,7 @@
     "EventDetail": "活动详情",
     "EventInfo": "活动信息",
     "EventTitle": "活动标题",
+    "DifficultyLevel": "难度系数",
     "DepartCity": "出发城市",
     "Destinations": "目的地",
     "EventDates": "活动日期",
@@ -310,8 +311,8 @@
       "LocalTrails": "本地轨迹"
     },
     "events": {
-      "SubmittedEvents": "已提交活动",
-      "UnsubmittedEvents": "未提交活动"
+      "ApprovedEvents": "已通过审核活动",
+      "UnapprovedEvents": "未通过审核活动"
     },
     "edit": {
       "EditUserAvatar": "修改头像",
@@ -329,6 +330,12 @@
       "BindWeChat": "绑定微信",
       "UnbindWeChat": "解绑微信",
       "ClearCache": "清除缓存",
+      "ClearCacheAlert": {
+        "title": "真的吗？",
+        "description": "亲，\n您所有尚未同步云端的轨迹也将被清除的！",
+        "cancel": "我再想想",
+        "confirm": "都删了吧"
+      },
       "Logout": "退出登录"
     }
   },

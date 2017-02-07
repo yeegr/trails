@@ -12,7 +12,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newTrailActions from '../../redux/actions/newTrailActions'
+import * as newEventActions from '../../redux/actions/newEventActions'
 
 import TextView from '../shared/TextView'
 
@@ -22,7 +22,7 @@ import {
   UTIL
 } from '../../settings'
 
-const EditTrailDifficulty = (props) => {
+const EditEventDifficulty = (props) => {
   return (
     <View style={styles.global.wrapper}>
       <ScrollView style={styles.editor.scroll}>
@@ -33,7 +33,7 @@ const EditTrailDifficulty = (props) => {
               maximumValue={10}
               minimumValue={2}
               step={1}
-              onValueChange={(value) => props.newTrailActions.setTrailDifficulty(value)}
+              onValueChange={(value) => props.newEventActions.setEventDifficulty(value)}
               value={props.difficultyLevel}
             />
             <TextView
@@ -47,22 +47,22 @@ const EditTrailDifficulty = (props) => {
   )
 }
 
-EditTrailDifficulty.propTypes = {
+EditEventDifficulty.propTypes = {
   navigator: PropTypes.object.isRequired,
   difficultyLevel: PropTypes.number.isRequired,
-  newTrailActions: PropTypes.object.isRequired
+  newEventActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    difficultyLevel: state.newTrail.difficultyLevel
+    difficultyLevel: state.newEvent.difficultyLevel
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    newTrailActions: bindActionCreators(newTrailActions, dispatch)
+    newEventActions: bindActionCreators(newEventActions, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTrailDifficulty)
+export default connect(mapStateToProps, mapDispatchToProps)(EditEventDifficulty)

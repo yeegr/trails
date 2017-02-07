@@ -251,8 +251,7 @@ class RecordTrail extends Component {
   }
 
   _saveRecording() {
-    //this.props.newTrailActions.storeTrailData(this._finalizePath(), arguments[0])
-    this.props.newTrailActions.storeTrailData(this._finalizePath(), this.props.user._id)
+    this.props.newTrailActions.storeTrailData(this._finalizePath(), arguments[0])
   }
 
   _startCounter() {

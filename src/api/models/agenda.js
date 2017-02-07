@@ -21,7 +21,8 @@ const mongoose = require('mongoose'),
     startPoi: Point,
     endPoi: Point,
     duration: Number,
-    day: Number
+    day: Number,
+    _id: false
   })
 
 module.exports = agendaSchema

@@ -12,7 +12,7 @@ import {
 } from '../../settings'
 
 const TrailData = (props) => {
-  let difficultyLevel = UTIL.showTrailDifficulty(props.difficultyLevel), 
+  let difficultyLevel = UTIL.showDifficultyLevel(props.difficultyLevel), 
     difficultyLevelTile = (difficultyLevel) ? (
       <tile>
         <pictogram type="glyph" data-glyph={difficultyLevel} />

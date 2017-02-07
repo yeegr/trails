@@ -37,13 +37,13 @@ module.exports = (app) => {
     .select('title likes saves shares comments')
     .populate({
       path: 'comments',
-      modal: 'Comment',
+      model: 'Comment',
       options: {
         sort: {'_id': -1}
       }, 
       populate: {
         path: 'creator',
-        modal: 'User',
+        model: 'User',
         select: CONST.USER_LIST_FIELDS
       }
     })

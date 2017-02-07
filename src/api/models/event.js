@@ -5,8 +5,8 @@ const mongoose = require('mongoose'),
   CONST = require('../const'),
   UTIL = require('../util'),
   Log = require('./logging'),
-  Photo = require('./photo'),
   Agenda = require('./agenda'),
+  Photo = require('./photo'),
   Point = require('./point'),
   User = require('./user'),
   eventSchema = new Schema({
@@ -54,6 +54,13 @@ const mongoose = require('mongoose'),
       type: String,
       required: false,
       max: 100
+    },
+    difficultyLevel: {
+      type: Number, //1,1.5,2,2.5,-5
+      required: true,
+      min: 1,
+      max: 5,
+      default: 1
     },
     tags: [String],
     groups: [{

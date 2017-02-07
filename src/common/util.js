@@ -282,8 +282,8 @@ export function setRegion(point, aspectRatio) {
   }
 }
 
-export function showTrailDifficulty(level) {
-  return (level / 2).toString()
+export function showDifficultyLevel(level) {
+  return (level / 2).toFixed(1)
 }
 
 // detail information
@@ -368,13 +368,14 @@ export function calculateInsurance(event, user) {
 
   durationCoef = eventDurationArray[durationIndex]
 
-  event.schedule.map((agenda) => {
-    if (agenda.type < 20) {
-      difficultyList.push(agenda.difficultyLevel)
+  /*event.schedule.map((agenda) => {
+    let trail = agenda.trail
+    if (trail.type < 20) {
+      difficultyList.push(trail.difficultyLevel)
     }
-  })
+  })*/
 
-  difficultyLevel = Math.max(...difficultyList) || 2
+  difficultyLevel = event.difficultyLevel
 
   if (event.maxAttendee > 29) {
     groupSizeIndex = 2

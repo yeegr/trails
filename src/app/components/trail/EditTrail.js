@@ -260,7 +260,7 @@ class EditTrail extends Component {
               onPress={() => this._nextPage('difficulty')}
               required={true}
               validated={(trail.difficultyLevel > -1)}
-              value={UTIL.showTrailDifficulty(trail.difficultyLevel)}
+              value={UTIL.showDifficultyLevel(trail.difficultyLevel)}
             />
             <EditLink
               label={LANG.t('trail.Description')}

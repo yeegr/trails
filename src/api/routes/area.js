@@ -31,14 +31,14 @@ module.exports = (app) => {
     })
     .populate({
       path: 'comments',
-      modal: 'Comment',
+      model: 'Comment',
       options: {
         limit: 3,
         sort: ({'_id': -1})
       },
       populate: {
         path: 'creator',
-        modal: 'User',
+        model: 'User',
         select: CONST.USER_LIST_FIELDS
       }
     })
@@ -104,7 +104,7 @@ module.exports = (app) => {
     .limit(CONST.DEFAULT_PAGINATION)
     .populate({
       path: 'leaders',
-      modal: 'User',
+      model: 'User',
       select: CONST.USER_LIST_FILEDS,
       options: {
         limit: 3
@@ -112,7 +112,7 @@ module.exports = (app) => {
     })
     .populate({
       path: 'trails',
-      modal: 'Trail',
+      model: 'Trail',
       match: {
         isPublic: true,
         status: CONST.STATUSES.TRAIL[2]

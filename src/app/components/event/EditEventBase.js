@@ -56,6 +56,11 @@ class EditEventBase extends Component {
         title = LANG.t('event.EventTitle')
       break
 
+      case 'difficulty':
+        id = 'EditEventDifficulty',
+        title = LANG.t('event.DifficultyLevel')
+      break
+
       case 'dates':
         id = 'EditEventDates',
         title = LANG.t('event.EventDates')
@@ -121,6 +126,13 @@ class EditEventBase extends Component {
               validated={(event.title.length >= AppSettings.minEventTitleLength)}
               onPress={() => this._nextPage('title')}
               value={(event.title.length >= AppSettings.minEventTitleLength) ? event.title : LANG.t('event.edit.Untitled')}
+            />
+            <EditLink
+              label={LANG.t('event.DifficultyLevel')}
+              required={true}
+              validated={(event.difficultyLevel >= 1 && event.difficultyLevel <= 5)}
+              onPress={() => this._nextPage('difficulty')}
+              value={UTIL.showDifficultyLevel(event.difficultyLevel)}
             />
             <EditLink
               label={LANG.t('event.DepartCity')}

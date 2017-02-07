@@ -140,8 +140,8 @@ class MyEvents extends Component {
         <View style={{paddingHorizontal: 20, paddingTop: 20}}>
           <SegmentedControlIOS
             values={[
-              LANG.t('mine.events.SubmittedEvents'),
-              LANG.t('mine.events.UnsubmittedEvents')
+              LANG.t('mine.events.ApprovedEvents'),
+              LANG.t('mine.events.UnapprovedEvents')
             ]}
             selectedIndex={this.state.selectedIndex}
             onChange={(event) => this._toggleList(event.nativeEvent.selectedSegmentIndex)}

@@ -45,7 +45,7 @@ const mongoose = require('mongoose'),
       ref: 'Area'
     }],
     difficultyLevel: {
-      type: Number, //1-5
+      type: Number, //1,1.5,2,2.5,-5
       required: true,
       min: 1,
       max: 5
@@ -63,7 +63,7 @@ const mongoose = require('mongoose'),
       type: Number  //metre
     },
     averageSpeed: {
-      type: Number  //km/h
+      type: Number  //meter/s
     },
     description: {
       type: String,

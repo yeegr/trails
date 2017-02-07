@@ -22,6 +22,7 @@ import {
   UTIL,
   LANG,
   Lang,
+  AppSettings,
   Graphics
 } from '../../settings'
 
@@ -92,7 +93,7 @@ class OrderSuccess extends Component {
               <TextView class={'h2'} text={LANG.t('order.OrderInfo')} />
               <View style={styles.detail.group}>
                 <InfoItem label={LANG.t('order.OrderId')} value={order._id} />
-                <InfoItem label={LANG.t('order.PayTime')} value={UTIL.getTimeFromId(order._id).format('YYYY-MM-DD HH:mm:ss')} />
+                <InfoItem label={LANG.t('order.PayTime')} value={UTIL.getTimeFromId(order._id).format(AppSettings.defaultDateTimeFormat)} />
                 <InfoItem label={LANG.t('order.TotalCost')} value={order.subTotal + Lang.Yuan} />
               </View>
             </View>

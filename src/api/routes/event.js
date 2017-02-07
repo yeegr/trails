@@ -13,17 +13,30 @@ module.exports = (app) => {
   function getOneById(id, res, statusCode) {
     Event
     .findById(id)
-    .populate('creator', CONST.USER_LIST_FIELDS)
+    .populate({
+      path: 'creator',
+      model: 'User',
+      select: CONST.USER_LIST_FIELDS
+    })
+    /*.populate({
+      path: 'schedule.trail',
+      model: 'Trail',
+      populate: {
+        path: 'creator',
+        model: 'User',
+        select: CONST.USER_LIST_FIELDS
+      }
+    })*/
     .populate({
       path: 'comments',
-      modal: 'Comment',
+      model: 'Comment',
       limit: 3,
       options: {
         sort: {'_id': -1}
       },
       populate: {
         path: 'creator',
-        modal: 'User',
+        model: 'User',
         select: CONST.USER_LIST_FIELDS
       }
     })

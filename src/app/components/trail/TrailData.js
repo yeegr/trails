@@ -20,7 +20,7 @@ import {
 const TrailData = (props) => {
   const stack = 'vertical'
 
-  let difficultyLevel = UTIL.showTrailDifficulty(props.difficultyLevel), 
+  let difficultyLevel = UTIL.showDifficultyLevel(props.difficultyLevel), 
     difficultyLevelTile = (difficultyLevel) ? (
       <Icon
         backgroundColor={Graphics.colors.transparent}

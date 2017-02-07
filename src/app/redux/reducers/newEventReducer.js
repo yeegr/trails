@@ -20,6 +20,7 @@ const initState = {
   isUploading: false,
   isSaved: false,
 
+  _id: null,
   isPublic: true,
   status: 'editing',
   title: '',
@@ -27,6 +28,7 @@ const initState = {
   hero: AppSettings.defaultEventHeroUri,
   description: '',
   excerpt: '',
+  difficultyLevel: AppSettings.defaultDifficultyLevel,
   tags: [],
   groups: [{
     startDate: timestamp,
@@ -72,14 +74,29 @@ newEventReducer = (state = initState, action) => {
         isPublic: action.isPublic
       })
 
+    case ACTIONS.SET_EVENT_TITLE:
+      return Object.assign({}, state, {
+        title: action.title
+      })
+
     case ACTIONS.SET_EVENT_HERO:
       return Object.assign({}, state, {
         hero: action.uri
       })
 
-    case ACTIONS.SET_EVENT_TITLE:
+    case ACTIONS.SET_EVENT_DESCRIPTION:
       return Object.assign({}, state, {
-        title: action.title
+        description: action.description
+      })
+
+    case ACTIONS.SET_EVENT_EXCERPT:
+      return Object.assign({}, state, {
+        excerpt: action.excerpt
+      })
+
+    case ACTIONS.SET_EVENT_DIFFICULTY_LEVEL:
+      return Object.assign({}, state, {
+        difficultyLevel: action.difficultyLevel
       })
 
     case ACTIONS.SET_DEPART_CITY:

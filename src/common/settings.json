@@ -4,6 +4,8 @@
   "expiredOn":"2016-11-01",
   "defaultUserAvatar":"default.png",
   "defaultEventHeroUri":"default/hero-006.jpg",
+  "defaultDateTimeFormat":"YYYY-MM-DD HH:mm:ss",
+  "defaultDifficultyLevel":2,
   "maxLeadersPerArea":3,
   "maxTrailPreviewsPerArea":3,
   "maxPhotoPreviewsPerGallery":4,

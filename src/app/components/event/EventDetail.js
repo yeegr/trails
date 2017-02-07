@@ -74,13 +74,19 @@ class EventDetail extends Component {
     let event = (this.props.isPreview) ? this.props.newEvent : this.props.event
 
     if (event.status === 'editing') {
-      this.props.navigator.push({
-        id: 'EditEvent',
-        title: LANG.t('event.EditEvent'),
-        passProps: {
-          event: this.props.event
+      this.props.navigator.immediatelyResetRouteStack([
+        {
+          id: 'Home',
+          title: LANG.t('home.Home')
+        },
+        {
+          id: 'EditEvent',
+          title: LANG.t('event.EditEvent'),
+          passProps: {
+            event: this.props.event
+          }
         }
-      })
+      ])
     } else {
       Alert.alert(
         LANG.t('event.edit.ReEditAlert.title'),
@@ -94,14 +100,14 @@ class EventDetail extends Component {
     }
   }
 
-  _submitEvent() {
+  _submitEvent(event) {
     Alert.alert(
       LANG.t('event.edit.SubmitAlert.title'),
       LANG.t('event.edit.SubmitAlert.description'),
       [
         {
           text: LANG.t('event.edit.SubmitAlert.confirm'),
-          onPress: this.props.newEventActions.submitEvent()
+          onPress: this.props.newEventActions.submitEvent(event)
         },
         {
           text: LANG.t('event.edit.SubmitAlert.cancel')
@@ -118,7 +124,7 @@ class EventDetail extends Component {
       return <Loading />
     }
 
-    let schedule = event.schedule.map((agenda) => {
+    let query = event.schedule.map((agenda) => {
       return agenda.trail
     })
 
@@ -132,7 +138,7 @@ class EventDetail extends Component {
       ) : null,
       gatherTime = UTIL.formatMinutes(event.gatherTime),
       gatherDateTime = (event.groups.length > 1) ? gatherTime : Moment(event.groups[0]).format('ll') + gatherTime,
-      eventTrails = (schedule.length > 0) ? (
+      eventTrails = (event.schedule.length > 0) ? (
         <View ref="eventSchedule" style={styles.detail.section}>
           <Header
             text={LANG.t('event.EventTrails')}
@@ -140,8 +146,8 @@ class EventDetail extends Component {
           <View>
             <TrailList
               navigator={navigator}
-              query={'?in=[' + schedule + ']'}
-            />
+              query={'?in=[' + query.toString() + ']'}
+            />          
           </View>
         </View>
       ) : null,
@@ -235,10 +241,9 @@ class EventDetail extends Component {
           <Header
             text={LANG.t('event.DestinationDescription')}
           />
-          <View style={[styles.detail.content, {paddingLeft: 15}]}>
-            <WebViewWrapper
-              html={event.destination}
-              uri={'events/' + event._id}
+          <View style={[styles.detail.content, {paddingHorizontal: 15}]}>
+            <TextView
+              text={event.destination}
             />
           </View>
         </View>
@@ -275,7 +280,7 @@ class EventDetail extends Component {
         <CallToAction
           disabled={!newEventActions.validateEvent(event)}
           label={LANG.t('event.edit.SubmitForReview')}
-          onPress={this._submitEvent}
+          onPress={() => this._submitEvent(event)}
         />
       )
 
