@@ -7,7 +7,6 @@ import React, {
 
 import {
   Alert,
-  Modal,
   ScrollView,
   View
 } from 'react-native'

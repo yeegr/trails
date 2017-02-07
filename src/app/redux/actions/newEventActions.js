@@ -37,6 +37,13 @@ export const setEventHero = (uri) => {
   }
 }
 
+export const setEventTitle = (title) => {
+  return {
+    type: ACTIONS.SET_EVENT_TITLE,
+    title
+  }
+}
+
 export const setEventDescription = (description) => {
   return {
     type: ACTIONS.SET_EVENT_DESCRIPTION,

@@ -64,7 +64,7 @@ export function obj2arr(obj) {
 export function getEventHeroPath(data) {
   let hero = data.hero
 
-  if (hero.indexOf('/Users/') === 0) {
+  if (hero.indexOf('/') === 0) {
     return hero
   } else {
     let path = (hero.indexOf('default') > -1) ? '' : data._id + '/'

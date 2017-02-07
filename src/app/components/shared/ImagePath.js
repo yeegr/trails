@@ -10,7 +10,7 @@ import {
 } from '../../settings'
 
 const ImagePath = (props) => {
-  if (props.path.indexOf('/Users/') === 0) {
+  if (props.path.indexOf('/') === 0) {
     return props.path
   } else {
     const {width, height} = Dimensions.get('window'),
