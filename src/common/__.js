@@ -22,7 +22,7 @@ AppSettings.trailTypes = [0,1,2,3,4,5,6,7,8,9]
 AppSettings.paymentMethods = Lang.payments
 
 let env = require('./env.json'),
-  servers = env['staging']
+  servers = env['development']
 
 AppSettings.baseUri = servers.WEB_SERVER + '#/'
 AppSettings.apiUri = servers.API_SERVER

@@ -16,8 +16,9 @@ import {
 } from '../../settings'
 
 const GearList = (props) => {
-  const marginRight = 15,
-    sideLength = Math.floor((Device.width - marginRight * 6) / 5)
+  const n = 4,
+    margin = 15,
+    sideLength = Math.floor((Device.width - margin * (n + 1)) / n)
 
   return (
     <View style={styles.wrapper}>
@@ -28,7 +29,7 @@ const GearList = (props) => {
               key={i}
               number={n}
               sideLength={sideLength}
-              marginRight={marginRight}
+              margin={margin}
             />
           )
         })

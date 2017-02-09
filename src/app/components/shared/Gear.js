@@ -21,15 +21,15 @@ import {
 const Gear = (props) => {
   const uri = ImagePath({type: 'gear', path: 'gears/' + props.number + '.jpg'}),
     size = props.sideLength ? {width: props.sideLength, height: props.sideLength} : null,
-    marginRight = props.marginRight
+    margin = props.margin ? {marginBottom: props.margin, marginRight: props.margin} : null
 
   return (
-    <Image style={[styles.wrapper, size, {marginRight}]} source={{uri}}>
+    <Image style={[styles.wrapper, size, margin]} source={{uri}}>
       <View style={styles.caption}>
         <TextView
           fontSize={'XXS'}
           textColor={Graphics.textColors.overlay}
-          text={LANG.t('gears.' + props.number)}
+          text={LANG.t('gears.' + props.number.toString())}
         />
       </View>
     </Image>
@@ -42,6 +42,7 @@ styles = StyleSheet.create({
     height: Graphics.gear.sideLength,
     justifyContent: 'flex-end',
     marginBottom: 10,
+    marginRight: 10,
     overflow: 'hidden',
     width: Graphics.gear.sideLength,
   },
@@ -55,7 +56,7 @@ styles = StyleSheet.create({
 Gear.propTypes = {
   number: PropTypes.number.isRequired,
   sideLength: PropTypes.number,
-  marginRight: PropTypes.number
+  margin: PropTypes.number
 }
 
 export default Gear

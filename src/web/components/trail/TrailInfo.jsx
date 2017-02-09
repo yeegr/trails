@@ -14,10 +14,15 @@ const TrailInfo = (props) => {
 
   return (
     <row>
-      <pictogram shape="circle" data-value={props.type} />
+      <pictogram
+        shape="circle"
+        data-value={props.type}
+      />
       <content>
         <title>{title}</title>
-        <subtitle>{UTIL.formatTime(props.date)}</subtitle>
+        <subtitle>
+          {UTIL.formatTime(props.date)}
+        </subtitle>
       </content>
     </row>
   )

@@ -5,6 +5,7 @@ import React, {
 } from 'react'
 
 import {
+  UTIL,
   Graphics
 } from '../../settings'
 
@@ -13,21 +14,39 @@ const TagList = (props) => {
     return null
   }
 
-  let txt = '# ',
-    style = {
-      color: props.textColor || Graphics.textColors.overlay
+  let style = {
+      color: props.textColor || Graphics.textColors.overlay,
+      backgroundColor: props.backgroundColor || 'transparent'
     }
 
-  props.tags.map((tag) => {
-    txt += tag + ' '
-  })
+  if (UTIL.isNullOrUndefined(props.type)) {
+    let txt = '# '
 
-  return <p style={style}>{txt}</p>
+    props.tags.map((tag) => {
+      txt += tag + ' '
+    })
+
+    return <p style={style}>{txt}</p>
+  } else {
+    return (
+      <div>
+        {
+          props.tags.map((tag, index) => {
+            return (
+              <tag key={index}>{tag}</tag>
+            )
+          })
+        }
+      </div>
+    )
+  }
 }
 
 TagList.propTypes = {
-  tags: PropTypes.array,
-  textColor: PropTypes.string
+  tags: PropTypes.array.isRequired,
+  type: PropTypes.string,
+  textColor: PropTypes.string,
+  backgroundColor: PropTypes.string
 }
 
 export default TagList

@@ -24,6 +24,7 @@
         "postfix": "元"
       }
     },
+    "web": "¥{{amount}}",
     "length": {
       "km": "{{length}}公里",
       "m": "{{length}}米"
@@ -238,7 +239,7 @@
     "order": "订单",
     "order_plural": "订单",
     "SelectGroup": "选择批次",
-    "SignupNow": "即刻报名",
+    "SignUpNow": "即刻报名",
     "SelectOrderGroup": "选择活动批次",
     "SignUp": "报名",
     "AddSignUp": "添加报名",

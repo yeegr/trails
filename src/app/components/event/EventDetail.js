@@ -12,7 +12,7 @@ import {
 
 import ParallaxView from 'react-native-parallax-view'
 
-import Moment from 'moment'
+import moment from 'moment'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
@@ -33,6 +33,7 @@ import WebViewWrapper from '../shared/WebViewWrapper'
 import TagList from '../shared/TagList'
 import TextView from '../shared/TextView'
 import Toolbar from '../shared/Toolbar'
+import GalleryPreview from '../shared/GalleryPreview'
 import CommentPreview from '../shared/CommentPreview'
 import UserLink from '../user/UserLink'
 import TrailList from '../trail/TrailList'
@@ -133,11 +134,11 @@ class EventDetail extends Component {
       eventGroups = (event.groups.length > 1) ? (
         <ListItem icon={'calendar'}
           label={LANG.t('event.EventDates') + ' ' + LANG.t('event.EventGroups', {count: event.groups.length})}
-          value={Moment(event.groups[0].startDate).format('LL') + '-' + Moment(event.groups[event.groups.length-1].startDate).format('LL')}
+          value={moment(event.groups[0].startDate).format('LL') + '-' + moment(event.groups[event.groups.length-1].startDate).format('LL')}
         />
       ) : null,
       gatherTime = UTIL.formatMinutes(event.gatherTime),
-      gatherDateTime = (event.groups.length > 1) ? gatherTime : Moment(event.groups[0]).format('ll') + gatherTime,
+      gatherDateTime = (event.groups.length > 1) ? gatherTime : moment(event.groups[0]).format('ll') + gatherTime,
       eventTrails = (event.schedule.length > 0) ? (
         <View ref="eventSchedule" style={styles.detail.section}>
           <Header
@@ -147,7 +148,7 @@ class EventDetail extends Component {
             <TrailList
               navigator={navigator}
               query={'?in=[' + query.toString() + ']'}
-            />          
+            />
           </View>
         </View>
       ) : null,
@@ -191,6 +192,25 @@ class EventDetail extends Component {
           </View>
         </View>
       ) : null,
+      eventDestination = (event.destination && event.destination.length > 0) ? (
+        <View ref="eventDestination" style={styles.detail.section}>
+          <Header
+            text={LANG.t('event.DestinationDescription')}
+          />
+          <View style={[styles.detail.content, {paddingHorizontal: 15}]}>
+            <TextView
+              text={event.destination}
+            />
+          </View>
+        </View>
+      ) : null,
+      gearImages = (event.gears.images && event.gears.images.length > 0) ? (
+        <View style={[styles.detail.content, {paddingLeft: 15}]}>
+          <GearList
+            list={event.gears.images}
+          />
+        </View>
+      ) : null,
       otherGears = (event.gears.tags && event.gears.tags.length > 0) ? (
         <View style={styles.detail.subsection}>
           <TextView
@@ -219,13 +239,6 @@ class EventDetail extends Component {
           </View>
         </View>
       ) : null,
-      gearImages = (event.gears.images && event.gears.images.length > 0) ? (
-        <View style={[styles.detail.content, {paddingLeft: 15}]}>
-          <GearList
-            list={event.gears.images}
-          />
-        </View>
-      ) : null,
       eventGears = (event.gears.images.length > 0 || event.gears.tags.length > 0 || event.gears.notes.length > 0) ? (
         <View ref="eventGears" style={styles.detail.section}>
           <Header
@@ -234,18 +247,6 @@ class EventDetail extends Component {
           {gearImages}
           {otherGears}
           {gearNotes}
-        </View>
-      ) : null,
-      eventDestination = (event.destination && event.destination.length > 0) ? (
-        <View ref="eventDestination" style={styles.detail.section}>
-          <Header
-            text={LANG.t('event.DestinationDescription')}
-          />
-          <View style={[styles.detail.content, {paddingHorizontal: 15}]}>
-            <TextView
-              text={event.destination}
-            />
-          </View>
         </View>
       ) : null,
       eventNotes = (event.notes && event.notes.length > 0) ? (
@@ -259,6 +260,14 @@ class EventDetail extends Component {
             />
           </View>
         </View>
+      ) : null,
+      galleryPreview = (event.photos.length > 0) ? (
+        <GalleryPreview
+          title={LANG.t('event.Photos')}
+          type={'event'}
+          id={event._id}
+          photos={event.photos}
+        />
       ) : null,
       commentsPreview = (event.comments.length > 0) ? (
         <CommentPreview 
@@ -358,6 +367,7 @@ class EventDetail extends Component {
               {(perHead > 0) ? expensesExcludes : null}
             </View>
             {eventDestination}
+            {galleryPreview}
             {eventGears}
             {eventNotes}
             {(!isPreview && !isReview) ? commentsPreview : null}

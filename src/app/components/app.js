@@ -206,7 +206,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
           rightTitleBar = (
             <NavbarButton
               onPress={() => this.signUp(navigator)}
-              label={LANG.t('order.SignupNow')}
+              label={LANG.t('order.SignUpNow')}
             />
           )
         }
@@ -305,7 +305,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
     if (this.user) {
       let {event} = state.events,
         id = 'OrderEvent',
-        title = LANG.t('order.SignupNow')
+        title = LANG.t('order.SignUpNow')
 
       if (event.groups.length > 1) {
         id = 'SelectOrderGroup',

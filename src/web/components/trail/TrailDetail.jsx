@@ -89,12 +89,10 @@ class TrailDetail extends Component {
             />
           </section>
           <section className="map">
-            <Link>
-              <TrailMap
-                id={trail._id}
-                points={trail.points}
-              />
-            </Link>
+            <TrailMap
+              id={trail._id}
+              points={trail.points}
+            />
           </section>
           <section className="chart">
             <TrailChart
@@ -102,7 +100,9 @@ class TrailDetail extends Component {
             />
           </section>
           <section>
-            <UserLink user={trail.creator} />
+            <UserLink
+              user={trail.creator}
+            />
           </section>
           <section>
             <Header text={LANG.t('trail.Description')} />
