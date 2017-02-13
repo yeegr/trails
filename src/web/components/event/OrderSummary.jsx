@@ -4,35 +4,30 @@ import React, {
   PropTypes
 } from 'react'
 
-import {
-  ScrollView,
-  View,
-} from 'react-native'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import * as ordersActions from '../../redux/actions/ordersActions'
 
 import InfoItem from '../shared/InfoItem'
-import TextView from '../shared/TextView'
-
-import styles from '../../styles/main'
 
 import {
   UTIL,
-  LANG,
-  Lang
+  LANG
 } from '../../settings'
 
 const OrderSummary = (props) => {
-  const {event, selectedGroup, signUp} = props,
-  {payment} = signUp
+  const {event, order} = props,
+    selectedGroup = props.routeParams.selectedGroup,
+    selectedSignUp = props.routeParams.selectedSignUp,
+    signUp = order.signUps[selectedSignUp],
+    {payment} = signUp
 
   return (
-    <View style={styles.global.wrapper}>
-      <ScrollView style={styles.editor.scroll}>
-        <View style={styles.detail.section}>
-          <TextView
-            class={'h2'}
-            text={LANG.t('event.EventInfo')}
-          />
-          <View style={styles.detail.group}>
+    <detail>
+      <main>
+        <section>
+          <h2>{LANG.t('event.EventInfo')}</h2>
+          <group>
             <InfoItem
               label={LANG.t('event.EventTitle')}
               value={event.title}
@@ -45,18 +40,15 @@ const OrderSummary = (props) => {
               label={LANG.t('order.SignUps')}
               value={signUp.name}
             />
-          </View>
-        </View>
-        <View style={styles.detail.section}>
-          <TextView
-            class={'h2'}
-            text={LANG.t('order.InsuranceExplicate')}
-          />
-          <View style={styles.detail.group}>
+          </group>
+        </section>
+        <section>
+          <h2>{LANG.t('order.InsuranceExplicate')}</h2>
+          <group>
             <InfoItem
               align={'right'}
               label={LANG.t('order.insurance.BaseRate')}
-              value={LANG.l('currency', payment.baseRate)}
+              value={LANG.t('number.web', {amount: payment.baseRate})}
             />
             <InfoItem
               align={'right'}
@@ -86,26 +78,40 @@ const OrderSummary = (props) => {
               noColon={true}
               value={payment.groupSizeCoef.toString()}
             />
-          </View>
-        </View>
-        <View style={styles.detail.section}>
-          <InfoItem
-            align={'right'} 
-            label={LANG.t('order.insurance.TotalFee')}
-            noColon={true}
-            value={LANG.l('currency', payment.insurance)}
-          />
-        </View>
-      </ScrollView>
-    </View>
+          </group>
+        </section>
+        <section>
+          <list>
+            <InfoItem
+              align={'right'} 
+              label={LANG.t('order.insurance.TotalFee')}
+              noColon={true}
+              value={LANG.t('number.web', {amount: payment.insurance})}
+            />
+          </list>
+        </section>
+      </main>
+    </detail>
   )
 }
 
 OrderSummary.propTypes = {
-  navigator: PropTypes.object.isRequired,
+  routeParams: PropTypes.object.isRequired,
   event: PropTypes.object.isRequired,
-  selectedGroup: PropTypes.number.isRequired,
-  signUp: PropTypes.object.isRequired
+  order: PropTypes.object.isRequired
 }
 
-export default OrderSummary
+function mapStateToProps(state, ownProps) {
+  return {
+    event: state.events.event,
+    order: state.orders.order
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    ordersActions: bindActionCreators(ordersActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderSummary)

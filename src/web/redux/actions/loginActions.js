@@ -1,25 +1,47 @@
 'use strict'
 
-import {AsyncStorage} from 'react-native'
+//import {localStorage} from 'react-native'
 import * as ACTIONS from '../constants/loginConstants'
 import {
   CONSTANTS,
   FETCH,
   UTIL,
-  AppSettings,
-  Lang
+  AppSettings
 } from '../../settings'
 
 // check user login status
 export const isLoggedIn = () => {
-  return AsyncStorage
+  let token = localStorage.getItem(CONSTANTS.ACCESS_TOKEN).toString()
+
+  if (token) {
+    let user = JSON.parse(localStorage.getItem(CONSTANTS.USER)),
+      str = localStorage.getItem(user._id),
+      obj = (str) ? JSON.parse(str) : null,
+      tmp = (str) ? UTIL.obj2arr(obj) : []
+
+    user.localTrails = tmp
+
+    return {
+      type: ACTIONS.IS_LOGGED_IN,
+      token,
+      user
+    }
+  }
+
+  return {
+    type: ACTIONS.IS_LOGGED_OUT
+  }
+
+
+  /*
+  return localStorage
     .multiGet([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER])
     .then((arr) => {
       if (arr[0][1] && arr[1][1]) {
         let token = arr[0][1],
           user = JSON.parse(arr[1][1])
 
-        AsyncStorage
+        localStorage
         .getItem(user._id)
         .then((str) => {
           return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
@@ -44,6 +66,7 @@ export const isLoggedIn = () => {
         type: ACTIONS.IS_LOGGED_OUT
       }
     })
+  */
 }
 
 // toggle login page
@@ -138,7 +161,7 @@ export const verifyMobileNumber = (mobile, vcode, action) => {
       action
     })
   })
-  
+
   return (dispatch, getState) => {
     dispatch(verifyMobileRequest())
 
@@ -294,14 +317,11 @@ export const loginUser = (creds) => {
       })
       .then((res) => {
         if (res.token && res._id) {
-          AsyncStorage
-          .multiSet([
-            [CONSTANTS.ACCESS_TOKEN, res.token],
-            [CONSTANTS.USER, JSON.stringify(res)]
-          ]).then(() => {
-            res.localTrails = []
-            dispatch(loginSuccess(res))
-          })
+          localStorage.setItem(CONSTANTS.ACCESS_TOKEN, res.token)
+          localStorage.setItem(CONSTANTS.USER, JSON.stringify(res))
+
+          res.localTrails = []
+          dispatch(loginSuccess(res))
         } else {
           dispatch(loginFailure(res.message))
           return Promise.reject(res)
@@ -329,10 +349,10 @@ const setUserFailure = (message) => {
 
 const resetUser = (user) => {
   return (dispatch) => {
-    AsyncStorage
+    localStorage
     .setItem(CONSTANTS.USER, JSON.stringify(user))
     .then(() => {
-      AsyncStorage
+      localStorage
       .getItem(user._id)
       .then((str) => {
         return UTIL.isNullOrUndefined(str) ? {} : JSON.parse(str)
@@ -358,10 +378,10 @@ export const reloadUser = () => {
       })
       .then((res) => {
         if (res.id) {
-          AsyncStorage
+          localStorage
           .setItem(CONSTANTS.USER, JSON.stringify(res))
           .then(() => {
-            AsyncStorage
+            localStorage
             .getItem(userId)
             .then((str) => {
               return UTIL.isNullOrUndefined(str) ? {} : JSON.parse(str)
@@ -388,8 +408,8 @@ export const clearCache = () => {
   return (dispatch, getState) => {
     let userId = getState().login.user._id
 
-    AsyncStorage
-    .multiRemove([userId], () => {
+    localStorage
+    .removeItem(userId, () => {
       dispatch(reloadUser())
     })
   }
@@ -411,7 +431,7 @@ const updateUserSuccess = (user) => {
 const updateUserFailure = (key) => {
   return {
     type: ACTIONS.UPDATE_USER_FAILURE,
-    updateError: Lang[key]
+    updateError: key
   }
 }
 
@@ -443,7 +463,7 @@ export const updateUserAvatar = (user_id, uri) => {
         return res.json()
       })
       .then((res) => {
-        AsyncStorage
+        localStorage
         .setItem(CONSTANTS.USER, JSON.stringify(res))
         .then(() => {
           dispatch(updateUserSuccess(res))
@@ -466,7 +486,7 @@ export const updateUser = (user_id, data) => {
         return res.json()
       })
       .then((res) => {
-        AsyncStorage
+        localStorage
         .setItem(CONSTANTS.USER, JSON.stringify(res))
         .then(() => {
           dispatch(updateUserSuccess(res))
@@ -495,7 +515,7 @@ export const updateUserMobile = (user_id, mobile, vcode) => {
         if (res.error) {
           return Promise.reject(res)
         } else {
-          AsyncStorage
+          localStorage
           .setItem(CONSTANTS.USER, JSON.stringify(res))
           .then(() => {
             dispatch(updateUserSuccess(res))
@@ -529,9 +549,9 @@ export const logoutUser = () => {
   return (dispatch) => {
     dispatch(logoutRequest())
 
-    AsyncStorage
-    .multiRemove(['user', 'access_toklen'], () => {
-      dispatch(logoutSuccess())
-    })
+    localStorage.removeItem(CONSTANTS.USER)
+    localStorage.removeItem(CONSTANTS.ACCESS_TOKEN)
+
+    dispatch(logoutSuccess())
   }
 }

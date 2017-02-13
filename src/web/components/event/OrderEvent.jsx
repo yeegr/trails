@@ -6,29 +6,24 @@ import React, {
 } from 'react'
 
 import {
-  View,
-} from 'react-native'
-
-import KeyboardSpacer from 'react-native-keyboard-spacer'
-import ParallaxView from 'react-native-parallax-view'
+  hashHistory
+} from 'react-router'
 
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import * as ordersActions from '../../redux/actions/ordersActions'
 
 import CallToAction from '../shared/CallToAction'
 import Card from '../shared/Card'
+import Hero from '../shared/Hero'
 import InfoItem from '../shared/InfoItem'
-import ImagePath from '../shared/ImagePath'
-import TextView from '../shared/TextView'
-
 import SignUpForm from './SignUpForm'
 
-import styles from '../../styles/main'
-
 import {
+  CONSTANTS,
   LANG,
   UTIL,
-  AppSettings,
-  Graphics
+  AppSettings
 } from '../../settings'
 
 class OrderEvent extends Component {
@@ -40,32 +35,16 @@ class OrderEvent extends Component {
     this._validateData = this._validateData.bind(this)
     this._nextStep = this._nextStep.bind(this)
 
-    let {navigator, user} = this.props
-    navigator.__addSignUp = this._addSignUp.bind(this)
+    this.__addSignUp = this._addSignUp.bind(this)
 
     this.state = {
-      initPageHeight: 0,
       signUps: [{
-        name: user.name || '',
-        mobile: user.mobile.toString(),
-        pid: user.pid || '',
-        gender: user.gender || 1,
-        level: user.level || 0
+        name: '',
+        mobile: '',
+        pid: '',
+        gender: 1,
+        level: 0
       }]
-    }
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.refs.scrollContent.measure((fx, fy, width, height, px, py) => {
-        this.setState({initPageHeight: height})
-      })
-    }, 200)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.navbar.addingEventSignup === true) {
-      this._addSignUp()
     }
   }
 
@@ -79,12 +58,6 @@ class OrderEvent extends Component {
       level: 0
     })
     this.setState({signUps})
-
-    setTimeout(() => {
-      this.refs.scrollContent.measure((fx, fy, width, height, px, py) => {
-        this.refs.scrollView.scrollTo({x:0, y:height-this.state.initPageHeight, animated: true})
-      })
-    }, 100)
   }
 
   _removeSignUp(index) {
@@ -125,104 +98,98 @@ class OrderEvent extends Component {
 
     signUps.map((signUp) => {
       let validated = this._validateData(signUp)
+
       if (validated) {
         tmp.push(validated)
       }
     })
 
     if (tmp.length > 0) {
-      this.setState({signUps: tmp})
-
-      this.props.navigator.push({
-        id: 'OrderPayment',
-        title: LANG.t('order.order'),
-        passProps: {
-          event: this.props.event,
-          selectedGroup: this.props.selectedGroup || 0,
-          signUps: tmp
-        }
-      })
+      this.props.ordersActions.setSignUps(tmp)
+      hashHistory.push(`events/${this.props.event._id}/${this.props.routeParams.selectedGroup}/payment`)
     }
   }
 
   render() {
     const {event} = this.props,
-      eventBackgroundUrl = ImagePath({type: 'background', path: UTIL.getEventHeroPath(event)}),
-      selectedGroup = this.props.selectedGroup || 0,
+      selectedGroup = this.props.routeParams.selectedGroup,
+      imagePath = (event.hero.indexOf('default/') === 0) ? event.hero : event._id + '/' + event.hero,
+      imageUri = CONSTANTS.ASSET_FOLDERS.EVENT + '/' + imagePath,
       dates = UTIL.formatEventGroupLabel(event, selectedGroup)
 
-    return(
-      <View style={styles.global.wrapper}>
-        <ParallaxView ref="scrollView"
-          style={{flex: 1}}
-          backgroundSource={{uri: eventBackgroundUrl}}
-          windowHeight={Graphics.heroImage.height}
-          header={(
+    let signUpCount = this.state.signUps.length
+
+    return (
+      <detail>
+        <Hero
+          imageUri={imageUri}
+          card={
             <Card
-              align={'bottom'}
-              title={event.title} 
+              title={event.title}
               excerpt={event.excerpt}
+              tags={event.tags}
             />
-          )}>
-          <View ref="scrollContent" style={styles.detail.article}>
-            <View style={styles.detail.section}>
-              <TextView class={'h2'} text={LANG.t('event.EventInfo')} />
-              <View style={styles.detail.group}>
-                <InfoItem
-                  label={LANG.t('event.EventDates')}
-                  value={dates}
-                />
-                <InfoItem
-                  label={LANG.t('event.PerHead')}
-                  value={LANG.l('currency', event.expenses.perHead)}
-                />
-              </View>
-            </View>
-            <View style={styles.detail.section}>
+          }
+        />
+        <main>
+          <div style={{marginBottom: '32px'}}>
+            <h2>{LANG.t('event.EventInfo')}</h2>
+            <group>
+              <InfoItem
+                label={LANG.t('event.EventDates')}
+                value={dates}
+              />
+              <InfoItem
+                label={LANG.t('event.PerHead')}
+                value={LANG.t('number.web', {amount: event.expenses.perHead})}
+              />
+            </group>
+          </div>
+          <div>
             {
               this.state.signUps.map((signUp, index) => {
                 return (
                   <SignUpForm 
                     key={index} 
-                    index={index} 
-                    signUp={signUp} 
+                    index={index}
+                    isLast={index === (signUpCount - 1)}
+                    signUp={signUp}
+                    addSignUp={this._addSignUp}
                     removeSignUp={() => this._removeSignUp(index)}
                     updateInfo={(index, signUp) => this._updateInfo(index, signUp)}
                   />
                 )
               })
             }
-            </View>
-          </View>
-        </ParallaxView>
+          </div>
+        </main>
         <CallToAction
-          label={LANG.t('order.ConfirmSignUps')}
           onPress={this._nextStep}
+          label={LANG.t('order.ConfirmSignUps')}
         />
-        <KeyboardSpacer />
-      </View>
+      </detail>
     )
   }
 }
 
 OrderEvent.propTypes = {
-  user: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
+  routeParams: PropTypes.object.isRequired,
+  ordersActions: PropTypes.object.isRequired,
   event: PropTypes.object.isRequired,
-  selectedGroup: PropTypes.number
+  user: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.login.user
+    user: state.login.user,
+    event: state.events.event
   }
 }
 
-/*
 function mapDispatchToProps(dispatch) {
   return {
+    ordersActions: bindActionCreators(ordersActions, dispatch)
   }
 }
-*/
 
-export default connect(mapStateToProps)(OrderEvent)
+export default connect(mapStateToProps, mapDispatchToProps)(OrderEvent)

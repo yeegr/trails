@@ -12,21 +12,21 @@ mongoose.Promise = global.Promise
 
 const Alipay = {
   assemblePaymentString(order) {
-    bizContent = Object.assign({}, CONST.Alipay.bizContent, {
-      body: order.body,
-      subject: order.title,
-      out_trade_no: order.id,
-      total_amount: order.subTotal.toString(),
-      passback_params: '',
-      promo_params: '',
-      extend_params: '',
-    }),
-    pubContent = Object.assign({}, CONST.Alipay.pubContent, {
-      timestamp: moment(UTIL.getTimeFromId(order._id)).format('YYYY-MM-DD hh:mm:ss'),
-      biz_content: JSON.stringify(bizContent)
-    }),
-    arr = [],
-    str = ''
+    let bizContent = Object.assign({}, CONST.Alipay.bizContent, {
+        body: order.body,
+        subject: order.title,
+        out_trade_no: order.id,
+        total_amount: order.subTotal.toString(),
+        passback_params: '',
+        promo_params: '',
+        extend_params: '',
+      }),
+      pubContent = Object.assign({}, CONST.Alipay.pubContent, {
+        timestamp: moment(UTIL.getTimeFromId(order._id)).format('YYYY-MM-DD hh:mm:ss'),
+        biz_content: JSON.stringify(bizContent)
+      }),
+      arr = [],
+      str = ''
 
     for (let key in pubContent) {
       arr.push({
@@ -48,7 +48,7 @@ const Alipay = {
 
   pay(order) {
     let sign = crypto.createSign('RSA-SHA1'),
-    str = this.assemblePaymentString(order)
+      str = this.assemblePaymentString(order)
 
     sign.update(str)
     let signedStr = sign.sign(privateKey, 'base64')
@@ -58,9 +58,9 @@ const Alipay = {
 
   verify(order, response) {
     let idCheck = (order._id.toString() === response.out_trade_no),
-    paymentCheck = (order.subTotal.toString() === response.total_amount),
-    sellerCheck = (CONST.Alipay.bizContent.seller_id === response.seller_id),
-    appCheck = (CONST.Alipay.pubContent.app_id === response.app_id)
+      paymentCheck = (order.subTotal.toString() === response.total_amount),
+      sellerCheck = (CONST.Alipay.bizContent.seller_id === response.seller_id),
+      appCheck = (CONST.Alipay.pubContent.app_id === response.app_id)
 
     return idCheck && paymentCheck && sellerCheck && appCheck
   }
@@ -86,6 +86,8 @@ module.exports = (app) => {
 
   /* Create */
   app.post('/orders', (req, res, next) => {
+    console.log('create order')
+    console.log(req.body)
     let order = new Order(req.body)
 
     User
@@ -166,14 +168,17 @@ module.exports = (app) => {
 
   /* Update */
   app.put('/orders', (req, res, next) => {
+    console.log('update order')
+    console.log(req.body)
+
     let tmp = req.body
 
     switch (tmp.method) {
       case 'Alipay':
         let statusCode = tmp.resultStatus,
-        result = tmp.result,
-        response = result.alipay_trade_app_pay_response,
-        id = response.out_trade_no
+          result = tmp.result,
+          response = result.alipay_trade_app_pay_response,
+          id = response.out_trade_no
 
         Order
         .findById(id)

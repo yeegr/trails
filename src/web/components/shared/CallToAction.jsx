@@ -16,7 +16,7 @@ const CallToAction = (props) => {
 
   return (
     <button
-      onPress={props.onPress}
+      onMouseUp={props.onPress}
       disabled={props.disabled}
       className="callToAction"
       style={[{backgroundColor}, {color}]}>

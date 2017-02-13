@@ -23,14 +23,13 @@ import styles from '../../styles/main'
 
 import {
   LANG,
-  Lang,
   Graphics
 } from '../../settings'
 
-class OrderForm extends Component {
+class SignUpForm extends Component {
   constructor(props) {
     super(props)
-    this.updateState = this.updateState.bind(this)
+    this._updateState = this._updateState.bind(this)
 
     let signUp = this.props.signUp
 
@@ -43,7 +42,7 @@ class OrderForm extends Component {
     }
   }
 
-  updateState(kv) {
+  _updateState(kv) {
     this.setState(kv)
 
     setTimeout(() => {
@@ -53,63 +52,63 @@ class OrderForm extends Component {
 
   render() {
     const removeButton = (this.props.index > 0) ? (
-      <View style={localStyles.button}>
-        <TouchableOpacity onPress={() => this.props.removeSignUp(this.props.index)}>
-          <Icon
-            backgroundColor={Graphics.colors.transparent}
-            fillColor={'red'} 
-            sideLength={32}
-            type={'minus'}
-          />
-        </TouchableOpacity>
-      </View>
-    ) : null,
+        <View style={localStyles.button}>
+          <TouchableOpacity onPress={() => this.props.removeSignUp(this.props.index)}>
+            <Icon
+              backgroundColor={Graphics.colors.transparent}
+              fillColor={'red'} 
+              sideLength={32}
+              type={'minus'}
+            />
+          </TouchableOpacity>
+        </View>
+      ) : null,
 
-    genderArray = [{label: LANG.t('genders.Female') + '    ', value: 0}, {label: LANG.t('genders.Male'), value: 1}]
+      genderArray = [{label: LANG.t('genders.Female') + '    ', value: 0}, {label: LANG.t('genders.Male'), value: 1}]
 
     return (
       <View style={[styles.global.form, {paddingTop: 5}]}>
         <View style={{marginRight: 10}}>
           <InputItem
-            label={Lang.RealName}
+            label={LANG.t('order.RealName')}
             input={
               <TextInput
                 autoFocus={true}
                 style={styles.detail.textInput}
                 value={this.state.name}
-                onChangeText={(name) => this.updateState({name})}
+                onChangeText={(name) => this._updateState({name})}
               />
             }
             inputStyle={'underline'}
           />
           <InputItem
-            label={Lang.MobileNumber}
+            label={LANG.t('order.MobileNumber')}
             input={
               <TextInput
                 maxLength={11}
                 keyboardType="phone-pad"
                 style={styles.detail.textInput}
                 value={this.state.mobile}
-                onChangeText={(mobile) => this.updateState({mobile: mobile.trim()})}
+                onChangeText={(mobile) => this._updateState({mobile: mobile.trim()})}
               />
             }
             inputStyle={'underline'}
           />
           <InputItem
-            label={Lang.PersonalId}
+            label={LANG.t('order.PersonalId')}
             input={
               <TextInput
                 maxLength={18}
                 keyboardType={'numeric'}
                 style={styles.detail.textInput}
                 value={this.state.pid}
-                onChangeText={(pid) => this.updateState({pid: pid.trim()})}
+                onChangeText={(pid) => this._updateState({pid: pid.trim()})}
               />
             }
             inputStyle={'underline'}
           />
           <InputItem
-            label={Lang.Gender}
+            label={LANG.t('order.Gender')}
             input={
               <RadioForm
                 radio_props={genderArray}
@@ -118,12 +117,12 @@ class OrderForm extends Component {
                 labelHorizontal={true}
                 buttonColor={Graphics.colors.primary}
                 animation={true}
-                onPress={(value) => {this.updateState({gender: value})}}
+                onPress={(value) => {this._updateState({gender: value})}}
               />
             }
           />
           <InputItem
-            label={Lang.UserLevel}
+            label={LANG.t('order.OutdoorLevel')}
             input={
               <View style={{alignItems: 'center', flexDirection: 'row'}}>
                 <Slider
@@ -132,9 +131,12 @@ class OrderForm extends Component {
                   minimumValue={0}
                   step={1}
                   value={this.state.level}
-                  onValueChange={(level) => this.updateState({level})}
+                  onValueChange={(level) => this._updateState({level})}
                 />
-                <TextView style={{marginLeft: 15}} text={Lang.userLevelArray[this.state.level]} />
+                <TextView
+                  style={{marginLeft: 15}}
+                  text={LANG.t('user.levels.' + this.state.level)}
+                />
               </View>
             }
             styles={{
@@ -152,7 +154,7 @@ class OrderForm extends Component {
   }
 }
 
-OrderForm.propTypes = {
+SignUpForm.propTypes = {
   index: PropTypes.number.isRequired,
   signUp: PropTypes.object.isRequired,
   updateInfo: PropTypes.func,
@@ -180,4 +182,4 @@ const localStyles = StyleSheet.create({
   }
 })
 
-export default OrderForm
+export default SignUpForm

@@ -6,24 +6,20 @@ import React, {
 } from 'react'
 
 import {
-  View
-} from 'react-native'
-
-import ParallaxView from 'react-native-parallax-view'
+  hashHistory
+} from 'react-router'
 
 import {connect} from 'react-redux'
 
 import CallToAction from '../shared/CallToAction'
 import Card from '../shared/Card'
-import ImagePath from '../shared/ImagePath'
+import Hero from '../shared/Hero'
 import EventGroup from './EventGroup'
 
-import styles from '../../styles/main'
-
 import {
+  CONSTANTS,
   LANG,
-  UTIL,
-  Graphics
+  UTIL
 } from '../../settings'
 
 class SelectOrderGroup extends Component {
@@ -37,34 +33,31 @@ class SelectOrderGroup extends Component {
   }
 
   _nextStep() {
-    this.props.navigator.push({
-      id: 'OrderEvent',
-      title: LANG.t('order.Signup'),
-      passProps: {
-        event: this.props.event,
-        selectedGroup: this.state.selectedGroup
-      }
-    })
+    if (this.state.selectedGroup !== null) {
+      hashHistory.push(`events/${this.props.event._id}/${this.state.selectedGroup}/order`)
+    }
   }
 
   render() {
     const {event} = this.props,
-      eventBackgroundUrl = ImagePath({type: 'background', path: UTIL.getEventHeroPath(event)})
+      imagePath = (event.hero.indexOf('default/') === 0) ? event.hero : event._id + '/' + event.hero,
+      imageUri = CONSTANTS.ASSET_FOLDERS.EVENT + '/' + imagePath
 
     return (
-      <View style={styles.global.wrapper}>
-        <ParallaxView
-          backgroundSource={{uri: eventBackgroundUrl}}
-          windowHeight={Graphics.heroImage.height}
-          header={(
+      <detail>
+        <Hero
+          imageUri={imageUri}
+          card={
             <Card
-              align={'bottom'}
-              title={event.title} 
+              title={event.title}
               excerpt={event.excerpt}
+              tags={event.tags}
             />
-          )}>
-          <View style={{backgroundColor: Graphics.colors.background}}>
-            <View style={[styles.editor.group, {marginTop: 20}]}>
+          }
+        />
+        <main>
+          <section>
+            <selectables>
               {
                 event.groups.map((group, index) => {
                   return (
@@ -80,36 +73,29 @@ class SelectOrderGroup extends Component {
                   )
                 })
               }
-            </View>
-          </View>
-        </ParallaxView>
+            </selectables>
+          </section>
+        </main>
         <CallToAction
           disabled={(this.state.selectedGroup === null)}
           label={LANG.t('glossary.NextStep')}
           onPress={this._nextStep}
         />
-      </View>
+      </detail>
     )
   }
 }
 
 SelectOrderGroup.propTypes = {
   user: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
   event: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.login.user
+    user: state.login.user,
+    event: state.events.event
   }
 }
-
-/*
-function mapDispatchToProps(dispatch) {
-  return {
-  }
-}
-*/
 
 export default connect(mapStateToProps)(SelectOrderGroup)

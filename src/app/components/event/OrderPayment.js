@@ -37,8 +37,8 @@ import {
 class OrderPayment extends Component {
   constructor(props) {
     super(props)
-    this.confirm = this.confirm.bind(this)
-    this.pay = this.pay.bind(this)
+    this._confirm = this._confirm.bind(this)
+    this._pay = this._pay.bind(this)
 
     this.state = {
       signUps: this.props.signUps,
@@ -50,7 +50,7 @@ class OrderPayment extends Component {
     let {order} = nextProps
 
     if (this.props.order === null && order !== null && order.subTotal > 0 && order.status === 'pending') {
-      this.pay(order)
+      this._pay(order)
     } else if (order !== null && order.status === 'success') {
       this.props.navigator.push({
         id: 'OrderSuccess',
@@ -67,7 +67,7 @@ class OrderPayment extends Component {
     this.props.ordersActions.resetOrder()
   }
 
-  confirm(subTotal) {
+  _confirm(subTotal) {
     subTotal = (subTotal > 0) ? 0.02 : subTotal
 
     let {user, event, selectedGroup} = this.props,
@@ -89,7 +89,7 @@ class OrderPayment extends Component {
     this.props.ordersActions.createOrder(order)
   }
 
-  pay(order) {
+  _pay(order) {
     Alipay
     .pay(order.alipay)
     .then((data) => {
@@ -146,7 +146,7 @@ class OrderPayment extends Component {
 
     let subTotal = 0
 
-    return(
+    return (
       <View style={styles.global.wrapper}>
         <ParallaxView
           backgroundSource={{uri: eventBackgroundUrl}}
@@ -184,7 +184,7 @@ class OrderPayment extends Component {
                       label={signUp.name}
                       value={LANG.l('currency', payment.cost)}
                       more={{
-                        label: Lang.Detail,
+                        label: LANG.t('order.Detail'),
                         onPress: () => {
                           navigator.push({
                             id: 'OrderSummary',
@@ -217,7 +217,7 @@ class OrderPayment extends Component {
         <CallToAction
           backgroundColor={Graphics.colors.primary}
           label={LANG.t('order.ConfirmOrder')}
-          onPress={() => this.confirm(subTotal)}
+          onPress={() => this._confirm(subTotal)}
         />
       </View>
     )

@@ -15,46 +15,50 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
+  LANG,
   Lang,
   Graphics
 } from '../../settings'
 
 const EventGroup = (props) => {
   const now = (new Date()).getTime(),
-  icon = (props.index === props.selected) ? (
-    <Icon 
-      backgroundColor={Graphics.colors.transparent} 
-      fillColor={Graphics.colors.primary} 
-      sideLength={36}
-      type={'checkmark'}
-    />
-  ) : null,
-  status = (props.deadline < now) ? (
-    <TextView textColor={'red'} text={Lang.DeadlinePassed} />
-  ) : null,
-  view = (
-    <View style={[styles.editor.link, {}]}>
-      <View style={styles.editor.label}>
-        <TextView
-          fontSize={'SML'}
-          textColor={Graphics.textColors.h2}
-          text={Lang.GroupCountPrefix + Lang.dayArray[props.index] + Lang.GroupCountPostfix}
-        />
-        <TextView
-          text={props.label}
-        />
-        <TextView
-          fontSize={'XS'}
-          textColor={Graphics.textColors.endnote}
-          text={props.signUps}
-        />
+    icon = (props.index === props.selected) ? (
+      <Icon 
+        backgroundColor={Graphics.colors.transparent} 
+        fillColor={Graphics.colors.primary} 
+        sideLength={36}
+        type={'checkmark'}
+      />
+    ) : null,
+    status = (props.deadline < now) ? (
+      <TextView
+        textColor={'red'}
+        text={Lang.DeadlinePassed}
+      />
+    ) : null,
+    view = (
+      <View style={styles.editor.link}>
+        <View style={styles.editor.label}>
+          <TextView
+            fontSize={'SML'}
+            textColor={Graphics.textColors.h2}
+            text={Lang.GroupCountPrefix + Lang.dayArray[props.index] + Lang.GroupCountPostfix}
+          />
+          <TextView
+            text={props.label}
+          />
+          <TextView
+            fontSize={'XS'}
+            textColor={Graphics.textColors.endnote}
+            text={props.signUps}
+          />
+        </View>
+        <View style={styles.editor.value}>
+          {icon}
+          {status}
+        </View>
       </View>
-      <View style={styles.editor.value}>
-        {icon}
-        {status}
-      </View>
-    </View>
-  )
+    )
 
   if (props.deadline < now) {
     return view

@@ -191,7 +191,7 @@ class Login extends Component {
   }
 
   render() {
-    let login = this.props.login,
+    let {login} = this.props,
       {
         mobileNumber,
         verificationCode,
@@ -259,11 +259,11 @@ class Login extends Component {
               disabled={disableMobileNumberInput}
               keyboardType="phone-pad"
               maxLength={AppSettings.mobileNumberLength}
-              onChangeText={this._onMobileNumberChanged}
               placeholder={LANG.t('login.MobileNumberPlaceholder')}
               placeholderTextColor={Graphics.colors.placeholder}
-              style={styles.loginInput}
               value={mobileNumber}
+              onChangeText={this._onMobileNumberChanged}
+              style={styles.loginInput}
             />
             <TouchableOpacity
               disabled={disableVerificationButton}
@@ -312,7 +312,7 @@ class Login extends Component {
     const uri = ImagePath({type: 'background', path: AppSettings.loginBackground})
 
     return (
-      <Modal animationType={'slide'} transparent={false} visible={this.props.login.showLogin}>
+      <Modal animationType={'slide'} transparent={false} visible={login.showLogin}>
         <Image resizeMode={'cover'} source={{uri}} style={styles.backgroundImage}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <View style={{flexDirection: 'column'}}>
@@ -394,7 +394,8 @@ const styles = StyleSheet.create({
 })
 
 Login.propTypes = {
-  loginActions: PropTypes.object.isRequired
+  loginActions: PropTypes.object.isRequired,
+  login: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {

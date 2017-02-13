@@ -40,7 +40,10 @@ const commonConfig = {
       filename: 'js/[name].js'
     },
     plugins: [
-      new ExtractTextPlugin('index.css')
+      new ExtractTextPlugin('index.css'),
+      new webpack.ProvidePlugin({
+        'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+      })
     ],
     resolve: {
       extensions: ['', '.js', '.jsx']

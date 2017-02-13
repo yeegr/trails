@@ -121,7 +121,7 @@ class EventDetail extends Component {
     const {navigator, isPreview, isReview} = this.props,
       event = (isPreview) ? this.props.newEvent : this.props.event
 
-    if (!event) {
+    if (UTIL.isNullOrUndefined(event)) {
       return <Loading />
     }
 
@@ -395,10 +395,9 @@ EventDetail.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    navbar: state.navbar,
+    user: state.login.user,
     event: state.events.event,
     newEvent: state.newEvent,
-    user: state.login.user
   }
 }
 

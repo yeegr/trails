@@ -7,16 +7,23 @@ const ordersReducer = (state = {
   isPaying: false,
   message: null,
   list: [],
-  order: null
+  order: {}
 }, action) => {
   switch (action.type) {
-   case ACTIONS.RESET_ORDER:
+    case ACTIONS.SET_SIGN_UPS:
       return Object.assign({}, state, {
-        message: null,
-        order: null
+        order: Object.assign({}, state.order, {
+          signUps: action.signUps
+        })
       })
 
-   case ACTIONS.CREATE_ORDER_REQUEST:
+    case ACTIONS.RESET_ORDER:
+      return Object.assign({}, state, {
+        message: null,
+        order: {}
+      })
+
+    case ACTIONS.CREATE_ORDER_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       })

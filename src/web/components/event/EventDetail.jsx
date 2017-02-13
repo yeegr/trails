@@ -6,12 +6,17 @@ import React, {
 } from 'react'
 
 import {
-  Link
+  hashHistory
 } from 'react-router'
 
-import $ from 'jquery'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import * as loginActions from '../../redux/actions/loginActions'
+import * as eventsActions from '../../redux/actions/eventsActions'
+
 import moment from 'moment'
 
+import CallToAction from '../shared/CallToAction'
 import Card from '../shared/Card'
 import Hero from '../shared/Hero'
 import Header from '../shared/Header'
@@ -28,46 +33,53 @@ import CommentPreview from '../shared/CommentPreview'
 import {
   CONSTANTS,
   LANG,
-  UTIL,
-  AppSettings
+  UTIL
 } from '../../settings'
 
 class EventDetail extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      loading: true
-    }
+    this._nextStep = this._nextStep.bind(this)
   }
 
   componentWillMount() {
-    $.get(AppSettings.apiUri + 'events/' + this.props.routeParams.id, (event) => {
-      this.setState({
-        event,
-        loading: false
-      })
-    })
+    this.props.loginActions.isLoggedIn()
+    this.props.eventsActions.getEvent(this.props.routeParams.id)
+  }
+
+  _nextStep() {
+    if (UTIL.isNullOrUndefined(this.props.user)) {
+      this.props.loginActions.showLogin()
+    } else {
+      let {event} = this.props
+
+      if (event.groups.length > 1) {
+        hashHistory.push(`events/${this.props.event._id}/select`)
+      } else {
+        hashHistory.push(`events/${this.props.event._id}/0/order`)
+      }
+    }
   }
 
   render() {
-    if (this.state.loading === true) {
+    const {event} = this.props
+
+    if (UTIL.isNullOrUndefined(event)) {
       return (
         <detail data-loading />
       )
     }
 
-    let query = this.state.event.schedule.map((agenda) => {
+    let query = event.schedule.map((agenda) => {
       return agenda.trail
     })
 
-    const {event} = this.state,
-      imagePath = (event.hero.indexOf('default/') === 0) ? event.hero : event._id + '/' + event.hero,
+    const imagePath = (event.hero.indexOf('default/') === 0) ? event.hero : event._id + '/' + event.hero,
       imageUri = CONSTANTS.ASSET_FOLDERS.EVENT + '/' + imagePath,
       eventGroups = (event.groups.length > 1) ? (
         <ListItem
           glyph={'calendar'}
-          label={LANG.t('event.EventDates') + ' ' + LANG.t('event.EventGroups', {count: event.groups.length})}
+          label={LANG.t('event.EventDates') + ' ' + LANG.t('event.EventGroups', {count: event.groups.length.toString()})}
           value={moment(event.groups[0].startDate).format('LL') + '-' + moment(event.groups[event.groups.length-1].startDate).format('LL')}
         />
       ) : null,
@@ -78,42 +90,40 @@ class EventDetail extends Component {
           <Header
             text={LANG.t('event.EventTrails')}
           />
-          <div>
-            <TrailList
-              query={'?in=[' + query.toString() + ']'}
-            />
-          </div>
+          <TrailList
+            query={'?in=[' + query.toString() + ']'}
+          />
         </section>
       ) : null,
       perHead = event.expenses.perHead,
       expensesDetail = (event.expenses.detail && event.expenses.detail.length > 0) ? (
         <sub-section>
           <h4>{LANG.t('event.ExpensesDetails')}</h4>
-          <div>
+          <list>
             <OrderedList
               content={event.expenses.detail}
             />
-          </div>
+          </list>
         </sub-section>
       ) : null,
       expensesIncludes = (event.expenses.includes && event.expenses.includes.length > 0) ? (
         <sub-section>
           <h4>{LANG.t('event.ExpensesIncludes')}</h4>
-          <div>
+          <list>
             <OrderedList
               content={event.expenses.includes}
             />
-          </div>
+          </list>
         </sub-section>
       ) : null,
       expensesExcludes = (event.expenses.excludes && event.expenses.excludes.length > 0) ? (
         <sub-section>
           <h4>{LANG.t('event.ExpensesExcludes')}</h4>
-          <div>
+          <list>
             <OrderedList
               content={event.expenses.excludes}
             />
-          </div>
+          </list>
         </sub-section>
       ) : null,
       eventDestination = (event.destination && event.destination.length > 0) ? (
@@ -128,26 +138,32 @@ class EventDetail extends Component {
       ) : null,
       gearImages = (event.gears.images && event.gears.images.length > 0) ? (
         <sub-section>
-          <GearList
-            list={event.gears.images}
-          />
+          <list type="wrap">
+            <GearList
+              list={event.gears.images}
+            />
+          </list>
         </sub-section>
       ) : null,
       otherGears = (event.gears.tags && event.gears.tags.length > 0) ? (
         <sub-section>
           <h4>{LANG.t('event.OtherGears')}</h4>
-          <TagList
-            tags={event.gears.tags}
-            type={'pill'}
-          />
+          <list type="wrap">
+            <TagList
+              tags={event.gears.tags}
+              type={'pill'}
+            />
+          </list>
         </sub-section>
       ) : null,
       gearNotes = (event.gears.notes && event.gears.notes.length > 0) ? (
         <sub-section>
           <h4>{LANG.t('event.GearNotes')}</h4>
-          <OrderedList
-            content={event.gears.notes}
-          />
+          <list>
+            <OrderedList
+              content={event.gears.notes}
+            />
+          </list>
         </sub-section>
       ) : null,
       eventGears = (event.gears.images.length > 0 || event.gears.tags.length > 0 || event.gears.notes.length > 0) ? (
@@ -165,11 +181,11 @@ class EventDetail extends Component {
           <Header
             text={LANG.t('event.EventNotes')}
           />
-          <div>
+          <list>
             <OrderedList
               content={event.notes}
             />
-          </div>
+          </list>
         </section>
       ) : null,
       galleryPreview = (event.photos.length > 0) ? (
@@ -205,7 +221,7 @@ class EventDetail extends Component {
             <Header
               text={LANG.t('event.EventInfo')}
             />
-            <div>
+            <list>
               {eventGroups}
               <ListItem
                 glyph={'clock'}
@@ -245,23 +261,23 @@ class EventDetail extends Component {
                 label={LANG.t('event.AttendeeLimits')}
                 value={LANG.t('event.Attendees', {min: event.minAttendee.toString(), max: event.maxAttendee.toString()})}
               />
-            </div>
+            </list>
           </section>
           {eventTrails}
           <section>
             <Header
               text={LANG.t('event.EventExpenses')}
             />
-            <div>
+            <list>
               <ListItem
                 glyph="yuan"
                 label={LANG.t('event.FeePerHead')}
                 value={(perHead > 0) ? LANG.t('number.web', {amount: perHead}) : LANG.t('event.ExpenseFree')}
               />
-              {(perHead > 0) ? expensesDetail : null}
-              {(perHead > 0) ? expensesIncludes : null}
-              {(perHead > 0) ? expensesExcludes : null}
-            </div>
+            </list>
+            {(perHead > 0) ? expensesDetail : null}
+            {(perHead > 0) ? expensesIncludes : null}
+            {(perHead > 0) ? expensesExcludes : null}
           </section>
           {eventDestination}
           {galleryPreview}
@@ -269,16 +285,35 @@ class EventDetail extends Component {
           {eventNotes}
           {commentPreview}
         </main>
-        <button className="callToAction">
-          {LANG.t('order.SignUpNow')}
-        </button>
+        <CallToAction
+          onPress={this._nextStep}
+          label={LANG.t('order.SignUpNow')}
+        />
       </detail>
     )
   }
 }
 
 EventDetail.propTypes = {
-  id: PropTypes.string
+  routeParams: PropTypes.object.isRequired,
+  loginActions: PropTypes.object.isRequired,
+  eventsActions: PropTypes.object.isRequired,
+  user: PropTypes.object,
+  event: PropTypes.object
 }
 
-export default EventDetail
+function mapStateToProps(state, ownProps) {
+  return {
+    user: state.login.user,
+    event: state.events.event
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    loginActions: bindActionCreators(loginActions, dispatch),
+    eventsActions: bindActionCreators(eventsActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventDetail)

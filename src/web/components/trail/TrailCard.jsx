@@ -19,15 +19,17 @@ const TrailCard = (props) => {
   return (
     <card type="info">
       <section>
-        <Link to={`trails/${trail._id}`}>
-          <TrailInfo
-            type={trail.type}
-            title={trail.title}
-            date={trail.date}
-          />
-        </Link>
+        <list>
+          <Link to={`trails/${trail._id}`}>
+            <TrailInfo
+              type={trail.type}
+              title={trail.title}
+              date={trail.date}
+            />
+          </Link>
+        </list>
       </section>
-      <section>
+      <section className="grid">
         <TrailData
           difficultyLevel={trail.difficultyLevel}
           totalDuration={trail.totalDuration}

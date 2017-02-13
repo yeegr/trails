@@ -40,7 +40,7 @@ const Card = (props) => {
 
   return (
     <card>
-      <div>
+      <div style={{width: '100%'}}>
         <p className="title">{props.title}</p>
         {excerpt}
         {tags}

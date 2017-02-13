@@ -19,10 +19,10 @@ import {
 
 const InfoItem = (props) => {
   let align = (props.align) ? {textAlign: props.align} : null,
-  colon = (props.noColon) ? '' : Lang.colon,
-  value = (typeof(props.value) === 'string') ? (
-    <TextView style={align} text={props.value} />
-  ) : props.value
+    colon = (props.noColon) ? '' : Lang.colon,
+    value = (typeof(props.value) === 'string') ? (
+      <TextView style={align} text={props.value} />
+    ) : props.value
 
   const customStyles = props.styles || null,
     customWrapperStyles = (customStyles) ? (customStyles.wrapper || null) : null,

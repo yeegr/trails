@@ -4,6 +4,8 @@ import React, {
   Component
 } from 'react'
 
+import Login from './login'
+
 class App extends Component {
   constructor(props) {
     super(props)  
@@ -17,6 +19,7 @@ class App extends Component {
           this.props.children
         }
         </page>
+        <Login />
       </app>
     )
   }
