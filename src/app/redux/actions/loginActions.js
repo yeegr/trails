@@ -357,7 +357,7 @@ export const reloadUser = () => {
         return res.json()
       })
       .then((res) => {
-        if (res.id) {
+        if (res._id) {
           AsyncStorage
           .setItem(CONSTANTS.USER, JSON.stringify(res))
           .then(() => {

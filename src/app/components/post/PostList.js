@@ -72,7 +72,7 @@ class PostList extends Component {
           />
         }
         removeClippedSubviews={false}
-        scrollEnabled={true}
+        scrollEnabled={this.props.scrollEnabled || false}
         dataSource={this.dataSource.cloneWithRows(posts.list)}
         renderRow={this.renderRow}
       />
@@ -84,7 +84,8 @@ PostList.propTypes = {
   navigator: PropTypes.object.isRequired,
   postsActions: PropTypes.object.isRequired,
   query: PropTypes.string,
-  posts: PropTypes.object
+  posts: PropTypes.object,
+  scrollEnabled: PropTypes.bool
 }
 
 function mapStateToProps(state, ownProps) {

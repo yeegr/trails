@@ -27,6 +27,7 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
+  CONSTANTS,
   LANG,
   UTIL,
   AppSettings,
@@ -72,6 +73,7 @@ class OrderPayment extends Component {
 
     let {user, event, selectedGroup} = this.props,
       order = {
+        type: CONSTANTS.ORDER_TYPES.APP,
         creator: user.id,
         event: event.id,
         group: selectedGroup,
@@ -91,7 +93,7 @@ class OrderPayment extends Component {
 
   _pay(order) {
     Alipay
-    .pay(order.alipay)
+    .pay(order.Alipay)
     .then((data) => {
       let result = {}
       result.result = JSON.parse(data[0].result)

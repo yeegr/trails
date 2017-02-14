@@ -24,9 +24,9 @@ class SignUpForm extends Component {
     let signUp = this.props.signUp
 
     this.state = {
-      name: signUp.name || 'Stone',
-      mobile: signUp.mobile || '13911112503',
-      pid: signUp.pid || '110105197211200817',
+      name: signUp.name,
+      mobile: signUp.mobile,
+      pid: signUp.pid,
       gender: signUp.gender,
       level: signUp.level
     }

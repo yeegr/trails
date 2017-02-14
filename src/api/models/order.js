@@ -8,6 +8,12 @@ const mongoose = require('mongoose'),
   User = require('./user'),
   Event = require('./event'),
   orderSchema = new Schema({
+    type: {
+      type: String,
+      enum: CONST.ORDER_TYPES,
+      default: CONST.ORDER_TYPES[0],
+      required: true
+    },
     creator: {
       type: Schema.Types.ObjectId,
       ref: 'User',

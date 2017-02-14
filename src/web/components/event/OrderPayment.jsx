@@ -6,6 +6,7 @@ import React, {
 } from 'react'
 
 import {
+  hashHistory,
   Link
 } from 'react-router'
 
@@ -22,19 +23,16 @@ import {
   CONSTANTS,
   LANG,
   UTIL,
-  AppSettings,
-  Lang,
-  Graphics
+  AppSettings
 } from '../../settings'
 
 class OrderPayment extends Component {
   constructor(props) {
     super(props)
     this._confirm = this._confirm.bind(this)
-    //this.pay = this.pay.bind(this)
+    this._pay = this._pay.bind(this)
 
     this.state = {
-      signUps: this.props.signUps,
       paymentMethod: AppSettings.defaultPaymentMethod
     }
   }
@@ -42,17 +40,10 @@ class OrderPayment extends Component {
   componentWillReceiveProps(nextProps) {
     let {order} = nextProps
 
-    if (this.props.order === null && order !== null && order.subTotal > 0 && order.status === 'pending') {
-      this.pay(order)
+    if (order !== null && order.subTotal > 0 && order.status === 'pending') {
+      this._pay(order)
     } else if (order !== null && order.status === 'success') {
-      this.props.navigator.push({
-        id: 'OrderSuccess',
-        title: LANG.t('order.OrderSuccess'),
-        passProps: {
-          event: this.props.event,
-          order
-        }
-      })
+      hashHistory.push(`events/${this.props.event._id}/${this.props.routeParams.selectedGroup}/success`)
     }
   }
 
@@ -62,6 +53,7 @@ class OrderPayment extends Component {
     let {user, event} = this.props,
       {selectedGroup} = this.props.routeParams,
       order = {
+        type: CONSTANTS.ORDER_TYPES.WEB,
         creator: user.id,
         event: event.id,
         group: selectedGroup,
@@ -71,7 +63,7 @@ class OrderPayment extends Component {
         startDate: event.groups[selectedGroup].startDate,
         daySpan: event.schedule.length, 
         method: this.state.paymentMethod,
-        signUps: this.state.signUps,
+        signUps: this.props.order.signUps,
         subTotal,
         status: (subTotal === 0) ? 'success' : 'pending'
       }
@@ -79,19 +71,12 @@ class OrderPayment extends Component {
     this.props.ordersActions.createOrder(order)
   }
 
-  // pay(order) {
-  //   Alipay
-  //   .pay(order.alipay)
-  //   .then((data) => {
-  //     let result = {}
-  //     result.result = JSON.parse(data[0].result)
-  //     result.resultStatus = data[0].resultStatus
-  //     result.method = this.props.order.method
-  //     this.props.ordersActions.updateOrder(result)
-  //   }, (err) => {
-  //     console.log(err)
-  //   })
-  // }
+  _pay(order) {
+    let {method} = order,
+      url = CONSTANTS.PAY_REQUEST_URLS[method] + order[method]
+
+    document.location = url
+  }
 
   render() {
     const {event, order} = this.props,
@@ -101,9 +86,6 @@ class OrderPayment extends Component {
       dates = UTIL.formatEventGroupLabel(event, selectedGroup)
 
     let subTotal = 0
-
-    console.log(this.props.user)
-    console.log(this.props.order)
 
     return (
       <detail>
@@ -188,7 +170,8 @@ OrderPayment.propTypes = {
   ordersActions: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   event: PropTypes.object.isRequired,
-  order: PropTypes.object
+  order: PropTypes.object,
+  signUps: PropTypes.array
 }
 
 function mapStateToProps(state, ownProps) {

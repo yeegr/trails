@@ -263,6 +263,7 @@ class EventDetail extends Component {
       ) : null,
       galleryPreview = (event.photos.length > 0) ? (
         <GalleryPreview
+          navigator={navigator}
           title={LANG.t('event.Photos')}
           type={'event'}
           id={event._id}

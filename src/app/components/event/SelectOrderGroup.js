@@ -39,7 +39,7 @@ class SelectOrderGroup extends Component {
   _nextStep() {
     this.props.navigator.push({
       id: 'OrderEvent',
-      title: LANG.t('order.Signup'),
+      title: LANG.t('order.SignUp'),
       passProps: {
         event: this.props.event,
         selectedGroup: this.state.selectedGroup

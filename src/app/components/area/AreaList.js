@@ -72,7 +72,7 @@ class AreaList extends Component {
           />
         }
         removeClippedSubviews={false}
-        scrollEnabled={true}
+        scrollEnabled={this.props.scrollEnabled || false}
         dataSource={this.dataSource.cloneWithRows(areas.list)}
         renderRow={this.renderRow}
       />
@@ -85,6 +85,7 @@ AreaList.propTypes = {
   areasActions: PropTypes.object.isRequired,
   query: PropTypes.string,
   areas: PropTypes.object,
+  scrollEnabled: PropTypes.bool
 }
 
 function mapStateToProps(state, ownProps) {

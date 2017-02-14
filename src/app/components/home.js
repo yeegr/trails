@@ -6,6 +6,7 @@ import React, {
 } from 'react'
 
 import {
+  ScrollView,
   TabBarIOS,
   View
 } from 'react-native'
@@ -60,6 +61,7 @@ class Home extends Component {
             <AreaList
               key={'area-list'}
               navigator={navigator}
+              scrollEnabled={true}
               query={AppSettings.home.areas + AppSettings.currentCity}
             />
           </View>
@@ -73,7 +75,8 @@ class Home extends Component {
           <View style={styles.global.home}>
             <EventList
               key={'event-list'}
-              navigator={navigator} 
+              navigator={navigator}
+              scrollEnabled={true}
               query={AppSettings.home.events + AppSettings.currentCity}
             />
           </View>
@@ -88,6 +91,7 @@ class Home extends Component {
             <PostList
               key={'post-list'}
               navigator={navigator}
+              scrollEnabled={true}
               query={''}
             />
           </View>

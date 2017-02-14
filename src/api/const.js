@@ -39,6 +39,10 @@ module.exports = {
     "Alipay",
     "WeChat"
   ],
+  ORDER_TYPES: [
+    'APP',
+    'WEB'
+  ],
   Roles: [
     'normal',
     'captain',
@@ -60,32 +64,64 @@ module.exports = {
   ipRx: /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/,
 
   "Alipay": {
-    "pubContent": {
-      "app_id": "2016111902979618",
-      "method": "alipay.trade.app.pay",
-      "format": "JSON",
-      "charset": "utf-8",
-      "sign_type": "RSA",
-      "version": "1.0",
-      "notify_url": "http://139.129.200.88/alipay/notify"
+    "APP": {
+      "pubContent": {
+        "app_id": "2016111902979618",
+        "method": "alipay.trade.app.pay",
+        "format": "JSON",
+        "charset": "utf-8",
+        "sign_type": "RSA",
+        "version": "1.0",
+        "notify_url": "http://139.129.200.88/alipay/notify"
+      },
+      "bizContent": {
+        "timeout_express": "15m",
+        "seller_id": "2088021102234564",
+        "seller_email": "pay@shitulv.com",
+        "product_code": "QUICK_MSECURITY_PAY",
+        "goods_type": "0",
+        "enable_pay_channels": "balance,coupon,creditCard,debitCardExpress,pcard,promotion",
+        "disable_pay_chanales": ""
+      },
+      "statuses": {
+        "9000": "success",
+        "8000": "pending",
+        "4000": "failed",
+        "5000": "duplicated",
+        "6001": "canceled",
+        "6002": "network connection error",
+        "6004": "unknown"
+      }
     },
-    "bizContent": {
-      "timeout_express": "15m",
-      "seller_id": "2088021102234564",
-      "seller_email": "pay@shitulv.com",
-      "product_code": "QUICK_MSECURITY_PAY",
-      "goods_type": "0",
-      "enable_pay_channels": "balance,coupon,creditCard,debitCardExpress,pcard,promotion",
-      "disable_pay_chanales": ""
-    },
-    "statuses": {
-      "9000": "success",
-      "8000": "pending",
-      "4000": "failed",
-      "5000": "duplicated",
-      "6001": "canceled",
-      "6002": "network connection error",
-      "6004": "unknown"
+    "WEB": {
+      "pubContent": {
+        "app_id": "2016111902979618",
+        "method": "alipay.trade.wap.pay",
+        "format": "JSON",
+        "charset": "utf-8",
+        "sign_type": "RSA",
+        "version": "1.0",
+        "return_url": "http://139.129.200.88/alipay/return",
+        "notify_url": "http://139.129.200.88/alipay/notify"
+      },
+      "bizContent": {
+        "timeout_express": "15m",
+        "seller_id": "2088021102234564",
+        "seller_email": "pay@shitulv.com",
+        "product_code": "QUICK_WAP_PAY",
+        "goods_type": "0",
+        "enable_pay_channels": "balance,coupon,creditCard,debitCardExpress,pcard,promotion",
+        "disable_pay_chanales": ""
+      },
+      "statuses": {
+        "9000": "success",
+        "8000": "pending",
+        "4000": "failed",
+        "5000": "duplicated",
+        "6001": "canceled",
+        "6002": "network connection error",
+        "6004": "unknown"
+      }
     }
   }
 }

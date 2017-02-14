@@ -1,5 +1,10 @@
 'use strict'
 
+export const ORDER_TYPES = {
+  APP: 'APP',
+  WEB: 'WEB'
+}
+
 export const STORE_TYPES = {
   REMOTE: 'remote',
   LOCAL: 'local'
@@ -63,3 +68,7 @@ export const WeChatOpenId = 'WeChatOpenId'
 export const DEFAULT_LOCALE = 'zh-CN'
 export const USER = 'user'
 export const ACCESS_TOKEN = 'access_token'
+
+export const PAY_REQUEST_URLS = {
+  "Alipay": "https://openapi.alipay.com/gateway.do?"
+}

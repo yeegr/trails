@@ -76,7 +76,7 @@ class EventList extends Component {
           />
         }
         removeClippedSubviews={false}
-        scrollEnabled={true}
+        scrollEnabled={this.props.scrollEnabled || false}
         dataSource={this.dataSource.cloneWithRows(events.list)}
         renderRow={this.renderRow}
       />
@@ -88,7 +88,8 @@ EventList.propTypes = {
   navigator: PropTypes.object.isRequired,
   eventsActions: PropTypes.object.isRequired,
   query: PropTypes.string,
-  events: PropTypes.object
+  events: PropTypes.object,
+  scrollEnabled: PropTypes.bool
 }
 
 function mapStateToProps(state, ownProps) {

@@ -205,9 +205,6 @@ export const saveEvent = () => {
     const newEvent = getState().newEvent
     newEvent.creator = getState().login.user._id
 
-    console.log(newEvent)
-    console.log(validateEventBase(newEvent))
-
     if (validateEvent(newEvent)) {
       if (UTIL.isNullOrUndefined(newEvent._id)) {
         dispatch(createEvent(newEvent))
@@ -272,6 +269,8 @@ const createEventFailure = (message) => {
 }
 
 const createEvent = (data) => {
+  delete data._id
+
   let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(data)
   })
@@ -284,9 +283,9 @@ const createEvent = (data) => {
         return res.json()
       })
       .then((res) => {
-        if (res.id) {
+        if (res._id) {
           if (data.hero !== AppSettings.defaultEventHeroUri) {
-            dispatch(uploadEventHero(res.id, data.hero))
+            dispatch(uploadEventHero(res._id, data.hero))
           } else {
             dispatch(createEventSuccess(res))
           }
@@ -323,6 +322,7 @@ const updateEventFailure = (message) => {
 }
 
 const uploadEventHero = (event_id, uri) => {
+  console.log(event_id)
   let formData = new FormData()
 
   formData.append('file', {

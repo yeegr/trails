@@ -12,16 +12,19 @@ mongoose.Promise = global.Promise
 
 const Alipay = {
   assemblePaymentString(order) {
-    let bizContent = Object.assign({}, CONST.Alipay.bizContent, {
+    let bizContent = Object.assign({}, CONST.Alipay[order.type].bizContent, {
         body: order.body,
         subject: order.title,
         out_trade_no: order.id,
         total_amount: order.subTotal.toString(),
-        passback_params: '',
-        promo_params: '',
-        extend_params: '',
+        auth_token: order.auth_token || '',
+        passback_params: order.passback_params || '',
+        promo_params: order.promo_params || '',
+        extend_params: order.extend_params || '',
+        disable_pay_channels: order.disable_pay_channels || '',
+        store_id: order.store_id || ''
       }),
-      pubContent = Object.assign({}, CONST.Alipay.pubContent, {
+      pubContent = Object.assign({}, CONST.Alipay[order.type].pubContent, {
         timestamp: moment(UTIL.getTimeFromId(order._id)).format('YYYY-MM-DD hh:mm:ss'),
         biz_content: JSON.stringify(bizContent)
       }),
@@ -59,8 +62,8 @@ const Alipay = {
   verify(order, response) {
     let idCheck = (order._id.toString() === response.out_trade_no),
       paymentCheck = (order.subTotal.toString() === response.total_amount),
-      sellerCheck = (CONST.Alipay.bizContent.seller_id === response.seller_id),
-      appCheck = (CONST.Alipay.pubContent.app_id === response.app_id)
+      sellerCheck = (CONST.Alipay[order.type].bizContent.seller_id === response.seller_id),
+      appCheck = (CONST.Alipay[order.type].pubContent.app_id === response.app_id)
 
     return idCheck && paymentCheck && sellerCheck && appCheck
   }
@@ -86,8 +89,6 @@ module.exports = (app) => {
 
   /* Create */
   app.post('/orders', (req, res, next) => {
-    console.log('create order')
-    console.log(req.body)
     let order = new Order(req.body)
 
     User
@@ -103,7 +104,7 @@ module.exports = (app) => {
     .then((data) => {
       if (data) {
         let tmp = JSON.parse(JSON.stringify(data))
-        tmp.alipay = Alipay.pay(data)
+        tmp.Alipay = Alipay.pay(data)
         res.status(201).json(tmp)
       }
     })
@@ -168,9 +169,6 @@ module.exports = (app) => {
 
   /* Update */
   app.put('/orders', (req, res, next) => {
-    console.log('update order')
-    console.log(req.body)
-
     let tmp = req.body
 
     switch (tmp.method) {
@@ -185,7 +183,7 @@ module.exports = (app) => {
         .exec()
         .then((order) => {
           if (order && Alipay.verify(order, response)) {
-            let status = CONST.Alipay.statuses[statusCode]
+            let status = CONST.Alipay[order.type].statuses[statusCode]
 
             order
             .set({

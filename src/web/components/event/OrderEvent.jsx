@@ -37,13 +37,15 @@ class OrderEvent extends Component {
 
     this.__addSignUp = this._addSignUp.bind(this)
 
+    let {user} = this.props
+
     this.state = {
       signUps: [{
-        name: '',
-        mobile: '',
-        pid: '',
-        gender: 1,
-        level: 0
+        name: user.name || '',
+        mobile: user.mobile.toString() || '',
+        pid: user.pid || '',
+        gender: user.gender || 1,
+        level: user.level || 2
       }]
     }
   }

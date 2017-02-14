@@ -377,7 +377,7 @@ export const reloadUser = () => {
         return res.json()
       })
       .then((res) => {
-        if (res.id) {
+        if (res._id) {
           localStorage
           .setItem(CONSTANTS.USER, JSON.stringify(res))
           .then(() => {

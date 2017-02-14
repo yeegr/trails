@@ -44,23 +44,17 @@ class OrderEvent extends Component {
     navigator.__addSignUp = this._addSignUp.bind(this)
 
     this.state = {
-      initPageHeight: 0,
       signUps: [{
         name: user.name || '',
         mobile: user.mobile.toString(),
         pid: user.pid || '',
         gender: user.gender || 1,
-        level: user.level || 0
+        level: user.level || 2
       }]
     }
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.refs.scrollContent.measure((fx, fy, width, height, px, py) => {
-        this.setState({initPageHeight: height})
-      })
-    }, 200)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -79,12 +73,6 @@ class OrderEvent extends Component {
       level: 0
     })
     this.setState({signUps})
-
-    setTimeout(() => {
-      this.refs.scrollContent.measure((fx, fy, width, height, px, py) => {
-        this.refs.scrollView.scrollTo({x:0, y:height-this.state.initPageHeight, animated: true})
-      })
-    }, 100)
   }
 
   _removeSignUp(index) {
