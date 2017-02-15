@@ -65,6 +65,15 @@ class EventDetail extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    let newEvent = nextProps.newEvent
+
+    if (newEvent.status !== 'editing') {
+      this.props.newEventActions.resetEvent()
+      this.props.navigator.popToTop()
+    }
+  }
+
   componentWillUnmount() {
     if (!this.props.isPreview) {
       this.props.eventsActions.clearEvent()
@@ -108,7 +117,7 @@ class EventDetail extends Component {
       [
         {
           text: LANG.t('event.edit.SubmitAlert.confirm'),
-          onPress: this.props.newEventActions.submitEvent(event)
+          onPress: () => this.props.newEventActions.submitEvent(event)
         },
         {
           text: LANG.t('event.edit.SubmitAlert.cancel')

@@ -1,6 +1,5 @@
 'use strict'
 
-//import {localStorage} from 'react-native'
 import * as ACTIONS from '../constants/loginConstants'
 import {
   CONSTANTS,
@@ -11,10 +10,9 @@ import {
 
 // check user login status
 export const isLoggedIn = () => {
-  let token = localStorage.getItem(CONSTANTS.ACCESS_TOKEN).toString()
-
-  if (token) {
-    let user = JSON.parse(localStorage.getItem(CONSTANTS.USER)),
+  if (localStorage.getItem(CONSTANTS.ACCESS_TOKEN) !== null) {
+    let token = localStorage.getItem(CONSTANTS.ACCESS_TOKEN),
+      user = JSON.parse(localStorage.getItem(CONSTANTS.USER)),
       str = localStorage.getItem(user._id),
       obj = (str) ? JSON.parse(str) : null,
       tmp = (str) ? UTIL.obj2arr(obj) : []
@@ -31,42 +29,6 @@ export const isLoggedIn = () => {
   return {
     type: ACTIONS.IS_LOGGED_OUT
   }
-
-
-  /*
-  return localStorage
-    .multiGet([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER])
-    .then((arr) => {
-      if (arr[0][1] && arr[1][1]) {
-        let token = arr[0][1],
-          user = JSON.parse(arr[1][1])
-
-        localStorage
-        .getItem(user._id)
-        .then((str) => {
-          return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
-        })
-        .then((obj) => {
-          user.localTrails = UTIL.obj2arr(obj)
-        })
-
-        return {
-          type: ACTIONS.IS_LOGGED_IN,
-          token,
-          user
-        }
-      }
-
-      return {
-        type: ACTIONS.IS_LOGGED_OUT
-      }
-    })
-    .catch((err) => {
-      return {
-        type: ACTIONS.IS_LOGGED_OUT
-      }
-    })
-  */
 }
 
 // toggle login page

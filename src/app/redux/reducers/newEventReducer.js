@@ -69,6 +69,9 @@ newEventReducer = (state = initState, action) => {
     case ACTIONS.EDIT_EVENT:
       return action.event
 
+    case ACTIONS.RESET_EVENT:
+      return initState
+
     case ACTIONS.SET_EVENT_PRIVACY:
       return Object.assign({}, state, {
         isPublic: action.isPublic
@@ -222,8 +225,7 @@ newEventReducer = (state = initState, action) => {
     case ACTIONS.CREATE_EVENT_SUCCESS:
       return Object.assign({}, state, {
         isUploading: false,
-        isSaved: true,
-        event: action.event
+        isSaved: true
       })
 
     case ACTIONS.CREATE_EVENT_FAILURE:
@@ -241,8 +243,7 @@ newEventReducer = (state = initState, action) => {
     case ACTIONS.UPDATE_EVENT_SUCCESS:
       return Object.assign({}, state, {
         isUploading: false,
-        isSaved: true,
-        event: action.event
+        isSaved: true
       })
 
     case ACTIONS.UPDATE_EVENT_FAILURE:

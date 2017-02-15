@@ -106,7 +106,7 @@ class MyEvents extends Component {
           <TextView
             style={{flex: 1, marginBottom: 5, paddingHorizontal: 15, textAlign: 'right'}}
             fontSize={'XL'}
-            text={LANG.l('currencty', event.total)}
+            text={LANG.l('currency', event.total)}
           />
         </View>
         <View style={styles.editor.group}>

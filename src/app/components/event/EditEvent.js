@@ -19,6 +19,7 @@ import CallToAction from '../shared/CallToAction'
 import EditLink from '../shared/EditLink'
 import Hero from '../shared/Hero'
 import Icon from '../shared/Icon'
+import Saving from '../shared/Saving'
 
 import styles from '../../styles/main'
 
@@ -31,6 +32,7 @@ import {
 class EditEvent extends Component {
   constructor(props) {
     super(props)
+    this._alert = this._alert.bind(this)
     this._unmount = this._unmount.bind(this)
     this._nextPage = this._nextPage.bind(this)
 
@@ -38,7 +40,8 @@ class EditEvent extends Component {
       showCityPicker: false,
       showTypePicker: false,
       showDateTimePicker: false,
-      showGatherLocationPicker: false
+      showGatherLocationPicker: false,
+      showSavingModal: false
     }
   }
 
@@ -47,16 +50,32 @@ class EditEvent extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.newEvent.isSaved) {
-      Alert.alert(
-        LANG.t('event.edit.SaveAlert.title'),
-        LANG.t('event.edit.SaveAlert.description'),
-        [{
-          text: LANG.t('event.edit.SaveAlert.confirm'),
-          onPress: this._unmount
-        }]
-      )
+    let event = nextProps.newEvent
+
+    if (event.isSaved && !event.isUploading) {
+      setTimeout(() => this._alert(event.status), 1000)
     }
+  }
+
+  componentWillUnmount() {
+    this.props.newEventActions.resetEvent()
+  }
+
+  _alert(status) {
+    let description = (status === 'editing') ? (
+      LANG.t('event.edit.SaveAlert.description')
+     ) : (
+      LANG.t('event.edit.SaveAlert.description_submitted')
+     )
+
+    Alert.alert(
+      LANG.t('event.edit.SaveAlert.title'),
+      description,
+      [{
+        text: LANG.t('event.edit.SaveAlert.confirm'),
+        onPress: this._unmount
+      }]
+    )
   }
 
   _unmount() {
@@ -201,6 +220,9 @@ class EditEvent extends Component {
           disabled={!newEventActions.validateEvent(this.props.newEvent)}
           label={LANG.t('event.edit.Preview')}
           onPress={() => this._nextPage('preview')}
+        />
+        <Saving
+          visible={event.isUploading}
         />
       </View>
     )

@@ -9,7 +9,8 @@
     "Or": "或者",
     "Cancel": "取消",
     "Confirm": "确定",
-    "Okay": "知道啦"
+    "Okay": "知道啦",
+    "Saving": "保存中"
   },
 
   "genders": {
@@ -218,11 +219,12 @@
       "SaveAlert": {
         "title": "保存成功！",
         "description": "您的活动已成功保存，可随时提交审核",
+        "description_submitted": "您发布的活动已提交审核，我们将尽快将审核结果返回您",
         "confirm": "知道了"
       },
       "SubmitAlert": {
         "title": "提交活动",
-        "description": "您的活动将被提交到审核中心，通过后将向",
+        "description": "您的活动将被提交到审核中心，审核结果将尽快返回",
         "cancel": "继续编辑",
         "confirm": "马上提交"
       },

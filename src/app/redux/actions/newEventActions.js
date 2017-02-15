@@ -23,6 +23,12 @@ export const editEvent = (event) => {
   }
 }
 
+export const resetEvent = () => {
+  return {
+    type: ACTIONS.RESET_EVENT
+  }
+}
+
 export const setEventPrivacy = (isPublic) => {
   return {
     type: ACTIONS.SET_EVENT_PRIVACY,
@@ -322,7 +328,6 @@ const updateEventFailure = (message) => {
 }
 
 const uploadEventHero = (event_id, uri) => {
-  console.log(event_id)
   let formData = new FormData()
 
   formData.append('file', {

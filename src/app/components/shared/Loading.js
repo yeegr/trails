@@ -13,14 +13,16 @@ import {
 const Loading = (props) => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size={props.size || 'large'} animating={true} />
+      <ActivityIndicator
+        size={props.size || 'large'}
+        animating={true}
+      />
     </View>
   )
 },
 styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    flex: 1,
     justifyContent: 'center',
     padding: 20
   }
