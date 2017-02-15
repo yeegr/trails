@@ -22,8 +22,7 @@ import DateTimePicker from '../shared/DateTimePicker'
 import styles from '../../styles/main'
 
 import {
-  LANG,
-  Lang
+  LANG
 } from '../../settings'
 
 class EditEventDates extends Component {
