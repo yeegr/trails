@@ -198,6 +198,7 @@
       "Untitled": "尚未命名",
       "HeroImage": "活动封面",
       "MinEventTitleLength": "活动标题不能少于{{min}}个字符",
+      "AddDate": "添加批次",
       "SelectTrail": "选择活动轨迹",
       "SelectAgendaType": "选择日程类型",
       "PerHead": "人均费用",

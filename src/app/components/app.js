@@ -232,6 +232,17 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         )
       break
 
+      case 'EditEventDates':
+        rightTitleBar = (
+          <NavbarButton
+            onPress={navigator.__addDate}
+            icon={Graphics.titlebar.add}
+            label={LANG.t('event.edit.AddDate')}
+            showLabel={false}
+          />
+        )
+      break
+
       case 'RecordTrail':
         rightTitleBar = (
           <NavbarButton

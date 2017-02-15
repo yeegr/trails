@@ -34,7 +34,7 @@ import {
 class OrderEvent extends Component {
   constructor(props) {
     super(props)
-    this._addSignUp = this._addSignUp.bind(this)
+
     this._removeSignUp = this._removeSignUp.bind(this)
     this._updateInfo = this._updateInfo.bind(this)
     this._validateData = this._validateData.bind(this)

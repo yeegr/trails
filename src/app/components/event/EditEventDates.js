@@ -18,20 +18,20 @@ import * as newEventActions from '../../redux/actions/newEventActions'
 
 import EditLink from '../shared/EditLink'
 import DateTimePicker from '../shared/DateTimePicker'
-import CallToAction from '../shared/CallToAction'
 
 import styles from '../../styles/main'
 
 import {
-  Lang,
-  Graphics
+  LANG,
+  Lang
 } from '../../settings'
 
 class EditEventDates extends Component {
   constructor(props) {
     super(props)
-    this.getDate = this.getDate.bind(this)
-    this.setDate = this.setDate.bind(this)
+    this.props.navigator.__addDate = this._addDate.bind(this)
+    this._getDate = this._getDate.bind(this)
+    this._setDate = this._setDate.bind(this)
 
     this.state = {
       groups: this.props.groups,
@@ -44,13 +44,20 @@ class EditEventDates extends Component {
     this.props.newEventActions.setEventGroups(this.state.groups)
   }
 
-  getDate(timestamp) {
+  _addDate() {
+    this.setState({
+      showDateTimePicker: true,
+      currentGroupIndex: -1
+    })
+  }
+
+  _getDate(timestamp) {
     let d = new Date()
     d.setTime(timestamp)
     return d
   }
 
-  setDate(dt) {
+  _setDate(dt) {
     let groups = this.state.groups,
       index = this.state.currentGroupIndex,
       time = (new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 0, 0, 0, 0)).getTime()
@@ -87,7 +94,7 @@ class EditEventDates extends Component {
                 return (
                   <EditLink
                     key={index}
-                    label={Lang.SelectDate}
+                    label={LANG.t('event.GroupCount', {count: LANG.t('alphanumerals.' + index)})}
                     value={moment(group.startDate).format('LL')}
                     onPress={() => this.setState({showDateTimePicker: true, currentGroupIndex: index})}
                   />
@@ -96,19 +103,15 @@ class EditEventDates extends Component {
             }
           </View>
         </ScrollView>
-        <CallToAction 
-          onPress={() => this.setState({showDateTimePicker: true, currentGroupIndex: -1})}
-          label={Lang.AddGroup}
-          backgroundColor={Graphics.colors.primary}
-        />
         <DateTimePicker
           mode={'date'}
-          cancelText={Lang.Cancel} 
-          confirmText={Lang.Confirm}
+          title={LANG.t('event.edit.AddDate')}
+          cancelText={LANG.t('glossary.Cancel')} 
+          confirmText={LANG.t('glossary.Confirm')}
           minimumDate={minimumDate}
           showPicker={this.state.showDateTimePicker}
-          datetime={this.getDate(this.state.currentGroupDate)}
-          onConfirm={(value) => this.setDate(value)}
+          datetime={this._getDate(this.state.currentGroupDate)}
+          onConfirm={(value) => this._setDate(value)}
           onCancel={() => this.setState({showDateTimePicker: false})}
         />
       </View>
