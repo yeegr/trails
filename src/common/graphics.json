@@ -92,6 +92,10 @@
     "maskColor":"rgba(0, 0, 0, .8)",
     "backgroundColor":"#ffffff"
   },
+  "popup":{
+    "backgroundColor":"rgba(0, 0, 0, .8)",
+    "popupColor":"#ffffff"
+  },
   "card":{
     "backgroundColor":"#ffffff"
   },

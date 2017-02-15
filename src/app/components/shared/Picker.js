@@ -11,70 +11,120 @@ import {
   View
 } from 'react-native'
 
-import Icon from './Icon'
 import TextView from './TextView'
 
 import {
+  LANG,
   Graphics
 } from '../../settings'
 
 const Picker = (props) => {
-  const animationType = props.animationType || 'slide',
-    transparent = props.transparent || false,
-    visible = props.visible || false
+  const styles = StyleSheet.create({
+      wrapper: {
+        backgroundColor: Graphics.actionSheet.maskColor,
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-end'
+      },
+      popup: (props.type) === 'actionsheet' ? {
+        backgroundColor: Graphics.popup.popupColor,
+        flex: 1,
+        padding: 10,
+        marginTop: Graphics.statusbar.height
+      } : {
+        backgroundColor: Graphics.popup.popupColor,
+        flex: 1,
+        padding: 10,
+        paddingTop: Graphics.statusbar.height
+      },
+      titlebar: {
+        flex: 0,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 5,
+        marginBottom: 5
+      },
+      title: {
+        alignItems: 'center',
+        flex: 3,
+        marginHorizontal: 15,
+      },
+      buttonView: {
+        flexDirection: 'row',
+        flex: 1,
+        marginHorizontal: 5,
+      },
+      button: {
+        flex: 1
+      },
+      buttonText: {
+        color: Graphics.colors.primary,
+        fontSize: Graphics.fontSizes.XL
+      },
+      main: {
+        flex: 1
+      }
+    }),
+
+    confirmButton = (props.onConfirm) ? (
+      <TouchableOpacity style={styles.button} onPress={props.onCancel}>
+        <TextView
+          style={{textAlign: 'right'}}
+          textColor={props.buttonColor || Graphics.colors.primary}
+          fontSize={'L'}
+          text={props.confirmText || LANG.t('glossary.Confirm')}
+        />
+      </TouchableOpacity>
+    ) : null,
+
+    animationType = props.animationType || 'slide',
+    transparent = props.transparent || false
 
   return (
-    <Modal animationType={animationType} transparent={transparent} visible={visible}>
+    <Modal animationType={animationType} transparent={transparent} visible={props.visible}>
       <View style={styles.wrapper}>
-        <View style={styles.main}>
-          <TextView
-            style={{paddingVertical: 20, textAlign: 'center'}}
-            fontSize={'XL'}
-            text={props.title || ''}
-          />
-          <View style={{flex: 1}}>
+        <View style={styles.popup}>
+          <View style={styles.titlebar}>
+            <View style={[styles.buttonView, {alignItems: 'flex-start'}]}>
+              <TouchableOpacity style={styles.button} onPress={props.onCancel}>
+                <TextView
+                  textColor={props.buttonColor || Graphics.colors.primary}
+                  fontSize={'L'}
+                  text={props.cancelText || LANG.t('glossary.Cancel')}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.title}>
+              <TextView
+                fontSize={'L'}
+                text={props.title}
+              />
+            </View>
+            <View style={[styles.buttonView, {alignItems: 'flex-end'}]}>
+              {confirmButton}
+            </View>
+          </View>
+          <View style={styles.main}>
             {props.content}
           </View>
         </View>
       </View>
-      <TouchableOpacity onPress={props.onCancel} style={styles.close}>
-        <Icon 
-          backgroundColor={Graphics.colors.transparent}
-          fillColor={'rgba(0, 0, 0, 0.5)'}
-          type={'close'}
-        />
-      </TouchableOpacity>
     </Modal>
   )
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: Graphics.colors.background,
-    flex: 1
-  },
-  main: {
-    flex: 1,
-    flexDirection: 'column',
-    padding: 10,
-  },
-  close: {
-    height: Graphics.icon.sideLength,
-    right: 15,
-    top: 30,
-    position: 'absolute',
-    width: Graphics.icon.sideLength
-  }
-})
-
 Picker.propTypes = {
   animationType: PropTypes.string,
   transparent: PropTypes.bool,
-  visible: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
+  visible: PropTypes.bool,
+  type: PropTypes.string,
+  title: PropTypes.string,
+  buttonColor: PropTypes.string,
+  cancelText: PropTypes.string,
+  confirmText: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
-  content: PropTypes.object.isRequired,
-  selectedIndex: PropTypes.string,
+  onConfirm: PropTypes.func,
+  content: PropTypes.object.isRequired
 }
 
 export default Picker

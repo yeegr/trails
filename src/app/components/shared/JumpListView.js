@@ -8,10 +8,15 @@ import React, {
 import {
   ListView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View
 } from 'react-native'
+
+import TextView from './TextView'
+
+import {
+  Graphics
+} from '../../settings'
 
 class JumpListView extends Component {
   constructor(props) {
@@ -22,11 +27,12 @@ class JumpListView extends Component {
     })
     this.renderRow = this.renderRow.bind(this)
     this.renderSectionHeader = this.renderSectionHeader.bind(this)
+
     this.renderSectionLink = this.renderSectionLink.bind(this)
 
     let keyArray = [],
-    childCountArray = [],
-    childCount = 0
+      childCountArray = [],
+      childCount = 0
 
     Object.keys(this.props.data).forEach((key) => {
       keyArray.push(key)
@@ -42,77 +48,89 @@ class JumpListView extends Component {
       if (index > 0) {
         this.kvpArray.push({
           key,
-          y: index * this.props.sectionHeaderHeight + childCountArray[index - 1] * this.props.cellHeight
+          y: Math.round(index * this.props.sectionHeaderHeight + childCountArray[index - 1] * this.props.cellHeight)
         })
       }
     })
 
     this.state = {
-      sidebarHeight: 581.5
+      sidebarHeight: 580
     }
+
+    this.styles = StyleSheet.create({
+      wrapper: {
+        flexDirection: 'row'
+      },
+      sidebar: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginLeft: 10
+      },
+      header: {
+        backgroundColor: Graphics.colors.lightGray,
+        justifyContent: 'center',
+        paddingHorizontal: 10,
+        height: this.props.sectionHeaderHeight
+      },
+      cell: {
+        justifyContent: 'center',
+        paddingHorizontal: 10,
+        height: this.props.cellHeight
+      }
+    })
   }
 
   renderRow(rowData, sectionId, rowId) {
-    let content = this.props.cellComponent ? this.props.cellComponent(rowData, sectionId, rowId) : (
-      <Text>{rowData}</Text>
-    )
+    const text = (this.props.cellData) ? (
+        this.props.cellData(rowData)
+      ) : rowData,
+      content = (
+        <View style={this.styles.cell}>
+          <TextView
+            text={text}
+          />
+        </View>
+      )
 
     if (this.props.onSelect) {
       return (
         <TouchableOpacity onPress={() => this.props.onSelect(rowData)}>
-          <View style={{height: this.props.cellHeight}}>
-            {content}
-          </View>
+          {content}
         </TouchableOpacity>
       )
     }
 
     return (
-      <View style={{height: this.props.cellHeight}}>
-        {content}
-      </View>
+      {content}
     )
   }
 
   renderSectionHeader(sectionData, sectionId) {
-    let content = this.props.headerComponent ? this.props.headerComponent(sectionData, sectionId) : (
-      <Text>{sectionId}</Text>
-    )
-
     return (
-      <View style={{height: this.props.sectionHeaderHeight}}>
-        {content}
+      <View style={this.styles.header}>
+        <TextView
+          text={sectionId}
+        />
       </View>
     )
   }
 
   renderSectionLink(rowData, sectionId, rowId) {
-    let content = this.props.linkComponent ? this.props.linkComponent(rowData.key) : (
-      <Text style={{color: '#007AFF'}}>{rowData.key}</Text>
-    )
-
     return (
       <TouchableOpacity onPress={() => this.refs.list.scrollTo({x: 0, y: rowData.y, animated: true})}>
-        <View style={{flex: 1, alignItems: 'center'}}>
-          {content}
+        <View style={{alignItems: 'center', paddingVertical: 2, marginVertical: 2}}>
+          <TextView
+            textColor={'#007AFF'}
+            text={rowData.key.substring(0,1)}
+          />
         </View>
       </TouchableOpacity>
     )
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.refs.wrapper.measure((fx, fy, width, height, px, py) => {
-        this.setState({
-          sidebarHeight: height
-        })
-      })
-    }, 1000)
-  }
-
   render() {
     return (
-      <View ref="wrapper" style={styles.wrapper}>
+      <View ref="wrapper" style={this.styles.wrapper}>
         <ListView
           ref="list"
           enableEmptySections={true}
@@ -122,10 +140,10 @@ class JumpListView extends Component {
           renderRow={this.renderRow}
           renderSectionHeader={this.renderSectionHeader}
         />
-        <View ref="sidebar" style={[styles.sidebar, {height: this.state.sidebarHeight}]}>
+        <View ref="sidebar" style={this.styles.sidebar}>
           <ListView
             enableEmptySections={true}
-            scrollEnabled={true}
+            scrollEnabled={false}
             dataSource={this.dataSource.cloneWithRows(this.kvpArray)}
             renderRow={this.renderSectionLink}
           />
@@ -135,23 +153,14 @@ class JumpListView extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    flexDirection: 'row'
-  },
-  sidebar: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    position: 'absolute',
-    right: 10,
-  }
-})
-
 JumpListView.propTypes = {
   data: PropTypes.object.isRequired,
   cellHeight: PropTypes.number.isRequired,
-  sectionHeaderHeight: PropTypes.number.isRequired
+  sectionHeaderHeight: PropTypes.number.isRequired,
+  linkComponent: PropTypes.func,
+  headerComponent: PropTypes.func,
+  cellData: PropTypes.func,
+  onSelect: PropTypes.func
 }
 
 export default JumpListView

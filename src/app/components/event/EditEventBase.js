@@ -130,7 +130,7 @@ class EditEventBase extends Component {
             <EditLink
               label={LANG.t('event.DifficultyLevel')}
               required={true}
-              validated={(event.difficultyLevel >= 1 && event.difficultyLevel <= 5)}
+              validated={(event.difficultyLevel >= 2 && event.difficultyLevel <= 10)}
               onPress={() => this._nextPage('difficulty')}
               value={UTIL.showDifficultyLevel(event.difficultyLevel)}
             />
