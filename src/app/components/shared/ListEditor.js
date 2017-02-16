@@ -12,12 +12,15 @@ import {
   View
 } from 'react-native'
 
+import Swipeout from 'react-native-swipeout'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 
-import InputBar from './InputBar'
+import ListInput from './ListInput'
 import TextView from './TextView'
 
 import {
+  LANG,
+  Device,
   Graphics
 } from '../../settings'
 
@@ -34,29 +37,62 @@ class ListEditor extends Component {
 
     this.state = {
       list: this.props.list || [],
-      dataSource: this.dataSource,
+      dataSource: this.dataSource.cloneWithRows(this.props.list || []),
       selectedText: '',
       selectedIndex: -1
     }
-  }
 
-  componentDidMount() {
-    this.setState({
-      dataSource: this.dataSource.cloneWithRows(this.props.list || []),
-    })
+    this.multiline = (this.props.type !== 'tag' && this.props.type !== 'article')
+    this.numberOfLines = (this.props.type === 'tag') ? 1 : 2
+    this.wrapperHeight = Device.height
+    this.contentHeight = 0
   }
 
   renderRow(rowData, sectionId, rowId) {
     const rowText = rowData.toString(),
-      rowIndex = parseInt(rowId)
+      rowIndex = parseInt(rowId),
+      swipeoutBtns = (i) => [{
+        text: LANG.t('glossary.Delete'),
+        backgroundColor: '#ff0000',
+        onPress: () => this._deleteItem(i)
+      }]
 
     return (
-      <TouchableOpacity key={rowId} onPress={() => {this._sendToEdit(rowText, rowIndex)}}>
-        <View style={[styles.row, (rowIndex === this.state.selectedIndex) ? styles.highlight : null]}>
-          <TextView text={rowText} />
-        </View>
-      </TouchableOpacity>
+      <Swipeout 
+        key={rowId}
+        autoClose={true}
+        right={swipeoutBtns(rowId)}
+      >
+        <TouchableOpacity onPress={() => {this._sendToEdit(rowText, rowIndex)}}>
+          <View style={[styles.row, (rowIndex === this.state.selectedIndex) ? styles.highlight : null]}>
+            <TextView
+              ellipsizeMode={'tail'}
+              numberOfLines={this.numberOfLines}
+              text={rowText}
+            />
+          </View>
+        </TouchableOpacity>
+      </Swipeout>
     )
+  }
+
+  _addItem() {
+    this.setState({
+      selectedText: '',
+      selectedIndex: -1
+    })
+  }
+
+  _deleteItem(index) {
+    let list = this.state.list
+    list.splice(index, 1)
+
+    this.setState({
+      list,
+      dataSource: this.dataSource.cloneWithRows(list),
+      selectedText: '',
+      selectedIndex: -1
+    })
   }
   
   _sendToEdit(selectedText, selectedIndex) {
@@ -66,19 +102,21 @@ class ListEditor extends Component {
     })
   }
 
-  _setListItem(text, index) {
-    let list = this.state.list
+  _setListItem(text) {
+    let index = this.state.selectedIndex,
+      list = this.state.list
 
     if (index < 0) {
       list.push(text)
-      this.refs.list.scrollTo()
     } else {
       (text.length > 0) ? list.splice(index, 1, text) : list.splice(index, 1)
     }
 
     this.setState({
-      selectedText: text,
-      dataSource: this.dataSource.cloneWithRows(list)
+      list,
+      dataSource: this.dataSource.cloneWithRows(list),
+      selectedText: '',
+      selectedIndex: -1
     })
   }
   
@@ -86,19 +124,40 @@ class ListEditor extends Component {
     return (
       <View style={{flex: 1}}>
         <ListView
-          ref="list"
+          ref="_scrollView"
           enableEmptySections={true}
           scrollEnabled={true}
           keyboardDismissMode={'on-drag'}
           keyboardShouldPersistTaps={true}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
+          onLayout={(evt) => {
+            let {height} = evt.nativeEvent.layout,
+              y = 0
+
+            if (height >= this.contentHeight || this.state.selectedIndex === 0) {
+              y = 0
+            } else if (this.state.selectedIndex < 0 || this.state.selectedIndex === (this.state.list.length - 1)) {
+              y = this.contentHeight - height
+            } else {
+              let rowHeight = Math.round(height / this.state.list.length),
+                r = height - rowHeight * (this.state.selectedIndex),
+                t = this.contentHeight - height
+
+              y = (r > t) ? t : r
+            }
+
+            this.refs._scrollView.scrollTo({x: 0, y, animated: true})
+          }}
+          onContentSizeChange={(contentWidth, contentHeight) => {
+            this.contentHeight = Math.round(contentHeight)
+          }}
         />
-        <InputBar
-          type={'list'}
-          index={this.state.selectedIndex}
+        <ListInput
+          type={this.props.type}
           text={this.state.selectedText}
-          onSubmit={(text, index) => this._setListItem(text, index)}
+          multiline={this.multiline}
+          onSubmit={(text) => this._setListItem(text)}
         />
         <KeyboardSpacer />
       </View>
@@ -107,7 +166,8 @@ class ListEditor extends Component {
 }
 
 ListEditor.propTypes = {
-  list: PropTypes.array
+  list: PropTypes.array,
+  type: PropTypes.string
 }
 
 const styles = StyleSheet.create({

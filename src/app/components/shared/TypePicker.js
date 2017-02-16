@@ -10,13 +10,13 @@ import {
 } from 'react-native'
 
 import IconGrid from '../shared/IconGrid'
-import Picker from '../shared/Picker'
+import Popup from '../shared/Popup'
 
 import styles from '../../styles/main'
 
 const TypePicker = (props) => {
   return (
-    <Picker 
+    <Popup 
       visible={props.visible}
       title={props.title}
       onCancel={props.onCancel}
@@ -72,6 +72,7 @@ const TypePicker = (props) => {
 
 TypePicker.propTypes = {
   visible: PropTypes.bool.isRequired,
+  title: PropTypes.string,
   selectedIndex: PropTypes.number,
   onPress: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired

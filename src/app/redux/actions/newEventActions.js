@@ -1,7 +1,6 @@
 'use strict'
 
 import * as ACTIONS from '../constants/newEventConstants'
-import * as loginActions from './loginActions'
 import {
   CONSTANTS,
   FETCH,
@@ -259,8 +258,6 @@ const createEventRequest = () => {
 }
 
 const createEventSuccess = (event) => {
-  loginActions.reloadUser()
-
   return {
     type: ACTIONS.CREATE_EVENT_SUCCESS,
     event
@@ -312,8 +309,6 @@ const updateEventRequest = () => {
 }
 
 const updateEventSuccess = (event) => {
-  loginActions.reloadUser()
-
   return {
     type: ACTIONS.UPDATE_EVENT_SUCCESS,
     event

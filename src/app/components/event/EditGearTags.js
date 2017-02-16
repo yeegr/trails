@@ -35,6 +35,7 @@ class EditGearTags extends Component {
       <View style={styles.editor.list}>
         <ListEditor
           list={this.state.tags}
+          type={'tag'}
         />
       </View>
     )

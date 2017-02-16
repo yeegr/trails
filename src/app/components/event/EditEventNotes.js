@@ -32,7 +32,9 @@ class EditEventNotes extends Component {
   render() {
     return (
       <View style={styles.editor.scroll}>
-        <ListEditor list={this.state.notes} />
+        <ListEditor
+          list={this.state.notes}
+        />
       </View>
     )
   }

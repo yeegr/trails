@@ -18,7 +18,7 @@ import {
   Graphics
 } from '../../settings'
 
-const Picker = (props) => {
+const Popup = (props) => {
   const styles = StyleSheet.create({
       wrapper: {
         backgroundColor: Graphics.actionSheet.maskColor,
@@ -66,6 +66,17 @@ const Picker = (props) => {
       }
     }),
 
+    cancelButton = (props.onCancel) ? (
+      <TouchableOpacity style={styles.button} onPress={props.onCancel}>
+        <TextView
+          textColor={props.buttonColor || Graphics.colors.primary}
+          fontSize={'L'}
+          text={props.cancelText || LANG.t('glossary.Cancel')}
+        />
+      </TouchableOpacity>
+
+    ) : null,
+
     confirmButton = (props.onConfirm) ? (
       <TouchableOpacity style={styles.button} onPress={props.onCancel}>
         <TextView
@@ -77,6 +88,23 @@ const Picker = (props) => {
       </TouchableOpacity>
     ) : null,
 
+    titlebar = (props.title || props.onCancel || props.onConfirm) ? (
+      <View style={styles.titlebar}>
+        <View style={[styles.buttonView, {alignItems: 'flex-start'}]}>
+          {cancelButton}
+        </View>
+        <View style={styles.title}>
+          <TextView
+            fontSize={'L'}
+            text={props.title}
+          />
+        </View>
+        <View style={[styles.buttonView, {alignItems: 'flex-end'}]}>
+          {confirmButton}
+        </View>
+      </View>
+    ) : null,
+
     animationType = props.animationType || 'slide',
     transparent = props.transparent || false
 
@@ -84,26 +112,7 @@ const Picker = (props) => {
     <Modal animationType={animationType} transparent={transparent} visible={props.visible}>
       <View style={styles.wrapper}>
         <View style={styles.popup}>
-          <View style={styles.titlebar}>
-            <View style={[styles.buttonView, {alignItems: 'flex-start'}]}>
-              <TouchableOpacity style={styles.button} onPress={props.onCancel}>
-                <TextView
-                  textColor={props.buttonColor || Graphics.colors.primary}
-                  fontSize={'L'}
-                  text={props.cancelText || LANG.t('glossary.Cancel')}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.title}>
-              <TextView
-                fontSize={'L'}
-                text={props.title}
-              />
-            </View>
-            <View style={[styles.buttonView, {alignItems: 'flex-end'}]}>
-              {confirmButton}
-            </View>
-          </View>
+          {titlebar}
           <View style={styles.main}>
             {props.content}
           </View>
@@ -113,7 +122,7 @@ const Picker = (props) => {
   )
 }
 
-Picker.propTypes = {
+Popup.propTypes = {
   animationType: PropTypes.string,
   transparent: PropTypes.bool,
   visible: PropTypes.bool,
@@ -122,9 +131,9 @@ Picker.propTypes = {
   buttonColor: PropTypes.string,
   cancelText: PropTypes.string,
   confirmText: PropTypes.string,
-  onCancel: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
   onConfirm: PropTypes.func,
   content: PropTypes.object.isRequired
 }
 
-export default Picker
+export default Popup

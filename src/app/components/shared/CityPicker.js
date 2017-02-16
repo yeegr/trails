@@ -5,7 +5,7 @@ import React, {
 } from 'react'
 
 import JumpListView from './JumpListView'
-import Picker from './Picker'
+import Popup from './Popup'
 
 import {
   LANG
@@ -15,7 +15,7 @@ const CityPicker = (props) => {
   const data = LANG.t('cities.byPinyin')
 
   return (
-    <Picker
+    <Popup
       visible={props.visible}
       onCancel={props.onCancel}
       title={LANG.t('cityPicker.SelectCity')}

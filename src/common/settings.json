@@ -30,6 +30,7 @@
   "defaultCity":"010",
   "minUserHandleLength":2,
   "maxEventScheduleDays":20,
+  "maxTagLength":10,
 
   "payTimeout":900,
 

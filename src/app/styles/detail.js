@@ -10,7 +10,7 @@ export default StyleSheet.create({
   },
   toolbar: {
     backgroundColor: Graphics.colors.white,
-    borderTopColor: Graphics.colors.lightGray,
+    borderTopColor: Graphics.colors.border,
     borderTopWidth: 1,
     paddingHorizontal: 20,
     paddingVertical: 15

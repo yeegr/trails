@@ -247,8 +247,10 @@ userSchema.virtual('totalFollowers').get(function() {
 })
 
 userSchema.methods.addOrder = function(id) {
-  this.orders.push(id)
-  this.save()
+  if (this.orders.indexOf(id) < 0) {
+    this.orders.push(id)
+    this.save()
+  }
 }
 
 userSchema.methods.removeOrder = function(id) {

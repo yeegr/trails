@@ -15,9 +15,9 @@ export default StyleSheet.create({
   },
   borders: {
     backgroundColor: Graphics.colors.white,
-    borderBottomColor: Graphics.colors.lightGray,
+    borderBottomColor: Graphics.colors.border,
     borderBottomWidth: 1,
-    borderTopColor: Graphics.colors.lightGray,
+    borderTopColor: Graphics.colors.border,
     borderTopWidth: 1
   },
   thumb: {

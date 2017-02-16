@@ -28,6 +28,7 @@ import {
   LANG,
   UTIL,
   AppSettings,
+  Device,
   Graphics
 } from '../../settings'
 
@@ -52,15 +53,8 @@ class OrderEvent extends Component {
         level: user.level || 2
       }]
     }
-  }
 
-  componentDidMount() {
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.navbar.addingEventSignup === true) {
-      this._addSignUp()
-    }
+    this.initY = Device.height
   }
 
   _addSignUp() {
@@ -139,12 +133,19 @@ class OrderEvent extends Component {
       selectedGroup = this.props.selectedGroup || 0,
       dates = UTIL.formatEventGroupLabel(event, selectedGroup)
 
-    return(
+    return (
       <View style={styles.global.wrapper}>
-        <ParallaxView ref="scrollView"
+        <ParallaxView ref="_scrollView"
           style={{flex: 1}}
           backgroundSource={{uri: eventBackgroundUrl}}
           windowHeight={Graphics.heroImage.height}
+          onContentSizeChange={(contentWidth, contentHeight)=>{
+            if (this.state.signUps.length === 1) {
+              this.initY = contentHeight
+            } else {
+              this.refs._scrollView.scrollTo({x: 0, y: contentHeight - this.initY, animated: true})
+            }
+          }}
           header={(
             <Card
               align={'bottom'}
@@ -152,7 +153,7 @@ class OrderEvent extends Component {
               excerpt={event.excerpt}
             />
           )}>
-          <View ref="scrollContent" style={styles.detail.article}>
+          <View style={styles.detail.article}>
             <View style={styles.detail.section}>
               <TextView class={'h2'} text={LANG.t('event.EventInfo')} />
               <View style={styles.detail.group}>

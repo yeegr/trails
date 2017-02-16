@@ -22,6 +22,7 @@ import Card from '../shared/Card'
 import ImagePath from '../shared/ImagePath'
 import Icon from '../shared/Icon'
 import InfoItem from '../shared/InfoItem'
+import Saving from '../shared/Saving'
 import TextView from '../shared/TextView'
 
 import styles from '../../styles/main'
@@ -43,7 +44,8 @@ class OrderPayment extends Component {
 
     this.state = {
       signUps: this.props.signUps,
-      paymentMethod: AppSettings.defaultPaymentMethod
+      paymentMethod: AppSettings.defaultPaymentMethod,
+      isPaying: false
     }
   }
 
@@ -51,9 +53,10 @@ class OrderPayment extends Component {
     let {order} = nextProps
 
     if (this.props.order === null && order !== null && order.subTotal > 0 && order.status === 'pending') {
+      this.setState({isPaying: false})
       this._pay(order)
     } else if (order !== null && order.status === 'success') {
-      this.props.navigator.push({
+      this.props.navigator.replace({
         id: 'OrderSuccess',
         title: LANG.t('order.OrderSuccess'),
         passProps: {
@@ -69,6 +72,8 @@ class OrderPayment extends Component {
   }
 
   _confirm(subTotal) {
+    this.setState({isPaying: true})
+
     subTotal = (subTotal > 0) ? 0.02 : subTotal
 
     let {user, event, selectedGroup} = this.props,
@@ -220,6 +225,9 @@ class OrderPayment extends Component {
           backgroundColor={Graphics.colors.primary}
           label={LANG.t('order.ConfirmOrder')}
           onPress={() => this._confirm(subTotal)}
+        />
+        <Saving
+          visible={this.state.isPaying}
         />
       </View>
     )

@@ -73,7 +73,7 @@ class SignUpForm extends Component {
             label={LANG.t('order.RealName')}
             input={
               <TextInput
-                autoFocus={true}
+                autoFocus={false}
                 style={styles.detail.textInput}
                 value={this.state.name}
                 onChangeText={(name) => this._updateState({name})}
