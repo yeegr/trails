@@ -113,6 +113,7 @@
     "react-native-parallax-view": "2.0.6",
     "react-native-simple-radio-button": "2.4.0",
     "react-native-svg": "4.4.1",
+    "react-native-swipeout": "^2.0.12",
     "react-native-wechat": "1.8.0",
     "react-native-yunpeng-alipay": "1.1.4",
     "react-redux": "5.0.1",

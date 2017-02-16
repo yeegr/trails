@@ -25,6 +25,10 @@ node_modules/react-native-simple-radio-button/*
 node_modules/react-native-simple-radio-button/lib/*
 !node_modules/react-native-simple-radio-button/lib/Style.js
 
+!node_modules/react-native-swipeout/
+node_modules/react-native-swipeout/*
+!node_modules/react-native-swipeout/index.js
+
 npm-debug.log
 typings
 dist

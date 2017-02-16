@@ -10,6 +10,7 @@ import {
   View
 } from 'react-native'
 
+import Swipeout from 'react-native-swipeout'
 import moment from 'moment'
 
 import {connect} from 'react-redux'
@@ -29,6 +30,7 @@ class EditEventDates extends Component {
   constructor(props) {
     super(props)
     this.props.navigator.__addDate = this._addDate.bind(this)
+    this._deleteDate = this._deleteDate.bind(this)
     this._getDate = this._getDate.bind(this)
     this._setDate = this._setDate.bind(this)
 
@@ -48,6 +50,14 @@ class EditEventDates extends Component {
       showDateTimePicker: true,
       currentGroupIndex: -1
     })
+  }
+
+  _deleteDate(index) {
+    if (this.state.groups.length > 1) {
+      let groups = this.state.groups.splice(0)
+      groups.splice(index, 1)
+      this.setState({groups})
+    }
   }
 
   _getDate(timestamp) {
@@ -82,7 +92,12 @@ class EditEventDates extends Component {
   }
 
   render() {
-    let minimumDate = moment(new Date()).add(1, 'days').toDate()
+    let minimumDate = moment(new Date()).add(1, 'days').toDate(),
+      swipeoutBtns = (i) => [{
+        text: LANG.t('glossary.Delete'),
+        backgroundColor: '#ff0000',
+        onPress: () => this._deleteDate(i)
+      }]
 
     return (
       <View style={styles.global.wrapper}>
@@ -91,12 +106,13 @@ class EditEventDates extends Component {
             {
               this.state.groups.map((group, index) => {
                 return (
-                  <EditLink
-                    key={index}
-                    label={LANG.t('event.GroupCount', {count: LANG.t('alphanumerals.' + index)})}
-                    value={moment(group.startDate).format('LL')}
-                    onPress={() => this.setState({showDateTimePicker: true, currentGroupIndex: index})}
-                  />
+                  <Swipeout key={index} right={swipeoutBtns(index)}>
+                    <EditLink
+                      label={LANG.t('event.GroupCount', {count: LANG.t('alphanumerals.' + index)})}
+                      value={moment(group.startDate).format('LL')}
+                      onPress={() => this.setState({showDateTimePicker: true, currentGroupIndex: index})}
+                    />
+                  </Swipeout>
                 )
               })
             }
