@@ -41,14 +41,15 @@ const OrderList = (props) => {
   },
 
   renderRow = (order, sectionId, rowId) => {
-    const {event} = order,
-      dates = UTIL.formatDateSpan(order.startDate, order.daySpan),
-      infoStyles = {
+    const infoStyles = {
         wrapper: {
+          height: 22,
           paddingLeft: 0,
           paddingVertical: 0
         }
-      }, 
+      },
+      {event} = order,
+      dates = UTIL.formatDateSpan(order.startDate, order.daySpan),
       names = [],
       heroUri = ImagePath({type: 'thumb', path: UTIL.getEventHeroPath(event)})
 
@@ -71,6 +72,7 @@ const OrderList = (props) => {
                 text={order.title} 
               />
               <TextView
+                fontSize={'SML'}
                 textColor={Graphics.textColors.endnote}
                 text={dates} 
               />
@@ -107,7 +109,6 @@ const OrderList = (props) => {
       scrollEnabled={true}
       dataSource={dataSource.cloneWithRows(props.orders)}
       renderRow={renderRow}
-      onEndReached={() => console.log('ended')}
     />
   )
 }

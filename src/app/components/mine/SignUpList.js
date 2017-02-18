@@ -91,18 +91,8 @@ class SignUpList extends Component {
   }
 
   render() {
-    const {event} = this.props
-
     return (
-      <View style={{flex: 1, marginTop: Graphics.page.marginTop}}>
-        <TouchableOpacity onPress={() => this.eventPage(event._id)}>
-          <TextView
-            style={{fontWeight: '400', marginBottom: 5, marginTop: 15, paddingHorizontal: 15}}
-            fontSize={'XL'}
-            textColor={Graphics.textColors.link}
-            text={event.title}
-          />
-        </TouchableOpacity>
+      <View style={styles.global.main}>
         <ListView
           enableEmptySections={true}
           removeClippedSubviews={false}

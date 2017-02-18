@@ -6,6 +6,7 @@ import React, {
 } from 'react'
 
 import {
+  Image,
   ListView,
   SegmentedControlIOS,
   ScrollView,
@@ -13,11 +14,15 @@ import {
   View
 } from 'react-native'
 
+import moment from 'moment'
+
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../redux/actions/eventsActions'
+import * as newEventActions from '../../redux/actions/newEventActions'
 
-import EditLink from '../shared/EditLink'
+import ImagePath from '../shared/ImagePath'
+import InfoItem from '../shared/InfoItem'
 import Loading from '../shared/Loading'
 import TextView from '../shared/TextView'
 
@@ -37,7 +42,7 @@ class MyEvents extends Component {
     })
     this.renderRow = this.renderRow.bind(this)
     this._toggleList = this._toggleList.bind(this)
-    this._signUpList = this._signUpList.bind(this)
+    this._nextPage = this._nextPage.bind(this)
 
     this.state = {
       selectedIndex: 0
@@ -48,26 +53,24 @@ class MyEvents extends Component {
     this._toggleList(this.state.selectedIndex)
   }
 
-  eventPage(id) {
-    this.props.navigator.push({
-      id: 'EventDetail',
-      title: LANG.t('event.EventDetail'),
-      passProps: {
-        id,
-        isReview: true
+  _nextPage(event) {
+    let id = 'EventManager',
+      title = event.title,
+      passProps = {
+        event
       }
-    })
-  }
 
-  _signUpList(event, groupIndex, isReview) {
+    if (event.status === 'editing') {
+      this.props.newEventActions.editEvent(event)
+
+      id = 'EditEvent',
+      title = LANG.t('event.EditEvent')
+    }
+
     this.props.navigator.push({
-      id: 'SignUpList',
-      title: LANG.t('mine.SignUpList'),
-      passProps: {
-        event,
-        groupIndex,
-        isReview
-      }
+      id,
+      title,
+      passProps
     })
   }
 
@@ -90,41 +93,87 @@ class MyEvents extends Component {
   }
 
   renderRow(event, sectionId, rowId) {
-    let isReview = (this.state.selectedIndex !== 0)
+    let totalSignUps = 0
 
-    return (
-      <View style={styles.detail.section}>
-        <View style={{flexDirection: 'row', paddingTop: 14}}>
-          <TouchableOpacity onPress={() => this.eventPage(event._id)}>
-            <TextView
-              style={{flex: 1, fontWeight: '400', marginBottom: 5, paddingHorizontal: 15}}
-              fontSize={'XL'}
-              textColor={Graphics.textColors.link}
-              text={event.title}
-            />
-          </TouchableOpacity>
-          <TextView
-            style={{flex: 1, marginBottom: 5, paddingHorizontal: 15, textAlign: 'right'}}
-            fontSize={'XL'}
-            text={LANG.l('currency', event.total)}
+    event.groups.map((group) => {
+      totalSignUps += group.signUps.length
+    })
+
+    const infoStyles = {
+        wrapper: {
+          height: 22,
+          paddingLeft: 0,
+          paddingVertical: 0
+        }
+      },
+      heroUri = ImagePath({type: 'thumb', path: UTIL.getEventHeroPath(event)}),
+      eventDates = (event.groups.length > 1) ? (
+        LANG.t('event.EventGroups', {count: event.groups.length})
+      ) : (
+        moment(event.groups[0]).format('ll') + ' ' + UTIL.formatMinutes(event.gatherTime)
+      ),
+      
+      sub = (event.status === 'editing') ? (
+        <View>
+          <InfoItem
+            labelWidth={75}
+            styles={infoStyles}
+            label={LANG.t('event.EventDates')}
+            value={eventDates}
+          />
+          <InfoItem
+            labelWidth={75}
+            styles={infoStyles}
+            label={LANG.t('event.FeePerHead')}
+            value={LANG.l('currency', event.expenses.perHead)}
           />
         </View>
-        <View style={styles.editor.group}>
-        {
-          event.groups.map((group, index) => {
-            const dates = UTIL.formatEventGroupLabel(event, index)
-            return (
-              <EditLink
-                key={index}
-                label={dates}
-                value={group.signUps.length} 
-                onPress={() => this._signUpList(event, index, isReview)}
-              />
-            )
-          })
-        }
+      ) : (
+        <View>
+          <InfoItem
+            labelWidth={75}
+            styles={infoStyles}
+            label={LANG.t('event.SignUpCount')}
+            value={LANG.t('event.numberOfPeopleAlreadySignedUp', {count: totalSignUps})}
+          />
+          <InfoItem
+            labelWidth={75}
+            styles={infoStyles}
+            label={LANG.t('event.EventIncome')}
+            value={LANG.l('currency', event.total)}
+          />
         </View>
-      </View>
+      )
+
+    return (
+      <TouchableOpacity key={rowId} onPress={() => this._nextPage(event)}>
+        <View style={[styles.list.item, styles.list.borders]}>
+          <Image
+            style={styles.list.thumb}
+            source={{uri: heroUri}}
+          />
+          <View style={styles.list.content}>
+            <View style={[styles.list.title, {marginBottom: 5}]}>
+              <TextView
+                style={{fontWeight: '400', marginBottom: 2}}
+                fontSize={'L'}
+                text={event.title} 
+              />
+              <TextView
+                fontSize={'SML'}
+                textColor={Graphics.textColors.endnote}
+                text={event.excerpt}
+              />
+              <TextView
+                fontSize={'SML'}
+                textColor={Graphics.textColors.endnote}
+                text={'# ' + event.tags.join(', ')}
+              />
+            </View>
+            {sub}
+          </View>
+        </View>
+      </TouchableOpacity>
     )
   }
 
@@ -140,8 +189,8 @@ class MyEvents extends Component {
         <View style={{paddingHorizontal: 20, paddingTop: 20}}>
           <SegmentedControlIOS
             values={[
-              LANG.t('mine.events.ApprovedEvents'),
-              LANG.t('mine.events.UnapprovedEvents')
+              LANG.t('mine.events.SubmittedEvents'),
+              LANG.t('mine.events.EditingEvents')
             ]}
             selectedIndex={this.state.selectedIndex}
             onChange={(event) => this._toggleList(event.nativeEvent.selectedSegmentIndex)}
@@ -164,6 +213,7 @@ class MyEvents extends Component {
 MyEvents.propTypes = {
   navigator: PropTypes.object.isRequired,
   eventsActions: PropTypes.object.isRequired,
+  newEventActions: PropTypes.object.isRequired,
   query: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
   events: PropTypes.array
@@ -178,7 +228,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    eventsActions: bindActionCreators(eventsActions, dispatch)
+    eventsActions: bindActionCreators(eventsActions, dispatch),
+    newEventActions: bindActionCreators(newEventActions, dispatch)
   }
 }
 

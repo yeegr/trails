@@ -16,7 +16,6 @@ import styles from '../../styles/main'
 
 import {
   LANG,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -33,7 +32,7 @@ const EventGroup = (props) => {
     status = (props.deadline < now) ? (
       <TextView
         textColor={'red'}
-        text={Lang.DeadlinePassed}
+        text={LANG.t('order.DeadlinePassed')}
       />
     ) : null,
     view = (
@@ -42,7 +41,7 @@ const EventGroup = (props) => {
           <TextView
             fontSize={'SML'}
             textColor={Graphics.textColors.h2}
-            text={Lang.GroupCountPrefix + Lang.dayArray[props.index] + Lang.GroupCountPostfix}
+            text={LANG.t('event.GroupCount', {count: LANG.t('alphanumerals.' + props.index)})}
           />
           <TextView
             text={props.label}

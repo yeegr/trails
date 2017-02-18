@@ -97,6 +97,11 @@ newEventReducer = (state = initState, action) => {
         excerpt: action.excerpt
       })
 
+    case ACTIONS.SET_EVENT_TAGS:
+      return Object.assign({}, state, {
+        tags: action.tags
+      })
+
     case ACTIONS.SET_EVENT_DIFFICULTY_LEVEL:
       return Object.assign({}, state, {
         difficultyLevel: action.difficultyLevel

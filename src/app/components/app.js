@@ -34,11 +34,6 @@ import EditTrailGallery from './trail/EditTrailGallery'
 import SearchTrails from './trail/SearchTrails'
 import EventList from './event/EventList'
 import EventDetail from './event/EventDetail'
-import OrderEvent from './event/OrderEvent'
-import SelectOrderGroup from './event/SelectOrderGroup'
-import OrderPayment from './event/OrderPayment'
-import OrderSummary from './event/OrderSummary'
-import OrderSuccess from './event/OrderSuccess'
 
 import SearchEvents from './event/SearchEvents'
 import EditEvent from './event/EditEvent'
@@ -49,7 +44,6 @@ import EditEventDifficulty from './event/EditEventDifficulty'
 import EditEventDates from './event/EditEventDates'
 import EditEventContacts from './event/EditEventContacts'
 import EditAttendeeLimits from './event/EditAttendeeLimits'
-
 import SelectTrail from './event/SelectTrail'
 import EditAgenda from './event/EditAgenda'
 import EditExpenses from './event/EditExpenses'
@@ -60,11 +54,14 @@ import EditGears from './event/EditGears'
 import EditGearImages from './event/EditGearImages'
 import EditGearTags from './event/EditGearTags'
 import EditGearNotes from './event/EditGearNotes'
+import EditEventInfo from './event/EditEventInfo'
+import EditEventDescription from './event/EditEventDescription'
+import EditEventExcerpt from './event/EditEventExcerpt'
+import EditEventTags from './event/EditEventTags'
 import EditEventDestination from './event/EditEventDestination'
 import EditEventNotes from './event/EditEventNotes'
+
 import EditEventGallery from './event/EditEventGallery'
-
-
 import EventSubmitted from './event/EventSubmitted'
 
 import PostList from './post/PostList'
@@ -79,11 +76,18 @@ import EditUserLevel from './mine/EditUserLevel'
 import EditUserName from './mine/EditUserName'
 import EditUserPID from './mine/EditUserPID'
 import MyEvents from './mine/MyEvents'
+import EventManager from './mine/EventManager'
 import SignUpList from './mine/SignUpList'
+
+import OrderEvent from './order/OrderEvent'
+import SelectOrderGroup from './order/SelectOrderGroup'
+import OrderPayment from './order/OrderPayment'
+import OrderSummary from './order/OrderSummary'
+import OrderSuccess from './order/OrderSuccess'
 
 import MyTrails from './mine/MyTrails'
 import MyOrders from './mine/MyOrders'
-import OrderDetail from './mine/OrderDetail'
+import OrderDetail from './order/OrderDetail'
 import UserDetail from './user/UserDetail'
 
 import Comments from './shared/Comments'
@@ -824,6 +828,38 @@ class App extends Component {
                   />
                 )
 
+              case 'EditEventInfo':
+                return (
+                  <EditEventInfo
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'EditEventDescription':
+                return (
+                  <EditEventDescription
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'EditEventExcerpt':
+                return (
+                  <EditEventExcerpt
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'EditEventTags':
+                return (
+                  <EditEventTags
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
               case 'EditEventDestination':
                 return (
                   <EditEventDestination
@@ -941,6 +977,14 @@ class App extends Component {
               case 'MyEvents':
                 return (
                   <MyEvents
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'EventManager':
+                return (
+                  <EventManager
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />

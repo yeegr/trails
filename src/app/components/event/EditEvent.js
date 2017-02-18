@@ -90,14 +90,19 @@ class EditEvent extends Component {
       props = {}
 
     switch (type) {
+      case 'hero':
+        id = 'EditEventHero',
+        title = LANG.t('event.edit.HeroImage')
+      break
+
       case 'base':
         id = 'EditEventBase',
         title = LANG.t("event.edit.BaseInfo")
       break
 
-      case 'hero':
-        id = 'EditEventHero',
-        title = LANG.t('event.edit.HeroImage')
+      case 'info':
+        id = 'EditEventInfo',
+        title = LANG.t("event.edit.EventInfo")
       break
 
       case 'agenda':
@@ -113,16 +118,6 @@ class EditEvent extends Component {
       case 'gears':
         id = 'EditGears',
         title = LANG.t('event.GearsToBring')
-      break
-
-      case 'destination':
-        id = 'EditEventDestination',
-        title = LANG.t('event.DestinationDescription')
-      break
-
-      case 'notes':
-        id = 'EditEventNotes',
-        title = LANG.t('event.EventNotes')
       break
 
       case 'photos':
@@ -190,6 +185,10 @@ class EditEvent extends Component {
               value={newEventActions.validateEventBase(event)}
             />
             <EditLink
+              label={LANG.t('event.edit.EventInfo')}
+              onPress={() => this._nextPage('info')}
+            />
+            <EditLink
               label={LANG.t('event.EventExpenses')}
               required={true}
               validated={(event.expenses.perHead !== null && event.expenses.perHead > -1)}
@@ -206,14 +205,6 @@ class EditEvent extends Component {
             <EditLink
               label={LANG.t('event.GearsToBring')}
               onPress={() => this._nextPage('gears')}
-            />
-            <EditLink
-              label={LANG.t('event.DestinationDescription')}
-              onPress={() => this._nextPage('destination')}
-            />
-            <EditLink
-              label={LANG.t('event.EventNotes')}
-              onPress={() => this._nextPage('notes')}
             />
           </View>
         </ScrollView>

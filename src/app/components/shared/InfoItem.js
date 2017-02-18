@@ -49,7 +49,9 @@ const InfoItem = (props) => {
   return (
     <View style={[styles.wrapper, customWrapperStyles]}>
       <View style={[styles.label, labelStyles]}>
-        <TextView text={props.label + colon} />
+        <TextView
+          text={props.label + colon}
+        />
       </View>
       <View style={styles.value}>
         {value}
@@ -64,13 +66,13 @@ styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 15,
     paddingVertical: 5,
+    height: 30
   },
   label: {
     width: 98
   },
   value: {
     flex: 1,
-    height: 30,
     justifyContent: 'center'
   },
   more: {

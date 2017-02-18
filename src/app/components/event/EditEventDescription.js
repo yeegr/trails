@@ -21,7 +21,7 @@ import {
   LANG
 } from '../../settings'
 
-class EditEventDestination extends Component {
+class EditEventDescription extends Component {
   constructor(props) {
     super(props)
 
@@ -32,7 +32,7 @@ class EditEventDestination extends Component {
 
   componentWillUnmount() {
     let text = this.state.text.trim()
-    this.props.newEventActions.setEventDestination(text)
+    this.props.newEventActions.setEventDescription(text)
   }
 
   render() {
@@ -40,7 +40,7 @@ class EditEventDestination extends Component {
       <View style={styles.global.wrapper}>
         <View style={styles.editor.list}>
           <RichTextEditor
-            placeholder={LANG.t('event.DestinationDescription')}
+            placeholder={LANG.t('event.edit.EventDescription')}
             onChangeText={(text) => this.setState({text})}
             value={this.state.text}
           />
@@ -50,7 +50,7 @@ class EditEventDestination extends Component {
   }
 }
 
-EditEventDestination.propTypes = {
+EditEventDescription.propTypes = {
   navigator: PropTypes.object.isRequired,
   newEventActions: PropTypes.object.isRequired,
   text: PropTypes.string.isRequired
@@ -58,7 +58,7 @@ EditEventDestination.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    text: state.newEvent.destination
+    text: state.newEvent.description
   }
 }
 
@@ -68,4 +68,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditEventDestination)
+export default connect(mapStateToProps, mapDispatchToProps)(EditEventDescription)

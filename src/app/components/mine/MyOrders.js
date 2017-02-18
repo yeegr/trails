@@ -14,10 +14,10 @@ import {connect} from 'react-redux'
 import * as ordersActions from '../../redux/actions/ordersActions'
 
 import Loading from '../shared/Loading'
-import OrderList from '../shared/OrderList'
+import OrderList from '../order/OrderList'
 
 import {
-  AppSettings
+  Graphics
 } from '../../settings'
 
 class MyOrders extends Component {
@@ -37,7 +37,7 @@ class MyOrders extends Component {
     }
 
     return (
-      <View style={{paddingTop: 80}}>
+      <View style={{flex: 1, paddingTop: Graphics.page.marginTop}}>
         <OrderList
           navigator={this.props.navigator}
           orders={orders}

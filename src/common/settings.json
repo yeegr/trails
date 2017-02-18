@@ -31,6 +31,7 @@
   "minUserHandleLength":2,
   "maxEventScheduleDays":20,
   "maxTagLength":10,
+  "maxExcerptLength":200,
 
   "payTimeout":900,
 

@@ -58,6 +58,7 @@ const TagList = (props) => {
                     marginRight: 10
                   }}
                   fontWeight={'bold'}
+                  fontSize={props.fontSize}
                   textColor={textColor}
                   key={index}
                   text={tag}
@@ -77,6 +78,7 @@ const TagList = (props) => {
 TagList.propTypes = {
   tags: PropTypes.array.isRequired,
   type: PropTypes.string,
+  fontSize: PropTypes.string,
   textColor: PropTypes.string,
   backgroundColor: PropTypes.string
 }

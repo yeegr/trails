@@ -193,12 +193,18 @@
     "DestinationDescription": "景点描述",
     "EventNotes": "活动说明",
     "numberOfPeopleAlreadySignedUp": "已有{{count}}人报名",
+    "SignUpCount": "报名人数",
+    "EventIncome": "活动收费",
     "EditEvent": "编辑活动",
     "edit": {
       "BaseInfo": "基础信息",
+      "EventInfo": "详细信息",
+      "EventDescription": "活动详情",
+      "EventExcerpt": "活动简介",
       "Untitled": "尚未命名",
       "HeroImage": "活动封面",
       "MinEventTitleLength": "活动标题不能少于{{min}}个字符",
+      "EventTags": "活动标签",
       "AddDate": "添加批次",
       "SelectTrail": "选择活动轨迹",
       "SelectAgendaType": "选择日程类型",
@@ -320,14 +326,16 @@
     "SavedEvents": "我收藏的活动",
     "SavedPosts": "我收藏的文章",
     "EditAccount": "编辑账户",
+    "EquipmentRental": "设备租赁",
+    "Transportation": "交通工具",
     "AboutUs": "关于我们",
     "trails": {
       "CloudTrails": "云端轨迹",
       "LocalTrails": "本地轨迹"
     },
     "events": {
-      "ApprovedEvents": "已通过审核活动",
-      "UnapprovedEvents": "未通过审核活动"
+      "SubmittedEvents": "已提交审核活动",
+      "EditingEvents": "未提交审核活动"
     },
     "edit": {
       "EditUserAvatar": "修改头像",

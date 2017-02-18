@@ -18,10 +18,11 @@ import RichTextEditor from '../shared/RichTextEditor'
 import styles from '../../styles/main'
 
 import {
-  LANG
+  LANG,
+  AppSettings
 } from '../../settings'
 
-class EditEventDestination extends Component {
+class EditEventExcerpt extends Component {
   constructor(props) {
     super(props)
 
@@ -32,7 +33,7 @@ class EditEventDestination extends Component {
 
   componentWillUnmount() {
     let text = this.state.text.trim()
-    this.props.newEventActions.setEventDestination(text)
+    this.props.newEventActions.setEventExcerpt(text)
   }
 
   render() {
@@ -40,7 +41,8 @@ class EditEventDestination extends Component {
       <View style={styles.global.wrapper}>
         <View style={styles.editor.list}>
           <RichTextEditor
-            placeholder={LANG.t('event.DestinationDescription')}
+            placeholder={LANG.t('event.edit.EventExcerpt')}
+            maxLength={AppSettings.maxExcerptLength}
             onChangeText={(text) => this.setState({text})}
             value={this.state.text}
           />
@@ -50,7 +52,7 @@ class EditEventDestination extends Component {
   }
 }
 
-EditEventDestination.propTypes = {
+EditEventExcerpt.propTypes = {
   navigator: PropTypes.object.isRequired,
   newEventActions: PropTypes.object.isRequired,
   text: PropTypes.string.isRequired
@@ -58,7 +60,7 @@ EditEventDestination.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    text: state.newEvent.destination
+    text: state.newEvent.excerpt
   }
 }
 
@@ -68,4 +70,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditEventDestination)
+export default connect(mapStateToProps, mapDispatchToProps)(EditEventExcerpt)

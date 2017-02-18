@@ -63,6 +63,13 @@ export const setEventExcerpt = (excerpt) => {
   }
 }
 
+export const setEventTags = (tags) => {
+  return {
+    type: ACTIONS.SET_EVENT_TAGS,
+    tags
+  }
+}
+
 export const setEventDifficulty = (difficultyLevel) => {
   return {
     type: ACTIONS.SET_EVENT_DIFFICULTY_LEVEL,
