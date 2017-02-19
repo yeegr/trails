@@ -96,6 +96,8 @@ import Intro from './intro'
 import NavbarButton from './shared/NavbarButton'
 import TextView from './shared/TextView'
 
+import Upcoming from './shared/Upcoming'
+
 import {
   CONSTANTS,
   LANG,
@@ -1038,6 +1040,14 @@ class App extends Component {
                       route={route} {...route.passProps}
                     />
                   </ScrollView>
+                )
+
+              case 'Upcoming':
+                return (
+                  <Upcoming 
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
                 )
             }
           }}

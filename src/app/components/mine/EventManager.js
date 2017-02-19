@@ -56,6 +56,24 @@ class EventManager extends Component {
           isReview: true
         }
       break
+
+      case 'equipment':
+        id = 'Upcoming',
+        title = LANG.t('mine.EquipmentRental'),
+        passProps = {
+          id: this.props.event._id,
+          isReview: true
+        }
+      break
+
+      case 'transportation':
+        id = 'Upcoming',
+        title = LANG.t('mine.Transportation'),
+        passProps = {
+          id: this.props.event._id,
+          isReview: true
+        }
+      break
     }
 
     if (id !== null && title !== null) {
@@ -105,11 +123,11 @@ class EventManager extends Component {
             <View style={styles.editor.group}>
               <EditLink
                 label={LANG.t('mine.EquipmentRental')}
-                onPress={() => this._nextPage('review')}
+                onPress={() => this._nextPage('equipment')}
               />
               <EditLink
                 label={LANG.t('mine.Transportation')}
-                onPress={() => this._nextPage('review')}
+                onPress={() => this._nextPage('transportation')}
               />
               <EditLink
                 label={LANG.t('event.EventDetail')}
