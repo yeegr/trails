@@ -121,9 +121,10 @@
     "TrackTrail": "循迹",
     "record": {
       "LocationAlert": {
-        "Okay": "知道了",
-        "PleaseTurnOnLocation": "请打开位置",
-        "TurnOnLocationSteps": "主页→设置→识途驴→位置→始终"
+        "title": "请将位置设置为始终",
+        "description": "将位置设为始终才能正常记录您的轨迹",
+        "Cancel": "以后再说",
+        "Okay": "马上打开"
       }
     },
     "edit": {

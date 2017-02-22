@@ -10,6 +10,10 @@ import {
   View
 } from 'react-native'
 
+import {
+  RNLocation as Location
+} from 'NativeModules'
+
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {showLogin} from '../redux/actions/loginActions'
@@ -32,6 +36,10 @@ class Home extends Component {
   constructor(props) {
     super(props)
     this._onTabPressed = this._onTabPressed.bind(this)
+  }
+
+  componentDidMount() {
+    Location.requestAlwaysAuthorization()
   }
 
   _onTabPressed(tabId) {
@@ -111,6 +119,7 @@ class Home extends Component {
 
 Home.propTypes = {
   navigator: PropTypes.object.isRequired,
+  user: PropTypes.object,
   showLogin: PropTypes.func.isRequired,
   selectedTab: PropTypes.string.isRequired,
   changeTab: PropTypes.func.isRequired

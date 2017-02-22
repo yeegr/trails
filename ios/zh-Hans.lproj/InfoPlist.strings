@@ -6,4 +6,8 @@
   Copyright © 2017 Yipao Ltd. All rights reserved.
 */
 
-"" = ""
+"NSAppleMusicUsageDescription" = "";
+"NSPhotoLibraryUsageDescription" = "";
+"NSBluetoothPeripheralUsageDescription" = "";
+"NSCameraUsageDescription" = "";
+"NSLocationAlwaysUsageDescription" = "亲，只有将位置设为始终，才能正常记录您的轨迹呦~";

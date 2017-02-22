@@ -32,6 +32,7 @@
 		7EFE99E4F336498D8B28AE94 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDCB7BAEBD744AC6BEE958E4 /* libRNFS.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		858BB218DA1C43A4A7DF2AB6 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CED4471195E74DF6A11AE311 /* libAirMaps.a */; };
+		8EBD2EB11E5D9AE800392C92 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8EBD2EB31E5D9AE800392C92 /* InfoPlist.strings */; };
 		8EFCC0DE1D771C5A007F5341 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EFCC0DD1D771C5A007F5341 /* Images.xcassets */; };
 		9A5579851D48FAC70046CE62 /* Slider.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A5579841D48FAC70046CE62 /* Slider.xcassets */; };
 		9A9038A01D488D2D00055558 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A90389F1D488D0000055558 /* libRCTCameraRoll.a */; };
@@ -42,6 +43,7 @@
 		9AD2B9C11D59F71000F2B4A5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AD2B9C01D59F71000F2B4A5 /* libsqlite3.tbd */; };
 		9AD2B9C31D59F71F00F2B4A5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AD2B9C21D59F71F00F2B4A5 /* libc++.tbd */; };
 		9AD2B9C51D59F72900F2B4A5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AD2B9C41D59F72900F2B4A5 /* libz.tbd */; };
+		A4E4DE90FCD645F285C96A03 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D87C156366754BB69DC49822 /* libReactNativePermissions.a */; };
 		A6DC4B194CBD43388AEB9E56 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE138DB8D7842DCA27C3536 /* libRNI18n.a */; };
 		BE214934FE4342E4BF1EB538 /* libRNNMRangeSlider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF7D0CDE38472098F0B901 /* libRNNMRangeSlider.a */; };
 		C70B2D40DC6D49CA86FD9122 /* libAlipayModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B865EBBDC2C41A3B2AAA8F7 /* libAlipayModule.a */; };
@@ -233,6 +235,13 @@
 			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
 			remoteInfo = RNFS;
 		};
+		8E39F5A71E5D88ED004FEC89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AA7E4A7DFF84C04B14C4DBA /* ReactNativePermissions.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9D23B34F1C767B80008B4819;
+			remoteInfo = ReactNativePermissions;
+		};
 		8EBAEEF91D6F47B10036A453 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8BBA25F4E60C462AB64DF279 /* RNLocation.xcodeproj */;
@@ -332,6 +341,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = trails/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		19C54BB07FD040D5BE9EF5CE /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
+		1AA7E4A7DFF84C04B14C4DBA /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
 		2575883C59894B39B85A263D /* Contents.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Contents.json; path = "../node_modules/react-native-nmrangeslider-ios/NMRangeSlider/Slider.xcassets/Contents.json"; sourceTree = "<group>"; };
 		2B6EA8159E344126AE685864 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		2EE138DB8D7842DCA27C3536 /* libRNI18n.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNI18n.a; sourceTree = "<group>"; };
@@ -351,6 +361,9 @@
 		7B2ADF0CE89448619E4B1C77 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8BBA25F4E60C462AB64DF279 /* RNLocation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-location/RNLocation.xcodeproj"; sourceTree = "<group>"; };
+		8EBD2EB01E5D9AD100392C92 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		8EBD2EB21E5D9AE800392C92 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		8EBD2EB51E5D9AF000392C92 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8EFCC0DD1D771C5A007F5341 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = trails/Images.xcassets; sourceTree = "<group>"; };
 		9A5579841D48FAC70046CE62 /* Slider.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Slider.xcassets; path = "../node_modules/react-native-nmrangeslider-ios/NMRangeSlider/Slider.xcassets"; sourceTree = "<group>"; };
 		9A6CDCFB1D5AF71E009E2D5D /* RCTTest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTTest.xcodeproj; path = "../node_modules/react-native/Libraries/RCTTest/RCTTest.xcodeproj"; sourceTree = "<group>"; };
@@ -367,6 +380,7 @@
 		CAD370287A754DE8924E6BD4 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		CDCB7BAEBD744AC6BEE958E4 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		CED4471195E74DF6A11AE311 /* libAirMaps.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAirMaps.a; sourceTree = "<group>"; };
+		D87C156366754BB69DC49822 /* libReactNativePermissions.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativePermissions.a; sourceTree = "<group>"; };
 		DB7E23F3966C43E58E4AD20E /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		E210699092A841EAABDA630E /* slider-default7-track@2x.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "slider-default7-track@2x.png"; path = "../node_modules/react-native-nmrangeslider-ios/NMRangeSlider/Slider.xcassets/slider-default7-track.imageset/slider-default7-track@2x.png"; sourceTree = "<group>"; };
 		EAC7ADD03CF149A6B4BAF257 /* libCodePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCodePush.a; sourceTree = "<group>"; };
@@ -412,6 +426,7 @@
 				7EFE99E4F336498D8B28AE94 /* libRNFS.a in Frameworks */,
 				C70B2D40DC6D49CA86FD9122 /* libAlipayModule.a in Frameworks */,
 				A6DC4B194CBD43388AEB9E56 /* libRNI18n.a in Frameworks */,
+				A4E4DE90FCD645F285C96A03 /* libReactNativePermissions.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +521,7 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				8EFCC0DD1D771C5A007F5341 /* Images.xcassets */,
+				8EBD2EB31E5D9AE800392C92 /* InfoPlist.strings */,
 			);
 			name = trails;
 			sourceTree = "<group>";
@@ -607,6 +623,7 @@
 				9AD2B9C01D59F71000F2B4A5 /* libsqlite3.tbd */,
 				9AD2B9BE1D59F70800F2B4A5 /* CoreTelephony.framework */,
 				9AD2B9BC1D59F6FB00F2B4A5 /* SystemConfiguration.framework */,
+				1AA7E4A7DFF84C04B14C4DBA /* ReactNativePermissions.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -646,6 +663,14 @@
 			isa = PBXGroup;
 			children = (
 				8E24D4211DCA283C0017B275 /* libRNFS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8E39F5871E5D88ED004FEC89 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8E39F5A81E5D88ED004FEC89 /* libReactNativePermissions.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -888,6 +913,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 8E39F5871E5D88ED004FEC89 /* Products */;
+					ProjectRef = 1AA7E4A7DFF84C04B14C4DBA /* ReactNativePermissions.xcodeproj */;
+				},
+				{
 					ProductGroup = 9A9038851D488CAF00055558 /* Products */;
 					ProjectRef = 400393871AE74EF5AE82CD35 /* RNDeviceInfo.xcodeproj */;
 				},
@@ -1106,6 +1135,13 @@
 			remoteRef = 8E24D4201DCA283C0017B275 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		8E39F5A81E5D88ED004FEC89 /* libReactNativePermissions.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativePermissions.a;
+			remoteRef = 8E39F5A71E5D88ED004FEC89 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		8EBAEEFA1D6F47B10036A453 /* libRNLocation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1197,6 +1233,7 @@
 				7BF78258537C493EAD2DC884 /* slider-default7-track@2x.png in Resources */,
 				3316D41FD8284BF69051DC4C /* slider-default7-trackBackground@2x.png in Resources */,
 				9A5579851D48FAC70046CE62 /* Slider.xcassets in Resources */,
+				8EBD2EB11E5D9AE800392C92 /* InfoPlist.strings in Resources */,
 				E06735ED39F64691B4DCA6E2 /* slider-default7-trackCrossedOver@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1237,9 +1274,19 @@
 			isa = PBXVariantGroup;
 			children = (
 				13B07FB21A68108700A75B9A /* Base */,
+				8EBD2EB01E5D9AD100392C92 /* zh-Hans */,
 			);
 			name = LaunchScreen.xib;
 			path = trails;
+			sourceTree = "<group>";
+		};
+		8EBD2EB31E5D9AE800392C92 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8EBD2EB21E5D9AE800392C92 /* zh-Hans */,
+				8EBD2EB51E5D9AF000392C92 /* Base */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1270,14 +1317,13 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
+					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 				);
 				INFOPLIST_FILE = trails/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/trails\"",
-					"\"$(SRCROOT)/trails\"",
 					"\"$(SRCROOT)/trails\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1315,14 +1361,13 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
+					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 				);
 				INFOPLIST_FILE = trails/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/trails\"",
-					"\"$(SRCROOT)/trails\"",
 					"\"$(SRCROOT)/trails\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1340,6 +1385,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1390,6 +1436,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
+					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1402,6 +1449,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1445,6 +1493,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
+					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = 1TpsGMwymIbkfmoaULfwHuftguwS4yxZxs7YZ;
@@ -1457,6 +1506,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1500,6 +1550,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
+					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = FBLHx5jP2lMiFbjEcF48SnOvsOHc4yxZxs7YZ;
@@ -1532,14 +1583,13 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
 					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
+					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 				);
 				INFOPLIST_FILE = trails/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/trails\"",
-					"\"$(SRCROOT)/trails\"",
 					"\"$(SRCROOT)/trails\"",
 				);
 				OTHER_LDFLAGS = (

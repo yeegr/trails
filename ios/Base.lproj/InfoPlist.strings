@@ -6,4 +6,8 @@
   Copyright © 2017 Yipao Ltd. All rights reserved.
 */
 
-"" = ""
+"NSAppleMusicUsageDescription" = "";
+"NSPhotoLibraryUsageDescription" = "";
+"NSBluetoothPeripheralUsageDescription" = "";
+"NSCameraUsageDescription" = "";
+"NSLocationAlwaysUsageDescription" = "We need your location set to 'Always' to accurately record your trails.";
