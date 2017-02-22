@@ -29,7 +29,7 @@ module.exports = (app) => {
       remoteAddress = req.connection.remoteAddress,
       ip = remoteAddress.substring(remoteAddress.lastIndexOf(':') + 1)
 
-    tmp.vcode = UTIL.generateRandomNumericString(4)
+    tmp.vcode = (tmp.mobile === CONST.demo.mobile) ? CONST.demo.vcode : UTIL.generateRandomNumericString(4)
 
     if (process.env.NODE_ENV === 'development') {
       saveValidation(tmp, ip, res)
