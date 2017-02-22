@@ -19,6 +19,7 @@ import TextView from '../shared/TextView'
 import styles from '../../styles/main'
 
 import {
+  LANG,
   AppSettings,
   Lang,
   Graphics
@@ -113,7 +114,7 @@ class SearchTrails extends Component {
                         stack={'vertical'} 
                         valueColor={color}
                         type={i.toString()} 
-                        value={Lang.tagArray[i]}
+                        value={LANG.t('tags.' + i)}
                       />
                     </View>
                   </TouchableOpacity>

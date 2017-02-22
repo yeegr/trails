@@ -105,7 +105,7 @@ class TrailDetail extends Component {
             />
           </section>
           <section>
-            <Header text={LANG.t('trail.Description')} />
+            <Header text={LANG.t('trail.TrailDescription')} />
             <div
               className="html-content"
               dangerouslySetInnerHTML={UTIL.createMarkup(trail.description)}

@@ -19,8 +19,8 @@ import Icon from '../shared/Icon'
 import styles from '../../styles/main'
 
 import {
+  LANG,
   AppSettings,
-  Lang,
   Graphics
 } from '../../settings'
 
@@ -43,7 +43,7 @@ const EditTrailType = (props) => {
                       stack={'vertical'}
                       textColor={textColor}
                       type={i.toString()}
-                      value={Lang.tagArray[i]}
+                      value={LANG.t('tags.' + i)}
                     />
                   </View>
                 </TouchableOpacity>

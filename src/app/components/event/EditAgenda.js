@@ -26,6 +26,7 @@ import CallToAction from '../shared/CallToAction'
 import styles from '../../styles/main'
 
 import {
+  LANG,
   UTIL,
   Lang,
   Graphics
@@ -140,7 +141,7 @@ class EditAgenda extends Component {
       agenda = this.state.agenda
 
     for (let i = 0; i < this.props.schedule.length; i++) {
-      dayLabels.push(Lang.DayCountPrefix + Lang.dayArray[i] + Lang.DayCountPostfix)
+      dayLabels.push(LANG.t('event.dayCount', {count: LANG.t('alphanumerals.' + i)}))
     }
 
     if (agenda.type !== null && agenda.type > -1 && agenda.type < 90) {
@@ -203,7 +204,7 @@ class EditAgenda extends Component {
               required={true}
               validated={(this.state.day > -1)}
               onPress={() => this.setState({showDayPicker: true})}
-              value={Lang.DayCountPrefix + Lang.dayArray[agenda.day || 0] + Lang.DayCountPostfix}
+              value={LANG.t('event.dayCount', {count: LANG.t('alphanumerals.' + (agenda.day || 0))})}
             />
           </View>
           <View style={styles.editor.group}>
@@ -212,7 +213,7 @@ class EditAgenda extends Component {
               required={true}
               validated={(agenda.type !== null)}
               onPress={() => this.setState({showTypePicker: true})}
-              value={Lang.tagArray[agenda.type]} 
+              value={LANG.t('tags.' + agenda.type)}
             />
             <EditLink 
               required={true}

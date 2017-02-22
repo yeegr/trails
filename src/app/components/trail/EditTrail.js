@@ -138,7 +138,7 @@ class EditTrail extends Component {
 
       case 'desc':
         id = 'EditTrailDescription',
-        title = LANG.t('trail.Description')
+        title = LANG.t('trail.TrailDescription')
       break;
 
       case 'type':
@@ -263,7 +263,7 @@ class EditTrail extends Component {
               value={UTIL.showDifficultyLevel(trail.difficultyLevel)}
             />
             <EditLink
-              label={LANG.t('trail.Description')}
+              label={LANG.t('trail.TrailDescription')}
               onPress={() => this._nextPage('desc')}
               value={trail.description}
             />

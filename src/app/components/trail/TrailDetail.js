@@ -187,7 +187,7 @@ class TrailDetail extends Component {
               <UserLink user={creator} navigator={navigator} />
             </View>
             <View style={styles.detail.section}>
-              <Header text={LANG.t('trail.Description')} />
+              <Header text={LANG.t('trail.TrailDescription')} />
               <TextView
                 multiLine={true}
                 style={{marginHorizontal: 15}}

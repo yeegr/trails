@@ -18,7 +18,7 @@ import * as newTrailActions from '../../redux/actions/newTrailActions'
 import styles from '../../styles/main'
 
 import {
-  Lang
+  LANG
 } from '../../settings'
 
 class EditTrailDescription extends Component {
@@ -45,7 +45,7 @@ class EditTrailDescription extends Component {
               autoCorrect={false}
               multiline={true}
               style={[styles.editor.textInput, {height: 240}]}
-              placeholder={Lang.Description}
+              placeholder={LANG.t('trail.TrailDescription')}
               onChangeText={(description) => this.setState({description})}
               value={this.state.description}
             />

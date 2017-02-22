@@ -13,13 +13,13 @@ import {
 import TextView from './TextView'
 
 import {
-  Lang,
+  LANG,
   Graphics
 } from '../../settings'
 
 const InfoItem = (props) => {
   let align = (props.align) ? {textAlign: props.align} : null,
-    colon = (props.noColon) ? '' : Lang.colon,
+    colon = (props.noColon) ? '' : LANG.t('glossary.colon'),
     value = (typeof(props.value) === 'string') ? (
       <TextView style={align} text={props.value} />
     ) : props.value

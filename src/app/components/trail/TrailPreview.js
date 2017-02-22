@@ -14,13 +14,13 @@ import TrailList from './TrailList'
 import styles from '../../styles/main'
 
 import {
-  Lang
+  LANG
 } from '../../settings'
 
 const TrailPreview = (props) => {
   const navigator = props.navigator,
     more = {
-      text: Lang.MoreTrails,
+      text: LANG.t('area.MoreTrails'),
       data: null,
       onPress: () => {
         navigator.push({
@@ -36,7 +36,10 @@ const TrailPreview = (props) => {
   return (
     <View>
       <View style={styles.detail.section}>
-        <Header text={Lang.Trails} more={more} />
+        <Header
+          text={LANG.t('area.RecommandedTrails')}
+          more={more}
+        />
         <View style={styles.detail.content}>
           <TrailList
             navigator={navigator}

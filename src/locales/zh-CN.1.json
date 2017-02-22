@@ -11,7 +11,8 @@
     "Cancel": "取消",
     "Confirm": "确定",
     "Okay": "知道啦",
-    "Saving": "保存中"
+    "Saving": "保存中",
+    "colon": "："
   },
 
   "genders": {
@@ -91,7 +92,9 @@
 
   "area": {
     "Leaders": "山主",
-    "Description": "地区简介"
+    "Description": "地区简介",
+    "RecommandedTrails": "精选轨迹",
+    "MoreTrails": "更多轨迹"
   },
 
   "trail": {
@@ -112,7 +115,7 @@
     "MaximumAltitude": "最高海拔",
     "AverageSpeed": "平均时速",
     "TrailMap": "轨迹地图",
-    "Description": "轨迹描述",
+    "TrailDescription": "轨迹描述",
     "NoDescription": "暂无描述",
     "Photos": "轨迹图片",
     "TrackTrail": "循迹",

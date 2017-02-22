@@ -7,8 +7,6 @@ export const UTIL = require('./util')
 export const FETCH = require('./fetch').FETCH
 
 export let Lang = require('../locales/zh-CN.json')
-Lang.dayArray = Lang.dayCount.split(',')
-Lang.tagArray = Lang.tagList.split(',')
 
 export let AppSettings = require('./settings.json')
 AppSettings.mobileRx = new RegExp(/^1+\d{10}$/)
