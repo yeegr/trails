@@ -6,13 +6,12 @@ import React, {
 } from 'react'
 
 import {
-  ScrollView,
   TabBarIOS,
   View
 } from 'react-native'
 
 import {connect} from 'react-redux'
-
+import {bindActionCreators} from 'redux'
 import {showLogin} from '../redux/actions/loginActions'
 import {changeTab} from '../redux/actions/homeActions'
 
@@ -48,9 +47,7 @@ class Home extends Component {
     const {selectedTab, navigator} = this.props
 
     return (
-      <TabBarIOS
-        tintColor={Graphics.colors.primary}
-      >
+      <TabBarIOS tintColor={Graphics.colors.primary}>
         <TabBarIOS.Item
           title={LANG.t('home.Trails')}
           icon={{uri: Graphics.tabbar.trail, scale: 3}}
@@ -129,7 +126,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     changeTab: (tabId) => dispatch(changeTab(tabId)),
-    showLogin: () => dispatch(showLogin())
+    showLogin: bindActionCreators(showLogin, dispatch)
   }
 }
 

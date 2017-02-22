@@ -43,6 +43,11 @@ const commonConfig = {
       new ExtractTextPlugin('index.css'),
       new webpack.ProvidePlugin({
         'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+      }),
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        }
       })
     ],
     resolve: {
@@ -50,6 +55,10 @@ const commonConfig = {
     },
     module: {
       loaders: [
+        {
+          test: /\.(jpg|gif|png)$/,
+          loader: 'file-loader?name=[name].[ext]'
+        },
         {
           test: /\.json$/,
           loader: 'json-loader'

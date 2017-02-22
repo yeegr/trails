@@ -1,7 +1,8 @@
 'use strict'  
 
 import React, {
-  Component
+  Component,
+  PropTypes
 } from 'react'
 
 import Login from './login'
@@ -23,6 +24,10 @@ class App extends Component {
       </app>
     )
   }
+}
+
+App.propTypes = {
+  children: PropTypes.object.isRequired
 }
 
 export default App

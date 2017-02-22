@@ -7,7 +7,6 @@ module.exports = (app) => {
       appSecret = 'ddef514562b549b5833fb210ecadefab',
       url = 'https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=' + type + '&appid=' + appId + '&secret=' + appSecret + '&code=' + req.params.code
 
-console.log('get token url: ', url)
     request({
       followAllRedirects: true,
       url

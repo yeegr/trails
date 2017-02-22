@@ -70,5 +70,6 @@ export const USER = 'user'
 export const ACCESS_TOKEN = 'access_token'
 
 export const PAY_REQUEST_URLS = {
-  "Alipay": "https://openapi.alipay.com/gateway.do?"
+//  "Alipay": "https://openapi.alipay.com/gateway.do?"
+  "Alipay": "https://openapi.alipaydev.com/gateway.do?"
 }

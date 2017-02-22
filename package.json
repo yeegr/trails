@@ -25,7 +25,7 @@
     "restart": "docker-compose restart",
     "build": "webpack -d && docker-compose build",
     "logs": "docker-compose logs",
-    "static": "webpack -d && docker-compose restart static",
+    "static": "webpack -d && docker-compose stop static && docker-compose start static",
     "api": "webpack -d && docker-compose stop api1 && docker-compose start api1",
     "web": "webpack -d && docker-compose stop web1 && docker-compose start web1",
     "kill": "docker rm -f $(docker ps -aq)",

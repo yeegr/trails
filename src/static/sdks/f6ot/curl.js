@@ -1,29 +1,34 @@
-var request = require('request'),
-    $ = require('jquery')(require("jsdom").jsdom().defaultView)
+let request = require('request'),
+  $ = require('jquery')(require("jsdom").jsdom().defaultView)
 
 module.exports = function(app) {
-  app.get('/f6ot/curl', function(req, res, next) {
-    getTrailInfo(res, req.query.id, req.query.user, req.query.area)
+  app.post('/f6ot/curl', function(req, res, next) {
+    getTrailInfo(res, req.body.id, req.body.user, req.body.area)
   })
 }
 
 function getTrailInfo(res, id, creator, area) {
-  var url = 'http://www.foooooot.com/trip/' + id
+  let url = 'http://www.foooooot.com/trip/' + id
+
+  console.log(url)
 
   request({
     followAllRedirects: true,
     url: url
   }, function (error, response, body) {
+    console.log(body)
+
     if (!error) {
-      var dom = $(body),
-      title = dom.find('h1.title').get(0).innerHTML.trim(),
-      desc = dom.find('div.trip_box_description').get(0).innerHTML.replace(/<(?:.|\n)*?>/gm, '').replace(/\&nbsp\;/gi, '').replace(/\n/gi, '').trim(),
-      desc = (desc.length < 3) ? '' : desc,
-      type = dom.find('dl.trip_box_right dd:nth-child(3) a').get(0).innerHTML.trim(),
-      data = dom.find('dl.trip_box_right dd:nth-child(4)').get(0).innerHTML.trim(),
-      level = data.substring(data.lastIndexOf('>') + 1).trim(),
-      trailType = 0,
-      difficulty = 1
+      let dom = $(body),
+        title = dom.find('h1.title').get(0).innerHTML.trim(),
+        desc = dom.find('div.trip_box_description').get(0).innerHTML.replace(/<(?:.|\n)*?>/gm, '').replace(/\&nbsp\;/gi, '').replace(/\n/gi, '').trim(),
+        type = dom.find('dl.trip_box_right dd:nth-child(3) a').get(0).innerHTML.trim(),
+        data = dom.find('dl.trip_box_right dd:nth-child(4)').get(0).innerHTML.trim(),
+        level = data.substring(data.lastIndexOf('>') + 1).trim(),
+        trailType = 0,
+        difficulty = 1
+
+      desc = (desc.length < 3) ? '' : desc
 
       switch (type) {
         case '徒步':
@@ -118,30 +123,30 @@ function getTrailInfo(res, id, creator, area) {
 }
 
 function getTrailPoints(res, info) {
-  var url = info.url + '/offsettrackjson/'
+  let url = info.url + '/offsettrackjson/'
 
   request({
     followAllRedirects: true,
     url: url
   }, function (error, response, body) {
     if (!error) {
-      var tmp = body.replace(/\"|\s/g, ''),
-      points = JSON.parse(tmp),
-      data = calculateTrailData(points),
-      trail = {
-        creator: info.creator,
-        areas: [info.area],
-        title: info.title,
-        description: info.desc,
-        type: info.type,
-        difficultyLevel: info.difficulty * 2,
-        averageSpeed: data.averageSpeed,
-        points: points,
-//        totalDistance: data.totalDistance,
-//        totalDuration: data.totalDuration,
-//        totalElevation: data.totalElevation,
-//        maximumAltitude: data.maximumAltitude
-      }
+      let tmp = body.replace(/\"|\s/g, ''),
+        points = JSON.parse(tmp),
+        data = calculateTrailData(points),
+        trail = {
+          creator: info.creator,
+          areas: [info.area],
+          title: info.title,
+          description: info.desc,
+          type: info.type,
+          difficultyLevel: info.difficulty * 2,
+          averageSpeed: data.averageSpeed,
+          points: points,
+  //        totalDistance: data.totalDistance,
+  //        totalDuration: data.totalDuration,
+  //        totalElevation: data.totalElevation,
+  //        maximumAltitude: data.maximumAltitude
+        }
 
       res.status(200).send(JSON.stringify(trail))
     }
