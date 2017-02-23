@@ -8,6 +8,7 @@
 
 "NSAppleMusicUsageDescription" = "";
 "NSPhotoLibraryUsageDescription" = "";
+"NSCalendarsUsageDescription" = "";
 "NSBluetoothPeripheralUsageDescription" = "";
 "NSCameraUsageDescription" = "";
 "NSLocationAlwaysUsageDescription" = "亲，只有将位置设为始终，才能正常记录您的轨迹呦~";

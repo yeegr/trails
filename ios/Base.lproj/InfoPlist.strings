@@ -8,6 +8,7 @@
 
 "NSAppleMusicUsageDescription" = "";
 "NSPhotoLibraryUsageDescription" = "";
+"NSCalendarsUsageDescription" = "";
 "NSBluetoothPeripheralUsageDescription" = "";
 "NSCameraUsageDescription" = "";
 "NSLocationAlwaysUsageDescription" = "We need your location set to 'Always' to accurately record your trails.";

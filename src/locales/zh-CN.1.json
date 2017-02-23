@@ -282,6 +282,13 @@
     "OrderSummary": "订单摘要",
     "OrderSuccess": "支付成功",
 
+    "paymentMethods": [
+      {
+        "label":"支付宝",
+        "value":"Alipay"
+      }
+    ],
+
     "insurance": {
       "BaseRate": "基础费率",
       "UserLevelCoef": "驴友级别系数：{{level}}",
