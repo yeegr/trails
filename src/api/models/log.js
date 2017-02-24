@@ -22,6 +22,9 @@ const mongoose = require('mongoose'),
     ref: {
       type: Schema.Types.ObjectId,
       required: true
+    },
+    device: {
+      type: Object
     }
   })
 

@@ -30,7 +30,7 @@ export const Device = {
   appVersion: DeviceInfo.getVersion(),
   appVersionReadable: DeviceInfo.getReadableVersion(),
   userAgent: DeviceInfo.getUserAgent(),
-  location: DeviceInfo.getDeviceLocale(),
+  locale: DeviceInfo.getDeviceLocale(),
   country: DeviceInfo.getDeviceCountry(),
   height,
   width

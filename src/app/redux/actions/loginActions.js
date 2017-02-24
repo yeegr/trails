@@ -4,6 +4,7 @@ import {AsyncStorage} from 'react-native'
 import * as ACTIONS from '../constants/loginConstants'
 import {
   CONSTANTS,
+  Device,
   FETCH,
   UTIL,
   AppSettings,
@@ -277,6 +278,8 @@ const loginFailure = (message) => {
 }
 
 export const loginUser = (creds) => {
+  creds.device = Device
+
   let config = Object.assign({}, FETCH.POST, {
     body: JSON.stringify(creds)
   })

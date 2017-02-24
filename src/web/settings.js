@@ -25,3 +25,4 @@ export const FETCH = common.FETCH
 export const AppSettings = common.AppSettings
 export const Graphics = common.Graphics
 export const Defaults = common.Defaults
+export const Device = require('./browser').default

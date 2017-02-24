@@ -7,7 +7,7 @@ module.exports = {
   EVENT_LIST_FIELDS: "status title type hero excerpt contacts expenses groups",
   ACTIONS: {
     COMMON: ["CREATE", "UPDATE", "DELETE"],
-    USER: ["FOLLOW", "UNFOLLOW", "APPLY", "RETRACT", "LIKE", "UNLIKE", "SAVE", "UNSAVE", "SHARE"],
+    USER: ["FOLLOW", "UNFOLLOW", "APPLY", "RETRACT", "LIKE", "UNLIKE", "SAVE", "UNSAVE", "SHARE", "LOGIN"],
     ADMIN: ["APPROVE", "REJECT"]
   },
   TARGETS: {

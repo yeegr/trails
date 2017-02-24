@@ -6,7 +6,8 @@ const mongoose = require('mongoose'),
   CONST = require('../const'),
   UTIL = require('../util'),
   User = require('../models/user'),
-  Validate = require('../models/validate')
+  Validate = require('../models/validate'),
+  Log = require('../models/logging')
 
 mongoose.Promise = global.Promise
 
@@ -92,7 +93,8 @@ module.exports = (app) => {
   /* Login */
   app.post('/login', (req, res, next) => {
     let body = req.body,
-      query = {}
+      query = {},
+      device = {}
 
     let hasMobile = UTIL.isNotUndefinedNullEmpty(body.mobile),
       hasWeChat = UTIL.isNotUndefinedNullEmpty(body.wechat)
@@ -105,12 +107,24 @@ module.exports = (app) => {
       query.wechat = body.wechat
     }
 
+    if (body.hasOwnProperty('device')) {
+      device = body.device
+    }
+
     User
     .findOne(query)
     .exec()
     .then((data) => {
       if (data) {
         res.status(200).json(data)
+
+        Log({
+          creator: data._id,
+          action: 'LOGIN',
+          target: 'User',
+          ref: data._id,
+          device
+        })
       } else if (hasMobile && hasWeChat) {
         User
         .findOne({ mobile: query.mobile })
