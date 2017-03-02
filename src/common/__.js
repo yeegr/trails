@@ -8,7 +8,7 @@ export const Lang = require('../locales/zh-CN.json')
 const LANG = require('../locales/zh-CN.1.json')
 
 let env = require('./env.json'),
-  servers = env['staging']
+  servers = env['development']
 
 export let AppSettings = require('./settings.json')
 AppSettings.mobileRx = new RegExp(/^1+\d{10}$/)
