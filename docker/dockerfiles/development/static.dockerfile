@@ -24,6 +24,6 @@ ENTRYPOINT ["node"]
 CMD ["root.js"]
 
 
-# docker run -d --net=web-network -p 8080:80 --name uploads -v /uploads:/usr/share/nginx/html:rw nginx
-# docker run -d --net=web-network -p 8000:8000 --name static -v /uploads:/usr/app/uploads:rw shitulv/static
+# docker run -d --net=web-network -p 8888:80 --name uploads -v /uploads:/usr/share/nginx/html:rw nginx
+# docker run -d --net=web-network -p 8000:3000 --name static -v /uploads:/usr/app/uploads:rw shitulv/static
 

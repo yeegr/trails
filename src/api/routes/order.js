@@ -87,6 +87,17 @@ module.exports = (app) => {
     })
   }
 
+  /* Alipay validation */
+  app.post('/alipay', (req, res, next) => {
+    let sign = crypto.createSign('RSA-SHA1'),
+      str = '{"a":"123"}'
+
+    sign.update(str)
+    let signedStr = sign.sign(privateKey, 'base64')
+
+    res.status(200).send(encodeURIComponent(signedStr))
+  })
+
   /* Create */
   app.post('/orders', (req, res, next) => {
     let order = new Order(req.body)

@@ -8,7 +8,7 @@ const express = require('express'),
   http = require('http'),
   sharp = require('sharp'),
   TopClient = require('./sdks/taobao/topClient').TopClient,
-  port = 8000,
+  port = 3000,
   app = express(),
   router = express.Router()
 

@@ -53,9 +53,6 @@ class Toolbar extends Component {
     this.props.toolbarActions.resetToolbar(init)
   }
 
-  componentDidMount() {
-  }
-
   _send(action) {
     let requestBody = {
       action,

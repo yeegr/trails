@@ -178,7 +178,7 @@ module.exports = (app) => {
             path: 'users/' + user._id + '/'
           }
 
-          request.post({ url: 'http://static:8000/up', formData }, (err, response, body) => {
+          request.post({ url: 'http://static:3000/up', formData }, (err, response, body) => {
             if (err) console.log(err)
 
             user

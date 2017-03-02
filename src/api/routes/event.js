@@ -166,7 +166,7 @@ module.exports = (app) => {
           form = new formidable.IncomingForm()
 
         form.parse(req, (err, fields, files) => {
-          let url = 'http://static:8000/up',
+          let url = 'http://static:3000/up',
             formData = {
               file: {
                 value: fs.createReadStream(files.file.path),

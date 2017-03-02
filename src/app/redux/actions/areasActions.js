@@ -28,6 +28,8 @@ export const listAreas = (params) => {
   return (dispatch) => {
     dispatch(listAreasRequest())
 
+    console.log(AppSettings.apiUri + 'areas')
+
     return fetch(AppSettings.apiUri + 'areas' + (params || ''))
       .then((res) => {
         return res.json()

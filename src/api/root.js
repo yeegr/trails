@@ -85,7 +85,7 @@ router.put('/photos', (req, res, next) => {
 //upload file via static server
 function uploadFile(type, id, inputs, index, outputs, res) {
 	let file = inputs[index],
-		url = 'http://static:8000/up',
+		url = 'http://static:3000/up',
 		path = CONST.FILE_PATHS[type] + '/' + id + '/',
 		formData = {
 			file: {

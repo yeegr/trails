@@ -34,7 +34,7 @@ module.exports = (app) => {
     if (process.env.NODE_ENV === 'development') {
       saveValidation(tmp, ip, res)
     } else {
-      request.post({url: 'http://static:8000/validate', json: tmp}, (err, response, body) => {
+      request.post({url: 'http://static:3000/validate', json: tmp}, (err, response, body) => {
         if (err) {
           res.status(500).json({error: err})
         } else {

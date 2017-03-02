@@ -17,8 +17,8 @@ services:
   uploads:
     container_name: uploads
     image: nginx
-    ports:
-      - "8080:80"
+    expose:
+      - "80"
     volumes:
       - "./uploads:/usr/share/nginx/html:rw"
     working_dir: "/usr/share/nginx/html"
@@ -31,8 +31,8 @@ services:
       context: .
       dockerfile: ./docker/dockerfiles/${APP_ENV}/static.dockerfile
     image: shitulv/static
-    ports:
-      - "8000:8000"
+    expose:
+      - "3000"
     depends_on:
       - "uploads"
     links:
@@ -54,8 +54,8 @@ services:
       context: .
       dockerfile: ./docker/dockerfiles/${APP_ENV}/mongodb.dockerfile
     image: shitulv/mongodb
-    ports:
-      - "27017:27017"
+    expose:
+      - "27017"
     volumes:
       - "/data/db:/data/db:rw"
     networks:
@@ -69,8 +69,8 @@ services:
     image: shitulv/api
     depends_on:
       - "mongodb"
-    ports:
-      - "3001:3000"
+    expose:
+      - "3000"
     volumes:
       - "./dev/api/root.js:/usr/app/root.js"
     env_file:
@@ -84,11 +84,29 @@ services:
   web1:
     container_name: web1
     image: nginx
-    ports:
-      - "80:80"
+    expose:
+      - "80"
     volumes:
       - "./dev/web:/usr/share/nginx/html"
     working_dir: "/usr/share/nginx/html"
+    networks:
+      - api-network
+      - web-network
+
+  gateway:
+    container_name: gateway
+    build:
+      context: .
+      dockerfile: ./docker/dockerfiles/${APP_ENV}/gateway.dockerfile
+    image: shitulv/gateway
+    ports:
+      - "80:80"
+    depends_on:
+      - "api1"
+      - "web1"
+    working_dir: "/etc/nginx"
+    volumes:
+      - "./docker/config/gateway.conf:/etc/nginx/nginx.conf"
     networks:
       - api-network
       - web-network

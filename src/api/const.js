@@ -100,7 +100,8 @@ module.exports = {
     },
     "WEB": {
       "pubContent": {
-        "app_id": "2016111902979618",
+        //"app_id": "2016111902979618",
+        "app_id": "2016101500693227",
         "method": "alipay.trade.wap.pay",
         "format": "JSON",
         "charset": "utf-8",
@@ -110,13 +111,6 @@ module.exports = {
         "notify_url": "http://139.129.200.88/alipay/notify"
       },
       "bizContent": {
-        "timeout_express": "15m",
-        "seller_id": "2088021102234564",
-        "seller_email": "pay@shitulv.com",
-        "product_code": "QUICK_WAP_PAY",
-        "goods_type": "0",
-        "enable_pay_channels": "balance,coupon,creditCard,debitCardExpress,pcard,promotion",
-        "disable_pay_chanales": ""
       },
       "statuses": {
         "9000": "success",
