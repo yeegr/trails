@@ -29,7 +29,7 @@ services:
     container_name: static
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/${APP_ENV}/static.dockerfile
+      dockerfile: ./docker/dockerfiles/${NODE_ENV}/static.dockerfile
     image: ${DOCKER_REPO}/shitulv/static
     expose:
       - "3000"
@@ -40,9 +40,9 @@ services:
     volumes:
       - "./uploads:/usr/app/uploads:rw"
     env_file:
-      - ./docker/env/${APP_ENV}/static
+      - ./docker/env/${NODE_ENV}/static
     environment:
-      - NODE_ENV=${APP_ENV}
+      - NODE_ENV=${NODE_ENV}
     networks:
       - web-network
 
@@ -51,7 +51,7 @@ services:
     container_name: mongodb
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/${APP_ENV}/mongodb.dockerfile
+      dockerfile: ./docker/dockerfiles/${NODE_ENV}/mongodb.dockerfile
     image: ${DOCKER_REPO}/shitulv/mongodb
     expose:
       - "27017"
@@ -64,16 +64,16 @@ services:
     container_name: api1
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/${APP_ENV}/api.dockerfile
+      dockerfile: ./docker/dockerfiles/${NODE_ENV}/api.dockerfile
     image: ${DOCKER_REPO}/shitulv/api
     depends_on:
       - "mongodb"
     expose:
       - "3000"
     env_file:
-      - ./docker/env/${APP_ENV}/api 
+      - ./docker/env/${NODE_ENV}/api 
     environment:
-      - NODE_ENV=${APP_ENV}
+      - NODE_ENV=${NODE_ENV}
     networks:
       - api-network
       - web-network
@@ -82,7 +82,7 @@ services:
     container_name: web1
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/${APP_ENV}/web.dockerfile
+      dockerfile: ./docker/dockerfiles/${NODE_ENV}/web.dockerfile
     image: ${DOCKER_REPO}/shitulv/web
     expose:
       - "80"
@@ -95,7 +95,7 @@ services:
     container_name: gateway
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/${APP_ENV}/gateway.dockerfile
+      dockerfile: ./docker/dockerfiles/${NODE_ENV}/gateway.dockerfile
     image: ${DOCKER_REPO}/shitulv/gateway
     ports:
       - "80:80"

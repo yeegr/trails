@@ -1,5 +1,5 @@
 # Set mongo base image
-FROM       mongo:latest
+FROM mongo:latest
 
 # File author / maintainer
 MAINTAINER Stone Chen (dev@shitulv.com)
@@ -14,5 +14,3 @@ EXPOSE 27017
 
 # Set /usr/bin/mongod as the dockerized entry-point application
 ENTRYPOINT ["/usr/bin/mongod"]
-
-# docker run -d --net=api-network --name mongodb -v /data/db:/data/db -p 27017:27017 shitulv/mongodb --smallfiles

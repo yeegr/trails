@@ -23,6 +23,3 @@ EXPOSE $PORT
 # Run app using node/nodemon
 ENTRYPOINT ["node"]
 CMD ["root.js"]
-
-# docker run -d --net=api-network -p 3001:3000 --name api1 shitulv/api1
-# docker network connect web-network api1

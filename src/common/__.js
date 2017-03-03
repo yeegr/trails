@@ -8,7 +8,7 @@ export const Lang = require('../locales/zh-CN.json')
 const LANG = require('../locales/zh-CN.1.json')
 
 let env = require('./env.json'),
-  servers = env['development']
+  servers = env[process.env.NODE_ENV]
 
 export let AppSettings = require('./settings.json')
 AppSettings.mobileRx = new RegExp(/^1+\d{10}$/)
@@ -19,6 +19,8 @@ AppSettings.trailTypes = [0,1,2,3,4,5,6,7,8,9]
 AppSettings.baseUri = servers.WEB_SERVER + '#/'
 AppSettings.apiUri = servers.API_SERVER
 AppSettings.assetUri = servers.ASSET_SERVER
+
+console.log('BASE_URI: ', AppSettings.baseUri)
 
 AppSettings.paymentMethods = LANG.order.paymentMethods
 

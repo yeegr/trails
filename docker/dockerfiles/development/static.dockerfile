@@ -8,7 +8,7 @@ MAINTAINER Stone Chen (dev@shitulv.com)
 RUN npm install -g nodemon
 
 # Set environment variables
-ENV PORT 8000
+ENV PORT 3000
 
 #COPY ./dev/static/root.js /usr/app/root.js
 COPY ./docker/config/static.package.json /usr/app/package.json
@@ -22,8 +22,3 @@ EXPOSE $PORT
 # Run app using node/nodemon
 ENTRYPOINT ["node"]
 CMD ["root.js"]
-
-
-# docker run -d --net=web-network -p 8888:80 --name uploads -v /uploads:/usr/share/nginx/html:rw nginx
-# docker run -d --net=web-network -p 8000:3000 --name static -v /uploads:/usr/app/uploads:rw shitulv/static
-

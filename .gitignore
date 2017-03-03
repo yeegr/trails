@@ -6,6 +6,9 @@ uploads/users/
 
 uploads/users/default.png
 
+!assets/Alipay/
+!assets/Aliyun/
+
 !node_modules/
 node_modules/*
 

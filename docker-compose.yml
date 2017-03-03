@@ -29,7 +29,7 @@ services:
     container_name: static
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/${APP_ENV}/static.dockerfile
+      dockerfile: ./docker/dockerfiles/${NODE_ENV}/static.dockerfile
     image: shitulv/static
     expose:
       - "3000"
@@ -41,9 +41,9 @@ services:
       - "./dev/static/root.js:/usr/app/root.js"
       - "./uploads:/usr/app/uploads:rw"
     env_file:
-      - ./docker/env/${APP_ENV}/static
+      - ./docker/env/${NODE_ENV}/static
     environment:
-      - NODE_ENV=${APP_ENV}
+      - NODE_ENV=${NODE_ENV}
     networks:
       - web-network
 
@@ -52,7 +52,7 @@ services:
     container_name: mongodb
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/${APP_ENV}/mongodb.dockerfile
+      dockerfile: ./docker/dockerfiles/${NODE_ENV}/mongodb.dockerfile
     image: shitulv/mongodb
     expose:
       - "27017"
@@ -65,7 +65,7 @@ services:
     container_name: api1
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/${APP_ENV}/api.dockerfile
+      dockerfile: ./docker/dockerfiles/${NODE_ENV}/api.dockerfile
     image: shitulv/api
     depends_on:
       - "mongodb"
@@ -74,9 +74,9 @@ services:
     volumes:
       - "./dev/api/root.js:/usr/app/root.js"
     env_file:
-      - ./docker/env/${APP_ENV}/api 
+      - ./docker/env/${NODE_ENV}/api 
     environment:
-      - NODE_ENV=${APP_ENV}
+      - NODE_ENV=${NODE_ENV}
     networks:
       - api-network
       - web-network
@@ -97,7 +97,7 @@ services:
     container_name: gateway
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/${APP_ENV}/gateway.dockerfile
+      dockerfile: ./docker/dockerfiles/${NODE_ENV}/gateway.dockerfile
     image: shitulv/gateway
     ports:
       - "80:80"
@@ -106,7 +106,7 @@ services:
       - "web1"
     working_dir: "/etc/nginx"
     volumes:
-      - "./docker/config/gateway.conf:/etc/nginx/nginx.conf"
+      - "./docker/config/${NODE_ENV}/gateway.conf:/etc/nginx/nginx.conf"
     networks:
       - api-network
       - web-network

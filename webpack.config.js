@@ -4,6 +4,8 @@ const webpack = require('webpack'),
   sourcemap = require('source-map-support'),
   ExtractTextPlugin = require('extract-text-webpack-plugin')
 
+console.log('NODE_ENV: ', JSON.stringify(process.env.NODE_ENV))
+
 let nodeModules = {}
 
 fs.readdirSync('node_modules')
@@ -41,6 +43,9 @@ const commonConfig = {
     },
     plugins: [
       new ExtractTextPlugin('index.css'),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+      }),
       new webpack.ProvidePlugin({
         'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
       }),
