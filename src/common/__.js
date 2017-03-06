@@ -20,8 +20,6 @@ AppSettings.baseUri = servers.WEB_SERVER + '#/'
 AppSettings.apiUri = servers.API_SERVER
 AppSettings.assetUri = servers.ASSET_SERVER
 
-console.log('BASE_URI: ', AppSettings.baseUri)
-
 AppSettings.paymentMethods = LANG.order.paymentMethods
 
 export let Graphics = require('./graphics.json')

@@ -12,7 +12,7 @@ import {showLogin} from '../redux/actions/loginActions'
 import LOGO from '../../../assets/AppIcon/512_transparent.png'
 import BACKGROUND from '../../../assets/Heroes/007.jpg'
 
-class Home extends Component {
+class About extends Component {
   constructor(props) {
     super(props)
   }
@@ -36,7 +36,7 @@ class Home extends Component {
   }
 }
 
-Home.propTypes = {
+About.propTypes = {
   showLogin: PropTypes.func.isRequired
 }
 
@@ -52,4 +52,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(About)

@@ -8,6 +8,7 @@ import {
 
 import App from './components/app'
 import Home from './components/home'
+import About from './components/about'
 import AreaDetail from './components/area/AreaDetail'
 import EventDetail from './components/event/EventDetail'
 import SelectOrderGroup from './components/event/SelectOrderGroup'
@@ -21,6 +22,7 @@ import TrailDetail from './components/trail/TrailDetail'
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Home} />
+    <Route path="about" component={About} />
 
     <Route path="areas/:id" component={AreaDetail} />
     <Route path="events/:id" component={EventDetail} />
