@@ -1,7 +1,7 @@
 'user strict'
 
 module.exports = {
-  DEFAULT_PAGINATION: 10,
+  DEFAULT_PAGINATION: 50,
   VIRTUAL_FIELDS: " likes likeCount saves saveCount shares shareCount comments commentCount ratingAverage",
   USER_LIST_FIELDS: "handle avatar xp level trails events posts comments followers",
   EVENT_LIST_FIELDS: "status title type hero excerpt contacts expenses groups",

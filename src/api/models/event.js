@@ -248,6 +248,12 @@ eventSchema.methods.addOrder = function(order) {
   } else {
     this.addSignUps(order.group, order.signUps, order.id, time)
   }
+
+  User.findById(this.creator, function(err, user) {
+    if (user) {
+      user.addToBalance(order.subTotal)
+    }
+  })
 }
 
 eventSchema.methods.removeSignUps = function(groupIndex, signUps) {

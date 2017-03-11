@@ -10,7 +10,7 @@ const Header = (props) => {
   let moreLink = null
 
   if (props.more) {
-    moreLink = <MoreLink text={props.more.text} url={props.more.url} />
+    moreLink = <MoreLink {...props.more} />
   }
 
   return (

@@ -72,11 +72,13 @@ class TrailDetail extends Component {
       <detail>
         <main>
           <section>
-            <TrailInfo 
-              type={trail.type}
-              title={trail.title}
-              date={trail.date}
-            />
+            <list>
+              <TrailInfo 
+                type={trail.type}
+                title={trail.title}
+                date={trail.date}
+              />
+            </list>
           </section>
           <section>
             <TrailData
@@ -88,21 +90,25 @@ class TrailDetail extends Component {
               averageSpeed={trail.averageSpeed}
             />
           </section>
-          <section className="map">
+          <section>
             <TrailMap
               id={trail._id}
               points={trail.points}
             />
           </section>
-          <section className="chart">
-            <TrailChart
-              points={trail.points}
-            />
+          <section>
+            <list>
+              <TrailChart
+                points={trail.points}
+              />
+            </list>
           </section>
           <section>
-            <UserLink
-              user={trail.creator}
-            />
+            <list>
+              <UserLink
+                user={trail.creator}
+              />
+            </list>
           </section>
           <section>
             <Header text={LANG.t('trail.TrailDescription')} />

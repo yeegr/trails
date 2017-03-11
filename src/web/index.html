@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, target-densitydpi=device-dpi">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="">
     <meta name="keywords" content="轨迹,户外,活动">
     <meta name="revised" content=" ">
@@ -12,7 +12,12 @@
   </head>
   <body>
     <!--<wrapper tabless></wrapper>-->
-    <wrapper tabless></wrapper>
+    <wrapper></wrapper>
     <script src="js/bundle.js"></script>
+    <script>
+      document.addEventListener('gesturestart', (e) => {
+        e.preventDefault()
+      })
+    </script>
   </body>
 </html>

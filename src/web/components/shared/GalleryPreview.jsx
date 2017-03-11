@@ -13,10 +13,14 @@ import Gallery from './Gallery'
 import Header from './Header'
 
 const GalleryPreview = (props) => {
-  const previews = props.photos.slice(0, AppSettings.maxPhotoPreviewsPerGallery),
-    more = (props.photos.length > AppSettings.maxPhotoPreviewsPerGallery) ? {
+  const {type, id, photos} = props,
+    previews = photos.slice(0, AppSettings.maxPhotoPreviewsPerGallery),
+    target = 'gallery',
+    more = (photos.length > AppSettings.maxPhotoPreviewsPerGallery) ? {
       text: LANG.t('gallery.MorePhotos'),
-      url: ''
+      path: type + '/' + id + '/' + target,
+      target,
+      data: photos
     } : null
 
   return (

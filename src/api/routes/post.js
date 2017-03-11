@@ -62,7 +62,8 @@ module.exports = (app) => {
 
   /* List */
   app.get('/posts', (req, res, next) => {
-    let query = {}
+    let query = {},
+      page = (req.query.hasOwnProperty('page')) ? parseInt(req.query.page) : 0
 
     if (req.query.hasOwnProperty('in') && req.query.in !== '') {
       let tmp = (req.query.in).substring(1, (req.query.in).length - 1)
@@ -73,6 +74,7 @@ module.exports = (app) => {
     Post
     .find(query)
     .limit(CONST.DEFAULT_PAGINATION)
+    .skip(page * CONST.DEFAULT_PAGINATION)
     .sort({_id: -1})
     .populate('creator', CONST.USER_LIST_FIELDS)
     .exec()

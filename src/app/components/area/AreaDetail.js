@@ -80,7 +80,7 @@ class AreaDetail extends Component {
               <Header text={LANG.t('Tags')} />
               <View style={styles.detail.grid}>
               {
-                area.tags.map(function(n) {
+                area.tags.map((n) => {
                   return (
                     <View key={n} style={styles.detail.icon}>
                       <Icon
@@ -88,7 +88,7 @@ class AreaDetail extends Component {
                         stack={'vertical'} 
                         type={n.toString()}
                         valueColor={Graphics.icon.labelColor}
-                        value={LANG.t('tags.' + n)}
+                        value={LANG.t('tags.' + n.toString())}
                       />
                     </View>
                   )
@@ -105,7 +105,10 @@ class AreaDetail extends Component {
             <View style={styles.detail.section}>
               <Header text={LANG.t('area.Leaders')} />
               <View style={styles.detail.content}>
-                <UserList navigator={navigator} data={area.leaders} />
+                <UserList
+                  navigator={navigator}
+                  data={area.leaders}
+                />
               </View>
             </View>
             <TrailPreview

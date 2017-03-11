@@ -10,11 +10,20 @@ const Gallery = (props) => {
   let {type, id, photos} = props,
     path = type + '/' + id + '/'
 
+  if (!photos && props.location) {
+    let pathname = props.location.pathname
+    path = pathname.substring(0, pathname.indexOf('/gallery') + 1)
+    photos = JSON.parse(localStorage.getItem('gallery'))
+  }
+  
   let grid = photos.map((photo, i) => {
     let backgroundImage = 'url(' + ImagePath({type: 'thumb', path: path + photo.url}) + ')'
 
     return (
-      <photo key={i} style={{backgroundImage}} />
+      <photo
+        key={i}
+        style={{backgroundImage}}
+      />
     )
   })
 
@@ -30,10 +39,11 @@ const Gallery = (props) => {
 }
 
 Gallery.propTypes = {
-  photos: PropTypes.array.isRequired,
-  type: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  style: PropTypes.string
+  photos: PropTypes.array,
+  type: PropTypes.string,
+  id: PropTypes.string,
+  style: PropTypes.string,
+  location: PropTypes.object
 }
 
 export default Gallery

@@ -10,8 +10,7 @@ const commentsReducer = (state = {
 }, action) => {
   switch (action.type) {
     case ACTIONS.LIST_COMMENTS_REQUEST:
-    	return Object.assign({},
-        state, {
+      return Object.assign({}, state, {
           isFetching: true
         })
 
@@ -30,20 +29,17 @@ const commentsReducer = (state = {
       })
 
     case ACTIONS.CREATE_COMMENT_REQUEST:
-    	return Object.assign({},
-        state, {
+      return Object.assign({}, state, {
           isFetching: true
         })
 
     case ACTIONS.CREATE_COMMENT_SUCCESS:
-      return Object.assign({},
-        state, {
+      return Object.assign({}, state, {
           isFetching: false
         })
 
     case ACTIONS.CREATE_COMMENT_FAILURE:
-      return Object.assign({},
-        state, {
+      return Object.assign({}, state, {
           isFetching: false
         })
 

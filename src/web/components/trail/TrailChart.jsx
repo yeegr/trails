@@ -27,8 +27,8 @@ const TrailChart = (props) => {
 
   return (
     <Chart
-      height="300"
-      width="290"
+      height="270"
+      width="360"
       data={chartData}
     />
   )

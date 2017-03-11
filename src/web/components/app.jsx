@@ -5,6 +5,8 @@ import React, {
   PropTypes
 } from 'react'
 
+import Nav from './nav'
+import Footer from './footer'
 import Login from './login'
 
 class App extends Component {
@@ -16,9 +18,11 @@ class App extends Component {
     return (
       <app>
         <page>
-        {
-          this.props.children
-        }
+          <Nav />
+          {
+            this.props.children
+          }
+          <Footer />
         </page>
         <Login />
       </app>

@@ -59,11 +59,16 @@ class PostDetail extends Component {
         />
         <main>
           <section>
-            <UserLink user={post.creator} />
+            <list>
+              <UserLink user={post.creator} />
+            </list>
           </section>
           <section>
             <post>
-              <div className="html-content" dangerouslySetInnerHTML={UTIL.createMarkup(post.content)} />
+              <div
+                className="html-content"
+                dangerouslySetInnerHTML={UTIL.createMarkup(post.content)}
+              />
             </post>
           </section>
         </main>

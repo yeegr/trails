@@ -8,11 +8,6 @@ import {DEFAULT_LOCALE} from './constants'
 
 const locale = DEFAULT_LOCALE.toLowerCase()
 
-let hrs = (locale === 'zh-cn') ? '小时' : 'hrs',
-    min = (locale === 'zh-cn') ? '分钟' : 'min'
-
-
-
 // base functions
 export function isNullOrUndefined(obj) {
   return obj === null || obj === undefined
@@ -176,7 +171,9 @@ export function calculateTrailData(points) {
 
 export function formatDuration(seconds) {
   if (isNumeric(seconds)) {
-    let fmt = (arguments[1]) ? arguments[1] : 'h[' + hrs + ']m[' + min + ']'
+    let hrs = (locale === 'zh-cn') ? '时' : 'hrs',
+      min = (locale === 'zh-cn') ? '分' : 'min',
+      fmt = (arguments[1]) ? arguments[1] : 'h[' + hrs + ']m[' + min + ']'
     return moment.duration({'seconds': seconds}).format(fmt)
   }
 }
@@ -418,4 +415,8 @@ export function getPassProps(navigator) {
 
 export function getFileExtension(filename) {
   return filename.substring(filename.lastIndexOf('.') + 1).toLowerCase()
+}
+
+export function getScreenOrientation() {
+  return (window.innerHeight > window.innerWidth) ? 'portrait' : 'landscape'
 }

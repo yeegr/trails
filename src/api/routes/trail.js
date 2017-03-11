@@ -66,7 +66,8 @@ module.exports = (app) => {
 
   /* List */
   app.get('/trails', (req, res, next) => {
-    let query = {}
+    let query = {},
+      page = (req.query.hasOwnProperty('page')) ? parseInt(req.query.page) : 0
 
     if (req.query.hasOwnProperty('creator')) {
       query.creator = req.query.creator
@@ -145,6 +146,8 @@ module.exports = (app) => {
     Trail
     .find(query)
     .limit(CONST.DEFAULT_PAGINATION)
+    .skip(page * CONST.DEFAULT_PAGINATION)
+    .sort({_id: -1})
     .populate('creator', CONST.USER_LIST_FIELDS)
     .exec()
     .then((data) => {

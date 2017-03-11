@@ -268,6 +268,11 @@ userSchema.methods.removeFromList = function(key, id) {
   UTIL.removeFromList(this, list, id)
 }
 
+userSchema.methods.addToBalance = function(subTotal) {
+  this.balance += subTotal
+  this.save()
+}
+
 userSchema.pre('save', function(next) {
   UTIL.updateModified(this, ['handle', 'avatar', 'gender', 'mobile'])
   this.wasNew = this.isNew

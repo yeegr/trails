@@ -11,11 +11,14 @@ import {
 
 import $ from 'jquery'
 
+import Card from '../shared/Card'
+import Hero from '../shared/Hero'
 import Header from '../shared/Header'
 import GalleryPreview from '../shared/GalleryPreview'
 import CommentPreview from '../shared/CommentPreview'
 
 import {
+  CONSTANTS,
   LANG,
   UTIL,
   AppSettings
@@ -47,6 +50,7 @@ class AreaDetail extends Component {
     }
 
     const {area} = this.state,
+      imageUri = CONSTANTS.ASSET_FOLDERS.AREA + '/' + area._id + '/' + area.hero,
       galleryPreview = (area.photos.length > 0) ? (
         <GalleryPreview
           type={'areas'}
@@ -64,6 +68,15 @@ class AreaDetail extends Component {
 
     return (
       <detail>
+        <Hero
+          imageUri={imageUri}
+          card={
+            <Card
+              title={LANG.t('cities.byCode.' + area.city) + ' ' + area.name}
+              excerpt={area.excerpt}
+            />
+          }
+        />
         <main>
           <section>
             <Header text={LANG.t('area.Description')} />
@@ -72,7 +85,32 @@ class AreaDetail extends Component {
               dangerouslySetInnerHTML={UTIL.createMarkup(area.description)}
             />
           </section>
+          <section>
+            <Header text={LANG.t('Tags')} />
+            <grid>
+              {
+                area.tags.map((n) => {
+                  return (
+                    <icon key={n}>
+                      <pictogram
+                        shape="circle"
+                        data-value={n.toString()}
+                      />
+                      <span>
+                        {LANG.t('tags.' + n.toString())}
+                      </span>
+                    </icon>
+                  )
+                })
+              }
+            </grid>
+          </section>
           {galleryPreview}
+          <section>
+            <Header text={LANG.t('area.Leaders')} />
+            <list>
+            </list>
+          </section>
           {commentPreview}
         </main>
       </detail>

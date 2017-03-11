@@ -1,56 +1,50 @@
 'use strict'
 
-import * as ACTIONS from '../constants/postsConstants'
+import * as ACTIONS from '../constants/areasConstants'
 
-const postsReducer = (state = {
+const areasReducer = (state = {
   isFetching: false,
   message: null,
-  page: 0,
   list: [],
-  post: null
+  area: null
 }, action) => {
   switch (action.type) {
-    case ACTIONS.SET_POSTS_PAGE:
-      return Object.assign({}, state, {
-        page: action.page
-      })
-
-    case ACTIONS.LIST_POSTS_REQUEST:
+    case ACTIONS.LIST_AREAS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       })
 
-    case ACTIONS.LIST_POSTS_SUCCESS:
+    case ACTIONS.LIST_AREAS_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         message: null,
-        list: (state.page > 0) ? state.list.concat(action.list) : action.list
+        list: action.list
       })
 
-    case ACTIONS.LIST_POSTS_FAILURE:
+    case ACTIONS.LIST_AREAS_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         message: action.message,
         list: [],
       })
 
-   case ACTIONS.GET_POST_REQUEST:
+   case ACTIONS.GET_AREA_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
       })
 
-    case ACTIONS.GET_POST_SUCCESS:
+    case ACTIONS.GET_AREA_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         message: null,
-        post: action.post
+        area: action.area
       })
 
-    case ACTIONS.GET_POST_FAILURE:
+    case ACTIONS.GET_AREA_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         message: action.message,
-        post: null
+        area: null
       })
 
     default:
@@ -58,4 +52,4 @@ const postsReducer = (state = {
   }
 }
 
-export default postsReducer
+export default areasReducer

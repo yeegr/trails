@@ -5,6 +5,14 @@ import {
   AppSettings
 } from '../../settings'
 
+// set pagination
+export const setPostsPage = (page) => {
+  return {
+    type: ACTIONS.SET_POSTS_PAGE,
+    page
+  }
+}
+
 // list posts
 const listPostsRequest = (params) => {
   return {
@@ -28,10 +36,13 @@ const listPostsFailure = (message) => {
 }
 
 export const listPosts = (params) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(listPostsRequest(params))
 
-    return fetch(AppSettings.apiUri + 'posts/' + params)
+    let page = getState().posts.page,
+      paging = (page > 0) ? 'page=' + page : ''
+
+    return fetch(AppSettings.apiUri + 'posts/?' + params + paging)
       .then((response) => {
         return response.json()
       })
@@ -85,14 +96,14 @@ export const getPost = (id) => {
       })
       .then((response) => {
         if (response.error) {
-          dispatch(getPostError(response.error))
+          dispatch(getPostFailure(response.error))
           return Promise.reject(response)
         } else {
           dispatch(getPostSuccess(response))
         }
       })
       .catch((err) => {
-        dispatch(getPostError(err))
+        dispatch(getPostFailure(err))
       })
   }
 }

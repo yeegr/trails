@@ -1,5 +1,7 @@
 'use strict'
 
+export const SET_POSTS_PAGE = 'SET_POSTS_PAGE'
+
 export const LIST_POSTS_REQUEST = 'LIST_POSTS_REQUEST'
 export const LIST_POSTS_SUCCESS = 'LIST_POSTS_SUCCESS'
 export const LIST_POSTS_FAILURE = 'LIST_POSTS_FAILURE'

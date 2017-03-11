@@ -9,16 +9,26 @@ import {
 } from 'react-router'
 
 const MoreLink = (props) => {
+  const _onClick = () => {
+    switch (props.target) {
+      case 'gallery':
+        localStorage.setItem('gallery', JSON.stringify(props.data))
+      break
+    }
+  }
+
   return (
-    <Link className="text-more" to={props.url}>
+    <Link className="text-more" onClick={_onClick} to={props.path}>
       {props.text}
     </Link>
   )
 }
 
 MoreLink.propTypes = {
-  url: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
+  target: PropTypes.string.isRequired,
+  data: PropTypes.any
 }
 
 export default MoreLink

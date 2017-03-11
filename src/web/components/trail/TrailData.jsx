@@ -35,7 +35,7 @@ const TrailData = (props) => {
           data-glyph="timer"
         />
         <tile-caption>
-          {props.totalDuration}
+          {LANG.t('trail.TotalDuration')}
         </tile-caption>
         <tile-data>
           {UTIL.formatDuration(props.totalDuration)}

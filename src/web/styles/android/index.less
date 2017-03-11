@@ -12,8 +12,6 @@
 p {
   cursor: text;
   margin-bottom: 1.5rem;
-  text-align: left;
-  text-indent: 2rem;
   ._user-select(text);
 }
 
@@ -22,7 +20,7 @@ body {
   color: @foregroundColor;
   height: 100vh;
   overflow: hidden;
-  width: 100%;
+  width: 100vw;
 
   -webkit-overflow-scrolling: touch;
   ._user-select;
@@ -65,6 +63,7 @@ modal {
   position: absolute;
   top: -100%;
   width: 100%;
+  z-index: 10000;
 
   [data-glyph="close"] {
     cursor: pointer;
@@ -80,11 +79,63 @@ modal {
 }
 
 nav {
-  height: @tabbarHeight;
+  background-color: @primaryColor;
+  height: @navbarHeight;
   position: fixed;
   width: 100%;
-  z-index: 10000;
+  z-index: 100;
   ._flex-box;
+
+  #menuBtn {
+    display: none;
+  }
+
+  menu {
+    height: 100%;
+    width: 100%;
+
+    nav {
+      display: none;
+    }
+
+    ul {
+      li {
+        a {
+          color: @textOverlayColor;
+          display: inline-block;
+          height: 100%;
+          line-height: @navbarHeight;
+          padding: 0 @doubleLength;
+
+          &:hover {
+            background-color: rgba(0, 0, 0, .2);
+          }
+        }
+      }
+    }
+  }
+
+  title {
+    display: none;
+  }
+
+  toolbar {
+    ._flex-display;
+    ._align-items(center);
+
+    &:first-child {
+      ._justify-content(flex-start)
+    }
+
+    &:last-child {
+      ._justify-content(flex-end)
+    }
+
+    button {
+      color: @textOverlayColor;
+      padding: 0 @doubleLength;
+    }
+  }
 }
 
 tabbar {
@@ -168,16 +219,101 @@ hero {
 }
 
 page {
-  //margin-top: @tabbarHeight;
-  display: block;
   height: 100%;
   position: absolute;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   width: 100%;
+  ._flex-box;
+  ._flex-direction(column);
 
   &> list {
     margin-top: @baseLength;
+  }
+}
+
+footer {
+  background-color: #666;
+  color: @textOverlayColor;
+  padding: 2rem 3rem;
+  width: 100%;
+  ._flex-box;
+  ._flex(none);
+
+  > div {
+    flex: 1;
+    white-space: nowrap;
+  }
+
+  #copyright {
+    flex: 2;
+    text-align: right;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  nav {
+    toolbar {
+      &:first-child {
+        width: 80%;
+      }
+
+      &:last-child {
+        width: 20%;
+      }
+    }
+  }
+}
+
+@media screen and (orientation: portrait) {
+  nav {
+    title {
+      color: @textOverlayColor;
+      display: inline-block;
+      line-height: @navbarHeight;
+      text-align: center;
+      width: 40%;
+      ._align-items(center);
+    }
+
+    toolbar {
+      width: 30%;
+    }
+
+    #menuBtn {
+      display: inline-block;
+    }
+
+    menu {
+      background-color: #666;
+      height: 100vh;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100vw;
+      z-index: 1000;
+
+      nav {
+        background-color: transparent;
+        ._flex-display;
+      }
+
+      ul {
+        margin-top: @navbarHeight;
+
+        li {
+          a {
+            display: block;
+            padding: @doubleLength;
+          }
+        }
+      }
+    }
+  }
+
+  footer {
+    padding: 1rem 2rem;
+    ._flex-direction(column);
+    ._align-items(center);  
   }
 }
 
@@ -214,7 +350,11 @@ row {
 }
 
 detail {
+  background-size: cover;
   display: block;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
 
   hero {
@@ -241,6 +381,7 @@ sub-section {
 
 header {
   margin-bottom: @baseLength;
+  padding: 0 @doubleLength;
   ._flex-box;
   ._align-items(center);
 
@@ -254,7 +395,7 @@ h1 {
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.6rem;
-  margin: @doubleLength @doubleLength @baseLength @doubleLength;
+  margin: @doubleLength 0 @baseLength 0;
   ._flex(1);
   ._flex-box;
 
@@ -394,6 +535,7 @@ input-set {
 }
 
 grid {
+  padding: 0 @baseLength;
   ._flex-box;
   ._flex-wrap;
   ._justify-content(flex-start);
@@ -608,31 +750,39 @@ button[type="glyph"] {
 }
 
 icon {
-  font-size: 0.7rem;
-  font-weight: bold;
-  margin-bottom: @baseLength;
-  text-align: center;
-  white-space: nowrap;
+  box-sizing: border-box;
+  margin: 0 @baseLength @doubleLength @baseLength;
   width: @pictogramSideLength;
   ._flex-box(inline-flex);
   ._flex-direction(column);
   ._align-items(center);
 
-  pictogram {
-    height: @tripleLength;
-    margin-bottom: @unitLength;
-    width: @tripleLength;
+  > pictogram {
+    margin-bottom: @unitLength * 2;
+  }
+
+  > span {
+    display: block;
+    font-size: 1rem;
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    width: 100%;
   }
 }
 
 preview {
+  padding: 0 @baseLength;
   ._flex-box;
   ._justify-content(space-between);
 
   photo {
+    box-sizing: padding-box;
+    background-clip: content-box;
     display: block;
-    height: @baseLength * 9.5;
-    width: @baseLength * 9.5;
+    height: calc(~"25vw - "@baseLength);
+    padding: 0 @baseLength @doubleLength @baseLength;
+    width: calc(~"25vw - "@baseLength);
 
     @media (-webkit-min-device-pixel-ratio: 3) and (min-width: 375px) {
       height: @baseLength * 9.12;
@@ -647,8 +797,14 @@ preview {
 }
 
 gallery {
+  ._flex(1);
   ._flex-box;
   ._flex-wrap;
+  ._align-content;
+}
+
+page > gallery {
+  height: 100%
 }
 
 photo {
@@ -657,8 +813,8 @@ photo {
   background-size: cover;
   cursor: pointer;
   display: block;
-  height: 33.333vw;
-  width: 33.333vw;
+  height: 50vw;
+  width: 50vw;
 }
 
 comment {
@@ -689,19 +845,12 @@ tile {
   }
 }
 
-.map {
-  margin: 0;
-  padding: 0;
-}
-
 map {
   background-color: fade(@primaryColor, 5%);
   box-sizing: initial;
   display: block;
-  height: 100%;
-  min-height: 320px;
-  max-height: 100vh;
-  width: 100%;
+  height: 75vw;
+  width: 100vw;
 
   .amap-controls {
     height: 100%;
@@ -722,8 +871,6 @@ marker {
 
 main {
   display: block;
-  height: 100%;
-  padding: 0 0 80px 0;
   position: relative;
   width: 100%;
 
@@ -884,7 +1031,7 @@ split {
   }
 
   p {
-    margin-bottom: 1rem;
+    text-align: left;
     text-indent: 2rem;
   }
 
@@ -1083,3 +1230,7 @@ points {
   text-align: center;
   width: 100%;
 }
+
+
+
+

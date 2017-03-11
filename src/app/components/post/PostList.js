@@ -10,6 +10,8 @@ import {
   RefreshControl
 } from 'react-native'
 
+import InfiniteScrollView from 'react-native-infinite-scroll-view' 
+
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as postsActions from '../../redux/actions/postsActions'
@@ -26,10 +28,12 @@ class PostList extends Component {
     this.dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 != r2
     })
+
+    this.currentPage = 0
   }
 
   componentWillMount() {
-    this.fetchData()
+    this.onRefresh()
   }
 
   componentWillUnmount() {
@@ -41,6 +45,11 @@ class PostList extends Component {
   }
 
   onRefresh() {
+    this.fetchData()
+  }
+
+  _loadMore() {
+    this.props.postsActions.setPostsPage(this.currentPage++)
     this.fetchData()
   }
 

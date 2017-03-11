@@ -26,7 +26,7 @@ const TagList = (props) => {
       txt += tag + ' '
     })
 
-    return <p style={style}>{txt}</p>
+    return <span style={style}>{txt}</span>
   } else {
     return (
       <div>
