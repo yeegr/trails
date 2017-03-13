@@ -6,6 +6,7 @@ const mongoose = require('mongoose'),
   moment = require('moment'),
   CONST = require('../const'),
   UTIL = require('../util'),
+  Photo = require('./photo'),
   Log = require('./logging'),
   now = moment(),
   maxLevel = 4,
@@ -85,6 +86,11 @@ const mongoose = require('mongoose'),
         ref: 'User'
       }
     },
+    intro: {
+      type: String,
+      minlength: 2
+    },
+    photos: [Photo],
     xp: {
       type: Number,
       required: true,
