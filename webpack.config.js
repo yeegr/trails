@@ -35,7 +35,7 @@ const commonConfig = {
   webConfig = {
     target: 'web',
     entry: {
-      bundle: path.resolve(__dirname, 'src/web/')
+      bundle: path.resolve(__dirname, 'src/app/web/')
     },
     output: {
       path: path.join(__dirname, 'dev/web'),

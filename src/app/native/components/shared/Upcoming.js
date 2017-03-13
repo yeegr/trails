@@ -16,7 +16,7 @@ const Upcoming = (props) => {
       <View>
         <Image
           style={{width: 256, height: 256}}
-          source={require('../../../../assets/AppIcon/512_transparent.png')}
+          source={require('../../../../../assets/AppIcon/512_transparent.png')}
         />
         <Text style={{width: 256, marginBottom: 50, textAlign: 'center'}}>
           开发中，敬请期待

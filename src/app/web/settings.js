@@ -2,7 +2,7 @@
 
 import i18n from 'i18next'
 
-let zh = require('../locales/zh-CN.1.json')
+let zh = require('../../locales/zh-CN.1.json')
 
 i18n.init({
   lng: 'zh',
@@ -15,7 +15,7 @@ i18n.init({
 
 export const LANG = i18n
 
-const common = require('../common/__.js')
+const common = require('../../common/__.js')
 
 export const CONSTANTS = common.CONSTANTS
 export const UTIL = common.UTIL
