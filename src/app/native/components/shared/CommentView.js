@@ -15,7 +15,7 @@ import Rating from './Rating'
 
 import {
   UTIL
-} from '../../settings'
+} from '../../../../common/__'
 
 const CommentView = (props) => {
   const comment = props.comment, 

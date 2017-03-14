@@ -20,7 +20,7 @@ import {
   CONSTANTS,
   LANG,
   UTIL
-} from '../../settings'
+} from '../../../../common/__'
 
 class SelectOrderGroup extends Component {
   constructor(props) {

@@ -8,7 +8,7 @@ import React, {
 import {
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class TrailMap extends Component {
   constructor(props) {

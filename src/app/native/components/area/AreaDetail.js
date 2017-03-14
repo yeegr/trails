@@ -13,7 +13,7 @@ import ParallaxView from 'react-native-parallax-view'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as areasActions from '../../redux/actions/areasActions'
+import * as areasActions from '../../../redux/actions/areasActions'
 
 import Card from '../shared/Card'
 import Loading from '../shared/Loading'
@@ -31,7 +31,7 @@ import {
   CONSTANTS,
   LANG,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class AreaDetail extends Component {
   constructor(props) {

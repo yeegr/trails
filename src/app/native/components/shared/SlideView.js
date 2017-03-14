@@ -21,7 +21,7 @@ import styles from '../../styles/main'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class SlideView extends Component {
   constructor(props) {

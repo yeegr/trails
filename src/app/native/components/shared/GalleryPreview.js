@@ -11,12 +11,12 @@ import {
 
 import {
   AppSettings,
-  Device,
   Lang
-} from '../../settings'
+} from '../../../../common/__'
 
 import Gallery from './Gallery'
 import Header from './Header'
+import Device from '../../device'
 
 import detail from '../../styles/detail'
 

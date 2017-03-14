@@ -11,7 +11,7 @@ import {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as loginActions from '../../../redux/actions/loginActions'
 
 import StringInput from '../shared/StringInput'
 import TextView from '../shared/TextView'
@@ -21,7 +21,7 @@ import styles from '../../styles/main'
 import {
   LANG,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditUserHandle extends Component {
   constructor(props) {

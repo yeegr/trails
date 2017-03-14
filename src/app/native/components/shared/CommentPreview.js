@@ -10,7 +10,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as loginActions from '../../../redux/actions/loginActions'
 
 import Header from './Header'
 import Rating from './Rating'
@@ -21,7 +21,7 @@ import styles from '../../styles/main'
 import {
   LANG,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 const CommentPreview = (props) => {
   const average = props.data.ratingAverage,

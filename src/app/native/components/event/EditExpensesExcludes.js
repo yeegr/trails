@@ -11,7 +11,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../redux/actions/newEventActions'
+import * as newEventActions from '../../../redux/actions/newEventActions'
 
 import ListEditor from '../shared/ListEditor'
 

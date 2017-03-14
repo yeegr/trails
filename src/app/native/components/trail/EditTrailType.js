@@ -12,7 +12,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newTrailActions from '../../redux/actions/newTrailActions'
+import * as newTrailActions from '../../../redux/actions/newTrailActions'
 
 import Icon from '../shared/Icon'
 
@@ -22,7 +22,7 @@ import {
   LANG,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const EditTrailType = (props) => {
   return (

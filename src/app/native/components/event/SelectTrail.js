@@ -13,8 +13,8 @@ import {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as trailsActions from '../../redux/actions/trailsActions'
-import * as newEventActions from '../../redux/actions/newEventActions'
+import * as trailsActions from '../../../redux/actions/trailsActions'
+import * as newEventActions from '../../../redux/actions/newEventActions'
 
 import Icon from '../shared/Icon'
 import Loading from '../shared/Loading'
@@ -27,7 +27,7 @@ import {
   UTIL,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class SelectTrail extends Component {
   constructor(props) {

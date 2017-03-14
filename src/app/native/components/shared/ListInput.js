@@ -16,7 +16,7 @@ import Popup from './Popup'
 import {
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class ListInput extends Component {
   constructor(props) {

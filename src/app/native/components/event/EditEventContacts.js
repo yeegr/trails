@@ -15,7 +15,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../redux/actions/newEventActions'
+import * as newEventActions from '../../../redux/actions/newEventActions'
 
 import styles from '../../styles/main'
 
@@ -23,7 +23,7 @@ import {
   AppSettings,
   Lang,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditEventContacts extends Component {
   constructor(props) {

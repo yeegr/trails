@@ -15,7 +15,7 @@ import TextView from './TextView'
 import {
   LANG,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const InfoItem = (props) => {
   let align = (props.align) ? {textAlign: props.align} : null,

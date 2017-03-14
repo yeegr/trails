@@ -15,8 +15,8 @@ import {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as loginActions from '../../redux/actions/loginActions'
-import * as newTrailActions from '../../redux/actions/newTrailActions'
+import * as loginActions from '../../../redux/actions/loginActions'
+import * as newTrailActions from '../../../redux/actions/newTrailActions'
 
 import CallToAction from '../shared/CallToAction'
 import EditLink from '../shared/EditLink'
@@ -30,7 +30,7 @@ import {
   UTIL,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditTrail extends Component {
   constructor(props) {

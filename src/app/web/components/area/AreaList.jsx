@@ -7,7 +7,7 @@ import React, {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as areasActions from '../../redux/actions/areasActions'
+import * as areasActions from '../../../redux/actions/areasActions'
 
 class AreaList extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class AreaList extends Component {
   }
 
   componentWillUnmount() {
-    areasActions.resetAreas()
+    areasActions.resetAreaList()
   }
 
   fetchData() {

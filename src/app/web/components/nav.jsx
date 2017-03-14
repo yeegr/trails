@@ -11,12 +11,12 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../redux/actions/loginActions'
+import * as loginActions from '../../redux/actions/loginActions'
 
 import {
   LANG,
   UTIL
-} from '../settings'
+} from '../../../common/__'
 
 class Nav extends Component {
   constructor(props) {

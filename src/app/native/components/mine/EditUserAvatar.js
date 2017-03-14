@@ -18,7 +18,7 @@ import ImagePicker from 'react-native-image-picker'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as loginActions from '../../../redux/actions/loginActions'
 
 import ImagePath from '../shared/ImagePath'
 import Loading from '../shared/Loading'
@@ -26,7 +26,7 @@ import Loading from '../shared/Loading'
 import {
   LANG,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditUserAvatar extends Component {
   constructor(props) {

@@ -16,7 +16,7 @@ import TextView from './TextView'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class RangeSlider extends Component {
   constructor(props) {

@@ -22,7 +22,7 @@ import {
   UTIL,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class SignUpList extends Component {
   constructor(props) {

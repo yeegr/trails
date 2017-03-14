@@ -16,7 +16,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newTrailActions from '../../redux/actions/newTrailActions'
+import * as newTrailActions from '../../../redux/actions/newTrailActions'
 
 import Icon from '../shared/Icon'
 import ImagePath from '../shared/ImagePath'
@@ -27,7 +27,7 @@ import {
   CONSTANTS,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class SelectTrailAreas extends Component {
   constructor(props) {

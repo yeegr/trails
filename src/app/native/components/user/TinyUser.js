@@ -14,7 +14,7 @@ import TextView from '../shared/TextView'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const TinyUser = (props) => {
   return (

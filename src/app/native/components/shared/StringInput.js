@@ -16,7 +16,7 @@ import Icon from './Icon'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class StringInput extends Component {
   constructor(props) {

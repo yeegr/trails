@@ -14,7 +14,7 @@ import styles from '../../styles/main'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const EditRow = (props) => {
   const textColor = (props.validated) ? Graphics.colors.primary : (

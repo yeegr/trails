@@ -12,7 +12,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newTrailActions from '../../redux/actions/newTrailActions'
+import * as newTrailActions from '../../../redux/actions/newTrailActions'
 
 import TextView from '../shared/TextView'
 
@@ -20,7 +20,7 @@ import styles from '../../styles/main'
 
 import {
   UTIL
-} from '../../settings'
+} from '../../../../common/__'
 
 const EditTrailDifficulty = (props) => {
   return (

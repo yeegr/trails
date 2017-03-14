@@ -14,7 +14,7 @@ import {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as trailsActions from '../../redux/actions/trailsActions'
+import * as trailsActions from '../../../redux/actions/trailsActions'
 
 import TrailList from '../trail/TrailList'
 
@@ -23,7 +23,7 @@ import styles from '../../styles/main'
 import {
   LANG,
   UTIL
-} from '../../settings'
+} from '../../../../common/__'
 
 class MyTrails extends Component {
   constructor(props) {

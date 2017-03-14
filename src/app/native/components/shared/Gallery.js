@@ -14,10 +14,7 @@ import {
 
 import ImagePath from './ImagePath'
 import SlideView from './SlideView'
-
-import {
-  Device
-} from '../../settings'
+import Device from '../../device'
 
 class Gallery extends Component {
   constructor(props) {

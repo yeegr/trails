@@ -21,7 +21,7 @@ import {
   CONSTANTS,
   LANG,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const TrailCard = (props) => {
   const {trail, navigator} = props,

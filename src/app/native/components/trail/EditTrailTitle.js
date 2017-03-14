@@ -11,7 +11,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newTrailActions from '../../redux/actions/newTrailActions'
+import * as newTrailActions from '../../../redux/actions/newTrailActions'
 
 import StringInput from '../shared/StringInput'
 import TextView from '../shared/TextView'
@@ -21,7 +21,7 @@ import styles from '../../styles/main'
 import {
   LANG,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditTrailTitle extends Component {
   constructor(props) {

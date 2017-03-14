@@ -6,14 +6,14 @@ import React, {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as ordersActions from '../../redux/actions/ordersActions'
+import * as ordersActions from '../../../redux/actions/ordersActions'
 
 import InfoItem from '../shared/InfoItem'
 
 import {
   UTIL,
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 const OrderSummary = (props) => {
   const {event, order} = props,
@@ -48,7 +48,7 @@ const OrderSummary = (props) => {
             <InfoItem
               align={'right'}
               label={LANG.t('order.insurance.BaseRate')}
-              value={LANG.t('number.web', {amount: payment.baseRate})}
+              value={LANG.t('number.currency', {amount: payment.baseRate})}
             />
             <InfoItem
               align={'right'}
@@ -86,7 +86,7 @@ const OrderSummary = (props) => {
               align={'right'} 
               label={LANG.t('order.insurance.TotalFee')}
               noColon={true}
-              value={LANG.t('number.web', {amount: payment.insurance})}
+              value={LANG.t('number.currency', {amount: payment.insurance})}
             />
           </list>
         </section>

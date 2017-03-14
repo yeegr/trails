@@ -7,7 +7,7 @@ import React, {
 import {
   LANG,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const InputItem = (props) => {
   return (

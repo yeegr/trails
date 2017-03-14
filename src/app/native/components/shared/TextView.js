@@ -11,7 +11,7 @@ import {
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const TextView = (props) => {
   const type = (props.class) || 'text',

@@ -13,7 +13,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as trailsActions from '../../redux/actions/trailsActions'
+import * as trailsActions from '../../../redux/actions/trailsActions'
 
 import Loading from '../shared/Loading'
 import Header from '../shared/Header'
@@ -33,7 +33,7 @@ import {
   CONSTANTS,
   LANG,
   UTIL
-} from '../../settings'
+} from '../../../../common/__'
 
 class TrailDetail extends Component {
   constructor(props) {

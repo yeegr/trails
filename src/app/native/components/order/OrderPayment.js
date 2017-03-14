@@ -15,7 +15,7 @@ import ParallaxView from 'react-native-parallax-view'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as ordersActions from '../../redux/actions/ordersActions'
+import * as ordersActions from '../../../redux/actions/ordersActions'
 
 import CallToAction from '../shared/CallToAction'
 import Card from '../shared/Card'
@@ -34,7 +34,7 @@ import {
   AppSettings,
   Lang,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class OrderPayment extends Component {
   constructor(props) {
@@ -170,7 +170,7 @@ class OrderPayment extends Component {
               <TextView class={'h2'} text={Lang.EventInfo} />
               <View style={styles.detail.group}>
                 <InfoItem label={Lang.EventDates} value={dates} />
-                <InfoItem label={Lang.PerHead} value={LANG.l('currency', event.expenses.perHead)} />
+                <InfoItem label={Lang.PerHead} value={LANG.t('number.currency', {amount: event.expenses.perHead})} />
               </View>
             </View>
             <View style={styles.detail.section}>
@@ -189,7 +189,7 @@ class OrderPayment extends Component {
                       align={'right'}
                       noColon={true}
                       label={signUp.name}
-                      value={LANG.l('currency', payment.cost)}
+                      value={LANG.t('number.currency', {amount: payment.cost})}
                       more={{
                         label: LANG.t('order.Detail'),
                         onPress: () => {
@@ -213,7 +213,7 @@ class OrderPayment extends Component {
                 <InfoItem
                   align={'right'} 
                   label={LANG.t('order.SubTotal')}
-                  value={LANG.l('currency', subTotal)}
+                  value={LANG.t('number.currency', {amount: subTotal})}
                   more={{label: '　　'}}
                 />
               </View>

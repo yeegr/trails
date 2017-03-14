@@ -12,7 +12,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as areasActions from '../../redux/actions/areasActions'
+import * as areasActions from '../../../redux/actions/areasActions'
 
 import AreaCard from './AreaCard'
 import Loading from '../shared/Loading'
@@ -33,7 +33,7 @@ class AreaList extends Component {
   }
 
   componentWillUnmount() {
-    areasActions.resetAreas()
+    areasActions.resetAreaList()
   }
 
   fetchData() {

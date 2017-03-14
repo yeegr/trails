@@ -15,7 +15,7 @@ import TextView from '../shared/TextView'
 
 import {
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 const UserLink = (props) => {
   const onPress = () => {

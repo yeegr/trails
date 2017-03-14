@@ -13,7 +13,7 @@ import Stat from './Stat'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const TinyStatus = (props) => {
   const data = props.data,

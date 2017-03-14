@@ -22,7 +22,7 @@ import {
   LANG,
   UTIL,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 class AreaDetail extends Component {
   constructor(props) {

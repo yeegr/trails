@@ -11,7 +11,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../redux/actions/newEventActions'
+import * as newEventActions from '../../../redux/actions/newEventActions'
 
 import RichTextEditor from '../shared/RichTextEditor'
 
@@ -20,7 +20,7 @@ import styles from '../../styles/main'
 import {
   LANG,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditEventExcerpt extends Component {
   constructor(props) {

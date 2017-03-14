@@ -23,7 +23,7 @@ import Permissions from 'react-native-permissions'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newTrailActions from '../../redux/actions/newTrailActions'
+import * as newTrailActions from '../../../redux/actions/newTrailActions'
 
 import CallToAction from '../shared/CallToAction'
 import Icon from '../shared/Icon'
@@ -34,7 +34,7 @@ import {
   Lang,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class RecordTrail extends Component {
   constructor(props) {

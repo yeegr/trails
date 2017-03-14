@@ -20,7 +20,7 @@ import Rating from './Rating'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class InputBar extends Component {
   constructor(props) {

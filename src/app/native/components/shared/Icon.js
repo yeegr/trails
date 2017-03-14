@@ -18,7 +18,7 @@ import TextView from './TextView'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const Icon = (props) => {
   let icon = Graphics.icon,

@@ -24,7 +24,7 @@ import {
   Lang,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class OrderSuccess extends Component {
   constructor(props) {

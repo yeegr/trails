@@ -9,7 +9,7 @@ import InputItem from '../shared/InputItem'
 
 import {
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 class SignUpForm extends Component {
   constructor(props) {

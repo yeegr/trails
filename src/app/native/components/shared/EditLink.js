@@ -18,7 +18,7 @@ import styles from '../../styles/main'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const EditLink = (props) => {
   let value = null

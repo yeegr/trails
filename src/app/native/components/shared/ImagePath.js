@@ -7,7 +7,7 @@ import {
 
 import {
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 const ImagePath = (props) => {
   if (props.path.indexOf('/') === 0) {

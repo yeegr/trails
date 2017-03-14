@@ -13,7 +13,7 @@ import MapView from 'react-native-maps'
 import {
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const TrailMapFull = (props) => {
   let points = props.points,

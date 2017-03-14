@@ -14,7 +14,7 @@ import {
   LANG,
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const TrailMap = (props) => {
   let points = props.points,

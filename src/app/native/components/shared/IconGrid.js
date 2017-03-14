@@ -15,7 +15,7 @@ import Icon from '../shared/Icon'
 import {
   LANG,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const IconGrid = (props) => {
   return (

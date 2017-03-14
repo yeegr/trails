@@ -22,7 +22,7 @@ import {
   AppSettings,
   Lang,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class SearchPosts extends Component {
   constructor(props) {

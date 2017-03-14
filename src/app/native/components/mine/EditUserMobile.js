@@ -6,16 +6,13 @@ import React, {
 } from 'react'
 
 import {
-  ScrollView,
   TextInput,
   View
 } from 'react-native'
 
-import KeyboardSpacer from 'react-native-keyboard-spacer'
-
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as loginActions from '../../../redux/actions/loginActions'
 
 import TextButton from '../shared/TextButton'
 import TextView from '../shared/TextView'
@@ -26,7 +23,7 @@ import {
   LANG,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditUserMobile extends Component {
   constructor(props) {
@@ -123,13 +120,13 @@ class EditUserMobile extends Component {
   }
 
   _onVerificationCodeChanged(val) {
-    let verificationCode = val.trim()
-
     this.props.loginActions.clearUpdateError()
+
+    let verificationCode = val.trim()
 
     this.setState({
       verificationCode,
-      disableVerificationButton: !AppSettings.vcodeRx.test(verificationCode)
+      disableUpdateButton: !AppSettings.vcodeRx.test(verificationCode)
     })
   }
 

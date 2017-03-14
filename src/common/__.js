@@ -5,9 +5,23 @@ export const UTIL = require('./util')
 export const FETCH = require('./fetch').FETCH
 export const Defaults = require('./defaults.json')
 export const Lang = require('../locales/zh-CN.json')
-const LANG = require('../locales/zh-CN.1.json')
 
-let env = require('./env.json'),
+import i18n from 'i18next'
+
+const zh = require('../locales/zh-CN.1.json')
+
+i18n.init({
+  lng: 'zh',
+  resources: {
+    zh: {
+      translation: zh
+    }
+  }
+})
+
+export const LANG = i18n
+
+const env = require('./env.json'),
   servers = env[process.env.NODE_ENV]
 
 export let AppSettings = require('./settings.json')
@@ -20,7 +34,7 @@ AppSettings.baseUri = servers.WEB_SERVER + '#/'
 AppSettings.apiUri = servers.API_SERVER
 AppSettings.assetUri = servers.ASSET_SERVER
 
-AppSettings.paymentMethods = LANG.order.paymentMethods
+AppSettings.paymentMethods = LANG.t('order.paymentMethods')
 
 export let Graphics = require('./graphics.json')
 Graphics.page = {}

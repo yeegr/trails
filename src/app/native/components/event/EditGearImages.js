@@ -13,7 +13,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../redux/actions/newEventActions'
+import * as newEventActions from '../../../redux/actions/newEventActions'
 
 import Gear from '../shared/Gear'
 import TextView from '../shared/TextView'
@@ -25,7 +25,7 @@ import {
   AppSettings,
   Device,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditGearImages extends Component {
   constructor(props) {

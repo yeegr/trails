@@ -20,7 +20,7 @@ import {
   LANG,
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const EventCard = (props) => {
   const data = props.data,
@@ -60,7 +60,7 @@ const EventCard = (props) => {
                 <TextView
                   fontSize={'XL'}
                   textColor={Graphics.textColors.overlay}
-                  text={(perHead > 0) ? LANG.t('event.PerHead') + LANG.l('currency', perHead) : LANG.t('event.ExpenseFree')}
+                  text={(perHead > 0) ? LANG.t('event.PerHead') + LANG.t('number.currency', {amount: perHead}) : LANG.t('event.ExpenseFree')}
                 />
               </View>
             }

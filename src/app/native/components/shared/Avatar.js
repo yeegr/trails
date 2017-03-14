@@ -14,7 +14,7 @@ import ImagePath from './ImagePath'
 import {
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const Avatar = (props) => {
   const sideLength = (props.size) ? Graphics.avatar[props.size] : Graphics.avatar.default,

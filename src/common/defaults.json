@@ -1,4 +1,8 @@
 {
+  "Trail":{
+    "areaIds": ["58512ea92019980015376e77"],
+    "areaNames": ["其他"]
+  },
   "Event":{
     "Expenses":{
       "Detail":[

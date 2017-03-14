@@ -14,7 +14,7 @@ import TextView from './TextView'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const CallToAction = (props) => {
   let bgColor = props.backgroundColor || Graphics.colors.primary,

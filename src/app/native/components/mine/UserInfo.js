@@ -15,7 +15,7 @@ import ParallaxView from 'react-native-parallax-view'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as loginActions from '../../../redux/actions/loginActions'
 
 import Avatar from '../shared/Avatar'
 import EditLink from '../shared/EditLink'
@@ -29,7 +29,7 @@ import {
   LANG,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class UserInfo extends Component {
   constructor(props) {
@@ -149,7 +149,7 @@ class UserInfo extends Component {
           <EditLink
             label={LANG.t('mine.MyWallet')}
             onPress={() => user.blance > 0 && this._nextPage('wallet')}
-            value={LANG.l('currency', user.balance)}
+            value={LANG.t('number.currency', {amount: user.balance})}
           />
           <EditLink
             label={LANG.t('mine.PurchaseOutdoorInsurance')}

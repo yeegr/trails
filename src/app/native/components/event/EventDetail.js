@@ -16,9 +16,9 @@ import moment from 'moment'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as eventsActions from '../../redux/actions/eventsActions'
-import * as newEventActions from '../../redux/actions/newEventActions'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as eventsActions from '../../../redux/actions/eventsActions'
+import * as newEventActions from '../../../redux/actions/newEventActions'
+import * as loginActions from '../../../redux/actions/loginActions'
 
 import Card from '../shared/Card'
 import CallToAction from '../shared/CallToAction'
@@ -45,7 +45,7 @@ import {
   LANG,
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class EventDetail extends Component {
   constructor(props) {
@@ -369,7 +369,7 @@ class EventDetail extends Component {
               <View style={styles.detail.list}>
                 <ListItem icon="yuan"
                   label={LANG.t('event.FeePerHead')}
-                  value={(perHead > 0) ? LANG.l('currency', perHead) : LANG.t('event.ExpenseFree')}
+                  value={(perHead > 0) ? LANG.t('number.currency', {amount: perHead}) : LANG.t('event.ExpenseFree')}
                 />
               </View>
               {(perHead > 0) ? expensesDetail : null}

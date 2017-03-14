@@ -16,7 +16,7 @@ import TextView from '../shared/TextView'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const SimpleContact = (props) => {
   const phoneNumber = props.number.toString(),

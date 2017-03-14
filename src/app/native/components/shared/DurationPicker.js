@@ -16,7 +16,7 @@ import {
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class DurationPicker extends Component {
   constructor(props) {

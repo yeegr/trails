@@ -15,7 +15,7 @@ import Chart from 'react-native-chart'
 import {
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const TrailChart = (props) => {
   const data = UTIL.formatTrailChartData(props.points)

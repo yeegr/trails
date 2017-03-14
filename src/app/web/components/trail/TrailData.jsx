@@ -7,7 +7,7 @@ import React, {
 import {
   LANG,
   UTIL
-} from '../../settings'
+} from '../../../../common/__'
 
 const TrailData = (props) => {
   let difficultyLevel = UTIL.showDifficultyLevel(props.difficultyLevel), 

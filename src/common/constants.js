@@ -5,6 +5,11 @@ export const ORDER_TYPES = {
   WEB: 'WEB'
 }
 
+export const STORAGE_TYPES = {
+  ASYNC: 'async',
+  LOCAL: 'local'
+}
+
 export const STORE_TYPES = {
   REMOTE: 'remote',
   LOCAL: 'local'
@@ -73,3 +78,5 @@ export const PAY_REQUEST_URLS = {
 //  "Alipay": "https://openapi.alipay.com/gateway.do?"
   "Alipay": "https://openapi.alipaydev.com/gateway.do?"
 }
+
+export const HAS_NEW_INTRO = 'HAS_NEW_INTRO'

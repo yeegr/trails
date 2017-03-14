@@ -7,7 +7,7 @@ import React, {
 import {
   LANG,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 import Header from './Header'
 import CommentView from './CommentView'

@@ -6,7 +6,7 @@ import React, {
 
 import {
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 const EventGroup = (props) => {
   const now = (new Date()).getTime(),

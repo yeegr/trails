@@ -16,7 +16,7 @@ import TextView from './TextView'
 import {
   LANG,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const Saving = (props) => {
   return (

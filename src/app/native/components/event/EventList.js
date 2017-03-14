@@ -12,14 +12,14 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as eventsActions from '../../redux/actions/eventsActions'
+import * as eventsActions from '../../../redux/actions/eventsActions'
 
 import EventCard from './EventCard'
 import Loading from '../shared/Loading'
 
 import {
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 class EventList extends Component {
   constructor(props) {

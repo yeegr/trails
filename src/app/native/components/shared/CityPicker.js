@@ -9,7 +9,7 @@ import Popup from './Popup'
 
 import {
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 const CityPicker = (props) => {
   const data = LANG.t('cities.byPinyin')

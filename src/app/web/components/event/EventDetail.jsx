@@ -11,8 +11,8 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../redux/actions/loginActions'
-import * as eventsActions from '../../redux/actions/eventsActions'
+import * as loginActions from '../../../redux/actions/loginActions'
+import * as eventsActions from '../../../redux/actions/eventsActions'
 
 import moment from 'moment'
 
@@ -34,7 +34,7 @@ import {
   CONSTANTS,
   LANG,
   UTIL
-} from '../../settings'
+} from '../../../../common/__'
 
 class EventDetail extends Component {
   constructor(props) {
@@ -272,7 +272,7 @@ class EventDetail extends Component {
               <ListItem
                 glyph="yuan"
                 label={LANG.t('event.FeePerHead')}
-                value={(perHead > 0) ? LANG.t('number.web', {amount: perHead}) : LANG.t('event.ExpenseFree')}
+                value={(perHead > 0) ? LANG.t('number.currency', {amount: perHead}) : LANG.t('event.ExpenseFree')}
               />
             </list>
             {(perHead > 0) ? expensesDetail : null}

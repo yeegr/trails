@@ -22,7 +22,7 @@ import {
   LANG,
   Device,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class ListEditor extends Component {
   constructor(props) {

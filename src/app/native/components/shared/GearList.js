@@ -13,7 +13,7 @@ import Gear from './Gear'
 
 import {
   Device
-} from '../../settings'
+} from '../../../../common/__'
 
 const GearList = (props) => {
   const n = 4,

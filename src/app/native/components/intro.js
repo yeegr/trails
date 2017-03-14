@@ -12,15 +12,14 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as introActions from '../redux/actions/introActions'
+import * as introActions from '../../redux/actions/introActions'
 
 import AppIntro from 'react-native-app-intro'
 
 import {
   LANG,
-  AppSettings,
   Graphics
-} from '../settings'
+} from '../../../common/__'
 
 const styles = StyleSheet.create({
   slide: {
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
 
 Intro = (props) => {
   const _exitIntro = () => {
-    props.introActions.hideIntro()
+    props.introActions.exitIntro()
   }
  
   return (
@@ -73,6 +72,7 @@ Intro = (props) => {
 }
 
 Intro.propTypes = {
+  introActions: PropTypes.object.isRequired,
   intro: PropTypes.object.isRequired
 }
 

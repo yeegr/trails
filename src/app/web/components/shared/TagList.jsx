@@ -7,7 +7,7 @@ import React, {
 import {
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const TagList = (props) => {
   if (props.tags.length < 1) {

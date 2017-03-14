@@ -14,7 +14,7 @@ import {
   LANG,
   UTIL,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 class TrailList extends Component {
   constructor(props) {

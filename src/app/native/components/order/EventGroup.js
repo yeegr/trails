@@ -17,7 +17,7 @@ import styles from '../../styles/main'
 import {
   LANG,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const EventGroup = (props) => {
   const now = (new Date()).getTime(),

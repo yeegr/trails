@@ -14,7 +14,7 @@ import Toolbar from '../shared/Toolbar'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const ActionBar = (props) => {
   return (

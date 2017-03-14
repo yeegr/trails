@@ -22,7 +22,7 @@ import {
   UTIL,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const OrderList = (props) => {
   const dataSource = new ListView.DataSource({
@@ -88,7 +88,7 @@ const OrderList = (props) => {
                 labelWidth={75}
                 styles={infoStyles}
                 label={LANG.t('order.Total')}
-                value={LANG.l('currency', order.subTotal)}
+                value={LANG.t('number.currency', {amount: order.subTotal})}
               />
               <InfoItem
                 labelWidth={75}

@@ -13,13 +13,13 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newTrailActions from '../../redux/actions/newTrailActions'
+import * as newTrailActions from '../../../redux/actions/newTrailActions'
 
 import styles from '../../styles/main'
 
 import {
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditTrailDescription extends Component {
   constructor(props) {

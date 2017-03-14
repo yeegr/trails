@@ -13,7 +13,7 @@ import Icon from './Icon'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const Stat = (props) => {
   const icon = Graphics.tinyStatus.icon

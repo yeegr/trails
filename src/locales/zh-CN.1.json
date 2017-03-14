@@ -26,13 +26,7 @@
   },
 
   "number": {
-    "currency": {
-      "format": {
-        "unit": "¥",
-        "postfix": "元"
-      }
-    },
-    "web": "¥{{amount}}",
+    "currency": "¥{{amount}}",
     "length": {
       "km": "{{length}}公里",
       "m": "{{length}}米"

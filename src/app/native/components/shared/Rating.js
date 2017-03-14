@@ -16,7 +16,7 @@ import Svg, {
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const Rating = (props) => {
   const format = (n) => {

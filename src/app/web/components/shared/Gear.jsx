@@ -8,7 +8,7 @@ import ImagePath from './ImagePath'
 
 import {
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 const Gear = (props) => {
   const backgroundImage = {backgroundImage: 'url(' + ImagePath({type: 'gear', path: 'gears/' + props.number + '.jpg'}) + ')'},

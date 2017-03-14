@@ -15,8 +15,8 @@ import * as WeChat from 'react-native-wechat'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../redux/actions/loginActions'
-import {changeTab} from '../../redux/actions/homeActions'
+import * as loginActions from '../../../redux/actions/loginActions'
+import {changeTab} from '../../../redux/actions/homeActions'
 
 import CallToAction from '../shared/CallToAction'
 import EditLink from '../shared/EditLink'
@@ -28,7 +28,7 @@ import {
   LANG,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditAccount extends Component {
   constructor(props) {

@@ -4,7 +4,7 @@ import $ from 'jquery'
 
 import {
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 const ImagePath = (props) => {
   const width = $(window).width(),

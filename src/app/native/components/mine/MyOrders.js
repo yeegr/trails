@@ -11,14 +11,14 @@ import {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as ordersActions from '../../redux/actions/ordersActions'
+import * as ordersActions from '../../../redux/actions/ordersActions'
 
 import Loading from '../shared/Loading'
 import OrderList from '../order/OrderList'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class MyOrders extends Component {
   constructor(props) {

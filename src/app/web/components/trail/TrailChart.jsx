@@ -11,7 +11,7 @@ import {
 import {
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const TrailChart = (props) => {
   const tmp = UTIL.formatTrailChartDataWeb(props.points),

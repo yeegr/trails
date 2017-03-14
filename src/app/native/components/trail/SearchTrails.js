@@ -23,7 +23,7 @@ import {
   AppSettings,
   Lang,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class SearchTrails extends Component {
   constructor(props) {

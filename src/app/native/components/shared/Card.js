@@ -14,7 +14,7 @@ import TagList from '../shared/TagList'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const Card = (props) => {
   let align = (props.align === 'bottom') ? {paddingTop: Graphics.titlebar.height, paddingBottom: 5} : null, 

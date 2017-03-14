@@ -24,7 +24,7 @@ import {
   LANG,
   UTIL,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 class TrailDetail extends Component {
   constructor(props) {

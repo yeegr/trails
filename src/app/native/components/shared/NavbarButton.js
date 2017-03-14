@@ -15,7 +15,7 @@ import TextView from './TextView'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const NavbarButton = (props) => {
   let label = (

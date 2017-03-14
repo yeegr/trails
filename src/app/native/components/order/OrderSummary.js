@@ -18,7 +18,7 @@ import {
   UTIL,
   LANG,
   Lang
-} from '../../settings'
+} from '../../../../common/__'
 
 const OrderSummary = (props) => {
   const {event, selectedGroup, signUp} = props,
@@ -56,7 +56,7 @@ const OrderSummary = (props) => {
             <InfoItem
               align={'right'}
               label={LANG.t('order.insurance.BaseRate')}
-              value={LANG.l('currency', payment.baseRate)}
+              value={LANG.t('number.currency', {amount: payment.baseRate})}
             />
             <InfoItem
               align={'right'}
@@ -93,7 +93,7 @@ const OrderSummary = (props) => {
             align={'right'} 
             label={LANG.t('order.insurance.TotalFee')}
             noColon={true}
-            value={LANG.l('currency', payment.insurance)}
+            value={LANG.t('number.currency', {amount: payment.insurance})}
           />
         </View>
       </ScrollView>

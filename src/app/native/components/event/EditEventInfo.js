@@ -14,7 +14,7 @@ import moment from 'moment'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../redux/actions/newEventActions'
+import * as newEventActions from '../../../redux/actions/newEventActions'
 
 import EditLink from '../shared/EditLink'
 
@@ -24,7 +24,7 @@ import {
   LANG,
   UTIL,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditEventInfo extends Component {
   constructor(props) {

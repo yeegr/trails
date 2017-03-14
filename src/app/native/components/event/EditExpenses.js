@@ -14,7 +14,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../redux/actions/newEventActions'
+import * as newEventActions from '../../../redux/actions/newEventActions'
 
 import EditLink from '../shared/EditLink'
 import EditRow from '../shared/EditRow'
@@ -24,7 +24,7 @@ import styles from '../../styles/main'
 
 import {
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditExpenses extends Component {
   constructor(props) {

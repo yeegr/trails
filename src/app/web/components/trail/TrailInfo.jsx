@@ -7,7 +7,7 @@ import React, {
 import {
   LANG,
   UTIL
-} from '../../settings'
+} from '../../../../common/__'
 
 const TrailInfo = (props) => {
   const title = (props.title.length < 1) ? LANG.t('trail.edit.Unnamed') : props.title

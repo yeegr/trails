@@ -12,7 +12,7 @@ import {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as ordersActions from '../../redux/actions/ordersActions'
+import * as ordersActions from '../../../redux/actions/ordersActions'
 
 import CallToAction from '../shared/CallToAction'
 import Card from '../shared/Card'
@@ -24,7 +24,7 @@ import {
   LANG,
   UTIL,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 class OrderPayment extends Component {
   constructor(props) {
@@ -111,7 +111,7 @@ class OrderPayment extends Component {
               />
               <InfoItem
                 label={LANG.t('event.PerHead')}
-                value={LANG.t('number.web', {amount: event.expenses.perHead})}
+                value={LANG.t('number.currency', {amount: event.expenses.perHead})}
               />
             </group>
           </section>
@@ -131,7 +131,7 @@ class OrderPayment extends Component {
                     align={'right'}
                     noColon={true}
                     label={signUp.name}
-                    value={LANG.t('number.web', {amount: payment.cost})}
+                    value={LANG.t('number.currency', {amount: payment.cost})}
                     more={
                       <Link className="detail" to={`events/${event._id}/${selectedGroup}/signups/${index}`}>
                         {LANG.t('order.Detail')}
@@ -148,7 +148,7 @@ class OrderPayment extends Component {
               <InfoItem
                 align={'right'} 
                 label={LANG.t('order.SubTotal')}
-                value={LANG.t('number.web', {amount: subTotal})}
+                value={LANG.t('number.currency', {amount: subTotal})}
                 more={
                   <div className="detail">
                     &emsp;&emsp;

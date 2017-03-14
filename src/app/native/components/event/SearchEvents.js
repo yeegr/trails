@@ -4,7 +4,7 @@ import {
   AppSettings,
   Lang,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 import React, {
   Component,

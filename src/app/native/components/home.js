@@ -16,8 +16,8 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {showLogin} from '../redux/actions/loginActions'
-import {changeTab} from '../redux/actions/homeActions'
+import {showLogin} from '../../redux/actions/loginActions'
+import {changeTab} from '../../redux/actions/homeActions'
 
 import AreaList from './area/AreaList'
 import EventList from './event/EventList'
@@ -30,7 +30,7 @@ import {
   LANG,
   AppSettings,
   Graphics
-} from '../settings'
+} from '../../../common/__'
 
 class Home extends Component {
   constructor(props) {

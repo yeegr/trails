@@ -10,7 +10,7 @@ import {
 
 import {
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 const AboutUs = (props) => {
   return (

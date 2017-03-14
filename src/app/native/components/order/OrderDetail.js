@@ -13,7 +13,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as eventsActions from '../../redux/actions/eventsActions'
+import * as eventsActions from '../../../redux/actions/eventsActions'
 
 import InfoItem from '../shared/InfoItem'
 import TextView from '../shared/TextView'
@@ -25,7 +25,7 @@ import {
   UTIL,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class OrderDetail extends Component {
   constructor(props) {
@@ -82,7 +82,7 @@ class OrderDetail extends Component {
                         align={'right'}
                         noColon={true}
                         label={signUp.name}
-                        value={LANG.l('currency', signUp.cost)}
+                        value={LANG.t('number.currency', {amount: signUp.cost})}
                         more={{
                           label: LANG.t('glossary.Detail'),
                           onPress: () => {
@@ -108,7 +108,7 @@ class OrderDetail extends Component {
               <View style={styles.detail.group}>
                 <InfoItem label={LANG.t('order.OrderId')} value={order._id} />
                 <InfoItem label={LANG.t('order.PayTime')} value={UTIL.getTimeFromId(order._id).format(AppSettings.defaultDateTimeFormat)} />
-                <InfoItem label={LANG.t('order.SubTotal')} value={LANG.l('currency', order.subTotal)} />
+                <InfoItem label={LANG.t('order.SubTotal')} value={LANG.t('number.currency', {amount: order.subTotal})} />
               </View>
             </View>
           </View>

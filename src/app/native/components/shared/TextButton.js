@@ -14,7 +14,7 @@ import TextView from './TextView'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const TextButton = (props) => {
   let buttonStyle = styles.button

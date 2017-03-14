@@ -13,8 +13,8 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../redux/actions/loginActions'
-import * as toolbarActions from '../../redux/actions/toolbarActions'
+import * as loginActions from '../../../redux/actions/loginActions'
+import * as toolbarActions from '../../../redux/actions/toolbarActions'
 
 import * as WeChat from 'react-native-wechat'
 
@@ -27,7 +27,7 @@ import {
   UTIL,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class Toolbar extends Component {
   constructor(props) {

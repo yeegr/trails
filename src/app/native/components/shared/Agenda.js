@@ -20,7 +20,7 @@ import TextView from './TextView'
 import {
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const Agenda = (props) => {
   const agenda = props.agenda,

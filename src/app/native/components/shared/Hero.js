@@ -15,7 +15,7 @@ import ImagePath from '../shared/ImagePath'
 
 import {
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const Hero = (props) => {
   const uri = ImagePath({type: 'hero', path: props.imageUri})

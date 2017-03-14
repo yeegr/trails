@@ -14,7 +14,7 @@ import TextView from './TextView'
 
 import {
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 const DayList = (props) => {
   const nav = (day, index, agenda) => {

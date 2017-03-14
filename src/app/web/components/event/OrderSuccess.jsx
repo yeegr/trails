@@ -13,7 +13,7 @@ import {
   UTIL,
   LANG,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 class OrderSuccess extends Component {
   constructor(props) {

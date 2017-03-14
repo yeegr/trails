@@ -14,7 +14,7 @@ import TextView from './TextView'
 import {
   LANG,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const InputItem = (props) => {
   const inputStyle = (props.inputStyle) ? styles[props.inputStyle] : null

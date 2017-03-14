@@ -25,7 +25,7 @@ import {
   UTIL,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class EventManager extends Component {
   constructor(props) {

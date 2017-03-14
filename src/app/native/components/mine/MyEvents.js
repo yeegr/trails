@@ -18,8 +18,8 @@ import moment from 'moment'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as eventsActions from '../../redux/actions/eventsActions'
-import * as newEventActions from '../../redux/actions/newEventActions'
+import * as eventsActions from '../../../redux/actions/eventsActions'
+import * as newEventActions from '../../../redux/actions/newEventActions'
 
 import ImagePath from '../shared/ImagePath'
 import InfoItem from '../shared/InfoItem'
@@ -32,7 +32,7 @@ import {
   LANG,
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class MyEvents extends Component {
   constructor(props) {
@@ -125,7 +125,7 @@ class MyEvents extends Component {
             labelWidth={75}
             styles={infoStyles}
             label={LANG.t('event.FeePerHead')}
-            value={LANG.l('currency', event.expenses.perHead)}
+            value={LANG.t('number.currency', {amount: event.expenses.perHead})}
           />
         </View>
       ) : (
@@ -140,7 +140,7 @@ class MyEvents extends Component {
             labelWidth={75}
             styles={infoStyles}
             label={LANG.t('event.EventIncome')}
-            value={LANG.l('currency', event.total)}
+            value={LANG.t('number.currency', {amount: event.total})}
           />
         </View>
       )

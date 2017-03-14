@@ -7,15 +7,17 @@ import React, {
 
 import {
   Alert,
+  AsyncStorage,
   Navigator,
   ScrollView,
   View,
 } from 'react-native'
 
 import {connect} from 'react-redux'
-import * as loginActions from '../redux/actions/loginActions'
-import * as newTrailActions from '../redux/actions/newTrailActions'
-import * as newEventActions from '../redux/actions/newEventActions'
+import * as loginActions from '../../redux/actions/loginActions'
+import * as introActions from '../../redux/actions/introActions'
+import * as newTrailActions from '../../redux/actions/newTrailActions'
+import * as newEventActions from '../../redux/actions/newEventActions'
 
 import Home from './home'
 import Login from './login'
@@ -104,7 +106,9 @@ import {
   UTIL,
   AppSettings,
   Graphics
-} from '../settings'
+} from '../../../common/__'
+
+import Device from '../device'
 
 import styles from '../styles/main'
 
@@ -454,13 +458,16 @@ class App extends Component {
   }
 
   componentWillMount() {
+    AppSettings.device = Device
+    AppSettings.storageEngine = AsyncStorage
+    AppSettings.storageType = CONSTANTS.STORAGE_TYPES.ASYNC
     AppSettings.currentCity = '010'
   }
 
   componentDidMount() {
+    this.props.dispatch(introActions.toggleIntro())
     this.props.dispatch(loginActions.isLoggedIn())
     //this.fetchSettings()
-    //this.fetchUser(token)
   }
 
   fetchSettings() {
@@ -476,10 +483,14 @@ class App extends Component {
 
   render() {
     let {state} = this.props,
-      {login} = state
+      {login, intro} = state,
+      appIntro = (intro.showIntro) ? (
+        null //<Intro />
+      ) : null
 
     return (
       <View style={{flex: 1}}>
+        {appIntro}
         <Navigator
           debugOverlay={false}
           style={{flex: 1}}
@@ -1066,7 +1077,6 @@ class App extends Component {
 
 App.propTypes = {
   selectedTab: PropTypes.string.isRequired,
-  showIntro: PropTypes.bool.isRequired,
   state: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 }
@@ -1074,18 +1084,14 @@ App.propTypes = {
 function mapStateToProps(state, ownProps) {
   return {
     selectedTab: state.home.selectedTab,
-    showIntro: state.intro.showIntro,
     state
   }
 }
 
-/*
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch: dispatch,
-    loginActions: bindActionCreators(loginActions, dispatch)
+    dispatch: dispatch
   }
 }
-*/
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

@@ -18,7 +18,7 @@ import global from '../../styles/global'
 import {
   CONSTANTS,
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 const PostCard = (props) => {
   const data = props.data,

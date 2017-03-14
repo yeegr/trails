@@ -29,7 +29,7 @@ import {
   AppSettings,
   Lang,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class SearchPoi extends Component {
   constructor(props) {

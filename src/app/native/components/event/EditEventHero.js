@@ -18,14 +18,14 @@ import ImagePicker from 'react-native-image-picker'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../redux/actions/newEventActions'
+import * as newEventActions from '../../../redux/actions/newEventActions'
 
 import ImagePath from '../shared/ImagePath'
 
 import {
   CONSTANTS,
   Lang
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditEventHero extends Component {
   constructor(props) {

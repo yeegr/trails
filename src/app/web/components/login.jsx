@@ -7,7 +7,7 @@ import React, {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../redux/actions/loginActions'
+import * as loginActions from '../../redux/actions/loginActions'
 
 import ImagePath from './shared/ImagePath'
 import Modal from './shared/Modal'
@@ -16,7 +16,7 @@ import {
   CONSTANTS,
   LANG,
   AppSettings
-} from '../settings'
+} from '../../../common/__'
 
 class Login extends Component {
   constructor(props) {

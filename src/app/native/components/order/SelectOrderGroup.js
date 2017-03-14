@@ -24,7 +24,7 @@ import {
   LANG,
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class SelectOrderGroup extends Component {
   constructor(props) {

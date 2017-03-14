@@ -11,7 +11,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as postsActions from '../../redux/actions/postsActions'
+import * as postsActions from '../../../redux/actions/postsActions'
 
 import Card from '../shared/Card'
 import Loading from '../shared/Loading'
@@ -28,7 +28,7 @@ import {
   CONSTANTS,
   AppSettings,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class PostDetail extends Component {
   constructor(props) {

@@ -11,7 +11,7 @@ import {
 import {
   CONSTANTS,
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 import AvatarList from '../shared/AvatarList'
 import Hero from '../shared/Hero'

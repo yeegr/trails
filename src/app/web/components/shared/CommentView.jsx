@@ -8,7 +8,7 @@ import Avatar from './Avatar'
 
 import {
   UTIL
-} from '../../settings'
+} from '../../../../common/__'
 
 const CommentView = (props) => {
   const comment = props.comment, 

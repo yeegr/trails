@@ -13,8 +13,8 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as newEventActions from '../../redux/actions/newEventActions'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as newEventActions from '../../../redux/actions/newEventActions'
+import * as loginActions from '../../../redux/actions/loginActions'
 
 import CallToAction from '../shared/CallToAction'
 import EditLink from '../shared/EditLink'
@@ -28,7 +28,7 @@ import {
   LANG,
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class EditEvent extends Component {
   constructor(props) {
@@ -193,7 +193,7 @@ class EditEvent extends Component {
               required={true}
               validated={(event.expenses.perHead !== null && event.expenses.perHead > -1)}
               onPress={() => this._nextPage('expenses')}
-              value={LANG.l('currency', event.expenses.perHead)}
+              value={LANG.t('number.currency', {amount: event.expenses.perHead})}
             />
           </View>
           <View style={styles.editor.group}>

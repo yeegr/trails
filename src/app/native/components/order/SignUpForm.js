@@ -24,7 +24,7 @@ import styles from '../../styles/main'
 import {
   LANG,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class SignUpForm extends Component {
   constructor(props) {

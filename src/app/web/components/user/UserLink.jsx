@@ -12,7 +12,7 @@ import Avatar from '../shared/Avatar'
 
 import {
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 const UserLink = (props) => {
   const {user} = props

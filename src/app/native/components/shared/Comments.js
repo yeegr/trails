@@ -14,8 +14,8 @@ import KeyboardSpacer from 'react-native-keyboard-spacer'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as commentsActions from '../../redux/actions/commentsActions'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as commentsActions from '../../../redux/actions/commentsActions'
+import * as loginActions from '../../../redux/actions/loginActions'
 
 import Loading from './Loading'
 import InputBar from './InputBar'
@@ -27,7 +27,7 @@ import styles from '../../styles/main'
 import {
   LANG,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class Comments extends Component {
   constructor(props) {

@@ -11,7 +11,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as ordersActions from '../../redux/actions/ordersActions'
+import * as ordersActions from '../../../redux/actions/ordersActions'
 
 import CallToAction from '../shared/CallToAction'
 import Card from '../shared/Card'
@@ -24,7 +24,7 @@ import {
   LANG,
   UTIL,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 class OrderEvent extends Component {
   constructor(props) {
@@ -143,7 +143,7 @@ class OrderEvent extends Component {
               />
               <InfoItem
                 label={LANG.t('event.PerHead')}
-                value={LANG.t('number.web', {amount: event.expenses.perHead})}
+                value={LANG.t('number.currency', {amount: event.expenses.perHead})}
               />
             </group>
           </div>

@@ -30,7 +30,7 @@ import {
   AppSettings,
   Device,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 class OrderEvent extends Component {
   constructor(props) {
@@ -163,7 +163,7 @@ class OrderEvent extends Component {
                 />
                 <InfoItem
                   label={LANG.t('event.PerHead')}
-                  value={LANG.l('currency', event.expenses.perHead)}
+                  value={LANG.t('number.currency', {amount: event.expenses.perHead})}
                 />
               </View>
             </View>

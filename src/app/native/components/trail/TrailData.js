@@ -15,7 +15,7 @@ import {
   LANG,
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 const TrailData = (props) => {
   const stack = 'vertical'

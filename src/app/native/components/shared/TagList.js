@@ -11,7 +11,7 @@ import {
 import {
   UTIL,
   Graphics
-} from '../../settings'
+} from '../../../../common/__'
 
 import TextView from './TextView'
 

@@ -11,7 +11,7 @@ import {
   CONSTANTS,
   UTIL,
   AppSettings
-} from '../../settings'
+} from '../../../../common/__'
 
 import Card from '../shared/Card'
 import Hero from '../shared/Hero'

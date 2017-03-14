@@ -15,7 +15,7 @@ import styles from '../../styles/main'
 
 import {
   LANG
-} from '../../settings'
+} from '../../../../common/__'
 
 const TrailPreview = (props) => {
   const navigator = props.navigator,
