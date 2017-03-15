@@ -420,3 +420,7 @@ export function getFileExtension(filename) {
 export function getScreenOrientation() {
   return (window.innerHeight > window.innerWidth) ? 'portrait' : 'landscape'
 }
+
+export function calculateGridLength(wrapperWidth, columnNumber, margin) {
+  return Math.floor((wrapperWidth - margin * (columnNumber + 1)) / columnNumber)
+}

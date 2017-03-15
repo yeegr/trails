@@ -12,13 +12,13 @@ import {
 import Gear from './Gear'
 
 import {
-  Device
+  UTIL,
+  AppSettings
 } from '../../../../common/__'
 
 const GearList = (props) => {
-  const n = 4,
-    margin = 15,
-    sideLength = Math.floor((Device.width - margin * (n + 1)) / n)
+  const margin = 15,
+    sideLength = UTIL.calculateGridLength(AppSettings.device.width, 4, margin)
 
   return (
     <View style={styles.wrapper}>

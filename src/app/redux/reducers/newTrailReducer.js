@@ -89,7 +89,7 @@ newTrailReducer = (state = initState, action) => {
     case ACTIONS.SET_TO_PUBLIC:
       return Object.assign({}, state, {
         isPublic: true,
-        status: 'pending'
+        status: 'approved'
       })
 
     case ACTIONS.SET_TRAIL_TITLE:

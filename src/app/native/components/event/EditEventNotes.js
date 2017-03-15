@@ -20,6 +20,7 @@ import styles from '../../styles/main'
 class EditEventNotes extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       notes: this.props.notes
     }
@@ -31,7 +32,7 @@ class EditEventNotes extends Component {
 
   render() {
     return (
-      <View style={styles.editor.scroll}>
+      <View style={styles.editor.list}>
         <ListEditor
           list={this.state.notes}
         />

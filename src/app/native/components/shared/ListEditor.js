@@ -20,7 +20,7 @@ import TextView from './TextView'
 
 import {
   LANG,
-  Device,
+  AppSettings,
   Graphics
 } from '../../../../common/__'
 
@@ -44,7 +44,7 @@ class ListEditor extends Component {
 
     this.multiline = (this.props.type !== 'tag' && this.props.type !== 'article')
     this.numberOfLines = (this.props.type === 'tag') ? 1 : 2
-    this.wrapperHeight = Device.height
+    this.wrapperHeight = AppSettings.device.height
     this.contentHeight = 0
   }
 

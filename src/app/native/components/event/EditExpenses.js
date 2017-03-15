@@ -31,9 +31,11 @@ class EditExpenses extends Component {
     super(props)
     this._nextPage = this._nextPage.bind(this)
 
+    let {perHead, deposit} = this.props.expenses
+
     this.state = {
-      perHead: this.props.expenses.perHead.toString() || '',
-      deposit: this.props.expenses.deposit.toString() || ''
+      perHead: (perHead === 0) ? '' : perHead.toString(),
+      deposit: (deposit === 0) ? '' : deposit.toString()
     }
   }
 
@@ -91,11 +93,13 @@ class EditExpenses extends Component {
                     onChangeText={(value) => this.setState({perHead: value})}
                   />
                   <TextView
-                    text={LANG.t('number.currency.format.postfix')}
+                    text={LANG.t('number.currency_postfix')}
                   />
                 </View>
               }
             />
+          </View>
+          <View style={styles.editor.group}>
             <EditRow
               label={LANG.t("event.edit.IncludeInsurance")}
               input={

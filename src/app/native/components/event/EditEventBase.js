@@ -182,7 +182,7 @@ class EditEventBase extends Component {
         </ScrollView>
         <CityPicker 
           visible={this.state.showCityPicker}
-          selectedIndex={event.city} 
+          selectedIndex={event.city}
           onPress={(value) => this._setCity(value)}
           onCancel={() => this.setState({showCityPicker: false})}
         />

@@ -22,8 +22,8 @@ import styles from '../../styles/main'
 
 import {
   LANG,
+  UTIL,
   AppSettings,
-  Device,
   Graphics
 } from '../../../../common/__'
 
@@ -64,8 +64,8 @@ class EditGearImages extends Component {
 
   render() {
     const {selected} = this.state,
-      marginRight = 15,
-      sideLength = Math.floor((Device.width - marginRight * 6) / 5)
+      margin = 15,
+      sideLength = UTIL.calculateGridLength(AppSettings.device.width, 5, margin)
 
     return (
       <View style={styles.editor.list}>
@@ -84,7 +84,7 @@ class EditGearImages extends Component {
                   <Gear
                     number={value}
                     sideLength={sideLength}
-                    marginRight={marginRight}
+                    margin={margin}
                   />
                 </TouchableOpacity>
               )
@@ -104,10 +104,11 @@ class EditGearImages extends Component {
             {
               AppSettings.gearList.map((value, index) => {
                 return (selected.indexOf(value) < 0) ? (
-                  <TouchableOpacity key={index} onPress={() => this._select(value)} style={{marginRight}}>
+                  <TouchableOpacity key={index} onPress={() => this._select(value)}>
                     <Gear
                       number={value}
                       sideLength={sideLength}
+                      margin={margin}
                     />
                   </TouchableOpacity>
                 ) : null

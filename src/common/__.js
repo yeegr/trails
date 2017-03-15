@@ -34,7 +34,7 @@ AppSettings.baseUri = servers.WEB_SERVER + '#/'
 AppSettings.apiUri = servers.API_SERVER
 AppSettings.assetUri = servers.ASSET_SERVER
 
-AppSettings.paymentMethods = LANG.t('order.paymentMethods')
+AppSettings.paymentMethods = LANG.t('order.paymentMethods', {returnObjects: true})
 
 export let Graphics = require('./graphics.json')
 Graphics.page = {}

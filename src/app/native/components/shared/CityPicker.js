@@ -12,7 +12,7 @@ import {
 } from '../../../../common/__'
 
 const CityPicker = (props) => {
-  const data = LANG.t('cities.byPinyin')
+  const data = LANG.t('cities.byPinyin', {returnObjects: true})
 
   return (
     <Popup

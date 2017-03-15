@@ -28,7 +28,6 @@ import {
   LANG,
   UTIL,
   AppSettings,
-  Device,
   Graphics
 } from '../../../../common/__'
 
@@ -54,7 +53,7 @@ class OrderEvent extends Component {
       }]
     }
 
-    this.initY = Device.height
+    this.initY = AppSettings.device.height
   }
 
   _addSignUp() {

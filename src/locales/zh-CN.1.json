@@ -27,6 +27,7 @@
 
   "number": {
     "currency": "¥{{amount}}",
+    "currency_postfix": "元",
     "length": {
       "km": "{{length}}公里",
       "m": "{{length}}米"

@@ -5,7 +5,6 @@ import React, {
 } from 'react'
 
 import {
-  ScrollView,
   Slider,
   View
 } from 'react-native'
@@ -25,7 +24,7 @@ import {
 const EditEventDifficulty = (props) => {
   return (
     <View style={styles.global.wrapper}>
-      <ScrollView style={styles.editor.scroll}>
+      <View style={styles.editor.scroll}>
         <View style={styles.editor.group}>
           <View style={[styles.editor.row, {paddingVertical: 10}]}>
             <Slider
@@ -42,7 +41,7 @@ const EditEventDifficulty = (props) => {
             />
           </View>
         </View>
-      </ScrollView>
+      </View>
     </View>
   )
 }
