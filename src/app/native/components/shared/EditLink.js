@@ -57,7 +57,7 @@ const EditLink = (props) => {
   }
 
   const textColor = (props.validated) ? Graphics.colors.primary : (
-    (props.required) ? Graphics.textColors.required : Graphics.textColors.foreground
+    Graphics.textColors[(props.required) ? 'required' : 'foreground']
   ) 
 
   return (

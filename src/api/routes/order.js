@@ -2,20 +2,43 @@ const mongoose = require('mongoose'),
   moment = require('moment'),
   fs = require('fs'),
   crypto = require('crypto'),
+  md5 = require('md5'),
+  JSON2XML = require('js2xmlparser'),
   CONST = require('../const'),
   UTIL = require('../util'),
   User = require('../models/user'),
   Order = require('../models/order'),
-  privateKey = fs.readFileSync('./rsa_private_key.pem').toString()
+  AlipayPrivateKey = fs.readFileSync('./rsa_private_key.pem').toString()
 
 mongoose.Promise = global.Promise
 
-const Alipay = {
+const formatPaymentString = (order) => {
+  let arr = [],
+    str = ''
+
+  for (let key in order) {
+    arr.push({
+      key,
+      value: order[key]
+    })
+  }
+
+  arr.sort((a, b) => {
+    return (a.key > b.key)
+  })
+
+  for (let i = 0, j = arr.length; i < j; i++) {
+    str += '&' + arr[i].key + '=' + arr[i].value
+  }
+
+  return str.substring(1)
+},
+Alipay = {
   assemblePaymentString(order) {
     let bizContent = Object.assign({}, CONST.Alipay[order.type].bizContent, {
         body: order.body,
         subject: order.title,
-        out_trade_no: order.id,
+        out_trade_no: order._id,
         total_amount: order.subTotal.toString(),
         auth_token: order.auth_token || '',
         passback_params: order.passback_params || '',
@@ -27,26 +50,9 @@ const Alipay = {
       pubContent = Object.assign({}, CONST.Alipay[order.type].pubContent, {
         timestamp: moment(UTIL.getTimeFromId(order._id)).format('YYYY-MM-DD hh:mm:ss'),
         biz_content: JSON.stringify(bizContent)
-      }),
-      arr = [],
-      str = ''
-
-    for (let key in pubContent) {
-      arr.push({
-        key,
-        value: pubContent[key]
       })
-    }
-
-    arr.sort((a, b) => {
-      return (a.key > b.key)
-    })
-
-    for (let i = 0, j = arr.length; i < j; i++) {
-      str += '&' + arr[i].key + '=' + arr[i].value
-    }
-
-    return str.substring(1)
+      
+    return formatPaymentString(pubContent)
   },
 
   pay(order) {
@@ -54,7 +60,7 @@ const Alipay = {
       str = this.assemblePaymentString(order)
 
     sign.update(str)
-    let signedStr = sign.sign(privateKey, 'base64')
+    let signedStr = sign.sign(AlipayPrivateKey, 'base64')
 
     return str + '&sign=' + encodeURIComponent(signedStr)
   },
@@ -66,6 +72,30 @@ const Alipay = {
       appCheck = (CONST.Alipay[order.type].pubContent.app_id === response.app_id)
 
     return idCheck && paymentCheck && sellerCheck && appCheck
+  }
+},
+WeChatPay = {
+  assemblePaymentString(order) {
+    let orderContent = Object.assign({}, CONST.WeChatPay[order.type].orderContent, {
+        nonce_str: '',
+        body: order.title,
+        out_trade_no: order._id,
+        total_fee: Math.round(order.subTotal * 100),
+        spbill_create_ip: order.ip
+      })
+
+    return formatPaymentString(orderContent)
+  },
+
+  pay(order) {
+    let str = this.assemblePaymentString(order)
+    order.sign = md5(str)
+
+    return JSON2XML(order)
+  },
+
+  verify(order, response) {
+
   }
 }
   
@@ -93,7 +123,7 @@ module.exports = (app) => {
       str = '{"a":"123"}'
 
     sign.update(str)
-    let signedStr = sign.sign(privateKey, 'base64')
+    let signedStr = sign.sign(AlipayPrivateKey, 'base64')
 
     res.status(200).send(encodeURIComponent(signedStr))
   })
@@ -115,7 +145,17 @@ module.exports = (app) => {
     .then((data) => {
       if (data) {
         let tmp = JSON.parse(JSON.stringify(data))
-        tmp.Alipay = Alipay.pay(data)
+
+        switch (tmp.method) {
+          case 'Alipay':
+            tmp.Alipay = Alipay.pay(data)
+          break
+
+          case 'WeChatPay':
+            tmp.WeChatPay = WeChatPay.pay(data)
+          break
+        }
+
         res.status(201).json(tmp)
       }
     })

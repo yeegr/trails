@@ -1,5 +1,6 @@
 {
   "info": {
+    "shitulv": "识途驴",
     "icp": "京ICP备17011684号",
     "copyright": "© 2017 北京毅跑信息技术有限公司"
   },
@@ -50,7 +51,15 @@
   "navbar": {
     "Back": "返回",
     "Search": "搜索",
-    "Add": "添加"
+    "Add": "添加",
+    "menu": {
+      "Menu": "菜单",
+      "Home": "首页",
+      "Close": "关闭",
+      "AboutUs": "关于我们",
+      "LoginSignup": "登录/注册",
+      "Mine": "我的"
+    }
   },
 
   "intro": {
@@ -286,6 +295,10 @@
       {
         "label":"支付宝",
         "value":"Alipay"
+      },
+      {
+        "label":"微信支付",
+        "value":"WeChatPay"
       }
     ],
 

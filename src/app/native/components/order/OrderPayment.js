@@ -10,8 +10,9 @@ import {
   View,
 } from 'react-native'
 
-import Alipay from 'react-native-yunpeng-alipay'
 import ParallaxView from 'react-native-parallax-view'
+import Alipay from 'react-native-yunpeng-alipay'
+import WeChat from 'react-native-wechat'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -53,6 +54,7 @@ class OrderPayment extends Component {
     let {order} = nextProps
 
     if (this.props.order === null && order !== null && order.subTotal > 0 && order.status === 'pending') {
+      console.log(order)
       this.setState({isPaying: false})
       this._pay(order)
     } else if (order !== null && order.status === 'success') {
@@ -97,17 +99,25 @@ class OrderPayment extends Component {
   }
 
   _pay(order) {
-    Alipay
-    .pay(order.Alipay)
-    .then((data) => {
-      let result = {}
-      result.result = JSON.parse(data[0].result)
-      result.resultStatus = data[0].resultStatus
-      result.method = this.props.order.method
-      this.props.ordersActions.updateOrder(result)
-    }, (err) => {
-      console.log(err)
-    })
+    switch (order.method) {
+      case 'Alipay':
+        Alipay
+        .pay(order.Alipay)
+        .then((data) => {
+          let result = {}
+          result.result = JSON.parse(data[0].result)
+          result.resultStatus = data[0].resultStatus
+          result.method = this.props.order.method
+          this.props.ordersActions.updateOrder(result)
+        }, (err) => {
+          console.log(err)
+        })
+      break
+
+      case 'WeChatPay':
+        console.log(order)
+      break
+    }
   }
 
   render() {
@@ -130,12 +140,43 @@ class OrderPayment extends Component {
                 type={'checkmark'}
               />
             ) : null
+            
+            let paymentIcon = null
+
+            switch (method.value) {
+              case 'Alipay':
+                paymentIcon = (
+                  <Icon 
+                    backgroundColor={Graphics.colors.transparent} 
+                    fillColor={Graphics.colors.alipay} 
+                    sideLength={24}
+                    path={Graphics.pictograms.alipay}
+                  />
+                )
+              break
+
+              case 'WeChatPay':
+                paymentIcon = (
+                  <Icon 
+                    backgroundShape={'rsquare'}
+                    backgroundColor={Graphics.colors.wechat}
+                    fillColor={Graphics.colors.white} 
+                    sideLength={24}
+                    path={Graphics.pictograms.wechat}
+                  />
+                )
+              break
+            }
 
             return (
               <TouchableOpacity 
                 key={index} 
-                onPress={() => this.setState({paymentMethod: method.value})}>
-                <View style={[styles.editor.link, {}]}>
+                onPress={() => this.setState({paymentMethod: method.value})}
+              >
+                <View style={styles.editor.link}>
+                  <View style={styles.editor.icon}>
+                    {paymentIcon}
+                  </View>
                   <View style={styles.editor.label}>
                     <TextView text={method.label} />
                   </View>

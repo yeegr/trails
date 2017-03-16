@@ -5,6 +5,9 @@ import React, {
   PropTypes
 } from 'react'
 
+import {connect} from 'react-redux'
+import * as loginActions from '../../redux/actions/loginActions'
+
 import Nav from './nav'
 import Footer from './footer'
 import Login from './login'
@@ -27,6 +30,10 @@ class App extends Component {
     AppSettings.storageType = CONSTANTS.STORAGE_TYPES.LOCAL
     AppSettings.currentCity = '010'
   }
+
+  componentDidMount() {
+    this.props.dispatch(loginActions.isLoggedIn())
+  }
   
   render() {
     return (
@@ -45,7 +52,20 @@ class App extends Component {
 }
 
 App.propTypes = {
-  children: PropTypes.object.isRequired
+  children: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
-export default App
+function mapStateToProps(state, ownProps) {
+  return {
+    state
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch: dispatch
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

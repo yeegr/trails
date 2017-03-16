@@ -55,44 +55,58 @@ class Nav extends Component {
   }
 
   render() {
+    let loginButton = (this.props.user) ? (
+      <Link to={'/'}>
+        {LANG.t('navbar.menu.Mine')}
+      </Link>
+    ) : (
+      <button onClick={this.props.loginActions.showLogin}>
+        {LANG.t('navbar.menu.LoginSignup')}
+      </button>
+    )
+
     return (
       <nav>
         <toolbar>
           <button id="menuBtn" onClick={this._showMenu}>
-            轨迹
+            {LANG.t('navbar.menu.Menu')}
           </button>
           <menu style={{display: this.state.showMenu}}>
             <nav>
-              <toolbar></toolbar>
-              <title>菜单</title>
+              <toolbar />
+              <title>{LANG.t('navbar.menu.Menu')}</title>
               <toolbar>
                 <button onClick={this._hideMenu}>
-                  关闭
+                  {LANG.t('navbar.menu.Close')}
                 </button>
               </toolbar>              
             </nav>
             <ul>
               <li>
-                <Link to={'/areas'}>
+                <Link to={'/'} onClick={this._hideMenu}>
+                  {LANG.t('navbar.menu.Home')}
+                </Link>
+                <Link to={'/areas'} onClick={this._hideMenu}>
                   {LANG.t('trail.trail_plural')}
                 </Link>
-                <Link to={'/events'}>
+                <Link to={'/events'} onClick={this._hideMenu}>
                   {LANG.t('event.event_plural')}
                 </Link>
-                <Link to={'/posts'}>
+                <Link to={'/posts'} onClick={this._hideMenu}>
                   {LANG.t('post.post_plural')}
+                </Link>
+                <Link to={'/about'} onClick={this._hideMenu}>
+                  {LANG.t('navbar.menu.AboutUs')}
                 </Link>
               </li>
             </ul>
           </menu>
         </toolbar>
         <title>
-          page title
+          {LANG.t('info.shitulv')}
         </title>
         <toolbar>
-          <button onClick={this.props.loginActions.showLogin}>
-            登录/注册
-          </button>
+          {loginButton}
         </toolbar>
       </nav>    
     )
@@ -100,7 +114,8 @@ class Nav extends Component {
 }
 
 Nav.propTypes = {
-  loginActions: PropTypes.object.isRequired
+  loginActions: PropTypes.object.isRequired,
+  user: PropTypes.object
 }
 
 function mapStateToProps(state, ownProps) {

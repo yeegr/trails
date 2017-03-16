@@ -68,6 +68,20 @@ module.exports = {
     vcode: '1234'
   },
 
+  "WeChatPay": {
+    "APP": {
+      "orderContent": {
+        "appid": "wx6e8a3e1b87c11294",
+        "mch_id": "1446937302",
+        "trade_type": "APP",
+        "fee_type": "CNY",
+        "device_info": "WEB",
+        "sign_type": "MD5",
+        "notify_url": "http://139.129.200.88/wechat/notify"
+      }
+    }
+  },
+
   "Alipay": {
     "APP": {
       "pubContent": {

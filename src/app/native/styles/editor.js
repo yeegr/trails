@@ -40,6 +40,9 @@ export default StyleSheet.create({
     justifyContent: 'center',
     padding: 15,
   },
+  icon: {
+    marginRight: 2
+  },
   link: {
     alignItems: 'center',
     borderTopWidth: 0,

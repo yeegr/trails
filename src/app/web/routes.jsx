@@ -25,30 +25,26 @@ import Gallery from './components/shared/Gallery'
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Home} />
-    <Route path="about" component={About} />
+    <Route path="/about" component={About} />
 
-    <Route path="/areas" component={AreaList}>
-      <Route path="/areas/:id" component={AreaDetail}>
+    <Route path="/areas" component={AreaList} />
+      <Route path="/areas/:id" component={AreaDetail} />
         <Route path="/areas/:id/gallery" component={Gallery} />
-      </Route>
-    </Route>
 
-      <Route path="/events/:id" component={EventDetail}>
+      <Route path="/events/:id" component={EventDetail} />
         <Route path="/events/:id/gallery" component={Gallery} />
 
         <Route path="/events/:id/select" component={SelectOrderGroup} />
+
         <Route path="/events/:id/:selectedGroup/order" component={OrderEvent} />
         <Route path="/events/:id/:selectedGroup/signups/:selectedSignUp" component={OrderSummary} />
         <Route path="/events/:id/:selectedGroup/payment" component={OrderPayment} />
         <Route path="/events/:id/:selectedGroup/success" component={OrderSuccess} />
-      </Route>
 
-      <Route path="/posts/:id" component={PostDetail}>
+      <Route path="/posts/:id" component={PostDetail} />
         <Route path="/posts/:id/gallery" component={Gallery} />
-      </Route>
 
-    <Route path="/trails/:id" component={TrailDetail}>
-      <Route path="/trails/:id/gallery" component={Gallery} />
-    </Route>
+      <Route path="/trails/:id" component={TrailDetail} />
+        <Route path="/trails/:id/gallery" component={Gallery} />
   </Route>
 )

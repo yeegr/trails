@@ -48,6 +48,8 @@ export const createOrder = (order) => {
     body: JSON.stringify(order)
   })
 
+  console.log(order)
+
   return (dispatch) => {
     dispatch(createOrderRequest())
 
@@ -56,6 +58,7 @@ export const createOrder = (order) => {
         return res.json()
       })
       .then((res) => {
+        console.log(res)
         if (res._id) {
           dispatch(loginActions.reloadUser())
           dispatch(createOrderSuccess(res))

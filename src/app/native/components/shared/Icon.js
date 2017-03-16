@@ -11,6 +11,7 @@ import {
 
 import Svg, {
   Circle,
+  Rect,
   Path
 } from 'react-native-svg'
 
@@ -55,13 +56,34 @@ const Icon = (props) => {
         textColor={valueColor}
         text={props.value.toString()}
       />
-    ) : null
+    ) : null,
+    shape = null
+
+    switch (props.backgroundShape) {
+      case 'square':
+        shape = (
+          <Rect x="3" y="3" width={sideLength - 6} height={sideLength - 6} fill={backgroundColor} />
+        )
+      break
+
+      case 'rsquare':
+        shape = (
+          <Rect x="3" y="3" width={sideLength - 6} height={sideLength - 6} fill={backgroundColor} rx={2} ry={2} />
+        )
+      break
+
+      default:
+        shape = (
+          <Circle cx={radius} cy={radius} r={radius} fill={backgroundColor} />
+        )
+      break
+    }
 
   return (
     <View style={buttonStyles}>
-      <View style={{height: sideLength, width: sideLength}}>
+      <View style={{borderRadius: 5, height: sideLength, width: sideLength}}>
         <Svg width={sideLength} height={sideLength}>
-          <Circle cx={radius} cy={radius} r={radius} fill={backgroundColor} />
+          {shape}
           <Path x={margin} y={margin} scale={scale} fill={fillColor} d={path} />
         </Svg>
       </View>
@@ -121,6 +143,7 @@ Icon.propTypes = {
   viewBox: PropTypes.number,
   scale: PropTypes.number,
   path: PropTypes.string,
+  backgroundShape: PropTypes.string,
   backgroundColor: PropTypes.string,
   fillColor: PropTypes.string,
   labelColor: PropTypes.string,
