@@ -3,7 +3,6 @@ const mongoose = require('mongoose'),
   fs = require('fs'),
   crypto = require('crypto'),
   md5 = require('md5'),
-  JSON2XML = require('js2xmlparser'),
   CONST = require('../const'),
   UTIL = require('../util'),
   User = require('../models/user'),
@@ -35,7 +34,7 @@ const formatPaymentString = (order) => {
 },
 Alipay = {
   assemblePaymentString(order) {
-    let bizContent = Object.assign({}, CONST.Alipay[order.type].bizContent, {
+    let bizContent = Object.assign({}, CONST.Alipay[order.channel].bizContent, {
         body: order.body,
         subject: order.title,
         out_trade_no: order._id,
@@ -47,7 +46,7 @@ Alipay = {
         disable_pay_channels: order.disable_pay_channels || '',
         store_id: order.store_id || ''
       }),
-      pubContent = Object.assign({}, CONST.Alipay[order.type].pubContent, {
+      pubContent = Object.assign({}, CONST.Alipay[order.channel].pubContent, {
         timestamp: moment(UTIL.getTimeFromId(order._id)).format('YYYY-MM-DD hh:mm:ss'),
         biz_content: JSON.stringify(bizContent)
       })
@@ -68,30 +67,62 @@ Alipay = {
   verify(order, response) {
     let idCheck = (order._id.toString() === response.out_trade_no),
       paymentCheck = (order.subTotal.toString() === response.total_amount),
-      sellerCheck = (CONST.Alipay[order.type].bizContent.seller_id === response.seller_id),
-      appCheck = (CONST.Alipay[order.type].pubContent.app_id === response.app_id)
+      sellerCheck = (CONST.Alipay[order.channel].bizContent.seller_id === response.seller_id),
+      appCheck = (CONST.Alipay[order.channel].pubContent.app_id === response.app_id)
 
     return idCheck && paymentCheck && sellerCheck && appCheck
   }
 },
 WeChatPay = {
   assemblePaymentString(order) {
-    let orderContent = Object.assign({}, CONST.WeChatPay[order.type].orderContent, {
-        nonce_str: '',
-        body: order.title,
+
+    console.log('init')
+    console.log(order)
+    
+    let orderContent = Object.assign({}, CONST.WeChatPay[order.channel].orderContent, {
+        nonce_str: UTIL.generateRandomString(32),
+        body: '识途驴-' + order.title + '-' + order.type,
         out_trade_no: order._id,
-        total_fee: Math.round(order.subTotal * 100),
+        total_fee: Math.floor(order.subTotal * 100),
         spbill_create_ip: order.ip
+      }),
+      detail = []
+
+    console.log('pre detail')
+    console.log(orderContent)
+
+    order.signUps.map((signUp) => {
+      let tmp = {
+        goods_id: order.event,
+        goods_name: order.title,
+        quantity: 1,
+        price: signUp.payment.cost * 100,
+        body: signUp.name + ' | ' + signUp.mobile.toString()
+      }
+
+      detail.push(tmp)
+    })
+
+    orderContent.detail = JSON.stringify({
+      goods_detail: detail
+    })
+
+    console.log('post detail')
+    console.log(orderContent)
+
+    let str = formatPaymentString(orderContent),
+      tmp = Object.assign({}, orderContent, {
+        sign: md5(str)
       })
 
-    return formatPaymentString(orderContent)
+    console.log('post sign')
+    console.log(tmp)
+
+    return tmp
   },
 
   pay(order) {
-    let str = this.assemblePaymentString(order)
-    order.sign = md5(str)
-
-    return JSON2XML(order)
+    return this.assemblePaymentString(order)
   },
 
   verify(order, response) {
@@ -130,7 +161,8 @@ module.exports = (app) => {
 
   /* Create */
   app.post('/orders', (req, res, next) => {
-    let order = new Order(req.body)
+    let order = new Order(req.body),
+      ip = UTIL.getUserIP(req)
 
     User
     .findById(order.creator)
@@ -145,16 +177,20 @@ module.exports = (app) => {
     .then((data) => {
       if (data) {
         let tmp = JSON.parse(JSON.stringify(data))
+        tmp.ip = ip
 
-        switch (tmp.method) {
+        switch (data.method) {
           case 'Alipay':
             tmp.Alipay = Alipay.pay(data)
           break
 
           case 'WeChatPay':
-            tmp.WeChatPay = WeChatPay.pay(data)
+            tmp.WeChatPay = WeChatPay.pay(tmp)
           break
         }
+
+        console.log('post assemble')
+        console.log(tmp)
 
         res.status(201).json(tmp)
       }
@@ -234,7 +270,7 @@ module.exports = (app) => {
         .exec()
         .then((order) => {
           if (order && Alipay.verify(order, response)) {
-            let status = CONST.Alipay[order.type].statuses[statusCode]
+            let status = CONST.Alipay[order.channel].statuses[statusCode]
 
             order
             .set({

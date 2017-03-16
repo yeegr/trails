@@ -122,5 +122,12 @@ module.exports = {
 
   isNotUndefinedNullEmpty: function(input) {
     return (input !== undefined) && (input !== null) && (input.toString().length > 0) 
+  },
+
+  getUserIP: function(request) {
+    let remoteAddress = request.connection.remoteAddress,
+      ip = remoteAddress.substring(remoteAddress.lastIndexOf(':') + 1)
+
+    return ip
   }
 }

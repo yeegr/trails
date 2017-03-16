@@ -14,6 +14,12 @@ const mongoose = require('mongoose'),
       default: CONST.ORDER_TYPES[0],
       required: true
     },
+    channel: {
+      type: String,
+      enum: CONST.ORDER_CHANNELS,
+      default: CONST.ORDER_CHANNELS[0],
+      required: true
+    },
     creator: {
       type: Schema.Types.ObjectId,
       ref: 'User',

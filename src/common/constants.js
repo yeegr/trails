@@ -1,6 +1,10 @@
 'use strict'
 
 export const ORDER_TYPES = {
+  SIGNUP: 'signup'
+}
+
+export const ORDER_CHANNELS = {
   APP: 'APP',
   WEB: 'WEB'
 }

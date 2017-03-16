@@ -6,13 +6,14 @@ import React, {
 } from 'react'
 
 import {
+  Alert,
   TouchableOpacity,
   View,
 } from 'react-native'
 
 import ParallaxView from 'react-native-parallax-view'
 import Alipay from 'react-native-yunpeng-alipay'
-import WeChat from 'react-native-wechat'
+import * as WeChat from 'react-native-wechat'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -42,6 +43,7 @@ class OrderPayment extends Component {
     super(props)
     this._confirm = this._confirm.bind(this)
     this._pay = this._pay.bind(this)
+    this._wechatpay = this._wechatpay.bind(this)
 
     this.state = {
       signUps: this.props.signUps,
@@ -54,7 +56,6 @@ class OrderPayment extends Component {
     let {order} = nextProps
 
     if (this.props.order === null && order !== null && order.subTotal > 0 && order.status === 'pending') {
-      console.log(order)
       this.setState({isPaying: false})
       this._pay(order)
     } else if (order !== null && order.status === 'success') {
@@ -80,7 +81,8 @@ class OrderPayment extends Component {
 
     let {user, event, selectedGroup} = this.props,
       order = {
-        type: CONSTANTS.ORDER_TYPES.APP,
+        type: CONSTANTS.ORDER_TYPES.SIGNUP,
+        channel: CONSTANTS.ORDER_TYPES.APP,
         creator: user.id,
         event: event.id,
         group: selectedGroup,
@@ -116,7 +118,33 @@ class OrderPayment extends Component {
 
       case 'WeChatPay':
         console.log(order)
+        this._wechatpay(order.WeChatPay)
       break
+    }
+  }
+
+  async _wechatpay(order) {
+    try {
+      let result = await WeChat.pay(order.WeChatPay)
+
+      if (result.errCode === 0) {
+        Alert.alert(
+          'wechat success',
+          JSON.stringify(result),
+          [
+            {text:'okay'}
+          ]
+        )
+      }
+    } catch (e) {
+      Alert.alert(
+        'wechat error',
+        JSON.stringify(e),
+        [
+          {text:'okay'}
+        ]
+      )
+      console.log(e)
     }
   }
 

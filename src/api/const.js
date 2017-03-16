@@ -37,9 +37,12 @@ module.exports = {
   },
   PAYMENT_MEDHODS: [
     "Alipay",
-    "WeChat"
+    "WeChatPay"
   ],
   ORDER_TYPES: [
+    'signup'
+  ],
+  ORDER_CHANNELS: [
     'APP',
     'WEB'
   ],

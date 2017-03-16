@@ -26,8 +26,7 @@ module.exports = (app) => {
   /* Create */
   app.post('/validate', (req, res, next) => {
     let tmp = new Validate(req.body),
-      remoteAddress = req.connection.remoteAddress,
-      ip = remoteAddress.substring(remoteAddress.lastIndexOf(':') + 1)
+      ip = UTIL.getUserIP(req)
 
     tmp.vcode = (tmp.mobile === CONST.demo.mobile) ? CONST.demo.vcode : UTIL.generateRandomNumericString(4)
 
