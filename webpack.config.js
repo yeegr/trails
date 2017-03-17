@@ -4,8 +4,6 @@ const webpack = require('webpack'),
   sourcemap = require('source-map-support'),
   ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-console.log('NODE_ENV: ', JSON.stringify(process.env.NODE_ENV))
-
 let nodeModules = {}
 
 fs.readdirSync('node_modules')
