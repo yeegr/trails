@@ -424,3 +424,37 @@ export function getScreenOrientation() {
 export function calculateGridLength(wrapperWidth, columnNumber, margin) {
   return Math.floor((wrapperWidth - margin * (columnNumber + 1)) / columnNumber)
 }
+
+export function sortObjectByKey(obj) {
+  let arr = [],
+    tmp = {}
+
+  for (let key in obj) {
+    arr.push({
+      key,
+      value: obj[key]
+    })
+  }
+
+  arr.sort((a, b) => {
+    return (a.key.localeCompare(b.key))
+  })
+  
+
+  for (let i = 0, j = arr.length; i < j; i++) {
+    let kvp = arr[i]
+    tmp[kvp.key] = kvp.value
+  }
+
+  return tmp  
+}
+
+export function stringifyObject(obj) {
+  let str = ''
+
+  for (let key in obj) {
+    str += '&' + key + '=' + obj[key]
+  }
+
+  return str
+}

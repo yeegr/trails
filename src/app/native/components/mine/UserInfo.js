@@ -51,7 +51,7 @@ class UserInfo extends Component {
       case 'orders':
         id = 'MyOrders',
         title = LANG.t('mine.MyOrders'),
-        query = "?creator=" + user.id
+        query = "?status=success&creator=" + user.id
       break;
 
       case 'wallet':

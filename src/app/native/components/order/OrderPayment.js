@@ -43,7 +43,8 @@ class OrderPayment extends Component {
     super(props)
     this._confirm = this._confirm.bind(this)
     this._pay = this._pay.bind(this)
-    this._wechatpay = this._wechatpay.bind(this)
+    this._wechatPay = this._wechatPay.bind(this)
+    this._cancelPayment = this._cancelPayment.bind(this)
 
     this.state = {
       signUps: this.props.signUps,
@@ -55,18 +56,20 @@ class OrderPayment extends Component {
   componentWillReceiveProps(nextProps) {
     let {order} = nextProps
 
-    if (this.props.order === null && order !== null && order.subTotal > 0 && order.status === 'pending') {
-      this.setState({isPaying: false})
-      this._pay(order)
-    } else if (order !== null && order.status === 'success') {
-      this.props.navigator.replace({
-        id: 'OrderSuccess',
-        title: LANG.t('order.OrderSuccess'),
-        passProps: {
-          event: this.props.event,
-          order
-        }
-      })
+    if (order !== null) {
+      if (this.props.order === null && order.subTotal > 0 && order.status === 'pending') {
+        this.setState({isPaying: false})
+        this._pay(order)
+      } else if (order.status === 'success') {
+        this.props.navigator.replace({
+          id: 'OrderSuccess',
+          title: LANG.t('order.OrderSuccess'),
+          passProps: {
+            event: this.props.event,
+            order
+          }
+        })
+      }
     }
   }
 
@@ -107,45 +110,39 @@ class OrderPayment extends Component {
         .pay(order.Alipay)
         .then((data) => {
           let result = {}
-          result.result = JSON.parse(data[0].result)
+
+          result.response = JSON.parse(data[0].result)
           result.resultStatus = data[0].resultStatus
-          result.method = this.props.order.method
-          this.props.ordersActions.updateOrder(result)
+          result.method = order.method
+          this.props.ordersActions.updateOrder(order)
         }, (err) => {
-          console.log(err)
+          this._cancelPayment(err)
         })
       break
 
       case 'WeChatPay':
-        console.log(order)
-        this._wechatpay(order.WeChatPay)
+        this._wechatPay(order)
       break
     }
   }
 
-  async _wechatpay(order) {
+  async _wechatPay(order) {
     try {
-      let result = await WeChat.pay(order.WeChatPay)
+      let tmp = await WeChat.pay(order.WeChatPay),
+        result = {}
 
-      if (result.errCode === 0) {
-        Alert.alert(
-          'wechat success',
-          JSON.stringify(result),
-          [
-            {text:'okay'}
-          ]
-        )
-      }
-    } catch (e) {
-      Alert.alert(
-        'wechat error',
-        JSON.stringify(e),
-        [
-          {text:'okay'}
-        ]
-      )
-      console.log(e)
+      result.response = order
+      result.resultStatus = tmp.errCode
+      result.method = order.method
+      this.props.ordersActions.updateOrder(result)
+    } catch (err) {
+      this._cancelPayment(err)
     }
+  }
+
+  _cancelPayment(err) {
+    this.props.ordersActions.resetOrder()
+    //console.log(err)
   }
 
   render() {

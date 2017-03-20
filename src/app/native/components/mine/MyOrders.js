@@ -37,7 +37,7 @@ class MyOrders extends Component {
     }
 
     return (
-      <View style={{flex: 1, paddingTop: Graphics.page.marginTop}}>
+      <View style={{paddingTop: Graphics.page.marginTop}}>
         <OrderList
           navigator={this.props.navigator}
           orders={orders}
@@ -50,7 +50,8 @@ class MyOrders extends Component {
 MyOrders.propTypes = {
   navigator: PropTypes.object.isRequired,
   ordersActions: PropTypes.object.isRequired,
-  orders: PropTypes.array.isRequired
+  orders: PropTypes.array.isRequired,
+  query: PropTypes.string
 }
 
 function mapStateToProps(state, ownProps) {

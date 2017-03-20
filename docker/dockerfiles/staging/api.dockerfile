@@ -14,7 +14,7 @@ COPY ./dev/api/root.js /usr/app/root.js
 COPY ./docker/config/api.package.json /usr/app/package.json
 COPY ./assets/Alipay/rsa_private_key.pem /usr/app/rsa_private_key.pem
 WORKDIR /usr/app
-#RUN npm config set registry https://registry.npm.taobao.org
+RUN npm config set registry https://registry.npm.taobao.org
 RUN npm install
 
 # Internal port

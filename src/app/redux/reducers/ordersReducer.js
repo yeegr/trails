@@ -4,7 +4,6 @@ import * as ACTIONS from '../constants/ordersConstants'
 
 const ordersReducer = (state = {
   isFetching: false,
-  isPaying: false,
   message: null,
   list: [],
   order: null

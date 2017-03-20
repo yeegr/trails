@@ -90,6 +90,7 @@ const updateOrderFailure = (message) => {
 }
 
 export const updateOrder = (result) => {
+  console.log(result)
   let config = Object.assign({}, FETCH.PUT, {
     body: JSON.stringify(result)
   })

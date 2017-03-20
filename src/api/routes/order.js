@@ -1,8 +1,12 @@
 const mongoose = require('mongoose'),
-  moment = require('moment'),
+  request = require('request'),
   fs = require('fs'),
   crypto = require('crypto'),
+  moment = require('moment'),
   md5 = require('md5'),
+  xml2js = require('xml2js'),
+  xmlBuilder = new xml2js.Builder(),
+  xmlParser = new xml2js.Parser({explicitArray: false}),
   CONST = require('../const'),
   UTIL = require('../util'),
   User = require('../models/user'),
@@ -12,25 +16,10 @@ const mongoose = require('mongoose'),
 mongoose.Promise = global.Promise
 
 const formatPaymentString = (order) => {
-  let arr = [],
-    str = ''
+  let obj = UTIL.sortObjectByKey(order),
+    str = UTIL.stringifyObject(obj)
 
-  for (let key in order) {
-    arr.push({
-      key,
-      value: order[key]
-    })
-  }
-
-  arr.sort((a, b) => {
-    return (a.key > b.key)
-  })
-
-  for (let i = 0, j = arr.length; i < j; i++) {
-    str += '&' + arr[i].key + '=' + arr[i].value
-  }
-
-  return str.substring(1)
+  return {obj, str: str.substring(1)}
 },
 Alipay = {
   assemblePaymentString(order) {
@@ -51,7 +40,7 @@ Alipay = {
         biz_content: JSON.stringify(bizContent)
       })
       
-    return formatPaymentString(pubContent)
+    return formatPaymentString(pubContent).str
   },
 
   pay(order) {
@@ -74,11 +63,7 @@ Alipay = {
   }
 },
 WeChatPay = {
-  assemblePaymentString(order) {
-
-    console.log('init')
-    console.log(order)
-    
+  assemblePrepayOrder(order) {
     let orderContent = Object.assign({}, CONST.WeChatPay[order.channel].orderContent, {
         nonce_str: UTIL.generateRandomString(32),
         body: '识途驴-' + order.title + '-' + order.type,
@@ -87,9 +72,6 @@ WeChatPay = {
         spbill_create_ip: order.ip
       }),
       detail = []
-
-    console.log('pre detail')
-    console.log(orderContent)
 
     order.signUps.map((signUp) => {
       let tmp = {
@@ -107,26 +89,61 @@ WeChatPay = {
       goods_detail: detail
     })
 
-    console.log('post detail')
-    console.log(orderContent)
-
-    let str = formatPaymentString(orderContent),
-      tmp = Object.assign({}, orderContent, {
-        sign: md5(str)
+    let tmp = formatPaymentString(orderContent),
+      str = tmp.str + '&key=' + CONST.WeChatPay.key,
+      xml = Object.assign({}, tmp.obj, {
+        sign: md5(str).toUpperCase()
       })
 
-    console.log('post sign')
-    console.log(tmp)
-
-    return tmp
+    return xmlBuilder.buildObject({xml})
   },
 
-  pay(order) {
-    return this.assemblePaymentString(order)
+  pay(order, res) {
+    let xml = this.assemblePrepayOrder(order)
+
+    request.post({
+      url: 'https://api.mch.weixin.qq.com/pay/unifiedorder',
+      body: xml,
+      headers: {
+        'Content-Type': 'text/xml'
+      }
+    }, (err, response, body) => {
+      if (!err && res.statusCode === 200) {
+        xmlParser.parseString(body, (xmlError, xmlResult) => {
+          if (!xmlError) {
+            let orderContent = CONST.WeChatPay[order.channel].orderContent,
+              obj = {
+                appid: orderContent.appid,
+                partnerid: orderContent.mch_id,
+                prepayid: xmlResult.xml.prepay_id,
+                noncestr: UTIL.generateRandomString(32),
+                timestamp: moment().unix(),
+                package: CONST.WeChatPay.package
+              },
+              tmp = formatPaymentString(obj),
+              str = tmp.str + '&key=' + CONST.WeChatPay.key
+
+            order.WeChatPay = {
+              partnerId: obj.partnerid,
+              prepayId: obj.prepayid,
+              nonceStr: obj.noncestr,
+              timeStamp: obj.timestamp,
+              package: obj.package,
+              sign: md5(str).toUpperCase()
+            }
+
+            res.status(201).send(order)
+          } else {
+            console.log(xmlError)
+          }
+        })
+      }
+    })
   },
 
   verify(order, response) {
-
+    let idCheck = (order._id.toString() === response.out_trade_no)
+    return idCheck
   }
 }
   
@@ -182,17 +199,13 @@ module.exports = (app) => {
         switch (data.method) {
           case 'Alipay':
             tmp.Alipay = Alipay.pay(data)
+            res.status(201).json(tmp)
           break
 
           case 'WeChatPay':
-            tmp.WeChatPay = WeChatPay.pay(tmp)
+            WeChatPay.pay(tmp, res)
           break
         }
-
-        console.log('post assemble')
-        console.log(tmp)
-
-        res.status(201).json(tmp)
       }
     })
     .catch((err) => {
@@ -211,6 +224,10 @@ module.exports = (app) => {
 
     if (req.query.creator) {
       query.creator = req.query.creator
+    }
+
+    if (req.query.status) {
+      query.status = req.query.status
     }
 
     Order
@@ -256,46 +273,49 @@ module.exports = (app) => {
 
   /* Update */
   app.put('/orders', (req, res, next) => {
-    let tmp = req.body
-
+    let tmp = req.body,
+      statusCode = null,
+      response = null,
+      orderId = null
+    
     switch (tmp.method) {
       case 'Alipay':
-        let statusCode = tmp.resultStatus,
-          result = tmp.result,
-          response = result.alipay_trade_app_pay_response,
-          id = response.out_trade_no
+        statusCode = tmp.resultStatus,
+        response = tmp.response.alipay_trade_app_pay_response,
+        orderId = response.out_trade_no
+      break
 
-        Order
-        .findById(id)
-        .exec()
-        .then((order) => {
-          if (order && Alipay.verify(order, response)) {
-            let status = CONST.Alipay[order.channel].statuses[statusCode]
+      case 'WeChatPay':
+        statusCode = tmp.resultStatus,
+        orderId = tmp.response._id
+      break
+    }
 
-            order
-            .set({
-              status
-            })
-            .save()
-            .then((data) => {
-              res.status(200).json(data)
-            })
-            .catch((err) => {
-              res.status(500).json({error: err})
-            })
-          } else {
-            res.status(304).json({error: 'Not Modified'})
-          }
+    Order
+    .findById(orderId)
+    .exec()
+    .then((order) => {
+      if (order) {
+        let status = CONST[order.method][order.channel].statuses[statusCode]
+
+        order
+        .set({
+          status
+        })
+        .save()
+        .then((data) => {
+          res.status(200).json(data)
         })
         .catch((err) => {
           res.status(500).json({error: err})
         })
-      break
-
-      default:
-        res.status(500).send()
-      break
-    }
+      } else {
+        res.status(304).json({error: 'Not Modified'})
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({error: err})
+    })
   })
 
   /* Alipay Return : return_url */

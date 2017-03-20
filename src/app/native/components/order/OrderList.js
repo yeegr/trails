@@ -59,7 +59,7 @@ const OrderList = (props) => {
 
     return (
       <TouchableOpacity key={rowId} onPress={() => selectOrder(order)}>
-        <View style={[styles.list.item, styles.list.borders]}>
+        <View style={[styles.list.item, styles.list.borders, {flex: 0}]}>
           <Image
             style={styles.list.thumb}
             source={{uri: heroUri}}
@@ -105,7 +105,9 @@ const OrderList = (props) => {
 
   return (
     <ListView
+      automaticallyAdjustContentInsets={false}
       enableEmptySections={true}
+      removeClippedSubviews={false}
       scrollEnabled={true}
       dataSource={dataSource.cloneWithRows(props.orders)}
       renderRow={renderRow}

@@ -72,6 +72,8 @@ module.exports = {
   },
 
   "WeChatPay": {
+    "key": "o0okwfJ89pXirwmfmnjUF6oNoEGpeJxv",
+    "package": "Sign=WXPay",
     "APP": {
       "orderContent": {
         "appid": "wx6e8a3e1b87c11294",
@@ -80,7 +82,12 @@ module.exports = {
         "fee_type": "CNY",
         "device_info": "WEB",
         "sign_type": "MD5",
-        "notify_url": "http://139.129.200.88/wechat/notify"
+        "notify_url": "http://shitulv.com/wechat/notify"
+      },
+      "statuses": {
+        "0": "success",
+        "-1": "error",
+        "-2": "canceled"
       }
     }
   },
@@ -94,7 +101,7 @@ module.exports = {
         "charset": "utf-8",
         "sign_type": "RSA",
         "version": "1.0",
-        "notify_url": "http://139.129.200.88/alipay/notify"
+        "notify_url": "http://shitulv.com/alipay/notify"
       },
       "bizContent": {
         "timeout_express": "15m",
@@ -124,8 +131,8 @@ module.exports = {
         "charset": "utf-8",
         "sign_type": "RSA",
         "version": "1.0",
-        "return_url": "http://139.129.200.88/alipay/return",
-        "notify_url": "http://139.129.200.88/alipay/notify"
+        "return_url": "http://shitulv.com/alipay/return",
+        "notify_url": "http://shitulv.com/alipay/notify"
       },
       "bizContent": {
       },
