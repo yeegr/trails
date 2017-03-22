@@ -46,13 +46,6 @@ export const listAreas = (params) => {
   }
 }
 
-// empty area list
-export const emptyAreaList = () => {
-  return {
-    type: ACTIONS.EMPTY_AREA_LIST
-  }
-}
-
 // reset home page area list
 export const resetAreaList = () => {
   listAreas(AppSettings.home.areas + AppSettings.currentCity)

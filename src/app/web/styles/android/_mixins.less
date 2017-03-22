@@ -57,15 +57,15 @@
 }
 
 ._flex-direction (@string) when (@string = column) {
-  -webkit-box-orient: horizontal;
-  -moz-box-orient: horizontal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
   flex-direction: @string;
 }
 
 ._flex-direction (@string) when (@string = column-reverse) {
-  -webkit-box-orient: horizontal;
+  -webkit-box-orient: vertical;
   -webkit-box-direction: reverse;
-  -moz-box-orient: horizontal;
+  -moz-box-orient: vertical;
   -moz-box-direction: reverse;
   flex-direction: @string;
 }
@@ -90,6 +90,12 @@
  * flex: @string: flex-start | flex-end | center | space-between | space-around
  * box:  @string: start | center | end | justify
  */
+._justify-content (@string) {
+  -webkit-box-pack: @string;
+  -moz-box-pack: @string;
+  justify-content: @string;
+}
+
 ._justify-content (@string: flex-start) when (@string = flex-start) {
   -webkit-box-pack: start;
   -moz-box-pack: start;
@@ -105,12 +111,6 @@
 ._justify-content (@string) when (@string = space-between) {
   -webkit-box-pack: justify;
   -moz-box-pack: justify;
-  justify-content: @string;
-}
-
-._justify-content (@string) {
-  -webkit-box-pack: @string;
-  -moz-box-pack: @string;
   justify-content: @string;
 }
 

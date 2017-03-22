@@ -28,11 +28,6 @@ const areasReducer = (state = {
         list: [],
       })
 
-    case ACTIONS.EMPTY_AREA_LIST:
-      return Object.assign({}, state, {
-        list: []
-      })
-
    case ACTIONS.GET_AREA_REQUEST:
       return Object.assign({}, state, {
         isFetching: true

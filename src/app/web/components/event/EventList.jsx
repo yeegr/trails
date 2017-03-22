@@ -7,11 +7,11 @@ import React, {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as areasActions from '../../../redux/actions/areasActions'
+import * as eventsActions from '../../../redux/actions/eventsActions'
 
-import AreaCard from './AreaCard'
+import EventCard from './EventCard'
 
-class AreaList extends Component {
+class EventList extends Component {
   constructor(props) {
     super(props)
     this.fetchData = this.fetchData.bind(this)
@@ -23,11 +23,11 @@ class AreaList extends Component {
   }
 
   componentWillUnmount() {
-    areasActions.resetAreaList()
+    eventsActions.resetEventList()
   }
 
   fetchData() {
-    this.props.areasActions.listAreas(this.props.query)
+    this.props.eventsActions.listEvents(this.props.query)
   }
 
   _onRefresh() {
@@ -35,17 +35,17 @@ class AreaList extends Component {
   }
 
   render() {
-    const {areas} = this.props,
-      loading = (areas.length < 1)
+    const {events} = this.props,
+      loading = (events.length < 1)
 
     return (
       <catalog data-loading={loading}>
         {
-          areas.map((area, index) => {
+          events.map((event, index) => {
             return (
-              <AreaCard
+              <EventCard
                 key={index}
-                data={area}
+                data={event}
               />
             )
           })
@@ -55,22 +55,22 @@ class AreaList extends Component {
   }
 }
 
-AreaList.propTypes = {
-  areasActions: PropTypes.object.isRequired,
+EventList.propTypes = {
+  eventsActions: PropTypes.object.isRequired,
   query: PropTypes.string,
-  areas: PropTypes.array
+  events: PropTypes.array
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    areas: state.areas.list
+    events: state.events.list
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    areasActions: bindActionCreators(areasActions, dispatch)
+    eventsActions: bindActionCreators(eventsActions, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AreaList)
+export default connect(mapStateToProps, mapDispatchToProps)(EventList)

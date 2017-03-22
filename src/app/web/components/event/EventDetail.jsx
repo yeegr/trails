@@ -74,7 +74,7 @@ class EventDetail extends Component {
       return agenda.trail
     })
 
-    const imagePath = (event.hero.indexOf('default/') === 0) ? event.hero : event._id + '/' + event.hero,
+    const imagePath = ((event.hero.indexOf('default/') === 0) ? '' : event._id + '/') + event.hero,
       imageUri = CONSTANTS.ASSET_FOLDERS.EVENT + '/' + imagePath,
       eventGroups = (event.groups.length > 1) ? (
         <ListItem
@@ -206,85 +206,87 @@ class EventDetail extends Component {
 
     return (
       <detail>
-        <Hero
-          imageUri={imageUri}
-          card={
-            <Card
-              title={event.title}
-              excerpt={event.excerpt}
-              tags={event.tags}
-            />
-          }
-        />
-        <main>
-          <section>
-            <Header
-              text={LANG.t('event.EventInfo')}
-            />
-            <list>
-              {eventGroups}
-              <ListItem
-                glyph={'clock'}
-                label={LANG.t('event.GatherTime')}
-                value={gatherDateTime}
+        <scroll>
+          <Hero
+            imageUri={imageUri}
+            card={
+              <Card
+                title={event.title}
+                excerpt={event.excerpt}
+                tags={event.tags}
               />
-              <ListItem
-                glyph={'pin'}
-                label={LANG.t('event.GatherLocation')}
-                value={event.gatherLocation.name}
+            }
+          />
+          <main>
+            <section>
+              <Header
+                text={LANG.t('event.EventInfo')}
               />
-              <UserLink
-                user={event.creator}
+              <list>
+                {eventGroups}
+                <ListItem
+                  glyph={'clock'}
+                  label={LANG.t('event.GatherTime')}
+                  value={gatherDateTime}
+                />
+                <ListItem
+                  glyph={'pin'}
+                  label={LANG.t('event.GatherLocation')}
+                  value={event.gatherLocation.name}
+                />
+                <UserLink
+                  user={event.creator}
+                />
+                <ListItem
+                  glyph={'phone'}
+                  label={LANG.t('event.Contacts')}
+                  value={
+                    <div>
+                      {
+                        event.contacts.map((contact, index) => {
+                          return (
+                            <SimpleContact
+                              key={index}
+                              label={contact.title}
+                              number={contact.mobileNumber}
+                              fontSize={'1.2rem'}
+                            />
+                          )
+                        })
+                      }
+                    </div>
+                  }
+                />
+                <ListItem
+                  glyph={'group'}
+                  label={LANG.t('event.AttendeeLimits')}
+                  value={LANG.t('event.Attendees', {min: event.minAttendee.toString(), max: event.maxAttendee.toString()})}
+                />
+              </list>
+            </section>
+            {eventTrails}
+            <section>
+              <Header
+                text={LANG.t('event.EventExpenses')}
               />
-              <ListItem
-                glyph={'phone'}
-                label={LANG.t('event.Contacts')}
-                value={
-                  <div>
-                    {
-                      event.contacts.map((contact, index) => {
-                        return (
-                          <SimpleContact
-                            key={index}
-                            label={contact.title}
-                            number={contact.mobileNumber}
-                            fontSize={'1.2rem'}
-                          />
-                        )
-                      })
-                    }
-                  </div>
-                }
-              />
-              <ListItem
-                glyph={'group'}
-                label={LANG.t('event.AttendeeLimits')}
-                value={LANG.t('event.Attendees', {min: event.minAttendee.toString(), max: event.maxAttendee.toString()})}
-              />
-            </list>
-          </section>
-          {eventTrails}
-          <section>
-            <Header
-              text={LANG.t('event.EventExpenses')}
-            />
-            <list>
-              <ListItem
-                glyph="yuan"
-                label={LANG.t('event.FeePerHead')}
-                value={(perHead > 0) ? LANG.t('number.currency', {amount: perHead}) : LANG.t('event.ExpenseFree')}
-              />
-            </list>
-            {(perHead > 0) ? expensesDetail : null}
-            {(perHead > 0) ? expensesIncludes : null}
-            {(perHead > 0) ? expensesExcludes : null}
-          </section>
-          {eventDestination}
-          {galleryPreview}
-          {eventGears}
-          {eventNotes}
-          {commentPreview}
-        </main>
+              <list>
+                <ListItem
+                  glyph="yuan"
+                  label={LANG.t('event.FeePerHead')}
+                  value={(perHead > 0) ? LANG.t('number.currency', {amount: perHead}) : LANG.t('event.ExpenseFree')}
+                />
+              </list>
+              {(perHead > 0) ? expensesDetail : null}
+              {(perHead > 0) ? expensesIncludes : null}
+              {(perHead > 0) ? expensesExcludes : null}
+            </section>
+            {eventDestination}
+            {galleryPreview}
+            {eventGears}
+            {eventNotes}
+            {commentPreview}
+          </main>
+        </scroll>
         <CallToAction
           onPress={this._nextStep}
           label={LANG.t('order.SignUpNow')}

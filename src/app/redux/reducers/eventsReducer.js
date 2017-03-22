@@ -4,11 +4,9 @@ import * as ACTIONS from '../constants/eventsConstants'
 
 const eventsReducer = (state = {
   isFetching: false,
-  isPaying: false,
   list: [],
   event: null,
-  message: null,
-  order: null
+  message: null
 }, action) => {
   switch (action.type) {
    case ACTIONS.LIST_EVENTS_REQUEST:

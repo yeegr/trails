@@ -7,11 +7,11 @@ import React, {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as areasActions from '../../../redux/actions/areasActions'
+import * as postsActions from '../../../redux/actions/postsActions'
 
-import AreaCard from './AreaCard'
+import PostCard from './PostCard'
 
-class AreaList extends Component {
+class PostList extends Component {
   constructor(props) {
     super(props)
     this.fetchData = this.fetchData.bind(this)
@@ -23,11 +23,11 @@ class AreaList extends Component {
   }
 
   componentWillUnmount() {
-    areasActions.resetAreaList()
+    postsActions.resetPostList()
   }
 
   fetchData() {
-    this.props.areasActions.listAreas(this.props.query)
+    this.props.postsActions.listPosts(this.props.query)
   }
 
   _onRefresh() {
@@ -35,17 +35,17 @@ class AreaList extends Component {
   }
 
   render() {
-    const {areas} = this.props,
-      loading = (areas.length < 1)
+    const {posts} = this.props,
+      loading = (posts.length < 1)
 
     return (
       <catalog data-loading={loading}>
         {
-          areas.map((area, index) => {
+          posts.map((post, index) => {
             return (
-              <AreaCard
+              <PostCard
                 key={index}
-                data={area}
+                data={post}
               />
             )
           })
@@ -55,22 +55,22 @@ class AreaList extends Component {
   }
 }
 
-AreaList.propTypes = {
-  areasActions: PropTypes.object.isRequired,
+PostList.propTypes = {
+  postsActions: PropTypes.object.isRequired,
   query: PropTypes.string,
-  areas: PropTypes.array
+  posts: PropTypes.array
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    areas: state.areas.list
+    posts: state.posts.list
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    areasActions: bindActionCreators(areasActions, dispatch)
+    postsActions: bindActionCreators(postsActions, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AreaList)
+export default connect(mapStateToProps, mapDispatchToProps)(PostList)

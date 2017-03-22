@@ -59,7 +59,7 @@ export const listPosts = (params) => {
 }
 
 // reset home page post list
-export const resetPosts = () => {
+export const resetPostList = () => {
   listPosts()
 }
 

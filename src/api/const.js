@@ -95,7 +95,8 @@ module.exports = {
   "Alipay": {
     "APP": {
       "pubContent": {
-        "app_id": "2016111902979618",
+        //"app_id": "2016111902979618", // production
+        "app_id": "2016101500693227", // dev
         "method": "alipay.trade.app.pay",
         "format": "JSON",
         "charset": "utf-8",

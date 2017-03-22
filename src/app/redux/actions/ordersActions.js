@@ -50,7 +50,7 @@ export const createOrder = (order) => {
 
   return (dispatch) => {
     dispatch(createOrderRequest())
-
+ 
     return fetch(AppSettings.apiUri + 'orders', config)
       .then((res) => {
         return res.json()
@@ -90,7 +90,6 @@ const updateOrderFailure = (message) => {
 }
 
 export const updateOrder = (result) => {
-  console.log(result)
   let config = Object.assign({}, FETCH.PUT, {
     body: JSON.stringify(result)
   })

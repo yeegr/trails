@@ -37,7 +37,7 @@ export const listEvents = (params) => {
           dispatch(listEventsFailure(res.error))
           return Promise.reject(res)
         } else {
-         dispatch(listEventsSuccess(res))
+          dispatch(listEventsSuccess(res))
         }
       })
       .catch((err) => {
@@ -47,7 +47,7 @@ export const listEvents = (params) => {
 }
 
 // reset home page event list
-export const resetEvents = () => {
+export const resetEventList = () => {
   listEvents(AppSettings.home.events + AppSettings.currentCity)
 }
 

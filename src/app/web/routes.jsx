@@ -9,15 +9,27 @@ import {
 import App from './components/app'
 import Home from './components/home'
 import About from './components/about'
+
+// area components
 import AreaList from './components/area/AreaList'
 import AreaDetail from './components/area/AreaDetail'
+
+// event components
+import EventList from './components/event/EventList'
 import EventDetail from './components/event/EventDetail'
-import SelectOrderGroup from './components/event/SelectOrderGroup'
-import OrderEvent from './components/event/OrderEvent'
-import OrderPayment from './components/event/OrderPayment'
-import OrderSummary from './components/event/OrderSummary'
-import OrderSuccess from './components/event/OrderSuccess'
+
+// order components
+import SelectOrderGroup from './components/order/SelectOrderGroup'
+import OrderEvent from './components/order/OrderEvent'
+import OrderPayment from './components/order/OrderPayment'
+import OrderSummary from './components/order/OrderSummary'
+import OrderSuccess from './components/order/OrderSuccess'
+
+// post components
+import PostList from './components/post/PostList'
 import PostDetail from './components/post/PostDetail'
+
+// trail components
 import TrailDetail from './components/trail/TrailDetail'
 
 import Gallery from './components/shared/Gallery'
@@ -31,6 +43,7 @@ export default (
       <Route path="/areas/:id" component={AreaDetail} />
         <Route path="/areas/:id/gallery" component={Gallery} />
 
+    <Route path="/events" component={EventList} />
       <Route path="/events/:id" component={EventDetail} />
         <Route path="/events/:id/gallery" component={Gallery} />
 
@@ -41,6 +54,7 @@ export default (
         <Route path="/events/:id/:selectedGroup/payment" component={OrderPayment} />
         <Route path="/events/:id/:selectedGroup/success" component={OrderSuccess} />
 
+    <Route path="/posts" component={PostList} />
       <Route path="/posts/:id" component={PostDetail} />
         <Route path="/posts/:id/gallery" component={Gallery} />
 

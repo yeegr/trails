@@ -81,7 +81,6 @@ modal {
 nav {
   background-color: @primaryColor;
   height: @navbarHeight;
-  position: fixed;
   width: 100%;
   z-index: 100;
   ._flex-box;
@@ -170,6 +169,7 @@ hero {
   background-repeat: no-repeat;
   background-size: cover;
   display: block;
+  height: @baseLength * 30;
   position: relative;
   width: 100%;
 
@@ -218,18 +218,13 @@ page {
   width: 100%;
   ._flex-box;
   ._flex-direction(column);
-
-  &> list {
-    margin-top: @baseLength;
-  }
 }
 
 footer {
   background-color: #666;
   bottom: 0;
   color: @textOverlayColor;
-  padding: 2rem 3rem;
-  position: fixed;
+  padding: 1rem 2rem;
   width: 100%;
   ._flex-box;
   ._flex(none);
@@ -255,6 +250,19 @@ footer {
       &:last-child {
         width: 20%;
       }
+    }
+  }
+
+  catalog {
+    padding: @doubleLength @baseLength 0 @baseLength;
+    ._flex-display();
+    ._flex-wrap(wrap);
+    ._align-items(flex-start);
+    ._justify-content(space-around);
+
+    > a {
+      margin-bottom: @doubleLength;
+      width: calc(~"(100vw - "@doubleLength~" * 4) / 3");
     }
   }
 }
@@ -293,8 +301,6 @@ footer {
       }
 
       ul {
-        margin-top: @navbarHeight;
-
         li {
           a {
             display: block;
@@ -305,18 +311,26 @@ footer {
     }
   }
 
+  catalog {
+    display: block;
+  }
+
   footer {
-    display: none;
-    padding: 1rem 2rem;
     ._flex-direction(column);
     ._align-items(center);  
   }
 }
 
+catalog {
+  height: 100%;
+  overflow-y: auto;
+  position: relative;
+}
+
 list {
   display: block;
   height: 100%;
-  padding: 0 @doubleLength;
+  padding: 0 @doubleLength;  
   position: relative;
 
   &[type=wrap] {
@@ -346,16 +360,15 @@ row {
 }
 
 detail {
-  background-size: cover;
-  display: block;
-  flex: 1;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: @navbarHeight 0 3rem 0;
   position: relative;
+  ._flex-display();
+  ._flex-direction(column);
+  ._flex(1);
 
-  hero {
-    height: @baseLength * 30;
+  scroll {
+    display: block;
+    overflow-y: auto;
+    ._flex(1);
   }
 }
 
@@ -364,10 +377,6 @@ section {
   margin-bottom: @doubleLength;
   padding-bottom: 1px;
   position: relative;
-
-  &.grid {
-    padding: 0 @baseLength;
-  }
 }
 
 sub-section {
@@ -532,6 +541,7 @@ input-set {
 }
 
 grid {
+  margin-bottom: @doubleLength;
   padding: 0 @baseLength;
   ._flex-box;
   ._flex-wrap;
@@ -555,15 +565,17 @@ card {
   border-radius: @cardCornerRadius;
   ._box-shadow;
 
+  section {
+    margin-bottom: 0;
+  }
+
   &[type=info] {
     padding-top: @doubleLength;
     margin-bottom: @doubleLength;
   }
 
-  hero {
-    border-top-left-radius: @cardCornerRadius;
-    border-top-right-radius: @cardCornerRadius;
-    height: @baseLength * 20;
+  p {
+    cursor: inherit;
   }
 
   foot {
@@ -728,7 +740,6 @@ button[type="glyph"] {
 
 .callToAction {
   background-color: @primaryColor;
-  bottom: 0;
   color: @textOverlayColor;
   cursor: pointer;
   display: block;
@@ -736,10 +747,11 @@ button[type="glyph"] {
   font-weight: 100;
   height: @baseLength * 6;
   line-height: @baseLength * 6;
-  position: fixed;
+  position: relative;
   text-align: center;
   top: auto;
   width: 100%;
+  ._flex(none);
 }
 
 .gold {
@@ -847,7 +859,6 @@ map {
   box-sizing: initial;
   display: block;
   height: 75vw;
-  width: 100vw;
 
   .amap-controls {
     height: 100%;

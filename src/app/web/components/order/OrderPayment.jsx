@@ -75,9 +75,9 @@ class OrderPayment extends Component {
     let {method} = order,
       url = CONSTANTS.PAY_REQUEST_URLS[method] + order[method]
 
-    console.log(url)
+    //console.log(url)
 
-    //document.location = url
+    document.location = url
   }
 
   render() {
