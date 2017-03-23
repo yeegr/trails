@@ -15,7 +15,7 @@ import ParallaxView from 'react-native-parallax-view'
 import {connect} from 'react-redux'
 
 import CallToAction from '../shared/CallToAction'
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import InfoItem from '../shared/InfoItem'
 import ImagePath from '../shared/ImagePath'
 import TextView from '../shared/TextView'
@@ -146,7 +146,7 @@ class OrderEvent extends Component {
             }
           }}
           header={(
-            <Card
+            <Inset
               align={'bottom'}
               title={event.title} 
               excerpt={event.excerpt}

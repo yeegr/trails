@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 
 import Hero from '../shared/Hero'
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import TinyStatus from '../shared/TinyStatus'
 import TinyUser from '../user/TinyUser'
 
@@ -37,8 +37,8 @@ const PostCard = (props) => {
       <Hero 
         imageUri={CONSTANTS.ASSET_FOLDERS.POST + '/' + data._id + '/' + data.hero} 
         onPress={onPress}
-        card={
-          <Card
+        inset={
+          <Inset
             title={data.title}
             excerpt={data.excerpt}
             tags={data.tags}

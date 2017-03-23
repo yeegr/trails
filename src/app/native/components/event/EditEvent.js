@@ -160,7 +160,7 @@ class EditEvent extends Component {
           <Hero
             imageUri={UTIL.getEventHeroPath(event)}
             onPress={() => this._nextPage('hero')}
-            card={
+            inset={
               <View style={[styles.editor.ring, {borderColor: Graphics.colors.overlay, marginTop: 90, opacity: .5}]}>
                 <Icon
                   showLabel={true}

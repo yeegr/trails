@@ -6,7 +6,7 @@ import React, {
 
 import TagList from './TagList.jsx'
 
-const Card = (props) => {
+const Inset = (props) => {
   const excerpt = (props.excerpt) ? (
       <p className="excerpt">
         {props.excerpt}
@@ -39,7 +39,7 @@ const Card = (props) => {
     ) : null
 
   return (
-    <card>
+    <inset>
       <div style={{width: '100%'}}>
         <p className="title">{props.title}</p>
         {excerpt}
@@ -49,11 +49,11 @@ const Card = (props) => {
       {bottomRight}
       {topLeft}
       {topRight}
-    </card>
+    </inset>
   )
 }
 
-Card.propTypes = {
+Inset.propTypes = {
   title: PropTypes.string.isRequired,
   excerpt: PropTypes.string,
   tags: PropTypes.array,
@@ -63,4 +63,4 @@ Card.propTypes = {
   bottomRight: PropTypes.object
 }
 
-export default Card
+export default Inset

@@ -15,7 +15,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as areasActions from '../../../redux/actions/areasActions'
 
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import Loading from '../shared/Loading'
 import Header from '../shared/Header'
 import Icon from '../shared/Icon'
@@ -69,7 +69,7 @@ class AreaDetail extends Component {
           backgroundSource={{uri: url}}
           windowHeight={Graphics.heroImage.height}
           header={(
-            <Card
+            <Inset
               align={'bottom'}
               title={LANG.t('cities.byCode.' + area.city) + ' ' + area.name}
               excerpt={area.excerpt}

@@ -20,7 +20,7 @@ import * as eventsActions from '../../../redux/actions/eventsActions'
 import * as newEventActions from '../../../redux/actions/newEventActions'
 import * as loginActions from '../../../redux/actions/loginActions'
 
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import CallToAction from '../shared/CallToAction'
 import Loading from '../shared/Loading'
 import Header from '../shared/Header'
@@ -309,7 +309,7 @@ class EventDetail extends Component {
           backgroundSource={{uri: eventHeroUri}}
           windowHeight={Graphics.heroImage.height}
           header={(
-            <Card
+            <Inset
               align={'bottom'}
               title={event.title}
               excerpt={event.excerpt}

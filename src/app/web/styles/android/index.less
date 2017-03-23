@@ -173,7 +173,7 @@ hero {
   position: relative;
   width: 100%;
 
-  card {
+  inset {
     align-items: center;
     background-color: rgba(0, 0, 0, .5);
     box-sizing: border-box;
@@ -330,7 +330,6 @@ catalog {
 list {
   display: block;
   height: 100%;
-  padding: 0 @doubleLength;  
   position: relative;
 
   &[type=wrap] {
@@ -352,7 +351,7 @@ row {
     margin-left: auto;
   }
 
-  content {
+  info {
     pretitle {
       margin-top: @unitLength * 4;
     }
@@ -396,6 +395,15 @@ header {
   }
 }
 
+content {
+  display: block;
+  padding: 0 @doubleLength;
+
+  &.grid {
+    padding: 0 @baseLength;
+  }
+}
+
 h1 {
   color: @primaryColor;
   font-size: 1.6rem;
@@ -432,7 +440,7 @@ h4 {
 }
 
 group {
-  background-color: @cardBackgroundColor;
+  background-color: @backgroundColor;
   border-top: 1px solid @lightGreyColor;
   border-bottom: 1px solid @lightGreyColor;
   display: block;
@@ -541,8 +549,6 @@ input-set {
 }
 
 grid {
-  margin-bottom: @doubleLength;
-  padding: 0 @baseLength;
   ._flex-box;
   ._flex-wrap;
   ._justify-content(flex-start);
@@ -563,21 +569,23 @@ card {
   background-color: @cardBackgroundColor;
   display: block;
   border-radius: @cardCornerRadius;
+  margin: 0 @doubleLength;
   ._box-shadow;
 
   section {
     margin-bottom: 0;
-  }
 
-  &[type=info] {
-    padding-top: @doubleLength;
-    margin-bottom: @doubleLength;
+    &.grid {
+      padding: 0 @baseLength;
+      margin-bottom: @doubleLength;
+    }
   }
 
   p {
     cursor: inherit;
   }
 
+  head,
   foot {
     display: block;
     padding: @doubleLength;
@@ -610,7 +618,7 @@ start {
   width: @pictogramSideLength;
 }
 
-content {
+info {
   display: block;
   margin-left: @doubleLength;
   text-align: left;
@@ -1028,8 +1036,6 @@ split {
 }
 
 .html-content {
-  padding: 0 @doubleLength;
-
   ol {
     margin: 0.5rem 0 0 2rem;
 

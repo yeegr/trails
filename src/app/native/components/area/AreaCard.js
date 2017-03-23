@@ -15,7 +15,7 @@ import {
 
 import AvatarList from '../shared/AvatarList'
 import Hero from '../shared/Hero'
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import TinyStatus from '../shared/TinyStatus'
 
 import global from '../../styles/global'
@@ -45,8 +45,8 @@ const AreaCard = (props) => {
       <Hero
         imageUri={CONSTANTS.ASSET_FOLDERS.AREA + '/' + data._id + '/' + data.hero} 
         onPress={onPress}
-        card={
-          <Card
+        inset={
+          <Inset
             title={LANG.t('cities.byCode.' + data.city) + ' ' + data.name}
             excerpt={data.excerpt}
             tags={tags}

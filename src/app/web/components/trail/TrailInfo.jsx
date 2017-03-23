@@ -18,12 +18,12 @@ const TrailInfo = (props) => {
         shape="circle"
         data-value={props.type}
       />
-      <content>
+      <info>
         <title>{title}</title>
         <subtitle>
           {UTIL.formatTime(props.date)}
         </subtitle>
-      </content>
+      </info>
     </row>
   )
 }

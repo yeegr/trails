@@ -7,7 +7,7 @@ import React, {
 import {Link} from 'react-router'
 
 import Hero from '../shared/Hero'
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 
 import {
   CONSTANTS
@@ -22,8 +22,8 @@ const EventCard = (props) => {
     <Link to={`/events/${data._id}`}>
       <Hero
         imageUri={imageUri}
-        card={
-          <Card
+        inset={
+          <Inset
             title={data.title}
             excerpt={data.excerpt}
             tags={data.tags}

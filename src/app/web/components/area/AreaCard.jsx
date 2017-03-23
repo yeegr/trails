@@ -7,7 +7,7 @@ import React, {
 import {Link} from 'react-router'
 
 import Hero from '../shared/Hero'
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 
 import {
   CONSTANTS,
@@ -30,8 +30,8 @@ const AreaCard = (props) => {
     <Link to={`/areas/${data._id}`}>
       <Hero
         imageUri={imageUri}
-        card={
-          <Card
+        inset={
+          <Inset
             title={LANG.t('cities.byCode.' + data.city) + ' ' + data.name}
             excerpt={data.excerpt}
             tags={tags}

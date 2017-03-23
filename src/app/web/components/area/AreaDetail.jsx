@@ -11,9 +11,10 @@ import {
 
 import $ from 'jquery'
 
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import Hero from '../shared/Hero'
 import Header from '../shared/Header'
+import TrailPreview from '../trail/TrailPreview'
 import GalleryPreview from '../shared/GalleryPreview'
 import CommentPreview from '../shared/CommentPreview'
 
@@ -68,51 +69,62 @@ class AreaDetail extends Component {
 
     return (
       <detail>
-        <Hero
-          imageUri={imageUri}
-          card={
-            <Card
-              title={LANG.t('cities.byCode.' + area.city) + ' ' + area.name}
-              excerpt={area.excerpt}
+        <scroll>
+          <Hero
+            imageUri={imageUri}
+            inset={
+              <Inset
+                title={LANG.t('cities.byCode.' + area.city) + ' ' + area.name}
+                excerpt={area.excerpt}
+              />
+            }
+          />
+          <main>
+            <section>
+              <Header text={LANG.t('area.Description')} />
+              <content>
+                <div
+                  className="html-content"
+                  dangerouslySetInnerHTML={UTIL.createMarkup(area.description)}
+                />
+              </content>
+            </section>
+            <section>
+              <Header text={LANG.t('Tags')} />
+              <content className="grid">
+                <grid>
+                  {
+                    area.tags.map((n) => {
+                      return (
+                        <icon key={n}>
+                          <pictogram
+                            shape="circle"
+                            data-value={n.toString()}
+                          />
+                          <span>
+                            {LANG.t('tags.' + n.toString())}
+                          </span>
+                        </icon>
+                      )
+                    })
+                  }
+                </grid>
+              </content>
+            </section>
+            {galleryPreview}
+            <section>
+              <Header text={LANG.t('area.Leaders')} />
+              <content>
+              </content>
+            </section>
+            <TrailPreview 
+              trails={area.trails}
+              query={'?isPublic=true&area=' + area.id}
+              title={area.name + LANG.t('trail.trail_plural')}
             />
-          }
-        />
-        <main>
-          <section>
-            <Header text={LANG.t('area.Description')} />
-            <div
-              className="html-content"
-              dangerouslySetInnerHTML={UTIL.createMarkup(area.description)}
-            />
-          </section>
-          <section>
-            <Header text={LANG.t('Tags')} />
-            <grid>
-              {
-                area.tags.map((n) => {
-                  return (
-                    <icon key={n}>
-                      <pictogram
-                        shape="circle"
-                        data-value={n.toString()}
-                      />
-                      <span>
-                        {LANG.t('tags.' + n.toString())}
-                      </span>
-                    </icon>
-                  )
-                })
-              }
-            </grid>
-          </section>
-          {galleryPreview}
-          <section>
-            <Header text={LANG.t('area.Leaders')} />
-            <list>
-            </list>
-          </section>
-          {commentPreview}
-        </main>
+            {commentPreview}
+          </main>
+        </scroll>
       </detail>
     )
   }

@@ -17,7 +17,7 @@ import * as eventsActions from '../../../redux/actions/eventsActions'
 import moment from 'moment'
 
 import CallToAction from '../shared/CallToAction'
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import Hero from '../shared/Hero'
 import Header from '../shared/Header'
 import ListItem from '../shared/ListItem'
@@ -209,8 +209,8 @@ class EventDetail extends Component {
         <scroll>
           <Hero
             imageUri={imageUri}
-            card={
-              <Card
+            inset={
+              <Inset
                 title={event.title}
                 excerpt={event.excerpt}
                 tags={event.tags}

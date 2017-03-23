@@ -26,7 +26,7 @@ const Hero = (props) => {
           source={{uri}}
           style={styles.image}
         />
-        {props.card}
+        {props.inset}
       </View>
     ),
     wrapper = (props.onPress) ? (
@@ -56,7 +56,7 @@ styles = StyleSheet.create({
 
 Hero.propTypes = {
   imageUri: PropTypes.string.isRequired,
-  card: PropTypes.object,
+  inset: PropTypes.object,
   onPress: PropTypes.func
 }
 

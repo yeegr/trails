@@ -13,7 +13,7 @@ import ParallaxView from 'react-native-parallax-view'
 
 import moment from 'moment'
 
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import EditLink from '../shared/EditLink'
 import ImagePath from '../shared/ImagePath'
 import TextView from '../shared/TextView'
@@ -95,7 +95,7 @@ class EventManager extends Component {
           backgroundSource={{uri}}
           windowHeight={Graphics.heroImage.height}
           header={(
-            <Card
+            <Inset
               align={'bottom'}
               title={event.title}
               excerpt={event.excerpt}

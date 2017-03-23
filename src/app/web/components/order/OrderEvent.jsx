@@ -14,7 +14,7 @@ import {bindActionCreators} from 'redux'
 import * as ordersActions from '../../../redux/actions/ordersActions'
 
 import CallToAction from '../shared/CallToAction'
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import Hero from '../shared/Hero'
 import InfoItem from '../shared/InfoItem'
 import SignUpForm from './SignUpForm'
@@ -125,8 +125,8 @@ class OrderEvent extends Component {
       <detail>
         <Hero
           imageUri={imageUri}
-          card={
-            <Card
+          inset={
+            <Inset
               title={event.title}
               excerpt={event.excerpt}
               tags={event.tags}

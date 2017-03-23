@@ -13,7 +13,7 @@ import {
   AppSettings
 } from '../../../../common/__'
 
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import Hero from '../shared/Hero'
 import UserLink from '../user/UserLink'
 
@@ -49,8 +49,8 @@ class PostDetail extends Component {
       <detail>
         <Hero
           imageUri={imageUri}
-          card={
-            <Card
+          inset={
+            <Inset
               title={post.title}
               excerpt={post.excerpt}
               tags={post.tags}

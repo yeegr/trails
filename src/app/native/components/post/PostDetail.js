@@ -13,7 +13,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as postsActions from '../../../redux/actions/postsActions'
 
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import Loading from '../shared/Loading'
 import ImagePath from '../shared/ImagePath'
 import ParallaxView from 'react-native-parallax-view'
@@ -64,7 +64,7 @@ class PostDetail extends Component {
           backgroundSource={{uri: url}}
           windowHeight={Graphics.heroImage.height}
           header={(
-            <Card
+            <Inset
               align={'bottom'}
               title={post.title}
               tags={post.tags}

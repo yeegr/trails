@@ -37,7 +37,7 @@ const TrailPreview = (props) => {
     <View>
       <View style={styles.detail.section}>
         <Header
-          text={LANG.t('area.RecommandedTrails')}
+          text={props.title || LANG.t('area.RecommandedTrails')}
           more={more}
         />
         <View style={styles.detail.content}>
@@ -54,9 +54,9 @@ const TrailPreview = (props) => {
 
 TrailPreview.propTypes = {
   navigator: PropTypes.object.isRequired,
-  title: PropTypes.string.isRequired,
+  trails: PropTypes.array.isRequired,
   query: PropTypes.string.isRequired,
-  trails: PropTypes.array.isRequired
+  title: PropTypes.string
 }
 
 export default TrailPreview

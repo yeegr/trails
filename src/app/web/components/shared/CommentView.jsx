@@ -17,7 +17,7 @@ const CommentView = (props) => {
   return (
     <row>
       <Avatar user={user} />
-      <content>
+      <info>
         <div>
           <title>{user.handle}</title>
         </div>
@@ -33,7 +33,7 @@ const CommentView = (props) => {
           className="html-content"
           dangerouslySetInnerHTML={UTIL.createMarkup(comment.content)}
         />
-      </content>
+      </info>
     </row>
   )
 }

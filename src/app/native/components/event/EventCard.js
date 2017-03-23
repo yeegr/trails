@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 
 import Hero from '../shared/Hero'
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import TinyStatus from '../shared/TinyStatus'
 import TextView from '../shared/TextView'
 import TinyUser from '../user/TinyUser'
@@ -40,8 +40,8 @@ const EventCard = (props) => {
       <Hero
         imageUri={UTIL.getEventHeroPath(data)} 
         onPress={onPress}
-        card={
-          <Card
+        inset={
+          <Inset
             title={data.title}
             excerpt={data.excerpt}
             tags={data.tags}

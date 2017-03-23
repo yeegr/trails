@@ -14,7 +14,7 @@ import ParallaxView from 'react-native-parallax-view'
 import {connect} from 'react-redux'
 
 import CallToAction from '../shared/CallToAction'
-import Card from '../shared/Card'
+import Inset from '../shared/Inset'
 import ImagePath from '../shared/ImagePath'
 import EventGroup from './EventGroup'
 
@@ -57,7 +57,7 @@ class SelectOrderGroup extends Component {
           backgroundSource={{uri: eventBackgroundUrl}}
           windowHeight={Graphics.heroImage.height}
           header={(
-            <Card
+            <Inset
               align={'bottom'}
               title={event.title} 
               excerpt={event.excerpt}

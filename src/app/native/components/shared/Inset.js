@@ -16,7 +16,7 @@ import {
   Graphics
 } from '../../../../common/__'
 
-const Card = (props) => {
+const Inset = (props) => {
   let align = (props.align === 'bottom') ? {paddingTop: Graphics.titlebar.height, paddingBottom: 5} : null, 
     excerpt = (props.excerpt) ? (
       <View style={styles.section}>
@@ -111,7 +111,7 @@ styles = StyleSheet.create({
   }
 })
 
-Card.propTypes = {
+Inset.propTypes = {
   title: PropTypes.string.isRequired,
   excerpt: PropTypes.string,
   tags: PropTypes.array,
@@ -120,4 +120,4 @@ Card.propTypes = {
   bottomLeft: PropTypes.object,
   bottomRight: PropTypes.object
 }
-export default Card
+export default Inset

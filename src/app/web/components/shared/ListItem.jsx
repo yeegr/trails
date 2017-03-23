@@ -12,10 +12,10 @@ const ListItem = (props) => {
         data-value={props.value}
         data-glyph={props.glyph}
       />
-      <content>
+      <info>
         <pretitle>{props.label}</pretitle>
         <title>{props.value}</title>
-      </content>
+      </info>
     </row>
   )
 }

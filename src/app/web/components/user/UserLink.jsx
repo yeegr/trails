@@ -21,10 +21,10 @@ const UserLink = (props) => {
     <Link className="user-link" to={`user/${user._id}`}>
       <row>
         <Avatar user={user} />
-        <content>
+        <info>
           <pretitle>{LANG.t('user.levels.' + parseInt(user.level).toString())}</pretitle>
           <title>{user.handle}</title>
-        </content>
+        </info>
       </row>
     </Link>
   )

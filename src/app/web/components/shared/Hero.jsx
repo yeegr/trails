@@ -12,14 +12,14 @@ const Hero = (props) => {
 
   return (
     <hero style={{backgroundImage}}>
-      {props.card || null}
+      {props.inset || null}
     </hero>
   )
 }
 
 Hero.propTypes = {
   imageUri: PropTypes.string.isRequired,
-  card: PropTypes.object,
+  inset: PropTypes.object,
   onPress: PropTypes.func
 }
 
