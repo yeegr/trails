@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Image,
   Modal,
+  ScrollView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -314,14 +315,14 @@ class Login extends Component {
     return (
       <Modal animationType={'slide'} transparent={false} visible={login.showLogin}>
         <Image resizeMode={'cover'} source={{uri}} style={styles.backgroundImage}>
-          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+          <ScrollView style={{marginTop: 10}}>
             <View style={{flexDirection: 'column'}}>
               {login.showMobileLogin ? mobileLoginForm : null}
               {login.isFetching ? loginProgress : null}
               <KeyboardSpacer />
             </View>
             {login.showWeChatLogin ? wechatAuthButton : null}
-          </View>
+          </ScrollView>
           <TouchableOpacity onPress={this._hideLogin} style={styles.closeButton}>
             <Icon
               backgroundColor={Graphics.colors.transparent}
@@ -354,8 +355,7 @@ const styles = StyleSheet.create({
     width: Graphics.icon.sideLength
   },
   loginForm: {
-    backgroundColor: 'transparent',
-    paddingBottom: 100
+    backgroundColor: 'transparent'
   },
   weixinLogin: {
     position: 'absolute',
