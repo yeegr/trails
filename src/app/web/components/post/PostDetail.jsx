@@ -47,31 +47,33 @@ class PostDetail extends Component {
 
     return (
       <detail>
-        <Hero
-          imageUri={imageUri}
-          inset={
-            <Inset
-              title={post.title}
-              excerpt={post.excerpt}
-              tags={post.tags}
-            />
-          }
-        />
-        <main>
-          <section>
-            <list>
-              <UserLink user={post.creator} />
-            </list>
-          </section>
-          <section>
-            <post>
-              <div
-                className="html-content"
-                dangerouslySetInnerHTML={UTIL.createMarkup(post.content)}
+        <scroll>
+          <Hero
+            imageUri={imageUri}
+            inset={
+              <Inset
+                title={post.title}
+                excerpt={post.excerpt}
+                tags={post.tags}
               />
-            </post>
-          </section>
-        </main>
+            }loading
+          />
+          <main>
+            <section>
+              <content>
+                <UserLink user={post.creator} />
+              </content>
+            </section>
+            <section>
+              <content>
+                <div
+                  className="html-content"
+                  dangerouslySetInnerHTML={UTIL.createMarkup(post.content)}
+                />
+              </content>
+            </section>
+          </main>
+        </scroll>
       </detail>
     )
 

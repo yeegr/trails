@@ -91,73 +91,75 @@ class OrderPayment extends Component {
 
     return (
       <detail>
-        <Hero
-          imageUri={imageUri}
-          inset={
-            <Inset
-              title={event.title}
-              excerpt={event.excerpt}
-              tags={event.tags}
-            />
-          }
-        />
-        <main>
-          <section>
-            <h2>{LANG.t('event.EventInfo')}</h2>
-            <group>
-              <InfoItem
-                label={LANG.t('event.EventDates')}
-                value={dates}
+        <scroll>
+          <Hero
+            imageUri={imageUri}
+            inset={
+              <Inset
+                title={event.title}
+                excerpt={event.excerpt}
+                tags={event.tags}
               />
-              <InfoItem
-                label={LANG.t('event.PerHead')}
-                value={LANG.t('number.currency', {amount: event.expenses.perHead})}
-              />
-            </group>
-          </section>
-          <section>
-            <h2>{LANG.t('order.SignUps')}</h2>
-            <group>
-            {
-              order.signUps.map((signUp, index) => {
-                let payment = UTIL.calculateInsurance(event, signUp)
-                signUp.payment = payment
-                signUp.cost = payment.cost
-                subTotal += payment.cost
-
-                return (
-                  <InfoItem
-                    key={index}
-                    align={'right'}
-                    noColon={true}
-                    label={signUp.name}
-                    value={LANG.t('number.currency', {amount: payment.cost})}
-                    more={
-                      <Link className="detail" to={`events/${event._id}/${selectedGroup}/signups/${index}`}>
-                        {LANG.t('order.Detail')}
-                      </Link>
-                    }
-                  />
-                )
-              })
             }
-            </group>
-          </section>
-          <section>
-            <list>
-              <InfoItem
-                align={'right'} 
-                label={LANG.t('order.SubTotal')}
-                value={LANG.t('number.currency', {amount: subTotal})}
-                more={
-                  <div className="detail">
-                    &emsp;&emsp;
-                  </div>
-                }
-              />
-            </list>
-          </section>
-        </main>
+          />
+          <main>
+            <section>
+              <h2>{LANG.t('event.EventInfo')}</h2>
+              <group>
+                <InfoItem
+                  label={LANG.t('event.EventDates')}
+                  value={dates}
+                />
+                <InfoItem
+                  label={LANG.t('event.PerHead')}
+                  value={LANG.t('number.currency', {amount: event.expenses.perHead})}
+                />
+              </group>
+            </section>
+            <section>
+              <h2>{LANG.t('order.SignUps')}</h2>
+              <group>
+              {
+                order.signUps.map((signUp, index) => {
+                  let payment = UTIL.calculateInsurance(event, signUp)
+                  signUp.payment = payment
+                  signUp.cost = payment.cost
+                  subTotal += payment.cost
+
+                  return (
+                    <InfoItem
+                      key={index}
+                      align={'right'}
+                      noColon={true}
+                      label={signUp.name}
+                      value={LANG.t('number.currency', {amount: payment.cost})}
+                      more={
+                        <Link className="detail" to={`events/${event._id}/${selectedGroup}/signups/${index}`}>
+                          {LANG.t('order.Detail')}
+                        </Link>
+                      }
+                    />
+                  )
+                })
+              }
+              </group>
+            </section>
+            <section>
+              <content id="subTotal">
+                <InfoItem
+                  align={'right'} 
+                  label={LANG.t('order.SubTotal')}
+                  value={LANG.t('number.currency', {amount: subTotal})}
+                  more={
+                    <div className="detail">
+                      &emsp;&emsp;
+                    </div>
+                  }
+                />
+              </content>
+            </section>
+          </main>
+        </scroll>
         <CallToAction
           onPress={() => this._confirm(subTotal)}
           label={LANG.t('order.ConfirmOrder')}

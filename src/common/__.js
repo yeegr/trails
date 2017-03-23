@@ -22,8 +22,8 @@ i18n.init({
 export const LANG = i18n
 
 const env = require('./env.json'),
-  servers = env[process.env.NODE_ENV]
-  //servers = env.staging
+  //servers = env[process.env.NODE_ENV]
+  servers = env.staging
 
 export let AppSettings = require('./settings.json')
 AppSettings.mobileRx = new RegExp(/^1+\d{10}$/)

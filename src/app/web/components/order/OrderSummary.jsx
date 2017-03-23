@@ -24,73 +24,75 @@ const OrderSummary = (props) => {
 
   return (
     <detail>
-      <main>
-        <section>
-          <h2>{LANG.t('event.EventInfo')}</h2>
-          <group>
-            <InfoItem
-              label={LANG.t('event.EventTitle')}
-              value={event.title}
-            />
-            <InfoItem
-              label={LANG.t('event.EventDates')}
-              value={UTIL.formatEventGroupLabel(event, selectedGroup)}
-            />
-            <InfoItem
-              label={LANG.t('order.SignUps')}
-              value={signUp.name}
-            />
-          </group>
-        </section>
-        <section>
-          <h2>{LANG.t('order.InsuranceExplicate')}</h2>
-          <group>
-            <InfoItem
-              align={'right'}
-              label={LANG.t('order.insurance.BaseRate')}
-              value={LANG.t('number.currency', {amount: payment.baseRate})}
-            />
-            <InfoItem
-              align={'right'}
-              labelWidth={240}
-              label={LANG.t('order.insurance.UserLevelCoef', {level: LANG.t('user.levels.' + payment.userLevel)})}
-              noColon={true}
-              value={payment.userLevelCoef.toString()}
-            />
-            <InfoItem
-              align={'right'} 
-              labelWidth={240}
-              label={LANG.t('order.insurance.TrailDifficultyCoef', {level: payment.difficultyIndex})}
-              noColon={true}
-              value={payment.difficultyLevel.toString()}
-            />
-            <InfoItem
-              align={'right'} 
-              labelWidth={240}
-              label={LANG.t('order.insurance.EventDurationCoef', {days: LANG.t('order.insurance.EventDurationArray.' + payment.durationIndex)})}
-              noColon={true}
-              value={(payment.durationCoef * 100) + '%'}
-            />
-            <InfoItem
-              align={'right'} 
-              labelWidth={240}
-              label={LANG.t('order.insurance.EventGroupSizeCoef', {size: LANG.t('order.insurance.EventGroupSizeArray.' + payment.groupSizeIndex)})}
-              noColon={true}
-              value={payment.groupSizeCoef.toString()}
-            />
-          </group>
-        </section>
-        <section>
-          <list>
-            <InfoItem
-              align={'right'} 
-              label={LANG.t('order.insurance.TotalFee')}
-              noColon={true}
-              value={LANG.t('number.currency', {amount: payment.insurance})}
-            />
-          </list>
-        </section>
-      </main>
+      <scroll>
+        <main>
+          <section>
+            <h2>{LANG.t('event.EventInfo')}</h2>
+            <group>
+              <InfoItem
+                label={LANG.t('event.EventTitle')}
+                value={event.title}
+              />
+              <InfoItem
+                label={LANG.t('event.EventDates')}
+                value={UTIL.formatEventGroupLabel(event, selectedGroup)}
+              />
+              <InfoItem
+                label={LANG.t('order.SignUps')}
+                value={signUp.name}
+              />
+            </group>
+          </section>
+          <section>
+            <h2>{LANG.t('order.InsuranceExplicate')}</h2>
+            <group>
+              <InfoItem
+                align={'right'}
+                label={LANG.t('order.insurance.BaseRate')}
+                value={LANG.t('number.currency', {amount: payment.baseRate})}
+              />
+              <InfoItem
+                align={'right'}
+                labelWidth={240}
+                label={LANG.t('order.insurance.UserLevelCoef', {level: LANG.t('user.levels.' + payment.userLevel)})}
+                noColon={true}
+                value={payment.userLevelCoef.toString()}
+              />
+              <InfoItem
+                align={'right'} 
+                labelWidth={240}
+                label={LANG.t('order.insurance.TrailDifficultyCoef', {level: payment.difficultyIndex})}
+                noColon={true}
+                value={payment.difficultyLevel.toString()}
+              />
+              <InfoItem
+                align={'right'} 
+                labelWidth={240}
+                label={LANG.t('order.insurance.EventDurationCoef', {days: LANG.t('order.insurance.EventDurationArray.' + payment.durationIndex)})}
+                noColon={true}
+                value={(payment.durationCoef * 100) + '%'}
+              />
+              <InfoItem
+                align={'right'} 
+                labelWidth={240}
+                label={LANG.t('order.insurance.EventGroupSizeCoef', {size: LANG.t('order.insurance.EventGroupSizeArray.' + payment.groupSizeIndex)})}
+                noColon={true}
+                value={payment.groupSizeCoef.toString()}
+              />
+            </group>
+          </section>
+          <section>
+            <content>
+              <InfoItem
+                align={'right'} 
+                label={LANG.t('order.insurance.TotalFee')}
+                noColon={true}
+                value={LANG.t('number.currency', {amount: payment.insurance})}
+              />
+            </content>
+          </section>
+        </main>
+      </scroll>
     </detail>
   )
 }

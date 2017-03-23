@@ -123,48 +123,50 @@ class OrderEvent extends Component {
 
     return (
       <detail>
-        <Hero
-          imageUri={imageUri}
-          inset={
-            <Inset
-              title={event.title}
-              excerpt={event.excerpt}
-              tags={event.tags}
-            />
-          }
-        />
-        <main>
-          <div style={{marginBottom: '32px'}}>
-            <h2>{LANG.t('event.EventInfo')}</h2>
-            <group>
-              <InfoItem
-                label={LANG.t('event.EventDates')}
-                value={dates}
+        <scroll>
+          <Hero
+            imageUri={imageUri}
+            inset={
+              <Inset
+                title={event.title}
+                excerpt={event.excerpt}
+                tags={event.tags}
               />
-              <InfoItem
-                label={LANG.t('event.PerHead')}
-                value={LANG.t('number.currency', {amount: event.expenses.perHead})}
-              />
-            </group>
-          </div>
-          <div>
-            {
-              this.state.signUps.map((signUp, index) => {
-                return (
-                  <SignUpForm 
-                    key={index} 
-                    index={index}
-                    isLast={index === (signUpCount - 1)}
-                    signUp={signUp}
-                    addSignUp={this._addSignUp}
-                    removeSignUp={() => this._removeSignUp(index)}
-                    updateInfo={(index, signUp) => this._updateInfo(index, signUp)}
-                  />
-                )
-              })
             }
-          </div>
-        </main>
+          />
+          <main>
+            <div style={{marginBottom: '32px'}}>
+              <h2>{LANG.t('event.EventInfo')}</h2>
+              <group>
+                <InfoItem
+                  label={LANG.t('event.EventDates')}
+                  value={dates}
+                />
+                <InfoItem
+                  label={LANG.t('event.PerHead')}
+                  value={LANG.t('number.currency', {amount: event.expenses.perHead})}
+                />
+              </group>
+            </div>
+            <div>
+              {
+                this.state.signUps.map((signUp, index) => {
+                  return (
+                    <SignUpForm 
+                      key={index} 
+                      index={index}
+                      isLast={index === (signUpCount - 1)}
+                      signUp={signUp}
+                      addSignUp={this._addSignUp}
+                      removeSignUp={() => this._removeSignUp(index)}
+                      updateInfo={(index, signUp) => this._updateInfo(index, signUp)}
+                    />
+                  )
+                })
+              }
+            </div>
+          </main>
+        </scroll>
         <CallToAction
           onPress={this._nextStep}
           label={LANG.t('order.ConfirmSignUps')}

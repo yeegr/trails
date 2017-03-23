@@ -200,6 +200,10 @@ hero {
       margin-top: @tagFontSize / 2;
     }
 
+    p {
+      cursor: inherit;
+    }
+
     corner {
       position: absolute;
       top: auto;
@@ -259,6 +263,7 @@ footer {
     ._flex-wrap(wrap);
     ._align-items(flex-start);
     ._justify-content(space-around);
+    ._flex(1);
 
     > a {
       margin-bottom: @doubleLength;
@@ -335,10 +340,13 @@ list {
   &[type=wrap] {
     padding-right: 0;
   }
+
+  row {
+    margin-bottom: @doubleLength;
+  }
 }
 
 row {
-  margin-bottom: @doubleLength;
   ._flex-box;
 
   > span {
@@ -376,6 +384,20 @@ section {
   margin-bottom: @doubleLength;
   padding-bottom: 1px;
   position: relative;
+
+  &.grid {
+    padding: 0 @baseLength;
+    margin-bottom: @doubleLength;
+  }
+
+  &.header,
+  &.footer {
+    padding: @doubleLength;
+
+    row {
+      margin-bottom: 0;
+    }
+  }
 }
 
 sub-section {
@@ -436,15 +458,14 @@ h4 {
   color: @midGreyColor;
   font-size: 1rem;
   font-weight: normal;
-  margin: 0 @doubleLength @halfLength @doubleLength;
+  margin-bottom: @halfLength;
 }
 
 group {
-  background-color: @backgroundColor;
+  background-color: @cardBackgroundColor;
   border-top: 1px solid @lightGreyColor;
   border-bottom: 1px solid @lightGreyColor;
   display: block;
-  margin-bottom: @doubleLength;
   padding: @baseLength 0;
 
   > row {
@@ -453,7 +474,12 @@ group {
     height: 3rem;
     margin-bottom: 0;
     padding: 0 @doubleLength;
+  }
+}
 
+group,
+#subTotal {
+  > row {
     > label,
     > span {
       font-size: 1.1rem;
@@ -461,11 +487,12 @@ group {
   }
 }
 
+
 fieldset {
   margin-bottom: @tripleLength;
 
   action {
-    bottom: 0;
+    bottom: -@doubleLength;
     left: auto;
     position: absolute;
     right: 0;
@@ -569,30 +596,15 @@ card {
   background-color: @cardBackgroundColor;
   display: block;
   border-radius: @cardCornerRadius;
-  margin: 0 @doubleLength;
+  margin: 0 @doubleLength @doubleLength @doubleLength;
   ._box-shadow;
 
   section {
     margin-bottom: 0;
-
-    &.grid {
-      padding: 0 @baseLength;
-      margin-bottom: @doubleLength;
-    }
   }
 
   p {
     cursor: inherit;
-  }
-
-  head,
-  foot {
-    display: block;
-    padding: @doubleLength;
-
-    row {
-      margin-bottom: 0;
-    }
   }
 }
 
@@ -844,7 +856,7 @@ tile {
   ._flex(1);
 
   tile-caption,
-  tile-data {
+  tile-value {
     display: block;
     text-align: center;
   }
@@ -855,7 +867,7 @@ tile {
     margin-bottom: 0.2rem;
   }
 
-  tile-data {
+  tile-value {
     font-size: 0.7rem;
     height: 0.7rem;
     line-height: 0.7rem;
@@ -1094,11 +1106,6 @@ ol {
   > li {
     list-style-type: decimal;
   }
-}
-
-post {
-  display: block;
-  padding-bottom: @doubleLength;
 }
 
 stamp {

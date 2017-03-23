@@ -45,37 +45,39 @@ class SelectOrderGroup extends Component {
 
     return (
       <detail>
-        <Hero
-          imageUri={imageUri}
-          inset={
-            <Inset
-              title={event.title}
-              excerpt={event.excerpt}
-              tags={event.tags}
-            />
-          }
-        />
-        <main>
-          <section>
-            <selectables>
-              {
-                event.groups.map((group, index) => {
-                  return (
-                    <EventGroup 
-                      key={index}
-                      index={index}
-                      selected={this.state.selectedGroup}
-                      deadline={group.deadline}
-                      label={UTIL.formatEventGroupLabel(event, index)}
-                      signUps={LANG.t('event.numberOfPeopleAlreadySignedUp', {count: group.signUps.length})}
-                      onPress={(selectedGroup) => this.setState({selectedGroup})}
-                    />
-                  )
-                })
-              }
-            </selectables>
-          </section>
-        </main>
+        <scroll>
+          <Hero
+            imageUri={imageUri}
+            inset={
+              <Inset
+                title={event.title}
+                excerpt={event.excerpt}
+                tags={event.tags}
+              />
+            }
+          />
+          <main>
+            <section>
+              <selectables>
+                {
+                  event.groups.map((group, index) => {
+                    return (
+                      <EventGroup 
+                        key={index}
+                        index={index}
+                        selected={this.state.selectedGroup}
+                        deadline={group.deadline}
+                        label={UTIL.formatEventGroupLabel(event, index)}
+                        signUps={LANG.t('event.numberOfPeopleAlreadySignedUp', {count: group.signUps.length})}
+                        onPress={(selectedGroup) => this.setState({selectedGroup})}
+                      />
+                    )
+                  })
+                }
+              </selectables>
+            </section>
+          </main>
+        </scroll>
         <CallToAction
           disabled={(this.state.selectedGroup === null)}
           label={LANG.t('glossary.NextStep')}
