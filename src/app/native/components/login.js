@@ -45,6 +45,7 @@ class Login extends Component {
     this._onLoginPressed = this._onLoginPressed.bind(this)
     this.WXAuth = this.WXAuth.bind(this)
 
+    this._scrollHeight = 0
     this.counter = AppSettings.getVerificationTimer
 
     this.init = {
@@ -151,6 +152,10 @@ class Login extends Component {
       verificationCode: ''
     })
 
+    if (AppSettings.device.height < 736) {
+      this.refs.scrollView.scrollTo({x: 0, y: this._scrollHeight + 10, animated: true})
+    }
+
     this.interval = setInterval(() => {
       if (this.counter > 0) {
         this.counter--
@@ -215,6 +220,7 @@ class Login extends Component {
             text={LANG.t('login.VerificationCode')}
           />
           <TextInput
+            autoFocus={true}
             autoCorrect={false}
             disabled={disableVerificationInput}
             keyboardType="numeric"
@@ -255,7 +261,7 @@ class Login extends Component {
               text={LANG.t('login.LoginViaMobileNumber')}
             />
             <TextInput
-              autoFocus={false}
+              autoFocus={true}
               autoCorrect={false}
               disabled={disableMobileNumberInput}
               keyboardType="phone-pad"
@@ -291,7 +297,7 @@ class Login extends Component {
       ),
 
       wechatAuthButton = (this.state.isWXAppInstalled) ? (
-        <View style={styles.weixinLogin}>
+        <View style={[styles.weixinLogin, styles.inputGroup]}>
           <TextView
             style={labelStyles}
             textColor={Graphics.textColors.overlay} 
@@ -315,14 +321,20 @@ class Login extends Component {
     return (
       <Modal animationType={'slide'} transparent={false} visible={login.showLogin}>
         <Image resizeMode={'cover'} source={{uri}} style={styles.backgroundImage}>
-          <ScrollView style={{marginTop: 10}}>
-            <View style={{flexDirection: 'column'}}>
+          <View style={{flex: 1}}>
+            <ScrollView
+              ref="scrollView"
+              style={{marginTop: 10}}
+              onContentSizeChange={(width, height) => {
+                this._scrollHeight = height
+              }}
+            >
               {login.showMobileLogin ? mobileLoginForm : null}
-              {login.isFetching ? loginProgress : null}
-              <KeyboardSpacer />
-            </View>
+            </ScrollView>
+            {login.isFetching ? loginProgress : null}
             {login.showWeChatLogin ? wechatAuthButton : null}
-          </ScrollView>
+          </View>
+          <KeyboardSpacer />
           <TouchableOpacity onPress={this._hideLogin} style={styles.closeButton}>
             <Icon
               backgroundColor={Graphics.colors.transparent}
@@ -345,6 +357,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     padding: 50,
+    paddingBottom: 30,
     resizeMode: 'cover'
   },
   closeButton: {
@@ -361,7 +374,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: 50
+    bottom: 0
   },
   loginInput: {
     color: Graphics.colors.foreground,

@@ -44,7 +44,6 @@
 		9AD2B9C31D59F71F00F2B4A5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AD2B9C21D59F71F00F2B4A5 /* libc++.tbd */; };
 		9AD2B9C51D59F72900F2B4A5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AD2B9C41D59F72900F2B4A5 /* libz.tbd */; };
 		A4E4DE90FCD645F285C96A03 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D87C156366754BB69DC49822 /* libReactNativePermissions.a */; };
-		A6DC4B194CBD43388AEB9E56 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EE138DB8D7842DCA27C3536 /* libRNI18n.a */; };
 		BE214934FE4342E4BF1EB538 /* libRNNMRangeSlider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FABF7D0CDE38472098F0B901 /* libRNNMRangeSlider.a */; };
 		C70B2D40DC6D49CA86FD9122 /* libAlipayModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B865EBBDC2C41A3B2AAA8F7 /* libAlipayModule.a */; };
 		D361FCB16F1D4927B6B499F6 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7E23F3966C43E58E4AD20E /* libRNSVG.a */; };
@@ -115,20 +114,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 64971CAA1CE1BB7300BCD91E;
 			remoteInfo = AlipayModule;
-		};
-		6693FCE61DE6E27E00832941 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EF5AABA5E93645D1AE149383 /* RNI18n.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CDD7BF781B2D5125006FDA75;
-			remoteInfo = RNI18n;
-		};
-		6693FCE81DE6E27E00832941 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EF5AABA5E93645D1AE149383 /* RNI18n.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CDD7BF831B2D5126006FDA75;
-			remoteInfo = RNI18nTests;
 		};
 		66BD7C741DF7A7A500B913CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -344,7 +329,6 @@
 		1AA7E4A7DFF84C04B14C4DBA /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
 		2575883C59894B39B85A263D /* Contents.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Contents.json; path = "../node_modules/react-native-nmrangeslider-ios/NMRangeSlider/Slider.xcassets/Contents.json"; sourceTree = "<group>"; };
 		2B6EA8159E344126AE685864 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
-		2EE138DB8D7842DCA27C3536 /* libRNI18n.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNI18n.a; sourceTree = "<group>"; };
 		3F8BBA9A1F2B4D6E88692A00 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		400393871AE74EF5AE82CD35 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		4317EFF9129449FA8B942A4E /* RNNMRangeSlider.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNNMRangeSlider.xcodeproj; path = "../node_modules/react-native-nmrangeslider-ios/RNNMRangeSlider.xcodeproj"; sourceTree = "<group>"; };
@@ -384,7 +368,6 @@
 		DB7E23F3966C43E58E4AD20E /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		E210699092A841EAABDA630E /* slider-default7-track@2x.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "slider-default7-track@2x.png"; path = "../node_modules/react-native-nmrangeslider-ios/NMRangeSlider/Slider.xcassets/slider-default7-track.imageset/slider-default7-track@2x.png"; sourceTree = "<group>"; };
 		EAC7ADD03CF149A6B4BAF257 /* libCodePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCodePush.a; sourceTree = "<group>"; };
-		EF5AABA5E93645D1AE149383 /* RNI18n.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNI18n.xcodeproj; path = "../node_modules/react-native-i18n/RNI18n.xcodeproj"; sourceTree = "<group>"; };
 		F59EF16234D44490834446F4 /* AlipayModule.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AlipayModule.xcodeproj; path = "../node_modules/react-native-yunpeng-alipay/ios/AlipayModule.xcodeproj"; sourceTree = "<group>"; };
 		F935140FBEC04A438518EC8C /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 		FABF7D0CDE38472098F0B901 /* libRNNMRangeSlider.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNNMRangeSlider.a; sourceTree = "<group>"; };
@@ -425,7 +408,6 @@
 				32BDCBE99CD94B47A6C9B0BD /* libRNLocation.a in Frameworks */,
 				7EFE99E4F336498D8B28AE94 /* libRNFS.a in Frameworks */,
 				C70B2D40DC6D49CA86FD9122 /* libAlipayModule.a in Frameworks */,
-				A6DC4B194CBD43388AEB9E56 /* libRNI18n.a in Frameworks */,
 				A4E4DE90FCD645F285C96A03 /* libReactNativePermissions.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -554,15 +536,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6693FCCF1DE6E27E00832941 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6693FCE71DE6E27E00832941 /* libRNI18n.a */,
-				6693FCE91DE6E27E00832941 /* RNI18nTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		66BD7C6B1DF7A7A500B913CF /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -614,7 +587,6 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				9AD2B9A51D59F6AD00F2B4A5 /* RCTWeChat.xcodeproj */,
 				2B6EA8159E344126AE685864 /* RNFS.xcodeproj */,
-				EF5AABA5E93645D1AE149383 /* RNI18n.xcodeproj */,
 				8BBA25F4E60C462AB64DF279 /* RNLocation.xcodeproj */,
 				4317EFF9129449FA8B942A4E /* RNNMRangeSlider.xcodeproj */,
 				19C54BB07FD040D5BE9EF5CE /* RNSVG.xcodeproj */,
@@ -925,10 +897,6 @@
 					ProjectRef = 2B6EA8159E344126AE685864 /* RNFS.xcodeproj */;
 				},
 				{
-					ProductGroup = 6693FCCF1DE6E27E00832941 /* Products */;
-					ProjectRef = EF5AABA5E93645D1AE149383 /* RNI18n.xcodeproj */;
-				},
-				{
 					ProductGroup = 9A9038811D488CAF00055558 /* Products */;
 					ProjectRef = 7B2ADF0CE89448619E4B1C77 /* RNImagePicker.xcodeproj */;
 				},
@@ -1014,20 +982,6 @@
 			fileType = archive.ar;
 			path = libAlipayModule.a;
 			remoteRef = 667D57DE1DDD3E1300DC6E2F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6693FCE71DE6E27E00832941 /* libRNI18n.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNI18n.a;
-			remoteRef = 6693FCE61DE6E27E00832941 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6693FCE91DE6E27E00832941 /* RNI18nTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = RNI18nTests.xctest;
-			remoteRef = 6693FCE81DE6E27E00832941 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		66BD7C751DF7A7A500B913CF /* libRCTAnimation.a */ = {
@@ -1316,16 +1270,12 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
-					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 				);
 				INFOPLIST_FILE = trails/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/trails\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1360,16 +1310,12 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
-					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 				);
 				INFOPLIST_FILE = trails/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/trails\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1435,7 +1381,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
-					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1492,7 +1437,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
-					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1549,7 +1493,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
-					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1582,16 +1525,12 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
-					"$(SRCROOT)/../node_modules/react-native-i18n/RNI18n",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
 				);
 				INFOPLIST_FILE = trails/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/trails\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

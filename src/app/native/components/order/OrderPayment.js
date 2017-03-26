@@ -6,7 +6,6 @@ import React, {
 } from 'react'
 
 import {
-  Alert,
   TouchableOpacity,
   View,
 } from 'react-native'
@@ -114,7 +113,8 @@ class OrderPayment extends Component {
           result.response = JSON.parse(data[0].result)
           result.resultStatus = data[0].resultStatus
           result.method = order.method
-          this.props.ordersActions.updateOrder(order)
+
+          this.props.ordersActions.updateOrder(result)
         }, (err) => {
           this._cancelPayment(err)
         })

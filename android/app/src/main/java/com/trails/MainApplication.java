@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.facebook.react.ReactApplication;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
-import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.yunpeng.alipay.AlipayPackage;
 import com.rnfs.RNFSPackage;
 import com.theweflex.react.WeChatPackage;
@@ -36,7 +35,6 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new ReactNativePermissionsPackage(),
-            new ReactNativeI18n(),
             new AlipayPackage(),
             new RNFSPackage(),
             new WeChatPackage()
