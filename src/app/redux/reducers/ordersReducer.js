@@ -75,6 +75,25 @@ const ordersReducer = (state = {
         list: [],
       })
 
+   case ACTIONS.GET_ORDER_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true
+      })
+
+    case ACTIONS.GET_ORDER_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        message: null,
+        order: action.order
+      })
+
+    case ACTIONS.GET_ORDER_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        message: action.message,
+        order: null
+      })
+
     default:
       return state
   }

@@ -350,8 +350,12 @@ row {
   ._flex-box;
 
   > span {
-    flex: 1;
     margin-right: @doubleLength;
+    ._flex(1);
+
+    &.link {
+      ._flex(none);
+    }
   }
 
   a.detail {

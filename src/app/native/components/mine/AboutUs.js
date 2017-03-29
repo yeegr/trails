@@ -15,8 +15,8 @@ import {
 const AboutUs = (props) => {
   return (
     <WebView
-      source={{uri: AppSettings.baseUri + 'about'}}
-      source={{uri: 'https://github.com/facebook/react-native'}}
+      scalesPageToFit={true}
+      source={{uri: AppSettings.baseUri + 'about?showNavbar=false'}}
       style={{marginTop: 64}}
     />
   )

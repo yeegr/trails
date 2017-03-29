@@ -157,3 +157,46 @@ export const listOrders = (params) => {
       })
   }
 }
+
+// get one order
+const getOrderRequest = () => {
+  return {
+    type: ACTIONS.GET_ORDER_REQUEST
+  }
+}
+
+const getOrderSuccess = (order) => {
+  return {
+    type: ACTIONS.GET_ORDER_SUCCESS,
+    order
+  }
+}
+
+const getOrderFailure = (message) => {
+  return {
+    type: ACTIONS.GET_ORDER_SUCCESS,
+    message
+  }
+}
+
+export const getOrder = (id) => {
+  return (dispatch) => {
+    dispatch(getOrderRequest())
+
+    return fetch(AppSettings.apiUri + 'orders/' + id)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        if (res.error) {
+          dispatch(getOrderFailure(res.error))
+          return Promise.reject(res)
+        } else {
+          dispatch(getOrderSuccess(res))
+        }
+      })
+      .catch((err) => {
+        dispatch(getOrderFailure(err))
+      })
+  }
+}

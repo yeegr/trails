@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="keywords" content="轨迹,户外,活动">
     <meta name="revised" content=" ">
@@ -11,13 +11,11 @@
     <script src="http://webapi.amap.com/maps?v=1.3&key=cc81643ef299be79cc3b6aad2a1ac212&plugin=AMap.Scale,AMap.OverView,AMap.ToolBar"></script>
   </head>
   <body>
-    <!--<wrapper tabless></wrapper>-->
     <wrapper></wrapper>
     <script src="js/bundle.js"></script>
     <script>
-      document.addEventListener('gesturestart', (e) => {
-        e.preventDefault()
-      })
+      //let meta = document.querySelector("meta[name=viewport]")
+      //let width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
     </script>
   </body>
 </html>

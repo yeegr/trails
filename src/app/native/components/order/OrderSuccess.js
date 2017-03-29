@@ -21,7 +21,6 @@ import styles from '../../styles/main'
 import {
   UTIL,
   LANG,
-  Lang,
   AppSettings,
   Graphics
 } from '../../../../common/__'
@@ -40,61 +39,85 @@ class OrderSuccess extends Component {
         <ScrollView style={{flex: 1, paddingTop: 64}}>
           <View style={styles.detail.article}>
             <View style={styles.detail.section}>
-              <TextView class={'h2'} text={LANG.t('event.EventInfo')} />
+              <TextView
+                class={'h2'}
+                text={LANG.t('event.EventInfo')}
+              />
               <View style={styles.detail.group}>
-                <InfoItem label={LANG.t('event.EventTitle')} value={
-                  <TouchableOpacity onPress={this.navToEvent}>
-                    <TextView 
-                      textColor={Graphics.textColors.link} 
-                      text={event.title}
-                    />
-                  </TouchableOpacity>
-                } />
-                <InfoItem label={LANG.t('event.EventDates')} value={dates} />
+                <InfoItem
+                  label={LANG.t('event.EventTitle')}
+                  value={
+                    <TouchableOpacity onPress={this.navToEvent}>
+                      <TextView 
+                        textColor={Graphics.textColors.link} 
+                        text={event.title}
+                      />
+                    </TouchableOpacity>
+                  }
+                />
+                <InfoItem
+                  label={LANG.t('event.EventDates')}
+                  value={dates}
+                />
               </View>
             </View>
             <View style={styles.detail.section}>
-              <TextView class={'h2'} text={LANG.t('order.SignUpInfo')} />
+              <TextView
+                class={'h2'}
+                text={LANG.t('order.SignUpInfo')}
+              />
               <View style={styles.detail.group}>
-              {
-                order.signUps.map((signUp, index) => {
-                  let payment = UTIL.calculateInsurance(event, signUp)
-                  signUp.payment = payment
-                  signUp.cost = payment.cost
+                {
+                  order.signUps.map((signUp, index) => {
+                    let payment = UTIL.calculateInsurance(event, signUp)
+                    signUp.payment = payment
+                    signUp.cost = payment.cost
 
-                  return (
-                    <InfoItem
-                      key={index}
-                      align={'right'}
-                      noColon={true}
-                      label={signUp.name}
-                      value={payment.cost.toString() + Lang.Yuan}
-                      more={{
-                        label: Lang.Detail,
-                        onPress: () => {
-                          navigator.push({
-                            id: 'OrderSummary',
-                            title: Lang.OrderSummary,
-                            passProps: {
-                              event,
-                              selectedGroup: order.group,
-                              signUp
-                            }
-                          })
-                        }
-                      }}
-                    />
-                  )
-                })
-              }
+                    return (
+                      <InfoItem
+                        key={index}
+                        align={'right'}
+                        noColon={true}
+                        label={signUp.name}
+                        value={payment.cost.toString() + LANG.t('number.currency_postfix')}
+                        more={{
+                          label: LANG.t('order.Detail'),
+                          onPress: () => {
+                            navigator.push({
+                              id: 'OrderSummary',
+                              title: LANG.t('order.OrderSummary'),
+                              passProps: {
+                                event,
+                                selectedGroup: order.group,
+                                signUp
+                              }
+                            })
+                          }
+                        }}
+                      />
+                    )
+                  })
+                }
               </View>
             </View>
             <View style={styles.detail.section}>
-              <TextView class={'h2'} text={LANG.t('order.OrderInfo')} />
+              <TextView
+                class={'h2'}
+                text={LANG.t('order.OrderInfo')}
+              />
               <View style={styles.detail.group}>
-                <InfoItem label={LANG.t('order.OrderId')} value={order._id} />
-                <InfoItem label={LANG.t('order.PayTime')} value={UTIL.getTimeFromId(order._id).format(AppSettings.defaultDateTimeFormat)} />
-                <InfoItem label={LANG.t('order.TotalCost')} value={order.subTotal + Lang.Yuan} />
+                <InfoItem
+                  label={LANG.t('order.OrderId')}
+                  value={order._id}
+                />
+                <InfoItem
+                  label={LANG.t('order.PayTime')}
+                  value={UTIL.getTimeFromId(order._id).format(AppSettings.defaultDateTimeFormat)}
+                />
+                <InfoItem
+                  label={LANG.t('order.TotalCost')}
+                  value={order.subTotal.toString() + LANG.t('number.currency_postfix')}
+                />
               </View>
             </View>
           </View>

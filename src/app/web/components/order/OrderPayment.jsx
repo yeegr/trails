@@ -53,7 +53,8 @@ class OrderPayment extends Component {
     let {user, event} = this.props,
       {selectedGroup} = this.props.routeParams,
       order = {
-        type: CONSTANTS.ORDER_TYPES.WEB,
+        type: CONSTANTS.ORDER_TYPES.SIGNUP,
+        channel: CONSTANTS.ORDER_CHANNELS.WEB,
         creator: user.id,
         event: event.id,
         group: selectedGroup,
@@ -74,8 +75,6 @@ class OrderPayment extends Component {
   _pay(order) {
     let {method} = order,
       url = CONSTANTS.PAY_REQUEST_URLS[method] + order[method]
-
-    //console.log(url)
 
     document.location = url
   }

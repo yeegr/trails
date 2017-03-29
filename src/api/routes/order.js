@@ -11,7 +11,8 @@ const mongoose = require('mongoose'),
   UTIL = require('../util'),
   User = require('../models/user'),
   Order = require('../models/order'),
-  AlipayPrivateKey = fs.readFileSync('./rsa_private_key.pem').toString()
+  AlipayPrivateKey = fs.readFileSync('./alipay_private_key.pem').toString(),
+  AlipayPublicKey = fs.readFileSync('./alipay_public_key.pem').toString()
 
 mongoose.Promise = global.Promise
 
@@ -53,7 +54,7 @@ Alipay = {
     return str + '&sign=' + encodeURIComponent(signedStr)
   },
 
-  verify(order, response) {
+  validate(order, response) {
     let idCheck = (order._id.toString() === response.out_trade_no),
       paymentCheck = (order.subTotal.toString() === response.total_amount),
       sellerCheck = (CONST.Alipay[order.channel].bizContent.seller_id === response.seller_id),
@@ -141,7 +142,7 @@ WeChatPay = {
     })
   },
 
-  verify(order, response) {
+  validate(order, response) {
     let idCheck = (order._id.toString() === response.out_trade_no)
     return idCheck
   }
@@ -165,17 +166,6 @@ module.exports = (app) => {
     })
   }
 
-  /* Alipay validation */
-  app.post('/alipay', (req, res, next) => {
-    let sign = crypto.createSign('RSA-SHA1'),
-      str = '{"a":"123"}'
-
-    sign.update(str)
-    let signedStr = sign.sign(AlipayPrivateKey, 'base64')
-
-    res.status(200).send(encodeURIComponent(signedStr))
-  })
-
   /* Create */
   app.post('/orders', (req, res, next) => {
     let order = new Order(req.body),
@@ -196,10 +186,21 @@ module.exports = (app) => {
         let tmp = JSON.parse(JSON.stringify(data))
         tmp.ip = ip
 
-        switch (data.method) {
+        switch (tmp.method) {
           case 'Alipay':
             tmp.Alipay = Alipay.pay(data)
-            res.status(201).json(tmp)
+
+            switch(tmp.channel) {
+              // 'APP'
+              case CONST.ORDER_CHANNELS[0]:
+                res.status(201).json(tmp)
+              break
+
+              // 'WEB'
+              case CONST.ORDER_CHANNELS[1]:
+                res.status(201).json(tmp)
+              break
+            }
           break
 
           case 'WeChatPay':
@@ -226,7 +227,10 @@ module.exports = (app) => {
       query.creator = req.query.creator
     }
 
-    if (req.query.status) {
+    if (req.query.status === 'success') {
+      query.status = {}
+      query.status.$in = ['success', 'verified']
+    } else {
       query.status = req.query.status
     }
 
@@ -320,17 +324,72 @@ module.exports = (app) => {
 
   /* Alipay Return : return_url */
   app.get('/alipay/return', (req, res, next) => {
-    console.log('alipay return: ', moment())
-    console.log(req)
-    //console.log(req.body)
-    res.status(200).send()
+    let tmp = req.query,
+      signType = tmp.sign_type,
+      sign = tmp.sign,
+      query = {}
+
+    query._id = tmp.out_trade_no
+    query.subTotal = tmp.total_amount
+
+    if (tmp.seller_id !== CONST.Alipay.seller_id) {
+      res.status(500).json({error: 'ILLEGAL_SELLER_ID'})
+    } else if (tmp.app_id !== CONST.Alipay.app_id) {
+      res.status(500).json({error: 'ILLEGAL_APP_ID'})
+    } else {
+      Order
+      .findOne(query)
+      .exec()
+      .then((order) => {
+        if (order) {
+          delete tmp.sign_type
+          delete tmp.sign
+
+          let verifier = crypto.createVerify('RSA-SHA1'),
+            str = formatPaymentString(tmp).str
+
+          verifier.update(str)
+          let result = verifier.verify(AlipayPublicKey, sign, 'base64')
+
+          if (result) {
+            order
+            .set({
+              status: "verified"
+            })
+            .save()
+            .then((data) => {
+              let host = 'http://' + ((process.env.NODE_ENV === 'development') ? 'localhost' : 'shitulv.com'),
+                redirectUri = host + '/#/orders/' + data._id + '/success'
+
+              res.redirect(redirectUri)
+            })
+            .catch((err) => {
+              res.status(500).json({error: err})
+            })
+          } else {
+            res.status(500).json({error: 'VERIFICATION_FAILED'})
+          }
+        } else {
+          res.status(500).json({error: 'CANNOT_FIND_ORDER'})
+        }
+      })
+      .catch((err) => {
+        res.status(500).json({error: err})
+      })
+    }
   })
 
   /* Alipay Notify : notify_url */
   app.post('/alipay/notify', (req, res, next) => {
     console.log('alipay notify: ', moment())
-    //console.log(req)
-    //console.log(req.body)
+    console.log(req.body)
+    res.status(200).send()
+  })
+
+  /* WeChatPay Notify : notify_url */
+  app.post('/wechatpay/notify', (req, res, next) => {
+    console.log('wechatpay notify: ', moment())
+    console.log(req.body)
     res.status(200).send()
   })
 

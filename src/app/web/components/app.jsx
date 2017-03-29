@@ -36,13 +36,15 @@ class App extends Component {
   }
   
   render() {
+    let nav = (AppSettings.showNavbar === true) ? (
+      <Nav />
+    ) : null
+
     return (
       <app>
         <page>
-          <Nav />
-          {
-            this.props.children
-          }
+          {nav}
+          {this.props.children}
           <Footer />
         </page>
         <Login />

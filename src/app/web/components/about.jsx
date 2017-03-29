@@ -12,9 +12,15 @@ import {showLogin} from '../../redux/actions/loginActions'
 import LOGO from '../../../../assets/AppIcon/512_transparent.png'
 import BACKGROUND from '../../../../assets/Heroes/007.jpg'
 
+import {
+  AppSettings
+} from '../../../common/__'
+
 class About extends Component {
   constructor(props) {
     super(props)
+
+    AppSettings.showNavbar = (this.props.location.query.showNavbar !== 'false')
   }
 
   render() {

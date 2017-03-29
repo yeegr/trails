@@ -16,8 +16,7 @@ import styles from '../../styles/main'
 
 import {
   UTIL,
-  LANG,
-  Lang
+  LANG
 } from '../../../../common/__'
 
 const OrderSummary = (props) => {

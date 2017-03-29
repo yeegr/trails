@@ -84,7 +84,7 @@ class OrderPayment extends Component {
     let {user, event, selectedGroup} = this.props,
       order = {
         type: CONSTANTS.ORDER_TYPES.SIGNUP,
-        channel: CONSTANTS.ORDER_TYPES.APP,
+        channel: CONSTANTS.ORDER_CHANNELS.APP,
         creator: user.id,
         event: event.id,
         group: selectedGroup,

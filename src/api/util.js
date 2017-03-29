@@ -163,5 +163,19 @@ module.exports = {
     }
 
     return str
-  }
+  },
+
+  queryString2Object: function(str) {
+    let obj = {},
+      arr = str.split('&')
+
+    arr.map((i) => {
+      let kvp = i.split('=')
+      obj[kvp[0]] = kvp[1]
+    })
+
+    return obj
+  },
+
+  
 }

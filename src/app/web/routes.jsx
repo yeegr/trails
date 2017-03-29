@@ -52,7 +52,6 @@ export default (
         <Route path="/events/:id/:selectedGroup/order" component={OrderEvent} />
         <Route path="/events/:id/:selectedGroup/signups/:selectedSignUp" component={OrderSummary} />
         <Route path="/events/:id/:selectedGroup/payment" component={OrderPayment} />
-        <Route path="/events/:id/:selectedGroup/success" component={OrderSuccess} />
 
     <Route path="/posts" component={PostList} />
       <Route path="/posts/:id" component={PostDetail} />
@@ -60,5 +59,7 @@ export default (
 
       <Route path="/trails/:id" component={TrailDetail} />
         <Route path="/trails/:id/gallery" component={Gallery} />
+
+    <Route path="/orders/:id/success" component={OrderSuccess} />
   </Route>
 )

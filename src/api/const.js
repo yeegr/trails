@@ -20,7 +20,7 @@ module.exports = {
     EVENT: ["editing", "pending", "approved", "rejected", "updating", "suspended"],
     GROUP: ["accepting", "filled", "due"],
     SIGNUP: ["submitted", "pending", "approved", "rejected"],
-    PAYMENT: ["pending", "success", "failed", "canceled", "processing", "duplicated", "network connection error", "unknown"],
+    PAYMENT: ["pending", "success", "verified", "failed", "canceled", "processing", "duplicated", "network connection error", "unknown"],
     POST: ["editing", "pending", "approved", "published"],
     PRIVACY: ["private", "public"]
   },
@@ -82,7 +82,7 @@ module.exports = {
         "fee_type": "CNY",
         "device_info": "WEB",
         "sign_type": "MD5",
-        "notify_url": "http://shitulv.com/wechat/notify"
+        "notify_url": "http://shitulv.com/api/wechat/notify"
       },
       "statuses": {
         "0": "success",
@@ -93,6 +93,10 @@ module.exports = {
   },
 
   "Alipay": {
+    "app_id": "2016111902979618", // production
+    "seller_id": "2088021102234564",
+    "seller_email": "pay@shitulv.com",
+    
     "APP": {
       "pubContent": {
         "app_id": "2016111902979618", // production
@@ -102,7 +106,7 @@ module.exports = {
         "charset": "utf-8",
         "sign_type": "RSA",
         "version": "1.0",
-        "notify_url": "http://shitulv.com/alipay/notify"
+        "notify_url": "http://shitulv.com/api/alipay/notify"
       },
       "bizContent": {
         "timeout_express": "15m",
@@ -124,6 +128,7 @@ module.exports = {
       }
     },
     "WEB": {
+      "apiRoot": "https://openapi.alipay.com/gateway.do?",
       "pubContent": {
         "app_id": "2016111902979618",  // production
         //"app_id": "2016101500693227", // development
@@ -132,8 +137,8 @@ module.exports = {
         "charset": "utf-8",
         "sign_type": "RSA",
         "version": "1.0",
-        "return_url": "http://shitulv.com/alipay/return",
-        "notify_url": "http://shitulv.com/alipay/notify"
+        "return_url": "http://shitulv.com/api/alipay/return",
+        "notify_url": "http://shitulv.com/aip/alipay/notify"
       },
       "bizContent": {
       },
