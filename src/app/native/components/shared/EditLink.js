@@ -44,7 +44,16 @@ const EditLink = (props) => {
           type={'close'}
         />
       )
-    } else if (props.value !== null) {
+    } else if (typeof(props.value) === 'string') {
+      value = (
+        <TextView
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={{textAlign: 'right', width: 120}}
+          text={props.value}
+        />
+      )
+    } else if (typeof(props.value) === 'number') {
       value = (
         <TextView
           numberOfLines={1}
@@ -72,7 +81,10 @@ const EditLink = (props) => {
         <View style={styles.editor.value}>
           {value}
         </View>
-        <Next path={Graphics.arrow.next} fill={Graphics.arrow.fill} />
+        <Next
+          path={Graphics.arrow.next}
+          fill={Graphics.arrow.fill}
+        />
       </View>
     </TouchableOpacity>
   )
@@ -82,8 +94,8 @@ EditLink.propTypes = {
   value: PropTypes.any,
   label: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
-  required: PropTypes.bool,
   user: PropTypes.object,
+  required: PropTypes.bool,
   validated: PropTypes.bool
 }
 

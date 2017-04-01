@@ -89,6 +89,22 @@ module.exports = {
         "-1": "error",
         "-2": "canceled"
       }
+    },
+    "WEB": {
+      "orderContent": {
+        "appid": "wx08727837cbbd7bdc",
+        "mch_id": "1452752702",
+        "trade_type": "NATIVE",
+        "fee_type": "CNY",
+        "device_info": "WEB",
+        "sign_type": "MD5",
+        "notify_url": "http://shitulv.com/api/wechat/notify"
+      },
+      "statuses": {
+        "0": "success",
+        "-1": "error",
+        "-2": "canceled"
+      }
     }
   },
 

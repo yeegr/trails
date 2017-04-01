@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximun-scale=1.0">
     <meta name="description" content="">
     <meta name="keywords" content="轨迹,户外,活动">
     <meta name="revised" content=" ">
@@ -14,8 +14,9 @@
     <wrapper></wrapper>
     <script src="js/bundle.js"></script>
     <script>
-      //let meta = document.querySelector("meta[name=viewport]")
-      //let width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+      let body = document.querySelector('body'),
+        wrapper = document.querySelector('wrapper')
+      //alert(window.innerWidth + ' | ' + body.scrollWidth + ' | ' + window.innerHeight + ' | ' + body.scrollHeight)
     </script>
   </body>
 </html>

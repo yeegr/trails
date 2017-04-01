@@ -220,4 +220,15 @@
   align-self: @string;
 }
 
+/*
+ * @width: number
+ * @count: number
+ * @margin: number
+ * @ratio: number
+ */
+._grid (@width, @count: 3, @gutter, @ratio) {
+  @side: ~"("@width~"- ("@gutter~" * "(@count + 1)~")) / "@count;
 
+  height: calc(@side~" * "@ratio);
+  width: calc(@side);
+}

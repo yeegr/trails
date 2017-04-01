@@ -43,7 +43,5 @@
   "sdks":{
     "amap":"cc81643ef299be79cc3b6aad2a1ac212",
     "wechat":"wx6e8a3e1b87c11294"
-  },
-
-  "showNavbar": true
+  }
 }

@@ -106,9 +106,11 @@ export function formatEndTime(dt, days) {
 
 export function formatEventGroupLabel(event, groupIndex) {
   const startDate = moment(event.groups[groupIndex].startDate),
-    days = event.schedule.length
+    days = event.schedule.length,
+    endDate = moment(startDate).add(days, 'days'),
+    endFormat = (endDate.year() > startDate.year()) ? 'LL' : 'MMMD日'
 
-  return startDate.format('LL') + '-' + moment(startDate).add(days, 'days').format('LL')
+  return startDate.format('LL') + '-' + endDate.format(endFormat)
 } 
 
 export function formatDateSpan(startDate, days) {
@@ -457,4 +459,21 @@ export function stringifyObject(obj) {
   }
 
   return str
+}
+
+function nthIndexOf(str, pattern, n) {
+  let len = str.length,
+    i = -1
+
+  while (n-- && i++ < len) {
+    i = str.indexOf(pattern, i)
+    if (i < 0) break
+  }
+
+  return i
+}
+
+export function versionCleaner(ver) {
+  let pos = nthIndexOf(ver, '.', 3)
+  return (pos > 4) ? ver.substring(0, pos) : ver
 }

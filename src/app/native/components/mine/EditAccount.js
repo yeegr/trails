@@ -26,7 +26,6 @@ import styles from '../../styles/main'
 import {
   CONSTANTS,
   LANG,
-  AppSettings,
   Graphics
 } from '../../../../common/__'
 
@@ -39,6 +38,13 @@ class EditAccount extends Component {
     this._bindWeChat = this._bindWeChat.bind(this)
     this._unbindWeChat = this._unbindWeChat.bind(this)
     this._clearCache = this._clearCache.bind(this)
+
+    this.state = Object.assign({}, this.init, {
+      apiVersion: 'waiting...',
+      wxAppInstallUrl: 'waiting...',
+      isWXAppSupportApi: 'waiting...',
+      isWXAppInstalled: false
+    })
   }
 
   async componentDidMount() {
@@ -164,6 +170,13 @@ class EditAccount extends Component {
       return null
     }
 
+    const bindWeChatLink = (this.state.isWXAppInstalled) ? (
+      <EditLink
+        label={LANG.t((user.wechat === CONSTANTS.WeChatOpenId) ? 'mine.edit.BindWeChat' : 'mine.edit.UnbindWeChat')}
+        onPress={this._toggleWeChat}
+      />
+    ) : null
+
     return (
       <View style={styles.global.wrapper}>
         <ScrollView style={styles.editor.scroll}>
@@ -185,10 +198,7 @@ class EditAccount extends Component {
               required={true}
               value={user.mobile}
             />
-            <EditLink
-              label={LANG.t((user.wechat === CONSTANTS.WeChatOpenId) ? 'mine.edit.BindWeChat' : 'mine.edit.UnbindWeChat')}
-              onPress={this._toggleWeChat}
-            />
+            {bindWeChatLink}
             <EditLink
               label={LANG.t('mine.edit.EditUserLevel')}
               onPress={() => this._nextPage('level')}

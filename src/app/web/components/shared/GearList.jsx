@@ -13,10 +13,6 @@ const GearList = (props) => {
     return null
   }
 
-  const n = 4,
-    margin = 16,
-    sideLength = Math.floor(($(window).width() - margin * (n + 1)) / n)
-
   return (
     <grid>
       {
@@ -25,8 +21,6 @@ const GearList = (props) => {
             <Gear
               key={number}
               number={number}
-              sideLength={sideLength}
-              margin={margin}
             />
           )
         })

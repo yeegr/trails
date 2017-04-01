@@ -12,21 +12,15 @@ import {showLogin} from '../../redux/actions/loginActions'
 import LOGO from '../../../../assets/AppIcon/512_transparent.png'
 import BACKGROUND from '../../../../assets/Heroes/007.jpg'
 
-import {
-  AppSettings
-} from '../../../common/__'
-
 class About extends Component {
   constructor(props) {
     super(props)
-
-    AppSettings.showNavbar = (this.props.location.query.showNavbar !== 'false')
   }
 
   render() {
     return (
-      <div style={{backgroundImage: `url(${BACKGROUND})`, backgroundSize: 'cover', display: 'flex', height: '100%', justifyContent: 'center'}}>
-        <div style={{width: '80%', marginTop: '2rem', textAlign: 'center'}}>
+      <detail style={{backgroundImage: `url(${BACKGROUND})`, backgroundSize: 'cover', alignItems: 'center'}}>
+        <scroll style={{padding: '2rem 4rem', textAlign: 'center'}}>
           <img 
             src={LOGO}
             style={{maxWidth: '200px', width: '50%'}}
@@ -36,8 +30,8 @@ class About extends Component {
             <p>北京毅跑开发的手机APP“识途”已经过上线测试，拥有轨迹、活动等多项功能，其中注册用户已经将自己的姓名、身份证号码、电话号码、户外经验等在注册时做了登记，为今后的投保录入个人信息提供了方便条件；轨迹运用于户外出行的路线记录和使用，影响保险定价的路线难度系数有明确载明，便于调用；活动版块记录了参与活动的投保人数、领队、日期、天气、交通工具等，为保险价格的计算直接提供了数据基础。</p>
             <p>北京毅跑由资深的户外玩家、知名的户外领队联合地理信息、保险、IT人士跨界组成，在户外圈拥有较高的知名度和影响力，这次户外出行服务工具的开发，基于领队组织户外旅行的基本需求，解决的每一个问题都是户外领队组织活动的痛点所在，已经受到绿野、磨房、三夫等国内主要户外机构的关注，结合这次全新保险产品的上线销售，将受到市场的狂热追捧。</p>
           </div>
-        </div>
-      </div>
+        </scroll>
+      </detail>
     )
   }
 }

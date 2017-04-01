@@ -5,6 +5,8 @@ import React, {
   PropTypes
 } from 'react'
 
+import semver from 'semver'
+
 import {connect} from 'react-redux'
 import * as loginActions from '../../redux/actions/loginActions'
 
@@ -16,6 +18,7 @@ import Device from '../device'
 
 import {
   CONSTANTS,
+  UTIL,
   AppSettings
 } from '../../../common/__'
 
@@ -29,6 +32,22 @@ class App extends Component {
     AppSettings.storageEngine = localStorage
     AppSettings.storageType = CONSTANTS.STORAGE_TYPES.LOCAL
     AppSettings.currentCity = '010'
+
+    let {device} = AppSettings,
+      {browserName, browserVersion} = device
+
+    browserVersion = UTIL.versionCleaner(browserVersion)
+
+    if (browserName === 'MicroMessenger' && semver.gte(browserVersion, '5.0.0')) {
+      AppSettings.wrapperView = 'WeChat'
+      AppSettings.defaultPaymentMethod = 'WeChatPay'
+      AppSettings.paymentMethods.splice(0, 1)
+    } else if (browserName === 'WebView') {
+      AppSettings.wrapperView = 'WebView'
+    } else {
+      AppSettings.wrapperView = 'Browser'
+      AppSettings.paymentMethods.splice(1, 1)
+    }
   }
 
   componentDidMount() {
@@ -36,16 +55,20 @@ class App extends Component {
   }
   
   render() {
-    let nav = (AppSettings.showNavbar === true) ? (
-      <Nav />
-    ) : null
+    let nav = <Nav />,
+      footer = <Footer />
+
+    if (AppSettings.wrapperView !== 'Browser') {
+      nav = null
+      footer = null
+    }
 
     return (
       <app>
         <page>
           {nav}
           {this.props.children}
-          <Footer />
+          {footer}
         </page>
         <Login />
       </app>

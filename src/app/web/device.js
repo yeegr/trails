@@ -103,6 +103,10 @@ if (userAgent.indexOf('Trident') > -1) {
   }
 }
 
+if (systemName === 'iOS' && browserName === '' && browserVersion === '') {
+  browserName = 'WebView'
+}
+
 export default {
   systemName,
   systemVersion,

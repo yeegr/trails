@@ -5,10 +5,9 @@ import React, {
   PropTypes
 } from 'react'
 
-import {
-  hashHistory,
-  Link
-} from 'react-router'
+import {Link} from 'react-router'
+
+import qr from 'qr-image'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -18,6 +17,7 @@ import CallToAction from '../shared/CallToAction'
 import Inset from '../shared/Inset'
 import Hero from '../shared/Hero'
 import InfoItem from '../shared/InfoItem'
+import Selectable from '../shared/Selectable'
 
 import {
   CONSTANTS,
@@ -30,24 +30,44 @@ class OrderPayment extends Component {
   constructor(props) {
     super(props)
     this._confirm = this._confirm.bind(this)
-    this._pay = this._pay.bind(this)
 
     this.state = {
-      paymentMethod: AppSettings.defaultPaymentMethod
+      signUps: this.props.signUps,
+      paymentMethod: AppSettings.defaultPaymentMethod,
+      isPaying: false,
+      showQRCode: false
     }
   }
 
   componentWillReceiveProps(nextProps) {
     let {order} = nextProps
 
-    if (order !== null && order.subTotal > 0 && order.status === 'pending') {
-      this._pay(order)
-    } else if (order !== null && order.status === 'success') {
-      hashHistory.push(`events/${this.props.event._id}/${this.props.routeParams.selectedGroup}/success`)
+    if (order && order.subTotal > 0 && order.status === 'pending' && !UTIL.isNullOrUndefined(order.method)) {
+      let {method} = order
+
+      if (order[method]) {
+        switch (method) {
+          case 'Alipay':
+            // open Alipay url
+            document.location = CONSTANTS.PAY_REQUEST_URLS[method] + order[method]
+          break
+
+          case 'WeChatPay':
+            // display WeChatPay prepay QRCode
+            this.setState({showQRCode: true})
+          break
+        }
+      }
     }
   }
 
+  componentWillUnmount() {
+    this.props.ordersActions.resetOrder()
+  }
+
   _confirm(subTotal) {
+    this.setState({isPaying: true})
+
     subTotal = (subTotal > 0) ? 0.02 : subTotal
 
     let {user, event} = this.props,
@@ -72,13 +92,6 @@ class OrderPayment extends Component {
     this.props.ordersActions.createOrder(order)
   }
 
-  _pay(order) {
-    let {method} = order,
-      url = CONSTANTS.PAY_REQUEST_URLS[method] + order[method]
-
-    document.location = url
-  }
-
   render() {
     const {event, order} = this.props,
       selectedGroup = this.props.routeParams.selectedGroup,
@@ -86,10 +99,72 @@ class OrderPayment extends Component {
       imageUri = CONSTANTS.ASSET_FOLDERS.EVENT + '/' + imagePath,
       dates = UTIL.formatEventGroupLabel(event, selectedGroup)
 
-    let subTotal = 0
+    let subTotal = 0,
+      url = null,
+      png = null,
+      qrImage = null
+
+    const paymentMethodSelector = (event.expenses.perHead > 0) ? (
+      <section>
+        <h2>{LANG.t('order.SelectPaymentMethod')}</h2>
+        <group>
+        {
+          AppSettings.paymentMethods.map((method, index) => {
+            return (
+              <Selectable
+                key={index}
+                icon={method.value}
+                label={method.label}
+                value={method.value === this.state.paymentMethod}
+                onPress={() => this.setState({paymentMethod: method.value})}
+              />
+            )
+          })
+        }
+        </group>
+      </section>
+    ) : null
+
+    if (this.state.showQRCode && order) {
+      switch (order.method) {
+        case 'Alipay':
+          url = CONSTANTS.PAY_REQUEST_URLS.Alipay + order.Alipay
+          png = qr.imageSync(url, {size: 2, margin: 10, type: 'png'})
+        break
+
+        case 'WeChatPay':
+          url = order[order.method].codeUrl
+          png = qr.imageSync(url, {size: 10, margin: 2, type: 'png'})
+        break
+      }
+
+      const src = "data:image/png;base64," + png.toString('base64'),
+        img = (
+          <img src={src} />
+        )
+      /*
+        vector = qr.svgObject(prepay.codeUrl, {type: 'svg'}),
+        {path, size} = vector,
+        height = (size * 10) + 'px',
+        width = height,
+        svg = (
+          <svg viewBox={`0 0 ${size} ${size}`} style={{height, width}}>
+            <path d={vector.path} />
+          </svg>
+        )
+      */
+
+      qrImage = (
+        <section>
+          <center>
+            {img}
+          </center>
+        </section>
+      )
+    }
 
     return (
-      <detail>
+      <detail ref={(el) => (this.instance = el)}>
         <scroll>
           <Hero
             imageUri={imageUri}
@@ -115,6 +190,7 @@ class OrderPayment extends Component {
                 />
               </group>
             </section>
+            <section />
             <section>
               <h2>{LANG.t('order.SignUps')}</h2>
               <group>
@@ -142,8 +218,6 @@ class OrderPayment extends Component {
                 })
               }
               </group>
-            </section>
-            <section>
               <content id="subTotal">
                 <InfoItem
                   align={'right'} 
@@ -157,6 +231,9 @@ class OrderPayment extends Component {
                 />
               </content>
             </section>
+            <section />
+            {this.state.showQRCode ? null : paymentMethodSelector}
+            {this.state.showQRCode ? qrImage : null}
           </main>
         </scroll>
         <CallToAction

@@ -141,7 +141,7 @@
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.1.0",
     "request": "^2.79.0",
-    "semver-compare": "^1.0.0",
+    "semver": "^5.3.0",
     "sharp": "^0.17.0",
     "touch": "^1.0.0",
     "urllib": "^2.19.0",

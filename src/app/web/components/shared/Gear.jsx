@@ -11,13 +11,10 @@ import {
 } from '../../../../common/__'
 
 const Gear = (props) => {
-  const backgroundImage = {backgroundImage: 'url(' + ImagePath({type: 'gear', path: 'gears/' + props.number + '.jpg'}) + ')'},
-    size = props.sideLength ? {width: props.sideLength, height: props.sideLength} : null,
-    margin = props.margin ? {marginBottom: margin, marginRight: margin} : null,
-    style = Object.assign(backgroundImage, size, margin)
+  const backgroundImage = 'url(' + ImagePath({type: 'gear', path: 'gears/' + props.number + '.jpg'}) + ')'
   
   return (
-    <gear style={style}>
+    <gear style={{backgroundImage}}>
       <gear-caption>
         {LANG.t('gears.' + props.number.toString())}
       </gear-caption>

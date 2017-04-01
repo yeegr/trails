@@ -16,7 +16,7 @@ const AboutUs = (props) => {
   return (
     <WebView
       scalesPageToFit={true}
-      source={{uri: AppSettings.baseUri + 'about?showNavbar=false'}}
+      source={{uri: AppSettings.baseUri + 'about'}}
       style={{marginTop: 64}}
     />
   )

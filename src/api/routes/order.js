@@ -119,7 +119,8 @@ WeChatPay = {
                 prepayid: xmlResult.xml.prepay_id,
                 noncestr: UTIL.generateRandomString(32),
                 timestamp: moment().unix(),
-                package: CONST.WeChatPay.package
+                package: CONST.WeChatPay.package,
+                codeUrl: xmlResult.xml.code_url
               },
               tmp = formatPaymentString(obj),
               str = tmp.str + '&key=' + CONST.WeChatPay.key
@@ -130,7 +131,8 @@ WeChatPay = {
               nonceStr: obj.noncestr,
               timeStamp: obj.timestamp,
               package: obj.package,
-              sign: md5(str).toUpperCase()
+              sign: md5(str).toUpperCase(),
+              codeUrl: obj.codeUrl
             }
 
             res.status(201).send(order)
@@ -185,6 +187,8 @@ module.exports = (app) => {
       if (data) {
         let tmp = JSON.parse(JSON.stringify(data))
         tmp.ip = ip
+
+        console.log(tmp)
 
         switch (tmp.method) {
           case 'Alipay':
@@ -382,6 +386,13 @@ module.exports = (app) => {
   /* Alipay Notify : notify_url */
   app.post('/alipay/notify', (req, res, next) => {
     console.log('alipay notify: ', moment())
+    console.log(req.body)
+    res.status(200).send()
+  })
+
+  /* WeChatPay Return : return_url */
+  app.post('/wechatpay/return', (req, res, next) => {
+    console.log('wechatpay return: ', moment())
     console.log(req.body)
     res.status(200).send()
   })

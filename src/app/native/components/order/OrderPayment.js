@@ -153,7 +153,10 @@ class OrderPayment extends Component {
 
     const paymentMethodSelector = (event.expenses.perHead > 0) ? (
       <View style={styles.detail.section}>
-        <TextView class={'h2'} text={Lang.PaymentMethod} />
+        <TextView
+          class={'h2'}
+          text={LANG.t('order.SelectPaymentMethod')}
+        />
         <View style={styles.editor.group}>
         {
           AppSettings.paymentMethods.map((method, index) => {

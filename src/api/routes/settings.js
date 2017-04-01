@@ -1,4 +1,4 @@
-const SemVerCompare = require('semver-compare'),
+const semver = require('semver'),
   Settings = require('../models/settings.js')
 
 module.exports = (app) => {
@@ -94,7 +94,7 @@ module.exports = (app) => {
       .findOne()
       .sort({_id: -1})
       .then((data) => {
-        if (SemVerCompare(req.query.version, data.version) < 0) {
+        if (semver.gte(req.query.version, data.version)) {
           res.status(200).json(data)
         } else {
           res.status(204).send()
