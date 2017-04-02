@@ -268,6 +268,7 @@
     "DeadlinePassed":"报名已截止",
     "SignUp": "报名",
     "AddSignUp": "添加报名",
+    "AllFieldsAreRequired": "以下全部选项均为必填项",
     "RealName": "真实姓名",
     "MobileNumber": "手机号码",
     "PersonalId": "身份证号码",

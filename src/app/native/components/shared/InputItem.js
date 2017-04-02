@@ -23,7 +23,7 @@ const InputItem = (props) => {
     <View style={[styles.wrapper, (props.styles && props.styles.wrapper) ? props.styles.wrapper : null]}>
       <View style={styles.label}>
         <TextView
-          textColor={(props.required) ? Graphics.textColors.required : Graphics.textColors.foreground}
+          textColor={(props.required) ? ((props.validated) ? Graphics.colors.primary : Graphics.textColors.required) : Graphics.textColors.foreground}
           text={LANG.t('prompt', {label: props.label})}
         />
       </View>
@@ -57,6 +57,7 @@ InputItem.propTypes = {
   label: PropTypes.string.isRequired,
   input: PropTypes.object.isRequired,
   required: PropTypes.bool,
+  validated: PropTypes.bool,
   styles: PropTypes.object,
   inputStyle: PropTypes.string
 }

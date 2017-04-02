@@ -23,6 +23,7 @@ import styles from '../../styles/main'
 
 import {
   LANG,
+  AppSettings,
   Graphics
 } from '../../../../common/__'
 
@@ -80,6 +81,8 @@ class SignUpForm extends Component {
               />
             }
             inputStyle={'underline'}
+            required={true}
+            validated={(this.state.name.length > 1)}
           />
           <InputItem
             label={LANG.t('order.MobileNumber')}
@@ -93,6 +96,8 @@ class SignUpForm extends Component {
               />
             }
             inputStyle={'underline'}
+            required={true}
+            validated={(AppSettings.mobileRx.test(this.state.mobile))}
           />
           <InputItem
             label={LANG.t('order.PersonalId')}
@@ -106,6 +111,8 @@ class SignUpForm extends Component {
               />
             }
             inputStyle={'underline'}
+            required={true}
+            validated={(AppSettings.pidRx.test(this.state.pid.trim()))}
           />
           <InputItem
             label={LANG.t('order.Gender')}
@@ -120,6 +127,8 @@ class SignUpForm extends Component {
                 onPress={(value) => {this._updateState({gender: value})}}
               />
             }
+            required={true}
+            validated={(this.state.gender === 0 || this.state.gender === 1)}
           />
           <InputItem
             label={LANG.t('order.OutdoorLevel')}
@@ -144,6 +153,8 @@ class SignUpForm extends Component {
                 marginBottom: 10
               }
             }}
+            required={true}
+            validated={(this.state.level > -1 && this.state.level < 5)}
           />
         </View>
         <View style={localStyles.actionBar}>

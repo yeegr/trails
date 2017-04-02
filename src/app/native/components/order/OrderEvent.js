@@ -19,7 +19,6 @@ import Inset from '../shared/Inset'
 import InfoItem from '../shared/InfoItem'
 import ImagePath from '../shared/ImagePath'
 import TextView from '../shared/TextView'
-
 import SignUpForm from './SignUpForm'
 
 import styles from '../../styles/main'
@@ -84,19 +83,19 @@ class OrderEvent extends Component {
     }
   }
 
-  _validateData(data) {
-    const validateName = data.name.trim().length > 1,
-      validateMobileNumber = AppSettings.mobileRx.test(data.mobile),
-      validatePersonalId = AppSettings.pidRx.test(data.pid.trim()),
-      validateGender = (data.gender === 0 || data.gender === 1),
-      validateUserLevel = (data.level > -1 && data.level < 5)
+  _validateData(person) {
+    const validateName = person.name.trim().length > 1,
+      validateMobileNumber = AppSettings.mobileRx.test(person.mobile),
+      validatePersonalId = AppSettings.pidRx.test(person.pid.trim()),
+      validateGender = (person.gender === 0 || person.gender === 1),
+      validateUserLevel = (person.level > -1 && person.level < 5)
 
     return (validateName && validateMobileNumber && validatePersonalId && validateGender && validateUserLevel) ? {
-      name: data.name.trim(),
-      mobile: parseInt(data.mobile),
-      pid: data.pid.trim(),
-      gender: data.gender,
-      level: data.level
+      name: person.name.trim(),
+      mobile: parseInt(person.mobile),
+      pid: person.pid.trim(),
+      gender: person.gender,
+      level: person.level
     } : false
   }
 
@@ -154,7 +153,10 @@ class OrderEvent extends Component {
           )}>
           <View style={styles.detail.article}>
             <View style={styles.detail.section}>
-              <TextView class={'h2'} text={LANG.t('event.EventInfo')} />
+              <TextView
+                class={'h2'}
+                text={LANG.t('event.EventInfo')}
+              />
               <View style={styles.detail.group}>
                 <InfoItem
                   label={LANG.t('event.EventDates')}
@@ -167,6 +169,10 @@ class OrderEvent extends Component {
               </View>
             </View>
             <View style={styles.detail.section}>
+              <TextView
+                class={'h3'}
+                text={LANG.t('order.AllFieldsAreRequired')}
+              />
             {
               this.state.signUps.map((signUp, index) => {
                 return (
