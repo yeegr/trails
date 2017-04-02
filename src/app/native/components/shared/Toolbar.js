@@ -91,9 +91,17 @@ class Toolbar extends Component {
       let data = this.props.data,
         id = data._id,
         contentType = CONSTANTS.TOOLBAR_TYPE_KEYS[this.props.type],
-        webpageUrl = AppSettings.baseUri + contentType + '/' + id,
+        pageUrl = AppSettings.baseUri + contentType + '/' + id,
         contentCreator = data.creator._id,
-        currentUser = this.props.user._id
+        currentUser = this.props.user._id,
+        webpageUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?'
+
+      webpageUrl += 'appid=' + CONSTANTS.WECHAT_APP_ID
+      webpageUrl += '&redirect_uri=' + encodeURIComponent(pageUrl)
+      webpageUrl += '&response_type=code'
+      webpageUrl += '&scope=snsapi_base'
+      webpageUrl += '&state=1'
+      webpageUrl += '#wechat_redirect'
 
       switch (action) {
         case CONSTANTS.USER_ACTIONS.LIKE:

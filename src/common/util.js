@@ -461,6 +461,19 @@ export function stringifyObject(obj) {
   return str
 }
 
+export function objectifyQuerystring(href) {
+  let obj = {},
+    qs = (href.lastIndexOf('?') > 0) ? href.substring(href.lastIndexOf('?') + 1) : '',
+    arr = qs.split('&')
+
+  arr.map((kvp) => {
+    let tmp = kvp.split('=')
+    obj[tmp[0]] = tmp[1]
+  })
+
+  return obj
+}
+
 function nthIndexOf(str, pattern, n) {
   let len = str.length,
     i = -1

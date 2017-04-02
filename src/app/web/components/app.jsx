@@ -24,7 +24,9 @@ import {
 
 class App extends Component {
   constructor(props) {
-    super(props)  
+    super(props)
+
+    this._onWeChatBridgeReady = this._onWeChatBridgeReady.bind(this)
   }
 
   componentWillMount() {
@@ -51,7 +53,34 @@ class App extends Component {
   }
 
   componentDidMount() {
+    if (AppSettings.wrapperView === 'MicroMessenger') {
+      let query = UTIL.objectifyQuerystring(window.location.href)
+      
+      fetch(AppSettings.apiUri + 'wx/auth?code=' + query.code)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        AppSettings.WeChatUserOpenId = res.openid
+      })
+      .catch((error) => {
+        console.log({error})
+      })
+    } else {
+      AppSettings.WeChatUserOpenId = 'oiOKDwleB6wgxOsdxY-S7vnACyFc'
+    }
+
+    if (typeof(WeixinJSBridge) === 'undefined') {
+      document.addEventListener('WeixinJSBridgeReady', this._onWeChatBridgeReady, false)
+    } else {
+      this._onWeChatBridgeReady()
+    }
+
     this.props.dispatch(loginActions.isLoggedIn())
+  }
+
+  _onWeChatBridgeReady() {
+    AppSettings.isWeChatReady = true
   }
   
   render() {

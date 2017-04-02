@@ -73,11 +73,12 @@ module.exports = {
 
   "WeChatPay": {
     "key": "o0okwfJ89pXirwmfmnjUF6oNoEGpeJxv",
-    "package": "Sign=WXPay",
     "APP": {
       "orderContent": {
-        "appid": "wx6e8a3e1b87c11294",
-        "mch_id": "1446937302",
+        //"appid": "wx6e8a3e1b87c11294",
+        //"mch_id": "1446937302",
+        "appid": "wx08727837cbbd7bdc",
+        "mch_id": "1452752702",
         "trade_type": "APP",
         "fee_type": "CNY",
         "device_info": "WEB",
@@ -94,7 +95,7 @@ module.exports = {
       "orderContent": {
         "appid": "wx08727837cbbd7bdc",
         "mch_id": "1452752702",
-        "trade_type": "NATIVE",
+        "trade_type": "JSAPI",
         "fee_type": "CNY",
         "device_info": "WEB",
         "sign_type": "MD5",

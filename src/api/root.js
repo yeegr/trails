@@ -1,5 +1,6 @@
 const express = require('express'),
   fs = require('fs'),
+	crypto = require('crypto'),
   bodyParser = require('body-parser'),
 	errorHandler = require('errorhandler'),
   cors = require('cors'),
@@ -46,6 +47,9 @@ const CONST = require('./const'),
 	Event = require('./models/event'),
 	Post = require('./models/post'),
 	User = require('./models/user')
+
+//misc
+const WX = require('./wx')(app)
 
 router.use((req, res, next) => {
   next()

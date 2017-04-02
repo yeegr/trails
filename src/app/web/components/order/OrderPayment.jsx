@@ -5,9 +5,12 @@ import React, {
   PropTypes
 } from 'react'
 
-import {Link} from 'react-router'
+import {
+  hashHistory,
+  Link
+} from 'react-router'
 
-import qr from 'qr-image'
+//import qr from 'qr-image'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -53,8 +56,30 @@ class OrderPayment extends Component {
           break
 
           case 'WeChatPay':
+            // open WeChatPay via bridge
+            if (AppSettings.isWeChatReady) {
+              WeixinJSBridge.invoke(
+                'getBrandWCPayRequest',
+                order[method],
+                (res) => {
+                  switch (res.err_msg) {
+                    case 'get_brand_wcpay_request:ok':
+                      document.location = AppSettings.baseUri + `orders/${order._id}/success`
+                    break
+
+                    case 'get_brand_wcpay_request:cancel':
+                      console.log('CANCELED')
+                    break
+
+                    case 'get_brand_wcpay_request:fail':
+                      console.log('FAILED')
+                    break
+                  }
+                }
+              )
+            }
             // display WeChatPay prepay QRCode
-            this.setState({showQRCode: true})
+            //this.setState({showQRCode: true})
           break
         }
       }
@@ -89,6 +114,10 @@ class OrderPayment extends Component {
         status: (subTotal === 0) ? 'success' : 'pending'
       }
 
+    if (order.method === 'WeChatPay') {
+      order.openid = AppSettings.WeChatUserOpenId
+    }
+
     this.props.ordersActions.createOrder(order)
   }
 
@@ -99,10 +128,7 @@ class OrderPayment extends Component {
       imageUri = CONSTANTS.ASSET_FOLDERS.EVENT + '/' + imagePath,
       dates = UTIL.formatEventGroupLabel(event, selectedGroup)
 
-    let subTotal = 0,
-      url = null,
-      png = null,
-      qrImage = null
+    let subTotal = 0
 
     const paymentMethodSelector = (event.expenses.perHead > 0) ? (
       <section>
@@ -125,6 +151,11 @@ class OrderPayment extends Component {
       </section>
     ) : null
 
+    /*
+    let url = null,
+      png = null,
+      qrImage = null
+
     if (this.state.showQRCode && order) {
       switch (order.method) {
         case 'Alipay':
@@ -142,8 +173,8 @@ class OrderPayment extends Component {
         img = (
           <img src={src} />
         )
-      /*
-        vector = qr.svgObject(prepay.codeUrl, {type: 'svg'}),
+
+        ,vector = qr.svgObject(prepay.codeUrl, {type: 'svg'}),
         {path, size} = vector,
         height = (size * 10) + 'px',
         width = height,
@@ -152,7 +183,6 @@ class OrderPayment extends Component {
             <path d={vector.path} />
           </svg>
         )
-      */
 
       qrImage = (
         <section>
@@ -162,6 +192,7 @@ class OrderPayment extends Component {
         </section>
       )
     }
+    */
 
     return (
       <detail ref={(el) => (this.instance = el)}>
@@ -232,8 +263,7 @@ class OrderPayment extends Component {
               </content>
             </section>
             <section />
-            {this.state.showQRCode ? null : paymentMethodSelector}
-            {this.state.showQRCode ? qrImage : null}
+            {paymentMethodSelector}
           </main>
         </scroll>
         <CallToAction

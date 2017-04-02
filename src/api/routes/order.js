@@ -70,7 +70,8 @@ WeChatPay = {
         body: '识途驴-' + order.title + '-' + order.type,
         out_trade_no: order._id,
         total_fee: Math.floor(order.subTotal * 100),
-        spbill_create_ip: order.ip
+        spbill_create_ip: order.ip,
+        openid: order.openid
       }),
       detail = []
 
@@ -114,26 +115,18 @@ WeChatPay = {
           if (!xmlError) {
             let orderContent = CONST.WeChatPay[order.channel].orderContent,
               obj = {
-                appid: orderContent.appid,
-                partnerid: orderContent.mch_id,
-                prepayid: xmlResult.xml.prepay_id,
-                noncestr: UTIL.generateRandomString(32),
-                timestamp: moment().unix(),
-                package: CONST.WeChatPay.package,
-                codeUrl: xmlResult.xml.code_url
+                appId: orderContent.appid,
+                timeStamp: moment().unix().toString(),
+                nonceStr: UTIL.generateRandomString(32),
+                package: "prepay_id=" + xmlResult.xml.prepay_id,
+                signType: "MD5"
               },
               tmp = formatPaymentString(obj),
               str = tmp.str + '&key=' + CONST.WeChatPay.key
 
-            order.WeChatPay = {
-              partnerId: obj.partnerid,
-              prepayId: obj.prepayid,
-              nonceStr: obj.noncestr,
-              timeStamp: obj.timestamp,
-              package: obj.package,
-              sign: md5(str).toUpperCase(),
-              codeUrl: obj.codeUrl
-            }
+            order.WeChatPay = Object.assign({}, obj, {
+              paySign: md5(str).toUpperCase()
+            })
 
             res.status(201).send(order)
           } else {
@@ -187,8 +180,7 @@ module.exports = (app) => {
       if (data) {
         let tmp = JSON.parse(JSON.stringify(data))
         tmp.ip = ip
-
-        console.log(tmp)
+        tmp.openid = req.body.openid
 
         switch (tmp.method) {
           case 'Alipay':

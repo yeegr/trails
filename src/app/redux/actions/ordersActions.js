@@ -57,7 +57,7 @@ export const createOrder = (order) => {
       })
       .then((res) => {
         if (res._id) {
-          dispatch(loginActions.reloadUser())
+          loginActions.reloadUser()
           dispatch(createOrderSuccess(res))
         } else {
           dispatch(createOrderFailure(res.message))
