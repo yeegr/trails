@@ -5,7 +5,6 @@
 	};
 	objectVersion = 47;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -49,6 +48,7 @@
 		D361FCB16F1D4927B6B499F6 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7E23F3966C43E58E4AD20E /* libRNSVG.a */; };
 		E06735ED39F64691B4DCA6E2 /* slider-default7-trackCrossedOver@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B31CBB7D5D514D799A8BBB61 /* slider-default7-trackCrossedOver@2x.png */; };
 		F31B65523C224E06B52CCCE4 /* slider-default7-handle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D0418A4E1744EAEA9DEAC34 /* slider-default7-handle@2x.png */; };
+		44D7B0DEABDD4316B4BFDFF7 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22CC5A3B9157493789CEABB5 /* libBVLinearGradient.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -371,6 +371,8 @@
 		F59EF16234D44490834446F4 /* AlipayModule.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AlipayModule.xcodeproj; path = "../node_modules/react-native-yunpeng-alipay/ios/AlipayModule.xcodeproj"; sourceTree = "<group>"; };
 		F935140FBEC04A438518EC8C /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 		FABF7D0CDE38472098F0B901 /* libRNNMRangeSlider.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNNMRangeSlider.a; sourceTree = "<group>"; };
+		160E5CD09F2E447FB02D285E /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; name = "BVLinearGradient.xcodeproj"; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		22CC5A3B9157493789CEABB5 /* libBVLinearGradient.a */ = {isa = PBXFileReference; name = "libBVLinearGradient.a"; path = "libBVLinearGradient.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,6 +411,7 @@
 				7EFE99E4F336498D8B28AE94 /* libRNFS.a in Frameworks */,
 				C70B2D40DC6D49CA86FD9122 /* libAlipayModule.a in Frameworks */,
 				A4E4DE90FCD645F285C96A03 /* libReactNativePermissions.a in Frameworks */,
+				44D7B0DEABDD4316B4BFDFF7 /* libBVLinearGradient.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,6 +599,7 @@
 				9AD2B9BE1D59F70800F2B4A5 /* CoreTelephony.framework */,
 				9AD2B9BC1D59F6FB00F2B4A5 /* SystemConfiguration.framework */,
 				1AA7E4A7DFF84C04B14C4DBA /* ReactNativePermissions.xcodeproj */,
+				160E5CD09F2E447FB02D285E /* BVLinearGradient.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1271,11 +1275,15 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 				);
 				INFOPLIST_FILE = trails/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/trails\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1311,11 +1319,15 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 				);
 				INFOPLIST_FILE = trails/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/trails\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1382,6 +1394,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1438,6 +1451,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = 1TpsGMwymIbkfmoaULfwHuftguwS4yxZxs7YZ;
@@ -1494,6 +1508,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = FBLHx5jP2lMiFbjEcF48SnOvsOHc4yxZxs7YZ;
@@ -1526,11 +1541,15 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-yunpeng-alipay/ios/AlipayModule/**",
 					"$(SRCROOT)/../node_modules/react-native-permissions/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 				);
 				INFOPLIST_FILE = trails/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/trails\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

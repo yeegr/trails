@@ -72,46 +72,54 @@ class EditAccount extends Component {
 
   _nextPage(type) {
     let id = null,
-      title = null
+      title = null,
+      passProps = {
+        user: this.props.user
+      }
 
     switch (type) {
       case 'avatar':
         id = 'EditUserAvatar',
         title = LANG.t('mine.edit.EditUserAvatar')
-      break;
+      break
 
       case 'handle':
         id = 'EditUserHandle',
         title = LANG.t('mine.edit.EditUserHandle')
-      break;
+      break
 
       case 'mobile':
         id = 'EditUserMobile',
         title = LANG.t('mine.edit.ChangeUserMobile')
-      break;
+      break
 
       case 'level':
         id = 'EditUserLevel',
         title = LANG.t('mine.edit.EditUserLevel')
-      break;
+      break
 
       case 'name':
         id = 'EditUserName',
         title = LANG.t('mine.edit.RealName')
-      break;
+      break
 
       case 'pid':
         id = 'EditUserPID',
         title = LANG.t('mine.edit.PersonalId')
-      break;
+      break
+
+      case 'gallery':
+        id = 'PhotoPicker',
+        title = LANG.t('mine.edit.Gallery')
+        passProps.photos = this.props.user.photos
+        passProps.dispatcher = this.props.loginActions
+      break
     }
 
     this.props.navigator.push({
       id,
       title,
-      passProps: {
-        user: this.props.user
-      }
+      passProps
     })
   }
 
@@ -213,6 +221,11 @@ class EditAccount extends Component {
               label={LANG.t('mine.edit.PersonalId')}
               onPress={() => this._nextPage('pid')}
               value={user.pid}
+            />
+            <EditLink
+              label={LANG.t('mine.edit.Gallery')}
+              onPress={() => this._nextPage('gallery')}
+              value={user.photos.length}
             />
           </View>
           <View style={styles.editor.group}>

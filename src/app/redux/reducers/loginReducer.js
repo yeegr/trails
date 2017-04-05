@@ -224,6 +224,12 @@ loginReducer = (state = init, action) => {
     case ACTIONS.WECHAT_OPENID_FAILURE:
       return init
 
+// set user photos
+    case ACTIONS.SET_USER_PHOTOS:
+      return Object.assign({}, state, {
+        
+      })
+
     default:
       return state
   }

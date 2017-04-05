@@ -378,6 +378,7 @@
       "PersonalId": "身份证号码",
       "BindWeChat": "绑定微信",
       "UnbindWeChat": "解绑微信",
+      "Gallery": "个人图库",
       "ClearCache": "清除缓存",
       "ClearCacheAlert": {
         "title": "真的吗？",

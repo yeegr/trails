@@ -80,6 +80,7 @@ import EditUserPID from './mine/EditUserPID'
 import MyEvents from './mine/MyEvents'
 import EventManager from './mine/EventManager'
 import SignUpList from './mine/SignUpList'
+import WebStore from './mine/WebStore'
 
 import OrderEvent from './order/OrderEvent'
 import SelectOrderGroup from './order/SelectOrderGroup'
@@ -94,6 +95,8 @@ import UserDetail from './user/UserDetail'
 
 import Comments from './shared/Comments'
 import Gallery from './shared/Gallery'
+import PhotoPicker from './shared/PhotoPicker'
+
 import Intro from './intro'
 import NavbarButton from './shared/NavbarButton'
 import TextView from './shared/TextView'
@@ -1011,6 +1014,14 @@ class App extends Component {
                   />
                 )
 
+              case 'WebStore':
+                return (
+                  <WebStore
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
               case 'MyTrails':
                 return (
                   <MyTrails
@@ -1051,6 +1062,14 @@ class App extends Component {
                       route={route} {...route.passProps}
                     />
                   </ScrollView>
+                )
+
+              case 'PhotoPicker':
+                return (
+                  <PhotoPicker
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
                 )
 
               case 'Upcoming':

@@ -127,6 +127,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-linear-gradient')
     compile project(':react-native-permissions')
     compile project(':react-native-yunpeng-alipay')
     compile project(':react-native-fs')

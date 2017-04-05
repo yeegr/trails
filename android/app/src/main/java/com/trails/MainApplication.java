@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.yunpeng.alipay.AlipayPackage;
 import com.rnfs.RNFSPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new LinearGradientPackage(),
             new ReactNativePermissionsPackage(),
             new AlipayPackage(),
             new RNFSPackage(),

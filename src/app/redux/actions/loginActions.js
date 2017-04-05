@@ -539,6 +539,13 @@ export const updateUserMobile = (user_id, mobile, vcode) => {
   }
 }
 
+export const setPhotos = (photos) => {
+  return {
+    type: ACTIONS.SET_USER_PHOTOS,
+    photos
+  }
+}
+
 export const clearUpdateError = () => {
   return {
     type: ACTIONS.CLEAR_UPDATE_ERROR

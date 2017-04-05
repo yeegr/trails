@@ -5,12 +5,13 @@ import React, {
 } from 'react'
 
 import {
-  ActivityIndicator,
   StyleSheet,
   View,
 } from 'react-native'
 
-const Loading = (props) => {
+import TextView from './TextView'
+
+const Empty = (props) => {
   const styles = StyleSheet.create({
     container: {
       alignItems: 'center',
@@ -22,16 +23,15 @@ const Loading = (props) => {
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator
-        size={props.size || 'large'}
-        animating={true}
+      <TextView
+        text={props.text}
       />
     </View>
   )
 }
 
-Loading.propTypes = {
-  size: PropTypes.string
+Empty.propTypes = {
+  text: PropTypes.string.isRequired
 }
 
-export default Loading
+export default Empty

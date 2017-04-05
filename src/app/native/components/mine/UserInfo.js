@@ -52,59 +52,64 @@ class UserInfo extends Component {
         id = 'MyOrders',
         title = LANG.t('mine.MyOrders'),
         query = "?status=success&creator=" + user.id
-      break;
+      break
 
       case 'wallet':
         id = 'MyWallet',
         title = LANG.t('mine.MyWallet'),
         query = "?creator=" + user.id
-      break;
+      break
 
       case 'trails':
         id = 'MyTrails',
         title = LANG.t('mine.MyTrails'),
         query = "?creator=" + user.id
-      break;
+      break
 
       case 'events':
         id = 'MyEvents',
         title = LANG.t('mine.MyEvents'),
         query = "?creator=" + user.id
-      break;
+      break
 
       case 'posts':
         id = 'PostList',
         title = LANG.t('mine.MyPosts'),
         query = "?creator=" + user.id
-      break;
+      break
 
       case 'savedTrails':
         id = 'TrailList',
         title = LANG.t('mine.SavedTrails'),
         query = "?in=" + JSON.stringify(user.saves.trails).replace(/\"/g, '')
-      break;
+      break
 
       case 'savedEvents':
         id = 'EventList',
         title = LANG.t('mine.SavedEvents'),
         query = "?in=" + JSON.stringify(user.saves.events).replace(/\"/g, '')
-      break;
+      break
 
       case 'savedPosts':
         id = 'PostList',
         title = LANG.t('mine.SavedPosts'),
         query = "?in=" + JSON.stringify(user.saves.posts).replace(/\"/g, '')
-      break;
+      break
 
       case 'edit':
         id = 'EditAccount',
         title = LANG.t('mine.EditAccount')
-      break;
+      break
 
       case 'about':
         id = 'AboutUs',
         title = LANG.t('mine.AboutUs')
-      break;
+      break
+
+      case 'store':
+        id = 'WebStore'
+        title = LANG.t('mine.PurchaseOutdoorInsurance')
+      break
     }
 
     this.props.navigator.push({
@@ -153,7 +158,7 @@ class UserInfo extends Component {
           />
           <EditLink
             label={LANG.t('mine.PurchaseOutdoorInsurance')}
-            onPress={() => null}
+            onPress={() => this._nextPage('store')}
           />
         </View>
         <View style={styles.editor.group}>

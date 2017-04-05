@@ -52,5 +52,8 @@ export const WECHAT_OPENID_FAILURE = 'WECHAT_OPENID_FAILURE'
 export const SHOW_MOBILE_LOGIN = 'SHOW_MOBILE_LOGIN'
 export const VERIFY_MOBILE_NUMBER = 'VERIFY_MOBILE_NUMBER'
 
+// set user photos
+export const SET_USER_PHOTOS = 'SET_USER_PHOTOS'
+
 // clear update error
 export const CLEAR_UPDATE_ERROR = 'CLEAR_UPDATE_ERROR'
