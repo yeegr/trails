@@ -19,8 +19,9 @@ if (process.env.NODE_ENV === 'development') {
 	app.use(errorHandler())
 }
 
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '100mb'}))
 app.use(bodyParser.urlencoded({
+	limit: '100mb',
 	extended: true
 }))
 app.use(cors())
@@ -75,14 +76,28 @@ router.post('/drop/:table', (req, res, next) => {
 router.put('/photos', (req, res, next) => {
 	let form = new formidable.IncomingForm()
 
+	//console.log(req)
+
 	form.parse(req, (err, fields, files) => {
 		let arr = []
 		
+		console.log(fields)
+		console.log(files)
 		for (let i in files) {
+			console.log(files[i])
 			arr.push(files[i])
 		}
 
-		uploadFile(fields.type, fields.id, arr, 0, [], res)
+		console.log('arr.length = ' + arr.length)
+
+		//console.log(files)
+		//console.log(arr.length)
+
+//		if (arr.length > 0) {
+			uploadFile(fields.type, fields.id, arr, 0, [], res)
+/*		} else {
+			res.status(201).json()
+		}*/
 	})
 })
 
@@ -101,7 +116,10 @@ function uploadFile(type, id, inputs, index, outputs, res) {
 			path
 		}
 
-	request.post({url, formData}, (err, response, body) => {
+	request.post({
+		url,
+		formData
+	}, (err, response, body) => {
 		if (err) console.log(err)
 		outputs.push({url: file.name})
 

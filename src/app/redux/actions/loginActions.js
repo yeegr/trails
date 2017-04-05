@@ -471,10 +471,40 @@ const _updateUserStorage = (dispatch, user) => {
   }
 }
 
-export const updateUser = (user_id, data) => {
-  let config = Object.assign({}, FETCH.PUT, {
-    body: JSON.stringify(data)
+const _uploadPhotos = (type, id, photos) => {
+  let formData = new FormData()
+  formData.append('type', type)
+  formData.append('id', id)
+  formData.append('path', type + '/' + id + '/')
+
+  photos.map((photo) => {
+    formData.append(photo.key, photo)
   })
+
+  let config = Object.assign({}, FETCH.UPLOAD, {
+    body: formData
+  })
+
+  return (dispatch) => {
+    dispatch(_updateUserRequest())
+
+    return fetch(AppSettings.apiUri + 'photos', config)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        dispatch(_updateUserSuccess(res))
+      })
+      .catch((err) => dispatch(_updateUserFailure(err)))
+  }
+}
+
+export const updateUser = (user_id, data) => {
+  delete data.photos
+
+  let config = Object.assign({}, FETCH.PUT, {
+      body: JSON.stringify(data)
+    })
 
   return (dispatch) => {
     dispatch(_updateUserRequest())
@@ -539,10 +569,12 @@ export const updateUserMobile = (user_id, mobile, vcode) => {
   }
 }
 
-export const setPhotos = (photos) => {
-  return {
-    type: ACTIONS.SET_USER_PHOTOS,
-    photos
+export const setPhotos = (id, selected) => {
+  return (dispatch, getState) => {
+    let originals = getState().login.user.photos,
+      photos = UTIL.comparePhotoArrays(originals, selected)
+
+    dispatch(_uploadPhotos(CONSTANTS.ACTION_TARGETS.USER, id, photos))
   }
 }
 

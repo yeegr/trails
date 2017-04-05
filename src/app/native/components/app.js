@@ -95,7 +95,7 @@ import UserDetail from './user/UserDetail'
 
 import Comments from './shared/Comments'
 import Gallery from './shared/Gallery'
-import PhotoPicker from './shared/PhotoPicker'
+import ImagePicker from './shared/ImagePicker'
 
 import Intro from './intro'
 import NavbarButton from './shared/NavbarButton'
@@ -1064,9 +1064,9 @@ class App extends Component {
                   </ScrollView>
                 )
 
-              case 'PhotoPicker':
+              case 'ImagePicker':
                 return (
-                  <PhotoPicker
+                  <ImagePicker
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />

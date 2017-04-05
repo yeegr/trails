@@ -20,6 +20,7 @@ import {changeTab} from '../../../redux/actions/homeActions'
 
 import CallToAction from '../shared/CallToAction'
 import EditLink from '../shared/EditLink'
+import Saving from '../shared/Saving'
 
 import styles from '../../styles/main'
 
@@ -109,8 +110,9 @@ class EditAccount extends Component {
       break
 
       case 'gallery':
-        id = 'PhotoPicker',
+        id = 'ImagePicker',
         title = LANG.t('mine.edit.Gallery')
+        passProps.id = this.props.user._id
         passProps.photos = this.props.user.photos
         passProps.dispatcher = this.props.loginActions
       break
@@ -179,11 +181,11 @@ class EditAccount extends Component {
     }
 
     const bindWeChatLink = (this.state.isWXAppInstalled) ? (
-      <EditLink
-        label={LANG.t((user.wechat === CONSTANTS.WeChatOpenId) ? 'mine.edit.BindWeChat' : 'mine.edit.UnbindWeChat')}
-        onPress={this._toggleWeChat}
-      />
-    ) : null
+        <EditLink
+          label={LANG.t((user.wechat === CONSTANTS.WeChatOpenId) ? 'mine.edit.BindWeChat' : 'mine.edit.UnbindWeChat')}
+          onPress={this._toggleWeChat}
+        />
+      ) : null
 
     return (
       <View style={styles.global.wrapper}>
@@ -239,6 +241,10 @@ class EditAccount extends Component {
           backgroundColor={Graphics.colors.warning} 
           label={LANG.t('mine.edit.Logout')} 
           onPress={this._onLogoutPressed} 
+        />
+        <Saving
+          visible={this.props.login.isFetching}
+          label={LANG.t('glossary.Saving')}
         />
       </View>
     )

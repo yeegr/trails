@@ -490,3 +490,27 @@ export function versionCleaner(ver) {
   let pos = nthIndexOf(ver, '.', 3)
   return (pos > 4) ? ver.substring(0, pos) : ver
 }
+
+export function comparePhotoArrays(originals, current) {
+  let arr = []
+
+  current.map((photo) => {
+    let filename = photo.filename, 
+      tmp = filename.split('.'),
+      key = tmp[0],
+      ext = tmp[1]
+
+    arr.push({
+      key,
+      type: 'image/' + ext,
+      name: filename,
+      uri: photo.uri
+    })
+  })
+
+  if (arr.length > 0) {
+    return arr
+  }
+  
+  return false
+}

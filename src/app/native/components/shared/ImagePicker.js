@@ -6,6 +6,7 @@ import React, {
 } from 'react'
 
 import {
+  TouchableOpacity,
   CameraRoll,
   StyleSheet,
   View
@@ -23,7 +24,7 @@ import {
 
 class PhotoPicker extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.getSelectedImages = this.getSelectedImages.bind(this)
 
     this.state = {
@@ -62,7 +63,7 @@ class PhotoPicker extends Component {
 
   componentWillUnmount() {
     if (this.state.selected.length > 0) {
-      this.props.dispatcher.setPhotos(this.state.selected)
+      this.props.dispatcher.setPhotos(this.props.id, this.state.selected)
     }
   }
 
@@ -76,6 +77,9 @@ class PhotoPicker extends Component {
   render() {
     return (
       <View style={styles.wrapper}>
+        <TouchableOpacity onPress={this._onPress}>
+          <TextView text="save" />
+        </TouchableOpacity>
         <View style={styles.gallery}>
           <CameraRollPicker
             assetType={'Photos'}
@@ -148,6 +152,7 @@ const styles = StyleSheet.create({
 
 PhotoPicker.propTypes = {
   navigator: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
   photos: PropTypes.array.isRequired,
   dispatcher: PropTypes.object.isRequired
 }

@@ -171,7 +171,7 @@ const createTrailFailure = (message) => {
 }
 
 export const createTrail = (data) => {
-  let selectedPhotos = data.photos,
+  let tmp = data.photos,
     storeKey = data.storeKey,
     input = Object.assign({}, data, {
       photos: []
@@ -190,12 +190,12 @@ export const createTrail = (data) => {
       })
       .then((res) => {
         if (res._id) {
-          let photos = comparePhotoArrays(res.photos, selectedPhotos)
+          let photos = UTIL.comparePhotoArrays(res.photos, tmp)
 
           if (!photos) {
             dispatch(createTrailSuccess(res, storeKey))
           } else {
-            dispatch(uploadPhotos(CONSTANTS.ACTION_TARGETS.TRAIL, res._id, photos))
+            dispatch(_uploadPhotos(CONSTANTS.ACTION_TARGETS.TRAIL, res._id, photos))
           }
         } else {
           dispatch(createTrailFailure(res.message))
@@ -207,13 +207,13 @@ export const createTrail = (data) => {
 }
 
 // update trail
-const updateTrailRequest = () => {
+const _updateTrailRequest = () => {
   return {
     type: ACTIONS.UPDATE_TRAIL_REQUEST
   }
 }
 
-const updateTrailSuccess = (trail) => {
+const _updateTrailSuccess = (trail) => {
   loginActions.reloadUser()
 
   return {
@@ -222,40 +222,14 @@ const updateTrailSuccess = (trail) => {
   }
 }
 
-const updateTrailFailure = (message) => {
+const _updateTrailFailure = (message) => {
   return {
     type: ACTIONS.UPDATE_TRAIL_FAILURE,
     message
   }
 }
 
-const comparePhotoArrays = (saved, selected) => {
-  let added = []
-
-  selected.map((photo) => {
-    let filename = photo.filename, 
-      tmp = filename.split('.'),
-      key = tmp[0],
-      ext = tmp[1]
-
-    if (saved.indexOf(filename) < 0) {
-      added.push({
-        key,
-        type: 'image/' + ext,
-        name: filename,
-        uri: photo.uri
-      })
-    }
-  })
-
-  if (added.length > 0) {
-    return added
-  }
-  
-  return false
-}
-
-const uploadPhotos = (type, id, photos) => {
+const _uploadPhotos = (type, id, photos) => {
   let formData = new FormData()
   formData.append('type', type)
   formData.append('id', id)
@@ -270,31 +244,30 @@ const uploadPhotos = (type, id, photos) => {
   })
 
   return (dispatch) => {
-    dispatch(updateTrailRequest())
+    dispatch(_updateTrailRequest())
 
     return fetch(AppSettings.apiUri + 'photos', config)
       .then((res) => {
         return res.json()
       })
       .then((res) => {
-        dispatch(updateTrailSuccess(res))
+        dispatch(_updateTrailSuccess(res))
       })
-      .catch((err) => dispatch(updateTrailFailure(err)))
+      .catch((err) => dispatch(_updateTrailFailure(err)))
   }
 }
 
 export const updateTrail = (data) => {
-  let selectedPhotos = data.photos,
+  let tmp = data.photos,
     input = Object.assign({}, data, {
       photos: []
+    }),
+    config = Object.assign({}, FETCH.PUT, {
+      body: JSON.stringify(input)
     })
 
-  let config = Object.assign({}, FETCH.PUT, {
-    body: JSON.stringify(input)
-  })
-
   return (dispatch) => {
-    dispatch(updateTrailRequest())
+    dispatch(_updateTrailRequest())
 
     return fetch(AppSettings.apiUri + 'trails/' + data._id, config)
       .then((res) => {
@@ -302,19 +275,19 @@ export const updateTrail = (data) => {
       })
       .then((res) => {
         if (res._id) {
-          let photos = comparePhotoArrays(res.photos, selectedPhotos)
+          let photos = UTIL.comparePhotoArrays(res.photos, tmp)
 
           if (!photos) {
-            dispatch(updateTrailSuccess(res))
+            dispatch(_updateTrailSuccess(res))
           } else {
-            dispatch(uploadPhotos(CONSTANTS.ACTION_TARGETS.TRAIL, res._id, photos))
+            dispatch(_uploadPhotos(CONSTANTS.ACTION_TARGETS.TRAIL, res._id, photos))
           }
         } else {
-          dispatch(updateTrailFailure(res.message))
+          dispatch(_updateTrailFailure(res.message))
           return Promise.reject(res)
         }
       })
-      .catch((err) => dispatch(updateTrailFailure(err)))
+      .catch((err) => dispatch(_updateTrailFailure(err)))
   }
 }
 

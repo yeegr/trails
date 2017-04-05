@@ -27,7 +27,7 @@ import {
 
 class EditTrailGallery extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.getSelectedImages = this.getSelectedImages.bind(this)
 
     this.state = {
