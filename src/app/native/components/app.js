@@ -69,7 +69,9 @@ import EventSubmitted from './event/EventSubmitted'
 import PostList from './post/PostList'
 import PostDetail from './post/PostDetail'
 import SearchPosts from './post/SearchPosts'
+
 import AboutUs from './mine/AboutUs'
+
 import EditAccount from './mine/EditAccount'
 import EditUserAvatar from './mine/EditUserAvatar'
 import EditUserHandle from './mine/EditUserHandle'
@@ -77,6 +79,7 @@ import EditUserMobile from './mine/EditUserMobile'
 import EditUserLevel from './mine/EditUserLevel'
 import EditUserName from './mine/EditUserName'
 import EditUserPID from './mine/EditUserPID'
+import EditUserIntro from './mine/EditUserIntro'
 import MyEvents from './mine/MyEvents'
 import EventManager from './mine/EventManager'
 import SignUpList from './mine/SignUpList'
@@ -118,6 +121,7 @@ import styles from '../styles/main'
 const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
   login: state.login,
   user: state.login.user,
+  newTrail: state.newTrail,
 
   LeftButton: function(route, navigator, index, navState) {
     if (index === 0) {
@@ -149,12 +153,33 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
 
           case CONSTANTS.HOME_TABS.POSTS:
             rightTitleBar = (
-              <NavbarButton
-                onPress={() => navigator.push(this.search(tabId))}
-                icon={Graphics.titlebar.search}
-                label={LANG.t('navbar.Search')}
-                showLabel={false}
-              />
+              <View style={styles.navbar.toolbar}>
+                <NavbarButton
+                  onPress={() => navigator.push(this.search(tabId))}
+                  icon={Graphics.titlebar.search}
+                  label={LANG.t('navbar.Search')}
+                  showLabel={false}
+                />
+              </View>
+            )
+          break
+
+          case CONSTANTS.HOME_TABS.AREAS:
+            rightTitleBar = (
+              <View style={styles.navbar.toolbar}>
+                <NavbarButton
+                  onPress={() => navigator.push(this.search(tabId))}
+                  icon={Graphics.titlebar.search}
+                  label={LANG.t('navbar.Search')}
+                  showLabel={false}
+                />
+                <NavbarButton
+                  onPress={() => this.add(navigator, tabId)}
+                  icon={this.newTrail.isNew ? Graphics.titlebar.add : Graphics.titlebar.hiking}
+                  label={LANG.t('navbar.Add')}
+                  showLabel={false}
+                />
+              </View>
             )
           break
 
@@ -409,28 +434,24 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
 
   add: function(navigator, type) {
     if (this.user) {
-      let id = null,
-        title = ''
-
       switch (type) {
         case CONSTANTS.HOME_TABS.AREAS:
         case CONSTANTS.HOME_TABS.TRAILS:
-          id = 'RecordTrail',
-          title = LANG.t('add.AddTrail')
+          dispatch(newTrailActions.showRecorder())
         break
 
         case CONSTANTS.HOME_TABS.EVENTS:
-          id = 'EditEvent',
-          title = LANG.t('add.AddEvent')
+          let id = 'EditEvent',
+            title = LANG.t('add.AddEvent')
+
+          navigator.push({
+            id: id,
+            title: title
+          })
         break
       }
-
-      navigator.push({
-        id: id,
-        title: title
-      })
     } else {
-      dispatch(loginActions.showLogin())      
+      dispatch(loginActions.showLogin())
     }
   },
 
@@ -990,6 +1011,14 @@ class App extends Component {
                   />
                 )
 
+              case 'EditUserIntro':
+                return (
+                  <EditUserIntro
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
               case 'MyEvents':
                 return (
                   <MyEvents
@@ -1088,7 +1117,12 @@ class App extends Component {
             />
           }
         />
-        <Login showLogin={login.showLogin} />
+        <Login
+          showLogin={login.showLogin}
+        />
+        <RecordTrail
+          isVisible={state.newTrail.showRecorder}
+        />
       </View>
     )
   }

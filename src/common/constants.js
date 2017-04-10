@@ -72,6 +72,12 @@ export const ASSET_FOLDERS = {
   USER: 'users'
 }
 
+export const STORAGE_KEYS = {
+  TRAILS: 'trails',
+  EVENTS: 'events',
+  POSTS: 'posts'
+}
+
 export const WeChatOpenId = 'WeChatOpenId'
 
 export const DEFAULT_LOCALE = 'zh-CN'

@@ -206,7 +206,6 @@ module.exports = (app) => {
     })
   })
 
-
   app.put('/users/:id/mobile', (req, res, next) => {
     User
     .findById(req.params.id)

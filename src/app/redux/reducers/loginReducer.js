@@ -28,6 +28,7 @@ init = {
 },
 loginReducer = (state = init, action) => {
   switch (action.type) {
+// check user login status
     case ACTIONS.IS_LOGGED_IN:
       return Object.assign({}, state, {
         toke: action.token,

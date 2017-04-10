@@ -29,7 +29,7 @@ const TrailData = (props) => {
         path={Graphics.pictograms[difficultyLevel]}
         showLabel={true}
         stack={stack}
-        textColr={Graphics.icon.valueColor}
+        textColor={Graphics.icon.valueColor}
         label={LANG.t('trail.DifficultyLevel')}
         value={props.difficultyLevel.toFixed(1)}
       />) : null
@@ -44,7 +44,7 @@ const TrailData = (props) => {
         path={Graphics.pictograms.timer}
         showLabel={true}
         stack={stack}
-        textColr={Graphics.icon.valueColor}
+        textColor={Graphics.icon.valueColor}
         label={LANG.t('trail.TotalDuration')}
         value={UTIL.formatDuration(props.totalDuration)}
       />
@@ -55,7 +55,7 @@ const TrailData = (props) => {
         path={Graphics.pictograms.ruler}
         showLabel={true}
         stack={stack}
-        textColr={Graphics.icon.valueColor}
+        textColor={Graphics.icon.valueColor}
         label={LANG.t('trail.TotalDistance')}
         value={LANG.t('number.length.km', {'length': props.totalDistance.toFixed(1)})}
       />
@@ -66,7 +66,7 @@ const TrailData = (props) => {
         path={Graphics.pictograms.trendingUp}
         showLabel={true}
         stack={stack}
-        textColr={Graphics.icon.valueColor}
+        textColor={Graphics.icon.valueColor}
         label={LANG.t('trail.TotalElevation')}
         value={LANG.t('number.length.m', {'length': props.totalElevation.toFixed(0)})}
       />
@@ -87,7 +87,7 @@ const TrailData = (props) => {
         path={Graphics.pictograms.dashboard}
         showLabel={true}
         stack={stack}
-        textColr={Graphics.icon.valueColor}
+        textColor={Graphics.icon.valueColor}
         label={LANG.t('trail.AverageSpeed')}
         value={LANG.t('number.speed.kmph', {'speed': props.averageSpeed.toString()})}
       />

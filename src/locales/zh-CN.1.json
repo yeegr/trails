@@ -10,6 +10,7 @@
     "Add": "添加",
     "Edit": "编辑",
     "Save": "保存",
+    "Hide": "隐藏",
     "Delete": "删除",
     "Detail": "详情",
     "NextStep": "下一步",
@@ -18,6 +19,7 @@
     "Confirm": "确定",
     "Okay": "知道啦",
     "Saving": "保存中……",
+    "Reset": "重置",
     "colon": "："
   },
 
@@ -128,12 +130,24 @@
     "NoDescription": "暂无描述",
     "Photos": "轨迹图片",
     "TrackTrail": "循迹",
+    "RecordTrail": "记录轨迹",
     "record": {
+      "StartRecording":"开始记录轨迹",
+      "PauseRecording":"暂停记录轨迹",
+      "SaveAlert": {
+        "title": "正在记录您的轨迹",
+        "discard": "放弃轨迹",
+        "cancel": "继续记录",
+        "confirm": "保存轨迹"
+      },
       "LocationAlert": {
         "title": "请将位置设置为始终",
         "description": "将位置设为始终才能正常记录您的轨迹",
         "Cancel": "以后再说",
         "Okay": "马上打开"
+      },
+      "NextAlert": {
+        "title": "您的轨迹太短啦！"
       }
     },
     "edit": {
@@ -379,6 +393,7 @@
       "BindWeChat": "绑定微信",
       "UnbindWeChat": "解绑微信",
       "Gallery": "个人图库",
+      "SelfIntro": "自我简介",
       "ClearCache": "清除缓存",
       "ClearCacheAlert": {
         "title": "真的吗？",

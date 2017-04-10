@@ -9,6 +9,19 @@ import {
   AppSettings
 } from '../../../common/__'
 
+// toggle track recorder
+export const showRecorder = () => {
+  return {
+    type: ACTIONS.SHOW_RECORDER
+  }
+}
+
+export const hideRecorder = () => {
+  return {
+    type: ACTIONS.HIDE_RECORDER
+  }
+}
+
 export const newTrail = (creator) => {
   return {
     type: ACTIONS.NEW_TRAIL,
@@ -28,38 +41,52 @@ export const stopRecording = () => {
   }
 }
 
-const _storeTrailSuccess = (data) => {
-  loginActions.reloadUser()
+const _storePathSuccess = (data, isFinal) => {
+  if (isFinal) {
+//    loginActions.reloadUser()
+  }
 
   return {
-    type: ACTIONS.STORE_TRAIL_SUCCESS,
-    data
+    type: ACTIONS.STORE_PATH_SUCCESS,
+    data,
+    isFinal
   }
 }
 
-export const storeTrailData = (data) => {
+export const storeTrailPath = (data, isFinal) => {
   return (dispatch, getState) => {
     let storageEngine = AppSettings.storageEngine,
       storageType = AppSettings.storageType,
-      newTrail = Object.assign({}, getState().newTrail, data),
-      userId = getState().login.user._id
+      storeKey = getState().newTrail.storeKey,
+      tmp = {}
+
+    tmp[storeKey] = Object.assign(data, {
+      storeKey
+    })
 
     switch (storageType) {
       case CONSTANTS.STORAGE_TYPES.ASYNC:
         storageEngine
+        .mergeItem(CONSTANTS.STORAGE_KEYS.TRAILS, JSON.stringify(tmp))
+        .then(() => {
+          dispatch(_storePathSuccess(data, isFinal))
+        })
+        /*storageEngine
         .getItem(userId)
         .then((str) => {
           return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
         })
         .then((tmp) => {
-          tmp[newTrail.storeKey] = newTrail
+          tmp[storeKey] = Object.assign({}, {
+            storeKey
+          }, data)
 
           storageEngine
           .setItem(userId, JSON.stringify(tmp))
           .then(() => {
-            dispatch(_storeTrailSuccess(data))
+            dispatch(_storePathSuccess(tmp[storeKey], isFinal))
           })
-        })
+        })*/
       break
     }
   }
@@ -334,29 +361,35 @@ export const deleteTrail = (data) => {
 }
 
 // delete local trail
-export const deleteLocalTrail = (data) => {
+export const deleteLocalTrail = (storeKey) => {
   let storageEngine = AppSettings.storageEngine,
-    storageType = AppSettings.storageType,
-    userId = (typeof(data.creator) === 'object') ? data.creator._id : data.creator
+    storageType = AppSettings.storageType
 
   return (dispatch) => {
     switch (storageType) {
       case CONSTANTS.STORAGE_TYPES.ASYNC:
         storageEngine
-        .getItem(userId)
+        .getItem(CONSTANTS.STORAGE_KEYS.TRAILS)
         .then((str) => {
           return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
         })
         .then((tmp) => {
-          delete tmp[data.storeKey]
+          delete tmp[storeKey]
 
           storageEngine
-          .setItem(userId, JSON.stringify(tmp))
+          .setItem(CONSTANTS.STORAGE_KEYS.TRAILS, JSON.stringify(tmp))
           .then(() => {
             dispatch(deleteTrailSuccess())
           })
         })
       break
     }
+  }
+}
+
+// reset trail
+export const resetTrail = () => {
+  return {
+    type: ACTIONS.RESET_TRAIL
   }
 }

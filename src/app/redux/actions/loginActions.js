@@ -35,19 +35,23 @@ export const isLoggedIn = () => {
     switch (storageType) {
       case CONSTANTS.STORAGE_TYPES.ASYNC:
         storageEngine
-        .multiGet([CONSTANTS.ACCESS_TOKEN, CONSTANTS.USER])
+        .multiGet([
+          CONSTANTS.ACCESS_TOKEN,
+          CONSTANTS.USER
+        ])
         .then((arr) => {
           if (arr[0][1] && arr[1][1]) {
             let token = arr[0][1],
               user = JSON.parse(arr[1][1])
 
             storageEngine
-            .getItem(user._id)
+            .getItem('trails')
             .then((str) => {
               return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
             })
             .then((obj) => {
               user.localTrails = UTIL.obj2arr(obj)
+              console.log(obj)
             })
             .then(() => {
               dispatch(_isLoggedIn(token, user))
@@ -57,9 +61,7 @@ export const isLoggedIn = () => {
           }
         })
         .catch((err) => {
-          return {
-            type: ACTIONS.IS_LOGGED_OUT
-          }
+          dispatch(_isLoggedOut())
         })
       break
 

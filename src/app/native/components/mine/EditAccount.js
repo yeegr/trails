@@ -116,6 +116,11 @@ class EditAccount extends Component {
         passProps.photos = this.props.user.photos
         passProps.dispatcher = this.props.loginActions
       break
+
+      case 'intro':
+        id = 'EditUserIntro',
+        title = LANG.t('mine.edit.SelfIntro')
+      break
     }
 
     this.props.navigator.push({
@@ -228,6 +233,11 @@ class EditAccount extends Component {
               label={LANG.t('mine.edit.Gallery')}
               onPress={() => this._nextPage('gallery')}
               value={user.photos.length}
+            />
+            <EditLink
+              label={LANG.t('mine.edit.SelfIntro')}
+              onPress={() => this._nextPage('intro')}
+              value={(user.intro && user.intro.length > 2)}
             />
           </View>
           <View style={styles.editor.group}>

@@ -16,12 +16,14 @@ const initTrail = {
   areaNames: Defaults.Trail.areaNames,
   difficultyLevel: 2,
   description: '',
-  points: [], //array of array [[],[],[],...]
   photos: [],
   comments: []
 },
 initStatus = {
+  showRecorder: false,
+  isNew: true,
   isRecording: false,
+  isFinal: false,
   isCalculating: false,
   isStored: false,
   isUploading: false,
@@ -29,16 +31,34 @@ initStatus = {
   isDeleted: false
 },
 initState = Object.assign({}, 
-  initTrail, 
-  initStatus
+  initStatus, {
+    points: [], //array of array [[],[],[],...]
+  }
 ),
 
 newTrailReducer = (state = initState, action) => {
   switch (action.type) {
+// toggle trail recorder
+    case ACTIONS.SHOW_RECORDER:
+      return Object.assign({}, state, {
+        showRecorder: true
+      })
+
+    case ACTIONS.HIDE_RECORDER:
+      return Object.assign({}, state, {
+        showRecorder: false
+      })
+
+// reset recording
+    case ACTIONS.RESET_TRAIL:
+      return Object.assign({}, initState)
+
+// create new trail
     case ACTIONS.NEW_TRAIL:
-      return Object.assign({}, initState, {
+      return Object.assign({}, state, initTrail, {
         creator: action.creator,
-        storeKey: UTIL.generateRandomString(16)
+        storeKey: UTIL.generateRandomString(16),
+        isNew: false
       })
 
     case ACTIONS.START_RECORDING_TRAIL:
@@ -51,10 +71,12 @@ newTrailReducer = (state = initState, action) => {
         isRecording: false
       })
 
-    case ACTIONS.STORE_TRAIL_SUCCESS:
+    case ACTIONS.STORE_PATH_SUCCESS:
       return Object.assign({}, state, action.data, {
-        isStored: true,
-      })
+        isStored: true
+      }, action.isFinal ? Object.assign({}, {
+        isFinal: true
+      }) : {})
 
     case ACTIONS.SET_TRAIL_DATA:
       return Object.assign({}, state, {
@@ -74,7 +96,7 @@ newTrailReducer = (state = initState, action) => {
         photos = action.trail.photos.slice(0),
         comments = action.trail.comments.slice(0)
 
-      return Object.assign({}, initState, action.trail, {
+      return Object.assign({}, initState, initTrail, action.trail, {
         areas,
         photos,
         comments,

@@ -56,7 +56,7 @@ class EditTrail extends Component {
       let trail = this.props.newTrail
 
       if (trail.hasOwnProperty('storeKey')) {
-        this.props.newTrailActions.deleteLocalTrail(trail)
+        this.props.newTrailActions.deleteLocalTrail(trail.storeKey)
       }
 
       Alert.alert(
@@ -177,7 +177,7 @@ class EditTrail extends Component {
     let trail = this.props.newTrail
 
     if (trail.hasOwnProperty('storeKey')) {
-      this.props.newTrailActions.deleteLocalTrail(trail)
+      this.props.newTrailActions.deleteLocalTrail(trail.storeKey)
     } else if (trail.hasOwnProperty('_id')) {
       this.props.newTrailActions.deleteTrail(trail)
     }

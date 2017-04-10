@@ -37,7 +37,7 @@ const CallToAction = (props) => {
   }
 
   return (
-    <TouchableOpacity onPress={props.onPress}>
+    <TouchableOpacity onPress={props.onPress} style={{flex: 1}}>
       {view}
     </TouchableOpacity>
   )

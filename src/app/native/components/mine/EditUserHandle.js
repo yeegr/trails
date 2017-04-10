@@ -68,6 +68,7 @@ class EditUserHandle extends Component {
 }
 
 EditUserHandle.propTypes = {
+  navigator: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   loginActions: PropTypes.object.isRequired
 }

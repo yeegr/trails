@@ -42,6 +42,19 @@ class Home extends Component {
     Location.requestAlwaysAuthorization()
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.newTrail.isFinal) {
+      console.log(nextProps.newTrail)
+      this.props.navigator.push({
+        id: 'EditTrail',
+        title: LANG.t('trail.EditTrail'),
+        passProps: {
+          trail: nextProps.newTrail
+        }
+      })
+    }
+  }
+
   _onTabPressed(tabId) {
     if (tabId === CONSTANTS.HOME_TABS.MINE && !this.props.user) {
       this.props.showLogin()
@@ -120,15 +133,18 @@ class Home extends Component {
 Home.propTypes = {
   navigator: PropTypes.object.isRequired,
   user: PropTypes.object,
-  showLogin: PropTypes.func.isRequired,
+  newTrail: PropTypes.object.isRequired,
   selectedTab: PropTypes.string.isRequired,
+  showLogin: PropTypes.func.isRequired,
   changeTab: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    selectedTab: state.home.selectedTab,
-    user: state.login.user
+    login: state.login,
+    user: state.login.user,
+    newTrail: state.newTrail,
+    selectedTab: state.home.selectedTab
   }
 }
 
