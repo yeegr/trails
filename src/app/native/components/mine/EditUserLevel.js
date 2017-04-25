@@ -13,7 +13,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 
 import Icon from '../shared/Icon'
 import TextView from '../shared/TextView'
@@ -35,7 +35,7 @@ class EditUserLevel extends Component {
   }
 
   componentWillUnmount() {
-    this.props.loginActions.updateUser(this.props.user.id, {
+    this.props.userActions.updateUser(this.props.user.id, {
       level: this.state.level
     })
   }
@@ -82,7 +82,7 @@ class EditUserLevel extends Component {
 
 EditUserLevel.propTypes = {
   user: PropTypes.object.isRequired,
-  loginActions: PropTypes.object.isRequired
+  userActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
@@ -93,7 +93,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

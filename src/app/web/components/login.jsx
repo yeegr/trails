@@ -7,7 +7,7 @@ import React, {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as userActions from '../../redux/actions/userActions'
 
 import ImagePath from './shared/ImagePath'
 import Modal from './shared/Modal'
@@ -59,7 +59,7 @@ class Login extends Component {
     let mobileNumber = evt.target.value.toString().trim(),
       test = AppSettings.mobileRx.test(mobileNumber)
 
-    this.props.loginActions.resetVerificationError()
+    this.props.userActions.resetVerificationError()
 
     if (test && this.counter === AppSettings.getVerificationTimer) {
       this.setState({
@@ -78,7 +78,7 @@ class Login extends Component {
   }
 
   _getVerification() {
-    this.props.loginActions.uploadMobileNumber(this.state.mobileNumber, CONSTANTS.ACCOUNT_ACTIONS.LOGIN)
+    this.props.userActions.uploadMobileNumber(this.state.mobileNumber, CONSTANTS.ACCOUNT_ACTIONS.LOGIN)
 
     this.setState({
       disableVerificationButton: true,
@@ -106,7 +106,7 @@ class Login extends Component {
   _onVerificationCodeChanged(evt) {
     let verificationCode = evt.target.value.toString().trim()
 
-    this.props.loginActions.resetVerificationError()
+    this.props.userActions.resetVerificationError()
 
     this.setState({
       verificationCode,
@@ -115,7 +115,7 @@ class Login extends Component {
   }
 
   _onLoginPressed() {
-    this.props.loginActions.verifyMobileNumber(
+    this.props.userActions.verifyMobileNumber(
       this.state.mobileNumber,
       this.state.verificationCode,
       CONSTANTS.ACCOUNT_ACTIONS.LOGIN
@@ -123,7 +123,7 @@ class Login extends Component {
   }
 
   _hideLogin() {
-    this.props.loginActions.hideLogin()
+    this.props.userActions.hideLogin()
   }
 
   render() {
@@ -210,7 +210,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  loginActions: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
   login: PropTypes.object
 }
 
@@ -222,7 +222,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

@@ -148,7 +148,8 @@
       },
       "NextAlert": {
         "title": "您的轨迹太短啦！"
-      }
+      },
+      "DistanceFromStartingPoint": "您现在距离轨迹起点有{{distance}}公里"
     },
     "edit": {
       "PrivacySetting": "隐私设置",

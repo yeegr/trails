@@ -6,8 +6,6 @@ import React, {
 } from 'react'
 
 import {
-  AsyncStorage,
-  Text,
   Alert,
   AppState,
   DeviceEventEmitter,
@@ -27,7 +25,7 @@ import Permissions from 'react-native-permissions'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 import * as newTrailActions from '../../../redux/actions/newTrailActions'
 
 import Icon from '../shared/Icon'
@@ -56,8 +54,14 @@ class RecordTrail extends Component {
 
     this._handleAppStateChange = this._handleAppStateChange.bind(this)
     this._initLocation = this._initLocation.bind(this)
+    this._onRegionChangeComplete = this._onRegionChangeComplete.bind(this)
+    this._setRegion = this._setRegion.bind(this)
+    this._toggleFollowing = this._toggleFollowing.bind(this)
+    this._zoomToElements = this._zoomToElements.bind(this)
+    this._getStartingDistance = this._getStartingDistance.bind(this)
 
     this._toggleRecording = this._toggleRecording.bind(this)
+    this._setTrailTimes = this._setTrailTimes.bind(this)
     this._startCounter = this._startCounter.bind(this)
     this._pauseCounter = this._pauseCounter.bind(this)
     this._validatePoints = this._validatePoints.bind(this)
@@ -68,19 +72,6 @@ class RecordTrail extends Component {
     this._stopTracking = this._stopTracking.bind(this)
 
     this.ASPECT_RATIO = 9 / 16
-
-    this.initState = {
-      currentPosition: {
-        latitude: 39.900392,
-        longitude: 116.397855,
-        altitude: 1,
-        speed: 0,
-        distance: 0
-      },
-      counter: 0,
-      coords: [],
-      points: []
-    }
 
     this._reset()
   }
@@ -100,9 +91,8 @@ class RecordTrail extends Component {
 
     Location.getAuthorizationStatus((authorization) => {
       if (authorization === 'authorizedAlways') {
-        if (this.props.newTrail.isNew) {
+        if (this.props.newTrail.points.length < 1) {
           this._initLocation()
-          this.props.newTrailActions.newTrail(this.props.user)
         }
       } else {
         Alert.alert(
@@ -121,11 +111,42 @@ class RecordTrail extends Component {
         )
       }
     })
+
+    const paths = this.props.newTrail.paths
+
+    if (Array.isArray(paths) && paths.length > 0) {
+      paths.map((path) => {
+        let points = path.points
+
+        this.pathsCoords.push(UTIL.formatTrailPoints(points))
+        this.startCoords.push({
+          latitude: points[0][1],
+          longitude: points[0][2]
+        })
+        this.finishCoords.push({
+          latitude: points[points.length - 1][1],
+          longitude: points[points.length - 1][2]
+        })
+      })
+
+      this.pathsCenter = UTIL.getCenterOfTrails(paths)
+    }
   }
 
   _onModalHide() {
     if (this.state.points.length < 1) {
+      this._reset()
       this.props.newTrailActions.resetTrail()
+    }
+  }
+
+  _handleAppStateChange(appState) {
+    if (appState === 'active') {
+      Location.getAuthorizationStatus((authorization) => {
+        if (authorization === 'authorizedAlways') {
+          this._initLocation()
+        }
+      })
     }
   }
 
@@ -141,7 +162,15 @@ class RecordTrail extends Component {
 
       if (path.length > 0) {
         let lastCoords = path[path.length - 1]
-        currentPosition.distance = parseFloat((lastCoords.distance + UTIL.calculatPointDistance(lastCoords, currentPosition)).toFixed(4))
+        currentPosition.distance = parseFloat((lastCoords.distance + UTIL.calculatPointDistance(lastCoords, currentPosition)).toFixed(3))
+      }
+
+      this.setState({
+        currentPosition
+      })
+
+      if (this.state.isFollowing) {
+        this._setRegion()
       }
 
       if (this.props.newTrail.isRecording) {
@@ -149,7 +178,6 @@ class RecordTrail extends Component {
         points.push(this._normalizeCoords(currentPosition))
 
         this.setState({
-          currentPosition,
           coords,
           points
         })
@@ -157,42 +185,54 @@ class RecordTrail extends Component {
         if (coords.length > 0 && coords.length % AppSettings.minTrailPathPoints === 0) {
           this.props.newTrailActions.storeTrailPath(this._finalizePath(), false)
         }
-      } else {
-        this.setState({
-          currentPosition
-        })
       }
     })
   }
 
-  _handleAppStateChange(appState) {
-    if (appState === 'active') {
-      Location.getAuthorizationStatus((authorization) => {
-        if (authorization === 'authorizedAlways') {
-          this._initLocation()
-        }
-      })
+  _onRegionChangeComplete(region) {
+    this.setState({region})
+  }
+
+  _setRegion() {
+    let dist = 0.2,
+      position = this.state.currentPosition,
+      center = this.pathsCenter
+
+    /*
+    if (center) {
+      dist = Math.round(UTIL.calculatPointDistance(center, position))
+    }
+    */
+
+    this.setState({
+      region: UTIL.setRegion(position, this.ASPECT_RATIO, dist)
+    })
+  }
+
+  _toggleFollowing() {
+    let isFollowing = !this.state.isFollowing
+    this.setState({isFollowing})
+
+    if (isFollowing) {
+      this._setRegion()
     }
   }
 
-  _reset() {
-    this.startTime = null
-    this.stopTime = null
-    this.trailTime = null
-    this.pauseTime = null
-    this.state = Object.assign({}, this.initState)
+  _zoomToElements() {
+    this.mapView.fitToElements(true)
+    this.setState({
+      isFollowing: false
+    })
   }
 
-  _resetTrail() {
-    this._reset()
-    clearInterval(this.counterInterval)
-    this.props.newTrailActions.newTrail(this.props.user)
+  _getStartingDistance() {
+    return UTIL.calculatPointDistance(this.startCoords[0], this.state.currentPosition).toFixed(2)
   }
 
   _discardRecording() {
     this._reset()
     clearInterval(this.counterInterval)
-    this.props.newTrailActions.deleteLocalTrail(this.props.newTrail.storeKey)
+    this.props.newTrailActions.deleteTrail(this.props.newTrail)
     this.props.newTrailActions.resetTrail()
     this._hideRecorder()
   }
@@ -301,11 +341,44 @@ class RecordTrail extends Component {
   _saveRecording() {
     this.props.newTrailActions.storeTrailPath(this._finalizePath(), true)
     this._stopTracking()
+    this._hideRecorder()
+  }
+
+  _reset() {
+    this.counterInterval = null
+    this.pathsCoords = []
+    this.startCoords = []
+    this.finishCoords = []
+
+    if (this.props.newTrail.isRecording) {
+      this.startTime = Date.now()
+    } else {
+      this.startTime = null
+      clearInterval(this.counterInterval)
+    }
+
+    this.stopTime = Date.now()
+    this.trailTime = 0
+    this.pauseTime = 0
+    this.state = {
+      isFollowing: (this.props.newTrail.paths === undefined),
+      counter: 0,
+      coords: [],
+      points: [],
+      currentPosition: (this.state && this.state.currentPosition) || AppSettings.defaultStartingPosition
+    }
+  }
+
+  _resetTrail() {
+    this._reset()
+    this.props.newTrailActions.newTrail(this.props.user)
   }
 
   _startCounter() {
-    if (!this.startTime) {
+    if (UTIL.isNullOrUndefined(this.startTime)) {
+      this.props.newTrailActions.newTrail(this.props.user)
       this.startTime = Date.now()
+      this.counterInterval = setInterval(this._setTrailTimes, 1000)
     }
 
     this.props.newTrailActions.startRecording()
@@ -322,18 +395,18 @@ class RecordTrail extends Component {
     } else {
       this._startCounter()
     }
+  }
 
-    this.counterInterval = setInterval(() => {
-      let current = Date.now()
+  _setTrailTimes() {
+    let current = Date.now()
 
-      if (this.props.newTrail.isRecording) {
-        this.trailTime = current - this.startTime - this.pauseTime
-        this.setState({counter: Math.round(this.trailTime / 1000)})
-      } else {
-        this.pauseTime += current - this.stopTime
-        this.stopTime = current
-      }
-    }, 1000)
+    if (this.props.newTrail.isRecording) {
+      this.trailTime = current - this.startTime - this.pauseTime
+      this.setState({counter: Math.round(this.trailTime / 1000)})
+    } else {
+      this.pauseTime += current - this.stopTime
+      this.stopTime = current
+    }
   }
 
   render() {
@@ -364,16 +437,52 @@ class RecordTrail extends Component {
         },
         controlBar: {
           position: 'absolute',
-          bottom: 20,
+          bottom: 30,
           flexDirection: 'row',
           justifyContent: 'space-around',
           marginHorizontal: 50,
           width: screenWidth - 100
+        },
+        icon: {
+          backgroundColor: 'rgba(255, 255, 255, .8)', 
+          borderRadius: 5,
+          paddingHorizontal: 5,
+          paddingVertical: 2,
+          position: 'absolute',
+          right: 10
+        },
+        follow: {
+          top: 120
+        },
+        focus: {
+          top: 200
+        },
+        zoom: {
+          top: 280
+        },
+        flashText: {
+          backgroundColor: Graphics.colors.foreground,
+          borderRadius: 5,
+          bottom: 5,
+          position: 'absolute',
+          marginHorizontal: 80,
+          width: screenWidth - 160
         }
       }),
       stack = 'vertical',
       {currentPosition} = this.state,
-      {newTrail} = this.props
+      {newTrail} = this.props,
+
+      flashText = (Array.isArray(this.startCoords) && this.startCoords[0]) ? (
+        <View style={styles.flashText}>
+          <TextView
+            style={{textAlign: 'center'}}
+            fontSize={'XS'}
+            textColor={Graphics.textColors.overlay}
+            text={LANG.t('trail.record.DistanceFromStartingPoint', {distance: this._getStartingDistance()})}
+          />
+        </View>
+      ) : null
 
     return (
       <Modal
@@ -449,6 +558,7 @@ class RecordTrail extends Component {
         </View>
         <View ref="map" style={{flex: 1}}>
           <MapView
+            ref={(ref) => {this.mapView = ref}}
             style={{flex: 1}}
             mapType="satellite"
             pitchEnabled={true}
@@ -457,53 +567,130 @@ class RecordTrail extends Component {
             showsCompass={true}
             showsBuildings={false}
             showsIndoors={false}
+            showsIndoorLevelPicker={false}
+            showsMyLocationButton={false}
             showsPointsOfInterest={false}
             showsScale={true}
             showsTraffic={false}
-            zoomEnabled={true}
             showsUserLocation={true}
+            zoomEnabled={true}
             followUserLocation={true}
-            region={UTIL.setRegion(this.state.currentPosition, this.ASPECT_RATIO, 0.2)}
+            region={this.state.region}
+            onRegionChangeComplete={this._onRegionChangeComplete}
           >
             <MapView.Polyline
               coordinates={this.state.coords}
               strokeColor={Graphics.mapping.strokeColor}
               strokeWidth={Graphics.mapping.strokeWeight}
             />
-          <View style={styles.controlBar}>
-            <TouchableOpacity onPress={this._resetTrail}>
+            {
+              this.pathsCoords.map((coords, index) => {
+                return (
+                  <MapView.Polyline
+                    key={index}
+                    coordinates={coords}
+                    strokeColor={'blue'}
+                    strokeWidth={Graphics.mapping.strokeWeight}
+                  />
+                )
+              })
+            }
+            {
+              this.startCoords.map((coords, index) => {
+                return (
+                  <MapView.Marker
+                    key={index}
+                    coordinate={coords}
+                    pinColor={'green'}
+                  />
+                )
+              })
+            }
+            {
+              this.finishCoords.map((coords, index) => {
+                return (
+                  <MapView.Marker
+                    key={index}
+                    coordinate={coords}
+                    pinColor={'red'}
+                  />
+                )
+              })
+            }
+            <TouchableOpacity onPress={this._toggleFollowing} style={[styles.icon, styles.follow]}>
               <Icon
-                labelColor={Graphics.textColors.overlay}
+                backgroundColor="transparent"
+                fillColor={Graphics.colors.foreground}
+                fontSize={'XXS'}
+                labelColor={Graphics.colors.foreground}
                 showLabel={true}
-                sideLength={iconSide}
+                sideLength={32}
                 stack={stack}
-                type="reset"
-                label={LANG.t('glossary.Reset')}
+                type={this.state.isFollowing ? "tracking_on" : "tracking_off"}
+                label={this.state.isFollowing ? '跟踪模式' : '自由模式'}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={this._toggleRecording}>
+            <TouchableOpacity onPress={this._setRegion} style={[styles.icon, styles.focus]}>
               <Icon
-                backgroundColor={(newTrail.isRecording) ? Graphics.colors.warning : Graphics.colors.primary}
-                labelColor={Graphics.textColors.overlay}
+                backgroundColor="transparent"
+                labelColor={Graphics.colors.foreground}
+                fontSize={'XXS'}
+                fillColor={Graphics.colors.foreground}
                 showLabel={true}
-                sideLength={iconSide}
+                sideLength={32}
                 stack={stack}
-                type={(newTrail.isRecording) ? "pause" : "play"}
-                label={(newTrail.isRecording) ? LANG.t('trail.record.PauseRecording') : LANG.t('trail.record.StartRecording')}
+                type="focus"
+                label={'我的位置'}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={this._editTrail}>
+            <TouchableOpacity onPress={this._zoomToElements} style={[styles.icon, styles.zoom]}>
               <Icon
-                backgroundColor={Graphics.colors[this._validatePoints() ? 'primary' : 'disabled']}
-                labelColor={Graphics.textColors.overlay}
+                backgroundColor="transparent"
+                labelColor={Graphics.colors.foreground}
+                fontSize={'XXS'}
+                fillColor={Graphics.colors.foreground}
                 showLabel={true}
-                sideLength={iconSide}
+                sideLength={32}
                 stack={stack}
-                type="arrow-right"
-                label={LANG.t('glossary.NextStep')}
+                type="trail"
+                label={'轨迹地图'}
               />
             </TouchableOpacity>
-          </View>
+            <View style={styles.controlBar}>
+              <TouchableOpacity onPress={this._resetTrail}>
+                <Icon
+                  labelColor={Graphics.textColors.overlay}
+                  showLabel={true}
+                  sideLength={iconSide}
+                  stack={stack}
+                  type="reset"
+                  label={LANG.t('glossary.Reset')}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this._toggleRecording}>
+                <Icon
+                  backgroundColor={(newTrail.isRecording) ? Graphics.colors.warning : Graphics.colors.primary}
+                  labelColor={Graphics.textColors.overlay}
+                  showLabel={true}
+                  sideLength={iconSide}
+                  stack={stack}
+                  type={(newTrail.isRecording) ? "pause" : "play"}
+                  label={(newTrail.isRecording) ? LANG.t('trail.record.PauseRecording') : LANG.t('trail.record.StartRecording')}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this._editTrail}>
+                <Icon
+                  backgroundColor={Graphics.colors[this._validatePoints() ? 'primary' : 'disabled']}
+                  labelColor={Graphics.textColors.overlay}
+                  showLabel={true}
+                  sideLength={iconSide}
+                  stack={stack}
+                  type="arrow-right"
+                  label={LANG.t('glossary.NextStep')}
+                />
+              </TouchableOpacity>
+            </View>
+            {flashText}
           </MapView>
         </View>
       </Modal>
@@ -515,7 +702,7 @@ RecordTrail.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   title: PropTypes.string,
   user: PropTypes.object,
-  loginActions: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
   newTrailActions: PropTypes.object.isRequired,
   newTrail: PropTypes.object.isRequired,
 }
@@ -529,7 +716,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch),
     newTrailActions: bindActionCreators(newTrailActions, dispatch)
   }
 }

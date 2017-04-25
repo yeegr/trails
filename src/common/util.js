@@ -131,7 +131,7 @@ export function getTimestamp() {
 export function calculatPointDistance(p1, p2) {
   let distLat = deg2rad(p2.latitude - p1.latitude),
       distLng = deg2rad(p2.longitude - p1.longitude),
-      distAlt = (p2.altitude - p1.altitude) / 1000,
+      distAlt = (p2.altitude - p1.altitude) / 1000 || 0,
       a = Math.sin(distLat / 2),
       b = Math.sin(distLng / 2),
       c = a * a + b * b * Math.cos(deg2rad(p1.latitude)) * Math.cos(deg2rad(p2.latitude)),
@@ -254,6 +254,33 @@ export function getMapCenter(points) {
     longitude: totalLng / points.length,
     latitudeDelta: latDelta * 1.5,
     longitudeDelta: lngDelta * 1.5
+  }
+}
+
+export function getCenterOfTrails(trails) {
+  let totalLat = 0,
+    totalLng = 0,
+    latArr = [],
+    lngArr = [],
+    totalLength = 0
+
+  trails.map((trail) => {
+    totalLength += trail.points.length
+
+    trail.points.map((point) => {
+      let lat = parseFloat(point[1]),
+        lng = parseFloat(point[2])
+
+      totalLat += lat,
+      totalLng += lng,
+      latArr.push(lat),
+      lngArr.push(lng)
+    })
+  })
+
+  return {
+    latitude: totalLat / totalLength,
+    longitude: totalLng / totalLength
   }
 }
 

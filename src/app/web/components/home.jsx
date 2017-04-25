@@ -7,7 +7,7 @@ import React, {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {showLogin} from '../../redux/actions/loginActions'
+import {showLogin} from '../../redux/actions/userActions'
 
 import QR_iPhone from '../../../../assets/qr_code-iPhone.png'
 import BACKGROUND from '../../../../assets/Heroes/007.jpg'

@@ -10,7 +10,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 
 import Header from './Header'
 import Rating from './Rating'
@@ -40,7 +40,7 @@ const CommentPreview = (props) => {
             }
           })
         } else {
-          props.loginActions.showLogin()
+          props.userActions.showLogin()
         }
       }
     }
@@ -61,7 +61,7 @@ const CommentPreview = (props) => {
 
 CommentPreview.propTypes = {
   navigator: PropTypes.object.isRequired,
-  loginActions: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   user: PropTypes.object
@@ -76,7 +76,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

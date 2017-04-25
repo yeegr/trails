@@ -15,7 +15,7 @@ import * as WeChat from 'react-native-wechat'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 import {changeTab} from '../../../redux/actions/homeActions'
 
 import CallToAction from '../shared/CallToAction'
@@ -27,6 +27,7 @@ import styles from '../../styles/main'
 import {
   CONSTANTS,
   LANG,
+  AppSettings,
   Graphics
 } from '../../../../common/__'
 
@@ -60,9 +61,9 @@ class EditAccount extends Component {
       WeChat.addListener('SendAuth.Resp', (res) => {
         if (this.props.login.action === CONSTANTS.ACCOUNT_ACTIONS.BIND) {
           if (res.errCode === 0) {
-            this.props.loginActions.wechatAuthSuccess(res.code)
+            this.props.userActions.wechatAuthSuccess(res.code)
           } else {
-            this.props.loginActions.wechatAuthFailure(res)
+            this.props.userActions.wechatAuthFailure(res)
           }
         }
       })
@@ -114,7 +115,7 @@ class EditAccount extends Component {
         title = LANG.t('mine.edit.Gallery')
         passProps.id = this.props.user._id
         passProps.photos = this.props.user.photos
-        passProps.dispatcher = this.props.loginActions
+        passProps.dispatcher = this.props.userActions
       break
 
       case 'intro':
@@ -131,7 +132,7 @@ class EditAccount extends Component {
   }
 
   _onLogoutPressed() {
-    this.props.loginActions.logoutUser()
+    this.props.userActions.logoutUser()
     this.props.changeTab('Areas')
     this.props.navigator.resetTo({
       id: 'Home',
@@ -141,7 +142,7 @@ class EditAccount extends Component {
 
   _bindWeChat() {
     if (this.state.isWXAppInstalled) {
-      this.props.loginActions.wechatAuthRequest(CONSTANTS.ACCOUNT_ACTIONS.BIND)
+      this.props.userActions.wechatAuthRequest(CONSTANTS.ACCOUNT_ACTIONS.BIND)
       WeChat
       .sendAuthRequest('snsapi_userinfo', 'shitulv_login')
       .catch((e) => {console.log(e)})
@@ -149,7 +150,7 @@ class EditAccount extends Component {
   }
 
   _unbindWeChat() {
-    this.props.loginActions.updateUser(this.props.user.id, {
+    this.props.userActions.updateUser(this.props.user.id, {
       wechat: CONSTANTS.WeChatOpenId
     })
   }
@@ -172,7 +173,7 @@ class EditAccount extends Component {
         },
         {
           text: LANG.t('mine.edit.ClearCacheAlert.confirm'), 
-          onPress: this.props.loginActions.clearCache
+          onPress: this.props.userActions.clearCache
         }
       ]
     )
@@ -199,18 +200,22 @@ class EditAccount extends Component {
             <EditLink
               label={LANG.t('user.Avatar')}
               onPress={() => this._nextPage('avatar')}
+              required={true}
+              validated={(user.avatar !== AppSettings.defaultEventHeroUri)}
               user={user}
             />
             <EditLink
               label={LANG.t('user.Handle')}
               onPress={() => this._nextPage('handle')}
               required={true}
+              validated={(user.handle.length >= AppSettings.minUserHandleLength)}
               value={user.handle}
             />
             <EditLink
               label={LANG.t('user.MobileNumber')}
               onPress={() => this._nextPage('mobile')}
               required={true}
+              validated={(AppSettings.mobileRx.test(user.mobile.toString()))}
               value={user.mobile}
             />
             {bindWeChatLink}
@@ -265,7 +270,7 @@ EditAccount.propTypes = {
   navigator: PropTypes.object.isRequired,
   login: PropTypes.object,
   user: PropTypes.object,
-  loginActions: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
   changeTab: PropTypes.func.isRequired
 }
 
@@ -278,7 +283,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch),
     changeTab: (tabId) => dispatch(changeTab(tabId))
   }
 }

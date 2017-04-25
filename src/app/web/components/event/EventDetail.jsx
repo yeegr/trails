@@ -11,7 +11,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 import * as eventsActions from '../../../redux/actions/eventsActions'
 
 import moment from 'moment'
@@ -43,13 +43,13 @@ class EventDetail extends Component {
   }
 
   componentWillMount() {
-    this.props.loginActions.isLoggedIn()
+    this.props.userActions.isLoggedIn()
     this.props.eventsActions.getEvent(this.props.routeParams.id)
   }
 
   _nextStep() {
     if (UTIL.isNullOrUndefined(this.props.user)) {
-      this.props.loginActions.showLogin()
+      this.props.userActions.showLogin()
     } else {
       let {event} = this.props
 
@@ -298,7 +298,7 @@ class EventDetail extends Component {
 
 EventDetail.propTypes = {
   routeParams: PropTypes.object.isRequired,
-  loginActions: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
   eventsActions: PropTypes.object.isRequired,
   user: PropTypes.object,
   event: PropTypes.object
@@ -313,7 +313,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch),
     eventsActions: bindActionCreators(eventsActions, dispatch)
   }
 }

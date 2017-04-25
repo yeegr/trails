@@ -23,6 +23,7 @@ import {
 
 const Icon = (props) => {
   let icon = Graphics.icon,
+    fontSize = props.fontSize || 'XS',
     labelColor = props.labelColor || icon.textColor,
     valueColor = props.valueColor || icon.textColor,
     path = (props.type || props.type === 0) ? Graphics.glyphs[props.type.toString()] : (props.path || null),
@@ -43,7 +44,7 @@ const Icon = (props) => {
     label = (props.label && props.showLabel) ? (
       <TextView
         style={labelStyles}
-        fontSize={'XS'}
+        fontSize={fontSize}
         fontWeight={'bold'}
         textColor={labelColor}
         text={props.label}
@@ -52,7 +53,7 @@ const Icon = (props) => {
     value = (props.value !== undefined) ? (
       <TextView
         style={valueStyles}
-        fontSize={(props.stack === 'vertical') ? 'XS' : 'S'}
+        fontSize={(props.stack === 'vertical') ? fontSize : 'S'}
         textColor={valueColor}
         text={props.value.toString()}
       />

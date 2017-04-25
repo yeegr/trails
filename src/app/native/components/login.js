@@ -21,7 +21,7 @@ import * as WeChat from 'react-native-wechat'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as userActions from '../../redux/actions/userActions'
 
 import Icon from '../components/shared/Icon'
 import ImagePath from '../components/shared/ImagePath'
@@ -82,9 +82,9 @@ class Login extends Component {
       WeChat.addListener('SendAuth.Resp', (res) => {
         if (this.props.login.action === CONSTANTS.ACCOUNT_ACTIONS.LOGIN) {
           if (res.errCode === 0) {
-            this.props.loginActions.wechatAuthSuccess(res.code)
+            this.props.userActions.wechatAuthSuccess(res.code)
           } else {
-            this.props.loginActions.wechatAuthFailure(res)
+            this.props.userActions.wechatAuthFailure(res)
           }
         }
       })
@@ -107,13 +107,13 @@ class Login extends Component {
   
   WXAuth() {
     if (this.state.isWXAppInstalled) {
-      this.props.loginActions.wechatAuthRequest(CONSTANTS.ACCOUNT_ACTIONS.LOGIN)
+      this.props.userActions.wechatAuthRequest(CONSTANTS.ACCOUNT_ACTIONS.LOGIN)
       
       WeChat
       .sendAuthRequest('snsapi_userinfo', 'shitulv_login')
       .catch((e) => {console.log(e)})
       
-      this.props.loginActions.wechatAuthWaiting()
+      this.props.userActions.wechatAuthWaiting()
     }
   }
 
@@ -125,7 +125,7 @@ class Login extends Component {
     let mobileNumber = val.trim(),
       test = AppSettings.mobileRx.test(mobileNumber)
 
-    this.props.loginActions.resetVerificationError()
+    this.props.userActions.resetVerificationError()
 
     if (test && this.counter === AppSettings.getVerificationTimer) {
       this.setState({
@@ -144,7 +144,7 @@ class Login extends Component {
   }
 
   _getVerification() {
-    this.props.loginActions.uploadMobileNumber(this.state.mobileNumber, CONSTANTS.ACCOUNT_ACTIONS.LOGIN)
+    this.props.userActions.uploadMobileNumber(this.state.mobileNumber, CONSTANTS.ACCOUNT_ACTIONS.LOGIN)
 
     this.setState({
       disableVerificationButton: true,
@@ -176,7 +176,7 @@ class Login extends Component {
   _onVerificationCodeChanged(val) {
     let verificationCode = val.trim()
 
-    this.props.loginActions.resetVerificationError()
+    this.props.userActions.resetVerificationError()
 
     this.setState({
       verificationCode,
@@ -185,7 +185,7 @@ class Login extends Component {
   }
 
   _onLoginPressed() {
-    this.props.loginActions.verifyMobileNumber(
+    this.props.userActions.verifyMobileNumber(
       this.state.mobileNumber,
       this.state.verificationCode,
       CONSTANTS.ACCOUNT_ACTIONS.LOGIN
@@ -193,7 +193,7 @@ class Login extends Component {
   }
 
   _hideLogin() {
-    this.props.loginActions.hideLogin()
+    this.props.userActions.hideLogin()
   }
 
   render() {
@@ -407,7 +407,7 @@ const styles = StyleSheet.create({
 })
 
 Login.propTypes = {
-  loginActions: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
   login: PropTypes.object
 }
 
@@ -419,7 +419,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

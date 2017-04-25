@@ -173,19 +173,19 @@ class OrderEvent extends Component {
                 class={'h3'}
                 text={LANG.t('order.AllFieldsAreRequired')}
               />
-            {
-              this.state.signUps.map((signUp, index) => {
-                return (
-                  <SignUpForm 
-                    key={index} 
-                    index={index} 
-                    signUp={signUp} 
-                    removeSignUp={() => this._removeSignUp(index)}
-                    updateInfo={(index, signUp) => this._updateInfo(index, signUp)}
-                  />
-                )
-              })
-            }
+              {
+                this.state.signUps.map((signUp, index) => {
+                  return (
+                    <SignUpForm 
+                      key={index} 
+                      index={index} 
+                      signUp={signUp} 
+                      removeSignUp={() => this._removeSignUp(index)}
+                      updateInfo={(index, signUp) => this._updateInfo(index, signUp)}
+                    />
+                  )
+                })
+              }
             </View>
           </View>
         </ParallaxView>

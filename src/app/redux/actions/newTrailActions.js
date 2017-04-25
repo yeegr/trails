@@ -1,18 +1,20 @@
 'use strict'
 
 import * as ACTIONS from '../constants/newTrailConstants'
-import * as loginActions from './loginActions'
+import * as userActions from './userActions'
 import {
   CONSTANTS,
   FETCH,
   UTIL,
-  AppSettings
+  AppSettings,
+  Defaults
 } from '../../../common/__'
 
 // toggle track recorder
-export const showRecorder = () => {
+export const showRecorder = (paths) => {
   return {
-    type: ACTIONS.SHOW_RECORDER
+    type: ACTIONS.SHOW_RECORDER,
+    paths
   }
 }
 
@@ -42,10 +44,6 @@ export const stopRecording = () => {
 }
 
 const _storePathSuccess = (data, isFinal) => {
-  if (isFinal) {
-//    loginActions.reloadUser()
-  }
-
   return {
     type: ACTIONS.STORE_PATH_SUCCESS,
     data,
@@ -54,39 +52,33 @@ const _storePathSuccess = (data, isFinal) => {
 }
 
 export const storeTrailPath = (data, isFinal) => {
-  return (dispatch, getState) => {
-    let storageEngine = AppSettings.storageEngine,
-      storageType = AppSettings.storageType,
-      storeKey = getState().newTrail.storeKey,
-      tmp = {}
+  let storageEngine = AppSettings.storageEngine,
+    storageType = AppSettings.storageType,
+    tmp = {}
 
-    tmp[storeKey] = Object.assign(data, {
-      storeKey
-    })
+  return (dispatch, getState) => {
+    let user = getState().login.user,
+      trail = _normalizeTrail(data, user),
+      storeKey = getState().newTrail.storeKey
+
+    trail.storeKey = storeKey
+    tmp[storeKey] = trail
 
     switch (storageType) {
       case CONSTANTS.STORAGE_TYPES.ASYNC:
         storageEngine
         .mergeItem(CONSTANTS.STORAGE_KEYS.TRAILS, JSON.stringify(tmp))
         .then(() => {
-          dispatch(_storePathSuccess(data, isFinal))
-        })
-        /*storageEngine
-        .getItem(userId)
-        .then((str) => {
-          return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
-        })
-        .then((tmp) => {
-          tmp[storeKey] = Object.assign({}, {
-            storeKey
-          }, data)
+          dispatch(_storePathSuccess(trail, isFinal))
 
           storageEngine
-          .setItem(userId, JSON.stringify(tmp))
-          .then(() => {
-            dispatch(_storePathSuccess(tmp[storeKey], isFinal))
+          .getItem(CONSTANTS.STORAGE_KEYS.TRAILS)
+          .then((str) => JSON.parse(str))
+          .then((obj) => UTIL.obj2arr(obj))
+          .then((trails) => {
+            dispatch(userActions.setLocalTrails(trails))
           })
-        })*/
+        })
       break
     }
   }
@@ -149,21 +141,84 @@ export const setTrailPhotos = (photos) => {
   }
 }
 
+const _normalizeTrail = (trail, user) => {
+  let tmp = {}
+
+  tmp.isSynced = false
+  tmp.creator = user._id
+  tmp.storeKey = trail.storeKey
+  tmp.modified = UTIL.getTimestamp()
+  tmp.date = trail.points[0][0]
+  tmp.points = trail.points
+  tmp.status = trail.status || 'editing'
+  tmp.isPublic = trail.isPublic || false
+  tmp.title = trail.title || ''
+  tmp.type = trail.type || 0
+  tmp.areas = trail.areas || Defaults.Trail.areaIds
+  tmp.difficultyLevel = trail.difficultyLevel || 2
+  tmp.totalDistance = trail.totalDistance
+  tmp.totalDuration = trail.totalDuration
+  tmp.totalElevation = trail.totalElevation
+  tmp.maximumAltitude = trail.maximumAltitude
+  tmp.averageSpeed = trail.averageSpeed
+  tmp.description = trail.description || ''
+  tmp.photos = trail.photos || []
+
+  if (!UTIL.isNullOrUndefined(trail._id)) {
+    tmp._id = trail._id
+  }
+
+  return tmp
+}
+
+const syncTrail = (trail) => {
+  return (dispatch) => {
+    if (trail.hasOwnProperty('_id') && !UTIL.isNullOrUndefined(newTrail._id)) {
+      dispatch(updateTrail(trail))
+    } else {
+      dispatch(createTrail(trail))
+    }
+  }
+}
+
 // save trail
 export const saveTrail = () => {
-  return (dispatch, getState) => {
-    const newTrail = getState().newTrail
-    newTrail.creator = getState().login.user._id
+  let storageEngine = AppSettings.storageEngine,
+    storageType = AppSettings.storageType,
+    tmp = {}
 
-    if (_validateTrail(newTrail)) {
-      if (newTrail.hasOwnProperty('_id') && !UTIL.isNullOrUndefined(newTrail._id)) {
-        dispatch(updateTrail(newTrail))
-      } else {
-        dispatch(createTrail(newTrail))
+  return (dispatch, getState) => {
+    const newTrail = getState().newTrail,
+      trails = getState().login.trails
+
+    if (newTrail.isDirty) {
+      let trail = _normalizeTrail(newTrail, getState().login.user)
+
+      tmp[trail.storeKey] = trail
+
+      if (_validateTrail(trail)) {
+        switch (storageType) {
+          case CONSTANTS.STORAGE_TYPES.ASYNC:
+            storageEngine
+            .mergeItem(CONSTANTS.STORAGE_KEYS.TRAILS, JSON.stringify(tmp))
+            .then(() => {
+              trails.map((tmp, index) => {
+                if (tmp.storeKey === trail.storeKey) {
+                  trails.splice(index, 1, trail)
+                }
+              })
+
+              dispatch(userActions.setLocalTrails(trails))
+              dispatch(syncTrail(trail))
+            })
+          break
+        }
       }
     }
   }
 }
+
+
 
 const _validateTrail = (trail) => {
   return (
@@ -181,7 +236,7 @@ const createTrailRequest = () => {
 }
 
 const createTrailSuccess = (trail, storeKey) => {
-  loginActions.reloadUser()
+  userActions.reloadUser()
 
   return {
     type: ACTIONS.CREATE_TRAIL_SUCCESS,
@@ -241,7 +296,7 @@ const _updateTrailRequest = () => {
 }
 
 const _updateTrailSuccess = (trail) => {
-  loginActions.reloadUser()
+  userActions.reloadUser()
 
   return {
     type: ACTIONS.UPDATE_TRAIL_SUCCESS,
@@ -318,50 +373,15 @@ export const updateTrail = (data) => {
   }
 }
 
-// delete cloud trail
-const deleteTrailRequest = (trail) => {
+// remove from local storage
+const _removeTrailSuccess = () => {
   return {
-    type: ACTIONS.DELETE_TRAIL_REQUEST,
-    trail
+    type: ACTIONS.DELETE_LOCAL_TRAIL
   }
 }
 
-const deleteTrailSuccess = () => {
-  loginActions.reloadUser()
-
-  return {
-    type: ACTIONS.DELETE_TRAIL_SUCCESS
-  }
-}
-
-const deleteTrailFailure = (message) => {
-  return {
-    type: ACTIONS.DELETE_TRAIL_FAILURE,
-    message
-  }
-}
-
-export const deleteTrail = (data) => {
-  let config = Object.assign({}, FETCH.DELETE)
-
-  return (dispatch) => {
-    dispatch(deleteTrailRequest(data))
-
-    return fetch(AppSettings.apiUri + 'trails/' + data._id, config)
-      .then((res) => {
-        if (res.status === 410) {
-          dispatch(deleteTrailSuccess())
-        } else {
-          dispatch(deleteTrailFailure(res.message))
-          return Promise.reject(res)
-        }
-      })
-      .catch((err) => dispatch(deleteTrailFailure(err)))
-  }
-}
-
-// delete local trail
-export const deleteLocalTrail = (storeKey) => {
+// delete trail
+export const deleteTrail = (trail) => {
   let storageEngine = AppSettings.storageEngine,
     storageType = AppSettings.storageType
 
@@ -371,20 +391,69 @@ export const deleteLocalTrail = (storeKey) => {
         storageEngine
         .getItem(CONSTANTS.STORAGE_KEYS.TRAILS)
         .then((str) => {
-          return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
+          return (UTIL.isNullOrUndefined(str)) ? [] : JSON.parse(str)
         })
         .then((tmp) => {
-          delete tmp[storeKey]
+          delete tmp[trail.storeKey]
 
           storageEngine
           .setItem(CONSTANTS.STORAGE_KEYS.TRAILS, JSON.stringify(tmp))
           .then(() => {
-            dispatch(deleteTrailSuccess())
+            dispatch(_removeTrailSuccess())
+            dispatch(userActions.setLocalTrails(UTIL.obj2arr(tmp)))
+
+            if (!UTIL.isNullOrUndefined(trail._id)) {
+              dispatch(_deleteCloudTrail(trail))
+            }
           })
         })
       break
     }
   }
+}
+
+// delete cloud trail
+const _deleteTrailRequest = (trail) => {
+  console.log(trail)
+  return {
+    type: ACTIONS.DELETE_TRAIL_REQUEST,
+    trail
+  }
+}
+
+const _deleteTrailSuccess = () => {
+  console.log('delete trail success')
+  return {
+    type: ACTIONS.DELETE_TRAIL_SUCCESS
+  }
+}
+
+const _deleteTrailFailure = (message) => {
+  console.log('delete trail failed')
+  return {
+    type: ACTIONS.DELETE_TRAIL_FAILURE,
+    message
+  }
+}
+
+const _deleteCloudTrail = (trail) => {
+  let config = Object.assign({}, FETCH.DELETE)
+
+  return (dispatch) => {
+    dispatch(_deleteTrailRequest(trail))
+
+    return fetch(AppSettings.apiUri + 'trails/' + trail._id, config)
+      .then((res) => {
+         if (res.status === 410) {
+          dispatch(_deleteTrailSuccess(trail.storeKey))
+         } else {
+          dispatch(_deleteTrailFailure(res.message))
+          return Promise.reject(res)
+        }
+      })
+      .catch((err) => dispatch(_deleteTrailFailure(err)))
+  }
+
 }
 
 // reset trail

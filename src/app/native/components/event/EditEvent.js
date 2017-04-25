@@ -14,7 +14,7 @@ import {
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as newEventActions from '../../../redux/actions/newEventActions'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 
 import CallToAction from '../shared/CallToAction'
 import EditLink from '../shared/EditLink'
@@ -60,7 +60,7 @@ class EditEvent extends Component {
 
   componentWillUnmount() {
     this.props.newEventActions.resetEvent()
-    this.props.loginActions.reloadUser()
+    //this.props.userActions.reloadUser()
   }
 
   _alert(status) {
@@ -224,7 +224,7 @@ class EditEvent extends Component {
 
 EditEvent.propTypes = {
   navigator: PropTypes.object.isRequired,
-  loginActions: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
   newEventActions: PropTypes.object.isRequired,
   newEvent: PropTypes.object.isRequired,
   event: PropTypes.object
@@ -239,7 +239,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch),
     newEventActions: bindActionCreators(newEventActions, dispatch)
   }
 }

@@ -11,7 +11,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as userActions from '../../redux/actions/userActions'
 
 import {
   LANG,
@@ -60,7 +60,7 @@ class Nav extends Component {
         {LANG.t('navbar.menu.Mine')}
       </Link>
     ) : (
-      <button onClick={this.props.loginActions.showLogin}>
+      <button onClick={this.props.userActions.showLogin}>
         {LANG.t('navbar.menu.LoginSignup')}
       </button>
     )
@@ -114,7 +114,7 @@ class Nav extends Component {
 }
 
 Nav.propTypes = {
-  loginActions: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
   user: PropTypes.object
 }
 
@@ -126,7 +126,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

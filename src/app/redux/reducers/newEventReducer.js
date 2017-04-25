@@ -20,7 +20,6 @@ const initState = {
   isUploading: false,
   isSaved: false,
 
-  _id: null,
   isPublic: true,
   status: 'editing',
   title: '',

@@ -13,7 +13,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 import * as toolbarActions from '../../../redux/actions/toolbarActions'
 
 import * as WeChat from 'react-native-wechat'
@@ -147,13 +147,13 @@ class Toolbar extends Component {
         break
       }
     } else {
-      this.props.loginActions.showLogin()
+      this.props.userActions.showLogin()
     }
   }
 
   render() {
     let {user, type, toolbar, data} = this.props,
-      stack = this.props.stack || 'horizontal',
+      stack = this.props.stack || 'vertical',
       icon = Graphics.toolbar.icon,
       sideLength = icon.sideLength,
       viewBox = icon.viewBox,
@@ -167,7 +167,7 @@ class Toolbar extends Component {
       shareFillColor = fillColor,
       commentFillColor = fillColor,
 
-      showLogin = this.props.loginActions.showLogin,
+      showLogin = this.props.userActions.showLogin,
 
       likeIcon = (
         <Icon
@@ -297,7 +297,6 @@ class Toolbar extends Component {
         {likeView}
         {saveView}
         {shareView}
-        {commentView}
       </View>
     )
   }
@@ -306,16 +305,17 @@ class Toolbar extends Component {
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: Graphics.colors.white,
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    flex: 1
   }
 })
 
 Toolbar.propTypes = {
   navigator: PropTypes.object.isRequired,
   toolbarActions: PropTypes.object.isRequired,
-  loginActions: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   toolbar: PropTypes.object.isRequired,
@@ -335,7 +335,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch),
     toolbarActions: bindActionCreators(toolbarActions, dispatch)
   }
 }

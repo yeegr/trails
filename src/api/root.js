@@ -39,7 +39,8 @@ const log = require('./routes/log')(app),
 	post = require('./routes/post')(app),
 	order = require('./routes/order')(app),
 	comment = require('./routes/comment')(app),
-	validate = require('./routes/validate')(app)
+	validate = require('./routes/validate')(app),
+	helper = require('./routes/helper')(app)
 
 //data models
 const CONST = require('./const'),

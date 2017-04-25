@@ -9,12 +9,13 @@ import {
   Alert,
   AsyncStorage,
   Navigator,
+  NetInfo,
   ScrollView,
   View,
 } from 'react-native'
 
 import {connect} from 'react-redux'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as userActions from '../../redux/actions/userActions'
 import * as introActions from '../../redux/actions/introActions'
 import * as newTrailActions from '../../redux/actions/newTrailActions'
 import * as newEventActions from '../../redux/actions/newEventActions'
@@ -104,6 +105,7 @@ import Intro from './intro'
 import NavbarButton from './shared/NavbarButton'
 import TextView from './shared/TextView'
 
+import SegmentedControl from './shared/SegmentedControl'
 import Upcoming from './shared/Upcoming'
 
 import {
@@ -175,7 +177,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
                 />
                 <NavbarButton
                   onPress={() => this.add(navigator, tabId)}
-                  icon={this.newTrail.isNew ? Graphics.titlebar.add : Graphics.titlebar.hiking}
+                  icon={this.newTrail.points.length < 1 ? Graphics.titlebar.add : Graphics.titlebar.hiking}
                   label={LANG.t('navbar.Add')}
                   showLabel={false}
                 />
@@ -214,12 +216,11 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
       break
 
       case 'TrailDetail':
-        if (!passProps.isPreview && !passProps.isReview) {
+        if (passProps.isReview) {
           rightTitleBar = (
             <NavbarButton
-              onPress={() => this.trackTrail(navigator)}
-              label={LANG.t('trail.TrackTrail')}
-              showLabel={true}
+              onPress={() => this.editTrail(navigator, passProps.trail)}
+              label={LANG.t('glossary.Edit')}
             />
           )
         }
@@ -231,20 +232,6 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
             <NavbarButton
               onPress={() => this.save(CONSTANTS.ACTION_TARGETS.EVENT)}
               label={LANG.t('glossary.Save')}
-            />
-          )
-        } else if (passProps.isReview) {
-          rightTitleBar = (
-            <NavbarButton
-              onPress={() => this.editEvent(navigator)}
-              label={LANG.t('glossary.Edit')}
-            />
-          )
-        } else {
-          rightTitleBar = (
-            <NavbarButton
-              onPress={() => this.signUp(navigator)}
-              label={LANG.t('order.SignUpNow')}
             />
           )
         }
@@ -322,31 +309,49 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
   },
 
   Title: (route, navigator, index, navState) => {
-    let title = (index === 0) ? ((tabId === CONSTANTS.HOME_TABS.AREAS) ? LANG.t('home.' + CONSTANTS.HOME_TABS.TRAILS) : LANG.t('home.' + tabId)) : route.title
+    let title = (index === 0) ? ((tabId === CONSTANTS.HOME_TABS.AREAS) ? LANG.t('home.' + CONSTANTS.HOME_TABS.TRAILS) : LANG.t('home.' + tabId)) : route.title,
+      titleBar = (
+        <TextView
+          style={{marginVertical: 5, fontWeight: '400'}}
+          fontSize={'XXL'}
+          textColor={Graphics.textColors.overlay}
+          text={title}
+        />
+      )
 
-    return (
-      <TextView
-        style={{marginVertical: 5, fontWeight: '400'}}
-        fontSize={'XXL'}
-        textColor={Graphics.textColors.overlay}
-        text={title}
-      />
-    )
-  },
-
-  editEvent: function(navigator) {
-    if (this.user) {
-      navigator.__editEvent()
-    } else {
-      dispatch(loginActions.showLogin())      
+    switch (route.id) {
+      case 'MyEvents':
+        titleBar = (
+          <SegmentedControl
+            values={[
+              LANG.t('mine.events.SubmittedEvents'),
+              LANG.t('mine.events.EditingEvents')
+            ]}
+            selectedIndex={0}
+            onChange={(event) => navigator.__toggleList(event.nativeEvent.selectedSegmentIndex)}
+            tintColor={Graphics.colors.white}
+            style={{marginTop: 2}}
+          />
+        )
+      break
     }
+
+    return titleBar
   },
 
-  trackTrail: function(navigator) {
+  editTrail: function(navigator, trail) {
     if (this.user) {
-      navigator.__trackTrail()
+      dispatch(newTrailActions.editTrail(trail))
+
+      navigator.push({
+        id: 'EditTrail',
+        title: LANG.t('trail.EditTrail'),
+        passProps: {
+          trail
+        }
+      })
     } else {
-      dispatch(loginActions.showLogin())      
+      dispatch(userActions.showLogin())      
     }
   },
 
@@ -369,7 +374,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         }
       })
     } else {
-      dispatch(loginActions.showLogin())      
+      dispatch(userActions.showLogin())      
     }
   },
 
@@ -403,15 +408,21 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
   back: (navigator, routeId) => {
     switch (routeId) {
       case 'EditTrail':
-        if (state.newTrail.isSaved === false) {
+        if (state.newTrail.isDirty) {
           Alert.alert(
             LANG.t('trail.edit.BackAlert.title'),
             LANG.t('trail.edit.BackAlert.description'),
             [
               {text: LANG.t('trail.edit.BackAlert.cancel')},
-              {text: LANG.t('trail.edit.BackAlert.confirm'), onPress: () => navigator.pop()}
+              {
+                text: LANG.t('trail.edit.BackAlert.confirm'),
+                onPress: () => navigator.pop()
+              }
             ]
           )
+        } else {
+          newTrailActions.resetTrail()
+          navigator.pop()
         }
       break
       
@@ -451,7 +462,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         break
       }
     } else {
-      dispatch(loginActions.showLogin())
+      dispatch(userActions.showLogin())
     }
   },
 
@@ -467,11 +478,11 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
         break
 
         case CONSTANTS.ACCOUNT_ACTIONS.SAVE_AVATAR:
-          dispatch(loginActions.updateUserAvatar(this.user._id, this.login.tmpAvatarUri))
+          dispatch(userActions.updateUserAvatar(this.user._id, this.login.tmpAvatarUri))
         break
       }
     } else {
-      dispatch(loginActions.showLogin())      
+      dispatch(userActions.showLogin())      
     }
   }
 })
@@ -479,6 +490,7 @@ const NavigationBarRouteMapper = (tabId, state, dispatch) => ({
 class App extends Component {
   constructor(props) {
     super(props)
+    this._connectivityChangeHandler = this._connectivityChangeHandler.bind(this)
   }
 
   componentWillMount() {
@@ -490,8 +502,20 @@ class App extends Component {
 
   componentDidMount() {
     this.props.dispatch(introActions.toggleIntro())
-    this.props.dispatch(loginActions.isLoggedIn())
+    this.props.dispatch(userActions.isLoggedIn())
     //this.fetchSettings()
+
+    NetInfo.addEventListener('change', this._connectivityChangeHandler)
+  }
+
+  _connectivityChangeHandler() {
+    NetInfo
+    .isConnected
+    .fetch()
+    .then((isConnected) => {
+      let log = 'device is ' + ((isConnected) ? 'online' : 'offline')
+      console.log(log)
+    })
   }
 
   fetchSettings() {

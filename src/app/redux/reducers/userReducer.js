@@ -1,6 +1,6 @@
 'use strict'
 
-import * as ACTIONS from '../constants/loginConstants'
+import * as ACTIONS from '../constants/userConstants'
 
 const initWeChat = {
   wechat: null,
@@ -24,20 +24,21 @@ init = {
   action: '',
   creds: Object.assign({
     mobile: null
-  }, initWeChat)
+  }, initWeChat),
+  trails: []
 },
-loginReducer = (state = init, action) => {
+userReducer = (state = init, action) => {
   switch (action.type) {
 // check user login status
     case ACTIONS.IS_LOGGED_IN:
       return Object.assign({}, state, {
-        toke: action.token,
+        token: action.token,
         user: action.user
       })
 
     case ACTIONS.IS_LOGGED_OUT:
       return Object.assign({}, init, {
-        toke: null,
+        token: null,
         user: null
       })
 
@@ -64,7 +65,8 @@ loginReducer = (state = init, action) => {
       return Object.assign({}, init, {
         showMobileLogin: false,
         token: action.token,
-        user: action.user
+        user: action.user,
+        trails: action.trails
       })
 
     case ACTIONS.LOGIN_FAILURE:
@@ -80,14 +82,13 @@ loginReducer = (state = init, action) => {
       })
 
     case ACTIONS.LOGOUT_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false,
+      return Object.assign({}, init, {
         token: null,
         user: null
       })
 
 // get user
-    case ACTIONS.SET_USER_SUCCESS:
+    case ACTIONS.STORE_USER_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         message: null,
@@ -96,7 +97,7 @@ loginReducer = (state = init, action) => {
         token: action.token
       })
 
-    case ACTIONS.GET_USER_FAILURE:
+    case ACTIONS.STORE_USER_FAILURE:
       return Object.assign({}, state, {
         message: action.message
       })
@@ -227,8 +228,14 @@ loginReducer = (state = init, action) => {
 
 // set user photos
     case ACTIONS.SET_USER_PHOTOS:
+      return Object.assign({}, state, Object.assign({}, state.user, {
+        photos: action.photos
+      }))
+
+// set local trails
+    case ACTIONS.SET_LOCAL_TRAILS:
       return Object.assign({}, state, {
-        
+        trails: action.trails
       })
 
     default:
@@ -236,4 +243,4 @@ loginReducer = (state = init, action) => {
   }
 }
 
-export default loginReducer
+export default userReducer

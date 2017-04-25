@@ -24,9 +24,19 @@ import {
 } from '../../../../common/__'
 
 const TrailCard = (props) => {
-  const {trail, navigator} = props,
+  const {navigator, user, trail} = props,
+    creator = (typeof(trail.creator) === 'string' && trail.creator === user._id) ? user : trail.creator,
+
     _nextPage = () => {
-      let id = 'EditTrail',
+      navigator.push({
+        id: 'TrailDetail',
+        title: LANG.t('trail.TrailDetail'),
+        passProps: {
+          trail
+        }
+      })
+      
+/*      let id = 'EditTrail',
         title = LANG.t('trail.EditTrail'),
         passProps = (trail._id && trail.status !== 'approved' && props.user && trail.creator === props.user.id) ? {
           storeType: CONSTANTS.STORE_TYPES.REMOTE,
@@ -50,7 +60,7 @@ const TrailCard = (props) => {
         id,
         title,
         passProps
-      })
+      })*/
     }
 
   return (
@@ -79,7 +89,10 @@ const TrailCard = (props) => {
         />
       </View>
       <View style={styles.footer}>
-        <UserLink user={trail.creator} navigator={navigator} />
+        <UserLink
+          user={creator}
+          navigator={navigator}
+        />
       </View>
     </View>
   )

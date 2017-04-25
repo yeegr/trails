@@ -15,7 +15,7 @@ import {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 import * as newTrailActions from '../../../redux/actions/newTrailActions'
 
 import CallToAction from '../shared/CallToAction'
@@ -47,18 +47,14 @@ class EditTrail extends Component {
   }
 
   componentWillMount() {
-    this.props.newTrailActions.editTrail(this.props.trail)
     this._listAreas(AppSettings.defaultCity)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.newTrail.isSaved === true) {
-      let trail = this.props.newTrail
+    let beforeSync = this.props.newTrail,
+      afterSync = nextProps.newTrail
 
-      if (trail.hasOwnProperty('storeKey')) {
-        this.props.newTrailActions.deleteLocalTrail(trail.storeKey)
-      }
-
+    if (beforeSync.isSynced === false && afterSync.isSynced === true) {
       Alert.alert(
         LANG.t('trail.edit.SaveAlert.title'),
         LANG.t('trail.edit.SaveAlert.description'),
@@ -77,7 +73,7 @@ class EditTrail extends Component {
   }
 
   componentWillUnmount() {
-    this.props.loginActions.reloadUser()
+    //this.props.userActions.reloadUser()
   }
 
   _listAreas(city) {
@@ -160,7 +156,7 @@ class EditTrail extends Component {
         id = 'TrailDetail',
         title = LANG.t('trail.edit.TrailPreview')
         passProps = {
-          newTrail: this.props.newTrail,
+          trail: this.props.newTrail,
           isPreview: true
         }
       break;
@@ -174,13 +170,7 @@ class EditTrail extends Component {
   }
 
   _deleteTrail() {
-    let trail = this.props.newTrail
-
-    if (trail.hasOwnProperty('storeKey')) {
-      this.props.newTrailActions.deleteLocalTrail(trail.storeKey)
-    } else if (trail.hasOwnProperty('_id')) {
-      this.props.newTrailActions.deleteTrail(trail)
-    }
+    this.props.newTrailActions.deleteTrail(this.props.newTrail)
   }
 
   _deleteAlert() {
@@ -189,14 +179,22 @@ class EditTrail extends Component {
       LANG.t('trail.edit.DeleteAlert.description'),
       [
         {text: LANG.t('trail.edit.DeleteAlert.cancel')},
-        {text: LANG.t('trail.edit.DeleteAlert.confirm'), onPress: this._deleteTrail}
+        {
+          text: LANG.t('trail.edit.DeleteAlert.confirm'),
+          onPress: this._deleteTrail
+        }
       ]
     )
   }
 
   render() {
-    const trail = this.props.newTrail,
-      status = (trail.isPublic) ? (
+    const trail = this.props.newTrail
+
+    if (!trail || trail.title === undefined || this.state.allAreas.length < 1) {
+      return null
+    }
+
+    const status = (trail.isPublic) ? (
         <View style={[styles.editor.link, {paddingVertical: 15}]}>
           <View style={styles.editor.label}>
             <TextView
@@ -294,7 +292,7 @@ class EditTrail extends Component {
 EditTrail.propTypes = {
   navigator: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  loginActions: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
   newTrailActions: PropTypes.object.isRequired,
   newTrail: PropTypes.object.isRequired
 }
@@ -308,7 +306,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch),
     newTrailActions: bindActionCreators(newTrailActions, dispatch)
   }
 }

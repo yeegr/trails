@@ -1,7 +1,7 @@
 'use strict'
 
 import * as ACTIONS from '../constants/ordersConstants'
-import * as loginActions from './loginActions'
+import * as userActions from './userActions'
 import {
   FETCH,
   AppSettings
@@ -57,7 +57,7 @@ export const createOrder = (order) => {
       })
       .then((res) => {
         if (res._id) {
-          loginActions.reloadUser()
+          userActions.reloadUser()
           dispatch(createOrderSuccess(res))
         } else {
           dispatch(createOrderFailure(res.message))
@@ -103,7 +103,7 @@ export const updateOrder = (result) => {
       })
       .then((res) => {
         if (res._id) {
-          dispatch(loginActions.reloadUser())
+          dispatch(userActions.reloadUser())
           dispatch(updateOrderSuccess(res))
         } else {
           dispatch(updateOrderFailure(res.message))

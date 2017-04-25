@@ -1,6 +1,6 @@
 'use strict'
 
-import * as ACTIONS from '../constants/loginConstants'
+import * as ACTIONS from '../constants/userConstants'
 import {
   CONSTANTS,
   FETCH,
@@ -45,16 +45,16 @@ export const isLoggedIn = () => {
               user = JSON.parse(arr[1][1])
 
             storageEngine
-            .getItem('trails')
+            .getItem(CONSTANTS.STORAGE_KEYS.TRAILS)
             .then((str) => {
               return (UTIL.isNullOrUndefined(str)) ? {} : JSON.parse(str)
             })
             .then((obj) => {
-              user.localTrails = UTIL.obj2arr(obj)
-              console.log(obj)
+              return UTIL.obj2arr(obj)
             })
-            .then(() => {
+            .then((trails) => {
               dispatch(_isLoggedIn(token, user))
+              dispatch(setLocalTrails(trails))
             })
           } else {
             dispatch(_isLoggedOut())
@@ -71,11 +71,10 @@ export const isLoggedIn = () => {
             user = JSON.parse(storageEngine.getItem(CONSTANTS.USER)),
             str = storageEngine.getItem(user._id),
             obj = (str) ? JSON.parse(str) : null,
-            tmp = (str) ? UTIL.obj2arr(obj) : []
-
-          user.localTrails = tmp
+            trails = (str) ? UTIL.obj2arr(obj) : []
 
           dispatch(_isLoggedIn(token, user))
+          dispatch(setLocalTrails(trails))
         } else {
           dispatch(_isLoggedOut())
         }
@@ -299,11 +298,78 @@ const _loginRequest = (creds) => {
   }
 }
 
-const _loginSuccess = (user) => {
+const _loginSuccess = (user, trails) => {
   return {
     type: ACTIONS.LOGIN_SUCCESS,
     token: user.token,
-    user
+    user,
+    trails
+  }
+}
+
+export const setLocalTrails = (trails) => {
+  return {
+    type: ACTIONS.SET_LOCAL_TRAILS,
+    trails
+  }
+}
+
+const _initLocalStorage = (user, trails) => {
+  console.log(trails)
+  return (dispatch) => {
+    let storageEngine = AppSettings.storageEngine,
+      storageType = AppSettings.storageType
+    
+    switch (storageType) {
+      case CONSTANTS.STORAGE_TYPES.ASYNC:
+        storageEngine
+        .setItem(CONSTANTS.STORAGE_KEYS.TRAILS, JSON.stringify(trails.obj))
+        .then(() => {
+          dispatch(_loginSuccess(user, trails.arr))
+        })
+      break
+
+      case CONSTANTS.STORAGE_TYPES.LOCAL:
+        storageEngine.setItem(CONSTANTS.STORAGE_KEYS.TRAILS, JSON.stringify(trails.obj)),
+        dispatch(_loginSuccess(user, trails.arr))
+      break
+    }
+  }
+}
+
+// initialize local storage
+const _initSync = (user) => {
+  return (dispatch) => {
+    let arr = [],
+      obj = {}
+
+    if (user.trails.length > 0) {
+      let query = '?in=[' + user.trails.join(',') + ']'
+
+      fetch(AppSettings.apiUri + 'trails/' + query)
+      .then((res) => {
+        return res.json()
+      })
+      .then((arr) => {
+        arr.map((trail) => {
+          trail.storeKey = UTIL.generateRandomString(16)
+          obj[trail.storeKey] = trail
+        })
+
+        dispatch(_initLocalStorage(user, {
+          arr,
+          obj
+        }))
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    } else {
+      dispatch(_initLocalStorage(user, {
+        arr,
+        obj
+      }))
+    }
   }
 }
 
@@ -334,7 +400,7 @@ export const loginUser = (creds) => {
       })
       .then((res) => {
         if (res.token && res._id) {
-          dispatch(resetUser(res, 'LOGIN'))
+          dispatch(_storeUser(res, 'LOGIN'))
         } else {
           dispatch(_loginFailure(res.message))
           return Promise.reject(res)
@@ -345,22 +411,22 @@ export const loginUser = (creds) => {
 }
 
 // get user information
-const _setUserSuccess = (user) => {
+const _storeUserSuccess = (user) => {
   return {
-    type: ACTIONS.SET_USER_SUCCESS,
+    type: ACTIONS.STORE_USER_SUCCESS,
     token: user.token,
     user
   }
 }
 
-const _setUserFailure = (message) => {
+const _storeUserFailure = (message) => {
   return {
-    type: ACTIONS.GET_USER_FAILURE,
+    type: ACTIONS.STORE_USER_FAILURE,
     message
   }
 }
 
-const resetUser = (user, type) => {
+const _storeUser = (user, type) => {
   return (dispatch) => {
     switch (storageType) {
       case CONSTANTS.STORAGE_TYPES.ASYNC:
@@ -370,24 +436,11 @@ const resetUser = (user, type) => {
           [CONSTANTS.USER, JSON.stringify(user)]
         ])
         .then(() => {
-          storageEngine
-          .getItem(user._id)
-          .then((str) => {
-            return UTIL.isNullOrUndefined(str) ? {} : JSON.parse(str)
-          })
-          .then((obj) => {
-            return UTIL.obj2arr(obj)
-          })
-          .then((trails) => {
-            user.localTrails = trails
-          })
-          .then(() => {
-            if (type === 'LOGIN') {
-              dispatch(_loginSuccess(user))
-            } else {
-              dispatch(_setUserSuccess(user))
-            }
-          })
+          if (type === 'LOGIN') {
+            dispatch(_initSync(user))
+          } else {
+            dispatch(_storeUserSuccess(user))
+          }
         })
       break
 
@@ -395,36 +448,64 @@ const resetUser = (user, type) => {
         storageEngine.setItem(CONSTANTS.ACCESS_TOKEN, JSON.stringify(user.token))
         storageEngine.setItem(CONSTANTS.USER, JSON.stringify(user))
 
-        user.localTrails = JSON.parse(storageEngine.getItem(user._id))
-
         if (type === 'LOGIN') {
-          dispatch(_loginSuccess(user))
+          dispatch(_initSync(user))
         } else {
-          dispatch(_setUserSuccess(user))
+          dispatch(_storeUserSuccess(user))
         }
       break
     }
   }
 }
 
-export const reloadUser = () => {
-  return (dispatch, getState) => {
-    let userId = getState().login.user._id
+const _fetchUser = (token) => {
+  return (dispatch) => {
+    fetch(AppSettings.apiUri + 'users/token/' + token, FETCH.GET)
+    .then((res) => {
+      return res.json()
+    })
+    .then((res) => {
+      if (res._id) {
+        dispatch(_storeUser(res, 'RELOAD'))
+      } else {
+        dispatch(_storeUserFailure(res.message))
+        return Promise.reject(res)
+      }
+    })
+    .catch((err) => dispatch(_storeUserFailure(err)))
+  }
+}
 
-    return fetch(AppSettings.apiUri + 'users/' + userId, FETCH.GET)
+export const reloadUser = () => {
+  switch (storageType) {
+    case CONSTANTS.STORAGE_TYPES.ASYNC:
+      storageEngine
+      .getItem(CONSTANTS.ACCESS_TOKEN)
+      .then((token) => {
+        _fetchUser(token)
+      })
+    break
+
+    case CONSTANTS.STORAGE_TYPES.LOCAL:
+      _fetchUser(storageEngine.getItem(CONSTANTS.ACCESS_TOKEN))
+    break
+  }
+/*    let token = getState().login.user.token
+
+    return fetch(AppSettings.apiUri + 'users/token/' + token, FETCH.GET)
       .then((res) => {
         return res.json()
       })
       .then((res) => {
         if (res._id) {
-          dispatch(resetUser(res, 'RELOAD'))
+          dispatch(_storeUser(res, 'RELOAD'))
         } else {
-          dispatch(_setUserFailure(res.message))
+          dispatch(_storeUserFailure(res.message))
           return Promise.reject(res)
         }
       })
-      .catch((err) => dispatch(_setUserFailure(err)))
-  }
+      .catch((err) => dispatch(_storeUserFailure(err)))
+  }*/
 }
 
 // update user
@@ -436,7 +517,7 @@ const _updateUserRequest = () => {
 
 const _updateUserSuccess = (user) => {
   return (dispatch) => {
-    dispatch(resetUser(user, 'UPDATED'))
+    dispatch(_storeUser(user, 'UPDATED'))
   }
 }
 
@@ -606,19 +687,13 @@ export const logoutUser = () => {
     switch (storageType) {
       case CONSTANTS.STORAGE_TYPES.ASYNC:
         storageEngine
-        .setItem(CONSTANTS.HAS_NEW_INTRO, 'true')
-
-        storageEngine
-        .multiRemove([CONSTANTS.USER, CONSTANTS.ACCESS_TOKEN], () => {
+        .clear(() => {
           dispatch(_logoutSuccess())
         })
       break
 
       case CONSTANTS.STORAGE_TYPES.LOCAL:
-        storageEngine.removeItem(CONSTANTS.USER)
-        storageEngine.removeItem(CONSTANTS.ACCESS_TOKEN)
-        storageEngine.setItem(CONSTANTS.HAS_NEW_INTRO, 'true')
-
+        storageEngine.clear()
         dispatch(_logoutSuccess())
       break
     }

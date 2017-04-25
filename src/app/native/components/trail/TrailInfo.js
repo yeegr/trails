@@ -41,6 +41,7 @@ styles = StyleSheet.create({
     paddingBottom: 5,
     paddingHorizontal: 15,
     marginTop: 15,
+    marginBottom: 10
   },
   icon: {
     height: Graphics.icon.sideLength,

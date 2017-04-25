@@ -4,8 +4,8 @@ import {
   combineReducers
 } from 'redux'
 
+import login from './userReducer'
 import home from './homeReducer'
-import login from './loginReducer'
 import intro from './introReducer'
 import areas from './areasReducer'
 import trails from './trailsReducer'

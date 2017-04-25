@@ -51,7 +51,7 @@ class ListEditor extends Component {
   renderRow(rowData, sectionId, rowId) {
     const rowText = rowData.toString(),
       rowIndex = parseInt(rowId),
-      swipeoutBtns = (i) => [{
+      SwipeOutButtons = (i) => [{
         text: LANG.t('glossary.Delete'),
         backgroundColor: '#ff0000',
         onPress: () => this._deleteItem(i)
@@ -61,7 +61,7 @@ class ListEditor extends Component {
       <Swipeout 
         key={rowId}
         autoClose={true}
-        right={swipeoutBtns(rowId)}
+        right={SwipeOutButtons(rowId)}
       >
         <TouchableOpacity onPress={() => {this._sendToEdit(rowText, rowIndex)}}>
           <View style={[styles.row, (rowIndex === this.state.selectedIndex) ? styles.highlight : null]}>

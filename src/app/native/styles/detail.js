@@ -8,12 +8,15 @@ export default StyleSheet.create({
     backgroundColor: Graphics.colors.background,
     paddingTop: 20
   },
-  toolbar: {
+  actionbar: {
     backgroundColor: Graphics.colors.white,
-    borderTopColor: Graphics.colors.border,
-    borderTopWidth: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 15
+    flexDirection: 'row'
+  },
+  toolbar: {
+    flex: 1
+  },
+  submit: {
+    flex: 1
   },
   section: {
     marginBottom: 30

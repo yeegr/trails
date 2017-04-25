@@ -1,45 +1,13 @@
 const mongoose = require('mongoose'),
   CONST = require('../const'),
-  User = require('../models/user'),
-  Trail = require('../models/trail')
+  Event = require('../models/event'),
+  Order = require('../models/order'),
+  Trail = require('../models/trail'),
+  Validate = require('../models/validate')
 
 mongoose.Promise = global.Promise
 
 module.exports = (app) => {
-  function getOneById(id, res, statusCode) {
-    Trail
-    .findById(id)
-    .populate({
-      path: 'creator',
-      model: 'User',
-      select: CONST.USER_LIST_FIELDS
-    })
-    .populate({
-      path: 'comments',
-      model: 'Comment',
-      limit: 3,
-      options: {
-        sort: {'_id': -1}
-      },
-      populate: {
-        path: 'creator',
-        model: 'User',
-        select: CONST.USER_LIST_FIELDS
-      }
-    })
-    .exec()
-    .then((data) => {
-      if (data) {
-        res.status(statusCode).json(data)
-      } else {
-        res.status(404).send()
-      }
-    })
-    .catch((err) => {
-      res.status(500).json({error: err})
-    })
-  }
-
   function queryBuilder(req) {
     let query = {}
 
@@ -120,45 +88,38 @@ module.exports = (app) => {
     return query
   }
 
-  /* Create */
-  app.post('/trails', (req, res, next) => {
-    let tmp = new Trail(req.body)
-
-    User
-    .findById(tmp.creator)
-    .exec()
-    .then((user) => {
-      if (user) {
-        return tmp.save()
-      } else {
-        res.status(404).send()
-      }
-    })
-    .then((data) => {
-      if (data) {
-        getOneById(data._id, res, 201)
-      }
-    })
-    .catch((err) => {
-      res.status(500).json({error: err})
-    })
-  })
-
-  /* List */
-  app.get('/trails', (req, res, next) => {
+  /* list only ids */
+  app.get('/helper/list', (req, res, next) => {
     let query = queryBuilder(req),
-      page = (req.query.hasOwnProperty('page')) ? parseInt(req.query.page) : 0
+      model = Trail
 
-    Trail
+    switch (req.query.type) {
+      case 'event':
+        model = Event
+      break
+
+      case 'order':
+        model = Order
+      break
+
+      default:
+      break
+    }
+
+    model
     .find(query)
-    .limit(CONST.DEFAULT_PAGINATION)
-    .skip(page * CONST.DEFAULT_PAGINATION)
     .sort({_id: -1})
-    .populate('creator', CONST.USER_LIST_FIELDS)
+    .select('id date' + CONST.VIRTUAL_FIELDS)
     .exec()
     .then((data) => {
       if (data) {
-        res.status(200).json(data)
+        let result = []
+
+        data.map((trail) => {
+          result.push(trail._id)
+        })
+
+        res.status(200).json(result)
       } else {
         res.status(404).send()
       }
@@ -168,51 +129,61 @@ module.exports = (app) => {
     })
   })
 
-  /* Read */
-  app.get('/trails/:id', (req, res, next) => {
-    getOneById(req.params.id, res, 200)
-  })
+  /* Delete multiple trails */
+  app.post('/helper/clear', (req, res, next) => {
+    let results = [],
+      model = Trail
 
-  /* Update */
-  app.put('/trails/:id', (req, res, next) => {
-    Trail
-    .findById(req.params.id)
-    .exec()
-    .then((trail) => {
-      trail
-      .set(req.body)
-      .save()
-      .then((data) => {
-        if (data) {
-          getOneById(data._id, res, 200)
-        }
-      })
-      .catch((err) => {
-        res.status(500).json({error: err})
+    switch (req.query.type) {
+      case 'event':
+        model = Event
+      break
+
+      case 'order':
+        model = Order
+      break
+
+      default:
+      break
+    }
+
+    req.body.list.map((id) => {
+      model
+      .findByIdAndRemove(id, (err, data) => {
+        data.remove()
+
+        results.push({
+          id: data._id,
+          status: 410
+        })
       })
     })
+
+    res.status(200).json(results)
   })
 
-  /* Delete */
-  app.delete('/trails/:id', (req, res, next) => {
-    Trail
-    .findById(req.params.id)
+  // list last validation coce
+  app.get('/helper/login', (req, res, next) => {
+    let query = req.query
+
+    query.action = 'LOGIN'
+    query.used = false
+
+    Validate
+    .findOne(query)
+    .sort({_id: -1})
     .exec()
-    .then((trail) => {
-      if (trail) {
-        trail
-        .remove()
-        .then((data) => {
-          if (data) {
-            res.status(410).send()
-          }
-        })
-        .catch((err) => {
-          res.status(500).json({error: err})
+    .then((data) => {
+      if (data) {
+        res.status(200).json({
+          vcode: data.vcode
         })
       } else {
         res.status(404).send()
       }
+    })
+    .catch((err) => {
+      res.status(500).json({error: err})
     })
   })
 }

@@ -18,7 +18,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as eventsActions from '../../../redux/actions/eventsActions'
 import * as newEventActions from '../../../redux/actions/newEventActions'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 
 import Inset from '../shared/Inset'
 import CallToAction from '../shared/CallToAction'
@@ -50,6 +50,7 @@ import {
 class EventDetail extends Component {
   constructor(props) {
     super(props)
+    this._signUpEvent = this._signUpEvent.bind(this)
     this.props.navigator.__editEvent = this._editEvent.bind(this)
     this._submitEvent = this._submitEvent.bind(this)
 
@@ -77,6 +78,28 @@ class EventDetail extends Component {
   componentWillUnmount() {
     if (!this.props.isPreview) {
       this.props.eventsActions.clearEvent()
+    }
+  }
+
+  _signUpEvent() {
+    const {navigator, user, event} = this.props
+
+    if (user) {
+      let id = 'OrderEvent',
+        title = LANG.t('order.SignUpNow')
+
+      if (event.groups.length > 1) {
+        id = 'SelectOrderGroup',
+        title = LANG.t('order.SelectOrderGroup')
+      } 
+
+      navigator.push({
+        id,
+        title,
+        passProps: {
+          event
+        }
+      })
     }
   }
 
@@ -279,29 +302,38 @@ class EventDetail extends Component {
           photos={event.photos}
         />
       ) : null,
-      commentsPreview = (event.comments.length > 0) ? (
+      commentsPreview = (isPreview || isReview) ? null : (
         <CommentPreview 
           navigator={navigator}
           type={CONSTANTS.ACTION_TARGETS.EVENT}
           data={event}
         />
-      ) : null,
-      toolbar = (
-        <View style={styles.detail.toolbar}>
-          <Toolbar
-            navigator={navigator}
-            type={CONSTANTS.ACTION_TARGETS.EVENT}
-            data={event}
-          />
-        </View>
-      ),
-      submit = (
+      )
+      
+      let callToAction = (
         <CallToAction
-          disabled={!newEventActions.validateEvent(event)}
-          label={LANG.t('event.edit.SubmitForReview')}
-          onPress={() => this._submitEvent(event)}
+          label={LANG.t('order.SignUpNow')}
+          onPress={this._signUpEvent}
         />
       )
+
+      if (isPreview) {
+        callToAction = (
+          <CallToAction
+            disabled={!newEventActions.validateEvent(event)}
+            label={LANG.t('event.edit.SubmitForReview')}
+            onPress={() => this._submitEvent(event)}
+          />
+        )
+      } else if (isReview) {
+        callToAction = (
+          <CallToAction
+            label={LANG.t('event.EditEvent')}
+            onPress={() => this._editEvent(event)}
+          />
+        )
+      }
+
 
     return (
       <View style={styles.global.wrapper}>
@@ -383,8 +415,18 @@ class EventDetail extends Component {
             {(!isPreview && !isReview) ? commentsPreview : null}
           </View>
         </ParallaxView>
-        {(!isPreview && !isReview) ? toolbar : null}
-        {(isPreview || (isReview && event.status === 'editing')) ? submit : null}
+        <View style={styles.detail.actionbar}>
+          <View style={styles.detail.toolbar}>
+            <Toolbar
+              navigator={navigator}
+              type={CONSTANTS.ACTION_TARGETS.EVENT}
+              data={event}
+            />
+          </View>
+          <View style={styles.detail.submit}>
+            {callToAction}
+          </View>
+        </View>
       </View>
     )
   }
@@ -394,7 +436,7 @@ EventDetail.propTypes = {
   navigator: PropTypes.object.isRequired,
   eventsActions: PropTypes.object.isRequired,
   newEventActions: PropTypes.object.isRequired,
-  loginActions: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
   id: PropTypes.string,
   event: PropTypes.object,
   newEvent: PropTypes.object,
@@ -415,7 +457,7 @@ function mapDispatchToProps(dispatch) {
   return {
     eventsActions: bindActionCreators(eventsActions, dispatch),
     newEventActions: bindActionCreators(newEventActions, dispatch),
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

@@ -32,5 +32,9 @@ export default StyleSheet.create({
     borderTopColor: Graphics.form.borderColor,
     borderTopWidth: 1,
     marginBottom: 20
+  },
+  row: {
+    borderBottomColor: Graphics.colors.border,
+    borderBottomWidth: 1
   }
 })

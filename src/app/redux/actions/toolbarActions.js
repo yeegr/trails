@@ -1,7 +1,7 @@
 'use strict'
 
 import * as ACTIONS from '../constants/toolbarConstants'
-import * as loginActions from './loginActions'
+import * as userActions from './userActions'
 import {
   FETCH,
   AppSettings
@@ -49,7 +49,7 @@ export const send = (req) => {
       })
       .then((res) => {
         dispatch(toolbarActionSuccess(res))
-        dispatch(loginActions.reloadUser())
+        dispatch(userActions.reloadUser())
       })
       .catch((err) => dispatch(toolbarActionFailure(err)))
   }

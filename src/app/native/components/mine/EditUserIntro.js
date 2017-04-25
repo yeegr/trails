@@ -11,7 +11,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 
 import RichTextEditor from '../shared/RichTextEditor'
 
@@ -34,7 +34,7 @@ class EditUserIntro extends Component {
     let intro = this.state.intro.trim()
 
     if (intro.length > 2) {
-      this.props.loginActions.updateUser(this.props.user.id, {
+      this.props.userActions.updateUser(this.props.user.id, {
         intro
       })
       
@@ -59,7 +59,7 @@ class EditUserIntro extends Component {
 EditUserIntro.propTypes = {
   navigator: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  loginActions: PropTypes.object.isRequired
+  userActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
@@ -70,7 +70,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

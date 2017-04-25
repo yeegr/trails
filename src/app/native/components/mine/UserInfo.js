@@ -15,7 +15,7 @@ import ParallaxView from 'react-native-parallax-view'
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 
 import Avatar from '../shared/Avatar'
 import EditLink from '../shared/EditLink'
@@ -37,63 +37,73 @@ class UserInfo extends Component {
     this._nextPage = this._nextPage.bind(this)
   }
 
-  componentWillMount() {
-    this.props.loginActions.reloadUser()
-  }
-
   _nextPage(type) {
-    let {user} = this.props, 
-      id = null,
+    let {user} = this.props.login,
+      userId = user._id,
+      id = '',
       title = null,
-      query = null
+      passProps = {}
 
     switch (type) {
       case 'orders':
         id = 'MyOrders',
         title = LANG.t('mine.MyOrders'),
-        query = "?status=success&creator=" + user.id
+        passProps = {
+          query: "?status=success&creator=" + userId
+        }
       break
 
       case 'wallet':
         id = 'MyWallet',
         title = LANG.t('mine.MyWallet'),
-        query = "?creator=" + user.id
+        passProps = {
+          query: "?creator=" + userId
+        }
       break
 
       case 'trails':
         id = 'MyTrails',
-        title = LANG.t('mine.MyTrails'),
-        query = "?creator=" + user.id
+        title = LANG.t('mine.MyTrails')
       break
 
       case 'events':
         id = 'MyEvents',
         title = LANG.t('mine.MyEvents'),
-        query = "?creator=" + user.id
+        passProps = {
+          query: "?creator=" + userId
+        }
       break
 
       case 'posts':
         id = 'PostList',
         title = LANG.t('mine.MyPosts'),
-        query = "?creator=" + user.id
+        passProps = {
+          query: "?creator=" + userId
+        }
       break
 
       case 'savedTrails':
         id = 'TrailList',
         title = LANG.t('mine.SavedTrails'),
-        query = "?in=" + JSON.stringify(user.saves.trails).replace(/\"/g, '')
+        passProps = {
+          query: "?in=" + JSON.stringify(user.saves.trails).replace(/\"/g, '')
+        }
       break
 
       case 'savedEvents':
         id = 'EventList',
         title = LANG.t('mine.SavedEvents'),
-        query = "?in=" + JSON.stringify(user.saves.events).replace(/\"/g, '')
+        passProps = {
+          query: "?in=" + JSON.stringify(user.saves.events).replace(/\"/g, '')
+        }
       break
 
       case 'savedPosts':
         id = 'PostList',
         title = LANG.t('mine.SavedPosts'),
-        query = "?in=" + JSON.stringify(user.saves.posts).replace(/\"/g, '')
+        passProps = {
+          query: "?in=" + JSON.stringify(user.saves.posts).replace(/\"/g, '')
+        }
       break
 
       case 'edit':
@@ -115,21 +125,17 @@ class UserInfo extends Component {
     this.props.navigator.push({
       id,
       title,
-      passProps: {
-        query
-      }
+      passProps
     })
   }
 
   render() {
-    const user = this.props.user,
+    const {user, trails} = this.props.login,
       userBackgroundUrl = ImagePath({type: 'background', path: AppSettings.userBackground})
 
     if (!user) {
       return <Loading />
     }
-
-    const totalUserTrails = user.trails.length + user.localTrails.length
 
     return (
       <ParallaxView style={styles.user.wrapper}
@@ -164,8 +170,8 @@ class UserInfo extends Component {
         <View style={styles.editor.group}>
           <EditLink
             label={LANG.t('mine.MyTrails')}
-            onPress={() => totalUserTrails > 0 && this._nextPage('trails')}
-            value={(totalUserTrails > 0) ? (user.trails.length.toString() + ' | ' + user.localTrails.length.toString()) : '0'}
+            onPress={() => trails.length > 0 && this._nextPage('trails')}
+            value={trails.length.toString()}
           />
           <EditLink
             label={LANG.t('mine.MyEvents')}
@@ -209,20 +215,20 @@ class UserInfo extends Component {
 }
 
 UserInfo.propTypes = {
-  loginActions: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
-  user: PropTypes.object
+  login: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.login.user
+    login: state.login
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

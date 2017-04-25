@@ -17,17 +17,17 @@ const initTrail = {
   difficultyLevel: 2,
   description: '',
   photos: [],
-  comments: []
+  paths: []
 },
 initStatus = {
   showRecorder: false,
   isNew: true,
   isRecording: false,
   isFinal: false,
-  isCalculating: false,
   isStored: false,
+  isDirty: false,
   isUploading: false,
-  isSaved: false,
+  isSynced: false,
   isDeleted: false
 },
 initState = Object.assign({}, 
@@ -41,7 +41,8 @@ newTrailReducer = (state = initState, action) => {
 // toggle trail recorder
     case ACTIONS.SHOW_RECORDER:
       return Object.assign({}, state, {
-        showRecorder: true
+        showRecorder: true,
+        paths: action.paths
       })
 
     case ACTIONS.HIDE_RECORDER:
@@ -58,6 +59,7 @@ newTrailReducer = (state = initState, action) => {
       return Object.assign({}, state, initTrail, {
         creator: action.creator,
         storeKey: UTIL.generateRandomString(16),
+        isDirty: true,
         isNew: false
       })
 
@@ -80,7 +82,6 @@ newTrailReducer = (state = initState, action) => {
 
     case ACTIONS.SET_TRAIL_DATA:
       return Object.assign({}, state, {
-        isCalculating: false,
         points: action.points,
         date: action.date,
         totalDuration: action.totalDuration,
@@ -93,56 +94,65 @@ newTrailReducer = (state = initState, action) => {
 // edit trail
     case ACTIONS.EDIT_TRAIL:
       let areas = action.trail.areas.slice(0),
-        photos = action.trail.photos.slice(0),
-        comments = action.trail.comments.slice(0)
+        photos = action.trail.photos.slice(0)
 
       return Object.assign({}, initState, initTrail, action.trail, {
         areas,
-        photos,
-        comments,
+        photos
       })
 
     case ACTIONS.SET_TO_PRIVATE:
       return Object.assign({}, state, {
         isPublic: false,
-        status: 'private'
+        status: 'private',
+        isDirty: true
       })
 
     case ACTIONS.SET_TO_PUBLIC:
       return Object.assign({}, state, {
         isPublic: true,
-        status: 'approved'
+        status: 'approved',
+        isDirty: true
       })
 
     case ACTIONS.SET_TRAIL_TITLE:
       return Object.assign({}, state, {
-        title: action.title
+        title: action.title,
+        isDirty: (action.title !== state.title)
       })
 
+/*
+  TODO: need better logic for isDirty testing
+*/
     case ACTIONS.SET_TRAIL_AREAS:
       return Object.assign({}, state, {
         areas: action.areas,
-        areaNames: action.areaNames
+        areaNames: action.areaNames,
+        isDirty: true
       })
 
     case ACTIONS.SET_TRAIL_TYPE:
       return Object.assign({}, state, {
-        type: action.trailType
+        type: action.trailType,
+        isDirty: (action.trailType !== state.type)
       })
 
     case ACTIONS.SET_TRAIL_DIFFICULTY:
       return Object.assign({}, state, {
-        difficultyLevel: action.difficultyLevel
+        difficultyLevel: action.difficultyLevel,
+        isDirty: (action.difficultyLevel !== state.difficultyLevel)
       })
 
     case ACTIONS.SET_TRAIL_DESCRIPTION:
       return Object.assign({}, state, {
-        description: action.description
+        description: action.description,
+        isDirty: (action.description !== state.description)
       })
 
     case ACTIONS.SET_TRAIL_PHOTOS:
       return Object.assign({}, state, {
-        photos: action.photos
+        photos: action.photos,
+        isDirty: (JSON.stringify(action.photos) !== JSON.stringify(state.photos))
       })
 
 // save trail
@@ -162,7 +172,7 @@ newTrailReducer = (state = initState, action) => {
     case ACTIONS.CREATE_TRAIL_SUCCESS:
       return Object.assign({}, state, {
         isUploading: false,
-        isSaved: true
+        isSynced: true
       })
 
     case ACTIONS.CREATE_TRAIL_FAILURE:
@@ -180,7 +190,7 @@ newTrailReducer = (state = initState, action) => {
     case ACTIONS.UPDATE_TRAIL_SUCCESS:
       return Object.assign({}, state, {
         isUploading: false,
-        isSaved: true
+        isSynced: true
       })
 
     case ACTIONS.UPDATE_TRAIL_FAILURE:

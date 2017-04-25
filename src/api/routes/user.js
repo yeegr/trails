@@ -28,6 +28,24 @@ module.exports = (app) => {
     })
   }
 
+  function getOneByToken(token, res, statusCode) {
+    User
+    .findOne({
+      token
+    })
+    .exec()
+    .then((data) => {
+      if (data) {
+        res.status(statusCode).json(data)
+      } else {
+        res.status(404).send()
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err })
+    })
+  }
+
   function createUser(info, res) {
     let tmp = new User(info)
 
@@ -127,7 +145,9 @@ module.exports = (app) => {
         })
       } else if (hasMobile && hasWeChat) {
         User
-        .findOne({ mobile: query.mobile })
+        .findOne({
+          mobile: query.mobile
+        })
         .then((user) => {
           if (user) {
             delete body.mobile
@@ -150,6 +170,10 @@ module.exports = (app) => {
   /* Read */
   app.get('/users/:id', (req, res, next) => {
     getOneById(req.params.id, res, 200)
+  })
+
+  app.get('/users/token/:token', (req, res, next) => {
+    getOneByToken(req.params.token, res, 200)
   })
 
   /* Update */

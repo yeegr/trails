@@ -8,7 +8,7 @@ import React, {
 import semver from 'semver'
 
 import {connect} from 'react-redux'
-import * as loginActions from '../../redux/actions/loginActions'
+import * as userActions from '../../redux/actions/userActions'
 
 import Nav from './nav'
 import Footer from './footer'
@@ -76,7 +76,7 @@ class App extends Component {
       this._onWeChatBridgeReady()
     }
 
-    this.props.dispatch(loginActions.isLoggedIn())
+    this.props.dispatch(userActions.isLoggedIn())
   }
 
   _onWeChatBridgeReady() {

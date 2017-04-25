@@ -11,7 +11,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 
 import StringInput from '../shared/StringInput'
 import TextView from '../shared/TextView'
@@ -43,7 +43,7 @@ class EditUserPID extends Component {
     }
 
     if (data) {
-      this.props.loginActions.updateUser(this.props.user.id, data)
+      this.props.userActions.updateUser(this.props.user.id, data)
     }
   }
 
@@ -76,7 +76,7 @@ class EditUserPID extends Component {
 
 EditUserPID.propTypes = {
   user: PropTypes.object.isRequired,
-  loginActions: PropTypes.object.isRequired
+  userActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
@@ -87,7 +87,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

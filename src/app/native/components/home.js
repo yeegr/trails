@@ -16,7 +16,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {showLogin} from '../../redux/actions/loginActions'
+import {showLogin} from '../../redux/actions/userActions'
 import {changeTab} from '../../redux/actions/homeActions'
 
 import AreaList from './area/AreaList'
@@ -43,14 +43,10 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.newTrail.isFinal) {
-      console.log(nextProps.newTrail)
+    if (!this.props.newTrail.isFinal && nextProps.newTrail.isFinal) {
       this.props.navigator.push({
         id: 'EditTrail',
-        title: LANG.t('trail.EditTrail'),
-        passProps: {
-          trail: nextProps.newTrail
-        }
+        title: LANG.t('trail.EditTrail')
       })
     }
   }

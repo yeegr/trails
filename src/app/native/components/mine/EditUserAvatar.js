@@ -18,7 +18,7 @@ import ImagePicker from 'react-native-image-picker'
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 
 import ImagePath from '../shared/ImagePath'
 import Loading from '../shared/Loading'
@@ -72,7 +72,7 @@ class EditUserAvatar extends Component {
           source = {uri: res.uri, isStatic: true};
         }
 
-        this.props.loginActions.updateAvatarUri(source.uri)
+        this.props.userActions.updateAvatarUri(source.uri)
 
         this.setState({
           sourceUri: source.uri
@@ -104,7 +104,7 @@ class EditUserAvatar extends Component {
 EditUserAvatar.propTypes = {
   navigator: PropTypes.object.isRequired,
   login: PropTypes.object.isRequired,
-  loginActions: PropTypes.object.isRequired
+  userActions: PropTypes.object.isRequired
 }
 
 const {height, width} = Dimensions.get('window'),
@@ -136,7 +136,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

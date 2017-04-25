@@ -19,9 +19,9 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 
-// retrieve user information
-export const SET_USER_SUCCESS = 'SET_USER_SUCCESS'
-export const GET_USER_FAILURE = 'GET_USER_FAILURE'
+// store user information to local storage
+export const STORE_USER_SUCCESS = 'STORE_USER_SUCCESS'
+export const STORE_USER_FAILURE = 'STORE_USER_FAILURE'
 
 // account constants
 export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST'
@@ -57,3 +57,6 @@ export const SET_USER_PHOTOS = 'SET_USER_PHOTOS'
 
 // clear update error
 export const CLEAR_UPDATE_ERROR = 'CLEAR_UPDATE_ERROR'
+
+// set local trails
+export const SET_LOCAL_TRAILS = 'SET_LOCAL_TRAILS'

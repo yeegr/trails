@@ -15,7 +15,7 @@ import KeyboardSpacer from 'react-native-keyboard-spacer'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as commentsActions from '../../../redux/actions/commentsActions'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 
 import Loading from './Loading'
 import InputBar from './InputBar'
@@ -104,7 +104,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     commentsActions: bindActionCreators(commentsActions, dispatch),
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

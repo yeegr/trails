@@ -11,7 +11,7 @@ import {
 
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 
 import StringInput from '../shared/StringInput'
 import TextView from '../shared/TextView'
@@ -36,7 +36,7 @@ class EditUserHandle extends Component {
     let handle = this.state.handle.trim()
 
     if (handle.length >= AppSettings.minUserHandleLength && handle !== this.props.user.handle) {
-      this.props.loginActions.updateUser(this.props.user.id, {
+      this.props.userActions.updateUser(this.props.user.id, {
         handle
       })
     }
@@ -70,7 +70,7 @@ class EditUserHandle extends Component {
 EditUserHandle.propTypes = {
   navigator: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  loginActions: PropTypes.object.isRequired
+  userActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
@@ -81,7 +81,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

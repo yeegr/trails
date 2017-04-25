@@ -41,7 +41,8 @@ class MyEvents extends Component {
       rowHasChanged: (r1, r2) => r1 != r2
     })
     this.renderRow = this.renderRow.bind(this)
-    this._toggleList = this._toggleList.bind(this)
+    this.props.navigator.__toggleList = this._toggleList.bind(this)
+    //this._toggleList = this._toggleList.bind(this)
     this._nextPage = this._nextPage.bind(this)
 
     this.state = {
@@ -186,17 +187,6 @@ class MyEvents extends Component {
 
     return (
       <View style={styles.global.main}>
-        <View style={{paddingHorizontal: 20, paddingTop: 20}}>
-          <SegmentedControlIOS
-            values={[
-              LANG.t('mine.events.SubmittedEvents'),
-              LANG.t('mine.events.EditingEvents')
-            ]}
-            selectedIndex={this.state.selectedIndex}
-            onChange={(event) => this._toggleList(event.nativeEvent.selectedSegmentIndex)}
-            style={{marginHorizontal: 15, marginBottom: 15}}
-          />
-        </View>
         <ScrollView>
           <ListView
             enableEmptySections={true}

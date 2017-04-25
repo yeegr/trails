@@ -12,7 +12,7 @@ import {
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as loginActions from '../../../redux/actions/loginActions'
+import * as userActions from '../../../redux/actions/userActions'
 
 import TextButton from '../shared/TextButton'
 import TextView from '../shared/TextView'
@@ -64,7 +64,7 @@ class EditUserMobile extends Component {
     let mobileNumber = val.trim(),
       test = AppSettings.mobileRx.test(mobileNumber)
 
-    this.props.loginActions.clearUpdateError()
+    this.props.userActions.clearUpdateError()
 
     if (test && this.counter === AppSettings.getVerificationTimer) {
       this.setState({
@@ -93,7 +93,7 @@ class EditUserMobile extends Component {
 
   _getVerification() {
     if (parseInt(this.state.mobileNumber) !== this.props.login.user.mobile) {
-      this.props.loginActions.uploadMobileNumber(this.state.mobileNumber, 'UPDATE_MOBILE')
+      this.props.userActions.uploadMobileNumber(this.state.mobileNumber, 'UPDATE_MOBILE')
 
       this.setState({
         disableVerificationButton: true,
@@ -120,7 +120,7 @@ class EditUserMobile extends Component {
   }
 
   _onVerificationCodeChanged(val) {
-    this.props.loginActions.clearUpdateError()
+    this.props.userActions.clearUpdateError()
 
     let verificationCode = val.trim()
 
@@ -131,7 +131,7 @@ class EditUserMobile extends Component {
   }
 
   _onUpdatePressed() {
-    this.props.loginActions.updateUserMobile(
+    this.props.userActions.updateUserMobile(
       this.props.login.user._id,
       this.state.mobileNumber,
       this.state.verificationCode
@@ -210,7 +210,7 @@ class EditUserMobile extends Component {
 EditUserMobile.propTypes = {
   navigator: PropTypes.object.isRequired,
   login: PropTypes.object.isRequired,
-  loginActions: PropTypes.object.isRequired
+  userActions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
@@ -221,7 +221,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginActions: bindActionCreators(loginActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 
