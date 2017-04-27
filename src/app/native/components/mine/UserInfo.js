@@ -106,6 +106,11 @@ class UserInfo extends Component {
         }
       break
 
+      case 'followings':
+        id = 'MyFollowings',
+        title = LANG.t('mine.MyFollowings')
+      break
+
       case 'edit':
         id = 'EditAccount',
         title = LANG.t('mine.EditAccount')
@@ -178,7 +183,11 @@ class UserInfo extends Component {
             onPress={() => user.events.length > 0 && this._nextPage('events')}
             value={user.events.length}
           />
-          <EditLink onPress={() => user.posts.length > 0 && this._nextPage('posts')} value={user.posts.length} label={LANG.t('mine.MyPosts')} />
+          <EditLink
+            label={LANG.t('mine.MyPosts')}
+            onPress={() => user.posts.length > 0 && this._nextPage('posts')}
+            value={user.posts.length}
+          />
         </View>
         <View style={styles.editor.group}>
           <EditLink
@@ -195,6 +204,13 @@ class UserInfo extends Component {
             label={LANG.t('mine.SavedPosts')}
             onPress={() => user.saves.posts.length > 0 && this._nextPage('savedPosts')}
             value={user.saves.posts.length}
+          />
+        </View>
+        <View style={styles.editor.group}>
+          <EditLink
+            label={LANG.t('mine.MyFollowings')}
+            onPress={() => user.followings.length > 0 && this._nextPage('followings')}
+            value={user.followings.length.toString()}
           />
         </View>
         <View style={styles.editor.group}>

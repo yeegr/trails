@@ -92,6 +92,7 @@ import OrderPayment from './order/OrderPayment'
 import OrderSummary from './order/OrderSummary'
 import OrderSuccess from './order/OrderSuccess'
 
+import MyFollowings from './mine/MyFollowings'
 import MyTrails from './mine/MyTrails'
 import MyOrders from './mine/MyOrders'
 import OrderDetail from './order/OrderDetail'
@@ -1070,6 +1071,14 @@ class App extends Component {
               case 'WebStore':
                 return (
                   <WebStore
+                    navigator={navigator}
+                    route={route} {...route.passProps}
+                  />
+                )
+
+              case 'MyFollowings':
+                return (
+                  <MyFollowings
                     navigator={navigator}
                     route={route} {...route.passProps}
                   />

@@ -69,11 +69,13 @@ actionSchema.post('save', function(doc) {
     if (user) {
       switch(doc.action) {
         case 'FOLLOW':
-          user.addToList(key, doc.ref, 'followings')
+          if (doc.creator !== doc.ref) {
+            user.addToList('followings', doc.ref)
+          }
         break
 
         case 'UNFOLLOW':
-          user.removeFromList(key, doc.ref, 'followings')
+          user.removeFromList('followings', doc.ref)
         break
 
         case 'APPLY':

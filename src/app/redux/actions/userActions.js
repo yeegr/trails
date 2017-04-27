@@ -315,7 +315,6 @@ export const setLocalTrails = (trails) => {
 }
 
 const _initLocalStorage = (user, trails) => {
-  console.log(trails)
   return (dispatch) => {
     let storageEngine = AppSettings.storageEngine,
       storageType = AppSettings.storageType
@@ -361,9 +360,7 @@ const _initSync = (user) => {
           obj
         }))
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      .catch((err) => console.log(err))
     } else {
       dispatch(_initLocalStorage(user, {
         arr,
@@ -647,6 +644,40 @@ export const updateUserMobile = (user_id, mobile, vcode) => {
       })
       .then((res) => {
         _updateUserStorage(dispatch, res)
+      })
+      .catch((err) => dispatch(_updateUserFailure(err)))
+  }
+}
+
+export const updateUserFollowings = (ref) => {
+  return (dispatch, getState) => {
+    let user = getState().login.user,
+      action = (user.followings.indexOf(ref) < 0) ? 'FOLLOW' : 'UNFOLLOW',
+      config = Object.assign({}, FETCH.POST, {
+        body: JSON.stringify({
+          creator: user._id,
+          ref,
+          target: 'User',
+          action
+        })
+      })
+
+    return fetch(AppSettings.apiUri + 'logs', config)
+      .then((res) => {
+        return res.json()
+      })
+      .then((res) => {
+        switch (res.action) {
+          case 'FOLLOW':
+            user.followings.push(ref)
+          break
+
+          case 'UNFOLLOW':
+            user.followings.splice(user.followings.indexOf(ref), 1)
+          break
+        }
+
+        _updateUserStorage(dispatch, user)
       })
       .catch((err) => dispatch(_updateUserFailure(err)))
   }

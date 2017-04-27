@@ -237,7 +237,7 @@ class EditAccount extends Component {
             <EditLink
               label={LANG.t('mine.edit.Gallery')}
               onPress={() => this._nextPage('gallery')}
-              value={user.photos.length}
+              value={user.photos.length.toString()}
             />
             <EditLink
               label={LANG.t('mine.edit.SelfIntro')}

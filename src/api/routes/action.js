@@ -44,12 +44,21 @@ module.exports = (app) => {
             Target = Post
           break
 
+          case 'User':
+            Target = User
+          break
+
           default:
             Target = null
             break
         }
 
         switch (data.action) {
+          case 'FOLLOW':
+          case 'UNFOLLOW':
+            counter = 'totalFollowers'
+            break
+
           case 'LIKE':
           case 'UNLIKE':
             counter = 'likeCount'
@@ -70,20 +79,20 @@ module.exports = (app) => {
         }
 
         setTimeout(() => {
-          Target.
-            findOne({
-              _id: data.ref
-            })
-            .exec()
-            .then((result) => {
-              let obj = {
-                action: tmp.action,
-                target: tmp.target,
-                ref: tmp.ref,
-              }
-              obj[counter] = result[counter]
-              res.status(201).json(obj)
-            })
+          Target
+          .findOne({
+            _id: data.ref
+          })
+          .exec()
+          .then((result) => {
+            let obj = {
+              action: tmp.action,
+              target: tmp.target,
+              ref: tmp.ref,
+            }
+            obj[counter] = result[counter]
+            res.status(201).json(obj)
+          })
         }, 100)
       }
     })

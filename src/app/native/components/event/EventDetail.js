@@ -100,6 +100,8 @@ class EventDetail extends Component {
           event
         }
       })
+    } else {
+      this.props.userActions.showLogin()
     }
   }
 
@@ -365,6 +367,7 @@ class EventDetail extends Component {
                 <View style={{marginBottom: 20}}>
                   <UserLink
                     navigator={navigator}
+                    title={LANG.t('event.Organizer')}
                     user={creator}
                   />
                 </View>

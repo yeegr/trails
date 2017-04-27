@@ -90,8 +90,9 @@ const TrailCard = (props) => {
       </View>
       <View style={styles.footer}>
         <UserLink
-          user={creator}
           navigator={navigator}
+          title={LANG.t('trail.Creator')}
+          user={creator}
         />
       </View>
     </View>
@@ -116,8 +117,8 @@ styles = StyleSheet.create({
 
 TrailCard.propTypes = {
   navigator: PropTypes.object.isRequired,
-  user: PropTypes.object,
-  trail: PropTypes.object.isRequired
+  trail: PropTypes.object.isRequired,
+  user: PropTypes.object
 }
 
 export default TrailCard

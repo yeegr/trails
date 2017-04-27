@@ -7,15 +7,21 @@ import React, {
 
 import {
   ListView,
-  StyleSheet
+  StyleSheet,
+  View
 } from 'react-native'
 
 import Loading from '../shared/Loading'
 import UserLink from './UserLink'
 
-export default class UserList extends Component {
+import {
+  AppSettings
+} from '../../../../common/__'
+
+class UserList extends Component {
   constructor(props) {
     super(props)
+    this._fetch = this._fetch.bind(this)
 
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 != r2
@@ -34,12 +40,12 @@ export default class UserList extends Component {
         dataSource: this.state.dataSource.cloneWithRows(this.props.data)
       })
     } else {
-      this.fetchData()
+      this._fetch()
     }
   }
 
-  fetchData() {
-    fetch(this.props.api)
+  _fetch() {
+    fetch(AppSettings.apiUri + 'users/' + this.props.query)
     .then((res) => res.json())
     .then((res) => {
       this.setState({
@@ -54,7 +60,13 @@ export default class UserList extends Component {
 
   renderRow(rowData, sectionId, rowId) {
     return (
-      <UserLink user={rowData} navigator={this.props.navigator} key={rowId} />
+      <View key={rowId} style={styles.row}>
+        <UserLink 
+          key={rowId} 
+          navigator={this.props.navigator} 
+          user={rowData}
+        />
+      </View>
     )
   }
 
@@ -67,9 +79,8 @@ export default class UserList extends Component {
 
     return (
       <ListView
-        scrollEnabled={false}
-        style={local.list}
         enableEmptySections={true}
+        scrollEnabled={false}
         dataSource={this.state.dataSource}
         renderRow={this.renderRow.bind(this)}
       />
@@ -77,16 +88,17 @@ export default class UserList extends Component {
   }
 }
 
-UserList.propTypes = {
-  data: PropTypes.array.isRequired,
-  api: PropTypes.string
-}
-
-const local = StyleSheet.create({
+const styles = StyleSheet.create({
   row: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginVertical: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 10
   }
 })
+
+UserList.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  data: PropTypes.array,
+  query: PropTypes.string
+}
+
+export default UserList

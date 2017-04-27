@@ -115,6 +115,7 @@
     "trail_plural": "轨迹",
     "numberOfTrail": "{{count}}条轨迹",
     "numberOfTrail_plural": "{{count}}条轨迹",
+    "Creator": "驴友",
     "TrailTitle": "轨迹名称",
     "EditTrail": "编辑轨迹",
     "TrailDetail": "轨迹详情",
@@ -202,6 +203,7 @@
     "GroupCount": "第{{count}}批",
     "GatherLocation": "集合地点",
     "GatherTime": "集合时间",
+    "Organizer": "组织人",
     "Contacts": "联系人",
     "AttendeeLimits": "组队人数",
     "Attendees": "{{min}}-{{max}}人",
@@ -338,7 +340,8 @@
     "search": {
       "SearchPost": "搜索文章", 
       "SearchPost_plural": "搜索文章" 
-    }
+    },
+    "Author": "作者"
   },
 
   "user": {
@@ -351,7 +354,14 @@
       "驴小侠",
       "驴将军",
       "驴大王"
-    ]  
+    ],
+    "Intro": "个人简介",
+    "Photos": "个人图库",
+    "Trails": "TA记录的轨迹",
+    "Events": "TA组织的活动",
+    "Posts": "TA发表的文章",
+    "Follow": "　关注　",
+    "Unfollow": "取消关注"
   },
 
   "mine": {
@@ -363,6 +373,8 @@
     "MyEvents": "我管理的活动",
     "MyPosts": "我发布的文章",
     "MySaves": "我的收藏",
+    "MyFollowings": "我关注的驴友",
+    "MyFollowers": "关注我的驴友",
     "SavedTrails": "我收藏的轨迹",
     "SavedEvents": "我收藏的活动",
     "SavedPosts": "我收藏的文章",

@@ -307,6 +307,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Graphics.colors.white,
     flexDirection: 'row',
+    height: Graphics.toolbar.height,
     justifyContent: 'space-around',
     flex: 1
   }

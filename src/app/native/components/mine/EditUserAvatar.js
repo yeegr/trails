@@ -43,7 +43,7 @@ class EditUserAvatar extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.login.tmpAvatarUri) {
-      this.props.navigator.pop(0)
+      this.props.navigator.pop()
     }
   }
 

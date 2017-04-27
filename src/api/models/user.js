@@ -252,6 +252,10 @@ userSchema.virtual('totalFollowers').get(function() {
   return this.followers.length
 })
 
+userSchema.virtual('totalFollowings').get(function() {
+  return this.followings.length
+})
+
 userSchema.methods.addOrder = function(id) {
   if (this.orders.indexOf(id) < 0) {
     this.orders.push(id)

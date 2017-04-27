@@ -2,8 +2,11 @@
 
 module.exports = {
   DEFAULT_PAGINATION: 50,
+  ERRORS: {
+    USER_NOT_FOUND: 'USER_NOT_FOUND'
+  },
   VIRTUAL_FIELDS: " likes likeCount saves saveCount shares shareCount comments commentCount ratingAverage",
-  USER_LIST_FIELDS: "handle avatar xp level trails events posts comments followers",
+  USER_LIST_FIELDS: "handle avatar xp level trails events posts comments followers followings",
   EVENT_LIST_FIELDS: "status title type hero excerpt contacts expenses groups",
   ACTIONS: {
     COMMON: ["CREATE", "UPDATE", "DELETE"],

@@ -184,6 +184,7 @@ class TrailDetail extends Component {
             <View style={[styles.detail.section, {marginHorizontal: 15}]}>
               <UserLink
                 navigator={navigator}
+                title={LANG.t('trail.Creator')}
                 user={creator}
               />
             </View>

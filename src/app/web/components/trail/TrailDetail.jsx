@@ -11,6 +11,8 @@ import {
 
 import $ from 'jquery'
 
+import {connect} from 'react-redux'
+
 import TrailInfo from './TrailInfo'
 import TrailData from './TrailData'
 import TrailMap from './TrailMap'
@@ -109,6 +111,7 @@ class TrailDetail extends Component {
             <section>
               <content>
                 <UserLink
+                  title={LANG.t('trail.Creator')}
                   user={trail.creator}
                 />
               </content>
@@ -132,7 +135,14 @@ class TrailDetail extends Component {
 }
 
 TrailDetail.propTypes = {
+  user: PropTypes.object,
   id: PropTypes.string
 }
 
-export default TrailDetail
+function mapStateToProps(state, ownProps) {
+  return {
+    user: state.login.user
+  }
+}
+
+export default connect(mapStateToProps)(TrailDetail)

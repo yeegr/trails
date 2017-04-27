@@ -232,6 +232,7 @@ class EventDetail extends Component {
                     value={event.gatherLocation.name}
                   />
                   <UserLink
+                    title={LANG.t('event.Organizer')}
                     user={event.creator}
                   />
                   <ListItem
@@ -306,8 +307,7 @@ EventDetail.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    user: state.login.user,
-    event: state.events.event
+    user: state.login.user
   }
 }
 

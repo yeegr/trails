@@ -13,6 +13,10 @@ import TrailData from './TrailData'
 import TrailMap from './TrailMap'
 import UserLink from '../user/UserLink'
 
+import {
+  LANG
+} from '../../../../common/__'
+
 const TrailCard = (props) => {
   const {trail} = props
 
@@ -45,6 +49,7 @@ const TrailCard = (props) => {
       </section>
       <section className="footer">
         <UserLink
+          title={LANG.t('trail.Creator')}
           user={trail.creator}
         />
       </section>
@@ -53,7 +58,8 @@ const TrailCard = (props) => {
 }
 
 TrailCard.propTypes = {
-  trail: PropTypes.object.isRequired
+  trail: PropTypes.object.isRequired,
+  user: PropTypes.object
 }
 
 export default TrailCard

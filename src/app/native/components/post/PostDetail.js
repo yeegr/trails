@@ -26,6 +26,7 @@ import styles from '../../styles/main'
 
 import {
   CONSTANTS,
+  LANG,
   AppSettings,
   Graphics
 } from '../../../../common/__'
@@ -74,6 +75,7 @@ class PostDetail extends Component {
             <View style={[styles.detail.section, {paddingHorizontal: 15}]}>
               <UserLink
                 navigator={navigator}
+                title={LANG.t('post.Author')}
                 user={post.creator}
               />
             </View>
@@ -86,7 +88,7 @@ class PostDetail extends Component {
             {commentsPreview}
           </View>
         </ParallaxView>
-        <View style={styles.detail.toolbar}>
+        <View style={styles.detail.actionbar}>
           <Toolbar
             navigator={navigator}
             type={CONSTANTS.ACTION_TARGETS.POST}
@@ -108,8 +110,8 @@ PostDetail.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    post: state.posts.post,
-    user: state.login.user
+    user: state.login.user,
+    post: state.posts.post
   }
 }
 

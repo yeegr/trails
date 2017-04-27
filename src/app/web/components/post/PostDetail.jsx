@@ -7,8 +7,11 @@ import React, {
 
 import $ from 'jquery'
 
+import {connect} from 'react-redux'
+
 import {
   CONSTANTS,
+  LANG,
   UTIL,
   AppSettings
 } from '../../../../common/__'
@@ -20,10 +23,6 @@ import UserLink from '../user/UserLink'
 class PostDetail extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      loading: true
-    }
   }
 
   componentWillMount() {
@@ -36,14 +35,15 @@ class PostDetail extends Component {
   }
 
   render() {
-    if (this.state.loading === true) {
+    const {post} = this.state
+      
+    if (!post) {
       return (
         <detail data-loading />
       )
     }
 
-    const {post} = this.state,
-      imageUri = CONSTANTS.ASSET_FOLDERS.POST + '/' + post._id + '/' + post.hero
+    const imageUri = CONSTANTS.ASSET_FOLDERS.POST + '/' + post._id + '/' + post.hero
 
     return (
       <detail>
@@ -61,7 +61,10 @@ class PostDetail extends Component {
           <main>
             <section>
               <content>
-                <UserLink user={post.creator} />
+                <UserLink
+                  title={LANG.t('post.Author')}
+                  user={post.creator}
+                />
               </content>
             </section>
             <section>
@@ -81,7 +84,14 @@ class PostDetail extends Component {
 }
 
 PostDetail.propTypes = {
+  user: PropTypes.object,
   id: PropTypes.string
 }
 
-export default PostDetail
+function mapStateToProps(state, ownProps) {
+  return {
+    user: state.login.user
+  }
+}
+
+export default connect(mapStateToProps)(PostDetail)

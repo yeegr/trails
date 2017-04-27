@@ -24,7 +24,7 @@ module.exports = (app) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err })
+      res.status(500).json({err})
     })
   }
 
@@ -42,7 +42,7 @@ module.exports = (app) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err })
+      res.status(500).json({err})
     })
   }
 
@@ -55,7 +55,7 @@ module.exports = (app) => {
       res.status(201).json(data)
     })
     .catch((err) => {
-      res.status(500).json({ error: err })
+      res.status(500).json({err})
     })
   }
 
@@ -74,12 +74,12 @@ module.exports = (app) => {
           }
         })
         .catch((err) => {
-          res.status(500).json({ error: err })
+          res.status(500).json({err})
         })
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err })
+      res.status(500).json({err})
     })
   }
 
@@ -91,6 +91,12 @@ module.exports = (app) => {
   /* List */
   app.get('/users', (req, res, next) => {
     let query = {}
+
+    if (req.query.hasOwnProperty('in') && req.query.in !== '') {
+      let tmp = (req.query.in).substring(1, (req.query.in).length - 1)
+      query._id = {}
+      query._id.$in = tmp.split(',')
+    }
 
     User
     .find(query)
@@ -104,7 +110,7 @@ module.exports = (app) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err })
+      res.status(500).json({err})
     })
   })
 
@@ -163,13 +169,94 @@ module.exports = (app) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err })
+      res.status(500).json({err})
     })
   })
 
   /* Read */
-  app.get('/users/:id', (req, res, next) => {
+  app.get('/mine/:id', (req, res, next) => {
     getOneById(req.params.id, res, 200)
+  })
+
+  app.get('/users/:id', (req, res, next) => {
+    User
+    .findById(req.params.id)
+    .populate({
+      path: 'trails',
+      model: 'Trail',
+      match: {
+        isPublic: {
+          $eq: true
+        },
+        status: {
+          $eq: 'approved'
+        }
+      },
+      options: {
+        sort: {'_id': -1}
+      },
+      select: '_id points' + CONST.VIRTUAL_FIELDS
+    })
+    .populate({
+      path: 'events',
+      model: 'Event',
+      match: {
+        isPublic: {
+          $eq: true
+        },
+        status: {
+          $eq: 'approved'
+        }
+      },
+      options: {
+        sort: {'_id': -1}
+      },
+      select: '_id ' + CONST.VIRTUAL_FIELDS
+    })
+    .populate({
+      path: 'posts',
+      model: 'Post',
+      match: {
+        status: {
+          $eq: 'approved'
+        }
+      },
+      options: {
+        sort: {'_id': -1}
+      },
+      select: '_id ' + CONST.VIRTUAL_FIELDS
+    })
+    .exec()
+    .then((data) => {
+      if (data) {
+        let trails = [],
+          events = [],
+          posts = []
+
+        data.trails.map((trail) => {
+          trails.push(trail._id)
+        })
+
+        data.events.map((event) => {
+          events.push(event._id)
+        })
+
+        data.posts.map((post) => {
+          posts.push(post._id)
+        })
+
+        data.trails = trails
+        data.events = events
+        data.posts = posts
+
+        res.status(200).json(data)
+      } else {
+        res.status(404).send()
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({error})
+    })
   })
 
   app.get('/users/token/:token', (req, res, next) => {
@@ -219,14 +306,14 @@ module.exports = (app) => {
               }
             })
             .catch((err) => {
-              res.status(500).json({ error: err })
+              res.status(500).json({err})
             })
           })
         })
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err })
+      res.status(500).json({err})
     })
   })
 
@@ -250,20 +337,20 @@ module.exports = (app) => {
         .then((validation) => {
           if (validation) {
             user
-              .set({ mobile: query.mobile })
-              .save()
-              .then((updated) => {
-                validation
-                  .set({ used: true })
-                  .save()
+            .set({ mobile: query.mobile })
+            .save()
+            .then((updated) => {
+              validation
+                .set({ used: true })
+                .save()
 
-                res.status(200).json(updated)
+              res.status(200).json(updated)
+            })
+            .catch((err) => {
+              res.status(500).json({
+                error: err
               })
-              .catch((err) => {
-                res.status(500).json({
-                  error: err
-                })
-              })
+            })
           } else {
             res.status(401).json({
               error: 'ValidationCodeUnmatched'
@@ -277,7 +364,51 @@ module.exports = (app) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err })
+      res.status(500).json({err})
+    })
+  })
+
+  app.put('/users/:id/follow', (req, res, next) => {
+    User
+    .findById(req.params.id)
+    .exec()
+    .then((user) => {
+      if (user) {
+        let followings = user.followings
+
+        User
+        .findById(req.body.following)
+        .exec()
+        .then((following) => {
+          if (following) {
+            if (followings.indexOf(following._id) > -1) {
+              followings.splice(followings.indexOf(following._id), 1)
+            } else {
+              followings.push(following._id)
+            }
+
+            user
+            .set({followings})
+            .save()
+            .then((updated) => {
+              res.status(200).json(updated)
+            })
+            .catch((err) => {
+              res.status(500).json({err})
+            })
+
+            following
+            .set
+          }
+        })
+      } else {
+        res.status(404).json({
+          err: CONST.ERRORS.USER_NOT_FOUND
+        })
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({err})
     })
   })
 
@@ -296,7 +427,7 @@ module.exports = (app) => {
           }
         })
         .catch((err) => {
-          res.status(500).json({ error: err })
+          res.status(500).json({err})
         })
       }
     })
