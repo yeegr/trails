@@ -9,8 +9,6 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {showLogin} from '../../redux/actions/userActions'
 
-import LOGO from '../../../../assets/AppIcon/512_transparent.png'
-import BACKGROUND from '../../../../assets/Heroes/007.jpg'
 
 class About extends Component {
   constructor(props) {

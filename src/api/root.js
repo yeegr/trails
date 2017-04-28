@@ -77,28 +77,18 @@ router.post('/drop/:table', (req, res, next) => {
 router.put('/photos', (req, res, next) => {
 	let form = new formidable.IncomingForm()
 
-	//console.log(req)
-
 	form.parse(req, (err, fields, files) => {
 		let arr = []
 		
-		console.log(fields)
-		console.log(files)
 		for (let i in files) {
-			console.log(files[i])
 			arr.push(files[i])
 		}
 
-		console.log('arr.length = ' + arr.length)
-
-		//console.log(files)
-		//console.log(arr.length)
-
-//		if (arr.length > 0) {
+		if (arr.length > 0) {
 			uploadFile(fields.type, fields.id, arr, 0, [], res)
-/*		} else {
+		} else {
 			res.status(201).json()
-		}*/
+		}
 	})
 })
 

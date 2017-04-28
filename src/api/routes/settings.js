@@ -37,10 +37,14 @@ module.exports = (app) => {
     })
   }
 
-  /* Latest */
+  /* Get latest */
   function latest(req, res, next) {
     Settings
     .findOne()
+    .populate({
+      path: 'main',
+      model: 'Post'
+    })
     .sort({_id: -1})
     .then((data) => {
       if (data) {
@@ -54,30 +58,16 @@ module.exports = (app) => {
         res.status(500).json({error: err})
       }
     })
-
-    /*
-    Settings.findOne({}, {}, {sort: {'_id' : -1}}, function(err, data) {
-      if (err) {
-        res.status(500).json({error: err})
-      }
-
-      if (data) {
-        res.status(200).json(data)
-      } else {
-        res.status(404).send()
-      }
-    })
-    */
   }
 
-  /* Get */
+  /* Get one */
   function get(req, res, next) {
     Settings
     .findById(req.params.query)
     .exec()
     .then((data) => {
       if (data) {
-        res.status(statusCode).json(data)
+        res.status(200).json(data)
       } else {
         res.status(404).send()
       }

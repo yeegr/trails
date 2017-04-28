@@ -19,10 +19,12 @@ import {bindActionCreators} from 'redux'
 import {showLogin} from '../../redux/actions/userActions'
 import {changeTab} from '../../redux/actions/homeActions'
 
+import Discover from './discover'
 import AreaList from './area/AreaList'
 import EventList from './event/EventList'
 import PostList from './post/PostList'
 import UserInfo from './mine/UserInfo'
+
 import styles from '../styles/main'
 
 import {
@@ -61,7 +63,7 @@ class Home extends Component {
   }
 
   render() {
-    const {selectedTab, navigator} = this.props
+    const {navigator, selectedTab} = this.props
 
     return (
       <TabBarIOS tintColor={Graphics.colors.primary}>
@@ -73,7 +75,7 @@ class Home extends Component {
         >
           <View style={styles.global.home}>
             <AreaList
-              key={'area-list'}
+              key={CONSTANTS.HOME_TABS.AREAS}
               navigator={navigator}
               scrollEnabled={true}
               query={AppSettings.home.areas + AppSettings.currentCity}
@@ -82,13 +84,13 @@ class Home extends Component {
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title={LANG.t('home.Events')}
-          icon={{uri: Graphics.tabbar.event, scale: 3}}
+          icon={{uri: Graphics.tabbar.calendar, scale: 3}}
           selected={selectedTab === CONSTANTS.HOME_TABS.EVENTS}
           onPress={() => this._onTabPressed(CONSTANTS.HOME_TABS.EVENTS)}
         >
           <View style={styles.global.home}>
             <EventList
-              key={'event-list'}
+              key={CONSTANTS.HOME_TABS.EVENTS}
               navigator={navigator}
               scrollEnabled={true}
               query={AppSettings.home.events + AppSettings.currentCity}
@@ -96,28 +98,26 @@ class Home extends Component {
           </View>
         </TabBarIOS.Item>
         <TabBarIOS.Item
-          title={LANG.t('home.Posts')}
-          icon={{uri: Graphics.tabbar.post, scale: 3}}
-          selected={selectedTab === CONSTANTS.HOME_TABS.POSTS}
-          onPress={() => this._onTabPressed(CONSTANTS.HOME_TABS.POSTS)}
+          title={LANG.t('home.Discover')}
+          icon={{uri: Graphics.tabbar.compass, scale: 3}}
+          selected={selectedTab === CONSTANTS.HOME_TABS.DISCOVER}
+          onPress={() => this._onTabPressed(CONSTANTS.HOME_TABS.DISCOVER)}
         >
           <View style={styles.global.home}>
-            <PostList
-              key={'post-list'}
+            <Discover
+              key={CONSTANTS.HOME_TABS.DISCOVER}
               navigator={navigator}
-              scrollEnabled={true}
-              query={''}
             />
           </View>
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title={LANG.t('home.Mine')}
-          icon={{uri: Graphics.tabbar.mine, scale: 3}}
+          icon={{uri: Graphics.tabbar.profile, scale: 3}}
           selected={selectedTab === CONSTANTS.HOME_TABS.MINE}
           onPress={() => this._onTabPressed(CONSTANTS.HOME_TABS.MINE)}
         >
           <UserInfo
-            key={'user-info'}
+            key={CONSTANTS.HOME_TABS.MINE}
             navigator={navigator}
           />
         </TabBarIOS.Item>
@@ -125,6 +125,14 @@ class Home extends Component {
     )
   }
 }
+/*
+            <PostList
+              key={'post-list'}
+              navigator={navigator}
+              scrollEnabled={true}
+              query={''}
+            />
+*/
 
 Home.propTypes = {
   navigator: PropTypes.object.isRequired,

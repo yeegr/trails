@@ -78,7 +78,7 @@ class AreaDetail extends Component {
           <View style={[styles.detail.article]}>
             <View style={styles.detail.section}>
               <Header text={LANG.t('Tags')} />
-              <View style={styles.detail.grid}>
+              <View style={[styles.detail.grid, {paddingLeft: 15}]}>
               {
                 area.tags.map((n) => {
                   return (

@@ -9,6 +9,8 @@ import {
   View
 } from 'react-native'
 
+import ParallaxView from 'react-native-parallax-view'
+
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as postsActions from '../../../redux/actions/postsActions'
@@ -16,7 +18,6 @@ import * as postsActions from '../../../redux/actions/postsActions'
 import Inset from '../shared/Inset'
 import Loading from '../shared/Loading'
 import ImagePath from '../shared/ImagePath'
-import ParallaxView from 'react-native-parallax-view'
 import Toolbar from '../shared/Toolbar'
 import UserLink from '../user/UserLink'
 import WebViewWrapper from '../shared/WebViewWrapper'

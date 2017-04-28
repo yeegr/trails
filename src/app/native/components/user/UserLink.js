@@ -12,11 +12,10 @@ import {
 } from 'react-native'
 
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import * as userActions from '../../../redux/actions/userActions'
 
 import Avatar from '../shared/Avatar'
 import TextView from '../shared/TextView'
+import FollowButton from './FollowButton'
 
 import {
   LANG,
@@ -53,7 +52,6 @@ class UserLink extends Component {
   render() {
     const {user} = this.props,
       {me} = this.state,
-      isFollowing = (me && me.followings.indexOf(user._id) > -1),
       title = this.props.title || LANG.t('user.levels.' + parseInt(user.level).toString()),
       level = this.props.title ? (
         <TextView
@@ -64,16 +62,7 @@ class UserLink extends Component {
       ) : null,
       followSection = (me) ? (
         <View style={styles.follow}>
-          <TouchableOpacity onPress={this._toggleFollow}>
-            <View style={[styles.button, {
-              borderColor: isFollowing ? Graphics.colors.disabled : Graphics.colors.primary
-            }]}>
-              <TextView
-                textColor={isFollowing ? Graphics.colors.disabled : Graphics.colors.primary}
-                text={LANG.t(isFollowing ? 'user.Unfollow' : 'user.Follow')}
-              />
-            </View>
-          </TouchableOpacity>
+          <FollowButton user={user} />
         </View>
       ) : null
 
@@ -148,10 +137,4 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    userActions: bindActionCreators(userActions, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserLink)
+export default connect(mapStateToProps)(UserLink)

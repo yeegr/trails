@@ -28,9 +28,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    paddingLeft: 15,
-    paddingRight: 0
+    justifyContent: 'flex-start'
   },
   icon: {
     marginBottom: 10,

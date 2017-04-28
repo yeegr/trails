@@ -39,7 +39,10 @@ const GalleryPreview = (props) => {
 
   return (
     <View style={detail.section}>
-      <Header text={Lang.Photos} more={more} />
+      <Header
+        text={Lang.Photos}
+        more={more}
+      />
       <Gallery
         type={props.type}
         id={props.id}

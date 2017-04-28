@@ -34,7 +34,7 @@ export const HOME_TABS = {
   AREAS: 'Areas',
   TRAILS: 'Trails',
   EVENTS: 'Events',
-  POSTS: 'Posts',
+  DISCOVER: 'Discover',
   MINE: 'Mine'
 }
 

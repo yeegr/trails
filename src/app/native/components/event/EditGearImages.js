@@ -76,7 +76,7 @@ class EditGearImages extends Component {
               text={LANG.t('event.edit.SelectedGears')}
             />
           </View>
-          <View style={styles.detail.grid}>
+          <View style={[styles.detail.grid, {paddingLeft: 15}]}>
           {
             selected.map((value, index) => {
               return (
@@ -100,7 +100,7 @@ class EditGearImages extends Component {
             />
           </View>
           <ScrollView>
-            <View style={styles.detail.grid}>
+            <View style={[styles.detail.grid, {paddingLeft: 15}]}>
             {
               AppSettings.gearList.map((value, index) => {
                 return (selected.indexOf(value) < 0) ? (
